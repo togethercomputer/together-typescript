@@ -32,7 +32,7 @@ async function main() {
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
   });
 
-  console.log(chatCompletion.id);
+  console.log(chatCompletion.choices);
 }
 
 main();
@@ -53,7 +53,7 @@ const stream = await togetherAI.chat.completions.create({
   stream: true,
 });
 for await (const chatCompletion of stream) {
-  console.log(chatCompletion.id);
+  console.log(chatCompletion.choices);
 }
 ```
 
@@ -196,7 +196,7 @@ const { data: chatCompletion, response: raw } = await togetherAI.chat.completion
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(chatCompletion.id);
+console.log(chatCompletion.choices);
 ```
 
 ## Customizing the fetch client
