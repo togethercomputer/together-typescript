@@ -3,6 +3,7 @@
 import * as Core from '/core';
 import { APIResource } from '/resource';
 import * as CompletionsAPI from '/resources/completions';
+import * as ChatCompletionsAPI from '/resources/chat/completions';
 
 export class Completions extends APIResource {
   /**
@@ -24,14 +25,14 @@ export interface CompletionResponse {
 
   object: 'text_completion';
 
-  usage: CompletionResponse.Usage;
+  usage: ChatCompletionsAPI.Usage;
 
   prompt?: Array<CompletionResponse.Prompt>;
 }
 
 export namespace CompletionResponse {
   export interface Choice {
-    finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls';
+    finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls' | null;
 
     logprobs?: Choice.Logprobs | null;
 
@@ -50,14 +51,6 @@ export namespace CompletionResponse {
        */
       tokens?: Array<string>;
     }
-  }
-
-  export interface Usage {
-    completion_tokens?: number;
-
-    prompt_tokens?: number;
-
-    total_tokens?: number;
   }
 
   export interface Prompt {

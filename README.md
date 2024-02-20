@@ -27,16 +27,38 @@ const togetherAI = new TogetherAI({
 });
 
 async function main() {
-  const completionResponse = await togetherAI.completions.create({
+  const chatCompletion = await togetherAI.chat.completions.create({
+    messages: [{ role: 'user', content: 'Say this is a test' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-    prompt: '<s>[INST] What is the capital of France? [/INST]',
   });
 
-  console.log(completionResponse.id);
+  console.log(chatCompletion.id);
 }
 
 main();
 ```
+
+## Streaming Responses
+
+We provide support for streaming responses using Server Sent Events (SSE).
+
+```ts
+import TogetherAI from '';
+
+const togetherAI = new TogetherAI();
+
+const stream = await togetherAI.chat.completions.create({
+  messages: [{ role: 'user', content: 'Say this is a test' }],
+  model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+  stream: true,
+});
+for await (const chatCompletion of stream) {
+  console.log(chatCompletion.id);
+}
+```
+
+If you need to cancel a stream, you can `break` from the loop
+or call `stream.controller.abort()`.
 
 ### Request & Response types
 
@@ -51,11 +73,11 @@ const togetherAI = new TogetherAI({
 });
 
 async function main() {
-  const params: TogetherAI.CompletionCreateParams = {
+  const params: TogetherAI.Chat.CompletionCreateParams = {
+    messages: [{ role: 'user', content: 'Say this is a test' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-    prompt: '<s>[INST] What is the capital of France? [/INST]',
   };
-  const completionResponse: TogetherAI.CompletionResponse = await togetherAI.completions.create(params);
+  const chatCompletion: TogetherAI.Chat.ChatCompletion = await togetherAI.chat.completions.create(params);
 }
 
 main();
@@ -72,10 +94,10 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const completionResponse = await togetherAI.completions
+  const chatCompletion = await togetherAI.chat.completions
     .create({
+      messages: [{ role: 'user', content: 'Say this is a test' }],
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-      prompt: '<s>[INST] What is the capital of France? [/INST]',
     })
     .catch((err) => {
       if (err instanceof TogetherAI.APIError) {
@@ -120,7 +142,7 @@ const togetherAI = new TogetherAI({
 });
 
 // Or, configure per-request:
-await togetherAI.completions.create({ model: 'mistralai/Mixtral-8x7B-Instruct-v0.1', prompt: '<s>[INST] What is the capital of France? [/INST]' }, {
+await togetherAI.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'mistralai/Mixtral-8x7B-Instruct-v0.1' }, {
   maxRetries: 5,
 });
 ```
@@ -137,7 +159,7 @@ const togetherAI = new TogetherAI({
 });
 
 // Override per-request:
-await togetherAI.completions.create({ model: 'mistralai/Mixtral-8x7B-Instruct-v0.1', prompt: '<s>[INST] What is the capital of France? [/INST]' }, {
+await togetherAI.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'mistralai/Mixtral-8x7B-Instruct-v0.1' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -158,23 +180,23 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const togetherAI = new TogetherAI();
 
-const response = await togetherAI.completions
+const response = await togetherAI.chat.completions
   .create({
+    messages: [{ role: 'user', content: 'Say this is a test' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-    prompt: '<s>[INST] What is the capital of France? [/INST]',
   })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: completionResponse, response: raw } = await togetherAI.completions
+const { data: chatCompletion, response: raw } = await togetherAI.chat.completions
   .create({
+    messages: [{ role: 'user', content: 'Say this is a test' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-    prompt: '<s>[INST] What is the capital of France? [/INST]',
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(completionResponse.id);
+console.log(chatCompletion.id);
 ```
 
 ## Customizing the fetch client
@@ -232,7 +254,7 @@ const togetherAI = new TogetherAI({
 });
 
 // Override per-request:
-await togetherAI.completions.create({ model: 'mistralai/Mixtral-8x7B-Instruct-v0.1', prompt: '<s>[INST] What is the capital of France? [/INST]' }, {
+await togetherAI.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'mistralai/Mixtral-8x7B-Instruct-v0.1' }, {
   baseURL: 'http://localhost:8080/test-api',
   httpAgent: new http.Agent({ keepAlive: false }),
 })

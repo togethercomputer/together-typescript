@@ -4,11 +4,13 @@
 
 Types:
 
-- <code><a href="./src/resources/chat/completions.ts">ChatCompletionResponse</a></code>
+- <code><a href="./src/resources/chat/completions.ts">ChatCompletion</a></code>
+- <code><a href="./src/resources/chat/completions.ts">ChatCompletionChunk</a></code>
+- <code><a href="./src/resources/chat/completions.ts">Usage</a></code>
 
 Methods:
 
-- <code title="post /chat/completions">client.chat.completions.<a href="./src/resources/chat/completions.ts">create</a>({ ...params }) -> ChatCompletionResponse</code>
+- <code title="post /chat/completions">client.chat.completions.<a href="./src/resources/chat/completions.ts">create</a>({ ...params }) -> ChatCompletion</code>
 
 # Completions
 

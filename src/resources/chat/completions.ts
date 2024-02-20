@@ -3,8 +3,6 @@
 import * as Core from '/core';
 import { APIPromise } from '/core';
 import { APIResource } from '/resource';
-import { isRequestOptions } from '/core';
-import { type Response } from '/_shims/index';
 import * as CompletionsAPI from '/resources/chat/completions';
 import { Stream } from '/streaming';
 
@@ -12,18 +10,29 @@ export class Completions extends APIResource {
   /**
    * Creates a model response for the given chat conversation.
    */
-  create(body: CompletionCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<ChatCompletionResponse>
-  create(body: CompletionCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<ChatCompletionResponse>
-  create(body: CompletionCreateParamsBase, options?: Core.RequestOptions): APIPromise<Stream<ChatCompletionResponse> | ChatCompletionResponse>
-  create(body: CompletionCreateParams, options?: Core.RequestOptions): APIPromise<ChatCompletionResponse> | APIPromise<Stream<ChatCompletionResponse>> {
-    return this._client.post('/chat/completions', { body, ...options, true }) as APIPromise<ChatCompletionResponse> | APIPromise<Stream<ChatCompletionResponse>>;
+  create(body: CompletionCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<ChatCompletion>;
+  create(
+    body: CompletionCreateParamsStreaming,
+    options?: Core.RequestOptions,
+  ): APIPromise<Stream<ChatCompletion>>;
+  create(
+    body: CompletionCreateParamsBase,
+    options?: Core.RequestOptions,
+  ): APIPromise<Stream<ChatCompletion> | ChatCompletion>;
+  create(
+    body: CompletionCreateParams,
+    options?: Core.RequestOptions,
+  ): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletion>> {
+    return this._client.post('/chat/completions', { body, ...options, stream: body.stream ?? false }) as
+      | APIPromise<ChatCompletion>
+      | APIPromise<Stream<ChatCompletion>>;
   }
 }
 
-export interface ChatCompletionResponse {
+export interface ChatCompletion {
   id?: string;
 
-  choices?: Array<ChatCompletionResponse.Choice>;
+  choices?: Array<ChatCompletion.Choice>;
 
   created?: number;
 
@@ -31,12 +40,12 @@ export interface ChatCompletionResponse {
 
   object?: 'chat.completion';
 
-  usage?: ChatCompletionResponse.Usage;
+  usage?: Usage;
 }
 
-export namespace ChatCompletionResponse {
+export namespace ChatCompletion {
   export interface Choice {
-    finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls';
+    finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls' | null;
 
     logprobs?: Choice.Logprobs | null;
 
@@ -62,17 +71,57 @@ export namespace ChatCompletionResponse {
       role?: string;
     }
   }
+}
 
-  export interface Usage {
-    completion_tokens?: number;
+export interface ChatCompletionChunk {
+  id: string;
 
-    prompt_tokens?: number;
+  token: ChatCompletionChunk.Token;
 
-    total_tokens?: number;
+  choices: Array<ChatCompletionChunk.Choice>;
+
+  created: number;
+
+  object: 'chat.completion.chunk';
+
+  finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls' | null;
+
+  usage?: Usage | null;
+}
+
+export namespace ChatCompletionChunk {
+  export interface Token {
+    id: number;
+
+    logprob: number;
+
+    special: boolean;
+
+    text: string;
+  }
+
+  export interface Choice {
+    delta: Choice.Delta;
+
+    index: number;
+  }
+
+  export namespace Choice {
+    export interface Delta {
+      content: string;
+    }
   }
 }
 
-export type CompletionCreateParams = CompletionCreateParamsNonStreaming | CompletionCreateParamsNonStreaming
+export interface Usage {
+  completion_tokens?: number;
+
+  prompt_tokens?: number;
+
+  total_tokens?: number;
+}
+
+export type CompletionCreateParams = CompletionCreateParamsNonStreaming | CompletionCreateParamsStreaming;
 
 export interface CompletionCreateParamsBase {
   /**
@@ -155,18 +204,31 @@ export namespace CompletionCreateParams {
     role: 'system' | 'user' | 'assistant';
   }
 
-  export type CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming
-  export type CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming
+  export type CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming;
+  export type CompletionCreateParamsStreaming = CompletionsAPI.CompletionCreateParamsStreaming;
 }
 
 export interface CompletionCreateParamsNonStreaming extends CompletionCreateParamsBase {
+  /**
+   * If set, tokens are returned as Server-Sent Events as they are made available.
+   * Stream terminates with `data: [DONE]`
+   */
+  stream?: false;
 }
 
-export interface CompletionCreateParamsNonStreaming extends CompletionCreateParamsBase {
+export interface CompletionCreateParamsStreaming extends CompletionCreateParamsBase {
+  /**
+   * If set, tokens are returned as Server-Sent Events as they are made available.
+   * Stream terminates with `data: [DONE]`
+   */
+  stream: true;
 }
 
 export namespace Completions {
-  export import ChatCompletionResponse = CompletionsAPI.ChatCompletionResponse;
+  export import ChatCompletion = CompletionsAPI.ChatCompletion;
+  export import ChatCompletionChunk = CompletionsAPI.ChatCompletionChunk;
+  export import Usage = CompletionsAPI.Usage;
   export import CompletionCreateParams = CompletionsAPI.CompletionCreateParams;
   export import CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming;
+  export import CompletionCreateParamsStreaming = CompletionsAPI.CompletionCreateParamsStreaming;
 }
