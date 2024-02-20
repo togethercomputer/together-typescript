@@ -33,7 +33,7 @@ describe('resource completions', () => {
       n: 1,
       repetition_penalty: 0,
       stop: ['string', 'string', 'string'],
-      stream: true,
+      stream: false,
       temperature: 0,
       top_k: 0,
       top_p: 0,

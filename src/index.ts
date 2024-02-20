@@ -183,6 +183,8 @@ export namespace TogetherAI {
   export import Completions = API.Completions;
   export import CompletionResponse = API.CompletionResponse;
   export import CompletionCreateParams = API.CompletionCreateParams;
+  export import CompletionCreateParamsNonStreaming = API.CompletionCreateParamsNonStreaming;
+  export import CompletionCreateParamsStreaming = API.CompletionCreateParamsStreaming;
 
   export import Embeddings = API.Embeddings;
   export import EmbeddingsResponse = API.EmbeddingsResponse;

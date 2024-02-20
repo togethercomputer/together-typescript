@@ -1,16 +1,35 @@
 // File generated from our OpenAPI spec by Stainless.
 
 import * as Core from 'together-ai/core';
+import { APIPromise } from 'together-ai/core';
 import { APIResource } from 'together-ai/resource';
 import * as CompletionsAPI from 'together-ai/resources/completions';
 import * as ChatCompletionsAPI from 'together-ai/resources/chat/completions';
+import { Stream } from 'together-ai/streaming';
 
 export class Completions extends APIResource {
   /**
    * Creates a completion for the provided prompt and parameters
    */
-  create(body: CompletionCreateParams, options?: Core.RequestOptions): Core.APIPromise<CompletionResponse> {
-    return this._client.post('/completions', { body, ...options });
+  create(
+    body: CompletionCreateParamsNonStreaming,
+    options?: Core.RequestOptions,
+  ): APIPromise<CompletionResponse>;
+  create(
+    body: CompletionCreateParamsStreaming,
+    options?: Core.RequestOptions,
+  ): APIPromise<Stream<CompletionResponse>>;
+  create(
+    body: CompletionCreateParamsBase,
+    options?: Core.RequestOptions,
+  ): APIPromise<Stream<CompletionResponse> | CompletionResponse>;
+  create(
+    body: CompletionCreateParams,
+    options?: Core.RequestOptions,
+  ): APIPromise<CompletionResponse> | APIPromise<Stream<CompletionResponse>> {
+    return this._client.post('/completions', { body, ...options, stream: body.stream ?? false }) as
+      | APIPromise<CompletionResponse>
+      | APIPromise<Stream<CompletionResponse>>;
   }
 }
 
@@ -74,7 +93,9 @@ export namespace CompletionResponse {
   }
 }
 
-export interface CompletionCreateParams {
+export type CompletionCreateParams = CompletionCreateParamsNonStreaming | CompletionCreateParamsStreaming;
+
+export interface CompletionCreateParamsBase {
   /**
    * The name of the model to query.
    */
@@ -142,7 +163,30 @@ export interface CompletionCreateParams {
   top_p?: number;
 }
 
+export namespace CompletionCreateParams {
+  export type CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming;
+  export type CompletionCreateParamsStreaming = CompletionsAPI.CompletionCreateParamsStreaming;
+}
+
+export interface CompletionCreateParamsNonStreaming extends CompletionCreateParamsBase {
+  /**
+   * If set, tokens are returned as Server-Sent Events as they are made available.
+   * Stream terminates with `data: [DONE]`
+   */
+  stream?: false;
+}
+
+export interface CompletionCreateParamsStreaming extends CompletionCreateParamsBase {
+  /**
+   * If set, tokens are returned as Server-Sent Events as they are made available.
+   * Stream terminates with `data: [DONE]`
+   */
+  stream: true;
+}
+
 export namespace Completions {
   export import CompletionResponse = CompletionsAPI.CompletionResponse;
   export import CompletionCreateParams = CompletionsAPI.CompletionCreateParams;
+  export import CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming;
+  export import CompletionCreateParamsStreaming = CompletionsAPI.CompletionCreateParamsStreaming;
 }
