@@ -1,6 +1,6 @@
 # Together AI Node API Library
 
-[![NPM version](https://img.shields.io/npm/v/.svg)](https://npmjs.org/package/)
+[![NPM version](https://img.shields.io/npm/v/together-ai.svg)](https://npmjs.org/package/together-ai)
 
 This library provides convenient access to the Together AI REST API from server-side TypeScript or JavaScript.
 
@@ -9,9 +9,9 @@ The REST API documentation can be found [on www.together.ai](https://www.togethe
 ## Installation
 
 ```sh
-npm install --save
+npm install --save together-ai
 # or
-yarn add
+yarn add together-ai
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import TogetherAI from '';
+import TogetherAI from 'together-ai';
 
 const togetherAI = new TogetherAI({
   accessToken: process.env['TOGETHER_AI_ACCESS_TOKEN'], // This is the default and can be omitted
@@ -43,7 +43,7 @@ main();
 We provide support for streaming responses using Server Sent Events (SSE).
 
 ```ts
-import TogetherAI from '';
+import TogetherAI from 'together-ai';
 
 const togetherAI = new TogetherAI();
 
@@ -66,7 +66,7 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import TogetherAI from '';
+import TogetherAI from 'together-ai';
 
 const togetherAI = new TogetherAI({
   accessToken: process.env['TOGETHER_AI_ACCESS_TOKEN'], // This is the default and can be omitted
@@ -210,11 +210,11 @@ add the following import before your first import `from "TogetherAI"`:
 ```ts
 // Tell TypeScript and the package to use the global web fetch instead of node-fetch.
 // Note, despite the name, this does not add any polyfills, but expects them to be provided if needed.
-import '/shims/web';
-import TogetherAI from '';
+import 'together-ai/shims/web';
+import TogetherAI from 'together-ai';
 ```
 
-To do the inverse, add `import "/shims/node"` (which does import polyfills).
+To do the inverse, add `import "together-ai/shims/node"` (which does import polyfills).
 This can also be useful if you are getting the wrong TypeScript types for `Response` - more details [here](https://github.com/stainless-sdks/tree/main/src/_shims#readme).
 
 You may also provide a custom `fetch` function when instantiating the client,
@@ -222,7 +222,7 @@ which can be used to inspect or alter the `Request` or `Response` before/after e
 
 ```ts
 import { fetch } from 'undici'; // as one example
-import TogetherAI from '';
+import TogetherAI from 'together-ai';
 
 const client = new TogetherAI({
   fetch: async (url: RequestInfo, init?: RequestInfo): Promise<Response> => {
@@ -270,7 +270,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/-node/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/together-ai-node/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 
@@ -279,7 +279,7 @@ TypeScript >= 4.5 is supported.
 The following runtimes are supported:
 
 - Node.js 18 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
-- Deno v1.28.0 or higher, using `import TogetherAI from "npm:"`.
+- Deno v1.28.0 or higher, using `import TogetherAI from "npm:together-ai"`.
 - Bun 1.0 or later.
 - Cloudflare Workers.
 - Vercel Edge Runtime.

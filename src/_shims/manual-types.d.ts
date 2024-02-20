@@ -4,8 +4,8 @@
 /**
  * Types will get added to this namespace when you import one of the following:
  *
- *   import '/shims/node'
- *   import '/shims/web'
+ *   import 'together-ai/shims/node'
+ *   import 'together-ai/shims/web'
  *
  * Importing more than one will cause type and runtime errors.
  */

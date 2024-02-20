@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { toFile, type ResponseLike } from '/uploads';
-import { File } from '/_shims/index';
+import { toFile, type ResponseLike } from 'together-ai/uploads';
+import { File } from 'together-ai/_shims/index';
 
 class MyClass {
   name: string = 'foo';

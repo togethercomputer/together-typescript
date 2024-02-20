@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless.
 
-import * as Core from '/core';
-import { APIResource } from '/resource';
-import * as EmbeddingsAPI from '/resources/embeddings';
+import * as Core from 'together-ai/core';
+import { APIResource } from 'together-ai/resource';
+import * as EmbeddingsAPI from 'together-ai/resources/embeddings';
 
 export class Embeddings extends APIResource {
   /**

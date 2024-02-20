@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless.
 
-import * as Core from '/core';
-import { APIResource } from '/resource';
-import * as CompletionsAPI from '/resources/completions';
-import * as ChatCompletionsAPI from '/resources/chat/completions';
+import * as Core from 'together-ai/core';
+import { APIResource } from 'together-ai/resource';
+import * as CompletionsAPI from 'together-ai/resources/completions';
+import * as ChatCompletionsAPI from 'together-ai/resources/chat/completions';
 
 export class Completions extends APIResource {
   /**

@@ -6,9 +6,9 @@
     "rootDir": "./deno",
     "lib": ["es2020", "DOM"],
     "paths": {
-      "/_shims/auto/*": ["deno/_shims/auto/*-deno"],
-      "/*": ["deno/*"],
-      "": ["deno/index.ts"],
+      "together-ai/_shims/auto/*": ["deno/_shims/auto/*-deno"],
+      "together-ai/*": ["deno/*"],
+      "together-ai": ["deno/index.ts"],
       "digest-fetch": ["./typings/digest-fetch"]
     },
     "noEmit": true,
