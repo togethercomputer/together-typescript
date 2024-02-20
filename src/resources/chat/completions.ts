@@ -14,18 +14,18 @@ export class Completions extends APIResource {
   create(
     body: CompletionCreateParamsStreaming,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<ChatCompletion>>;
+  ): APIPromise<Stream<ChatCompletionChunk>>;
   create(
     body: CompletionCreateParamsBase,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<ChatCompletion> | ChatCompletion>;
+  ): APIPromise<Stream<ChatCompletionChunk> | ChatCompletion>;
   create(
     body: CompletionCreateParams,
     options?: Core.RequestOptions,
-  ): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletion>> {
+  ): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletionChunk>> {
     return this._client.post('/chat/completions', { body, ...options, stream: body.stream ?? false }) as
       | APIPromise<ChatCompletion>
-      | APIPromise<Stream<ChatCompletion>>;
+      | APIPromise<Stream<ChatCompletionChunk>>;
   }
 }
 

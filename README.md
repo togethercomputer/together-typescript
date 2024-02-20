@@ -52,8 +52,8 @@ const stream = await togetherAI.chat.completions.create({
   model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
   stream: true,
 });
-for await (const chatCompletion of stream) {
-  console.log(chatCompletion.choices);
+for await (const chatCompletionChunk of stream) {
+  console.log(chatCompletionChunk.choices);
 }
 ```
 
