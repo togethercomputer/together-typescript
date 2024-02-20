@@ -1,18 +1,22 @@
 // File generated from our OpenAPI spec by Stainless.
 
 import * as Core from '/core';
+import { APIPromise } from '/core';
 import { APIResource } from '/resource';
+import { isRequestOptions } from '/core';
+import { type Response } from '/_shims/index';
 import * as CompletionsAPI from '/resources/chat/completions';
+import { Stream } from '/streaming';
 
 export class Completions extends APIResource {
   /**
    * Creates a model response for the given chat conversation.
    */
-  create(
-    body: CompletionCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ChatCompletionResponse> {
-    return this._client.post('/chat/completions', { body, ...options });
+  create(body: CompletionCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<ChatCompletionResponse>
+  create(body: CompletionCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<ChatCompletionResponse>
+  create(body: CompletionCreateParamsBase, options?: Core.RequestOptions): APIPromise<Stream<ChatCompletionResponse> | ChatCompletionResponse>
+  create(body: CompletionCreateParams, options?: Core.RequestOptions): APIPromise<ChatCompletionResponse> | APIPromise<Stream<ChatCompletionResponse>> {
+    return this._client.post('/chat/completions', { body, ...options, true }) as APIPromise<ChatCompletionResponse> | APIPromise<Stream<ChatCompletionResponse>>;
   }
 }
 
@@ -68,7 +72,9 @@ export namespace ChatCompletionResponse {
   }
 }
 
-export interface CompletionCreateParams {
+export type CompletionCreateParams = CompletionCreateParamsNonStreaming | CompletionCreateParamsNonStreaming
+
+export interface CompletionCreateParamsBase {
   /**
    * A list of messages comprising the conversation so far.
    */
@@ -148,9 +154,19 @@ export namespace CompletionCreateParams {
      */
     role: 'system' | 'user' | 'assistant';
   }
+
+  export type CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming
+  export type CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming
+}
+
+export interface CompletionCreateParamsNonStreaming extends CompletionCreateParamsBase {
+}
+
+export interface CompletionCreateParamsNonStreaming extends CompletionCreateParamsBase {
 }
 
 export namespace Completions {
   export import ChatCompletionResponse = CompletionsAPI.ChatCompletionResponse;
   export import CompletionCreateParams = CompletionsAPI.CompletionCreateParams;
+  export import CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming;
 }
