@@ -9,6 +9,7 @@ The REST API documentation can be found [on www.together.ai](https://www.togethe
 ## Installation
 
 ```sh
+# install from NPM
 npm install --save together-ai
 # or
 yarn add together-ai
@@ -99,7 +100,7 @@ async function main() {
       messages: [{ role: 'user', content: 'Say this is a test' }],
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
     })
-    .catch((err) => {
+    .catch(async (err) => {
       if (err instanceof TogetherAI.APIError) {
         console.log(err.status); // 400
         console.log(err.name); // BadRequestError
@@ -215,7 +216,7 @@ import TogetherAI from 'together-ai';
 ```
 
 To do the inverse, add `import "together-ai/shims/node"` (which does import polyfills).
-This can also be useful if you are getting the wrong TypeScript types for `Response` - more details [here](https://github.com/stainless-sdks/tree/main/src/_shims#readme).
+This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/stainless-sdks/tree/main/src/_shims#readme)).
 
 You may also provide a custom `fetch` function when instantiating the client,
 which can be used to inspect or alter the `Request` or `Response` before/after each request:
@@ -225,7 +226,7 @@ import { fetch } from 'undici'; // as one example
 import TogetherAI from 'together-ai';
 
 const client = new TogetherAI({
-  fetch: async (url: RequestInfo, init?: RequestInfo): Promise<Response> => {
+  fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
     console.log('About to make a request', url, init);
     const response = await fetch(url, init);
     console.log('Got response', response);
@@ -246,7 +247,7 @@ If you would like to disable or customize this behavior, for example to use the 
 <!-- prettier-ignore -->
 ```ts
 import http from 'http';
-import HttpsProxyAgent from 'https-proxy-agent';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // Configure the default for all requests:
 const togetherAI = new TogetherAI({
@@ -254,10 +255,15 @@ const togetherAI = new TogetherAI({
 });
 
 // Override per-request:
-await togetherAI.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'mistralai/Mixtral-8x7B-Instruct-v0.1' }, {
-  baseURL: 'http://localhost:8080/test-api',
-  httpAgent: new http.Agent({ keepAlive: false }),
-})
+await togetherAI.chat.completions.create(
+  {
+    messages: [{ role: 'user', content: 'Say this is a test' }],
+    model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+  },
+  {
+    httpAgent: new http.Agent({ keepAlive: false }),
+  },
+);
 ```
 
 ## Semantic Versioning
