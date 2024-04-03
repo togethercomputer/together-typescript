@@ -1,4 +1,4 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import TogetherAI from 'together-ai';
 import { APIUserAbortError } from 'together-ai';

@@ -9,7 +9,6 @@
       "together-ai/_shims/auto/*": ["deno/_shims/auto/*-deno"],
       "together-ai/*": ["deno/*"],
       "together-ai": ["deno/index.ts"],
-      "digest-fetch": ["./typings/digest-fetch"]
     },
     "noEmit": true,
     "declaration": true,

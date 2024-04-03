@@ -187,7 +187,7 @@ export class Stream<Item> implements AsyncIterable<Item> {
       async start() {
         iter = self[Symbol.asyncIterator]();
       },
-      async pull(ctrl) {
+      async pull(ctrl: any) {
         try {
           const { value, done } = await iter.next();
           if (done) return ctrl.close();
@@ -300,6 +300,12 @@ class LineDecoder {
     const trailingNewline = LineDecoder.NEWLINE_CHARS.has(text[text.length - 1] || '');
     let lines = text.split(LineDecoder.NEWLINE_REGEXP);
 
+    // if there is a trailing new line then the last entry will be an empty
+    // string which we don't care about
+    if (trailingNewline) {
+      lines.pop();
+    }
+
     if (lines.length === 1 && !trailingNewline) {
       this.buffer.push(lines[0]!);
       return [];
@@ -364,6 +370,17 @@ class LineDecoder {
     this.trailingCR = false;
     return lines;
   }
+}
+
+/** This is an internal helper function that's just used for testing */
+export function _decodeChunks(chunks: string[]): string[] {
+  const decoder = new LineDecoder();
+  const lines: string[] = [];
+  for (const chunk of chunks) {
+    lines.push(...decoder.decode(chunk));
+  }
+
+  return lines;
 }
 
 function partition(str: string, delimiter: string): [string, string, string] {
