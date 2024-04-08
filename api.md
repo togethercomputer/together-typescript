@@ -55,6 +55,8 @@ Types:
 - <code><a href="./src/resources/fine-tunes.ts">FineTuneRetrieveResponse</a></code>
 - <code><a href="./src/resources/fine-tunes.ts">FineTuneListResponse</a></code>
 - <code><a href="./src/resources/fine-tunes.ts">FineTuneCancelResponse</a></code>
+- <code><a href="./src/resources/fine-tunes.ts">FineTuneDownloadResponse</a></code>
+- <code><a href="./src/resources/fine-tunes.ts">FineTuneListEventsResponse</a></code>
 
 Methods:
 
@@ -62,3 +64,25 @@ Methods:
 - <code title="get /fine-tunes/{id}">client.fineTunes.<a href="./src/resources/fine-tunes.ts">retrieve</a>(id) -> FineTuneRetrieveResponse</code>
 - <code title="get /fine-tunes">client.fineTunes.<a href="./src/resources/fine-tunes.ts">list</a>() -> FineTuneListResponse</code>
 - <code title="post /fine-tunes/{id}/cancel">client.fineTunes.<a href="./src/resources/fine-tunes.ts">cancel</a>(id) -> FineTuneCancelResponse</code>
+- <code title="get /fine-tunes/download">client.fineTunes.<a href="./src/resources/fine-tunes.ts">download</a>({ ...params }) -> FineTuneDownloadResponse</code>
+- <code title="get /fine-tunes/{id}/events">client.fineTunes.<a href="./src/resources/fine-tunes.ts">listEvents</a>(id) -> FineTuneListEventsResponse</code>
+
+# Images
+
+Types:
+
+- <code><a href="./src/resources/images.ts">ImageCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /images/generations">client.images.<a href="./src/resources/images.ts">create</a>({ ...params }) -> ImageCreateResponse</code>
+
+# Models
+
+Types:
+
+- <code><a href="./src/resources/models.ts">ModelListResponse</a></code>
+
+Methods:
+
+- <code title="get /models">client.models.<a href="./src/resources/models.ts">list</a>() -> ModelListResponse</code>

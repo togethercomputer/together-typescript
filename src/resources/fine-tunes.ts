@@ -32,6 +32,23 @@ export class FineTunes extends APIResource {
   cancel(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTuneCancelResponse> {
     return this._client.post(`/fine-tunes/${id}/cancel`, options);
   }
+
+  /**
+   * Downloads a compressed fine-tuned model or checkpoint to local disk.
+   */
+  download(
+    query: FineTuneDownloadParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<FineTuneDownloadResponse> {
+    return this._client.get('/fine-tunes/download', { query, ...options });
+  }
+
+  /**
+   * List events of a fine-tune job
+   */
+  listEvents(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTuneListEventsResponse> {
+    return this._client.get(`/fine-tunes/${id}/events`, options);
+  }
 }
 
 export interface FineTuneCreateResponse {
@@ -494,6 +511,30 @@ export namespace FineTuneCancelResponse {
   }
 }
 
+export interface FineTuneDownloadResponse {
+  id?: string;
+
+  checkpoint_step?: number;
+
+  filename?: string;
+
+  object?: string;
+
+  size?: number;
+}
+
+export type FineTuneListEventsResponse = Array<FineTuneListEventsResponse.FineTuneListEventsResponseItem>;
+
+export namespace FineTuneListEventsResponse {
+  export interface FineTuneListEventsResponseItem {
+    details?: Record<string, unknown>;
+
+    event?: string;
+
+    timestamp?: number;
+  }
+}
+
 export interface FineTuneCreateParams {
   /**
    * Name of the base model to run fine-tune job on
@@ -536,10 +577,32 @@ export interface FineTuneCreateParams {
   wandb_api_key?: string;
 }
 
+export interface FineTuneDownloadParams {
+  /**
+   * Fine-tune ID to download. A string that starts with `ft-`.
+   */
+  ft_id: string;
+
+  /**
+   * Specifies step number for checkpoint to download. Defaults to -1 (download the
+   * final model).
+   */
+  checkpoint_step?: number;
+
+  /**
+   * Specifies output file name for downloaded model. Defaults to
+   * `$PWD/{model_name}.{extension}`.
+   */
+  output?: string;
+}
+
 export namespace FineTunes {
   export import FineTuneCreateResponse = FineTunesAPI.FineTuneCreateResponse;
   export import FineTuneRetrieveResponse = FineTunesAPI.FineTuneRetrieveResponse;
   export import FineTuneListResponse = FineTunesAPI.FineTuneListResponse;
   export import FineTuneCancelResponse = FineTunesAPI.FineTuneCancelResponse;
+  export import FineTuneDownloadResponse = FineTunesAPI.FineTuneDownloadResponse;
+  export import FineTuneListEventsResponse = FineTunesAPI.FineTuneListEventsResponse;
   export import FineTuneCreateParams = FineTunesAPI.FineTuneCreateParams;
+  export import FineTuneDownloadParams = FineTunesAPI.FineTuneDownloadParams;
 }

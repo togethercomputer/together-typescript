@@ -15,6 +15,11 @@ export {
   FineTuneRetrieveResponse,
   FineTuneListResponse,
   FineTuneCancelResponse,
+  FineTuneDownloadResponse,
+  FineTuneListEventsResponse,
   FineTuneCreateParams,
+  FineTuneDownloadParams,
   FineTunes,
 } from './fine-tunes';
+export { ImageCreateResponse, ImageCreateParams, Images } from './images';
+export { ModelListResponse, Models } from './models';
