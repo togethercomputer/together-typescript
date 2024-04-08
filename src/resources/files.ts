@@ -2,6 +2,7 @@
 
 import * as Core from 'together-ai/core';
 import { APIResource } from 'together-ai/resource';
+import { type Response } from 'together-ai/_shims/index';
 import * as FilesAPI from 'together-ai/resources/files';
 
 export class Files extends APIResource {
@@ -24,6 +25,13 @@ export class Files extends APIResource {
    */
   delete(id: string, options?: Core.RequestOptions): Core.APIPromise<FileDeleteResponse> {
     return this._client.delete(`/files/${id}`, options);
+  }
+
+  /**
+   * Retrieve file content
+   */
+  content(id: string, options?: Core.RequestOptions): Core.APIPromise<Response> {
+    return this._client.get(`/files/${id}/content`, { ...options, __binaryResponse: true });
   }
 }
 
