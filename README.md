@@ -28,7 +28,7 @@ const togetherAI = new TogetherAI({
 
 async function main() {
   const chatCompletion = await togetherAI.chat.completions.create({
-    messages: [{ role: 'user', content: 'Say this is a test' }],
+    messages: [{ role: 'user', content: 'Say this is a test!' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
   });
 
