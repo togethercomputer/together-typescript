@@ -194,6 +194,7 @@ export namespace TogetherAI {
   export import Files = API.Files;
   export import FileRetrieveResponse = API.FileRetrieveResponse;
   export import FileListResponse = API.FileListResponse;
+  export import FileDeleteResponse = API.FileDeleteResponse;
 }
 
 export default TogetherAI;

@@ -18,6 +18,13 @@ export class Files extends APIResource {
   list(options?: Core.RequestOptions): Core.APIPromise<FileListResponse> {
     return this._client.get('/files', options);
   }
+
+  /**
+   * Delete a file
+   */
+  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<FileDeleteResponse> {
+    return this._client.delete(`/files/${id}`, options);
+  }
 }
 
 export interface FileRetrieveResponse {
@@ -96,7 +103,14 @@ export namespace FileListResponse {
   }
 }
 
+export interface FileDeleteResponse {
+  id?: string;
+
+  deleted?: boolean;
+}
+
 export namespace Files {
   export import FileRetrieveResponse = FilesAPI.FileRetrieveResponse;
   export import FileListResponse = FilesAPI.FileListResponse;
+  export import FileDeleteResponse = FilesAPI.FileDeleteResponse;
 }
