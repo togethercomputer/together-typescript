@@ -120,6 +120,7 @@ export class TogetherAI extends Core.APIClient {
   completions: API.Completions = new API.Completions(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
   files: API.Files = new API.Files(this);
+  fineTunes: API.FineTunes = new API.FineTunes(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -195,6 +196,13 @@ export namespace TogetherAI {
   export import FileRetrieveResponse = API.FileRetrieveResponse;
   export import FileListResponse = API.FileListResponse;
   export import FileDeleteResponse = API.FileDeleteResponse;
+
+  export import FineTunes = API.FineTunes;
+  export import FineTuneCreateResponse = API.FineTuneCreateResponse;
+  export import FineTuneRetrieveResponse = API.FineTuneRetrieveResponse;
+  export import FineTuneListResponse = API.FineTuneListResponse;
+  export import FineTuneCancelResponse = API.FineTuneCancelResponse;
+  export import FineTuneCreateParams = API.FineTuneCreateParams;
 }
 
 export default TogetherAI;

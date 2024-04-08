@@ -10,3 +10,11 @@ export {
 } from './completions';
 export { EmbeddingsResponse, EmbeddingCreateParams, Embeddings } from './embeddings';
 export { FileRetrieveResponse, FileListResponse, FileDeleteResponse, Files } from './files';
+export {
+  FineTuneCreateResponse,
+  FineTuneRetrieveResponse,
+  FineTuneListResponse,
+  FineTuneCancelResponse,
+  FineTuneCreateParams,
+  FineTunes,
+} from './fine-tunes';
