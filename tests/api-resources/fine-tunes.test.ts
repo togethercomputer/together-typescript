@@ -86,4 +86,41 @@ describe('resource fineTunes', () => {
       TogetherAI.NotFoundError,
     );
   });
+
+  test('download: only required params', async () => {
+    const responsePromise = togetherAI.fineTunes.download({ ft_id: 'string' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('download: required and optional params', async () => {
+    const response = await togetherAI.fineTunes.download({
+      ft_id: 'string',
+      checkpoint_step: 0,
+      output: 'string',
+    });
+  });
+
+  test('listEvents', async () => {
+    const responsePromise = togetherAI.fineTunes.listEvents('string');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listEvents: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      togetherAI.fineTunes.listEvents('string', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(TogetherAI.NotFoundError);
+  });
 });
