@@ -36,8 +36,10 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/files.ts">FileRetrieveResponse</a></code>
 - <code><a href="./src/resources/files.ts">FileListResponse</a></code>
 
 Methods:
 
+- <code title="get /files/{id}">client.files.<a href="./src/resources/files.ts">retrieve</a>(id) -> FileRetrieveResponse</code>
 - <code title="get /files">client.files.<a href="./src/resources/files.ts">list</a>() -> FileListResponse</code>

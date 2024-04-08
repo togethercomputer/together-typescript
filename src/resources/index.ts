@@ -9,4 +9,4 @@ export {
   Completions,
 } from './completions';
 export { EmbeddingsResponse, EmbeddingCreateParams, Embeddings } from './embeddings';
-export { FileListResponse, Files } from './files';
+export { FileRetrieveResponse, FileListResponse, Files } from './files';

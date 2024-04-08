@@ -192,6 +192,7 @@ export namespace TogetherAI {
   export import EmbeddingCreateParams = API.EmbeddingCreateParams;
 
   export import Files = API.Files;
+  export import FileRetrieveResponse = API.FileRetrieveResponse;
   export import FileListResponse = API.FileListResponse;
 }
 
