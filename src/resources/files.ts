@@ -6,10 +6,53 @@ import * as FilesAPI from 'together-ai/resources/files';
 
 export class Files extends APIResource {
   /**
+   * Retrieve a file
+   */
+  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<FileRetrieveResponse> {
+    return this._client.get(`/files/${id}`, options);
+  }
+
+  /**
    * List all files
    */
   list(options?: Core.RequestOptions): Core.APIPromise<FileListResponse> {
     return this._client.get('/files', options);
+  }
+}
+
+export interface FileRetrieveResponse {
+  id?: string;
+
+  context_length?: number;
+
+  created?: number;
+
+  display_name?: string;
+
+  license?: string;
+
+  link?: string;
+
+  object?: string;
+
+  organization?: string;
+
+  pricing?: FileRetrieveResponse.Pricing;
+
+  type?: string;
+}
+
+export namespace FileRetrieveResponse {
+  export interface Pricing {
+    base?: number;
+
+    finetune?: number;
+
+    hourly?: number;
+
+    input?: number;
+
+    output?: number;
   }
 }
 
@@ -54,5 +97,6 @@ export namespace FileListResponse {
 }
 
 export namespace Files {
+  export import FileRetrieveResponse = FilesAPI.FileRetrieveResponse;
   export import FileListResponse = FilesAPI.FileListResponse;
 }
