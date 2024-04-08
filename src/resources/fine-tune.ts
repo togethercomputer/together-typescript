@@ -2,20 +2,20 @@
 
 import * as Core from 'together-ai/core';
 import { APIResource } from 'together-ai/resource';
-import * as FineTunesAPI from 'together-ai/resources/fine-tunes';
+import * as FineTuneAPI from 'together-ai/resources/fine-tune';
 
-export class FineTunes extends APIResource {
+export class FineTuneResource extends APIResource {
   /**
    * Create a fine-tuning job
    */
-  create(body: FineTuneCreateParams, options?: Core.RequestOptions): Core.APIPromise<FineTunes> {
+  create(body: FineTuneCreateParams, options?: Core.RequestOptions): Core.APIPromise<FineTune> {
     return this._client.post('/fine-tunes', { body, ...options });
   }
 
   /**
    * Retrieve fine-tune job details
    */
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTunes> {
+  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTune> {
     return this._client.get(`/fine-tunes/${id}`, options);
   }
 
@@ -29,7 +29,7 @@ export class FineTunes extends APIResource {
   /**
    * Cancels a running fine-tuning job.
    */
-  cancel(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTunes> {
+  cancel(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTune> {
     return this._client.post(`/fine-tunes/${id}/cancel`, options);
   }
 
@@ -51,7 +51,7 @@ export class FineTunes extends APIResource {
   }
 }
 
-export interface FineTunes {
+export interface FineTune {
   id?: string;
 
   batch_size?: number;
@@ -62,7 +62,7 @@ export interface FineTunes {
 
   eval_steps?: number;
 
-  events?: Array<FineTunes.Event>;
+  events?: Array<FineTune.Event>;
 
   job_id?: string;
 
@@ -118,7 +118,7 @@ export interface FineTunes {
   wandb_url?: string;
 }
 
-export namespace FineTunes {
+export namespace FineTune {
   export interface Event {
     created_at?: string;
 
@@ -165,7 +165,7 @@ export namespace FineTunes {
   }
 }
 
-export type FineTuneListResponse = Array<FineTunes>;
+export type FineTuneListResponse = Array<FineTune>;
 
 export interface FineTuneDownloadResponse {
   id?: string;
@@ -252,11 +252,11 @@ export interface FineTuneDownloadParams {
   output?: string;
 }
 
-export namespace FineTunes {
-  export import FineTunes = FineTunesAPI.FineTunes;
-  export import FineTuneListResponse = FineTunesAPI.FineTuneListResponse;
-  export import FineTuneDownloadResponse = FineTunesAPI.FineTuneDownloadResponse;
-  export import FineTuneListEventsResponse = FineTunesAPI.FineTuneListEventsResponse;
-  export import FineTuneCreateParams = FineTunesAPI.FineTuneCreateParams;
-  export import FineTuneDownloadParams = FineTunesAPI.FineTuneDownloadParams;
+export namespace FineTuneResource {
+  export import FineTune = FineTuneAPI.FineTune;
+  export import FineTuneListResponse = FineTuneAPI.FineTuneListResponse;
+  export import FineTuneDownloadResponse = FineTuneAPI.FineTuneDownloadResponse;
+  export import FineTuneListEventsResponse = FineTuneAPI.FineTuneListEventsResponse;
+  export import FineTuneCreateParams = FineTuneAPI.FineTuneCreateParams;
+  export import FineTuneDownloadParams = FineTuneAPI.FineTuneDownloadParams;
 }
