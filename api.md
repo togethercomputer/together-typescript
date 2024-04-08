@@ -31,3 +31,13 @@ Types:
 Methods:
 
 - <code title="post /embeddings">client.embeddings.<a href="./src/resources/embeddings.ts">create</a>({ ...params }) -> EmbeddingsResponse</code>
+
+# Files
+
+Types:
+
+- <code><a href="./src/resources/files.ts">FileListResponse</a></code>
+
+Methods:
+
+- <code title="get /files">client.files.<a href="./src/resources/files.ts">list</a>() -> FileListResponse</code>
