@@ -11,13 +11,13 @@ export {
 export { EmbeddingsResponse, EmbeddingCreateParams, Embeddings } from './embeddings';
 export { FileRetrieveResponse, FileListResponse, FileDeleteResponse, Files } from './files';
 export {
-  FineTune,
+  FineTunes,
   FineTuneListResponse,
   FineTuneDownloadResponse,
   FineTuneListEventsResponse,
   FineTuneCreateParams,
   FineTuneDownloadParams,
-  FineTuneResource,
+  FineTune,
 } from './fine-tune';
 export { ImagesResponse, ImageCreateParams, Images } from './images';
 export { ModelListResponse, Models } from './models';
