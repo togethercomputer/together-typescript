@@ -210,7 +210,7 @@ export namespace TogetherAI {
   export import FineTuneDownloadParams = API.FineTuneDownloadParams;
 
   export import Images = API.Images;
-  export import ImageCreateResponse = API.ImageCreateResponse;
+  export import ImagesResponse = API.ImagesResponse;
   export import ImageCreateParams = API.ImageCreateParams;
 
   export import Models = API.Models;

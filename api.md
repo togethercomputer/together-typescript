@@ -71,11 +71,11 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/images.ts">ImageCreateResponse</a></code>
+- <code><a href="./src/resources/images.ts">ImagesResponse</a></code>
 
 Methods:
 
-- <code title="post /images/generations">client.images.<a href="./src/resources/images.ts">create</a>({ ...params }) -> ImageCreateResponse</code>
+- <code title="post /images/generations">client.images.<a href="./src/resources/images.ts">create</a>({ ...params }) -> ImagesResponse</code>
 
 # Models
 
