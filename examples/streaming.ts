@@ -1,3 +1,5 @@
+#!/usr/bin/env -S npm run tsn -T
+
 import TogetherAI from 'together-ai';
 
 const togetherAI = new TogetherAI();
