@@ -163,6 +163,16 @@ export interface CompletionCreateParamsBase {
   repetition_penalty?: number;
 
   /**
+   * Specifies the format of the response.
+   */
+  response_format?: CompletionCreateParams.ResponseFormat;
+
+  /**
+   * The name of the safety model to use.
+   */
+  safety_model?: string;
+
+  /**
    * A list of string sequences that will truncate (stop) inference text output.
    */
   stop?: Array<string>;
@@ -177,6 +187,16 @@ export interface CompletionCreateParamsBase {
    * Determines the degree of randomness in the response.
    */
   temperature?: number;
+
+  /**
+   * The choice of tool to use.
+   */
+  tool_choice?: string | CompletionCreateParams.ToolChoice;
+
+  /**
+   * A list of tools to be used in the query.
+   */
+  tools?: Array<CompletionCreateParams.Tool>;
 
   /**
    * The `top_k` parameter is used to limit the number of choices for the next
@@ -202,6 +222,52 @@ export namespace CompletionCreateParams {
      * The role of the messages author. Choice between: system, user, or assistant.
      */
     role: 'system' | 'user' | 'assistant';
+  }
+
+  /**
+   * Specifies the format of the response.
+   */
+  export interface ResponseFormat {
+    /**
+     * The schema of the response format.
+     */
+    schema?: Record<string, unknown>;
+
+    /**
+     * The type of the response format.
+     */
+    type?: string;
+  }
+
+  export interface ToolChoice {
+    function?: ToolChoice.Function;
+
+    type?: string;
+  }
+
+  export namespace ToolChoice {
+    export interface Function {
+      name?: string;
+    }
+  }
+
+  export interface Tool {
+    function?: Tool.Function;
+
+    type?: string;
+  }
+
+  export namespace Tool {
+    export interface Function {
+      description?: string;
+
+      name?: string;
+
+      /**
+       * A map of parameter names to their values.
+       */
+      parameters?: Record<string, unknown>;
+    }
   }
 
   export type CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming;
