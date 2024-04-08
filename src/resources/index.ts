@@ -21,5 +21,5 @@ export {
   FineTuneDownloadParams,
   FineTunes,
 } from './fine-tunes';
-export { ImageCreateResponse, ImageCreateParams, Images } from './images';
+export { ImagesResponse, ImageCreateParams, Images } from './images';
 export { ModelListResponse, Models } from './models';
