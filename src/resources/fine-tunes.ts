@@ -8,14 +8,14 @@ export class FineTunes extends APIResource {
   /**
    * Create a fine-tuning job
    */
-  create(body: FineTuneCreateParams, options?: Core.RequestOptions): Core.APIPromise<FineTuneCreateResponse> {
+  create(body: FineTuneCreateParams, options?: Core.RequestOptions): Core.APIPromise<FineTunes> {
     return this._client.post('/fine-tunes', { body, ...options });
   }
 
   /**
    * Retrieve fine-tune job details
    */
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTuneRetrieveResponse> {
+  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTunes> {
     return this._client.get(`/fine-tunes/${id}`, options);
   }
 
@@ -29,7 +29,7 @@ export class FineTunes extends APIResource {
   /**
    * Cancels a running fine-tuning job.
    */
-  cancel(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTuneCancelResponse> {
+  cancel(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTunes> {
     return this._client.post(`/fine-tunes/${id}/cancel`, options);
   }
 
@@ -51,7 +51,7 @@ export class FineTunes extends APIResource {
   }
 }
 
-export interface FineTuneCreateResponse {
+export interface FineTunes {
   id?: string;
 
   batch_size?: number;
@@ -62,7 +62,7 @@ export interface FineTuneCreateResponse {
 
   eval_steps?: number;
 
-  events?: Array<FineTuneCreateResponse.Event>;
+  events?: Array<FineTunes.Event>;
 
   job_id?: string;
 
@@ -118,7 +118,7 @@ export interface FineTuneCreateResponse {
   wandb_url?: string;
 }
 
-export namespace FineTuneCreateResponse {
+export namespace FineTunes {
   export interface Event {
     created_at?: string;
 
@@ -165,351 +165,7 @@ export namespace FineTuneCreateResponse {
   }
 }
 
-export interface FineTuneRetrieveResponse {
-  id?: string;
-
-  batch_size?: number;
-
-  created_at?: string;
-
-  epochs_completed?: number;
-
-  eval_steps?: number;
-
-  events?: Array<FineTuneRetrieveResponse.Event>;
-
-  job_id?: string;
-
-  learning_rate?: number;
-
-  lora?: boolean;
-
-  lora_alpha?: number;
-
-  lora_dropout?: number;
-
-  lora_r?: number;
-
-  model?: string;
-
-  n_checkpoints?: number;
-
-  n_epochs?: number;
-
-  output_name?: string;
-
-  param_count?: number;
-
-  queue_depth?: number;
-
-  status?:
-    | 'pending'
-    | 'queued'
-    | 'running'
-    | 'compressing'
-    | 'uploading'
-    | 'cancel_requested'
-    | 'cancelled'
-    | 'error'
-    | 'completed';
-
-  token_count?: number;
-
-  total_price?: number;
-
-  training_file?: string;
-
-  training_file_num_lines?: number;
-
-  training_file_size?: number;
-
-  updated_at?: string;
-
-  validation_file?: string;
-
-  wandb_project_name?: string;
-
-  wandb_url?: string;
-}
-
-export namespace FineTuneRetrieveResponse {
-  export interface Event {
-    created_at?: string;
-
-    hash?: string;
-
-    level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
-
-    message?: string;
-
-    object?: 'FinetuneEvent';
-
-    param_count?: number;
-
-    token_count?: number;
-
-    type?:
-      | 'job_pending'
-      | 'job_start'
-      | 'job_stopped'
-      | 'model_downloading'
-      | 'model_download_complete'
-      | 'training_data_downloading'
-      | 'training_data_download_complete'
-      | 'validation_data_downloading'
-      | 'validation_data_download_complete'
-      | 'wandb_init'
-      | 'training_start'
-      | 'checkpoint_save'
-      | 'billing_limit'
-      | 'epoch_complete'
-      | 'training_complete'
-      | 'model_compressing'
-      | 'model_compression_complete'
-      | 'model_uploading'
-      | 'model_upload_complete'
-      | 'job_complete'
-      | 'job_error'
-      | 'cancel_requested'
-      | 'job_restarted'
-      | 'refund'
-      | 'warning';
-
-    wandb_url?: string;
-  }
-}
-
-export type FineTuneListResponse = Array<FineTuneListResponse.FineTuneListResponseItem>;
-
-export namespace FineTuneListResponse {
-  export interface FineTuneListResponseItem {
-    id?: string;
-
-    batch_size?: number;
-
-    created_at?: string;
-
-    epochs_completed?: number;
-
-    eval_steps?: number;
-
-    events?: Array<FineTuneListResponseItem.Event>;
-
-    job_id?: string;
-
-    learning_rate?: number;
-
-    lora?: boolean;
-
-    lora_alpha?: number;
-
-    lora_dropout?: number;
-
-    lora_r?: number;
-
-    model?: string;
-
-    n_checkpoints?: number;
-
-    n_epochs?: number;
-
-    output_name?: string;
-
-    param_count?: number;
-
-    queue_depth?: number;
-
-    status?:
-      | 'pending'
-      | 'queued'
-      | 'running'
-      | 'compressing'
-      | 'uploading'
-      | 'cancel_requested'
-      | 'cancelled'
-      | 'error'
-      | 'completed';
-
-    token_count?: number;
-
-    total_price?: number;
-
-    training_file?: string;
-
-    training_file_num_lines?: number;
-
-    training_file_size?: number;
-
-    updated_at?: string;
-
-    validation_file?: string;
-
-    wandb_project_name?: string;
-
-    wandb_url?: string;
-  }
-
-  export namespace FineTuneListResponseItem {
-    export interface Event {
-      created_at?: string;
-
-      hash?: string;
-
-      level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
-
-      message?: string;
-
-      object?: 'FinetuneEvent';
-
-      param_count?: number;
-
-      token_count?: number;
-
-      type?:
-        | 'job_pending'
-        | 'job_start'
-        | 'job_stopped'
-        | 'model_downloading'
-        | 'model_download_complete'
-        | 'training_data_downloading'
-        | 'training_data_download_complete'
-        | 'validation_data_downloading'
-        | 'validation_data_download_complete'
-        | 'wandb_init'
-        | 'training_start'
-        | 'checkpoint_save'
-        | 'billing_limit'
-        | 'epoch_complete'
-        | 'training_complete'
-        | 'model_compressing'
-        | 'model_compression_complete'
-        | 'model_uploading'
-        | 'model_upload_complete'
-        | 'job_complete'
-        | 'job_error'
-        | 'cancel_requested'
-        | 'job_restarted'
-        | 'refund'
-        | 'warning';
-
-      wandb_url?: string;
-    }
-  }
-}
-
-export interface FineTuneCancelResponse {
-  id?: string;
-
-  batch_size?: number;
-
-  created_at?: string;
-
-  epochs_completed?: number;
-
-  eval_steps?: number;
-
-  events?: Array<FineTuneCancelResponse.Event>;
-
-  job_id?: string;
-
-  learning_rate?: number;
-
-  lora?: boolean;
-
-  lora_alpha?: number;
-
-  lora_dropout?: number;
-
-  lora_r?: number;
-
-  model?: string;
-
-  n_checkpoints?: number;
-
-  n_epochs?: number;
-
-  output_name?: string;
-
-  param_count?: number;
-
-  queue_depth?: number;
-
-  status?:
-    | 'pending'
-    | 'queued'
-    | 'running'
-    | 'compressing'
-    | 'uploading'
-    | 'cancel_requested'
-    | 'cancelled'
-    | 'error'
-    | 'completed';
-
-  token_count?: number;
-
-  total_price?: number;
-
-  training_file?: string;
-
-  training_file_num_lines?: number;
-
-  training_file_size?: number;
-
-  updated_at?: string;
-
-  validation_file?: string;
-
-  wandb_project_name?: string;
-
-  wandb_url?: string;
-}
-
-export namespace FineTuneCancelResponse {
-  export interface Event {
-    created_at?: string;
-
-    hash?: string;
-
-    level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
-
-    message?: string;
-
-    object?: 'FinetuneEvent';
-
-    param_count?: number;
-
-    token_count?: number;
-
-    type?:
-      | 'job_pending'
-      | 'job_start'
-      | 'job_stopped'
-      | 'model_downloading'
-      | 'model_download_complete'
-      | 'training_data_downloading'
-      | 'training_data_download_complete'
-      | 'validation_data_downloading'
-      | 'validation_data_download_complete'
-      | 'wandb_init'
-      | 'training_start'
-      | 'checkpoint_save'
-      | 'billing_limit'
-      | 'epoch_complete'
-      | 'training_complete'
-      | 'model_compressing'
-      | 'model_compression_complete'
-      | 'model_uploading'
-      | 'model_upload_complete'
-      | 'job_complete'
-      | 'job_error'
-      | 'cancel_requested'
-      | 'job_restarted'
-      | 'refund'
-      | 'warning';
-
-    wandb_url?: string;
-  }
-}
+export type FineTuneListResponse = Array<FineTunes>;
 
 export interface FineTuneDownloadResponse {
   id?: string;
@@ -597,10 +253,8 @@ export interface FineTuneDownloadParams {
 }
 
 export namespace FineTunes {
-  export import FineTuneCreateResponse = FineTunesAPI.FineTuneCreateResponse;
-  export import FineTuneRetrieveResponse = FineTunesAPI.FineTuneRetrieveResponse;
+  export import FineTunes = FineTunesAPI.FineTunes;
   export import FineTuneListResponse = FineTunesAPI.FineTuneListResponse;
-  export import FineTuneCancelResponse = FineTunesAPI.FineTuneCancelResponse;
   export import FineTuneDownloadResponse = FineTunesAPI.FineTuneDownloadResponse;
   export import FineTuneListEventsResponse = FineTunesAPI.FineTuneListEventsResponse;
   export import FineTuneCreateParams = FineTunesAPI.FineTuneCreateParams;

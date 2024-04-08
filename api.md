@@ -51,19 +51,17 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/fine-tunes.ts">FineTuneCreateResponse</a></code>
-- <code><a href="./src/resources/fine-tunes.ts">FineTuneRetrieveResponse</a></code>
+- <code><a href="./src/resources/fine-tunes.ts">FineTunes</a></code>
 - <code><a href="./src/resources/fine-tunes.ts">FineTuneListResponse</a></code>
-- <code><a href="./src/resources/fine-tunes.ts">FineTuneCancelResponse</a></code>
 - <code><a href="./src/resources/fine-tunes.ts">FineTuneDownloadResponse</a></code>
 - <code><a href="./src/resources/fine-tunes.ts">FineTuneListEventsResponse</a></code>
 
 Methods:
 
-- <code title="post /fine-tunes">client.fineTunes.<a href="./src/resources/fine-tunes.ts">create</a>({ ...params }) -> FineTuneCreateResponse</code>
-- <code title="get /fine-tunes/{id}">client.fineTunes.<a href="./src/resources/fine-tunes.ts">retrieve</a>(id) -> FineTuneRetrieveResponse</code>
+- <code title="post /fine-tunes">client.fineTunes.<a href="./src/resources/fine-tunes.ts">create</a>({ ...params }) -> FineTunes</code>
+- <code title="get /fine-tunes/{id}">client.fineTunes.<a href="./src/resources/fine-tunes.ts">retrieve</a>(id) -> FineTunes</code>
 - <code title="get /fine-tunes">client.fineTunes.<a href="./src/resources/fine-tunes.ts">list</a>() -> FineTuneListResponse</code>
-- <code title="post /fine-tunes/{id}/cancel">client.fineTunes.<a href="./src/resources/fine-tunes.ts">cancel</a>(id) -> FineTuneCancelResponse</code>
+- <code title="post /fine-tunes/{id}/cancel">client.fineTunes.<a href="./src/resources/fine-tunes.ts">cancel</a>(id) -> FineTunes</code>
 - <code title="get /fine-tunes/download">client.fineTunes.<a href="./src/resources/fine-tunes.ts">download</a>({ ...params }) -> FineTuneDownloadResponse</code>
 - <code title="get /fine-tunes/{id}/events">client.fineTunes.<a href="./src/resources/fine-tunes.ts">listEvents</a>(id) -> FineTuneListEventsResponse</code>
 

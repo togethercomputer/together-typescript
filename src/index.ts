@@ -200,10 +200,7 @@ export namespace TogetherAI {
   export import FileDeleteResponse = API.FileDeleteResponse;
 
   export import FineTunes = API.FineTunes;
-  export import FineTuneCreateResponse = API.FineTuneCreateResponse;
-  export import FineTuneRetrieveResponse = API.FineTuneRetrieveResponse;
   export import FineTuneListResponse = API.FineTuneListResponse;
-  export import FineTuneCancelResponse = API.FineTuneCancelResponse;
   export import FineTuneDownloadResponse = API.FineTuneDownloadResponse;
   export import FineTuneListEventsResponse = API.FineTuneListEventsResponse;
   export import FineTuneCreateParams = API.FineTuneCreateParams;
