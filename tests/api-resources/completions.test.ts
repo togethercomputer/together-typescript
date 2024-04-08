@@ -32,6 +32,7 @@ describe('resource completions', () => {
       max_tokens: 0,
       n: 1,
       repetition_penalty: 0,
+      safety_model: 'safety_model_name',
       stop: ['string', 'string', 'string'],
       stream: false,
       temperature: 0,

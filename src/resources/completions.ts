@@ -135,13 +135,18 @@ export interface CompletionCreateParamsBase {
   repetition_penalty?: number;
 
   /**
+   * The name of the safety model to use.
+   */
+  safety_model?: string;
+
+  /**
    * A list of string sequences that will truncate (stop) inference text output.
    */
   stop?: Array<string>;
 
   /**
-   * If set, tokens are returned as Server-Sent Events as they are available. Stream
-   * terminates with `data: [DONE]`
+   * If set, tokens are returned as Server-Sent Events as they are made available.
+   * Stream terminates with `data: [DONE]`
    */
   stream?: boolean;
 
@@ -170,16 +175,16 @@ export namespace CompletionCreateParams {
 
 export interface CompletionCreateParamsNonStreaming extends CompletionCreateParamsBase {
   /**
-   * If set, tokens are returned as Server-Sent Events as they are available. Stream
-   * terminates with `data: [DONE]`
+   * If set, tokens are returned as Server-Sent Events as they are made available.
+   * Stream terminates with `data: [DONE]`
    */
   stream?: false;
 }
 
 export interface CompletionCreateParamsStreaming extends CompletionCreateParamsBase {
   /**
-   * If set, tokens are returned as Server-Sent Events as they are available. Stream
-   * terminates with `data: [DONE]`
+   * If set, tokens are returned as Server-Sent Events as they are made available.
+   * Stream terminates with `data: [DONE]`
    */
   stream: true;
 }
