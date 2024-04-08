@@ -119,6 +119,7 @@ export class TogetherAI extends Core.APIClient {
   chat: API.Chat = new API.Chat(this);
   completions: API.Completions = new API.Completions(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
+  files: API.Files = new API.Files(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -189,6 +190,9 @@ export namespace TogetherAI {
   export import Embeddings = API.Embeddings;
   export import EmbeddingsResponse = API.EmbeddingsResponse;
   export import EmbeddingCreateParams = API.EmbeddingCreateParams;
+
+  export import Files = API.Files;
+  export import FileListResponse = API.FileListResponse;
 }
 
 export default TogetherAI;
