@@ -120,7 +120,7 @@ export class TogetherAI extends Core.APIClient {
   completions: API.Completions = new API.Completions(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
   files: API.Files = new API.Files(this);
-  fineTune: API.FineTune = new API.FineTune(this);
+  fineTune: API.FineTuneResource = new API.FineTuneResource(this);
   images: API.Images = new API.Images(this);
   models: API.Models = new API.Models(this);
 
@@ -199,8 +199,8 @@ export namespace TogetherAI {
   export import FileListResponse = API.FileListResponse;
   export import FileDeleteResponse = API.FileDeleteResponse;
 
+  export import FineTuneResource = API.FineTuneResource;
   export import FineTune = API.FineTune;
-  export import FineTunes = API.FineTunes;
   export import FineTuneListResponse = API.FineTuneListResponse;
   export import FineTuneDownloadResponse = API.FineTuneDownloadResponse;
   export import FineTuneListEventsResponse = API.FineTuneListEventsResponse;
