@@ -30,9 +30,9 @@ export class Completions extends APIResource {
 }
 
 export interface ChatCompletion {
-  id?: string;
+  id: string;
 
-  choices?: Array<ChatCompletion.Choice>;
+  choices: Array<ChatCompletion.Choice>;
 
   created?: number;
 
