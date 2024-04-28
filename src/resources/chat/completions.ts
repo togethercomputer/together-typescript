@@ -40,7 +40,7 @@ export interface ChatCompletion {
 
   object?: 'chat.completion';
 
-  usage?: Usage;
+  usage?: Usage | null;
 }
 
 export namespace ChatCompletion {
