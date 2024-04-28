@@ -18,16 +18,18 @@ export interface ImagesResponse {
 
   created?: number;
 
-  images?: Array<ImagesResponse.Image>;
+  data?: Array<ImagesResponse.Data>;
+
+  model?: string;
 
   object?: string;
 }
 
 export namespace ImagesResponse {
-  export interface Image {
-    metadata?: Record<string, unknown>;
+  export interface Data {
+    b64_json?: string;
 
-    url?: string;
+    index?: number;
   }
 }
 

@@ -3,6 +3,9 @@ import type { JestConfigWithTsJest } from 'ts-jest';
 const config: JestConfigWithTsJest = {
   preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'node',
+  transform: {
+    '^.+\\.(t|j)sx?$': ['@swc/jest', { sourceMaps: 'inline' }],
+  },
   moduleNameMapper: {
     '^together-ai$': '<rootDir>/src/index.ts',
     '^together-ai/_shims/auto/(.*)$': '<rootDir>/src/_shims/auto/$1-node',
@@ -14,6 +17,7 @@ const config: JestConfigWithTsJest = {
     '<rootDir>/deno/',
     '<rootDir>/deno_tests/',
   ],
+  testPathIgnorePatterns: ['scripts'],
 };
 
 export default config;
