@@ -114,11 +114,11 @@ export namespace ChatCompletionChunk {
 }
 
 export interface Usage {
-  completion_tokens?: number | null;
+  completion_tokens: number;
 
-  prompt_tokens?: number | null;
+  prompt_tokens: number;
 
-  total_tokens?: number | null;
+  total_tokens: number;
 }
 
 export type CompletionCreateParams = CompletionCreateParamsNonStreaming | CompletionCreateParamsStreaming;
