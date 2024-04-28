@@ -44,7 +44,7 @@ export interface CompletionResponse {
 
   object: 'text_completion';
 
-  usage: ChatCompletionsAPI.Usage | null;
+  usage: ChatCompletionsAPI.Usage;
 
   prompt?: Array<CompletionResponse.Prompt>;
 }
