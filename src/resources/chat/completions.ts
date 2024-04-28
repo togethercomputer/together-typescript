@@ -30,9 +30,9 @@ export class Completions extends APIResource {
 }
 
 export interface ChatCompletion {
-  id: string;
+  id?: string;
 
-  choices: Array<ChatCompletion.Choice>;
+  choices?: Array<ChatCompletion.Choice>;
 
   created?: number;
 
@@ -40,7 +40,7 @@ export interface ChatCompletion {
 
   object?: 'chat.completion';
 
-  usage?: Usage | null;
+  usage?: Usage;
 }
 
 export namespace ChatCompletion {
@@ -114,11 +114,11 @@ export namespace ChatCompletionChunk {
 }
 
 export interface Usage {
-  completion_tokens: number;
+  completion_tokens?: number;
 
-  prompt_tokens: number;
+  prompt_tokens?: number;
 
-  total_tokens: number;
+  total_tokens?: number;
 }
 
 export type CompletionCreateParams = CompletionCreateParamsNonStreaming | CompletionCreateParamsStreaming;
