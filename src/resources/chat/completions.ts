@@ -66,9 +66,9 @@ export namespace ChatCompletion {
     }
 
     export interface Message {
-      content?: string;
+      content: string;
 
-      role?: string;
+      role: string;
     }
   }
 }
