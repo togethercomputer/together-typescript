@@ -14,13 +14,13 @@ async function main() {
     n: 1,
   });
 
-  // @ts-ignore: TODO: Fix model
-  let image_data = image.data[0].b64_json;
-//{"id":"87b0286a4c997c82-EWR","model":"runwayml/stable-diffusion-v1-5","object":"list","data":[{"index":0,"b64_json":"/9j/4AA...
+  if (image.data && image.data[0] && image.data[0].b64_json) {
+    let image_data = image.data[0].b64_json;
 
-  //Write the image to a file
-  const buffer = Buffer.from(image_data, 'base64');
-  fs.writeFileSync('image.jpg', buffer, { encoding: 'base64' });
+    //Write the image to a file
+    const buffer = Buffer.from(image_data, 'base64');
+    fs.writeFileSync('image.jpg', buffer, { encoding: 'base64' });
+  }
 }
 
 main();
