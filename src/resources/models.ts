@@ -13,39 +13,43 @@ export class Models extends APIResource {
   }
 }
 
-export interface ModelListResponse {
-  id?: string;
-
-  context_length?: number;
-
-  created?: number;
-
-  display_name?: string;
-
-  license?: string;
-
-  link?: string;
-
-  object?: string;
-
-  organization?: string;
-
-  pricing?: ModelListResponse.Pricing;
-
-  type?: string;
-}
+export type ModelListResponse = Array<ModelListResponse.ModelListResponseItem>;
 
 export namespace ModelListResponse {
-  export interface Pricing {
-    base?: number;
+  export interface ModelListResponseItem {
+    id: string;
 
-    finetune?: number;
+    created: number;
 
-    hourly?: number;
+    object: string;
 
-    input?: number;
+    type: string;
 
-    output?: number;
+    context_length?: number;
+
+    display_name?: string;
+
+    license?: string;
+
+    link?: string;
+
+    organization?: string;
+
+    pricing?: ModelListResponseItem.Pricing;
+  }
+
+  export namespace ModelListResponseItem {
+    export interface Pricing {
+      base: number;
+
+      finetune: number;
+
+      hourly: number;
+
+      input: number;
+
+      output: number;
+    }
   }
 }
 

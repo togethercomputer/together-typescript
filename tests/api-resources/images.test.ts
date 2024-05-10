@@ -10,7 +10,10 @@ const togetherAI = new TogetherAI({
 
 describe('resource images', () => {
   test('create: only required params', async () => {
-    const responsePromise = togetherAI.images.create({ model: 'string', prompt: 'string' });
+    const responsePromise = togetherAI.images.create({
+      model: 'stabilityai/stable-diffusion-xl-base-1.0',
+      prompt: 'cat floating in space, cinematic',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,8 +25,8 @@ describe('resource images', () => {
 
   test('create: required and optional params', async () => {
     const response = await togetherAI.images.create({
-      model: 'string',
-      prompt: 'string',
+      model: 'stabilityai/stable-diffusion-xl-base-1.0',
+      prompt: 'cat floating in space, cinematic',
       height: 0,
       n: 0,
       negative_prompt: 'string',

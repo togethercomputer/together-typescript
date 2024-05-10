@@ -23,11 +23,11 @@ export interface EmbeddingsResponse {
 
 export namespace EmbeddingsResponse {
   export interface Data {
-    embedding?: Array<number>;
+    embedding: Array<number>;
 
-    index?: number;
+    index: number;
 
-    object?: 'embedding';
+    object: 'embedding';
   }
 }
 
