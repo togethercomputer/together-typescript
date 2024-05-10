@@ -44,7 +44,7 @@ export interface CompletionResponse {
 
   object: 'text_completion';
 
-  usage: ChatCompletionsAPI.Usage;
+  usage: ChatCompletionsAPI.Usage | null;
 
   prompt?: Array<CompletionResponse.Prompt>;
 }
@@ -113,6 +113,19 @@ export interface CompletionCreateParamsBase {
   echo?: boolean;
 
   /**
+   * The `frequency_penalty` parameter is a number between -2.0 and 2.0 where a
+   * positive value will decrease the likelihood of repeating tokens that were
+   * mentioned prior.
+   */
+  frequency_penalty?: number;
+
+  /**
+   * The `logit_bias` parameter allows us to adjust the likelihood of specific tokens
+   * appearing in the generated output.
+   */
+  logit_bias?: unknown;
+
+  /**
    * Determines the number of most likely tokens to return at each token position log
    * probabilities to return
    */
@@ -124,9 +137,21 @@ export interface CompletionCreateParamsBase {
   max_tokens?: number;
 
   /**
+   * The `min_p` parameter is a number between 0 and 1 and an alternative to
+   * `temperature`.
+   */
+  min_p?: number;
+
+  /**
    * Number of generations to return
    */
   n?: number;
+
+  /**
+   * The `presence_penalty` parameter is a number between -2.0 and 2.0 where a
+   * positive value will increase the likelihood of a model talking about new topics.
+   */
+  presence_penalty?: number;
 
   /**
    * A number that controls the diversity of generated text by reducing the

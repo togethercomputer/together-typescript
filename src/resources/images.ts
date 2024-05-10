@@ -14,20 +14,20 @@ export class Images extends APIResource {
 }
 
 export interface ImagesResponse {
-  id?: string;
+  id: string;
 
-  created?: number;
+  data: Array<ImagesResponse.Data>;
 
-  images?: Array<ImagesResponse.Image>;
+  model: string;
 
-  object?: string;
+  object: string;
 }
 
 export namespace ImagesResponse {
-  export interface Image {
-    metadata?: Record<string, unknown>;
+  export interface Data {
+    b64_json: string;
 
-    url?: string;
+    index: number;
   }
 }
 

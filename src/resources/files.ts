@@ -36,78 +36,48 @@ export class Files extends APIResource {
 }
 
 export interface FileRetrieveResponse {
-  id?: string;
+  id: string;
 
-  context_length?: number;
+  bytes: number;
 
-  created?: number;
+  created_at: number;
 
-  display_name?: string;
+  filename: string;
 
-  license?: string;
+  FileType: string;
 
-  link?: string;
+  LineCount: number;
 
-  object?: string;
+  object: string;
 
-  organization?: string;
+  Processed: boolean;
 
-  pricing?: FileRetrieveResponse.Pricing;
-
-  type?: string;
+  purpose: string;
 }
 
-export namespace FileRetrieveResponse {
-  export interface Pricing {
-    base?: number;
-
-    finetune?: number;
-
-    hourly?: number;
-
-    input?: number;
-
-    output?: number;
-  }
+export interface FileListResponse {
+  data: Array<FileListResponse.Data>;
 }
-
-export type FileListResponse = Array<FileListResponse.FileListResponseItem>;
 
 export namespace FileListResponse {
-  export interface FileListResponseItem {
-    id?: string;
+  export interface Data {
+    id: string;
 
-    context_length?: number;
+    bytes: number;
 
-    created?: number;
+    created_at: number;
 
-    display_name?: string;
+    filename: string;
 
-    license?: string;
+    FileType: string;
 
-    link?: string;
+    LineCount: number;
 
-    object?: string;
+    object: string;
 
-    organization?: string;
+    Processed: boolean;
 
-    pricing?: FileListResponseItem.Pricing;
-
-    type?: string;
-  }
-
-  export namespace FileListResponseItem {
-    export interface Pricing {
-      base?: number;
-
-      finetune?: number;
-
-      hourly?: number;
-
-      input?: number;
-
-      output?: number;
-    }
+    purpose: string;
   }
 }
 

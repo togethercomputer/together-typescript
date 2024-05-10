@@ -52,7 +52,18 @@ export class FineTuneResource extends APIResource {
 }
 
 export interface FineTune {
-  id?: string;
+  id: string;
+
+  status:
+    | 'pending'
+    | 'queued'
+    | 'running'
+    | 'compressing'
+    | 'uploading'
+    | 'cancel_requested'
+    | 'cancelled'
+    | 'error'
+    | 'completed';
 
   batch_size?: number;
 
@@ -78,26 +89,17 @@ export interface FineTune {
 
   model?: string;
 
+  model_output_name?: string;
+
+  model_output_path?: string;
+
   n_checkpoints?: number;
 
   n_epochs?: number;
 
-  output_name?: string;
-
   param_count?: number;
 
   queue_depth?: number;
-
-  status?:
-    | 'pending'
-    | 'queued'
-    | 'running'
-    | 'compressing'
-    | 'uploading'
-    | 'cancel_requested'
-    | 'cancelled'
-    | 'error'
-    | 'completed';
 
   token_count?: number;
 
@@ -105,9 +107,9 @@ export interface FineTune {
 
   training_file?: string;
 
-  training_file_num_lines?: number;
+  TrainingFileNumLines?: number;
 
-  training_file_size?: number;
+  TrainingFileSize?: number;
 
   updated_at?: string;
 
@@ -165,7 +167,9 @@ export namespace FineTune {
   }
 }
 
-export type FineTuneListResponse = Array<FineTune>;
+export interface FineTuneListResponse {
+  data: Array<FineTune>;
+}
 
 export interface FineTuneDownloadResponse {
   id?: string;
@@ -179,15 +183,39 @@ export interface FineTuneDownloadResponse {
   size?: number;
 }
 
-export type FineTuneListEventsResponse = Array<FineTuneListEventsResponse.FineTuneListEventsResponseItem>;
+export interface FineTuneListEventsResponse {
+  data: Array<FineTuneListEventsResponse.Data>;
+}
 
 export namespace FineTuneListEventsResponse {
-  export interface FineTuneListEventsResponseItem {
-    details?: Record<string, unknown>;
+  export interface Data {
+    checkpoint_path: string;
 
-    event?: string;
+    created_at: string;
 
-    timestamp?: number;
+    hash: string;
+
+    message: string;
+
+    model_path: string;
+
+    object: 'fine-tune-event';
+
+    param_count: number;
+
+    step: number;
+
+    token_count: number;
+
+    total_steps: number;
+
+    training_offset: number;
+
+    type: string;
+
+    wandb_url: string;
+
+    level?: string;
   }
 }
 

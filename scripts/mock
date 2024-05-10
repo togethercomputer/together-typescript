@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-if [ -z "$1" ]; then
+set -e
+
+cd "$(dirname "$0")/.."
+
+if [[ -n "$1" && "$1" != '--'* ]]; then
   URL="$1"
   shift
 else
@@ -13,11 +17,14 @@ if [ -z "$URL" ]; then
   exit 1
 fi
 
+echo "==> Starting mock server with URL ${URL}"
+
 # Run prism mock on the given spec
 if [ "$1" == "--daemon" ]; then
-  npm exec prism mock "$URL" &> .prism.log &
+  npm exec --package=@stoplight/prism-cli@~5.8 -- prism mock "$URL" &> .prism.log &
 
   # Wait for server to come online
+  echo -n "Waiting for server"
   while ! grep -q "✖  fatal\|Prism is listening" ".prism.log" ; do
     echo -n "."
     sleep 0.1
@@ -30,5 +37,5 @@ if [ "$1" == "--daemon" ]; then
 
   echo
 else
-  npm exec prism mock "$URL"
+  npm exec  --package=@stoplight/prism-cli@~5.8 -- prism mock "$URL"
 fi
