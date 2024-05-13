@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'together-ai/core';
-import { APIResource } from 'together-ai/resource';
-import * as ModelsAPI from 'together-ai/resources/models';
+import * as Core from '../core';
+import { APIResource } from '../resource';
+import * as ModelsAPI from './models';
 
 export class Models extends APIResource {
   /**

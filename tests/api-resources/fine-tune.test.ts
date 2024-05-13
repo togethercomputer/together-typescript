@@ -87,25 +87,6 @@ describe('resource fineTune', () => {
     );
   });
 
-  test('download: only required params', async () => {
-    const responsePromise = togetherAI.fineTune.download({ ft_id: 'string' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('download: required and optional params', async () => {
-    const response = await togetherAI.fineTune.download({
-      ft_id: 'string',
-      checkpoint_step: 0,
-      output: 'string',
-    });
-  });
-
   test('listEvents', async () => {
     const responsePromise = togetherAI.fineTune.listEvents('string');
     const rawResponse = await responsePromise.asResponse();

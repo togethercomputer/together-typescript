@@ -13,10 +13,8 @@ export { FileRetrieveResponse, FileListResponse, FileDeleteResponse, Files } fro
 export {
   FineTune,
   FineTuneListResponse,
-  FineTuneDownloadResponse,
   FineTuneListEventsResponse,
   FineTuneCreateParams,
-  FineTuneDownloadParams,
   FineTuneResource,
 } from './fine-tune';
 export { ImagesResponse, ImageCreateParams, Images } from './images';

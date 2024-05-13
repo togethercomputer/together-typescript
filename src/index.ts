@@ -4,7 +4,7 @@ import * as Core from './core';
 import * as Errors from './error';
 import { type Agent } from './_shims/index';
 import * as Uploads from './uploads';
-import * as API from 'together-ai/resources/index';
+import * as API from './resources/index';
 
 export interface ClientOptions {
   /**
@@ -201,10 +201,8 @@ export namespace TogetherAI {
   export import FineTuneResource = API.FineTuneResource;
   export import FineTune = API.FineTune;
   export import FineTuneListResponse = API.FineTuneListResponse;
-  export import FineTuneDownloadResponse = API.FineTuneDownloadResponse;
   export import FineTuneListEventsResponse = API.FineTuneListEventsResponse;
   export import FineTuneCreateParams = API.FineTuneCreateParams;
-  export import FineTuneDownloadParams = API.FineTuneDownloadParams;
 
   export import Images = API.Images;
   export import ImagesResponse = API.ImagesResponse;
