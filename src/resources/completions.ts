@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'together-ai/core';
-import { APIPromise } from 'together-ai/core';
-import { APIResource } from 'together-ai/resource';
-import * as CompletionsAPI from 'together-ai/resources/completions';
-import * as ChatCompletionsAPI from 'together-ai/resources/chat/completions';
-import { Stream } from 'together-ai/streaming';
+import * as Core from '../core';
+import { APIPromise } from '../core';
+import { APIResource } from '../resource';
+import * as CompletionsAPI from './completions';
+import * as ChatCompletionsAPI from './chat/completions';
+import { Stream } from '../streaming';
 
 export class Completions extends APIResource {
   /**

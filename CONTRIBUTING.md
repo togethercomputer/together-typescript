@@ -50,7 +50,7 @@ Alternatively, to link a local copy of the repo:
 ```bash
 # Clone
 git clone https://www.github.com/stainless-sdks/TogetherAI-node
-cd together-ai-node
+cd TogetherAI-node
 
 # With yarn
 yarn link
