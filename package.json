@@ -1,8 +1,8 @@
 {
-  "name": "together-ai",
+  "name": "together",
   "version": "0.0.1-alpha.0",
-  "description": "The official TypeScript library for the Together AI API",
-  "author": "Together AI <dev-feedback@TogetherAI.com>",
+  "description": "The official TypeScript library for the Together API",
+  "author": "Together <dev-feedback@TogetherAI.com>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",
@@ -61,8 +61,8 @@
     "./shims/web.mjs"
   ],
   "imports": {
-    "together-ai": ".",
-    "together-ai/*": "./src/*"
+    "together": ".",
+    "together/*": "./src/*"
   },
   "exports": {
     "./_shims/auto/*": {

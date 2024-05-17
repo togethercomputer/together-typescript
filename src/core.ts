@@ -1,7 +1,7 @@
 import { VERSION } from './version';
 import { Stream } from './streaming';
 import {
-  TogetherAIError,
+  TogetherError,
   APIError,
   APIConnectionError,
   APIConnectionTimeoutError,
@@ -111,9 +111,9 @@ export class APIPromise<T> extends Promise<T> {
    *
    * 👋 Getting the wrong TypeScript type for `Response`?
    * Try setting `"moduleResolution": "NodeNext"` if you can,
-   * or add one of these imports before your first `import … from 'together-ai'`:
-   * - `import 'together-ai/shims/node'` (if you're running on Node)
-   * - `import 'together-ai/shims/web'` (otherwise)
+   * or add one of these imports before your first `import … from 'together'`:
+   * - `import 'together/shims/node'` (if you're running on Node)
+   * - `import 'together/shims/web'` (otherwise)
    */
   asResponse(): Promise<Response> {
     return this.responsePromise.then((p) => p.response);
@@ -127,9 +127,9 @@ export class APIPromise<T> extends Promise<T> {
    *
    * 👋 Getting the wrong TypeScript type for `Response`?
    * Try setting `"moduleResolution": "NodeNext"` if you can,
-   * or add one of these imports before your first `import … from 'together-ai'`:
-   * - `import 'together-ai/shims/node'` (if you're running on Node)
-   * - `import 'together-ai/shims/web'` (otherwise)
+   * or add one of these imports before your first `import … from 'together'`:
+   * - `import 'together/shims/node'` (if you're running on Node)
+   * - `import 'together/shims/web'` (otherwise)
    */
   async withResponse(): Promise<{ data: T; response: Response }> {
     const [data, response] = await Promise.all([this.parse(), this.asResponse()]);
@@ -172,7 +172,7 @@ export abstract class APIClient {
 
   constructor({
     baseURL,
-    maxRetries = 2,
+    maxRetries = 5,
     timeout = 60000, // 1 minute
     httpAgent,
     fetch: overridenFetch,
@@ -486,7 +486,7 @@ export abstract class APIClient {
         if (value === null) {
           return `${encodeURIComponent(key)}=`;
         }
-        throw new TogetherAIError(
+        throw new TogetherError(
           `Cannot stringify type ${typeof value}; Expected string, number, boolean, or null. If you need to pass nested query parameters, you can manually encode them, e.g. { query: { 'foo[key1]': value1, 'foo[key2]': value2 } }, and please open a GitHub issue requesting better support for your use case.`,
         );
       })
@@ -580,8 +580,8 @@ export abstract class APIClient {
   }
 
   private calculateDefaultRetryTimeoutMillis(retriesRemaining: number, maxRetries: number): number {
-    const initialRetryDelay = 0.5;
-    const maxRetryDelay = 8.0;
+    const initialRetryDelay = 1.0;
+    const maxRetryDelay = 10.0;
 
     const numRetries = maxRetries - retriesRemaining;
 
@@ -632,7 +632,7 @@ export abstract class AbstractPage<Item> implements AsyncIterable<Item> {
   async getNextPage(): Promise<this> {
     const nextInfo = this.nextPageInfo();
     if (!nextInfo) {
-      throw new TogetherAIError(
+      throw new TogetherError(
         'No next page expected; please check `.hasNextPage()` before calling `.getNextPage()`.',
       );
     }
@@ -965,10 +965,10 @@ export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve
 
 const validatePositiveInteger = (name: string, n: unknown): number => {
   if (typeof n !== 'number' || !Number.isInteger(n)) {
-    throw new TogetherAIError(`${name} must be an integer`);
+    throw new TogetherError(`${name} must be an integer`);
   }
   if (n < 0) {
-    throw new TogetherAIError(`${name} must be a positive integer`);
+    throw new TogetherError(`${name} must be a positive integer`);
   }
   return n;
 };
@@ -979,7 +979,7 @@ export const castToError = (err: any): Error => {
 };
 
 export const ensurePresent = <T>(value: T | null | undefined): T => {
-  if (value == null) throw new TogetherAIError(`Expected a value to be given but received ${value} instead.`);
+  if (value == null) throw new TogetherError(`Expected a value to be given but received ${value} instead.`);
   return value;
 };
 
@@ -1004,14 +1004,14 @@ export const coerceInteger = (value: unknown): number => {
   if (typeof value === 'number') return Math.round(value);
   if (typeof value === 'string') return parseInt(value, 10);
 
-  throw new TogetherAIError(`Could not coerce ${value} (type: ${typeof value}) into a number`);
+  throw new TogetherError(`Could not coerce ${value} (type: ${typeof value}) into a number`);
 };
 
 export const coerceFloat = (value: unknown): number => {
   if (typeof value === 'number') return value;
   if (typeof value === 'string') return parseFloat(value);
 
-  throw new TogetherAIError(`Could not coerce ${value} (type: ${typeof value}) into a number`);
+  throw new TogetherError(`Could not coerce ${value} (type: ${typeof value}) into a number`);
 };
 
 export const coerceBoolean = (value: unknown): boolean => {
@@ -1077,7 +1077,7 @@ function applyHeadersMut(targetHeaders: Headers, newHeaders: Headers): void {
 
 export function debug(action: string, ...args: any[]) {
   if (typeof process !== 'undefined' && process?.env?.['DEBUG'] === 'true') {
-    console.log(`TogetherAI:DEBUG:${action}`, ...args);
+    console.log(`Together:DEBUG:${action}`, ...args);
   }
 }
 
@@ -1154,7 +1154,7 @@ export const toBase64 = (str: string | null | undefined): string => {
     return btoa(str);
   }
 
-  throw new TogetherAIError('Cannot generate b64 string; Expected `Buffer` or `btoa` to be defined');
+  throw new TogetherError('Cannot generate b64 string; Expected `Buffer` or `btoa` to be defined');
 };
 
 export function isObj(obj: unknown): obj is Record<string, unknown> {

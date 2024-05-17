@@ -17,6 +17,9 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/completions.ts">CompletionResponse</a></code>
+- <code><a href="./src/resources/completions.ts">LogProbs</a></code>
+- <code><a href="./src/resources/completions.ts">ToolChoice</a></code>
+- <code><a href="./src/resources/completions.ts">Tools</a></code>
 
 Methods:
 
@@ -36,6 +39,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/files.ts">FileObject</a></code>
 - <code><a href="./src/resources/files.ts">FileRetrieveResponse</a></code>
 - <code><a href="./src/resources/files.ts">FileListResponse</a></code>
 - <code><a href="./src/resources/files.ts">FileDeleteResponse</a></code>
@@ -52,8 +56,9 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/fine-tune.ts">FineTune</a></code>
+- <code><a href="./src/resources/fine-tune.ts">FineTuneEvent</a></code>
 - <code><a href="./src/resources/fine-tune.ts">FineTuneListResponse</a></code>
-- <code><a href="./src/resources/fine-tune.ts">FineTuneListEventsResponse</a></code>
+- <code><a href="./src/resources/fine-tune.ts">FineTuneDownloadResponse</a></code>
 
 Methods:
 
@@ -61,7 +66,8 @@ Methods:
 - <code title="get /fine-tunes/{id}">client.fineTune.<a href="./src/resources/fine-tune.ts">retrieve</a>(id) -> FineTune</code>
 - <code title="get /fine-tunes">client.fineTune.<a href="./src/resources/fine-tune.ts">list</a>() -> FineTuneListResponse</code>
 - <code title="post /fine-tunes/{id}/cancel">client.fineTune.<a href="./src/resources/fine-tune.ts">cancel</a>(id) -> FineTune</code>
-- <code title="get /fine-tunes/{id}/events">client.fineTune.<a href="./src/resources/fine-tune.ts">listEvents</a>(id) -> FineTuneListEventsResponse</code>
+- <code title="get /finetune/download">client.fineTune.<a href="./src/resources/fine-tune.ts">download</a>({ ...params }) -> FineTuneDownloadResponse</code>
+- <code title="get /fine-tunes/{id}/events">client.fineTune.<a href="./src/resources/fine-tune.ts">listEvents</a>(id) -> FineTuneEvent</code>
 
 # Images
 

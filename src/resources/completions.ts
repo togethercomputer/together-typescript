@@ -53,43 +53,58 @@ export namespace CompletionResponse {
   export interface Choice {
     finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls' | null;
 
-    logprobs?: Choice.Logprobs | null;
+    logprobs?: CompletionsAPI.LogProbs | null;
 
     text?: string;
-  }
-
-  export namespace Choice {
-    export interface Logprobs {
-      /**
-       * List of token log probabilities
-       */
-      token_logprobs?: Array<number>;
-
-      /**
-       * List of token strings
-       */
-      tokens?: Array<string>;
-    }
   }
 
   export interface Prompt {
-    logprobs?: Prompt.Logprobs;
+    logprobs?: CompletionsAPI.LogProbs;
 
     text?: string;
   }
+}
 
-  export namespace Prompt {
-    export interface Logprobs {
-      /**
-       * List of token log probabilities
-       */
-      token_logprobs?: Array<number>;
+export interface LogProbs {
+  /**
+   * List of token log probabilities
+   */
+  token_logprobs?: Array<number>;
 
-      /**
-       * List of token strings
-       */
-      tokens?: Array<string>;
-    }
+  /**
+   * List of token strings
+   */
+  tokens?: Array<string>;
+}
+
+export interface ToolChoice {
+  function?: ToolChoice.Function;
+
+  type?: string;
+}
+
+export namespace ToolChoice {
+  export interface Function {
+    name?: string;
+  }
+}
+
+export interface Tools {
+  function?: Tools.Function;
+
+  type?: string;
+}
+
+export namespace Tools {
+  export interface Function {
+    description?: string;
+
+    name?: string;
+
+    /**
+     * A map of parameter names to their values.
+     */
+    parameters?: Record<string, unknown>;
   }
 }
 
@@ -123,7 +138,7 @@ export interface CompletionCreateParamsBase {
    * The `logit_bias` parameter allows us to adjust the likelihood of specific tokens
    * appearing in the generated output.
    */
-  logit_bias?: unknown;
+  logit_bias?: Record<string, string>;
 
   /**
    * Determines the number of most likely tokens to return at each token position log
@@ -216,6 +231,9 @@ export interface CompletionCreateParamsStreaming extends CompletionCreateParamsB
 
 export namespace Completions {
   export import CompletionResponse = CompletionsAPI.CompletionResponse;
+  export import LogProbs = CompletionsAPI.LogProbs;
+  export import ToolChoice = CompletionsAPI.ToolChoice;
+  export import Tools = CompletionsAPI.Tools;
   export import CompletionCreateParams = CompletionsAPI.CompletionCreateParams;
   export import CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming;
   export import CompletionCreateParamsStreaming = CompletionsAPI.CompletionCreateParamsStreaming;

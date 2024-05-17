@@ -1,16 +1,16 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import TogetherAI from 'together-ai';
+import Together from 'together';
 import { Response } from 'node-fetch';
 
-const togetherAI = new TogetherAI({
+const together = new Together({
   accessToken: 'My Access Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource completions', () => {
   test('create: only required params', async () => {
-    const responsePromise = togetherAI.completions.create({
+    const responsePromise = together.completions.create({
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
       prompt: '<s>[INST] What is the capital of France? [/INST]',
     });
@@ -24,12 +24,12 @@ describe('resource completions', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await togetherAI.completions.create({
+    const response = await together.completions.create({
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
       prompt: '<s>[INST] What is the capital of France? [/INST]',
       echo: true,
       frequency_penalty: 0,
-      logit_bias: { '105': 21.4, '1024': -10.5 },
+      logit_bias: { '105': 'string', '1024': 'string' },
       logprobs: 0,
       max_tokens: 0,
       min_p: 0,

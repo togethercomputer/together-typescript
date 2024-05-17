@@ -3,7 +3,8 @@
 import * as Core from '../../core';
 import { APIPromise } from '../../core';
 import { APIResource } from '../../resource';
-import * as CompletionsAPI from './completions';
+import * as ChatCompletionsAPI from './completions';
+import * as CompletionsAPI from '../completions';
 import { Stream } from '../../streaming';
 
 export class Completions extends APIResource {
@@ -47,24 +48,12 @@ export namespace ChatCompletion {
   export interface Choice {
     finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls' | null;
 
-    logprobs?: Choice.Logprobs | null;
+    logprobs?: CompletionsAPI.LogProbs | null;
 
     message?: Choice.Message;
   }
 
   export namespace Choice {
-    export interface Logprobs {
-      /**
-       * List of token log probabilities
-       */
-      token_logprobs?: Array<number>;
-
-      /**
-       * List of token strings
-       */
-      tokens?: Array<string>;
-    }
-
     export interface Message {
       content?: string;
 
@@ -151,7 +140,7 @@ export interface CompletionCreateParamsBase {
    * The `logit_bias` parameter allows us to adjust the likelihood of specific tokens
    * appearing in the generated output.
    */
-  logit_bias?: unknown;
+  logit_bias?: Record<string, string>;
 
   /**
    * Determines the number of most likely tokens to return at each token position log
@@ -216,12 +205,12 @@ export interface CompletionCreateParamsBase {
   /**
    * The choice of tool to use.
    */
-  tool_choice?: string | CompletionCreateParams.ToolChoice;
+  tool_choice?: string | CompletionsAPI.ToolChoice;
 
   /**
    * A list of tools to be used in the query.
    */
-  tools?: Array<CompletionCreateParams.Tool>;
+  tools?: Array<CompletionsAPI.Tools>;
 
   /**
    * The `top_k` parameter is used to limit the number of choices for the next
@@ -256,7 +245,7 @@ export namespace CompletionCreateParams {
     /**
      * The schema of the response format.
      */
-    schema?: unknown;
+    schema?: Record<string, string>;
 
     /**
      * The type of the response format.
@@ -264,39 +253,8 @@ export namespace CompletionCreateParams {
     type?: string;
   }
 
-  export interface ToolChoice {
-    function?: ToolChoice.Function;
-
-    type?: string;
-  }
-
-  export namespace ToolChoice {
-    export interface Function {
-      name?: string;
-    }
-  }
-
-  export interface Tool {
-    function?: Tool.Function;
-
-    type?: string;
-  }
-
-  export namespace Tool {
-    export interface Function {
-      description?: string;
-
-      name?: string;
-
-      /**
-       * A map of parameter names to their values.
-       */
-      parameters?: Record<string, unknown>;
-    }
-  }
-
-  export type CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming;
-  export type CompletionCreateParamsStreaming = CompletionsAPI.CompletionCreateParamsStreaming;
+  export type CompletionCreateParamsNonStreaming = ChatCompletionsAPI.CompletionCreateParamsNonStreaming;
+  export type CompletionCreateParamsStreaming = ChatCompletionsAPI.CompletionCreateParamsStreaming;
 }
 
 export interface CompletionCreateParamsNonStreaming extends CompletionCreateParamsBase {
@@ -316,10 +274,10 @@ export interface CompletionCreateParamsStreaming extends CompletionCreateParamsB
 }
 
 export namespace Completions {
-  export import ChatCompletion = CompletionsAPI.ChatCompletion;
-  export import ChatCompletionChunk = CompletionsAPI.ChatCompletionChunk;
-  export import Usage = CompletionsAPI.Usage;
-  export import CompletionCreateParams = CompletionsAPI.CompletionCreateParams;
-  export import CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming;
-  export import CompletionCreateParamsStreaming = CompletionsAPI.CompletionCreateParamsStreaming;
+  export import ChatCompletion = ChatCompletionsAPI.ChatCompletion;
+  export import ChatCompletionChunk = ChatCompletionsAPI.ChatCompletionChunk;
+  export import Usage = ChatCompletionsAPI.Usage;
+  export import CompletionCreateParams = ChatCompletionsAPI.CompletionCreateParams;
+  export import CompletionCreateParamsNonStreaming = ChatCompletionsAPI.CompletionCreateParamsNonStreaming;
+  export import CompletionCreateParamsStreaming = ChatCompletionsAPI.CompletionCreateParamsStreaming;
 }

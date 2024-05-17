@@ -1,16 +1,16 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import TogetherAI from 'together-ai';
+import Together from 'together';
 import { Response } from 'node-fetch';
 
-const togetherAI = new TogetherAI({
+const together = new Together({
   accessToken: 'My Access Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource files', () => {
   test('retrieve', async () => {
-    const responsePromise = togetherAI.files.retrieve('string');
+    const responsePromise = together.files.retrieve('string');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,13 +22,13 @@ describe('resource files', () => {
 
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(togetherAI.files.retrieve('string', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      TogetherAI.NotFoundError,
+    await expect(together.files.retrieve('string', { path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Together.NotFoundError,
     );
   });
 
   test('list', async () => {
-    const responsePromise = togetherAI.files.list();
+    const responsePromise = together.files.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -40,13 +40,13 @@ describe('resource files', () => {
 
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(togetherAI.files.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      TogetherAI.NotFoundError,
+    await expect(together.files.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Together.NotFoundError,
     );
   });
 
   test('delete', async () => {
-    const responsePromise = togetherAI.files.delete('string');
+    const responsePromise = together.files.delete('string');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -58,15 +58,15 @@ describe('resource files', () => {
 
   test('delete: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(togetherAI.files.delete('string', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      TogetherAI.NotFoundError,
+    await expect(together.files.delete('string', { path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Together.NotFoundError,
     );
   });
 
   test('content: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(togetherAI.files.content('string', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      TogetherAI.NotFoundError,
+    await expect(together.files.content('string', { path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Together.NotFoundError,
     );
   });
 });

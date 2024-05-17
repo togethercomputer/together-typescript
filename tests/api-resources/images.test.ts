@@ -1,16 +1,16 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import TogetherAI from 'together-ai';
+import Together from 'together';
 import { Response } from 'node-fetch';
 
-const togetherAI = new TogetherAI({
+const together = new Together({
   accessToken: 'My Access Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource images', () => {
   test('create: only required params', async () => {
-    const responsePromise = togetherAI.images.create({
+    const responsePromise = together.images.create({
       model: 'stabilityai/stable-diffusion-xl-base-1.0',
       prompt: 'cat floating in space, cinematic',
     });
@@ -24,7 +24,7 @@ describe('resource images', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await togetherAI.images.create({
+    const response = await together.images.create({
       model: 'stabilityai/stable-diffusion-xl-base-1.0',
       prompt: 'cat floating in space, cinematic',
       height: 0,

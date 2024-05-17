@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import type { TogetherAI } from './index';
+import type { Together } from './index';
 
 export class APIResource {
-  protected _client: TogetherAI;
+  protected _client: Together;
 
-  constructor(client: TogetherAI) {
+  constructor(client: Together) {
     this._client = client;
   }
 }

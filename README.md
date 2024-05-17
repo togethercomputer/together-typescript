@@ -1,17 +1,17 @@
-# Together AI Node API Library
+# Together Node API Library
 
-[![NPM version](https://img.shields.io/npm/v/together-ai.svg)](https://npmjs.org/package/together-ai)
+[![NPM version](https://img.shields.io/npm/v/together.svg)](https://npmjs.org/package/together)
 
-This library provides convenient access to the Together AI REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the Together REST API from server-side TypeScript or JavaScript.
 
-The REST API documentation can be found [on www.together.ai](https://www.together.ai/contact). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found [on docs.together.ai](https://docs.together.ai/). The full API of this library can be found in [api.md](api.md).
 
 It is generated with [Stainless](https://www.stainlessapi.com/).
 
 ## Installation
 
 ```sh
-npm install together-ai
+npm install together
 ```
 
 ## Usage
@@ -20,14 +20,14 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import TogetherAI from 'together-ai';
+import Together from 'together';
 
-const togetherAI = new TogetherAI({
-  accessToken: process.env['TOGETHER_AI_ACCESS_TOKEN'], // This is the default and can be omitted
+const together = new Together({
+  accessToken: process.env['TOGETHER_API_KEY'], // This is the default and can be omitted
 });
 
 async function main() {
-  const chatCompletion = await togetherAI.chat.completions.create({
+  const chatCompletion = await together.chat.completions.create({
     messages: [{ role: 'user', content: 'Say this is a test!' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
   });
@@ -43,11 +43,11 @@ main();
 We provide support for streaming responses using Server Sent Events (SSE).
 
 ```ts
-import TogetherAI from 'together-ai';
+import Together from 'together';
 
-const togetherAI = new TogetherAI();
+const together = new Together();
 
-const stream = await togetherAI.chat.completions.create({
+const stream = await together.chat.completions.create({
   messages: [{ role: 'user', content: 'Say this is a test' }],
   model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
   stream: true,
@@ -66,18 +66,18 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import TogetherAI from 'together-ai';
+import Together from 'together';
 
-const togetherAI = new TogetherAI({
-  accessToken: process.env['TOGETHER_AI_ACCESS_TOKEN'], // This is the default and can be omitted
+const together = new Together({
+  accessToken: process.env['TOGETHER_API_KEY'], // This is the default and can be omitted
 });
 
 async function main() {
-  const params: TogetherAI.Chat.CompletionCreateParams = {
+  const params: Together.Chat.CompletionCreateParams = {
     messages: [{ role: 'user', content: 'Say this is a test' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
   };
-  const chatCompletion: TogetherAI.Chat.ChatCompletion = await togetherAI.chat.completions.create(params);
+  const chatCompletion: Together.Chat.ChatCompletion = await together.chat.completions.create(params);
 }
 
 main();
@@ -94,13 +94,13 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const chatCompletion = await togetherAI.chat.completions
+  const chatCompletion = await together.chat.completions
     .create({
       messages: [{ role: 'user', content: 'Say this is a test' }],
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
     })
     .catch(async (err) => {
-      if (err instanceof TogetherAI.APIError) {
+      if (err instanceof Together.APIError) {
         console.log(err.status); // 400
         console.log(err.name); // BadRequestError
         console.log(err.headers); // {server: 'nginx', ...}
@@ -128,7 +128,7 @@ Error codes are as followed:
 
 ### Retries
 
-Certain errors will be automatically retried 2 times by default, with a short exponential backoff.
+Certain errors will be automatically retried 5 times by default, with a short exponential backoff.
 Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,
 429 Rate Limit, and >=500 Internal errors will all be retried by default.
 
@@ -137,12 +137,12 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const togetherAI = new TogetherAI({
+const together = new Together({
   maxRetries: 0, // default is 2
 });
 
 // Or, configure per-request:
-await togetherAI.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'mistralai/Mixtral-8x7B-Instruct-v0.1' }, {
+await together.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'mistralai/Mixtral-8x7B-Instruct-v0.1' }, {
   maxRetries: 5,
 });
 ```
@@ -154,12 +154,12 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const togetherAI = new TogetherAI({
+const together = new Together({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
 // Override per-request:
-await togetherAI.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'mistralai/Mixtral-8x7B-Instruct-v0.1' }, {
+await together.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'mistralai/Mixtral-8x7B-Instruct-v0.1' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -178,9 +178,9 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 
 <!-- prettier-ignore -->
 ```ts
-const togetherAI = new TogetherAI();
+const together = new Together();
 
-const response = await togetherAI.chat.completions
+const response = await together.chat.completions
   .create({
     messages: [{ role: 'user', content: 'Say this is a test' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
@@ -189,7 +189,7 @@ const response = await togetherAI.chat.completions
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: chatCompletion, response: raw } = await togetherAI.chat.completions
+const { data: chatCompletion, response: raw } = await together.chat.completions
   .create({
     messages: [{ role: 'user', content: 'Say this is a test' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
@@ -249,16 +249,16 @@ By default, this library uses `node-fetch` in Node, and expects a global `fetch`
 
 If you would prefer to use a global, web-standards-compliant `fetch` function even in a Node environment,
 (for example, if you are running Node with `--experimental-fetch` or using NextJS which polyfills with `undici`),
-add the following import before your first import `from "TogetherAI"`:
+add the following import before your first import `from "Together"`:
 
 ```ts
 // Tell TypeScript and the package to use the global web fetch instead of node-fetch.
 // Note, despite the name, this does not add any polyfills, but expects them to be provided if needed.
-import 'together-ai/shims/web';
-import TogetherAI from 'together-ai';
+import 'together/shims/web';
+import Together from 'together';
 ```
 
-To do the inverse, add `import "together-ai/shims/node"` (which does import polyfills).
+To do the inverse, add `import "together/shims/node"` (which does import polyfills).
 This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/togethercomputer/together-typescript/tree/main/src/_shims#readme)).
 
 ### Logging and middleware
@@ -268,9 +268,9 @@ which can be used to inspect or alter the `Request` or `Response` before/after e
 
 ```ts
 import { fetch } from 'undici'; // as one example
-import TogetherAI from 'together-ai';
+import Together from 'together';
 
-const client = new TogetherAI({
+const client = new Together({
   fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
     console.log('About to make a request', url, init);
     const response = await fetch(url, init);
@@ -295,12 +295,12 @@ import http from 'http';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // Configure the default for all requests:
-const togetherAI = new TogetherAI({
+const together = new Together({
   httpAgent: new HttpsProxyAgent(process.env.PROXY_URL),
 });
 
 // Override per-request:
-await togetherAI.chat.completions.create(
+await together.chat.completions.create(
   {
     messages: [{ role: 'user', content: 'Say this is a test' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
@@ -330,7 +330,7 @@ TypeScript >= 4.5 is supported.
 The following runtimes are supported:
 
 - Node.js 18 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
-- Deno v1.28.0 or higher, using `import TogetherAI from "npm:together-ai"`.
+- Deno v1.28.0 or higher, using `import Together from "npm:together"`.
 - Bun 1.0 or later.
 - Cloudflare Workers.
 - Vercel Edge Runtime.

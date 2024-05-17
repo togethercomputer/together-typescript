@@ -55,12 +55,12 @@ cd together-typescript
 # With yarn
 yarn link
 cd ../my-package
-yarn link together-ai
+yarn link together
 
 # With pnpm
 pnpm link --global
 cd ../my-package
-pnpm link -—global together-ai
+pnpm link -—global together
 ```
 
 ## Running tests

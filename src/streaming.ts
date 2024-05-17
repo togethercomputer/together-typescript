@@ -1,7 +1,7 @@
 import { ReadableStream, type Response } from './_shims/index';
-import { TogetherAIError } from './error';
+import { TogetherError } from './error';
 
-import { APIError } from 'together-ai/error';
+import { APIError } from 'together/error';
 
 type Bytes = string | ArrayBuffer | Uint8Array | Buffer | null | undefined;
 
@@ -189,7 +189,7 @@ export async function* _iterSSEMessages(
 ): AsyncGenerator<ServerSentEvent, void, unknown> {
   if (!response.body) {
     controller.abort();
-    throw new TogetherAIError(`Attempted to iterate over a response with no body`);
+    throw new TogetherError(`Attempted to iterate over a response with no body`);
   }
 
   const sseDecoder = new SSEDecoder();
@@ -404,7 +404,7 @@ class LineDecoder {
         return Buffer.from(bytes).toString();
       }
 
-      throw new TogetherAIError(
+      throw new TogetherError(
         `Unexpected: received non-Uint8Array (${bytes.constructor.name}) stream chunk in an environment with a global "Buffer" defined, which this library assumes to be Node. Please report this error.`,
       );
     }
@@ -416,14 +416,14 @@ class LineDecoder {
         return this.textDecoder.decode(bytes);
       }
 
-      throw new TogetherAIError(
+      throw new TogetherError(
         `Unexpected: received non-Uint8Array/ArrayBuffer (${
           (bytes as any).constructor.name
         }) in a web platform. Please report this error.`,
       );
     }
 
-    throw new TogetherAIError(
+    throw new TogetherError(
       `Unexpected: neither Buffer nor TextDecoder are available as globals. Please report this error.`,
     );
   }
