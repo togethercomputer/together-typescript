@@ -1,23 +1,24 @@
 #!/usr/bin/env -S npm run tsn -T
 
-import TogetherAI from 'together-ai';
+//An example to generate an image and save to a file
+
+import  Together from 'together';
 import fs from 'fs';
 
-const togetherAI = new TogetherAI();
+const together = new Together();
 
 async function main() {
-
   //Request the image generation
-  const image = await togetherAI.images.create({
+  const image = await together.images.create({
     model: 'runwayml/stable-diffusion-v1-5',
     prompt: 'space robots',
     n: 1,
   });
 
+  //Write the image to a file
   if (image.data && image.data[0] && image.data[0].b64_json) {
     let image_data = image.data[0].b64_json;
 
-    //Write the image to a file
     const buffer = Buffer.from(image_data, 'base64');
     fs.writeFileSync('image.jpg', buffer, { encoding: 'base64' });
   }

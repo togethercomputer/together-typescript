@@ -1,11 +1,11 @@
 #!/usr/bin/env -S npm run tsn -T
 
-import TogetherAI from 'together-ai';
+import  Together from 'together';
 
-const togetherAI = new TogetherAI();
+const together = new Together();
 
 async function main() {
-  const stream = await togetherAI.chat.completions.create({
+  const stream = await together.chat.completions.create({
     messages: [{ role: 'user', content: 'Say this is a test' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
     stream: true,
