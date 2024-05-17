@@ -184,7 +184,7 @@ export namespace Together {
   export import Chat = API.Chat;
 
   export import Completions = API.Completions;
-  export import CompletionResponse = API.CompletionResponse;
+  export import Completion = API.Completion;
   export import LogProbs = API.LogProbs;
   export import ToolChoice = API.ToolChoice;
   export import Tools = API.Tools;
@@ -193,7 +193,7 @@ export namespace Together {
   export import CompletionCreateParamsStreaming = API.CompletionCreateParamsStreaming;
 
   export import Embeddings = API.Embeddings;
-  export import EmbeddingsResponse = API.EmbeddingsResponse;
+  export import Embedding = API.Embedding;
   export import EmbeddingCreateParams = API.EmbeddingCreateParams;
 
   export import Files = API.Files;
@@ -211,7 +211,7 @@ export namespace Together {
   export import FineTuneDownloadParams = API.FineTuneDownloadParams;
 
   export import Images = API.Images;
-  export import ImagesResponse = API.ImagesResponse;
+  export import ImageFile = API.ImageFile;
   export import ImageCreateParams = API.ImageCreateParams;
 
   export import Models = API.Models;

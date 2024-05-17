@@ -41,7 +41,7 @@ export interface ChatCompletion {
 
   object?: 'chat.completion';
 
-  usage?: Usage | null;
+  usage?: ChatCompletionUsage | null;
 }
 
 export namespace ChatCompletion {
@@ -75,7 +75,7 @@ export interface ChatCompletionChunk {
 
   finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls' | null;
 
-  usage?: Usage | null;
+  usage?: ChatCompletionUsage | null;
 }
 
 export namespace ChatCompletionChunk {
@@ -102,7 +102,7 @@ export namespace ChatCompletionChunk {
   }
 }
 
-export interface Usage {
+export interface ChatCompletionUsage {
   completion_tokens: number;
 
   prompt_tokens: number;
@@ -276,7 +276,7 @@ export interface CompletionCreateParamsStreaming extends CompletionCreateParamsB
 export namespace Completions {
   export import ChatCompletion = ChatCompletionsAPI.ChatCompletion;
   export import ChatCompletionChunk = ChatCompletionsAPI.ChatCompletionChunk;
-  export import Usage = ChatCompletionsAPI.Usage;
+  export import ChatCompletionUsage = ChatCompletionsAPI.ChatCompletionUsage;
   export import CompletionCreateParams = ChatCompletionsAPI.CompletionCreateParams;
   export import CompletionCreateParamsNonStreaming = ChatCompletionsAPI.CompletionCreateParamsNonStreaming;
   export import CompletionCreateParamsStreaming = ChatCompletionsAPI.CompletionCreateParamsStreaming;

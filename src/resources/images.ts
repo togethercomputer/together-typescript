@@ -8,22 +8,22 @@ export class Images extends APIResource {
   /**
    * Generate images based on a given prompt using a specified model
    */
-  create(body: ImageCreateParams, options?: Core.RequestOptions): Core.APIPromise<ImagesResponse> {
+  create(body: ImageCreateParams, options?: Core.RequestOptions): Core.APIPromise<ImageFile> {
     return this._client.post('/images/generations', { body, ...options });
   }
 }
 
-export interface ImagesResponse {
+export interface ImageFile {
   id: string;
 
-  data: Array<ImagesResponse.Data>;
+  data: Array<ImageFile.Data>;
 
   model: string;
 
   object: string;
 }
 
-export namespace ImagesResponse {
+export namespace ImageFile {
   export interface Data {
     b64_json: string;
 
@@ -74,6 +74,6 @@ export interface ImageCreateParams {
 }
 
 export namespace Images {
-  export import ImagesResponse = ImagesAPI.ImagesResponse;
+  export import ImageFile = ImagesAPI.ImageFile;
   export import ImageCreateParams = ImagesAPI.ImageCreateParams;
 }
