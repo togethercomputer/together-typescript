@@ -2,7 +2,7 @@
 
 export { Chat } from './chat/chat';
 export {
-  CompletionResponse,
+  Completion,
   LogProbs,
   ToolChoice,
   Tools,
@@ -11,7 +11,7 @@ export {
   CompletionCreateParamsStreaming,
   Completions,
 } from './completions';
-export { EmbeddingsResponse, EmbeddingCreateParams, Embeddings } from './embeddings';
+export { Embedding, EmbeddingCreateParams, Embeddings } from './embeddings';
 export { FileObject, FileRetrieveResponse, FileListResponse, FileDeleteResponse, Files } from './files';
 export {
   FineTune,
@@ -22,5 +22,5 @@ export {
   FineTuneDownloadParams,
   FineTuneResource,
 } from './fine-tune';
-export { ImagesResponse, ImageCreateParams, Images } from './images';
+export { ImageFile, ImageCreateParams, Images } from './images';
 export { ModelListResponse, Models } from './models';

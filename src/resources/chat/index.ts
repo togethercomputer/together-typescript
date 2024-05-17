@@ -4,7 +4,7 @@ export { Chat } from './chat';
 export {
   ChatCompletion,
   ChatCompletionChunk,
-  Usage,
+  ChatCompletionUsage,
   CompletionCreateParams,
   CompletionCreateParamsNonStreaming,
   CompletionCreateParamsStreaming,

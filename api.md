@@ -6,7 +6,7 @@ Types:
 
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletion</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionChunk</a></code>
-- <code><a href="./src/resources/chat/completions.ts">Usage</a></code>
+- <code><a href="./src/resources/chat/completions.ts">ChatCompletionUsage</a></code>
 
 Methods:
 
@@ -16,24 +16,24 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/completions.ts">CompletionResponse</a></code>
+- <code><a href="./src/resources/completions.ts">Completion</a></code>
 - <code><a href="./src/resources/completions.ts">LogProbs</a></code>
 - <code><a href="./src/resources/completions.ts">ToolChoice</a></code>
 - <code><a href="./src/resources/completions.ts">Tools</a></code>
 
 Methods:
 
-- <code title="post /completions">client.completions.<a href="./src/resources/completions.ts">create</a>({ ...params }) -> CompletionResponse</code>
+- <code title="post /completions">client.completions.<a href="./src/resources/completions.ts">create</a>({ ...params }) -> Completion</code>
 
 # Embeddings
 
 Types:
 
-- <code><a href="./src/resources/embeddings.ts">EmbeddingsResponse</a></code>
+- <code><a href="./src/resources/embeddings.ts">Embedding</a></code>
 
 Methods:
 
-- <code title="post /embeddings">client.embeddings.<a href="./src/resources/embeddings.ts">create</a>({ ...params }) -> EmbeddingsResponse</code>
+- <code title="post /embeddings">client.embeddings.<a href="./src/resources/embeddings.ts">create</a>({ ...params }) -> Embedding</code>
 
 # Files
 
@@ -73,11 +73,11 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/images.ts">ImagesResponse</a></code>
+- <code><a href="./src/resources/images.ts">ImageFile</a></code>
 
 Methods:
 
-- <code title="post /images/generations">client.images.<a href="./src/resources/images.ts">create</a>({ ...params }) -> ImagesResponse</code>
+- <code title="post /images/generations">client.images.<a href="./src/resources/images.ts">create</a>({ ...params }) -> ImageFile</code>
 
 # Models
 

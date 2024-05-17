@@ -8,20 +8,20 @@ export class Embeddings extends APIResource {
   /**
    * Creates an embedding vector representing the input text
    */
-  create(body: EmbeddingCreateParams, options?: Core.RequestOptions): Core.APIPromise<EmbeddingsResponse> {
+  create(body: EmbeddingCreateParams, options?: Core.RequestOptions): Core.APIPromise<Embedding> {
     return this._client.post('/embeddings', { body, ...options });
   }
 }
 
-export interface EmbeddingsResponse {
-  data: Array<EmbeddingsResponse.Data>;
+export interface Embedding {
+  data: Array<Embedding.Data>;
 
   model: string;
 
   object: 'list';
 }
 
-export namespace EmbeddingsResponse {
+export namespace Embedding {
   export interface Data {
     embedding: Array<number>;
 
@@ -44,6 +44,6 @@ export interface EmbeddingCreateParams {
 }
 
 export namespace Embeddings {
-  export import EmbeddingsResponse = EmbeddingsAPI.EmbeddingsResponse;
+  export import Embedding = EmbeddingsAPI.Embedding;
   export import EmbeddingCreateParams = EmbeddingsAPI.EmbeddingCreateParams;
 }

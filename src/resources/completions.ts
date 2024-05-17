@@ -11,32 +11,29 @@ export class Completions extends APIResource {
   /**
    * Creates a completion for the provided prompt and parameters
    */
-  create(
-    body: CompletionCreateParamsNonStreaming,
-    options?: Core.RequestOptions,
-  ): APIPromise<CompletionResponse>;
+  create(body: CompletionCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<Completion>;
   create(
     body: CompletionCreateParamsStreaming,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<CompletionResponse>>;
+  ): APIPromise<Stream<Completion>>;
   create(
     body: CompletionCreateParamsBase,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<CompletionResponse> | CompletionResponse>;
+  ): APIPromise<Stream<Completion> | Completion>;
   create(
     body: CompletionCreateParams,
     options?: Core.RequestOptions,
-  ): APIPromise<CompletionResponse> | APIPromise<Stream<CompletionResponse>> {
+  ): APIPromise<Completion> | APIPromise<Stream<Completion>> {
     return this._client.post('/completions', { body, ...options, stream: body.stream ?? false }) as
-      | APIPromise<CompletionResponse>
-      | APIPromise<Stream<CompletionResponse>>;
+      | APIPromise<Completion>
+      | APIPromise<Stream<Completion>>;
   }
 }
 
-export interface CompletionResponse {
+export interface Completion {
   id: string;
 
-  choices: Array<CompletionResponse.Choice>;
+  choices: Array<Completion.Choice>;
 
   created: number;
 
@@ -44,12 +41,12 @@ export interface CompletionResponse {
 
   object: 'text_completion';
 
-  usage: ChatCompletionsAPI.Usage | null;
+  usage: ChatCompletionsAPI.ChatCompletionUsage | null;
 
-  prompt?: Array<CompletionResponse.Prompt>;
+  prompt?: Array<Completion.Prompt>;
 }
 
-export namespace CompletionResponse {
+export namespace Completion {
   export interface Choice {
     finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls' | null;
 
@@ -230,7 +227,7 @@ export interface CompletionCreateParamsStreaming extends CompletionCreateParamsB
 }
 
 export namespace Completions {
-  export import CompletionResponse = CompletionsAPI.CompletionResponse;
+  export import Completion = CompletionsAPI.Completion;
   export import LogProbs = CompletionsAPI.LogProbs;
   export import ToolChoice = CompletionsAPI.ToolChoice;
   export import Tools = CompletionsAPI.Tools;
