@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import TogetherAI from 'together-ai';
-import { APIUserAbortError } from 'together-ai';
-import { Headers } from 'together-ai/core';
+import Together from 'together';
+import { APIUserAbortError } from 'together';
+import { Headers } from 'together/core';
 import defaultFetch, { Response, type RequestInit, type RequestInfo } from 'node-fetch';
 
 describe('instantiate client', () => {
@@ -20,7 +20,7 @@ describe('instantiate client', () => {
   });
 
   describe('defaultHeaders', () => {
-    const client = new TogetherAI({
+    const client = new Together({
       baseURL: 'http://localhost:5000/',
       defaultHeaders: { 'X-My-Default-Header': '2' },
       accessToken: 'My Access Token',
@@ -52,7 +52,7 @@ describe('instantiate client', () => {
 
   describe('defaultQuery', () => {
     test('with null query params given', () => {
-      const client = new TogetherAI({
+      const client = new Together({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo' },
         accessToken: 'My Access Token',
@@ -61,7 +61,7 @@ describe('instantiate client', () => {
     });
 
     test('multiple default query params', () => {
-      const client = new TogetherAI({
+      const client = new Together({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo', hello: 'world' },
         accessToken: 'My Access Token',
@@ -70,7 +70,7 @@ describe('instantiate client', () => {
     });
 
     test('overriding with `undefined`', () => {
-      const client = new TogetherAI({
+      const client = new Together({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { hello: 'world' },
         accessToken: 'My Access Token',
@@ -80,7 +80,7 @@ describe('instantiate client', () => {
   });
 
   test('custom fetch', async () => {
-    const client = new TogetherAI({
+    const client = new Together({
       baseURL: 'http://localhost:5000/',
       accessToken: 'My Access Token',
       fetch: (url) => {
@@ -97,7 +97,7 @@ describe('instantiate client', () => {
   });
 
   test('custom signal', async () => {
-    const client = new TogetherAI({
+    const client = new Together({
       baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
       accessToken: 'My Access Token',
       fetch: (...args) => {
@@ -124,7 +124,7 @@ describe('instantiate client', () => {
 
   describe('baseUrl', () => {
     test('trailing slash', () => {
-      const client = new TogetherAI({
+      const client = new Together({
         baseURL: 'http://localhost:5000/custom/path/',
         accessToken: 'My Access Token',
       });
@@ -132,7 +132,7 @@ describe('instantiate client', () => {
     });
 
     test('no trailing slash', () => {
-      const client = new TogetherAI({
+      const client = new Together({
         baseURL: 'http://localhost:5000/custom/path',
         accessToken: 'My Access Token',
       });
@@ -140,59 +140,59 @@ describe('instantiate client', () => {
     });
 
     afterEach(() => {
-      process.env['TOGETHER_AI_BASE_URL'] = undefined;
+      process.env['TOGETHER_BASE_URL'] = undefined;
     });
 
     test('explicit option', () => {
-      const client = new TogetherAI({ baseURL: 'https://example.com', accessToken: 'My Access Token' });
+      const client = new Together({ baseURL: 'https://example.com', accessToken: 'My Access Token' });
       expect(client.baseURL).toEqual('https://example.com');
     });
 
     test('env variable', () => {
-      process.env['TOGETHER_AI_BASE_URL'] = 'https://example.com/from_env';
-      const client = new TogetherAI({ accessToken: 'My Access Token' });
+      process.env['TOGETHER_BASE_URL'] = 'https://example.com/from_env';
+      const client = new Together({ accessToken: 'My Access Token' });
       expect(client.baseURL).toEqual('https://example.com/from_env');
     });
 
     test('empty env variable', () => {
-      process.env['TOGETHER_AI_BASE_URL'] = ''; // empty
-      const client = new TogetherAI({ accessToken: 'My Access Token' });
+      process.env['TOGETHER_BASE_URL'] = ''; // empty
+      const client = new Together({ accessToken: 'My Access Token' });
       expect(client.baseURL).toEqual('https://api.together.xyz/v1');
     });
 
     test('blank env variable', () => {
-      process.env['TOGETHER_AI_BASE_URL'] = '  '; // blank
-      const client = new TogetherAI({ accessToken: 'My Access Token' });
+      process.env['TOGETHER_BASE_URL'] = '  '; // blank
+      const client = new Together({ accessToken: 'My Access Token' });
       expect(client.baseURL).toEqual('https://api.together.xyz/v1');
     });
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new TogetherAI({ maxRetries: 4, accessToken: 'My Access Token' });
-    expect(client.maxRetries).toEqual(4);
+    const client = new Together({ maxRetries: 10, accessToken: 'My Access Token' });
+    expect(client.maxRetries).toEqual(10);
 
     // default
-    const client2 = new TogetherAI({ accessToken: 'My Access Token' });
-    expect(client2.maxRetries).toEqual(2);
+    const client2 = new Together({ accessToken: 'My Access Token' });
+    expect(client2.maxRetries).toEqual(5);
   });
 
   test('with environment variable arguments', () => {
     // set options via env var
-    process.env['TOGETHER_AI_ACCESS_TOKEN'] = 'My Access Token';
-    const client = new TogetherAI();
+    process.env['TOGETHER_API_KEY'] = 'My Access Token';
+    const client = new Together();
     expect(client.accessToken).toBe('My Access Token');
   });
 
   test('with overriden environment variable arguments', () => {
     // set options via env var
-    process.env['TOGETHER_AI_ACCESS_TOKEN'] = 'another My Access Token';
-    const client = new TogetherAI({ accessToken: 'My Access Token' });
+    process.env['TOGETHER_API_KEY'] = 'another My Access Token';
+    const client = new Together({ accessToken: 'My Access Token' });
     expect(client.accessToken).toBe('My Access Token');
   });
 });
 
 describe('request building', () => {
-  const client = new TogetherAI({ accessToken: 'My Access Token' });
+  const client = new Together({ accessToken: 'My Access Token' });
 
   describe('Content-Length', () => {
     test('handles multi-byte characters', () => {
@@ -234,7 +234,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new TogetherAI({ accessToken: 'My Access Token', timeout: 10, fetch: testFetch });
+    const client = new Together({ accessToken: 'My Access Token', timeout: 10, fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -261,7 +261,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new TogetherAI({ accessToken: 'My Access Token', fetch: testFetch });
+    const client = new Together({ accessToken: 'My Access Token', fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -288,7 +288,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new TogetherAI({ accessToken: 'My Access Token', fetch: testFetch });
+    const client = new Together({ accessToken: 'My Access Token', fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);

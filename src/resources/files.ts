@@ -35,6 +35,16 @@ export class Files extends APIResource {
   }
 }
 
+export interface FileObject {
+  id?: string;
+
+  filename?: string;
+
+  object?: string;
+
+  size?: number;
+}
+
 export interface FileRetrieveResponse {
   id: string;
 
@@ -88,6 +98,7 @@ export interface FileDeleteResponse {
 }
 
 export namespace Files {
+  export import FileObject = FilesAPI.FileObject;
   export import FileRetrieveResponse = FilesAPI.FileRetrieveResponse;
   export import FileListResponse = FilesAPI.FileListResponse;
   export import FileDeleteResponse = FilesAPI.FileDeleteResponse;

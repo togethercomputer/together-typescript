@@ -2,9 +2,9 @@
 
 import { castToError, Headers } from './core';
 
-export class TogetherAIError extends Error {}
+export class TogetherError extends Error {}
 
-export class APIError extends TogetherAIError {
+export class APIError extends TogetherError {
   readonly status: number | undefined;
   readonly headers: Headers | undefined;
   readonly error: Object | undefined;

@@ -6,9 +6,9 @@
     "rootDir": "./deno",
     "lib": ["es2020", "DOM"],
     "paths": {
-      "together-ai/_shims/auto/*": ["deno/_shims/auto/*-deno"],
-      "together-ai/*": ["deno/*"],
-      "together-ai": ["deno/index.ts"],
+      "together/_shims/auto/*": ["deno/_shims/auto/*-deno"],
+      "together/*": ["deno/*"],
+      "together": ["deno/index.ts"],
     },
     "noEmit": true,
     "declaration": true,

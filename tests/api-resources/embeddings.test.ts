@@ -1,16 +1,16 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import TogetherAI from 'together-ai';
+import Together from 'together';
 import { Response } from 'node-fetch';
 
-const togetherAI = new TogetherAI({
+const together = new Together({
   accessToken: 'My Access Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource embeddings', () => {
   test('create: only required params', async () => {
-    const responsePromise = togetherAI.embeddings.create({
+    const responsePromise = together.embeddings.create({
       input: 'Our solar system orbits the Milky Way galaxy at about 515,000 mph',
       model: 'togethercomputer/m2-bert-80M-8k-retrieval',
     });
@@ -24,7 +24,7 @@ describe('resource embeddings', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await togetherAI.embeddings.create({
+    const response = await together.embeddings.create({
       input: 'Our solar system orbits the Milky Way galaxy at about 515,000 mph',
       model: 'togethercomputer/m2-bert-80M-8k-retrieval',
     });

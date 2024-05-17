@@ -1,7 +1,7 @@
 import { Response } from 'node-fetch';
 import { PassThrough } from 'stream';
 import assert from 'assert';
-import { _iterSSEMessages, _decodeChunks as decodeChunks } from 'together-ai/streaming';
+import { _iterSSEMessages, _decodeChunks as decodeChunks } from 'together/streaming';
 
 describe('line decoder', () => {
   test('basic', () => {

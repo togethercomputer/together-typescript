@@ -16,9 +16,9 @@ before making any information public.
 ## Reporting Non-SDK Related Security Issues
 
 If you encounter security issues that are not directly related to SDKs but pertain to the services
-or products provided by Together AI please follow the respective company's security reporting guidelines.
+or products provided by Together please follow the respective company's security reporting guidelines.
 
-### Together AI Terms and Policies
+### Together Terms and Policies
 
 Please contact dev-feedback@TogetherAI.com for any questions or concerns regarding security of our services.
 
