@@ -2,7 +2,7 @@
 
 //An example to request a list of models and print them.
 
-import  Together from 'together';
+import Together from 'together';
 
 const together = new Together();
 
