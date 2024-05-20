@@ -5,7 +5,6 @@ import Together from 'together';
 const together = new Together();
 
 async function main() {
-
   //These files need to be uploaded separately. See the files example.
   const fileId = 'file-bf72b951-fa1a-41af-a152-fe385dca0201';
 
