@@ -1,6 +1,6 @@
 #!/usr/bin/env -S npm run tsn -T
 
-import  Together from 'together';
+import Together from 'together';
 
 const together = new Together();
 
