@@ -42,12 +42,12 @@ export let isFsReadStream: Shims['isFsReadStream'] | undefined = undefined;
 export function setShims(shims: Shims, options: { auto: boolean } = { auto: false }) {
   if (auto) {
     throw new Error(
-      `you must \`import 'together/shims/${shims.kind}'\` before importing anything else from together`,
+      `you must \`import 'together-ai/shims/${shims.kind}'\` before importing anything else from together-ai`,
     );
   }
   if (kind) {
     throw new Error(
-      `can't \`import 'together/shims/${shims.kind}'\` after \`import 'together/shims/${kind}'\``,
+      `can't \`import 'together-ai/shims/${shims.kind}'\` after \`import 'together-ai/shims/${kind}'\``,
     );
   }
   auto = options.auto;
