@@ -1,6 +1,6 @@
-import { multipartFormRequestOptions, createForm } from 'together/core';
-import { Blob } from 'together/_shims/index';
-import { toFile } from 'together';
+import { multipartFormRequestOptions, createForm } from 'together-ai/core';
+import { Blob } from 'together-ai/_shims/index';
+import { toFile } from 'together-ai';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

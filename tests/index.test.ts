@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Together from 'together';
-import { APIUserAbortError } from 'together';
-import { Headers } from 'together/core';
+import Together from 'together-ai';
+import { APIUserAbortError } from 'together-ai';
+import { Headers } from 'together-ai/core';
 import defaultFetch, { Response, type RequestInit, type RequestInfo } from 'node-fetch';
 
 describe('instantiate client', () => {
