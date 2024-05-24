@@ -9,9 +9,9 @@
     "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
-      "together/_shims/auto/*": ["src/_shims/auto/*-node"],
-      "together/*": ["src/*"],
-      "together": ["src/index.ts"],
+      "together-ai/_shims/auto/*": ["src/_shims/auto/*-node"],
+      "together-ai/*": ["src/*"],
+      "together-ai": ["src/index.ts"],
     },
     "noEmit": true,
 

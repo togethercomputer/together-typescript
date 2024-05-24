@@ -1,5 +1,5 @@
-import { createResponseHeaders } from 'together/core';
-import { Headers } from 'together/_shims/index';
+import { createResponseHeaders } from 'together-ai/core';
+import { Headers } from 'together-ai/_shims/index';
 
 describe('response parsing', () => {
   // TODO: test unicode characters
