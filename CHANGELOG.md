@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0-alpha.1 (2024-05-24)
+
+Full Changelog: [v0.1.0-alpha.1...v0.6.0-alpha.1](https://github.com/togethercomputer/together-typescript/compare/v0.1.0-alpha.1...v0.6.0-alpha.1)
+
+### Features
+
+* **api:** manual updates ([#8](https://github.com/togethercomputer/together-typescript/issues/8)) ([3ce9a74](https://github.com/togethercomputer/together-typescript/commit/3ce9a747725b5f5c2c08df6d3402a01c93614e76))
+
 ## 0.1.0-alpha.1 (2024-05-20)
 
 Full Changelog: [v0.0.1-alpha.0...v0.1.0-alpha.1](https://github.com/togethercomputer/together-typescript/compare/v0.0.1-alpha.0...v0.1.0-alpha.1)
