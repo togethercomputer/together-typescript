@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Together from 'together';
+import Together from 'together-ai';
 import { Response } from 'node-fetch';
 
 const together = new Together({

@@ -8,7 +8,7 @@ node scripts/utils/check-version.cjs
 
 # Build into dist and will publish the package from there,
 # so that src/resources/foo.ts becomes <package root>/resources/foo.js
-# This way importing from `"together/resources/foo"` works
+# This way importing from `"together-ai/resources/foo"` works
 # even with `"moduleResolution": "node"`
 
 rm -rf dist; mkdir dist
@@ -47,8 +47,8 @@ node scripts/utils/postprocess-files.cjs
 
 # make sure that nothing crashes when we require the output CJS or
 # import the output ESM
-(cd dist && node -e 'require("together")')
-(cd dist && node -e 'import("together")' --input-type=module)
+(cd dist && node -e 'require("together-ai")')
+(cd dist && node -e 'import("together-ai")' --input-type=module)
 
 if command -v deno &> /dev/null && [ -e ./scripts/build-deno ]
 then

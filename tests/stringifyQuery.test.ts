@@ -1,4 +1,4 @@
-import { APIClient } from 'together/core';
+import { APIClient } from 'together-ai/core';
 
 const { stringifyQuery } = APIClient.prototype as any;
 

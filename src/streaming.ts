@@ -1,7 +1,7 @@
 import { ReadableStream, type Response } from './_shims/index';
 import { TogetherError } from './error';
 
-import { APIError } from 'together/error';
+import { APIError } from 'together-ai/error';
 
 type Bytes = string | ArrayBuffer | Uint8Array | Buffer | null | undefined;
 

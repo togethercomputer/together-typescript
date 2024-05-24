@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "together/*": ["dist/src/*"],
-      "together": ["dist/src/index.ts"],
+      "together-ai/*": ["dist/src/*"],
+      "together-ai": ["dist/src/index.ts"],
     },
     "noEmit": false,
     "declaration": true,

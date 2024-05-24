@@ -1,6 +1,6 @@
 # Together Node API Library
 
-[![NPM version](https://img.shields.io/npm/v/together.svg)](https://npmjs.org/package/together)
+[![NPM version](https://img.shields.io/npm/v/together-ai.svg)](https://npmjs.org/package/together-ai)
 
 This library provides convenient access to the Together REST API from server-side TypeScript or JavaScript.
 
@@ -11,7 +11,7 @@ It is generated with [Stainless](https://www.stainlessapi.com/).
 ## Installation
 
 ```sh
-npm install together
+npm install together-ai
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import Together from 'together';
+import Together from 'together-ai';
 
 const together = new Together({
   accessToken: process.env['TOGETHER_API_KEY'], // This is the default and can be omitted
@@ -43,7 +43,7 @@ main();
 We provide support for streaming responses using Server Sent Events (SSE).
 
 ```ts
-import Together from 'together';
+import Together from 'together-ai';
 
 const together = new Together();
 
@@ -66,7 +66,7 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import Together from 'together';
+import Together from 'together-ai';
 
 const together = new Together({
   accessToken: process.env['TOGETHER_API_KEY'], // This is the default and can be omitted
@@ -254,11 +254,11 @@ add the following import before your first import `from "Together"`:
 ```ts
 // Tell TypeScript and the package to use the global web fetch instead of node-fetch.
 // Note, despite the name, this does not add any polyfills, but expects them to be provided if needed.
-import 'together/shims/web';
-import Together from 'together';
+import 'together-ai/shims/web';
+import Together from 'together-ai';
 ```
 
-To do the inverse, add `import "together/shims/node"` (which does import polyfills).
+To do the inverse, add `import "together-ai/shims/node"` (which does import polyfills).
 This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/togethercomputer/together-typescript/tree/main/src/_shims#readme)).
 
 ### Logging and middleware
@@ -268,7 +268,7 @@ which can be used to inspect or alter the `Request` or `Response` before/after e
 
 ```ts
 import { fetch } from 'undici'; // as one example
-import Together from 'together';
+import Together from 'together-ai';
 
 const client = new Together({
   fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
@@ -330,7 +330,7 @@ TypeScript >= 4.5 is supported.
 The following runtimes are supported:
 
 - Node.js 18 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
-- Deno v1.28.0 or higher, using `import Together from "npm:together"`.
+- Deno v1.28.0 or higher, using `import Together from "npm:together-ai"`.
 - Bun 1.0 or later.
 - Cloudflare Workers.
 - Vercel Edge Runtime.
