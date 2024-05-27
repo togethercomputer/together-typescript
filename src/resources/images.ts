@@ -20,7 +20,7 @@ export interface ImageFile {
 
   model: string;
 
-  object: string;
+  object: 'list';
 }
 
 export namespace ImageFile {
