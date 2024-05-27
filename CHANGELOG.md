@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0-alpha.2 (2024-05-27)
+
+Full Changelog: [v0.6.0-alpha.1...v0.6.0-alpha.2](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.1...v0.6.0-alpha.2)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#10](https://github.com/togethercomputer/together-typescript/issues/10)) ([8e9cec9](https://github.com/togethercomputer/together-typescript/commit/8e9cec913cebef2362d7727032b15ca0a19b8be1))
+
 ## 0.6.0-alpha.1 (2024-05-24)
 
 Full Changelog: [v0.1.0-alpha.1...v0.6.0-alpha.1](https://github.com/togethercomputer/together-typescript/compare/v0.1.0-alpha.1...v0.6.0-alpha.1)
