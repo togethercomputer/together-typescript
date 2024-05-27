@@ -54,7 +54,7 @@ export interface FileRetrieveResponse {
 
   filename: string;
 
-  FileType: string;
+  FileType: 'jsonl' | 'parquet';
 
   LineCount: number;
 
@@ -62,7 +62,7 @@ export interface FileRetrieveResponse {
 
   Processed: boolean;
 
-  purpose: string;
+  purpose: 'fine-tune';
 }
 
 export interface FileListResponse {
@@ -79,7 +79,7 @@ export namespace FileListResponse {
 
     filename: string;
 
-    FileType: string;
+    FileType: 'jsonl' | 'parquet';
 
     LineCount: number;
 
@@ -87,7 +87,7 @@ export namespace FileListResponse {
 
     Processed: boolean;
 
-    purpose: string;
+    purpose: 'fine-tune';
   }
 }
 
