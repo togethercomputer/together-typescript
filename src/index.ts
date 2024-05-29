@@ -10,7 +10,7 @@ export interface ClientOptions {
   /**
    * Defaults to process.env['TOGETHER_API_KEY'].
    */
-  accessToken?: string | undefined;
+  apiKey?: string | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -71,14 +71,14 @@ export interface ClientOptions {
 
 /** API Client for interfacing with the Together API. */
 export class Together extends Core.APIClient {
-  accessToken: string;
+  apiKey: string;
 
   private _options: ClientOptions;
 
   /**
    * API Client for interfacing with the Together API.
    *
-   * @param {string | undefined} [opts.accessToken=process.env['TOGETHER_API_KEY'] ?? undefined]
+   * @param {string | undefined} [opts.apiKey=process.env['TOGETHER_API_KEY'] ?? undefined]
    * @param {string} [opts.baseURL=process.env['TOGETHER_BASE_URL'] ?? https://api.together.xyz/v1] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -89,17 +89,17 @@ export class Together extends Core.APIClient {
    */
   constructor({
     baseURL = Core.readEnv('TOGETHER_BASE_URL'),
-    accessToken = Core.readEnv('TOGETHER_API_KEY'),
+    apiKey = Core.readEnv('TOGETHER_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
-    if (accessToken === undefined) {
+    if (apiKey === undefined) {
       throw new Errors.TogetherError(
-        "The TOGETHER_API_KEY environment variable is missing or empty; either provide it, or instantiate the Together client with an accessToken option, like new Together({ accessToken: 'My Access Token' }).",
+        "The TOGETHER_API_KEY environment variable is missing or empty; either provide it, or instantiate the Together client with an apiKey option, like new Together({ apiKey: 'My API Key' }).",
       );
     }
 
     const options: ClientOptions = {
-      accessToken,
+      apiKey,
       ...opts,
       baseURL: baseURL || `https://api.together.xyz/v1`,
     };
@@ -113,7 +113,7 @@ export class Together extends Core.APIClient {
     });
     this._options = options;
 
-    this.accessToken = accessToken;
+    this.apiKey = apiKey;
   }
 
   chat: API.Chat = new API.Chat(this);
@@ -136,7 +136,7 @@ export class Together extends Core.APIClient {
   }
 
   protected override authHeaders(opts: Core.FinalRequestOptions): Core.Headers {
-    return { Authorization: `Bearer ${this.accessToken}` };
+    return { Authorization: `Bearer ${this.apiKey}` };
   }
 
   static Together = this;
