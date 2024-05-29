@@ -1,6 +1,6 @@
 # Together Node API Library
 
-[![NPM version](https://img.shields.io/npm/v/together-ai.svg)](https://npmjs.org/package/together-ai)
+[![NPM version](https://img.shields.io/npm/v/together-ai.svg)](https://npmjs.org/package/together-ai) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/together-ai)
 
 This library provides convenient access to the Together REST API from server-side TypeScript or JavaScript.
 
