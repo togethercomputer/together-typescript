@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.0-alpha.3 (2024-05-29)
+
+Full Changelog: [v0.6.0-alpha.2...v0.6.0-alpha.3](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.2...v0.6.0-alpha.3)
+
+### Features
+
+* **api:** rename api key ([#14](https://github.com/togethercomputer/together-typescript/issues/14)) ([c9d1f45](https://github.com/togethercomputer/together-typescript/commit/c9d1f451bd170295353f4484f1b271f7f2892602))
+
+
+### Chores
+
+* **internal:** version bump ([#12](https://github.com/togethercomputer/together-typescript/issues/12)) ([a312c3b](https://github.com/togethercomputer/together-typescript/commit/a312c3b1e52be5983754228b1509c247edcf2795))
+
 ## 0.6.0-alpha.2 (2024-05-27)
 
 Full Changelog: [v0.6.0-alpha.1...v0.6.0-alpha.2](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.1...v0.6.0-alpha.2)
