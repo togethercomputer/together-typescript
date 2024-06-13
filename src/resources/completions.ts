@@ -48,7 +48,7 @@ export interface Completion {
 
 export namespace Completion {
   export interface Choice {
-    finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls' | null;
+    finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls';
 
     logprobs?: CompletionsAPI.LogProbs | null;
 
