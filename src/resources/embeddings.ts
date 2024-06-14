@@ -6,7 +6,7 @@ import * as EmbeddingsAPI from './embeddings';
 
 export class Embeddings extends APIResource {
   /**
-   * Creates an embedding vector representing the input text
+   * Query an embedding model for a given string of text.
    */
   create(body: EmbeddingCreateParams, options?: Core.RequestOptions): Core.APIPromise<Embedding> {
     return this._client.post('/embeddings', { body, ...options });
