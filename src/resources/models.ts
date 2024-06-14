@@ -6,7 +6,7 @@ import * as ModelsAPI from './models';
 
 export class Models extends APIResource {
   /**
-   * Lists all the available models
+   * Lists all of Together's open-source models
    */
   list(options?: Core.RequestOptions): Core.APIPromise<ModelListResponse> {
     return this._client.get('/models', options);

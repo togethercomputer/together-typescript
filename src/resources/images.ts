@@ -6,7 +6,7 @@ import * as ImagesAPI from './images';
 
 export class Images extends APIResource {
   /**
-   * Generate images based on a given prompt using a specified model
+   * Use an image model to generate an image for a given prompt.
    */
   create(body: ImageCreateParams, options?: Core.RequestOptions): Core.APIPromise<ImageFile> {
     return this._client.post('/images/generations', { body, ...options });
