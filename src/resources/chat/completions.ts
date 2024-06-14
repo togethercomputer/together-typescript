@@ -9,7 +9,7 @@ import { Stream } from '../../streaming';
 
 export class Completions extends APIResource {
   /**
-   * Creates a model response for the given chat conversation.
+   * Query a chat model.
    */
   create(body: CompletionCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<ChatCompletion>;
   create(
@@ -140,7 +140,7 @@ export interface CompletionCreateParamsBase {
    * The `logit_bias` parameter allows us to adjust the likelihood of specific tokens
    * appearing in the generated output.
    */
-  logit_bias?: Record<string, unknown>;
+  logit_bias?: Record<string, number>;
 
   /**
    * Determines the number of most likely tokens to return at each token position log
@@ -193,7 +193,8 @@ export interface CompletionCreateParamsBase {
 
   /**
    * If set, tokens are returned as Server-Sent Events as they are made available.
-   * Stream terminates with `data: [DONE]`
+   * Stream terminates with `data: [DONE]`. If false, return a single JSON object
+   * containing the results.
    */
   stream?: boolean;
 
@@ -260,7 +261,8 @@ export namespace CompletionCreateParams {
 export interface CompletionCreateParamsNonStreaming extends CompletionCreateParamsBase {
   /**
    * If set, tokens are returned as Server-Sent Events as they are made available.
-   * Stream terminates with `data: [DONE]`
+   * Stream terminates with `data: [DONE]`. If false, return a single JSON object
+   * containing the results.
    */
   stream?: false;
 }
@@ -268,7 +270,8 @@ export interface CompletionCreateParamsNonStreaming extends CompletionCreatePara
 export interface CompletionCreateParamsStreaming extends CompletionCreateParamsBase {
   /**
    * If set, tokens are returned as Server-Sent Events as they are made available.
-   * Stream terminates with `data: [DONE]`
+   * Stream terminates with `data: [DONE]`. If false, return a single JSON object
+   * containing the results.
    */
   stream: true;
 }

@@ -6,35 +6,35 @@ import * as FineTuneAPI from './fine-tune';
 
 export class FineTuneResource extends APIResource {
   /**
-   * Create a fine-tuning job
+   * Use a model to create a fine-tuning job.
    */
   create(body: FineTuneCreateParams, options?: Core.RequestOptions): Core.APIPromise<FineTune> {
     return this._client.post('/fine-tunes', { body, ...options });
   }
 
   /**
-   * Retrieve fine-tune job details
+   * List the metadata for a single fine-tuning job.
    */
   retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTune> {
     return this._client.get(`/fine-tunes/${id}`, options);
   }
 
   /**
-   * List fine-tune job history
+   * List the metadata for all fine-tuning jobs.
    */
   list(options?: Core.RequestOptions): Core.APIPromise<FineTuneListResponse> {
     return this._client.get('/fine-tunes', options);
   }
 
   /**
-   * Cancels a running fine-tuning job.
+   * Cancel a currently running fine-tuning job.
    */
   cancel(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTune> {
     return this._client.post(`/fine-tunes/${id}/cancel`, options);
   }
 
   /**
-   * Downloads a compressed fine-tuned model or checkpoint to local disk.
+   * Download a compressed fine-tuned model or checkpoint to local disk.
    */
   download(
     query: FineTuneDownloadParams,
@@ -44,7 +44,7 @@ export class FineTuneResource extends APIResource {
   }
 
   /**
-   * List events of a fine-tune job
+   * List the events for a single fine-tuning job.
    */
   listEvents(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTuneEvent> {
     return this._client.get(`/fine-tunes/${id}/events`, options);

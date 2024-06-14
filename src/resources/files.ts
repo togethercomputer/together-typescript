@@ -7,28 +7,28 @@ import * as FilesAPI from './files';
 
 export class Files extends APIResource {
   /**
-   * Retrieve a file
+   * List the metadata for a single uploaded data file.
    */
   retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<FileRetrieveResponse> {
     return this._client.get(`/files/${id}`, options);
   }
 
   /**
-   * List all files
+   * List the metadata for all uploaded data files.
    */
   list(options?: Core.RequestOptions): Core.APIPromise<FileListResponse> {
     return this._client.get('/files', options);
   }
 
   /**
-   * Delete a file
+   * Delete a previously uploaded data file.
    */
   delete(id: string, options?: Core.RequestOptions): Core.APIPromise<FileDeleteResponse> {
     return this._client.delete(`/files/${id}`, options);
   }
 
   /**
-   * Retrieve file content
+   * Get the contents of a single uploaded data file.
    */
   content(id: string, options?: Core.RequestOptions): Core.APIPromise<Response> {
     return this._client.get(`/files/${id}/content`, { ...options, __binaryResponse: true });

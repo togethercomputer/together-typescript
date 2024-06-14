@@ -9,7 +9,7 @@ import { Stream } from '../streaming';
 
 export class Completions extends APIResource {
   /**
-   * Creates a completion for the provided prompt and parameters
+   * Query a language, code, or image model.
    */
   create(body: CompletionCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<Completion>;
   create(
@@ -135,7 +135,7 @@ export interface CompletionCreateParamsBase {
    * The `logit_bias` parameter allows us to adjust the likelihood of specific tokens
    * appearing in the generated output.
    */
-  logit_bias?: Record<string, unknown>;
+  logit_bias?: Record<string, number>;
 
   /**
    * Determines the number of most likely tokens to return at each token position log
