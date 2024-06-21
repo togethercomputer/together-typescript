@@ -124,27 +124,25 @@ export interface CompletionCreateParamsBase {
   model: string;
 
   /**
-   * If set, the response will contain the prompt, and will also return prompt
-   * logprobs if set with logprobs.
+   * If true, the response will contain the prompt. Can be used with `logprobs` to
+   * return prompt logprobs.
    */
   echo?: boolean;
 
   /**
-   * The `frequency_penalty` parameter is a number between -2.0 and 2.0 where a
-   * positive value will decrease the likelihood of repeating tokens that were
-   * mentioned prior.
+   * A number between -2.0 and 2.0 where a positive value decreases the likelihood of
+   * repeating tokens that have already been mentioned.
    */
   frequency_penalty?: number;
 
   /**
-   * The `logit_bias` parameter allows us to adjust the likelihood of specific tokens
-   * appearing in the generated output.
+   * Adjusts the likelihood of specific tokens appearing in the generated output.
    */
   logit_bias?: Record<string, number>;
 
   /**
    * Determines the number of most likely tokens to return at each token position log
-   * probabilities to return
+   * probabilities to return.
    */
   logprobs?: number;
 
@@ -154,19 +152,18 @@ export interface CompletionCreateParamsBase {
   max_tokens?: number;
 
   /**
-   * The `min_p` parameter is a number between 0 and 1 and an alternative to
-   * `temperature`.
+   * A number between 0 and 1 that can be used as an alternative to temperature.
    */
   min_p?: number;
 
   /**
-   * Number of generations to return
+   * The number of completions to generate for each prompt.
    */
   n?: number;
 
   /**
-   * The `presence_penalty` parameter is a number between -2.0 and 2.0 where a
-   * positive value will increase the likelihood of a model talking about new topics.
+   * A number between -2.0 and 2.0 where a positive value increases the likelihood of
+   * a model talking about new topics.
    */
   presence_penalty?: number;
 
@@ -177,51 +174,67 @@ export interface CompletionCreateParamsBase {
   repetition_penalty?: number;
 
   /**
-   * Specifies the format of the response.
+   * An object specifying the format that the model must output.
    */
   response_format?: CompletionCreateParams.ResponseFormat;
 
   /**
-   * The name of the safety model to use.
+   * The name of the moderation model used to validate tokens. Choose from the
+   * available moderation models found
+   * [here](https://docs.together.ai/docs/inference-models#moderation-models).
    */
   safety_model?: string;
 
   /**
-   * A list of string sequences that will truncate (stop) inference text output.
+   * A list of string sequences that will truncate (stop) inference text output. For
+   * example, "</s>" will stop generation as soon as the model generates the given
+   * token.
    */
   stop?: Array<string>;
 
   /**
-   * If set, tokens are returned as Server-Sent Events as they are made available.
-   * Stream terminates with `data: [DONE]`. If false, return a single JSON object
-   * containing the results.
+   * If true, stream tokens as Server-Sent Events as the model generates them instead
+   * of waiting for the full model response. The stream terminates with
+   * `data: [DONE]`. If false, return a single JSON object containing the results.
    */
   stream?: boolean;
 
   /**
-   * Determines the degree of randomness in the response.
+   * A decimal number from 0-1 that determines the degree of randomness in the
+   * response. A temperature less than 1 favors more correctness and is appropriate
+   * for question answering or summarization. A value closer to 1 introduces more
+   * randomness in the output.
    */
   temperature?: number;
 
   /**
-   * The choice of tool to use.
+   * Controls which (if any) function is called by the model. By default uses `auto`,
+   * which lets the model pick between generating a message or calling a function.
    */
   tool_choice?: string | CompletionsAPI.ToolChoice;
 
   /**
-   * A list of tools to be used in the query.
+   * A list of tools the model may call. Currently, only functions are supported as a
+   * tool. Use this to provide a list of functions the model may generate JSON inputs
+   * for.
    */
   tools?: Array<CompletionsAPI.Tools>;
 
   /**
-   * The `top_k` parameter is used to limit the number of choices for the next
-   * predicted word or token.
+   * An integer that's used to limit the number of choices for the next predicted
+   * word or token. It specifies the maximum number of tokens to consider at each
+   * step, based on their probability of occurrence. This technique helps to speed up
+   * the generation process and can improve the quality of the generated text by
+   * focusing on the most likely options.
    */
   top_k?: number;
 
   /**
-   * The `top_p` (nucleus) parameter is used to dynamically adjust the number of
-   * choices for each predicted token based on the cumulative probabilities.
+   * A percentage (also called the nucleus parameter) that's used to dynamically
+   * adjust the number of choices for each predicted token based on the cumulative
+   * probabilities. It specifies a probability threshold below which all less likely
+   * tokens are filtered out. This technique helps maintain diversity and generate
+   * more fluent and natural-sounding text.
    */
   top_p?: number;
 }
@@ -240,7 +253,7 @@ export namespace CompletionCreateParams {
   }
 
   /**
-   * Specifies the format of the response.
+   * An object specifying the format that the model must output.
    */
   export interface ResponseFormat {
     /**
@@ -260,18 +273,18 @@ export namespace CompletionCreateParams {
 
 export interface CompletionCreateParamsNonStreaming extends CompletionCreateParamsBase {
   /**
-   * If set, tokens are returned as Server-Sent Events as they are made available.
-   * Stream terminates with `data: [DONE]`. If false, return a single JSON object
-   * containing the results.
+   * If true, stream tokens as Server-Sent Events as the model generates them instead
+   * of waiting for the full model response. The stream terminates with
+   * `data: [DONE]`. If false, return a single JSON object containing the results.
    */
   stream?: false;
 }
 
 export interface CompletionCreateParamsStreaming extends CompletionCreateParamsBase {
   /**
-   * If set, tokens are returned as Server-Sent Events as they are made available.
-   * Stream terminates with `data: [DONE]`. If false, return a single JSON object
-   * containing the results.
+   * If true, stream tokens as Server-Sent Events as the model generates them instead
+   * of waiting for the full model response. The stream terminates with
+   * `data: [DONE]`. If false, return a single JSON object containing the results.
    */
   stream: true;
 }
