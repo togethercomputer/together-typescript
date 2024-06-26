@@ -37,6 +37,7 @@ describe('resource completions', () => {
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
       echo: true,
       frequency_penalty: 0,
+      function_call: 'none',
       logit_bias: { '105': 21.4, '1024': -10.5 },
       logprobs: 0,
       max_tokens: 0,

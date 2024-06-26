@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '../../core';
-import { APIPromise } from '../../core';
 import { APIResource } from '../../resource';
+import { APIPromise } from '../../core';
+import * as Core from '../../core';
 import * as ChatCompletionsAPI from './completions';
 import * as CompletionsAPI from '../completions';
 import { Stream } from '../../streaming';
@@ -31,33 +31,57 @@ export class Completions extends APIResource {
 }
 
 export interface ChatCompletion {
-  id?: string;
+  id: string;
 
-  choices?: Array<ChatCompletion.Choice>;
+  choices: Array<ChatCompletion.Choice>;
 
-  created?: number;
+  created: number;
 
-  model?: string;
+  model: string;
 
-  object?: 'chat.completion';
+  object: 'chat.completion';
 
   usage?: ChatCompletionUsage | null;
 }
 
 export namespace ChatCompletion {
   export interface Choice {
-    finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls';
+    finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls' | 'function_call';
+
+    index?: number;
 
     logprobs?: CompletionsAPI.LogProbs | null;
 
     message?: Choice.Message;
+
+    seed?: number;
+
+    text?: string;
   }
 
   export namespace Choice {
     export interface Message {
-      content?: string;
+      content: string | null;
 
-      role?: string;
+      role: 'assistant';
+
+      /**
+       * @deprecated
+       */
+      function_call?: Message.FunctionCall;
+
+      tool_calls?: Array<CompletionsAPI.ToolChoice>;
+    }
+
+    export namespace Message {
+      /**
+       * @deprecated
+       */
+      export interface FunctionCall {
+        arguments: string;
+
+        name: string;
+      }
     }
   }
 }
@@ -65,39 +89,55 @@ export namespace ChatCompletion {
 export interface ChatCompletionChunk {
   id: string;
 
-  token: ChatCompletionChunk.Token;
-
   choices: Array<ChatCompletionChunk.Choice>;
 
   created: number;
 
+  model: string;
+
   object: 'chat.completion.chunk';
 
-  finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls' | null;
+  system_fingerprint?: string;
 
   usage?: ChatCompletionUsage | null;
 }
 
 export namespace ChatCompletionChunk {
-  export interface Token {
-    id: number;
-
-    logprob: number;
-
-    special: boolean;
-
-    text: string;
-  }
-
   export interface Choice {
     delta: Choice.Delta;
 
+    finish_reason: 'stop' | 'eos' | 'length' | 'tool_calls' | 'function_call';
+
     index: number;
+
+    logprobs?: CompletionsAPI.LogProbs;
   }
 
   export namespace Choice {
     export interface Delta {
-      content: string;
+      content?: string | null;
+
+      /**
+       * @deprecated
+       */
+      function_call?: Delta.FunctionCall | null;
+
+      role?: 'system' | 'user' | 'assistant' | 'function' | 'tool';
+
+      token_id?: number;
+
+      tool_calls?: Array<CompletionsAPI.ToolChoice>;
+    }
+
+    export namespace Delta {
+      /**
+       * @deprecated
+       */
+      export interface FunctionCall {
+        arguments: string;
+
+        name: string;
+      }
     }
   }
 }
@@ -134,6 +174,8 @@ export interface CompletionCreateParamsBase {
    * repeating tokens that have already been mentioned.
    */
   frequency_penalty?: number;
+
+  function_call?: 'none' | 'auto' | CompletionCreateParams.Name;
 
   /**
    * Adjusts the likelihood of specific tokens appearing in the generated output.
@@ -250,6 +292,10 @@ export namespace CompletionCreateParams {
      * The role of the messages author. Choice between: system, user, or assistant.
      */
     role: 'system' | 'user' | 'assistant';
+  }
+
+  export interface Name {
+    name: string;
   }
 
   /**

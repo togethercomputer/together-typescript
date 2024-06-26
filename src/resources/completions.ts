@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '../core';
-import { APIPromise } from '../core';
 import { APIResource } from '../resource';
+import { APIPromise } from '../core';
+import * as Core from '../core';
 import * as CompletionsAPI from './completions';
 import * as ChatCompletionsAPI from './chat/completions';
 import { Stream } from '../streaming';
@@ -48,9 +48,9 @@ export interface Completion {
 
 export namespace Completion {
   export interface Choice {
-    finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls';
+    finish_reason?: 'stop' | 'eos' | 'length' | 'tool_calls' | 'function_call';
 
-    logprobs?: CompletionsAPI.LogProbs | null;
+    logprobs?: CompletionsAPI.LogProbs;
 
     text?: string;
   }
@@ -63,6 +63,8 @@ export namespace Completion {
 }
 
 export interface LogProbs {
+  content?: Array<LogProbs.Content>;
+
   /**
    * List of token log probabilities
    */
@@ -74,15 +76,29 @@ export interface LogProbs {
   tokens?: Array<string>;
 }
 
-export interface ToolChoice {
-  function?: ToolChoice.Function;
+export namespace LogProbs {
+  export interface Content {
+    token: string;
 
-  type?: string;
+    logprob: number;
+  }
+}
+
+export interface ToolChoice {
+  id: string;
+
+  function: ToolChoice.Function;
+
+  index: number;
+
+  type: 'function';
 }
 
 export namespace ToolChoice {
   export interface Function {
-    name?: string;
+    arguments: string;
+
+    name: string;
   }
 }
 
