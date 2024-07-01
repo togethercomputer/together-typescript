@@ -139,7 +139,7 @@ export class Together extends Core.APIClient {
   }
 
   protected override authHeaders(opts: Core.FinalRequestOptions): Core.Headers {
-    return { Authorization: this.apiKey };
+    return { Authorization: `Bearer ${this.apiKey}` };
   }
 
   static Together = this;
