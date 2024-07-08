@@ -35,7 +35,7 @@ export interface EmbeddingCreateParams {
   /**
    * A string providing the text for the model to embed.
    */
-  input: string;
+  input: string | Array<string>;
 
   /**
    * The name of the embedding model to use.
