@@ -1,6 +1,6 @@
 {
   "name": "together-ai",
-  "version": "0.6.0-alpha.3",
+  "version": "0.6.0-alpha.4",
   "description": "The official TypeScript library for the Together API",
   "author": "Together <dev-feedback@TogetherAI.com>",
   "types": "dist/index.d.ts",
