@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.6.0-alpha.4 (2024-07-16)
+
+Full Changelog: [v0.6.0-alpha.3...v0.6.0-alpha.4](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.3...v0.6.0-alpha.4)
+
+### Features
+
+* **api:** manual updates ([#22](https://github.com/togethercomputer/together-typescript/issues/22)) ([ede606f](https://github.com/togethercomputer/together-typescript/commit/ede606f59f84e225cc6e799cbbee0ea195fbb4f6))
+* **api:** OpenAPI spec update via Stainless API ([#18](https://github.com/togethercomputer/together-typescript/issues/18)) ([73499c2](https://github.com/togethercomputer/together-typescript/commit/73499c245624ee60f1f6147b208a0e426cf8a182))
+* **api:** OpenAPI spec update via Stainless API ([#19](https://github.com/togethercomputer/together-typescript/issues/19)) ([9158220](https://github.com/togethercomputer/together-typescript/commit/9158220e7658b8998f45505a1d8c5652020f72f7))
+* **api:** OpenAPI spec update via Stainless API ([#20](https://github.com/togethercomputer/together-typescript/issues/20)) ([debd949](https://github.com/togethercomputer/together-typescript/commit/debd949c0e86b7154fde3bcf951e2e7d1c25ba7a))
+* **api:** OpenAPI spec update via Stainless API ([#23](https://github.com/togethercomputer/together-typescript/issues/23)) ([1b03e3f](https://github.com/togethercomputer/together-typescript/commit/1b03e3f15f70fce8a6be6b849c48b76feff6ac6a))
+* **api:** OpenAPI spec update via Stainless API ([#24](https://github.com/togethercomputer/together-typescript/issues/24)) ([e28fb4b](https://github.com/togethercomputer/together-typescript/commit/e28fb4b688e6919e941349a7a5ee838543af20ef))
+* **api:** OpenAPI spec update via Stainless API ([#25](https://github.com/togethercomputer/together-typescript/issues/25)) ([24a4e34](https://github.com/togethercomputer/together-typescript/commit/24a4e341c39fe768b60f912a94be1ad9e170faed))
+* **api:** OpenAPI spec update via Stainless API ([#26](https://github.com/togethercomputer/together-typescript/issues/26)) ([a041bff](https://github.com/togethercomputer/together-typescript/commit/a041bff299477b131239591e977b98cdc793442f))
+
+
+### Bug Fixes
+
+* **client:** fix auth via Bearer token ([#21](https://github.com/togethercomputer/together-typescript/issues/21)) ([c001b61](https://github.com/togethercomputer/together-typescript/commit/c001b61b4ecdec0705909e1aba6380937dfb58cf))
+
+
+### Chores
+
+* update SDK settings ([#16](https://github.com/togethercomputer/together-typescript/issues/16)) ([88af203](https://github.com/togethercomputer/together-typescript/commit/88af20394bc6befa762f6121ba70ca04c7eeb088))
+
 ## 0.6.0-alpha.3 (2024-05-29)
 
 Full Changelog: [v0.6.0-alpha.2...v0.6.0-alpha.3](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.2...v0.6.0-alpha.3)
