@@ -6,6 +6,7 @@ import * as Core from '../../core';
 import * as ChatCompletionsAPI from './completions';
 import * as CompletionsAPI from '../completions';
 import { Stream } from '../../streaming';
+import { ChatCompletionStream, ChatCompletionStreamParams } from 'together-ai/lib/ChatCompletionStream';
 
 export class Completions extends APIResource {
   /**
@@ -27,6 +28,9 @@ export class Completions extends APIResource {
     return this._client.post('/chat/completions', { body, ...options, stream: body.stream ?? false }) as
       | APIPromise<ChatCompletion>
       | APIPromise<Stream<ChatCompletionChunk>>;
+  }
+  stream(body: ChatCompletionStreamParams, options?: Core.RequestOptions): ChatCompletionStream {
+    return ChatCompletionStream.createChatCompletion(this._client.chat.completions, body, options);
   }
 }
 
@@ -52,37 +56,37 @@ export namespace ChatCompletion {
 
     logprobs?: CompletionsAPI.LogProbs | null;
 
-    message?: Choice.Message;
+    message?: ChatCompletionsAPI.ChatCompletionMessage;
 
     seed?: number;
 
     text?: string;
   }
+}
 
-  export namespace Choice {
-    export interface Message {
-      content: string | null;
+export interface ChatCompletionAssistantMessageParam {
+  role: 'assistant';
 
-      role: 'assistant';
+  content?: string | null;
 
-      /**
-       * @deprecated
-       */
-      function_call?: Message.FunctionCall;
+  /**
+   * @deprecated
+   */
+  function_call?: ChatCompletionAssistantMessageParam.FunctionCall;
 
-      tool_calls?: Array<CompletionsAPI.ToolChoice>;
-    }
+  name?: string;
 
-    export namespace Message {
-      /**
-       * @deprecated
-       */
-      export interface FunctionCall {
-        arguments: string;
+  tool_calls?: Array<CompletionsAPI.ToolChoice>;
+}
 
-        name: string;
-      }
-    }
+export namespace ChatCompletionAssistantMessageParam {
+  /**
+   * @deprecated
+   */
+  export interface FunctionCall {
+    arguments: string;
+
+    name: string;
   }
 }
 
@@ -142,12 +146,96 @@ export namespace ChatCompletionChunk {
   }
 }
 
+/**
+ * @deprecated
+ */
+export interface ChatCompletionFunctionMessageParam {
+  content: string;
+
+  name: string;
+
+  role: 'function';
+}
+
+export interface ChatCompletionMessage {
+  content: string | null;
+
+  role: 'assistant';
+
+  /**
+   * @deprecated
+   */
+  function_call?: ChatCompletionMessage.FunctionCall;
+
+  tool_calls?: Array<CompletionsAPI.ToolChoice>;
+}
+
+export namespace ChatCompletionMessage {
+  /**
+   * @deprecated
+   */
+  export interface FunctionCall {
+    arguments: string;
+
+    name: string;
+  }
+}
+
+export type ChatCompletionMessageParam =
+  | ChatCompletionSystemMessageParam
+  | ChatCompletionUserMessageParam
+  | ChatCompletionAssistantMessageParam
+  | ChatCompletionToolMessageParam
+  | ChatCompletionFunctionMessageParam;
+
+export interface ChatCompletionSystemMessageParam {
+  content: string;
+
+  role: 'system';
+
+  name?: string;
+}
+
+export interface ChatCompletionTool {
+  function: ChatCompletionTool.Function;
+
+  type: 'function';
+}
+
+export namespace ChatCompletionTool {
+  export interface Function {
+    name: string;
+
+    description?: string;
+
+    parameters?: Record<string, unknown>;
+  }
+}
+
+export interface ChatCompletionToolMessageParam {
+  content?: string;
+
+  required?: unknown;
+
+  role?: 'tool';
+
+  tool_call_id?: string;
+}
+
 export interface ChatCompletionUsage {
   completion_tokens: number;
 
   prompt_tokens: number;
 
   total_tokens: number;
+}
+
+export interface ChatCompletionUserMessageParam {
+  content: string;
+
+  role: 'user';
+
+  name?: string;
 }
 
 export type CompletionCreateParams = CompletionCreateParamsNonStreaming | CompletionCreateParamsStreaming;
@@ -337,8 +425,16 @@ export interface CompletionCreateParamsStreaming extends CompletionCreateParamsB
 
 export namespace Completions {
   export import ChatCompletion = ChatCompletionsAPI.ChatCompletion;
+  export import ChatCompletionAssistantMessageParam = ChatCompletionsAPI.ChatCompletionAssistantMessageParam;
   export import ChatCompletionChunk = ChatCompletionsAPI.ChatCompletionChunk;
+  export import ChatCompletionFunctionMessageParam = ChatCompletionsAPI.ChatCompletionFunctionMessageParam;
+  export import ChatCompletionMessage = ChatCompletionsAPI.ChatCompletionMessage;
+  export import ChatCompletionMessageParam = ChatCompletionsAPI.ChatCompletionMessageParam;
+  export import ChatCompletionSystemMessageParam = ChatCompletionsAPI.ChatCompletionSystemMessageParam;
+  export import ChatCompletionTool = ChatCompletionsAPI.ChatCompletionTool;
+  export import ChatCompletionToolMessageParam = ChatCompletionsAPI.ChatCompletionToolMessageParam;
   export import ChatCompletionUsage = ChatCompletionsAPI.ChatCompletionUsage;
+  export import ChatCompletionUserMessageParam = ChatCompletionsAPI.ChatCompletionUserMessageParam;
   export import CompletionCreateParams = ChatCompletionsAPI.CompletionCreateParams;
   export import CompletionCreateParamsNonStreaming = ChatCompletionsAPI.CompletionCreateParamsNonStreaming;
   export import CompletionCreateParamsStreaming = ChatCompletionsAPI.CompletionCreateParamsStreaming;
