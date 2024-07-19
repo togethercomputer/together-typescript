@@ -3,8 +3,16 @@
 export { Chat } from './chat';
 export {
   ChatCompletion,
+  ChatCompletionAssistantMessageParam,
   ChatCompletionChunk,
+  ChatCompletionFunctionMessageParam,
+  ChatCompletionMessage,
+  ChatCompletionMessageParam,
+  ChatCompletionSystemMessageParam,
+  ChatCompletionTool,
+  ChatCompletionToolMessageParam,
   ChatCompletionUsage,
+  ChatCompletionUserMessageParam,
   CompletionCreateParams,
   CompletionCreateParamsNonStreaming,
   CompletionCreateParamsStreaming,
