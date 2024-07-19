@@ -2,7 +2,7 @@
 
 //An example to generate an image and save to a file
 
-import Together from 'together';
+import Together from 'together-ai';
 import fs from 'fs';
 
 const together = new Together();

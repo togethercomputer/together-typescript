@@ -2,7 +2,7 @@
 
 // Example of listing and retrieving files
 
-import Together from 'together';
+import Together from 'together-ai';
 
 const together = new Together();
 
