@@ -163,7 +163,7 @@ export interface CompletionCreateParamsBase {
   max_tokens?: number;
 
   /**
-   * A number between 0 and 1 that can be used as an alternative to temperature.
+   * A number between 0 and 1 that can be used as an alternative to top-p and top-k.
    */
   min_p?: number;
 
