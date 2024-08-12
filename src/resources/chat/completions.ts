@@ -110,19 +110,19 @@ export namespace ChatCompletionChunk {
 
     index: number;
 
-    logprobs?: CompletionsAPI.LogProbs;
+    logprobs?: number | null;
   }
 
   export namespace Choice {
     export interface Delta {
+      role: 'system' | 'user' | 'assistant' | 'function' | 'tool';
+
       content?: string | null;
 
       /**
        * @deprecated
        */
       function_call?: Delta.FunctionCall | null;
-
-      role?: 'system' | 'user' | 'assistant' | 'function' | 'tool';
 
       token_id?: number;
 
@@ -194,7 +194,7 @@ export interface CompletionCreateParamsBase {
   max_tokens?: number;
 
   /**
-   * A number between 0 and 1 that can be used as an alternative to temperature.
+   * A number between 0 and 1 that can be used as an alternative to top_p and top-k.
    */
   min_p?: number;
 
