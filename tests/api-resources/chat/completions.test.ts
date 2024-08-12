@@ -3,18 +3,18 @@
 import Together from 'together-ai';
 import { Response } from 'node-fetch';
 
-const together = new Together({
+const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource completions', () => {
   test('create: only required params', async () => {
-    const responsePromise = together.chat.completions.create({
+    const responsePromise = client.chat.completions.create({
       messages: [
-        { role: 'system', content: 'string' },
-        { role: 'system', content: 'string' },
-        { role: 'system', content: 'string' },
+        { role: 'system', content: 'content' },
+        { role: 'system', content: 'content' },
+        { role: 'system', content: 'content' },
       ],
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
     });
@@ -28,11 +28,11 @@ describe('resource completions', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await together.chat.completions.create({
+    const response = await client.chat.completions.create({
       messages: [
-        { role: 'system', content: 'string' },
-        { role: 'system', content: 'string' },
-        { role: 'system', content: 'string' },
+        { role: 'system', content: 'content' },
+        { role: 'system', content: 'content' },
+        { role: 'system', content: 'content' },
       ],
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
       echo: true,

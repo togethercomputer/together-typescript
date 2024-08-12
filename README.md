@@ -22,12 +22,12 @@ The full API of this library can be found in [api.md](api.md).
 ```js
 import Together from 'together-ai';
 
-const together = new Together({
+const client = new Together({
   apiKey: process.env['TOGETHER_API_KEY'], // This is the default and can be omitted
 });
 
 async function main() {
-  const chatCompletion = await together.chat.completions.create({
+  const chatCompletion = await client.chat.completions.create({
     messages: [{ role: 'user', content: 'Say this is a test!' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
   });
@@ -45,9 +45,9 @@ We provide support for streaming responses using Server Sent Events (SSE).
 ```ts
 import Together from 'together-ai';
 
-const together = new Together();
+const client = new Together();
 
-const stream = await together.chat.completions.create({
+const stream = await client.chat.completions.create({
   messages: [{ role: 'user', content: 'Say this is a test' }],
   model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
   stream: true,
@@ -68,7 +68,7 @@ This library includes TypeScript definitions for all request params and response
 ```ts
 import Together from 'together-ai';
 
-const together = new Together({
+const client = new Together({
   apiKey: process.env['TOGETHER_API_KEY'], // This is the default and can be omitted
 });
 
@@ -77,7 +77,7 @@ async function main() {
     messages: [{ role: 'user', content: 'Say this is a test' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
   };
-  const chatCompletion: Together.Chat.ChatCompletion = await together.chat.completions.create(params);
+  const chatCompletion: Together.Chat.ChatCompletion = await client.chat.completions.create(params);
 }
 
 main();
@@ -94,7 +94,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const chatCompletion = await together.chat.completions
+  const chatCompletion = await client.chat.completions
     .create({
       messages: [{ role: 'user', content: 'Say this is a test' }],
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
@@ -137,12 +137,12 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const together = new Together({
+const client = new Together({
   maxRetries: 0, // default is 2
 });
 
 // Or, configure per-request:
-await together.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'mistralai/Mixtral-8x7B-Instruct-v0.1' }, {
+await client.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'mistralai/Mixtral-8x7B-Instruct-v0.1' }, {
   maxRetries: 5,
 });
 ```
@@ -154,12 +154,12 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const together = new Together({
+const client = new Together({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
 // Override per-request:
-await together.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'mistralai/Mixtral-8x7B-Instruct-v0.1' }, {
+await client.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'mistralai/Mixtral-8x7B-Instruct-v0.1' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -178,9 +178,9 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 
 <!-- prettier-ignore -->
 ```ts
-const together = new Together();
+const client = new Together();
 
-const response = await together.chat.completions
+const response = await client.chat.completions
   .create({
     messages: [{ role: 'user', content: 'Say this is a test' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
@@ -189,7 +189,7 @@ const response = await together.chat.completions
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: chatCompletion, response: raw } = await together.chat.completions
+const { data: chatCompletion, response: raw } = await client.chat.completions
   .create({
     messages: [{ role: 'user', content: 'Say this is a test' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
@@ -295,12 +295,12 @@ import http from 'http';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // Configure the default for all requests:
-const together = new Together({
+const client = new Together({
   httpAgent: new HttpsProxyAgent(process.env.PROXY_URL),
 });
 
 // Override per-request:
-await together.chat.completions.create(
+await client.chat.completions.create(
   {
     messages: [{ role: 'user', content: 'Say this is a test' }],
     model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
