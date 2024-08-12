@@ -3,14 +3,14 @@
 import Together from 'together-ai';
 import { Response } from 'node-fetch';
 
-const together = new Together({
+const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource completions', () => {
   test('create: only required params', async () => {
-    const responsePromise = together.completions.create({
+    const responsePromise = client.completions.create({
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
       prompt: '<s>[INST] What is the capital of France? [/INST]',
     });
@@ -24,7 +24,7 @@ describe('resource completions', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await together.completions.create({
+    const response = await client.completions.create({
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
       prompt: '<s>[INST] What is the capital of France? [/INST]',
       echo: true,

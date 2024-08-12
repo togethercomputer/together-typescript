@@ -3,14 +3,14 @@
 import Together from 'together-ai';
 import { Response } from 'node-fetch';
 
-const together = new Together({
+const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource images', () => {
   test('create: only required params', async () => {
-    const responsePromise = together.images.create({
+    const responsePromise = client.images.create({
       model: 'stabilityai/stable-diffusion-xl-base-1.0',
       prompt: 'cat floating in space, cinematic',
     });
@@ -24,12 +24,12 @@ describe('resource images', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await together.images.create({
+    const response = await client.images.create({
       model: 'stabilityai/stable-diffusion-xl-base-1.0',
       prompt: 'cat floating in space, cinematic',
       height: 0,
       n: 0,
-      negative_prompt: 'string',
+      negative_prompt: 'negative_prompt',
       seed: 0,
       steps: 0,
       width: 0,

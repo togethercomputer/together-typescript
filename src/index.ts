@@ -143,6 +143,7 @@ export class Together extends Core.APIClient {
   }
 
   static Together = this;
+  static DEFAULT_TIMEOUT = 60000; // 1 minute
 
   static TogetherError = Errors.TogetherError;
   static APIError = Errors.APIError;
