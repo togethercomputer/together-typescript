@@ -63,7 +63,10 @@ export namespace Completion {
 }
 
 export interface LogProbs {
-  content?: Array<LogProbs.Content>;
+  /**
+   * List of token IDs corresponding to the logprobs
+   */
+  token_ids?: Array<number>;
 
   /**
    * List of token log probabilities
@@ -74,14 +77,6 @@ export interface LogProbs {
    * List of token strings
    */
   tokens?: Array<string>;
-}
-
-export namespace LogProbs {
-  export interface Content {
-    token: string;
-
-    logprob: number;
-  }
 }
 
 export interface ToolChoice {
