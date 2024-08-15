@@ -12,9 +12,9 @@ describe('resource completions', () => {
   test('create: only required params', async () => {
     const responsePromise = client.chat.completions.create({
       messages: [
-        { role: 'system', content: 'content' },
-        { role: 'system', content: 'content' },
-        { role: 'system', content: 'content' },
+        { content: 'content', role: 'system' },
+        { content: 'content', role: 'system' },
+        { content: 'content', role: 'system' },
       ],
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
     });
@@ -30,9 +30,9 @@ describe('resource completions', () => {
   test('create: required and optional params', async () => {
     const response = await client.chat.completions.create({
       messages: [
-        { role: 'system', content: 'content' },
-        { role: 'system', content: 'content' },
-        { role: 'system', content: 'content' },
+        { content: 'content', role: 'system' },
+        { content: 'content', role: 'system' },
+        { content: 'content', role: 'system' },
       ],
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
       echo: true,
@@ -45,7 +45,7 @@ describe('resource completions', () => {
       n: 1,
       presence_penalty: 0,
       repetition_penalty: 0,
-      response_format: { type: 'json', schema: { foo: 'string' } },
+      response_format: { schema: { foo: 'string' }, type: 'json' },
       safety_model: 'safety_model_name',
       stop: ['string', 'string', 'string'],
       stream: false,
@@ -53,28 +53,28 @@ describe('resource completions', () => {
       tool_choice: 'tool_name',
       tools: [
         {
-          type: 'tool_type',
           function: {
             description: 'A description of the function.',
             name: 'function_name',
             parameters: { foo: 'bar' },
           },
+          type: 'tool_type',
         },
         {
-          type: 'tool_type',
           function: {
             description: 'A description of the function.',
             name: 'function_name',
             parameters: { foo: 'bar' },
           },
+          type: 'tool_type',
         },
         {
-          type: 'tool_type',
           function: {
             description: 'A description of the function.',
             name: 'function_name',
             parameters: { foo: 'bar' },
           },
+          type: 'tool_type',
         },
       ],
       top_k: 0,
