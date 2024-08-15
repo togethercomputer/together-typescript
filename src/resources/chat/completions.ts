@@ -291,7 +291,7 @@ export namespace CompletionCreateParams {
     /**
      * The role of the messages author. Choice between: system, user, or assistant.
      */
-    role: 'system' | 'user' | 'assistant';
+    role: 'system' | 'user' | 'assistant' | 'tool';
   }
 
   export interface Name {
