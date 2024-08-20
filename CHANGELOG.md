@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.6.0-alpha.5 (2024-08-20)
+
+Full Changelog: [v0.6.0-alpha.4...v0.6.0-alpha.5](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.4...v0.6.0-alpha.5)
+
+### Features
+
+* **api:** manual updates ([#31](https://github.com/togethercomputer/together-typescript/issues/31)) ([52c8005](https://github.com/togethercomputer/together-typescript/commit/52c800544043060963bf09ef10d3596d3855a86e))
+* **api:** OpenAPI spec update via Stainless API ([#28](https://github.com/togethercomputer/together-typescript/issues/28)) ([9544a3f](https://github.com/togethercomputer/together-typescript/commit/9544a3f961b816fd59338db99b5f9b499dbfe832))
+* **api:** OpenAPI spec update via Stainless API ([#36](https://github.com/togethercomputer/together-typescript/issues/36)) ([0154ccf](https://github.com/togethercomputer/together-typescript/commit/0154ccf0758b9ec9117b5a399eade3e51f49c5fd))
+* **api:** OpenAPI spec update via Stainless API ([#39](https://github.com/togethercomputer/together-typescript/issues/39)) ([a141abb](https://github.com/togethercomputer/together-typescript/commit/a141abb2184e99a291eb5ea634fda71fca85f47b))
+
+
+### Chores
+
+* **ci:** bump prism mock server version ([#35](https://github.com/togethercomputer/together-typescript/issues/35)) ([2723c30](https://github.com/togethercomputer/together-typescript/commit/2723c30cd88f69fb77442faeb8a316bf1c5cde88))
+* **ci:** minor changes ([#34](https://github.com/togethercomputer/together-typescript/issues/34)) ([54b4da5](https://github.com/togethercomputer/together-typescript/commit/54b4da54aeec098d154486f09ba52f6e8bc3f715))
+* **examples:** minor formatting changes ([#38](https://github.com/togethercomputer/together-typescript/issues/38)) ([35f5465](https://github.com/togethercomputer/together-typescript/commit/35f546552c433af8d518db0b44f7fcd473c02eab))
+* force eslint to use non flat config ([#33](https://github.com/togethercomputer/together-typescript/issues/33)) ([a327432](https://github.com/togethercomputer/together-typescript/commit/a327432973bc4f245ec272dcd58a7d0a4f117c09))
+* **internal:** codegen related update ([#32](https://github.com/togethercomputer/together-typescript/issues/32)) ([edd1691](https://github.com/togethercomputer/together-typescript/commit/edd16911c877b06679f6f7759486e2ed442c94c5))
+* **internal:** codegen related update ([#37](https://github.com/togethercomputer/together-typescript/issues/37)) ([12be697](https://github.com/togethercomputer/together-typescript/commit/12be697f897f91ce94edd5ec5fca6abe236a5135))
+
 ## 0.6.0-alpha.4 (2024-07-16)
 
 Full Changelog: [v0.6.0-alpha.3...v0.6.0-alpha.4](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.3...v0.6.0-alpha.4)
