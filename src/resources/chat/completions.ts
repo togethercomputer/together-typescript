@@ -106,7 +106,7 @@ export namespace ChatCompletionChunk {
   export interface Choice {
     delta: Choice.Delta;
 
-    finish_reason: 'stop' | 'eos' | 'length' | 'tool_calls' | 'function_call';
+    finish_reason: 'stop' | 'eos' | 'length' | 'tool_calls' | 'function_call' | null;
 
     index: number;
 
