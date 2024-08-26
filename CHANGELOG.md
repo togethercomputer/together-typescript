@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0-alpha.6 (2024-08-26)
+
+Full Changelog: [v0.6.0-alpha.5...v0.6.0-alpha.6](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.5...v0.6.0-alpha.6)
+
+### Chores
+
+* **internal:** codegen related update ([#41](https://github.com/togethercomputer/together-typescript/issues/41)) ([3776c8d](https://github.com/togethercomputer/together-typescript/commit/3776c8d661824afa6dc33a1af725eb105e38fff3))
+
 ## 0.6.0-alpha.5 (2024-08-20)
 
 Full Changelog: [v0.6.0-alpha.4...v0.6.0-alpha.5](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.4...v0.6.0-alpha.5)
