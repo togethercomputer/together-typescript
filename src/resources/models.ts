@@ -23,7 +23,7 @@ export namespace ModelListResponse {
 
     object: string;
 
-    type: 'chat' | 'language' | 'code' | 'image' | 'embedding' | 'moderation';
+    type: 'chat' | 'language' | 'code' | 'image' | 'embedding' | 'moderation' | 'rerank';
 
     context_length?: number;
 
