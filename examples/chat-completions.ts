@@ -8,17 +8,18 @@ async function main() {
     .stream({
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
       messages: [{ role: 'user', content: 'Say this is a test' }],
+      logprobs: 1,
     })
     .on('message', (msg) => console.log(msg))
     .on('content', (diff) => process.stdout.write(diff));
 
   for await (const chunk of runner) {
     // Note: comment out the next line to print chunks as they are streamed from the API
-    // console.log('chunk', chunk);
+    console.log('chunk', chunk);
   }
 
   const result = await runner.finalMessage();
-  console.log(result);
+  console.log({ result });
 }
 
 main();
