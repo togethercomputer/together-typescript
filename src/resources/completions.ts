@@ -66,17 +66,17 @@ export interface LogProbs {
   /**
    * List of token IDs corresponding to the logprobs
    */
-  token_ids?: Array<number>;
+  token_ids?: Array<number | null>;
 
   /**
    * List of token log probabilities
    */
-  token_logprobs?: Array<number>;
+  token_logprobs?: Array<number | null>;
 
   /**
    * List of token strings
    */
-  tokens?: Array<string>;
+  tokens?: Array<string | null>;
 }
 
 export interface ToolChoice {

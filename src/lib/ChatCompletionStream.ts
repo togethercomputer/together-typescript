@@ -157,20 +157,26 @@ export class ChatCompletionStream
     for (const { delta, finish_reason, index, logprobs = null, ...other } of chunk.choices) {
       let choice = snapshot.choices[index];
       if (!choice) {
-        choice = snapshot.choices[index] = { finish_reason, index, message: {}, logprobs, ...other };
+        choice = snapshot.choices[index] = {
+          finish_reason,
+          index,
+          message: {},
+          logprobs: { token_ids: [], token_logprobs: [], tokens: [] },
+          ...other,
+        };
       }
 
       if (logprobs) {
+        console.log({ logprobs });
         if (!choice.logprobs) {
-          choice.logprobs = Object.assign({}, logprobs);
-        } else {
-          const { content, ...rest } = logprobs;
-          Object.assign(choice.logprobs, rest);
-          if (content) {
-            choice.logprobs.content ??= [];
-            choice.logprobs.content.push(...content);
-          }
+          choice.logprobs = { token_ids: [], token_logprobs: [], tokens: [] };
         }
+        choice.logprobs.token_ids ??= [];
+        choice.logprobs.token_ids.push(delta.token_id ?? null);
+        choice.logprobs.token_logprobs ??= [];
+        choice.logprobs.token_logprobs.push(logprobs ?? null);
+        choice.logprobs.tokens ??= [];
+        choice.logprobs.tokens.push(delta.content ?? null);
       }
 
       if (finish_reason) choice.finish_reason = finish_reason;
