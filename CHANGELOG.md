@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.6.0-alpha.7 (2024-08-28)
+
+Full Changelog: [v0.6.0-alpha.6...v0.6.0-alpha.7](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.6...v0.6.0-alpha.7)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#44](https://github.com/togethercomputer/together-typescript/issues/44)) ([5fbcdd8](https://github.com/togethercomputer/together-typescript/commit/5fbcdd8eb359ccd8f0bceb34d8d424c96e3e4268))
+
+
+### Bug Fixes
+
+* chat completion streaming when enabling logprobs ([cad72ef](https://github.com/togethercomputer/together-typescript/commit/cad72ef78213cbaa4497c7358b65e94c4b15f99a))
+
+
+### Chores
+
+* **ci:** check for build errors ([#46](https://github.com/togethercomputer/together-typescript/issues/46)) ([ef2541c](https://github.com/togethercomputer/together-typescript/commit/ef2541c70dfee841373dfe16a5c866ebcf382822))
+
 ## 0.6.0-alpha.6 (2024-08-26)
 
 Full Changelog: [v0.6.0-alpha.5...v0.6.0-alpha.6](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.5...v0.6.0-alpha.6)
