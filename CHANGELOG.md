@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.0-alpha.8 (2024-08-29)
+
+Full Changelog: [v0.6.0-alpha.7...v0.6.0-alpha.8](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.7...v0.6.0-alpha.8)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#48](https://github.com/togethercomputer/together-typescript/issues/48)) ([e382b4a](https://github.com/togethercomputer/together-typescript/commit/e382b4a8563479b5a0843d7613809454b5b9a16f))
+
+
+### Chores
+
+* run tsc as part of lint script ([#50](https://github.com/togethercomputer/together-typescript/issues/50)) ([3611348](https://github.com/togethercomputer/together-typescript/commit/361134866e071d7f02bf1a3377166a4a82e08191))
+
 ## 0.6.0-alpha.7 (2024-08-28)
 
 Full Changelog: [v0.6.0-alpha.6...v0.6.0-alpha.7](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.6...v0.6.0-alpha.7)
