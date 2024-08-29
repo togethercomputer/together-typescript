@@ -26,9 +26,16 @@ describe('resource fineTune', () => {
       training_file: 'training_file',
       batch_size: 0,
       learning_rate: 0,
+      lora: true,
+      lora_alpha: 0,
+      lora_dropout: 0,
+      lora_r: 0,
+      lora_trainable_modules: 'lora_trainable_modules',
       n_checkpoints: 0,
       n_epochs: 0,
+      n_evals: 0,
       suffix: 'suffix',
+      validation_file: 'validation_file',
       wandb_api_key: 'wandb_api_key',
     });
   });
