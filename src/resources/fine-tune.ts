@@ -87,6 +87,8 @@ export interface FineTune {
 
   lora_r?: number;
 
+  lora_trainable_modules?: string;
+
   model?: string;
 
   model_output_name?: string;
@@ -96,6 +98,8 @@ export interface FineTune {
   n_checkpoints?: number;
 
   n_epochs?: number;
+
+  n_evals?: number;
 
   param_count?: number;
 
@@ -107,9 +111,9 @@ export interface FineTune {
 
   training_file?: string;
 
-  TrainingFileNumLines?: number;
+  trainingfile_numlines?: number;
 
-  TrainingFileSize?: number;
+  trainingfile_size?: number;
 
   updated_at?: string;
 
@@ -251,7 +255,7 @@ export interface FineTuneCreateParams {
   model: string;
 
   /**
-   * File-ID of a file uploaded to the Together API
+   * File-ID of a training file uploaded to the Together API
    */
   training_file: string;
 
@@ -266,6 +270,32 @@ export interface FineTuneCreateParams {
   learning_rate?: number;
 
   /**
+   * Whether to enable LoRA training. If not provided, full fine-tuning will be
+   * applied.
+   */
+  lora?: boolean;
+
+  /**
+   * The alpha value for LoRA adapter training.
+   */
+  lora_alpha?: number;
+
+  /**
+   * The dropout probability for Lora layers.
+   */
+  lora_dropout?: number;
+
+  /**
+   * Rank for LoRA adapter weights
+   */
+  lora_r?: number;
+
+  /**
+   * A list of LoRA trainable modules, separated by a comma
+   */
+  lora_trainable_modules?: string;
+
+  /**
    * Number of checkpoints to save during fine-tuning
    */
   n_checkpoints?: number;
@@ -276,9 +306,19 @@ export interface FineTuneCreateParams {
   n_epochs?: number;
 
   /**
+   * Number of evaluations to be run on a given validation set during training
+   */
+  n_evals?: number;
+
+  /**
    * Suffix that will be added to your fine-tuned model name
    */
   suffix?: string;
+
+  /**
+   * File-ID of a validation file uploaded to the Together API
+   */
+  validation_file?: string;
 
   /**
    * API key for Weights & Biases integration
