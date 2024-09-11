@@ -115,6 +115,8 @@ export namespace ChatCompletionChunk {
     index: number;
 
     logprobs?: number | null;
+
+    seed?: number | null;
   }
 
   export namespace Choice {
@@ -314,6 +316,11 @@ export interface CompletionCreateParamsBase {
    * [here](https://docs.together.ai/docs/inference-models#moderation-models).
    */
   safety_model?: string;
+
+  /**
+   * Seed value for reproducibility.
+   */
+  seed?: number;
 
   /**
    * A list of string sequences that will truncate (stop) inference text output. For

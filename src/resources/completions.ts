@@ -52,6 +52,8 @@ export namespace Completion {
 
     logprobs?: CompletionsAPI.LogProbs;
 
+    seed?: number;
+
     text?: string;
   }
 
@@ -185,6 +187,11 @@ export interface CompletionCreateParamsBase {
    * [here](https://docs.together.ai/docs/inference-models#moderation-models).
    */
   safety_model?: string;
+
+  /**
+   * Seed value for reproducibility.
+   */
+  seed?: number;
 
   /**
    * A list of string sequences that will truncate (stop) inference text output. For
