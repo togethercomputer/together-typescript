@@ -47,6 +47,7 @@ describe('resource completions', () => {
       repetition_penalty: 0,
       response_format: { schema: { foo: 'string' }, type: 'json' },
       safety_model: 'safety_model_name',
+      seed: 42,
       stop: ['string', 'string', 'string'],
       stream: false,
       temperature: 0,
