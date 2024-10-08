@@ -79,16 +79,6 @@ export interface FineTune {
 
   learning_rate?: number;
 
-  lora?: boolean;
-
-  lora_alpha?: number;
-
-  lora_dropout?: number;
-
-  lora_r?: number;
-
-  lora_trainable_modules?: string;
-
   model?: string;
 
   model_output_name?: string;
@@ -110,6 +100,8 @@ export interface FineTune {
   total_price?: number;
 
   training_file?: string;
+
+  training_type?: FineTune.FullTrainingType | FineTune.LoRaTrainingType;
 
   trainingfile_numlines?: number;
 
@@ -168,6 +160,22 @@ export namespace FineTune {
       | 'warning';
 
     wandb_url?: string;
+  }
+
+  export interface FullTrainingType {
+    type: 'Full';
+  }
+
+  export interface LoRaTrainingType {
+    lora_alpha: number;
+
+    lora_r: number;
+
+    type: 'Lora';
+
+    lora_dropout?: number;
+
+    lora_trainable_modules?: string;
   }
 }
 
@@ -270,32 +278,6 @@ export interface FineTuneCreateParams {
   learning_rate?: number;
 
   /**
-   * Whether to enable LoRA training. If not provided, full fine-tuning will be
-   * applied.
-   */
-  lora?: boolean;
-
-  /**
-   * The alpha value for LoRA adapter training.
-   */
-  lora_alpha?: number;
-
-  /**
-   * The dropout probability for Lora layers.
-   */
-  lora_dropout?: number;
-
-  /**
-   * Rank for LoRA adapter weights
-   */
-  lora_r?: number;
-
-  /**
-   * A list of LoRA trainable modules, separated by a comma
-   */
-  lora_trainable_modules?: string;
-
-  /**
    * Number of checkpoints to save during fine-tuning
    */
   n_checkpoints?: number;
@@ -315,6 +297,8 @@ export interface FineTuneCreateParams {
    */
   suffix?: string;
 
+  training_type?: FineTuneCreateParams.FullTrainingType | FineTuneCreateParams.LoRaTrainingType;
+
   /**
    * File-ID of a validation file uploaded to the Together API
    */
@@ -324,6 +308,24 @@ export interface FineTuneCreateParams {
    * API key for Weights & Biases integration
    */
   wandb_api_key?: string;
+}
+
+export namespace FineTuneCreateParams {
+  export interface FullTrainingType {
+    type: 'Full';
+  }
+
+  export interface LoRaTrainingType {
+    lora_alpha: number;
+
+    lora_r: number;
+
+    type: 'Lora';
+
+    lora_dropout?: number;
+
+    lora_trainable_modules?: string;
+  }
 }
 
 export interface FineTuneDownloadParams {
