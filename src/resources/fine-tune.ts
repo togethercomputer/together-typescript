@@ -114,6 +114,8 @@ export interface FineTune {
   wandb_project_name?: string;
 
   wandb_url?: string;
+
+  warmup_ratio?: number;
 }
 
 export namespace FineTune {
@@ -308,6 +310,12 @@ export interface FineTuneCreateParams {
    * API key for Weights & Biases integration
    */
   wandb_api_key?: string;
+
+  /**
+   * The percent of steps at the start of training to linearly increase the
+   * learning-rate.
+   */
+  warmup_ratio?: number;
 }
 
 export namespace FineTuneCreateParams {
