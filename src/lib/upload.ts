@@ -1,7 +1,7 @@
 // Upload file to server using /files API
 
 import * as core from '../core';
-import axios, { AxiosResponse, isAxiosError } from "axios";
+import { isAxiosError } from 'axios';
 import fs from 'fs';
 import fetch from 'node-fetch';
 import * as path from 'path';
@@ -34,7 +34,7 @@ export async function upload(
   check: boolean,
 ): Promise<FileResponse | ErrorResponse> {
   if (!fs.existsSync(fileName)) {
-    return  {
+    return {
       message: 'File does not exists',
     };
   }
@@ -63,31 +63,31 @@ export async function upload(
 
   try {
     const params = new URLSearchParams({
-        file_name: fileName,
-        purpose: purpose,
-        });
+      file_name: fileName,
+      purpose: purpose,
+    });
     const fullUrl = `${getSigned}?${params}`;
     const r = await fetch(fullUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `Bearer ${apiKey}`,
-        },
-        redirect: 'manual',
-        body: params.toString(),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      redirect: 'manual',
+      body: params.toString(),
     });
 
     if (r.status !== 302) {
       return failedUploadMessage;
     }
 
-    const uploadUrl = r.headers.get('location') || ''
+    const uploadUrl = r.headers.get('location') || '';
     if (!uploadUrl || uploadUrl === '') {
-      return failedUploadMessage
+      return failedUploadMessage;
     }
     const fileId = r.headers.get('x-together-file-id') || '';
     if (!fileId || fileId === '') {
-      return failedUploadMessage
+      return failedUploadMessage;
     }
 
     const fileStream = fs.createReadStream(fileName);
@@ -113,9 +113,8 @@ export async function upload(
       body: fileStream.pipe(progressStream),
     });
 
-
-    displayProgress(100)
-    process.stdout.write("\n");
+    displayProgress(100);
+    process.stdout.write('\n');
 
     return {
       id: fileId,
@@ -133,13 +132,13 @@ export async function upload(
       if (error.status) {
         return {
           message: `failed to upload file with status ${error.status}`,
-        }
+        };
       }
     }
 
     return {
       message: 'failed to upload file',
-    }
+    };
   }
 }
 
@@ -157,9 +156,8 @@ async function displayProgress(progress: number) {
   process.stdout.cursorTo(0);
   process.stdout.write(progressBar, () => {});
   await sleep(2000);
-
 }
 
-async function  sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+async function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
