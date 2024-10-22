@@ -28,11 +28,7 @@ const failedUploadMessage = {
 
 const baseURL = 'https://api.together.xyz/v1';
 
-export async function upload(
-  fileName: string,
-  purpose: string,
-  check: boolean,
-): Promise<FileResponse | ErrorResponse> {
+export async function upload(fileName: string, check: boolean): Promise<FileResponse | ErrorResponse> {
   if (!fs.existsSync(fileName)) {
     return {
       message: 'File does not exists',
@@ -64,7 +60,7 @@ export async function upload(
   try {
     const params = new URLSearchParams({
       file_name: fileName,
-      purpose: purpose,
+      purpose: 'fine-tune',
     });
     const fullUrl = `${getSigned}?${params}`;
     const r = await fetch(fullUrl, {

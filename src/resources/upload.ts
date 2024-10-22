@@ -3,13 +3,10 @@ import { ErrorResponse, FileResponse, upload as uploadFile } from 'together-ai/l
 
 declare module './files' {
   interface Files {
-    upload(fileName: string, purpose: 'fine-tune'): Promise<FileResponse | ErrorResponse>;
+    upload(fileName: string): Promise<FileResponse | ErrorResponse>;
   }
 }
 
-Files.prototype.upload = function (
-  fileName: string,
-  purpose: 'fine-tune',
-): Promise<FileResponse | ErrorResponse> {
-  return uploadFile(fileName, purpose, false);
+Files.prototype.upload = function (fileName: string): Promise<FileResponse | ErrorResponse> {
+  return uploadFile(fileName, false);
 };
