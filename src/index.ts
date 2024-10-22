@@ -5,6 +5,7 @@ import * as Uploads from './uploads';
 import { type Agent } from './_shims/index';
 import * as Core from './core';
 import * as API from './resources/index';
+import * as TopLevelAPI from './resources/top-level';
 
 export interface ClientOptions {
   /**
@@ -127,6 +128,16 @@ export class Together extends Core.APIClient {
   images: API.Images = new API.Images(this);
   models: API.Models = new API.Models(this);
 
+  /**
+   * Query a reranker model
+   */
+  rerank(
+    body: TopLevelAPI.RerankParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<TopLevelAPI.RerankResponse> {
+    return this.post('/rerank', { body, ...options });
+  }
+
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
   }
@@ -184,6 +195,9 @@ export import fileFromPath = Uploads.fileFromPath;
 
 export namespace Together {
   export import RequestOptions = Core.RequestOptions;
+
+  export import RerankResponse = API.RerankResponse;
+  export import RerankParams = API.RerankParams;
 
   export import Chat = API.Chat;
 
