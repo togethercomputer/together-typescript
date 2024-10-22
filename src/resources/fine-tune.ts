@@ -312,8 +312,8 @@ export interface FineTuneCreateParams {
   wandb_api_key?: string;
 
   /**
-   * The percent of steps at the start of training to linearly increase the
-   * learning-rate.
+   * The percent of steps at the start of training to linearly increase the learning
+   * rate.
    */
   warmup_ratio?: number;
 }
