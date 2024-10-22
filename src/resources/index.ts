@@ -24,3 +24,4 @@ export {
 } from './fine-tune';
 export { ImageFile, ImageCreateParams, Images } from './images';
 export { ModelListResponse, Models } from './models';
+export { RerankResponse, RerankParams } from './top-level';
