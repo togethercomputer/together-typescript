@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.6.0 (2024-10-22)
+
+Full Changelog: [v0.6.0-alpha.8...v0.6.0](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.8...v0.6.0)
+
+### Features
+
+* **api:** api update ([#67](https://github.com/togethercomputer/together-typescript/issues/67)) ([21e06d1](https://github.com/togethercomputer/together-typescript/commit/21e06d173bd0eda660241ebc54c3308b21c9b4ba))
+* **api:** OpenAPI spec update via Stainless API ([#55](https://github.com/togethercomputer/together-typescript/issues/55)) ([ebe1c62](https://github.com/togethercomputer/together-typescript/commit/ebe1c628baac31d27aca53ef23531e8585b3c7af))
+* **api:** OpenAPI spec update via Stainless API ([#62](https://github.com/togethercomputer/together-typescript/issues/62)) ([b6af173](https://github.com/togethercomputer/together-typescript/commit/b6af17302473f7ee3ed8eea2671d6920f6a6edc2))
+
+
+### Bug Fixes
+
+* **client:** correct File construction from node-fetch Responses ([#54](https://github.com/togethercomputer/together-typescript/issues/54)) ([e1d5c6b](https://github.com/togethercomputer/together-typescript/commit/e1d5c6bd0ef8985a9525a82a31f2ac3385e6e2bd))
+* **errors:** pass message through to APIConnectionError ([#60](https://github.com/togethercomputer/together-typescript/issues/60)) ([0d0ede4](https://github.com/togethercomputer/together-typescript/commit/0d0ede46e8e34c64a65fe79790cecfca3277e6b3))
+* **uploads:** avoid making redundant memory copies ([#57](https://github.com/togethercomputer/together-typescript/issues/57)) ([e88f744](https://github.com/togethercomputer/together-typescript/commit/e88f7449116fa4237a9601e1fd87f939b6678041))
+
+
+### Chores
+
+* better object fallback behaviour for casting errors ([#61](https://github.com/togethercomputer/together-typescript/issues/61)) ([bad19ff](https://github.com/togethercomputer/together-typescript/commit/bad19ffd41ab7223845b9763346e49e5364d8182))
+* **ci:** install deps via ./script/bootstrap ([#52](https://github.com/togethercomputer/together-typescript/issues/52)) ([a22842a](https://github.com/togethercomputer/together-typescript/commit/a22842aaff23412ff69e4aea0ff99eb16bd8408c))
+* **internal:** codegen related update ([#56](https://github.com/togethercomputer/together-typescript/issues/56)) ([8fd1782](https://github.com/togethercomputer/together-typescript/commit/8fd17821e4ac71372deebc1c08bea38735dbd1e7))
+* **internal:** codegen related update ([#58](https://github.com/togethercomputer/together-typescript/issues/58)) ([e5b82e7](https://github.com/togethercomputer/together-typescript/commit/e5b82e7097f75420acf5b7c3d952ddfbd05a3832))
+* **internal:** codegen related update ([#59](https://github.com/togethercomputer/together-typescript/issues/59)) ([962541e](https://github.com/togethercomputer/together-typescript/commit/962541e18d35c6c91e8710544ffa44693be7c2c6))
+* **internal:** codegen related update ([#63](https://github.com/togethercomputer/together-typescript/issues/63)) ([6093fb9](https://github.com/togethercomputer/together-typescript/commit/6093fb9410ddc0580ffd7634e73cdb4075d94050))
+* **internal:** move LineDecoder to a separate file ([#64](https://github.com/togethercomputer/together-typescript/issues/64)) ([9a5999d](https://github.com/togethercomputer/together-typescript/commit/9a5999d5fcd0dd92b18fd8a31e5db7c5f1eab326))
+* **internal:** pass props through internal parser ([#65](https://github.com/togethercomputer/together-typescript/issues/65)) ([162bc3c](https://github.com/togethercomputer/together-typescript/commit/162bc3c9a02d7c0c878a6c14fc9d711c90282e89))
+
 ## 0.6.0-alpha.8 (2024-08-29)
 
 Full Changelog: [v0.6.0-alpha.7...v0.6.0-alpha.8](https://github.com/togethercomputer/together-typescript/compare/v0.6.0-alpha.7...v0.6.0-alpha.8)
