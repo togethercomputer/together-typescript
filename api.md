@@ -1,3 +1,13 @@
+# Together
+
+Types:
+
+- <code><a href="./src/resources/top-level.ts">RerankResponse</a></code>
+
+Methods:
+
+- <code title="post /rerank">client.<a href="./src/index.ts">rerank</a>({ ...params }) -> RerankResponse</code>
+
 # Chat
 
 ## Completions
