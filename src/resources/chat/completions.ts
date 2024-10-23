@@ -250,18 +250,14 @@ export interface CompletionCreateParamsBase {
 
   /**
    * The name of the model to query.
-   *
-   * Popular models:
-   *
-   * - meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo
-   * - meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo
-   * - meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo
-   * - Qwen/Qwen2.5-7B-Instruct-Turbo
-   * - Qwen/Qwen2.5-72B-Instruct-Turbo
-   *
-   * [See all of Together AI's chat models](https://docs.together.ai/docs/serverless-models)
    */
-  model: string;
+  model:
+    | 'Qwen/Qwen2.5-72B-Instruct-Turbo'
+    | 'Qwen/Qwen2.5-7B-Instruct-Turbo'
+    | 'meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo'
+    | 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo'
+    | 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo'
+    | (string & {});
 
   /**
    * If true, the response will contain the prompt. Can be used with `logprobs` to
