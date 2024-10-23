@@ -16,7 +16,7 @@ describe('resource completions', () => {
         { content: 'content', role: 'system' },
         { content: 'content', role: 'system' },
       ],
-      model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
+      model: 'Qwen/Qwen2.5-72B-Instruct-Turbo',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -34,7 +34,7 @@ describe('resource completions', () => {
         { content: 'content', role: 'system' },
         { content: 'content', role: 'system' },
       ],
-      model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
+      model: 'Qwen/Qwen2.5-72B-Instruct-Turbo',
       echo: true,
       frequency_penalty: 0,
       function_call: 'none',
