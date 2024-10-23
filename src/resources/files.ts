@@ -4,6 +4,7 @@ import { APIResource } from '../resource';
 import * as Core from '../core';
 import * as FilesAPI from './files';
 import { type Response } from '../_shims/index';
+import { ErrorResponse, FileResponse, upload as uploadFile } from 'together-ai/lib/upload';
 
 export class Files extends APIResource {
   /**
@@ -32,6 +33,13 @@ export class Files extends APIResource {
    */
   content(id: string, options?: Core.RequestOptions): Core.APIPromise<Response> {
     return this._client.get(`/files/${id}/content`, { ...options, __binaryResponse: true });
+  }
+
+  /**
+   * Upload a file.
+   */
+  upload(fileName: string): Promise<FileResponse | ErrorResponse> {
+    return uploadFile(fileName, 'fine-tune', false);
   }
 }
 
