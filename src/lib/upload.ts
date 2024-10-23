@@ -26,8 +26,6 @@ const failedUploadMessage = {
   message: 'failed to upload file',
 };
 
-const baseURL = 'https://api.together.xyz/v1';
-
 export async function upload(fileName: string, check: boolean): Promise<FileResponse | ErrorResponse> {
   if (!fs.existsSync(fileName)) {
     return {
@@ -46,8 +44,7 @@ export async function upload(fileName: string, check: boolean): Promise<FileResp
   // 2. get signed upload url
   // 3. upload file
   const baseUrl = core.readEnv('TOGETHER_API_BASE_URL') || 'https://api.together.ai/v1';
-  const apiKey =
-    core.readEnv('TOGETHER_API_KEY') || '3c24363cf5506cb56b48e7e99de5e182a1a544965f3d9f38833a6db35d6f7aad';
+  const apiKey = core.readEnv('TOGETHER_API_KEY');
 
   if (!apiKey) {
     return {
@@ -55,7 +52,7 @@ export async function upload(fileName: string, check: boolean): Promise<FileResp
     };
   }
 
-  const getSigned = baseURL + '/files';
+  const getSigned = baseUrl + '/files';
 
   try {
     const params = new URLSearchParams({
