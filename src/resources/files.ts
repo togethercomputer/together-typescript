@@ -39,7 +39,7 @@ export class Files extends APIResource {
    * Upload a file.
    */
   upload(fileName: string): Promise<FileResponse | ErrorResponse> {
-    return uploadFile(fileName, false);
+    return uploadFile(fileName, 'fine-tune', false);
   }
 }
 

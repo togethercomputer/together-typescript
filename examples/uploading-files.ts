@@ -8,7 +8,7 @@ const together = new Together();
 
 async function main() {
   //Upload a file
-  const file = await together.files.upload('sample_finetuning.jsonl');
+  const file = await together.files.upload('./examples/sample_finetuning.jsonl');
   console.log('Uploaded file');
   console.log(file);
 }
