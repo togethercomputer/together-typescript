@@ -343,7 +343,14 @@ export interface FineTuneDownloadParams {
   ft_id: string;
 
   /**
-   * Specifies step number for checkpoint to download.
+   * Specifies checkpoint type to download - `merged` vs `adapter`. This field is
+   * required if the checkpoint_step is not set.
+   */
+  checkpoint?: 'merged' | 'adapter';
+
+  /**
+   * Specifies step number for checkpoint to download. Ignores `checkpoint` value if
+   * set.
    */
   checkpoint_step?: number;
 
