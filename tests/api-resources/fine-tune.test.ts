@@ -103,7 +103,12 @@ describe('resource fineTune', () => {
   });
 
   test('download: required and optional params', async () => {
-    const response = await client.fineTune.download({ ft_id: 'ft_id', checkpoint_step: 0, output: 'output' });
+    const response = await client.fineTune.download({
+      ft_id: 'ft_id',
+      checkpoint: 'merged',
+      checkpoint_step: 0,
+      output: 'output',
+    });
   });
 
   test('listEvents', async () => {
