@@ -123,8 +123,15 @@ export type CompletionCreateParams = CompletionCreateParamsNonStreaming | Comple
 export interface CompletionCreateParamsBase {
   /**
    * The name of the model to query.
+   *
+   * [See all of Together AI's chat models](https://docs.together.ai/docs/serverless-models#chat-models)
    */
-  model: string;
+  model:
+    | 'meta-llama/Llama-2-70b-hf'
+    | 'mistralai/Mistral-7B-v0.1'
+    | 'mistralai/Mixtral-8x7B-v0.1'
+    | 'Meta-Llama/Llama-Guard-7b'
+    | (string & {});
 
   /**
    * A string providing context for the model to complete.
@@ -186,7 +193,7 @@ export interface CompletionCreateParamsBase {
    * available moderation models found
    * [here](https://docs.together.ai/docs/inference-models#moderation-models).
    */
-  safety_model?: string;
+  safety_model?: 'Meta-Llama/Llama-Guard-7b' | (string & {});
 
   /**
    * Seed value for reproducibility.

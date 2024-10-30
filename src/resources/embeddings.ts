@@ -39,8 +39,15 @@ export interface EmbeddingCreateParams {
 
   /**
    * The name of the embedding model to use.
+   *
+   * [See all of Together AI's embedding models](https://docs.together.ai/docs/serverless-models#embedding-models)
    */
-  model: string;
+  model:
+    | 'WhereIsAI/UAE-Large-V1'
+    | 'BAAI/bge-large-en-v1.5'
+    | 'BAAI/bge-base-en-v1.5'
+    | 'togethercomputer/m2-bert-80M-8k-retrieval'
+    | (string & {});
 }
 
 export namespace Embeddings {

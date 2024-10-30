@@ -48,8 +48,10 @@ export interface RerankParams {
 
   /**
    * The model to be used for the rerank request.
+   *
+   * [See all of Together AI's rerank models](https://docs.together.ai/docs/serverless-models#rerank-models)
    */
-  model: string;
+  model: 'Salesforce/Llama-Rank-v1' | (string & {});
 
   /**
    * The search query to be used for ranking.
