@@ -12,7 +12,7 @@ describe('resource embeddings', () => {
   test('create: only required params', async () => {
     const responsePromise = client.embeddings.create({
       input: 'Our solar system orbits the Milky Way galaxy at about 515,000 mph',
-      model: 'togethercomputer/m2-bert-80M-8k-retrieval',
+      model: 'WhereIsAI/UAE-Large-V1',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -26,7 +26,7 @@ describe('resource embeddings', () => {
   test('create: required and optional params', async () => {
     const response = await client.embeddings.create({
       input: 'Our solar system orbits the Milky Way galaxy at about 515,000 mph',
-      model: 'togethercomputer/m2-bert-80M-8k-retrieval',
+      model: 'WhereIsAI/UAE-Large-V1',
     });
   });
 });

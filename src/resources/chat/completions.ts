@@ -250,6 +250,8 @@ export interface CompletionCreateParamsBase {
 
   /**
    * The name of the model to query.
+   *
+   * [See all of Together AI's chat models](https://docs.together.ai/docs/serverless-models#chat-models)
    */
   model:
     | 'Qwen/Qwen2.5-72B-Instruct-Turbo'
