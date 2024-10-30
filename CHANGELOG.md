@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.8.0 (2024-10-30)
+
+Full Changelog: [v0.7.0...v0.8.0](https://github.com/togethercomputer/together-typescript/compare/v0.7.0...v0.8.0)
+
+### Features
+
+* **api:** api update ([#76](https://github.com/togethercomputer/together-typescript/issues/76)) ([26b7743](https://github.com/togethercomputer/together-typescript/commit/26b7743e989cc1239740ac99d03e2ec157da9905))
+* **api:** api update ([#79](https://github.com/togethercomputer/together-typescript/issues/79)) ([eb34c86](https://github.com/togethercomputer/together-typescript/commit/eb34c86204618eb7f7bf8f4aed16af97a221dae2))
+
+
+### Documentation
+
+* **api:** Add back in required readme field ([#78](https://github.com/togethercomputer/together-typescript/issues/78)) ([74b457f](https://github.com/togethercomputer/together-typescript/commit/74b457f6a98046feb0805f3c8471c800fc6fc7b0))
+
 ## 0.7.0 (2024-10-23)
 
 Full Changelog: [v0.6.0...v0.7.0](https://github.com/togethercomputer/together-typescript/compare/v0.6.0...v0.7.0)
