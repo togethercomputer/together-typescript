@@ -33,6 +33,13 @@ export class Files extends APIResource {
   content(id: string, options?: Core.RequestOptions): Core.APIPromise<Response> {
     return this._client.get(`/files/${id}/content`, { ...options, __binaryResponse: true });
   }
+
+  /**
+   * Upload a file.
+   */
+  upload(_: string): Promise<void> {
+    throw 'please use together-ai/lib/upload';
+  }
 }
 
 export interface FileObject {
