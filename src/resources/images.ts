@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as ImagesAPI from './images';
 
 export class Images extends APIResource {
   /**
@@ -79,7 +78,6 @@ export interface ImageCreateParams {
   width?: number;
 }
 
-export namespace Images {
-  export import ImageFile = ImagesAPI.ImageFile;
-  export import ImageCreateParams = ImagesAPI.ImageCreateParams;
+export declare namespace Images {
+  export { type ImageFile as ImageFile, type ImageCreateParams as ImageCreateParams };
 }
