@@ -38,7 +38,7 @@ export class Files extends APIResource {
    * Upload a file.
    */
   upload(_: string): Promise<void> {
-    throw "please use together-ai/lib/upload";
+    throw 'please use together-ai/lib/upload';
   }
 }
 
