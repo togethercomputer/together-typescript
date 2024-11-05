@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as FilesAPI from './files';
 import { type Response } from '../_shims/index';
 
 export class Files extends APIResource {
@@ -97,9 +96,11 @@ export interface FileDeleteResponse {
   deleted?: boolean;
 }
 
-export namespace Files {
-  export import FileObject = FilesAPI.FileObject;
-  export import FileRetrieveResponse = FilesAPI.FileRetrieveResponse;
-  export import FileListResponse = FilesAPI.FileListResponse;
-  export import FileDeleteResponse = FilesAPI.FileDeleteResponse;
+export declare namespace Files {
+  export {
+    type FileObject as FileObject,
+    type FileRetrieveResponse as FileRetrieveResponse,
+    type FileListResponse as FileListResponse,
+    type FileDeleteResponse as FileDeleteResponse,
+  };
 }

@@ -264,12 +264,14 @@ export interface CompletionCreateParamsStreaming extends CompletionCreateParamsB
   stream: true;
 }
 
-export namespace Completions {
-  export import Completion = CompletionsAPI.Completion;
-  export import LogProbs = CompletionsAPI.LogProbs;
-  export import ToolChoice = CompletionsAPI.ToolChoice;
-  export import Tools = CompletionsAPI.Tools;
-  export import CompletionCreateParams = CompletionsAPI.CompletionCreateParams;
-  export import CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming;
-  export import CompletionCreateParamsStreaming = CompletionsAPI.CompletionCreateParamsStreaming;
+export declare namespace Completions {
+  export {
+    type Completion as Completion,
+    type LogProbs as LogProbs,
+    type ToolChoice as ToolChoice,
+    type Tools as Tools,
+    type CompletionCreateParams as CompletionCreateParams,
+    type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
+    type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming,
+  };
 }

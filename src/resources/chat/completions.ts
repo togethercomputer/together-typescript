@@ -350,11 +350,13 @@ export interface CompletionCreateParamsStreaming extends CompletionCreateParamsB
   stream: true;
 }
 
-export namespace Completions {
-  export import ChatCompletion = ChatCompletionsAPI.ChatCompletion;
-  export import ChatCompletionChunk = ChatCompletionsAPI.ChatCompletionChunk;
-  export import ChatCompletionUsage = ChatCompletionsAPI.ChatCompletionUsage;
-  export import CompletionCreateParams = ChatCompletionsAPI.CompletionCreateParams;
-  export import CompletionCreateParamsNonStreaming = ChatCompletionsAPI.CompletionCreateParamsNonStreaming;
-  export import CompletionCreateParamsStreaming = ChatCompletionsAPI.CompletionCreateParamsStreaming;
+export declare namespace Completions {
+  export {
+    type ChatCompletion as ChatCompletion,
+    type ChatCompletionChunk as ChatCompletionChunk,
+    type ChatCompletionUsage as ChatCompletionUsage,
+    type CompletionCreateParams as CompletionCreateParams,
+    type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
+    type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming,
+  };
 }

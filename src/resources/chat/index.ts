@@ -2,11 +2,11 @@
 
 export { Chat } from './chat';
 export {
-  ChatCompletion,
-  ChatCompletionChunk,
-  ChatCompletionUsage,
-  CompletionCreateParams,
-  CompletionCreateParamsNonStreaming,
-  CompletionCreateParamsStreaming,
   Completions,
+  type ChatCompletion,
+  type ChatCompletionChunk,
+  type ChatCompletionUsage,
+  type CompletionCreateParams,
+  type CompletionCreateParamsNonStreaming,
+  type CompletionCreateParamsStreaming,
 } from './completions';

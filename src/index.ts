@@ -1,11 +1,42 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Errors from './error';
-import * as Uploads from './uploads';
 import { type Agent } from './_shims/index';
 import * as Core from './core';
+import * as Errors from './error';
+import * as Uploads from './uploads';
 import * as API from './resources/index';
 import * as TopLevelAPI from './resources/top-level';
+import { RerankParams, RerankResponse } from './resources/top-level';
+import {
+  Completion,
+  CompletionCreateParams,
+  CompletionCreateParamsNonStreaming,
+  CompletionCreateParamsStreaming,
+  Completions,
+  LogProbs,
+  ToolChoice,
+  Tools,
+} from './resources/completions';
+import { Embedding, EmbeddingCreateParams, Embeddings } from './resources/embeddings';
+import {
+  FileDeleteResponse,
+  FileListResponse,
+  FileObject,
+  FileRetrieveResponse,
+  Files,
+} from './resources/files';
+import {
+  FineTune,
+  FineTuneCreateParams,
+  FineTuneDownloadParams,
+  FineTuneDownloadResponse,
+  FineTuneEvent,
+  FineTuneListResponse,
+  FineTuneResource,
+} from './resources/fine-tune';
+import { ImageCreateParams, ImageFile, Images } from './resources/images';
+import { ModelListResponse, Models } from './resources/models';
+import { Chat } from './resources/chat/chat';
 
 export interface ClientOptions {
   /**
@@ -174,7 +205,7 @@ export class Together extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-export const {
+export {
   TogetherError,
   APIError,
   APIConnectionError,
@@ -188,52 +219,64 @@ export const {
   InternalServerError,
   PermissionDeniedError,
   UnprocessableEntityError,
-} = Errors;
+} from './error';
 
 export import toFile = Uploads.toFile;
 export import fileFromPath = Uploads.fileFromPath;
 
-export namespace Together {
-  export import RequestOptions = Core.RequestOptions;
+Together.Chat = Chat;
+Together.Completions = Completions;
+Together.Embeddings = Embeddings;
+Together.Files = Files;
+Together.FineTuneResource = FineTuneResource;
+Together.Images = Images;
+Together.Models = Models;
 
-  export import RerankResponse = API.RerankResponse;
-  export import RerankParams = API.RerankParams;
+export declare namespace Together {
+  export type RequestOptions = Core.RequestOptions;
 
-  export import Chat = API.Chat;
+  export { type RerankResponse as RerankResponse, type RerankParams as RerankParams };
 
-  export import Completions = API.Completions;
-  export import Completion = API.Completion;
-  export import LogProbs = API.LogProbs;
-  export import ToolChoice = API.ToolChoice;
-  export import Tools = API.Tools;
-  export import CompletionCreateParams = API.CompletionCreateParams;
-  export import CompletionCreateParamsNonStreaming = API.CompletionCreateParamsNonStreaming;
-  export import CompletionCreateParamsStreaming = API.CompletionCreateParamsStreaming;
+  export { Chat as Chat };
 
-  export import Embeddings = API.Embeddings;
-  export import Embedding = API.Embedding;
-  export import EmbeddingCreateParams = API.EmbeddingCreateParams;
+  export {
+    Completions as Completions,
+    type Completion as Completion,
+    type LogProbs as LogProbs,
+    type ToolChoice as ToolChoice,
+    type Tools as Tools,
+    type CompletionCreateParams as CompletionCreateParams,
+    type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
+    type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming,
+  };
 
-  export import Files = API.Files;
-  export import FileObject = API.FileObject;
-  export import FileRetrieveResponse = API.FileRetrieveResponse;
-  export import FileListResponse = API.FileListResponse;
-  export import FileDeleteResponse = API.FileDeleteResponse;
+  export {
+    Embeddings as Embeddings,
+    type Embedding as Embedding,
+    type EmbeddingCreateParams as EmbeddingCreateParams,
+  };
 
-  export import FineTuneResource = API.FineTuneResource;
-  export import FineTune = API.FineTune;
-  export import FineTuneEvent = API.FineTuneEvent;
-  export import FineTuneListResponse = API.FineTuneListResponse;
-  export import FineTuneDownloadResponse = API.FineTuneDownloadResponse;
-  export import FineTuneCreateParams = API.FineTuneCreateParams;
-  export import FineTuneDownloadParams = API.FineTuneDownloadParams;
+  export {
+    Files as Files,
+    type FileObject as FileObject,
+    type FileRetrieveResponse as FileRetrieveResponse,
+    type FileListResponse as FileListResponse,
+    type FileDeleteResponse as FileDeleteResponse,
+  };
 
-  export import Images = API.Images;
-  export import ImageFile = API.ImageFile;
-  export import ImageCreateParams = API.ImageCreateParams;
+  export {
+    FineTuneResource as FineTuneResource,
+    type FineTune as FineTune,
+    type FineTuneEvent as FineTuneEvent,
+    type FineTuneListResponse as FineTuneListResponse,
+    type FineTuneDownloadResponse as FineTuneDownloadResponse,
+    type FineTuneCreateParams as FineTuneCreateParams,
+    type FineTuneDownloadParams as FineTuneDownloadParams,
+  };
 
-  export import Models = API.Models;
-  export import ModelListResponse = API.ModelListResponse;
+  export { Images as Images, type ImageFile as ImageFile, type ImageCreateParams as ImageCreateParams };
+
+  export { Models as Models, type ModelListResponse as ModelListResponse };
 }
 
 export default Together;

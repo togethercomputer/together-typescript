@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as FineTuneAPI from './fine-tune';
 
 export class FineTuneResource extends APIResource {
   /**
@@ -361,11 +360,13 @@ export interface FineTuneDownloadParams {
   output?: string;
 }
 
-export namespace FineTuneResource {
-  export import FineTune = FineTuneAPI.FineTune;
-  export import FineTuneEvent = FineTuneAPI.FineTuneEvent;
-  export import FineTuneListResponse = FineTuneAPI.FineTuneListResponse;
-  export import FineTuneDownloadResponse = FineTuneAPI.FineTuneDownloadResponse;
-  export import FineTuneCreateParams = FineTuneAPI.FineTuneCreateParams;
-  export import FineTuneDownloadParams = FineTuneAPI.FineTuneDownloadParams;
+export declare namespace FineTuneResource {
+  export {
+    type FineTune as FineTune,
+    type FineTuneEvent as FineTuneEvent,
+    type FineTuneListResponse as FineTuneListResponse,
+    type FineTuneDownloadResponse as FineTuneDownloadResponse,
+    type FineTuneCreateParams as FineTuneCreateParams,
+    type FineTuneDownloadParams as FineTuneDownloadParams,
+  };
 }
