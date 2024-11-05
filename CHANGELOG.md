@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.9.0 (2024-11-05)
+
+Full Changelog: [v0.8.0...v0.9.0](https://github.com/togethercomputer/together-typescript/compare/v0.8.0...v0.9.0)
+
+### Features
+
+* adding upload API as a helper function. Need to figure out how to make it part of Together.files package ([59efebe](https://github.com/togethercomputer/together-typescript/commit/59efebeea30bd389ecfc8dad484ce085e1efe412))
+* fixed linting error ([045f8dd](https://github.com/togethercomputer/together-typescript/commit/045f8dd9bdfd447d8663a5691096fea1e27adc5c))
+* removed ([d588157](https://github.com/togethercomputer/together-typescript/commit/d588157eba3f77dc68313b17aba3a3eefa2457ca))
+* updated yarn.lock ([6487474](https://github.com/togethercomputer/together-typescript/commit/6487474d24a1bc13416269bef0b36c11b424b9ef))
+* yarn lock change ([b8ce4ae](https://github.com/togethercomputer/together-typescript/commit/b8ce4ae8312789037122580f5408a72f21189d24))
+
 ## 0.8.0 (2024-10-30)
 
 Full Changelog: [v0.7.0...v0.8.0](https://github.com/togethercomputer/together-typescript/compare/v0.7.0...v0.8.0)
