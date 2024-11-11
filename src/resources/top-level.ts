@@ -1,6 +1,5 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as TopLevelAPI from './top-level';
 import * as CompletionsAPI from './chat/completions';
 
 export interface RerankResponse {
@@ -75,7 +74,6 @@ export interface RerankParams {
   top_n?: number;
 }
 
-export namespace TopLevel {
-  export import RerankResponse = TopLevelAPI.RerankResponse;
-  export import RerankParams = TopLevelAPI.RerankParams;
+export declare namespace TopLevel {
+  export { type RerankResponse as RerankResponse, type RerankParams as RerankParams };
 }

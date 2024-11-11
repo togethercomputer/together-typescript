@@ -2,25 +2,46 @@
 
 import { APIResource } from '../../resource';
 import * as CompletionsAPI from './completions';
+import {
+  ChatCompletion,
+  ChatCompletionAssistantMessageParam,
+  ChatCompletionChunk,
+  ChatCompletionFunctionMessageParam,
+  ChatCompletionMessage,
+  ChatCompletionMessageParam,
+  ChatCompletionSystemMessageParam,
+  ChatCompletionTool,
+  ChatCompletionToolMessageParam,
+  ChatCompletionUsage,
+  ChatCompletionUserMessageParam,
+  CompletionCreateParams,
+  CompletionCreateParamsNonStreaming,
+  CompletionCreateParamsStreaming,
+  Completions,
+} from './completions';
 
 export class Chat extends APIResource {
   completions: CompletionsAPI.Completions = new CompletionsAPI.Completions(this._client);
 }
 
-export namespace Chat {
-  export import Completions = CompletionsAPI.Completions;
-  export import ChatCompletion = CompletionsAPI.ChatCompletion;
-  export import ChatCompletionAssistantMessageParam = CompletionsAPI.ChatCompletionAssistantMessageParam;
-  export import ChatCompletionChunk = CompletionsAPI.ChatCompletionChunk;
-  export import ChatCompletionFunctionMessageParam = CompletionsAPI.ChatCompletionFunctionMessageParam;
-  export import ChatCompletionMessage = CompletionsAPI.ChatCompletionMessage;
-  export import ChatCompletionMessageParam = CompletionsAPI.ChatCompletionMessageParam;
-  export import ChatCompletionSystemMessageParam = CompletionsAPI.ChatCompletionSystemMessageParam;
-  export import ChatCompletionTool = CompletionsAPI.ChatCompletionTool;
-  export import ChatCompletionToolMessageParam = CompletionsAPI.ChatCompletionToolMessageParam;
-  export import ChatCompletionUsage = CompletionsAPI.ChatCompletionUsage;
-  export import ChatCompletionUserMessageParam = CompletionsAPI.ChatCompletionUserMessageParam;
-  export import CompletionCreateParams = CompletionsAPI.CompletionCreateParams;
-  export import CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming;
-  export import CompletionCreateParamsStreaming = CompletionsAPI.CompletionCreateParamsStreaming;
+Chat.Completions = Completions;
+
+export declare namespace Chat {
+  export {
+    Completions as Completions,
+    type ChatCompletion as ChatCompletion,
+    type ChatCompletionAssistantMessageParam as ChatCompletionAssistantMessageParam,
+    type ChatCompletionChunk as ChatCompletionChunk,
+    type ChatCompletionFunctionMessageParam as ChatCompletionFunctionMessageParam,
+    type ChatCompletionMessage as ChatCompletionMessage,
+    type ChatCompletionMessageParam as ChatCompletionMessageParam,
+    type ChatCompletionSystemMessageParam as ChatCompletionSystemMessageParam,
+    type ChatCompletionTool as ChatCompletionTool,
+    type ChatCompletionToolMessageParam as ChatCompletionToolMessageParam,
+    type ChatCompletionUsage as ChatCompletionUsage,
+    type ChatCompletionUserMessageParam as ChatCompletionUserMessageParam,
+    type CompletionCreateParams as CompletionCreateParams,
+    type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
+    type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming,
+  };
 }

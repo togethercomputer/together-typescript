@@ -438,19 +438,21 @@ export interface CompletionCreateParamsStreaming extends CompletionCreateParamsB
   stream: true;
 }
 
-export namespace Completions {
-  export import ChatCompletion = ChatCompletionsAPI.ChatCompletion;
-  export import ChatCompletionAssistantMessageParam = ChatCompletionsAPI.ChatCompletionAssistantMessageParam;
-  export import ChatCompletionChunk = ChatCompletionsAPI.ChatCompletionChunk;
-  export import ChatCompletionFunctionMessageParam = ChatCompletionsAPI.ChatCompletionFunctionMessageParam;
-  export import ChatCompletionMessage = ChatCompletionsAPI.ChatCompletionMessage;
-  export import ChatCompletionMessageParam = ChatCompletionsAPI.ChatCompletionMessageParam;
-  export import ChatCompletionSystemMessageParam = ChatCompletionsAPI.ChatCompletionSystemMessageParam;
-  export import ChatCompletionTool = ChatCompletionsAPI.ChatCompletionTool;
-  export import ChatCompletionToolMessageParam = ChatCompletionsAPI.ChatCompletionToolMessageParam;
-  export import ChatCompletionUsage = ChatCompletionsAPI.ChatCompletionUsage;
-  export import ChatCompletionUserMessageParam = ChatCompletionsAPI.ChatCompletionUserMessageParam;
-  export import CompletionCreateParams = ChatCompletionsAPI.CompletionCreateParams;
-  export import CompletionCreateParamsNonStreaming = ChatCompletionsAPI.CompletionCreateParamsNonStreaming;
-  export import CompletionCreateParamsStreaming = ChatCompletionsAPI.CompletionCreateParamsStreaming;
+export declare namespace Completions {
+  export {
+    type ChatCompletion as ChatCompletion,
+    type ChatCompletionAssistantMessageParam as ChatCompletionAssistantMessageParam,
+    type ChatCompletionChunk as ChatCompletionChunk,
+    type ChatCompletionFunctionMessageParam as ChatCompletionFunctionMessageParam,
+    type ChatCompletionMessage as ChatCompletionMessage,
+    type ChatCompletionMessageParam as ChatCompletionMessageParam,
+    type ChatCompletionSystemMessageParam as ChatCompletionSystemMessageParam,
+    type ChatCompletionTool as ChatCompletionTool,
+    type ChatCompletionToolMessageParam as ChatCompletionToolMessageParam,
+    type ChatCompletionUsage as ChatCompletionUsage,
+    type ChatCompletionUserMessageParam as ChatCompletionUserMessageParam,
+    type CompletionCreateParams as CompletionCreateParams,
+    type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
+    type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming,
+  };
 }
