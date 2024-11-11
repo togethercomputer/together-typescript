@@ -19,8 +19,7 @@ import {
   ChatCompletionStreamingToolRunnerParams,
 } from './ChatCompletionStreamingRunner';
 import { isAssistantMessage, isFunctionMessage, isToolMessage } from './chatCompletionUtils';
-import { Chat } from 'together-ai/resources';
-import ChatCompletionUsage = Chat.ChatCompletionUsage;
+import { ChatCompletionUsage } from 'together-ai/resources/chat/completions';
 
 const DEFAULT_MAX_CHAT_COMPLETIONS = 10;
 export interface RunnerOptions extends Core.RequestOptions {
