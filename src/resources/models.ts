@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as ModelsAPI from './models';
 
 export class Models extends APIResource {
   /**
@@ -53,6 +52,6 @@ export namespace ModelListResponse {
   }
 }
 
-export namespace Models {
-  export import ModelListResponse = ModelsAPI.ModelListResponse;
+export declare namespace Models {
+  export { type ModelListResponse as ModelListResponse };
 }
