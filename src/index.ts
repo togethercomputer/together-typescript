@@ -205,25 +205,6 @@ export class Together extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-export {
-  TogetherError,
-  APIError,
-  APIConnectionError,
-  APIConnectionTimeoutError,
-  APIUserAbortError,
-  NotFoundError,
-  ConflictError,
-  RateLimitError,
-  BadRequestError,
-  AuthenticationError,
-  InternalServerError,
-  PermissionDeniedError,
-  UnprocessableEntityError,
-} from './error';
-
-export import toFile = Uploads.toFile;
-export import fileFromPath = Uploads.fileFromPath;
-
 Together.Chat = Chat;
 Together.Completions = Completions;
 Together.Embeddings = Embeddings;
@@ -231,7 +212,6 @@ Together.Files = Files;
 Together.FineTuneResource = FineTuneResource;
 Together.Images = Images;
 Together.Models = Models;
-
 export declare namespace Together {
   export type RequestOptions = Core.RequestOptions;
 
@@ -278,5 +258,22 @@ export declare namespace Together {
 
   export { Models as Models, type ModelListResponse as ModelListResponse };
 }
+
+export { toFile, fileFromPath } from 'together-ai/uploads';
+export {
+  TogetherError,
+  APIError,
+  APIConnectionError,
+  APIConnectionTimeoutError,
+  APIUserAbortError,
+  NotFoundError,
+  ConflictError,
+  RateLimitError,
+  BadRequestError,
+  AuthenticationError,
+  InternalServerError,
+  PermissionDeniedError,
+  UnprocessableEntityError,
+} from 'together-ai/error';
 
 export default Together;
