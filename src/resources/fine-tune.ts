@@ -98,6 +98,8 @@ export interface FineTune {
 
   total_price?: number;
 
+  train_on_inputs?: boolean | 'auto';
+
   training_file?: string;
 
   training_type?: FineTune.FullTrainingType | FineTune.LoRaTrainingType;
@@ -297,6 +299,12 @@ export interface FineTuneCreateParams {
    * Suffix that will be added to your fine-tuned model name
    */
   suffix?: string;
+
+  /**
+   * Whether to mask the user messages in conversational data or prompts in
+   * instruction data.
+   */
+  train_on_inputs?: boolean | 'auto';
 
   training_type?: FineTuneCreateParams.FullTrainingType | FineTuneCreateParams.LoRaTrainingType;
 
