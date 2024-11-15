@@ -30,6 +30,7 @@ describe('resource fineTune', () => {
       n_epochs: 0,
       n_evals: 0,
       suffix: 'suffix',
+      train_on_inputs: true,
       training_type: { type: 'Full' },
       validation_file: 'validation_file',
       wandb_api_key: 'wandb_api_key',
