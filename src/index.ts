@@ -259,7 +259,7 @@ export declare namespace Together {
   export { Models as Models, type ModelListResponse as ModelListResponse };
 }
 
-export { toFile, fileFromPath } from 'together-ai/uploads';
+export { toFile, fileFromPath } from './uploads';
 export {
   TogetherError,
   APIError,
@@ -274,6 +274,6 @@ export {
   InternalServerError,
   PermissionDeniedError,
   UnprocessableEntityError,
-} from 'together-ai/error';
+} from './error';
 
 export default Together;
