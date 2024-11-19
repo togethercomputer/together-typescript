@@ -11,11 +11,7 @@ const client = new Together({
 describe('resource completions', () => {
   test('create: only required params', async () => {
     const responsePromise = client.chat.completions.create({
-      messages: [
-        { content: 'content', role: 'system' },
-        { content: 'content', role: 'system' },
-        { content: 'content', role: 'system' },
-      ],
+      messages: [{ content: 'content', role: 'system' }],
       model: 'Qwen/Qwen2.5-72B-Instruct-Turbo',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -29,11 +25,7 @@ describe('resource completions', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.chat.completions.create({
-      messages: [
-        { content: 'content', role: 'system' },
-        { content: 'content', role: 'system' },
-        { content: 'content', role: 'system' },
-      ],
+      messages: [{ content: 'content', role: 'system' }],
       model: 'Qwen/Qwen2.5-72B-Instruct-Turbo',
       echo: true,
       frequency_penalty: 0,
@@ -48,27 +40,11 @@ describe('resource completions', () => {
       response_format: { schema: { foo: 'string' }, type: 'json' },
       safety_model: 'safety_model_name',
       seed: 42,
-      stop: ['string', 'string', 'string'],
+      stop: ['string'],
       stream: false,
       temperature: 0,
       tool_choice: 'tool_name',
       tools: [
-        {
-          function: {
-            description: 'A description of the function.',
-            name: 'function_name',
-            parameters: { foo: 'bar' },
-          },
-          type: 'tool_type',
-        },
-        {
-          function: {
-            description: 'A description of the function.',
-            name: 'function_name',
-            parameters: { foo: 'bar' },
-          },
-          type: 'tool_type',
-        },
         {
           function: {
             description: 'A description of the function.',
