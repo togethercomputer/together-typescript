@@ -78,6 +78,10 @@ export interface FineTune {
 
   learning_rate?: number;
 
+  lr_scheduler?: FineTune.LrScheduler;
+
+  max_grad_norm?: number;
+
   model?: string;
 
   model_output_name?: string;
@@ -117,6 +121,8 @@ export interface FineTune {
   wandb_url?: string;
 
   warmup_ratio?: number;
+
+  weight_decay?: number;
 }
 
 export namespace FineTune {
@@ -163,6 +169,21 @@ export namespace FineTune {
       | 'warning';
 
     wandb_url?: string;
+  }
+
+  export interface LrScheduler {
+    lr_scheduler_type: string;
+
+    lr_scheduler_args?: LrScheduler.LrSchedulerArgs;
+  }
+
+  export namespace LrScheduler {
+    export interface LrSchedulerArgs {
+      /**
+       * The ratio of the final learning rate to the peak learning rate
+       */
+      min_lr_ratio?: number;
+    }
   }
 
   export interface FullTrainingType {
@@ -280,6 +301,13 @@ export interface FineTuneCreateParams {
    */
   learning_rate?: number;
 
+  lr_scheduler?: FineTuneCreateParams.LrScheduler;
+
+  /**
+   * Max gradient norm to be used for gradient clipping. Set to 0 to disable.
+   */
+  max_grad_norm?: number;
+
   /**
    * Number of checkpoints to save during fine-tuning
    */
@@ -323,9 +351,29 @@ export interface FineTuneCreateParams {
    * rate.
    */
   warmup_ratio?: number;
+
+  /**
+   * Weight decay
+   */
+  weight_decay?: number;
 }
 
 export namespace FineTuneCreateParams {
+  export interface LrScheduler {
+    lr_scheduler_type: string;
+
+    lr_scheduler_args?: LrScheduler.LrSchedulerArgs;
+  }
+
+  export namespace LrScheduler {
+    export interface LrSchedulerArgs {
+      /**
+       * The ratio of the final learning rate to the peak learning rate
+       */
+      min_lr_ratio?: number;
+    }
+  }
+
   export interface FullTrainingType {
     type: 'Full';
   }

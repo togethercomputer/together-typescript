@@ -26,6 +26,8 @@ describe('resource fineTune', () => {
       training_file: 'training_file',
       batch_size: 0,
       learning_rate: 0,
+      lr_scheduler: { lr_scheduler_type: 'lr_scheduler_type', lr_scheduler_args: { min_lr_ratio: 0 } },
+      max_grad_norm: 0,
       n_checkpoints: 0,
       n_epochs: 0,
       n_evals: 0,
@@ -35,6 +37,7 @@ describe('resource fineTune', () => {
       validation_file: 'validation_file',
       wandb_api_key: 'wandb_api_key',
       warmup_ratio: 0,
+      weight_decay: 0,
     });
   });
 
