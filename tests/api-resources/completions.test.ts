@@ -38,7 +38,7 @@ describe('resource completions', () => {
       repetition_penalty: 0,
       safety_model: 'safety_model_name',
       seed: 42,
-      stop: ['string', 'string', 'string'],
+      stop: ['string'],
       stream: false,
       temperature: 0,
       top_k: 0,
