@@ -36,6 +36,9 @@ describe('resource fineTune', () => {
       training_type: { type: 'Full' },
       validation_file: 'validation_file',
       wandb_api_key: 'wandb_api_key',
+      wandb_base_url: 'wandb_base_url',
+      wandb_name: 'wandb_name',
+      wandb_project_name: 'wandb_project_name',
       warmup_ratio: 0,
       weight_decay: 0,
     });
