@@ -347,6 +347,22 @@ export interface FineTuneCreateParams {
   wandb_api_key?: string;
 
   /**
+   * The base URL of a dedicated Weights & Biases instance.
+   */
+  wandb_base_url?: string;
+
+  /**
+   * The Weights & Biases name for your run.
+   */
+  wandb_name?: string;
+
+  /**
+   * The Weights & Biases project for your run. If not specified, will use `together`
+   * as the project name.
+   */
+  wandb_project_name?: string;
+
+  /**
    * The percent of steps at the start of training to linearly increase the learning
    * rate.
    */
