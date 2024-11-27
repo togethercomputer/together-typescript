@@ -11,7 +11,7 @@ const client = new Together({
 describe('resource images', () => {
   test('create: only required params', async () => {
     const responsePromise = client.images.create({
-      model: 'stabilityai/stable-diffusion-xl-base-1.0',
+      model: 'black-forest-labs/FLUX.1-schnell-Free',
       prompt: 'cat floating in space, cinematic',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -25,11 +25,13 @@ describe('resource images', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.images.create({
-      model: 'stabilityai/stable-diffusion-xl-base-1.0',
+      model: 'black-forest-labs/FLUX.1-schnell-Free',
       prompt: 'cat floating in space, cinematic',
       height: 0,
+      image_url: 'image_url',
       n: 0,
       negative_prompt: 'negative_prompt',
+      response_format: 'base64',
       seed: 0,
       steps: 0,
       width: 0,
