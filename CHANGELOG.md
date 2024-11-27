@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.10.0 (2024-11-27)
+
+Full Changelog: [v0.9.0...v0.10.0](https://github.com/togethercomputer/together-typescript/compare/v0.9.0...v0.10.0)
+
+### Features
+
+* **api:** api update ([#89](https://github.com/togethercomputer/together-typescript/issues/89)) ([57feb67](https://github.com/togethercomputer/together-typescript/commit/57feb67b12cf751f61c99efbe4307f095171e4c6))
+* **api:** api update ([#92](https://github.com/togethercomputer/together-typescript/issues/92)) ([175e523](https://github.com/togethercomputer/together-typescript/commit/175e523d9f0866ffb7f1caac7706a548beb90edd))
+* **api:** api update ([#95](https://github.com/togethercomputer/together-typescript/issues/95)) ([b54fc92](https://github.com/togethercomputer/together-typescript/commit/b54fc92dd5a57911f8929e10ba9f4b14f21573fb))
+* **api:** api update ([#96](https://github.com/togethercomputer/together-typescript/issues/96)) ([794ee52](https://github.com/togethercomputer/together-typescript/commit/794ee52c0b8158e0ac1c6c8cc7cdb20efe878164))
+* **api:** api update ([#97](https://github.com/togethercomputer/together-typescript/issues/97)) ([8f485c9](https://github.com/togethercomputer/together-typescript/commit/8f485c99096c992563ba9ab1c3b48164c745ccc2))
+
+
+### Bug Fixes
+
+* **internal:** fix import ([be8bc88](https://github.com/togethercomputer/together-typescript/commit/be8bc881e221419d866e15b09d5db865c063404a))
+
+
+### Chores
+
+* **internal:** version bump ([#83](https://github.com/togethercomputer/together-typescript/issues/83)) ([2e9673e](https://github.com/togethercomputer/together-typescript/commit/2e9673ea076868d839da23475010ff9b788b46b2))
+* rebuild project due to codegen change ([#87](https://github.com/togethercomputer/together-typescript/issues/87)) ([800fd5a](https://github.com/togethercomputer/together-typescript/commit/800fd5ac7f9a3583af76f53f4252cd7b903c502b))
+* rebuild project due to codegen change ([#88](https://github.com/togethercomputer/together-typescript/issues/88)) ([7db117f](https://github.com/togethercomputer/together-typescript/commit/7db117f28947071b3a70367dbcb3e33ec9e3726a))
+* rebuild project due to codegen change ([#90](https://github.com/togethercomputer/together-typescript/issues/90)) ([7d5a9b4](https://github.com/togethercomputer/together-typescript/commit/7d5a9b4e1cade5623708a7a482dd6378ee9d2e9c))
+* rebuild project due to codegen change ([#91](https://github.com/togethercomputer/together-typescript/issues/91)) ([1703fbc](https://github.com/togethercomputer/together-typescript/commit/1703fbc7a85ee7579e98e3f74ff3a859d27cb3c0))
+* remove redundant word in comment ([#94](https://github.com/togethercomputer/together-typescript/issues/94)) ([bedbb68](https://github.com/togethercomputer/together-typescript/commit/bedbb684c0a7d6fadabbea07f0bcd124cb1bd180))
+
+
+### Documentation
+
+* remove suggestion to use `npm` call out ([#93](https://github.com/togethercomputer/together-typescript/issues/93)) ([52bdca6](https://github.com/togethercomputer/together-typescript/commit/52bdca6a299965f96b65082d2dcff62a3771e1b4))
+
 ## 0.9.0 (2024-11-05)
 
 Full Changelog: [v0.8.0...v0.9.0](https://github.com/togethercomputer/together-typescript/compare/v0.8.0...v0.9.0)
