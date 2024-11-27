@@ -24,9 +24,11 @@ export interface ImageFile {
 
 export namespace ImageFile {
   export interface Data {
-    b64_json: string;
-
     index: number;
+
+    b64_json?: string;
+
+    url?: string;
   }
 }
 
@@ -53,6 +55,11 @@ export interface ImageCreateParams {
   height?: number;
 
   /**
+   * URL of an image to use for image models that support it.
+   */
+  image_url?: string;
+
+  /**
    * Number of image results to generate.
    */
   n?: number;
@@ -61,6 +68,11 @@ export interface ImageCreateParams {
    * The prompt or prompts not to guide the image generation.
    */
   negative_prompt?: string;
+
+  /**
+   * Format of the image response. Can be either a base64 string or a URL.
+   */
+  response_format?: 'base64' | 'url';
 
   /**
    * Seed used for generation. Can be used to reproduce image generations.
