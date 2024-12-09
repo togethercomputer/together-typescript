@@ -642,17 +642,6 @@ async function _check_parquet(
   file: string,
   purpose: FilePurpose | string,
 ): Promise<Partial<CheckFileReport>> {
-  let ParquetReader: any;
-  try {
-    // ParquetJS is optional as it's large and isn't compatible with older systems.
-    const pkg = await import('parquetjs');
-    ParquetReader = pkg.ParquetReader;
-  } catch {
-    throw new Error(
-      'parquetjs is not installed and is required to use parquet files. Please install it via `npm install parquetjs`',
-    );
-  }
-
   const report_dict: Partial<CheckFileReport> = {};
 
   if (purpose === 'eval') {
@@ -662,14 +651,24 @@ async function _check_parquet(
   }
 
   try {
-    const reader = await ParquetReader.openFile(file);
-    const schema = reader.schema;
-    const column_names = Object.keys(schema.fields);
+    let column_names: string[] = [];
+    let num_samples: number = 0;
+    try {
+      const { asyncBufferFromFile, parquetMetadataAsync, parquetSchema } = await import('hyparquet');
+      const asyncBuffer = await asyncBufferFromFile(file);
+      const metadata = await parquetMetadataAsync(asyncBuffer);
+      const { children } = parquetSchema(metadata);
+      column_names = children.map((child: any) => child.element.name);
+      num_samples = Number(metadata.num_rows);
+    } catch {
+      throw new Error(
+        'hyparquet is not installed and is required to use parquet files. Please install it via `npm install hyparquet`',
+      );
+    }
 
     if (!column_names.includes('input_ids')) {
       report_dict.load_parquet = `Parquet file ${file} does not contain the \`input_ids\` column.`;
       report_dict.is_check_passed = false;
-      await reader.close();
       return report_dict;
     }
 
@@ -679,24 +678,19 @@ async function _check_parquet(
           ', ',
         )} are supported.`;
         report_dict.is_check_passed = false;
-        await reader.close();
         return report_dict;
       }
     }
-
-    const num_samples = reader.getRowCount() as number;
 
     if (num_samples < MIN_SAMPLES) {
       report_dict.has_min_samples = false;
       report_dict.message = `Processing ${file} resulted in only ${num_samples} samples. Our minimum is ${MIN_SAMPLES} samples. `;
       report_dict.is_check_passed = false;
-      await reader.close();
       return report_dict;
     } else {
       report_dict.num_samples = num_samples;
     }
 
-    await reader.close();
     report_dict.is_check_passed = true;
   } catch (e) {
     const errorMessage = e instanceof Error ? e.message : String(e);
