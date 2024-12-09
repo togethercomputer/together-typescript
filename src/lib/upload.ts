@@ -7,8 +7,7 @@ import fetch from 'node-fetch';
 import * as path from 'path';
 import progress from 'progress-stream';
 import readline from 'readline';
-import pkg from 'parquetjs';
-const { ParquetReader } = pkg;
+import { asyncBufferFromFile, parquetMetadataAsync, parquetSchema, SchemaTree } from 'hyparquet';
 
 export interface FileResponse {
   id: string;
@@ -76,16 +75,16 @@ export async function check_file(fileName: string): Promise<CheckFileResponse> {
 
 export async function check_parquet(fileName: string): Promise<string | undefined> {
   try {
-    const reader = await ParquetReader.openFile(fileName);
-    const cursor = reader.getCursor();
-    let record = null;
+    const asyncBuffer = await asyncBufferFromFile(fileName);
+    const metadata = await parquetMetadataAsync(asyncBuffer);
+    const { children } = parquetSchema(metadata);
 
-    const fieldNames = Object.keys(reader.schema.fields);
-    if (!('input_ids' in fieldNames)) {
+    const fieldNames = children.map((child: SchemaTree) => child.element.name);
+    if (!fieldNames.includes('input_ids')) {
       return `Parquet file ${fileName} does not contain the 'input_ids' column.`;
     }
 
-    for (const fieldName in fieldNames) {
+    for (const fieldName of fieldNames) {
       if (!PARQUET_EXPECTED_COLUMNS.includes(fieldName)) {
         return `Parquet file ${fileName} contains unexpected column ${fieldName}. Only ${PARQUET_EXPECTED_COLUMNS.join(
           ', ',
@@ -93,12 +92,10 @@ export async function check_parquet(fileName: string): Promise<string | undefine
       }
     }
 
-    const numRows = reader.getRowCount() as unknown as number;
+    const numRows = metadata.num_rows;
     if (numRows < MIN_SAMPLES) {
       return `Parquet file ${fileName} contains only ${numRows} samples. Minimum of ${MIN_SAMPLES} samples are required`;
     }
-
-    await reader.close();
   } catch (err) {
     return `failed to read parquet file ${fileName}`;
   }
