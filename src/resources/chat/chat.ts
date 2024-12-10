@@ -5,6 +5,8 @@ import * as CompletionsAPI from './completions';
 import {
   ChatCompletion,
   ChatCompletionChunk,
+  ChatCompletionStructuredMessageImageURL,
+  ChatCompletionStructuredMessageText,
   ChatCompletionUsage,
   CompletionCreateParams,
   CompletionCreateParamsNonStreaming,
@@ -23,6 +25,8 @@ export declare namespace Chat {
     Completions as Completions,
     type ChatCompletion as ChatCompletion,
     type ChatCompletionChunk as ChatCompletionChunk,
+    type ChatCompletionStructuredMessageImageURL as ChatCompletionStructuredMessageImageURL,
+    type ChatCompletionStructuredMessageText as ChatCompletionStructuredMessageText,
     type ChatCompletionUsage as ChatCompletionUsage,
     type CompletionCreateParams as CompletionCreateParams,
     type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
