@@ -144,6 +144,27 @@ export namespace ChatCompletionChunk {
   }
 }
 
+export interface ChatCompletionStructuredMessageImageURL {
+  image_url: ChatCompletionStructuredMessageImageURL.ImageURL;
+
+  type: 'image_url';
+}
+
+export namespace ChatCompletionStructuredMessageImageURL {
+  export interface ImageURL {
+    /**
+     * The URL of the image as a plain string.
+     */
+    url: string;
+  }
+}
+
+export interface ChatCompletionStructuredMessageText {
+  text: string;
+
+  type: 'text';
+}
+
 export interface ChatCompletionUsage {
   completion_tokens: number;
 
@@ -302,35 +323,17 @@ export namespace CompletionCreateParams {
      * The content of the message, which can either be a simple string or a structured
      * format.
      */
-    content: string | Array<Message.UnionMember0 | Message.UnionMember1>;
+    content:
+      | string
+      | Array<
+          | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+          | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+        >;
 
     /**
      * The role of the messages author. Choice between: system, user, or assistant.
      */
     role: 'system' | 'user' | 'assistant' | 'tool';
-  }
-
-  export namespace Message {
-    export interface UnionMember0 {
-      text: string;
-
-      type: 'text';
-    }
-
-    export interface UnionMember1 {
-      image_url: UnionMember1.ImageURL;
-
-      type: 'image_url';
-    }
-
-    export namespace UnionMember1 {
-      export interface ImageURL {
-        /**
-         * The URL of the image as a plain string.
-         */
-        url: string;
-      }
-    }
   }
 
   export interface Name {
@@ -378,6 +381,8 @@ export declare namespace Completions {
   export {
     type ChatCompletion as ChatCompletion,
     type ChatCompletionChunk as ChatCompletionChunk,
+    type ChatCompletionStructuredMessageImageURL as ChatCompletionStructuredMessageImageURL,
+    type ChatCompletionStructuredMessageText as ChatCompletionStructuredMessageText,
     type ChatCompletionUsage as ChatCompletionUsage,
     type CompletionCreateParams as CompletionCreateParams,
     type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
