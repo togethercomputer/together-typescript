@@ -2,19 +2,21 @@
 
 export { Chat } from './chat';
 export {
-  ChatCompletion,
   ChatCompletionAssistantMessageParam,
-  ChatCompletionChunk,
   ChatCompletionFunctionMessageParam,
   ChatCompletionMessage,
   ChatCompletionMessageParam,
   ChatCompletionSystemMessageParam,
   ChatCompletionTool,
   ChatCompletionToolMessageParam,
-  ChatCompletionUsage,
   ChatCompletionUserMessageParam,
-  CompletionCreateParams,
-  CompletionCreateParamsNonStreaming,
-  CompletionCreateParamsStreaming,
   Completions,
+  type ChatCompletion,
+  type ChatCompletionChunk,
+  type ChatCompletionStructuredMessageImageURL,
+  type ChatCompletionStructuredMessageText,
+  type ChatCompletionUsage,
+  type CompletionCreateParams,
+  type CompletionCreateParamsNonStreaming,
+  type CompletionCreateParamsStreaming,
 } from './completions';
