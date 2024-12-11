@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.11.0 (2024-12-11)
+
+Full Changelog: [v0.10.0...v0.11.0](https://github.com/togethercomputer/together-typescript/compare/v0.10.0...v0.11.0)
+
+### Features
+
+* **api:** add models for chat completion structured message types ([#107](https://github.com/togethercomputer/together-typescript/issues/107)) ([d32c311](https://github.com/togethercomputer/together-typescript/commit/d32c3110fd50470cbb563bfa5213fb6bf831ecc6))
+* **api:** api update ([#99](https://github.com/togethercomputer/together-typescript/issues/99)) ([dea8e5c](https://github.com/togethercomputer/together-typescript/commit/dea8e5cc8411e74082da8ef722a05ae5053cd67e))
+* **internal:** make git install file structure match npm ([#101](https://github.com/togethercomputer/together-typescript/issues/101)) ([28e49f0](https://github.com/togethercomputer/together-typescript/commit/28e49f0a30df60c7bf22b5b93bf613a335a39bf6))
+
+
+### Chores
+
+* **internal:** bump cross-spawn to v7.0.6 ([#106](https://github.com/togethercomputer/together-typescript/issues/106)) ([0ef9509](https://github.com/togethercomputer/together-typescript/commit/0ef95095c9fad01f6c2f234256577e62bf9ce4b3))
+* **internal:** remove unnecessary getRequestClient function ([#103](https://github.com/togethercomputer/together-typescript/issues/103)) ([3acec90](https://github.com/togethercomputer/together-typescript/commit/3acec909ed2b726b202d7545815dc1c82c4f2f1d))
+* **internal:** update isAbsoluteURL ([#110](https://github.com/togethercomputer/together-typescript/issues/110)) ([140ecda](https://github.com/togethercomputer/together-typescript/commit/140ecdaf09b29e2985842908e48fcd59a65fb35b))
+* **types:** nicer error class types + jsdocs ([#109](https://github.com/togethercomputer/together-typescript/issues/109)) ([5517ee0](https://github.com/togethercomputer/together-typescript/commit/5517ee060871b4f98dce6c7b396efb948329dfae))
+
 ## 0.10.0 (2024-11-27)
 
 Full Changelog: [v0.9.0...v0.10.0](https://github.com/togethercomputer/together-typescript/compare/v0.9.0...v0.10.0)
