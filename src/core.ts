@@ -177,7 +177,7 @@ export abstract class APIClient {
     maxRetries = 5,
     timeout = 60000, // 1 minute
     httpAgent,
-    fetch: overridenFetch,
+    fetch: overriddenFetch,
   }: {
     baseURL: string;
     maxRetries?: number | undefined;
@@ -190,7 +190,7 @@ export abstract class APIClient {
     this.timeout = validatePositiveInteger('timeout', timeout);
     this.httpAgent = httpAgent;
 
-    this.fetch = overridenFetch ?? fetch;
+    this.fetch = overriddenFetch ?? fetch;
   }
 
   protected authHeaders(opts: FinalRequestOptions): Headers {
@@ -537,17 +537,11 @@ export abstract class APIClient {
     const timeout = setTimeout(() => controller.abort(), ms);
 
     return (
-      this.getRequestClient()
-        // use undefined this binding; fetch errors if bound to something else in browser/cloudflare
-        .fetch.call(undefined, url, { signal: controller.signal as any, ...options })
-        .finally(() => {
-          clearTimeout(timeout);
-        })
+      // use undefined this binding; fetch errors if bound to something else in browser/cloudflare
+      this.fetch.call(undefined, url, { signal: controller.signal as any, ...options }).finally(() => {
+        clearTimeout(timeout);
+      })
     );
-  }
-
-  protected getRequestClient(): RequestClient {
-    return { fetch: this.fetch };
   }
 
   private shouldRetry(response: Response): boolean {
@@ -992,8 +986,8 @@ export const safeJSON = (text: string) => {
   }
 };
 
-// https://stackoverflow.com/a/19709846
-const startsWithSchemeRegexp = new RegExp('^(?:[a-z]+:)?//', 'i');
+// https://url.spec.whatwg.org/#url-scheme-string
+const startsWithSchemeRegexp = /^[a-z][a-z0-9+.-]*:/i;
 const isAbsoluteURL = (url: string): boolean => {
   return startsWithSchemeRegexp.test(url);
 };
