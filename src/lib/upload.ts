@@ -130,16 +130,32 @@ export async function check_jsonl(fileName: string): Promise<string | undefined>
         continue;
       }
 
-      if (!('text' in parsedLine)) {
+      const isTextFormat = 'text' in parsedLine;
+      const isMessagesFormat = 'messages' in parsedLine;
+
+      if (!isTextFormat && !isMessagesFormat) {
         errors.push(
-          `Missing 'text' field was found on line ${lineNumber} of the the input file. Expected format: {'text': 'my sample string'}.`,
+          `Invalid format found on line ${lineNumber} of the the input file. Expected format: {'text': 'my sample string'} or {'messages': [{role: 'role', content: 'content'}]}.`,
         );
         continue;
       }
 
-      if (typeof parsedLine['text'] !== 'string') {
+      if (isTextFormat && typeof parsedLine['text'] !== 'string') {
         errors.push(`'Invalid value type for "text" key on line ${lineNumber}. Expected string`);
         continue;
+      }
+
+      if (isMessagesFormat) {
+        const firstMessage = parsedLine['messages'][0];
+        // console.log({ firstMessage });
+        const firstLineHasRole = typeof firstMessage['role'] === 'string';
+        const firstLineHasContent = typeof firstMessage['content'] === 'string';
+        if (!firstLineHasRole || !firstLineHasContent) {
+          errors.push(
+            `Invalid format found on line ${lineNumber} of the the input file. Expected format: {'messages': [{role: 'role', content: 'content'}]}.`,
+          );
+          continue;
+        }
       }
     } catch (error) {
       errors.push(`Error parsing line number ${lineNumber}`);
