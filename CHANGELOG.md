@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.11.0 (2025-01-02)
+
+Full Changelog: [v0.10.0...v0.11.0](https://github.com/togethercomputer/together-typescript/compare/v0.10.0...v0.11.0)
+
+### Features
+
+* added messages format check ([d2fa4db](https://github.com/togethercomputer/together-typescript/commit/d2fa4dbdb977bea56053cd148f3b0406c9081682))
+* **api:** add models for chat completion structured message types ([#107](https://github.com/togethercomputer/together-typescript/issues/107)) ([d32c311](https://github.com/togethercomputer/together-typescript/commit/d32c3110fd50470cbb563bfa5213fb6bf831ecc6))
+* **api:** api update ([#99](https://github.com/togethercomputer/together-typescript/issues/99)) ([dea8e5c](https://github.com/togethercomputer/together-typescript/commit/dea8e5cc8411e74082da8ef722a05ae5053cd67e))
+* **internal:** make git install file structure match npm ([#101](https://github.com/togethercomputer/together-typescript/issues/101)) ([28e49f0](https://github.com/togethercomputer/together-typescript/commit/28e49f0a30df60c7bf22b5b93bf613a335a39bf6))
+
+
+### Bug Fixes
+
+* **client:** normalize method ([#112](https://github.com/togethercomputer/together-typescript/issues/112)) ([fa1095f](https://github.com/togethercomputer/together-typescript/commit/fa1095fc1486808bd6e1755bdb38cd90c33b9ad1))
+
+
+### Chores
+
+* **internal:** bump cross-spawn to v7.0.6 ([#106](https://github.com/togethercomputer/together-typescript/issues/106)) ([0ef9509](https://github.com/togethercomputer/together-typescript/commit/0ef95095c9fad01f6c2f234256577e62bf9ce4b3))
+* **internal:** codegen related update ([#114](https://github.com/togethercomputer/together-typescript/issues/114)) ([4f49cd8](https://github.com/togethercomputer/together-typescript/commit/4f49cd827e78be83c7e2a2aeabd7b8cdb876158f))
+* **internal:** fix some typos ([#111](https://github.com/togethercomputer/together-typescript/issues/111)) ([792be82](https://github.com/togethercomputer/together-typescript/commit/792be82a89bdcf7756fb3d76581b1280476f679c))
+* **internal:** remove unnecessary getRequestClient function ([#103](https://github.com/togethercomputer/together-typescript/issues/103)) ([3acec90](https://github.com/togethercomputer/together-typescript/commit/3acec909ed2b726b202d7545815dc1c82c4f2f1d))
+* **internal:** update isAbsoluteURL ([#110](https://github.com/togethercomputer/together-typescript/issues/110)) ([140ecda](https://github.com/togethercomputer/together-typescript/commit/140ecdaf09b29e2985842908e48fcd59a65fb35b))
+* **types:** nicer error class types + jsdocs ([#109](https://github.com/togethercomputer/together-typescript/issues/109)) ([5517ee0](https://github.com/togethercomputer/together-typescript/commit/5517ee060871b4f98dce6c7b396efb948329dfae))
+
+
+### Documentation
+
+* minor formatting changes ([#113](https://github.com/togethercomputer/together-typescript/issues/113)) ([18f6773](https://github.com/togethercomputer/together-typescript/commit/18f67732cdb061925e4fbfd2fe1f0a7d53c5c446))
+
 ## 0.10.0 (2024-11-27)
 
 Full Changelog: [v0.9.0...v0.10.0](https://github.com/togethercomputer/together-typescript/compare/v0.9.0...v0.10.0)
