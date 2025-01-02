@@ -5,7 +5,7 @@ import { upload } from 'together-ai/lib/upload';
 
 async function main() {
   // Upload a file
-  const file = await upload('./examples/sample_finetuning.jsonl');
+  const file = await upload('./examples/sample_messages_format.jsonl');
   console.log('Uploaded file');
   console.log(file);
 }
