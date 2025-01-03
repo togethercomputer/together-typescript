@@ -166,7 +166,13 @@ export interface ChatCompletionFunctionMessageParam {
 }
 
 export interface ChatCompletionMessage {
-  content: string | null;
+  content:
+    | string
+    | Array<
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+      >
+    | null;
 
   role: 'assistant';
 
@@ -433,11 +439,11 @@ export namespace CompletionCreateParams {
      * format.
      */
     content:
-    | string
-    | Array<
-      | ChatCompletionsAPI.ChatCompletionStructuredMessageText
-      | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
-    >;
+      | string
+      | Array<
+          | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+          | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+        >;
 
     /**
      * The role of the messages author. Choice between: system, user, or assistant.
