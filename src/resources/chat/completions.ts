@@ -67,7 +67,7 @@ export namespace ChatCompletion {
 export interface ChatCompletionAssistantMessageParam {
   role: 'assistant';
 
-  content?: string | null;
+  content?: string | Array<ChatCompletionsAPI.ChatCompletionStructuredMessageText | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL> | null;
 
   /**
    * @deprecated
@@ -191,7 +191,7 @@ export type ChatCompletionMessageParam =
   | ChatCompletionFunctionMessageParam;
 
 export interface ChatCompletionSystemMessageParam {
-  content: string;
+  content: string | Array<ChatCompletionsAPI.ChatCompletionStructuredMessageText | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL>;
 
   role: 'system';
 
@@ -215,7 +215,7 @@ export namespace ChatCompletionTool {
 }
 
 export interface ChatCompletionToolMessageParam {
-  content?: string;
+  content?: string | Array<ChatCompletionsAPI.ChatCompletionStructuredMessageText | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL>;
 
   required?: unknown;
 
@@ -254,7 +254,7 @@ export interface ChatCompletionUsage {
 }
 
 export interface ChatCompletionUserMessageParam {
-  content: string;
+  content: string | Array<ChatCompletionsAPI.ChatCompletionStructuredMessageText | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL>;
 
   role: 'user';
 
