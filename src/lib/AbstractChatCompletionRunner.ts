@@ -6,6 +6,8 @@ import {
   type ChatCompletionMessageParam,
   type CompletionCreateParams,
   type ChatCompletionTool,
+  type ChatCompletionStructuredMessageText,
+  type ChatCompletionStructuredMessageImageURL,
 } from 'together-ai/resources/chat/completions';
 import { APIUserAbortError, TogetherError } from 'together-ai/error';
 import {
@@ -214,7 +216,7 @@ export abstract class AbstractChatCompletionRunner<
     return completion;
   }
 
-  #getFinalContent(): string | null {
+  #getFinalContent(): string | (ChatCompletionStructuredMessageText | ChatCompletionStructuredMessageImageURL)[] | null  {
     return this.#getFinalMessage().content ?? null;
   }
 
@@ -222,7 +224,7 @@ export abstract class AbstractChatCompletionRunner<
    * @returns a promise that resolves with the content of the final ChatCompletionMessage, or rejects
    * if an error occurred or the stream ended prematurely without producing a ChatCompletionMessage.
    */
-  async finalContent(): Promise<string | null> {
+  async finalContent(): Promise<string | (ChatCompletionStructuredMessageText | ChatCompletionStructuredMessageImageURL)[] | null> {
     await this.done();
     return this.#getFinalContent();
   }
@@ -270,7 +272,7 @@ export abstract class AbstractChatCompletionRunner<
     return this.#getFinalFunctionCall();
   }
 
-  #getFinalFunctionCallResult(): string | undefined {
+  #getFinalFunctionCallResult(): string | (ChatCompletionStructuredMessageText | ChatCompletionStructuredMessageImageURL)[] | undefined {
     for (let i = this.messages.length - 1; i >= 0; i--) {
       const message = this.messages[i];
       if (isFunctionMessage(message) && message.content != null) {
@@ -292,7 +294,7 @@ export abstract class AbstractChatCompletionRunner<
     return;
   }
 
-  async finalFunctionCallResult(): Promise<string | undefined> {
+  async finalFunctionCallResult(): Promise<string | (ChatCompletionStructuredMessageText | ChatCompletionStructuredMessageImageURL)[] | undefined> {
     await this.done();
     return this.#getFinalFunctionCallResult();
   }
@@ -674,12 +676,12 @@ export interface AbstractChatCompletionRunnerEvents {
   functionCall: (functionCall: ChatCompletionMessage.FunctionCall) => void;
   message: (message: ChatCompletionMessageParam) => void;
   chatCompletion: (completion: ChatCompletion) => void;
-  finalContent: (contentSnapshot: string) => void;
+  finalContent: (contentSnapshot: string | (ChatCompletionStructuredMessageText | ChatCompletionStructuredMessageImageURL)[]) => void;
   finalMessage: (message: ChatCompletionMessageParam) => void;
   finalChatCompletion: (completion: ChatCompletion) => void;
   finalFunctionCall: (functionCall: ChatCompletionMessage.FunctionCall) => void;
   functionCallResult: (content: string) => void;
-  finalFunctionCallResult: (content: string) => void;
+  finalFunctionCallResult: (content: string | (ChatCompletionStructuredMessageText | ChatCompletionStructuredMessageImageURL)[]) => void;
   error: (error: TogetherError) => void;
   abort: (error: APIUserAbortError) => void;
   end: () => void;
