@@ -129,7 +129,13 @@ export namespace ChatCompletionChunk {
     export interface Delta {
       role: 'system' | 'user' | 'assistant' | 'function' | 'tool';
 
-      content?: string | null;
+      content?:
+        | string
+        | Array<
+            | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+            | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+          >
+        | null;
 
       /**
        * @deprecated
