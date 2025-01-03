@@ -68,12 +68,12 @@ export interface ChatCompletionAssistantMessageParam {
   role: 'assistant';
 
   content?:
-  | string
-  | Array<
-    | ChatCompletionsAPI.ChatCompletionStructuredMessageText
-    | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
-  >
-  | null;
+    | string
+    | Array<
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+      >
+    | null;
 
   /**
    * @deprecated
@@ -198,11 +198,11 @@ export type ChatCompletionMessageParam =
 
 export interface ChatCompletionSystemMessageParam {
   content:
-  | string
-  | Array<
-    | ChatCompletionsAPI.ChatCompletionStructuredMessageText
-    | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
-  >;
+    | string
+    | Array<
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+      >;
 
   role: 'system';
 
@@ -227,11 +227,11 @@ export namespace ChatCompletionTool {
 
 export interface ChatCompletionToolMessageParam {
   content?:
-  | string
-  | Array<
-    | ChatCompletionsAPI.ChatCompletionStructuredMessageText
-    | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
-  >;
+    | string
+    | Array<
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+      >;
 
   required?: unknown;
 
@@ -271,11 +271,11 @@ export interface ChatCompletionUsage {
 
 export interface ChatCompletionUserMessageParam {
   content:
-  | string
-  | Array<
-    | ChatCompletionsAPI.ChatCompletionStructuredMessageText
-    | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
-  >;
+    | string
+    | Array<
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+      >;
 
   role: 'user';
 
@@ -296,12 +296,12 @@ export interface CompletionCreateParamsBase {
    * [See all of Together AI's chat models](https://docs.together.ai/docs/serverless-models#chat-models)
    */
   model:
-  | 'Qwen/Qwen2.5-72B-Instruct-Turbo'
-  | 'Qwen/Qwen2.5-7B-Instruct-Turbo'
-  | 'meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo'
-  | 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo'
-  | 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo'
-  | (string & {});
+    | 'Qwen/Qwen2.5-72B-Instruct-Turbo'
+    | 'Qwen/Qwen2.5-7B-Instruct-Turbo'
+    | 'meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo'
+    | 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo'
+    | 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo'
+    | (string & {});
 
   /**
    * If true, the response will contain the prompt. Can be used with `logprobs` to
