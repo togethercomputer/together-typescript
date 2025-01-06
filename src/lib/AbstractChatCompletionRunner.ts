@@ -444,7 +444,11 @@ export abstract class AbstractChatCompletionRunner<
     options?: Core.RequestOptions,
   ): Promise<ChatCompletion> {
     for (const message of params.messages) {
-      this._addMessage(message, false);
+      this._addMessage(
+        // @ts-ignore
+        message,
+        false,
+      );
     }
     return await this._createChatCompletion(completions, params, options);
   }
@@ -477,7 +481,11 @@ export abstract class AbstractChatCompletionRunner<
     );
 
     for (const message of params.messages) {
-      this._addMessage(message, false);
+      this._addMessage(
+        // @ts-ignore
+        message,
+        false,
+      );
     }
 
     for (let i = 0; i < maxChatCompletions; ++i) {
@@ -573,7 +581,11 @@ export abstract class AbstractChatCompletionRunner<
       : (undefined as any);
 
     for (const message of params.messages) {
-      this._addMessage(message, false);
+      this._addMessage(
+        // @ts-ignore
+        message,
+        false,
+      );
     }
 
     for (let i = 0; i < maxChatCompletions; ++i) {
