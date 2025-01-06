@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.11.1 (2025-01-06)
+
+Full Changelog: [v0.11.0...v0.11.1](https://github.com/togethercomputer/together-typescript/compare/v0.11.0...v0.11.1)
+
+### Chores
+
+* **internal:** fix lint errors ([194e247](https://github.com/togethercomputer/together-typescript/commit/194e24738c3a9946eeb390ea6e2eade1a14f5f2d))
+
 ## 0.11.0 (2025-01-02)
 
 Full Changelog: [v0.10.0...v0.11.0](https://github.com/togethercomputer/together-typescript/compare/v0.10.0...v0.11.0)
