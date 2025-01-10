@@ -30,7 +30,11 @@ export class Files extends APIResource {
    * Get the contents of a single uploaded data file.
    */
   content(id: string, options?: Core.RequestOptions): Core.APIPromise<Response> {
-    return this._client.get(`/files/${id}/content`, { ...options, __binaryResponse: true });
+    return this._client.get(`/files/${id}/content`, {
+      ...options,
+      headers: { Accept: 'application/binary', ...options?.headers },
+      __binaryResponse: true,
+    });
   }
 
   /**
