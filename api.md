@@ -91,6 +91,16 @@ Methods:
 
 - <code title="post /images/generations">client.images.<a href="./src/resources/images.ts">create</a>({ ...params }) -> ImageFile</code>
 
+# Audio
+
+Types:
+
+- <code><a href="./src/resources/audio.ts">AudioFile</a></code>
+
+Methods:
+
+- <code title="post /audio/speech">client.audio.<a href="./src/resources/audio.ts">create</a>({ ...params }) -> Response</code>
+
 # Models
 
 Types:

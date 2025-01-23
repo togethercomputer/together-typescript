@@ -7,6 +7,7 @@ import * as Uploads from './uploads';
 import * as API from './resources/index';
 import * as TopLevelAPI from './resources/top-level';
 import { RerankParams, RerankResponse } from './resources/top-level';
+import { Audio, AudioCreateParams, AudioFile } from './resources/audio';
 import {
   Completion,
   CompletionCreateParams,
@@ -157,6 +158,7 @@ export class Together extends Core.APIClient {
   files: API.Files = new API.Files(this);
   fineTune: API.FineTuneResource = new API.FineTuneResource(this);
   images: API.Images = new API.Images(this);
+  audio: API.Audio = new API.Audio(this);
   models: API.Models = new API.Models(this);
 
   /**
@@ -211,6 +213,7 @@ Together.Embeddings = Embeddings;
 Together.Files = Files;
 Together.FineTuneResource = FineTuneResource;
 Together.Images = Images;
+Together.Audio = Audio;
 Together.Models = Models;
 export declare namespace Together {
   export type RequestOptions = Core.RequestOptions;
@@ -255,6 +258,8 @@ export declare namespace Together {
   };
 
   export { Images as Images, type ImageFile as ImageFile, type ImageCreateParams as ImageCreateParams };
+
+  export { Audio as Audio, type AudioFile as AudioFile, type AudioCreateParams as AudioCreateParams };
 
   export { Models as Models, type ModelListResponse as ModelListResponse };
 }
