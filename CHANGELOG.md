@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.11.2 (2025-01-23)
+
+Full Changelog: [v0.11.1...v0.11.2](https://github.com/togethercomputer/together-typescript/compare/v0.11.1...v0.11.2)
+
+### Bug Fixes
+
+* send correct Accept header for certain endpoints ([#122](https://github.com/togethercomputer/together-typescript/issues/122)) ([29223b0](https://github.com/togethercomputer/together-typescript/commit/29223b057f662966fb0fc61916425d9891daeb3c))
+
+
+### Chores
+
+* **internal:** add test ([#124](https://github.com/togethercomputer/together-typescript/issues/124)) ([2fe6bfd](https://github.com/togethercomputer/together-typescript/commit/2fe6bfd92da5df5f8c9356b404144bac9b11e91a))
+* **internal:** codegen related update ([#120](https://github.com/togethercomputer/together-typescript/issues/120)) ([b2313c5](https://github.com/togethercomputer/together-typescript/commit/b2313c5e73e6e294fc2dc61246b0da35bedb1c10))
+* **internal:** minor restructuring ([#125](https://github.com/togethercomputer/together-typescript/issues/125)) ([c03ed37](https://github.com/togethercomputer/together-typescript/commit/c03ed37be78fa929a365a1531ded746839c72a12))
+* **types:** add `| undefined` to client options properties ([#123](https://github.com/togethercomputer/together-typescript/issues/123)) ([7f6162e](https://github.com/togethercomputer/together-typescript/commit/7f6162e7c7dbdfa4fa80cd4e32db543b3adf2a2c))
+
 ## 0.11.1 (2025-01-06)
 
 Full Changelog: [v0.11.0...v0.11.1](https://github.com/togethercomputer/together-typescript/compare/v0.11.0...v0.11.1)
