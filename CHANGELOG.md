@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.12.0 (2025-01-23)
+
+Full Changelog: [v0.11.2...v0.12.0](https://github.com/togethercomputer/together-typescript/compare/v0.11.2...v0.12.0)
+
+### Features
+
+* **api:** add audio create method ([#127](https://github.com/togethercomputer/together-typescript/issues/127)) ([2fd7cc5](https://github.com/togethercomputer/together-typescript/commit/2fd7cc5bc91493d04a13a9c7c36d846f55681011))
+
 ## 0.11.2 (2025-01-23)
 
 Full Changelog: [v0.11.1...v0.11.2](https://github.com/togethercomputer/together-typescript/compare/v0.11.1...v0.11.2)
