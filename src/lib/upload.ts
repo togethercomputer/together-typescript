@@ -262,12 +262,18 @@ export async function upload(fileName: string, check: boolean = true): Promise<F
       method: 'PUT',
       headers: {
         'Content-Type': 'application/octet-stream',
+        'Content-Length': `${fileSize}`,
       },
       body: fileStream.pipe(progressStream),
     });
 
     displayProgress(100);
     process.stdout.write('\n');
+    if (uploadResponse.status !== 200) {
+      return {
+        message: `failed to upload file (${uploadResponse.statusText}) status code ${uploadResponse.status}`,
+      };
+    }
 
     return {
       id: fileId,
