@@ -27,7 +27,9 @@ describe('resource images', () => {
     const response = await client.images.create({
       model: 'black-forest-labs/FLUX.1-schnell-Free',
       prompt: 'cat floating in space, cinematic',
+      guidance: 0,
       height: 0,
+      image_loras: [{ path: 'path', scale: 0 }],
       image_url: 'image_url',
       n: 0,
       negative_prompt: 'negative_prompt',
