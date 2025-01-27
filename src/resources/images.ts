@@ -50,9 +50,22 @@ export interface ImageCreateParams {
   prompt: string;
 
   /**
+   * Adjusts the alignment of the generated image with the input prompt. Higher
+   * values (e.g., 8-10) make the output more faithful to the prompt, while lower
+   * values (e.g., 1-5) encourage more creative freedom.
+   */
+  guidance?: number;
+
+  /**
    * Height of the image to generate in number of pixels.
    */
   height?: number;
+
+  /**
+   * An array of objects that define LoRAs (Low-Rank Adaptations) to influence the
+   * generated image.
+   */
+  image_loras?: Array<ImageCreateParams.ImageLora>;
 
   /**
    * URL of an image to use for image models that support it.
@@ -88,6 +101,21 @@ export interface ImageCreateParams {
    * Width of the image to generate in number of pixels.
    */
   width?: number;
+}
+
+export namespace ImageCreateParams {
+  export interface ImageLora {
+    /**
+     * The URL of the LoRA to apply (e.g.
+     * https://huggingface.co/strangerzonehf/Flux-Midjourney-Mix2-LoRA).
+     */
+    path: string;
+
+    /**
+     * The strength of the LoRA's influence. Most LoRA's recommend a value of 1.
+     */
+    scale: number;
+  }
 }
 
 export declare namespace Images {
