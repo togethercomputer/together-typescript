@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.1 (2025-01-30)
+
+Full Changelog: [v0.13.0...v0.13.1](https://github.com/togethercomputer/together-typescript/compare/v0.13.0...v0.13.1)
+
+### Bug Fixes
+
+* **tests:** skip invalid test ([#134](https://github.com/togethercomputer/together-typescript/issues/134)) ([229822f](https://github.com/togethercomputer/together-typescript/commit/229822fa0355888519b037a66752e3518fc82441))
+
 ## 0.13.0 (2025-01-27)
 
 Full Changelog: [v0.12.0...v0.13.0](https://github.com/togethercomputer/together-typescript/compare/v0.12.0...v0.13.0)
