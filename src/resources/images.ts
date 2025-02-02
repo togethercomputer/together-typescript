@@ -83,6 +83,12 @@ export interface ImageCreateParams {
   negative_prompt?: string;
 
   /**
+   * The format of the image response. Can be either be `jpeg` or `png`. Defaults to
+   * `jpeg`.
+   */
+  output_format?: 'jpeg' | 'png';
+
+  /**
    * Format of the image response. Can be either a base64 string or a URL.
    */
   response_format?: 'base64' | 'url';

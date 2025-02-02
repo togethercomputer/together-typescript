@@ -35,6 +35,7 @@ describe('resource images', () => {
       image_url: 'image_url',
       n: 0,
       negative_prompt: 'negative_prompt',
+      output_format: 'jpeg',
       response_format: 'base64',
       seed: 0,
       steps: 0,
