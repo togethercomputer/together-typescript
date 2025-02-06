@@ -27,6 +27,7 @@ describe('resource completions', () => {
     const response = await client.chat.completions.create({
       messages: [{ content: 'string', role: 'system' }],
       model: 'Qwen/Qwen2.5-72B-Instruct-Turbo',
+      context_length_exceeded_behavior: 'truncate',
       echo: true,
       frequency_penalty: 0,
       function_call: 'none',
