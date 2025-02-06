@@ -283,6 +283,14 @@ export interface CompletionCreateParamsBase {
     | (string & {});
 
   /**
+   * Defined the behavior of the API when max_tokens exceed the maximum context
+   * length of the model. When set to 'error', API will return 400 with appropriate
+   * error message. When set to 'truncate', override the max_tokens with maximum
+   * context length of the model.
+   */
+  context_length_exceeded_behavior?: 'truncate' | 'error';
+
+  /**
    * If true, the response will contain the prompt. Can be used with `logprobs` to
    * return prompt logprobs.
    */
