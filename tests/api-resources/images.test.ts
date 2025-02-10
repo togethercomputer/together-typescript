@@ -9,7 +9,8 @@ const client = new Together({
 });
 
 describe('resource images', () => {
-  test('create: only required params', async () => {
+  // invalid oneOf in required props
+  test.skip('create: only required params', async () => {
     const responsePromise = client.images.create({
       model: 'black-forest-labs/FLUX.1-schnell-Free',
       prompt: 'cat floating in space, cinematic',
@@ -23,7 +24,8 @@ describe('resource images', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('create: required and optional params', async () => {
+  // invalid oneOf in required props
+  test.skip('create: required and optional params', async () => {
     const response = await client.images.create({
       model: 'black-forest-labs/FLUX.1-schnell-Free',
       prompt: 'cat floating in space, cinematic',
@@ -33,6 +35,7 @@ describe('resource images', () => {
       image_url: 'image_url',
       n: 0,
       negative_prompt: 'negative_prompt',
+      output_format: 'jpeg',
       response_format: 'base64',
       seed: 0,
       steps: 0,
