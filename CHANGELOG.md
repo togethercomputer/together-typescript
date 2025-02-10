@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.14.0 (2025-02-10)
+
+Full Changelog: [v0.13.0...v0.14.0](https://github.com/togethercomputer/together-typescript/compare/v0.13.0...v0.14.0)
+
+### Features
+
+* **api:** api update ([#136](https://github.com/togethercomputer/together-typescript/issues/136)) ([cd07485](https://github.com/togethercomputer/together-typescript/commit/cd074853348eadc64b21b3cda783a1eae34a23ae))
+* **api:** api update ([#138](https://github.com/togethercomputer/together-typescript/issues/138)) ([cd66985](https://github.com/togethercomputer/together-typescript/commit/cd669851bda96a56bc86efa51e7efa3ce2902205))
+* **client:** send `X-Stainless-Timeout` header ([#137](https://github.com/togethercomputer/together-typescript/issues/137)) ([9f25474](https://github.com/togethercomputer/together-typescript/commit/9f2547457ac4f70312656f63bcfc5b019f8bc3c0))
+
+
+### Bug Fixes
+
+* correctly decode multi-byte characters over multiple chunks ([#139](https://github.com/togethercomputer/together-typescript/issues/139)) ([8c047b7](https://github.com/togethercomputer/together-typescript/commit/8c047b72ac932d432ce0d0ea51d666ea78d27e33))
+* **tests:** skip invalid test ([#134](https://github.com/togethercomputer/together-typescript/issues/134)) ([229822f](https://github.com/togethercomputer/together-typescript/commit/229822fa0355888519b037a66752e3518fc82441))
+
 ## 0.13.0 (2025-01-27)
 
 Full Changelog: [v0.12.0...v0.13.0](https://github.com/togethercomputer/together-typescript/compare/v0.12.0...v0.13.0)
