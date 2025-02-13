@@ -127,21 +127,29 @@ export interface FineTune {
 
 export namespace FineTune {
   export interface Event {
-    created_at?: string;
+    checkpoint_path: string;
 
-    hash?: string;
+    created_at: string;
 
-    level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
+    hash: string;
 
-    message?: string;
+    message: string;
 
-    object?: 'FinetuneEvent';
+    model_path: string;
 
-    param_count?: number;
+    object: 'fine-tune-event';
 
-    token_count?: number;
+    param_count: number;
 
-    type?:
+    step: number;
+
+    token_count: number;
+
+    total_steps: number;
+
+    training_offset: number;
+
+    type:
       | 'job_pending'
       | 'job_start'
       | 'job_stopped'
@@ -168,7 +176,9 @@ export namespace FineTune {
       | 'refund'
       | 'warning';
 
-    wandb_url?: string;
+    wandb_url: string;
+
+    level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
   }
 
   export interface LrScheduler {
