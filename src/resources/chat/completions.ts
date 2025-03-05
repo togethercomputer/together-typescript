@@ -222,8 +222,8 @@ export interface CompletionCreateParamsBase {
   logit_bias?: Record<string, number>;
 
   /**
-   * Determines the number of most likely tokens to return at each token position log
-   * probabilities to return.
+   * Integer (0 or 1) that controls whether log probabilities of generated tokens are
+   * returned. Log probabilities help assess model confidence in token predictions.
    */
   logprobs?: number;
 
