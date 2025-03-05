@@ -302,12 +302,14 @@ export interface FineTuneCreateParams {
   training_file: string;
 
   /**
-   * Batch size for fine-tuning
+   * Number of training examples processed together (larger batches use more memory
+   * but may train faster)
    */
   batch_size?: number;
 
   /**
-   * Learning rate multiplier to use for training
+   * Controls how quickly the model adapts to new information (too high may cause
+   * instability, too low may slow convergence)
    */
   learning_rate?: number;
 
@@ -319,12 +321,13 @@ export interface FineTuneCreateParams {
   max_grad_norm?: number;
 
   /**
-   * Number of checkpoints to save during fine-tuning
+   * Number of intermediate model versions saved during training for evaluation
    */
   n_checkpoints?: number;
 
   /**
-   * Number of epochs for fine-tuning
+   * Number of complete passes through the training dataset (higher values may
+   * improve results but increase cost and risk of overfitting)
    */
   n_epochs?: number;
 
@@ -352,7 +355,7 @@ export interface FineTuneCreateParams {
   validation_file?: string;
 
   /**
-   * API key for Weights & Biases integration
+   * Integration key for tracking experiments and model metrics on W&B platform
    */
   wandb_api_key?: string;
 
