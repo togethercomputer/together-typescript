@@ -145,15 +145,15 @@ export namespace ChatCompletionChunk {
 }
 
 export interface ChatCompletionStructuredMessageImageURL {
-  image_url: ChatCompletionStructuredMessageImageURL.ImageURL;
+  image_url?: ChatCompletionStructuredMessageImageURL.ImageURL;
 
-  type: 'image_url';
+  type?: 'image_url';
 }
 
 export namespace ChatCompletionStructuredMessageImageURL {
   export interface ImageURL {
     /**
-     * The URL of the image as a plain string.
+     * The URL of the image
      */
     url: string;
   }
@@ -336,12 +336,30 @@ export namespace CompletionCreateParams {
       | Array<
           | ChatCompletionsAPI.ChatCompletionStructuredMessageText
           | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+          | Message.UnionMember2
         >;
 
     /**
      * The role of the messages author. Choice between: system, user, or assistant.
      */
     role: 'system' | 'user' | 'assistant' | 'tool';
+  }
+
+  export namespace Message {
+    export interface UnionMember2 {
+      type: 'video_url';
+
+      video_url: UnionMember2.VideoURL;
+    }
+
+    export namespace UnionMember2 {
+      export interface VideoURL {
+        /**
+         * The URL of the video
+         */
+        url: string;
+      }
+    }
   }
 
   export interface Name {
