@@ -25,6 +25,7 @@ describe('resource fineTune', () => {
       model: 'model',
       training_file: 'training_file',
       batch_size: 0,
+      from_checkpoint: 'from_checkpoint',
       learning_rate: 0,
       lr_scheduler: { lr_scheduler_type: 'lr_scheduler_type', lr_scheduler_args: { min_lr_ratio: 0 } },
       max_grad_norm: 0,
