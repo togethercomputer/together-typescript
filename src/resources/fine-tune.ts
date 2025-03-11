@@ -74,6 +74,8 @@ export interface FineTune {
 
   events?: Array<FineTune.Event>;
 
+  from_checkpoint?: string;
+
   job_id?: string;
 
   learning_rate?: number;
@@ -306,6 +308,13 @@ export interface FineTuneCreateParams {
    * but may train faster)
    */
   batch_size?: number;
+
+  /**
+   * The checkpoint identifier to continue training from a previous fine-tuning job.
+   * Format `{$JOB_ID/$OUTPUT_MODEL_NAME}:{$STEP}`. The step value is optional,
+   * without it the final checkpoint will be used.
+   */
+  from_checkpoint?: string;
 
   /**
    * Controls how quickly the model adapts to new information (too high may cause
