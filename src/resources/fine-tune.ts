@@ -68,6 +68,8 @@ export interface FineTune {
 
   created_at?: string;
 
+  dpo_beta?: number;
+
   epochs_completed?: number;
 
   eval_steps?: number;
@@ -107,6 +109,8 @@ export interface FineTune {
   train_on_inputs?: boolean | 'auto';
 
   training_file?: string;
+
+  training_method?: 'sft' | 'dpo';
 
   training_type?: FineTune.FullTrainingType | FineTune.LoRaTrainingType;
 
@@ -310,6 +314,12 @@ export interface FineTuneCreateParams {
   batch_size?: number;
 
   /**
+   * The beta parameter for DPO training. Only applicable when training_method is
+   * 'dpo'.
+   */
+  dpo_beta?: number;
+
+  /**
    * The checkpoint identifier to continue training from a previous fine-tuning job.
    * Format `{$JOB_ID/$OUTPUT_MODEL_NAME}:{$STEP}`. The step value is optional,
    * without it the final checkpoint will be used.
@@ -355,6 +365,12 @@ export interface FineTuneCreateParams {
    * instruction data.
    */
   train_on_inputs?: boolean | 'auto';
+
+  /**
+   * The training method to use. 'sft' for Supervised Fine-Tuning or 'dpo' for Direct
+   * Preference Optimization.
+   */
+  training_method?: 'sft' | 'dpo';
 
   training_type?: FineTuneCreateParams.FullTrainingType | FineTuneCreateParams.LoRaTrainingType;
 
