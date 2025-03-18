@@ -291,7 +291,7 @@ export interface FineTuneDownloadResponse {
 
   filename?: string;
 
-  object?: unknown;
+  object?: 'local' | null;
 
   size?: number;
 }
