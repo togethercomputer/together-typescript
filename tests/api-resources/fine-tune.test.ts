@@ -28,7 +28,7 @@ describe('resource fineTune', () => {
       dpo_beta: 0,
       from_checkpoint: 'from_checkpoint',
       learning_rate: 0,
-      lr_scheduler: { lr_scheduler_type: 'lr_scheduler_type', lr_scheduler_args: { min_lr_ratio: 0 } },
+      lr_scheduler: { lr_scheduler_type: 'linear', lr_scheduler_args: { min_lr_ratio: 0 } },
       max_grad_norm: 0,
       n_checkpoints: 0,
       n_epochs: 0,
