@@ -188,17 +188,29 @@ export namespace FineTune {
   }
 
   export interface LrScheduler {
-    lr_scheduler_type: string;
+    lr_scheduler_type: 'linear' | 'cosine';
 
-    lr_scheduler_args?: LrScheduler.LrSchedulerArgs;
+    lr_scheduler_args?: LrScheduler.LinearLrSchedulerArgs | LrScheduler.CosineLrSchedulerArgs;
   }
 
   export namespace LrScheduler {
-    export interface LrSchedulerArgs {
+    export interface LinearLrSchedulerArgs {
       /**
        * The ratio of the final learning rate to the peak learning rate
        */
       min_lr_ratio?: number;
+    }
+
+    export interface CosineLrSchedulerArgs {
+      /**
+       * The ratio of the final learning rate to the peak learning rate
+       */
+      min_lr_ratio?: number;
+
+      /**
+       * Number or fraction of cycles for the cosine learning rate scheduler
+       */
+      num_cycles?: number;
     }
   }
 
@@ -414,17 +426,29 @@ export interface FineTuneCreateParams {
 
 export namespace FineTuneCreateParams {
   export interface LrScheduler {
-    lr_scheduler_type: string;
+    lr_scheduler_type: 'linear' | 'cosine';
 
-    lr_scheduler_args?: LrScheduler.LrSchedulerArgs;
+    lr_scheduler_args?: LrScheduler.LinearLrSchedulerArgs | LrScheduler.CosineLrSchedulerArgs;
   }
 
   export namespace LrScheduler {
-    export interface LrSchedulerArgs {
+    export interface LinearLrSchedulerArgs {
       /**
        * The ratio of the final learning rate to the peak learning rate
        */
       min_lr_ratio?: number;
+    }
+
+    export interface CosineLrSchedulerArgs {
+      /**
+       * The ratio of the final learning rate to the peak learning rate
+       */
+      min_lr_ratio?: number;
+
+      /**
+       * Number or fraction of cycles for the cosine learning rate scheduler
+       */
+      num_cycles?: number;
     }
   }
 
