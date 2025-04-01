@@ -65,7 +65,8 @@ describe('resource fineTune', () => {
     );
   });
 
-  test('list', async () => {
+  // invalid oneOf in required props
+  test.skip('list', async () => {
     const responsePromise = client.fineTune.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -76,7 +77,8 @@ describe('resource fineTune', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list: request options instead of params are passed correctly', async () => {
+  // invalid oneOf in required props
+  test.skip('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(client.fineTune.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       Together.NotFoundError,
