@@ -64,11 +64,9 @@ export interface FineTune {
     | 'error'
     | 'completed';
 
-  batch_size?: number;
+  batch_size?: number | 'max';
 
   created_at?: string;
-
-  dpo_beta?: number;
 
   epochs_completed?: number;
 
@@ -110,7 +108,7 @@ export interface FineTune {
 
   training_file?: string;
 
-  training_method?: 'sft' | 'dpo';
+  training_method?: FineTune.TrainingMethodSft | FineTune.TrainingMethodDpo;
 
   training_type?: FineTune.FullTrainingType | FineTune.LoRaTrainingType;
 
@@ -212,6 +210,16 @@ export namespace FineTune {
        */
       num_cycles?: number;
     }
+  }
+
+  export interface TrainingMethodSft {
+    method: 'sft';
+  }
+
+  export interface TrainingMethodDpo {
+    method: 'dpo';
+
+    dpo_beta?: number;
   }
 
   export interface FullTrainingType {
@@ -321,20 +329,16 @@ export interface FineTuneCreateParams {
 
   /**
    * Number of training examples processed together (larger batches use more memory
-   * but may train faster)
+   * but may train faster). Defaults to "max". We use training optimizations like
+   * packing, so the effective batch size may be different than the value you set.
    */
-  batch_size?: number;
-
-  /**
-   * The beta parameter for DPO training. Only applicable when training_method is
-   * 'dpo'.
-   */
-  dpo_beta?: number;
+  batch_size?: number | 'max';
 
   /**
    * The checkpoint identifier to continue training from a previous fine-tuning job.
-   * Format `{$JOB_ID}:{$STEP}` or `{$OUTPUT_MODEL_NAME}:{$STEP}`. The step value is
-   * optional, without it the final checkpoint will be used.
+   * Format is `{$JOB_ID}` or `{$OUTPUT_MODEL_NAME}` or `{$JOB_ID}:{$STEP}` or
+   * `{$OUTPUT_MODEL_NAME}:{$STEP}`. The step value is optional; without it, the
+   * final checkpoint will be used.
    */
   from_checkpoint?: string;
 
@@ -344,6 +348,10 @@ export interface FineTuneCreateParams {
    */
   learning_rate?: number;
 
+  /**
+   * The learning rate scheduler to use. It specifies how the learning rate is
+   * adjusted during training.
+   */
   lr_scheduler?: FineTuneCreateParams.LrScheduler;
 
   /**
@@ -382,7 +390,7 @@ export interface FineTuneCreateParams {
    * The training method to use. 'sft' for Supervised Fine-Tuning or 'dpo' for Direct
    * Preference Optimization.
    */
-  training_method?: 'sft' | 'dpo';
+  training_method?: FineTuneCreateParams.TrainingMethodSft | FineTuneCreateParams.TrainingMethodDpo;
 
   training_type?: FineTuneCreateParams.FullTrainingType | FineTuneCreateParams.LoRaTrainingType;
 
@@ -419,12 +427,16 @@ export interface FineTuneCreateParams {
   warmup_ratio?: number;
 
   /**
-   * Weight decay
+   * Weight decay. Regularization parameter for the optimizer.
    */
   weight_decay?: number;
 }
 
 export namespace FineTuneCreateParams {
+  /**
+   * The learning rate scheduler to use. It specifies how the learning rate is
+   * adjusted during training.
+   */
   export interface LrScheduler {
     lr_scheduler_type: 'linear' | 'cosine';
 
@@ -450,6 +462,16 @@ export namespace FineTuneCreateParams {
        */
       num_cycles?: number;
     }
+  }
+
+  export interface TrainingMethodSft {
+    method: 'sft';
+  }
+
+  export interface TrainingMethodDpo {
+    method: 'dpo';
+
+    dpo_beta?: number;
   }
 
   export interface FullTrainingType {
