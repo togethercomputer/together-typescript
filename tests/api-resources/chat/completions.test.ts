@@ -12,7 +12,7 @@ describe('resource completions', () => {
   test('create: only required params', async () => {
     const responsePromise = client.chat.completions.create({
       messages: [{ content: 'string', role: 'system' }],
-      model: 'Qwen/Qwen2.5-72B-Instruct-Turbo',
+      model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -26,7 +26,7 @@ describe('resource completions', () => {
   test('create: required and optional params', async () => {
     const response = await client.chat.completions.create({
       messages: [{ content: 'string', role: 'system' }],
-      model: 'Qwen/Qwen2.5-72B-Instruct-Turbo',
+      model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
       context_length_exceeded_behavior: 'truncate',
       echo: true,
       frequency_penalty: 0,

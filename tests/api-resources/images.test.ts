@@ -12,7 +12,7 @@ describe('resource images', () => {
   // invalid oneOf in required props
   test.skip('create: only required params', async () => {
     const responsePromise = client.images.create({
-      model: 'black-forest-labs/FLUX.1-schnell-Free',
+      model: 'black-forest-labs/FLUX.1-schnell',
       prompt: 'cat floating in space, cinematic',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -27,7 +27,7 @@ describe('resource images', () => {
   // invalid oneOf in required props
   test.skip('create: required and optional params', async () => {
     const response = await client.images.create({
-      model: 'black-forest-labs/FLUX.1-schnell-Free',
+      model: 'black-forest-labs/FLUX.1-schnell',
       prompt: 'cat floating in space, cinematic',
       guidance: 0,
       height: 0,
