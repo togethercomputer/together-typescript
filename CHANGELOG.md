@@ -1,5 +1,59 @@
 # Changelog
 
+## 0.14.0 (2025-04-08)
+
+Full Changelog: [v0.13.0...v0.14.0](https://github.com/togethercomputer/together-typescript/compare/v0.13.0...v0.14.0)
+
+### Features
+
+* add SKIP_BREW env var to ./scripts/bootstrap ([#148](https://github.com/togethercomputer/together-typescript/issues/148)) ([aafb225](https://github.com/togethercomputer/together-typescript/commit/aafb2251319376f40324b676dfd272bf8e3a8416))
+* **api:** api update ([#136](https://github.com/togethercomputer/together-typescript/issues/136)) ([cd07485](https://github.com/togethercomputer/together-typescript/commit/cd074853348eadc64b21b3cda783a1eae34a23ae))
+* **api:** api update ([#138](https://github.com/togethercomputer/together-typescript/issues/138)) ([cd66985](https://github.com/togethercomputer/together-typescript/commit/cd669851bda96a56bc86efa51e7efa3ce2902205))
+* **api:** api update ([#140](https://github.com/togethercomputer/together-typescript/issues/140)) ([8888c48](https://github.com/togethercomputer/together-typescript/commit/8888c485bdb83d16cafe049a279c19bd632c9d77))
+* **api:** api update ([#143](https://github.com/togethercomputer/together-typescript/issues/143)) ([ff3a2c8](https://github.com/togethercomputer/together-typescript/commit/ff3a2c8f0ac35db9e0a9c867e400ad610d2defac))
+* **api:** api update ([#146](https://github.com/togethercomputer/together-typescript/issues/146)) ([41c0772](https://github.com/togethercomputer/together-typescript/commit/41c0772603ec2e0847bddc488cdfe47aa893afa2))
+* **api:** api update ([#147](https://github.com/togethercomputer/together-typescript/issues/147)) ([dad2489](https://github.com/togethercomputer/together-typescript/commit/dad2489e736184c254d628b83adaa247e92318eb))
+* **api:** api update ([#150](https://github.com/togethercomputer/together-typescript/issues/150)) ([18522ad](https://github.com/togethercomputer/together-typescript/commit/18522ad1f330658515aa6456e64ec0fef9b2c7b0))
+* **api:** api update ([#151](https://github.com/togethercomputer/together-typescript/issues/151)) ([e5d913f](https://github.com/togethercomputer/together-typescript/commit/e5d913fdd3d4ee2a0b85bba53fdf34704e7b909e))
+* **api:** api update ([#158](https://github.com/togethercomputer/together-typescript/issues/158)) ([c76b305](https://github.com/togethercomputer/together-typescript/commit/c76b305e11906a73aff4fc1c588894a0d4c514d9))
+* **api:** api update ([#161](https://github.com/togethercomputer/together-typescript/issues/161)) ([7e41f35](https://github.com/togethercomputer/together-typescript/commit/7e41f35cbf2eba4efe3fcdbf8dc561202912c06c))
+* **api:** api update ([#168](https://github.com/togethercomputer/together-typescript/issues/168)) ([7a621bb](https://github.com/togethercomputer/together-typescript/commit/7a621bbd3d9ced333133d69ad727528a6716d52e))
+* **client:** accept RFC6838 JSON content types ([#149](https://github.com/togethercomputer/together-typescript/issues/149)) ([76e59e3](https://github.com/togethercomputer/together-typescript/commit/76e59e3da4e58bd1a3c9a83d5e7a7093d28edba8))
+* **client:** send `X-Stainless-Timeout` header ([#137](https://github.com/togethercomputer/together-typescript/issues/137)) ([9f25474](https://github.com/togethercomputer/together-typescript/commit/9f2547457ac4f70312656f63bcfc5b019f8bc3c0))
+
+
+### Bug Fixes
+
+* **api:** improve type resolution when importing as a package ([#166](https://github.com/togethercomputer/together-typescript/issues/166)) ([a5e4817](https://github.com/togethercomputer/together-typescript/commit/a5e4817a0a0fb6155b90183c659fb2983311c4e7))
+* avoid type error in certain environments ([#157](https://github.com/togethercomputer/together-typescript/issues/157)) ([842cddd](https://github.com/togethercomputer/together-typescript/commit/842cddd95337625c1e6db7fe7600e9b57a4d2c2c))
+* **client:** correct type to enum ([#154](https://github.com/togethercomputer/together-typescript/issues/154)) ([5064a2c](https://github.com/togethercomputer/together-typescript/commit/5064a2c30a67d2e7bb345cf74c14dfe8994b928c))
+* **client:** fix export map for index exports ([#141](https://github.com/togethercomputer/together-typescript/issues/141)) ([4d746d0](https://github.com/togethercomputer/together-typescript/commit/4d746d0762cfd523ee3a21872b5201c2d4733422))
+* **client:** send `X-Stainless-Timeout` in seconds ([#164](https://github.com/togethercomputer/together-typescript/issues/164)) ([ae40ee1](https://github.com/togethercomputer/together-typescript/commit/ae40ee1836dc2011a4c2bd048aa6e45e46674e15))
+* correctly decode multi-byte characters over multiple chunks ([#139](https://github.com/togethercomputer/together-typescript/issues/139)) ([8c047b7](https://github.com/togethercomputer/together-typescript/commit/8c047b72ac932d432ce0d0ea51d666ea78d27e33))
+* **exports:** ensure resource imports don't require /index ([#153](https://github.com/togethercomputer/together-typescript/issues/153)) ([80e61a5](https://github.com/togethercomputer/together-typescript/commit/80e61a52b4165060153c2e91a550e1808d12470d))
+* **internal:** work around https://github.com/vercel/next.js/issues/76881 ([#160](https://github.com/togethercomputer/together-typescript/issues/160)) ([8071f95](https://github.com/togethercomputer/together-typescript/commit/8071f95d7948e313b31b1e40f5fa4192f0e9ee77))
+* **mcp:** remove unused tools.ts ([#167](https://github.com/togethercomputer/together-typescript/issues/167)) ([ba0ad0c](https://github.com/togethercomputer/together-typescript/commit/ba0ad0ccca1f248845f67c9d18ef0204aa905eac))
+* optimize sse chunk reading off-by-one error ([#142](https://github.com/togethercomputer/together-typescript/issues/142)) ([7f1a4f3](https://github.com/togethercomputer/together-typescript/commit/7f1a4f3f4a141b31907ed63104c42f641f6da6ab))
+* skip invalid fine-tune test ([#163](https://github.com/togethercomputer/together-typescript/issues/163)) ([888c490](https://github.com/togethercomputer/together-typescript/commit/888c4902d1b1a15b1b5d09b278c9046e53542ae2))
+* **tests:** correctly skip create fine tune tests ([#170](https://github.com/togethercomputer/together-typescript/issues/170)) ([ce62406](https://github.com/togethercomputer/together-typescript/commit/ce624061af8244782ce8b22b0a32148c5476a2da))
+* **tests:** skip invalid test ([#134](https://github.com/togethercomputer/together-typescript/issues/134)) ([229822f](https://github.com/togethercomputer/together-typescript/commit/229822fa0355888519b037a66752e3518fc82441))
+
+
+### Chores
+
+* **client:** expose headers on some streaming errors ([#159](https://github.com/togethercomputer/together-typescript/issues/159)) ([be1dd4a](https://github.com/togethercomputer/together-typescript/commit/be1dd4a4bfa5beac6640ebd0657882c969e12006))
+* **exports:** cleaner resource index imports ([#155](https://github.com/togethercomputer/together-typescript/issues/155)) ([086093a](https://github.com/togethercomputer/together-typescript/commit/086093a826c19dfc7ae31c36f64d5850ecb854f7))
+* **exports:** stop using path fallbacks ([#156](https://github.com/togethercomputer/together-typescript/issues/156)) ([e0a4623](https://github.com/togethercomputer/together-typescript/commit/e0a46237e3853682731a67bd0dfb7b5394f326a0))
+* **internal:** add aliases for Record and Array ([#165](https://github.com/togethercomputer/together-typescript/issues/165)) ([2c53021](https://github.com/togethercomputer/together-typescript/commit/2c53021235376d3250c9314ce873573462fca909))
+* **internal:** fix devcontainers setup ([#144](https://github.com/togethercomputer/together-typescript/issues/144)) ([e9bd176](https://github.com/togethercomputer/together-typescript/commit/e9bd176fa213090ed882028dd66b6a38acd2982f))
+* **internal:** remove extra empty newlines ([#152](https://github.com/togethercomputer/together-typescript/issues/152)) ([a161ee7](https://github.com/togethercomputer/together-typescript/commit/a161ee794c45ee6c090c62a77f5d1a2fe70b5eb8))
+* **tests:** improve enum examples ([#169](https://github.com/togethercomputer/together-typescript/issues/169)) ([616acc8](https://github.com/togethercomputer/together-typescript/commit/616acc840a68ef24e3acbc399fbb3dbba7c7f238))
+
+
+### Documentation
+
+* update URLs from stainlessapi.com to stainless.com ([#145](https://github.com/togethercomputer/together-typescript/issues/145)) ([511a9de](https://github.com/togethercomputer/together-typescript/commit/511a9de994cc611b3593412eda385d3e73c01d15))
+
 ## 0.13.0 (2025-01-27)
 
 Full Changelog: [v0.12.0...v0.13.0](https://github.com/togethercomputer/together-typescript/compare/v0.12.0...v0.13.0)
