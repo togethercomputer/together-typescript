@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.15.0 (2025-04-10)
+
+Full Changelog: [v0.14.0...v0.15.0](https://github.com/togethercomputer/together-typescript/compare/v0.14.0...v0.15.0)
+
+### Features
+
+* **api:** add tci resources ([251a9f3](https://github.com/togethercomputer/together-typescript/commit/251a9f3f909c2f68786f7720614fe9233777bfa0))
+* **api:** api update ([ca52efc](https://github.com/togethercomputer/together-typescript/commit/ca52efcadde1f9ef69cb9e8b5eb8e4986c317a1f))
+
+
+### Chores
+
+* **internal:** reduce CI branch coverage ([27d4cbc](https://github.com/togethercomputer/together-typescript/commit/27d4cbc81033d911db2eba3929097d0e4bdbe347))
+* **internal:** upload builds and expand CI branch coverage ([#171](https://github.com/togethercomputer/together-typescript/issues/171)) ([3970fad](https://github.com/togethercomputer/together-typescript/commit/3970fad271402363a2e24a4c8ddeca638252d554))
+
 ## 0.14.0 (2025-04-08)
 
 Full Changelog: [v0.13.0...v0.14.0](https://github.com/togethercomputer/together-typescript/compare/v0.13.0...v0.14.0)
