@@ -3,6 +3,11 @@
 export { Audio, type AudioFile, type AudioCreateParams } from './audio';
 export { Chat } from './chat/chat';
 export {
+  CodeInterpreter,
+  type ExecuteResponse,
+  type CodeInterpreterExecuteParams,
+} from './code-interpreter/code-interpreter';
+export {
   Completions,
   type Completion,
   type LogProbs,
