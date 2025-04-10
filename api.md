@@ -89,6 +89,26 @@ Methods:
 - <code title="get /finetune/download">client.fineTune.<a href="./src/resources/fine-tune.ts">download</a>({ ...params }) -> FineTuneDownloadResponse</code>
 - <code title="get /fine-tunes/{id}/events">client.fineTune.<a href="./src/resources/fine-tune.ts">listEvents</a>(id) -> FineTuneEvent</code>
 
+# CodeInterpreter
+
+Types:
+
+- <code><a href="./src/resources/code-interpreter/code-interpreter.ts">ExecuteResponse</a></code>
+
+Methods:
+
+- <code title="post /tci/execute">client.codeInterpreter.<a href="./src/resources/code-interpreter/code-interpreter.ts">execute</a>({ ...params }) -> ExecuteResponse</code>
+
+## Sessions
+
+Types:
+
+- <code><a href="./src/resources/code-interpreter/sessions.ts">SessionListResponse</a></code>
+
+Methods:
+
+- <code title="get /tci/sessions">client.codeInterpreter.sessions.<a href="./src/resources/code-interpreter/sessions.ts">list</a>() -> SessionListResponse</code>
+
 # Images
 
 Types:

@@ -38,6 +38,11 @@ import {
 import { ImageCreateParams, ImageFile, Images } from './resources/images';
 import { ModelListResponse, Models } from './resources/models';
 import { Chat } from './resources/chat/chat';
+import {
+  CodeInterpreter,
+  CodeInterpreterExecuteParams,
+  ExecuteResponse,
+} from './resources/code-interpreter/code-interpreter';
 
 export interface ClientOptions {
   /**
@@ -157,6 +162,7 @@ export class Together extends Core.APIClient {
   embeddings: API.Embeddings = new API.Embeddings(this);
   files: API.Files = new API.Files(this);
   fineTune: API.FineTuneResource = new API.FineTuneResource(this);
+  codeInterpreter: API.CodeInterpreter = new API.CodeInterpreter(this);
   images: API.Images = new API.Images(this);
   audio: API.Audio = new API.Audio(this);
   models: API.Models = new API.Models(this);
@@ -212,6 +218,7 @@ Together.Completions = Completions;
 Together.Embeddings = Embeddings;
 Together.Files = Files;
 Together.FineTuneResource = FineTuneResource;
+Together.CodeInterpreter = CodeInterpreter;
 Together.Images = Images;
 Together.Audio = Audio;
 Together.Models = Models;
@@ -255,6 +262,12 @@ export declare namespace Together {
     type FineTuneDownloadResponse as FineTuneDownloadResponse,
     type FineTuneCreateParams as FineTuneCreateParams,
     type FineTuneDownloadParams as FineTuneDownloadParams,
+  };
+
+  export {
+    CodeInterpreter as CodeInterpreter,
+    type ExecuteResponse as ExecuteResponse,
+    type CodeInterpreterExecuteParams as CodeInterpreterExecuteParams,
   };
 
   export { Images as Images, type ImageFile as ImageFile, type ImageCreateParams as ImageCreateParams };
