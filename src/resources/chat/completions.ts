@@ -424,7 +424,7 @@ export namespace CompletionCreateParams {
       | Array<
           | ChatCompletionsAPI.ChatCompletionStructuredMessageText
           | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
-          | Message.UnionMember2
+          | Message.Video
         >;
 
     /**
@@ -434,13 +434,13 @@ export namespace CompletionCreateParams {
   }
 
   export namespace Message {
-    export interface UnionMember2 {
+    export interface Video {
       type: 'video_url';
 
-      video_url: UnionMember2.VideoURL;
+      video_url: Video.VideoURL;
     }
 
-    export namespace UnionMember2 {
+    export namespace Video {
       export interface VideoURL {
         /**
          * The URL of the video
