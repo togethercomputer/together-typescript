@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.15.1 (2025-04-14)
+
+Full Changelog: [v0.15.0...v0.15.1](https://github.com/togethercomputer/together-typescript/compare/v0.15.0...v0.15.1)
+
+### Chores
+
+* **client:** minor internal fixes ([e1eb9df](https://github.com/togethercomputer/together-typescript/commit/e1eb9dfb1abcb01546c32134d86ef99b16166c74))
+
 ## 0.15.0 (2025-04-10)
 
 Full Changelog: [v0.14.0...v0.15.0](https://github.com/togethercomputer/together-typescript/compare/v0.14.0...v0.15.0)
