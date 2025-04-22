@@ -29,7 +29,7 @@ const failedUploadMessage = {
   message: 'failed to upload file',
 };
 
-const baseURL = 'https://api.together.xyz/v1';
+const baseURL = core.readEnv('TOGETHER_API_BASE_URL') || 'https://api.together.xyz/v1';
 const MAX_FILE_SIZE = 4.8; // GB
 const BYTES_PER_GB = 1024 * 1024 * 1024;
 const MIN_SAMPLES = 1;
@@ -203,7 +203,6 @@ export async function upload(fileName: string, check: boolean = true): Promise<F
   // 1. check if file exists
   // 2. get signed upload url
   // 3. upload file
-  const baseUrl = core.readEnv('TOGETHER_API_BASE_URL') || 'https://api.together.ai/v1';
   const apiKey = core.readEnv('TOGETHER_API_KEY');
 
   if (!apiKey) {
@@ -262,12 +261,18 @@ export async function upload(fileName: string, check: boolean = true): Promise<F
       method: 'PUT',
       headers: {
         'Content-Type': 'application/octet-stream',
+        'Content-Length': `${fileSize}`,
       },
       body: fileStream.pipe(progressStream),
     });
 
     displayProgress(100);
     process.stdout.write('\n');
+    if (uploadResponse.status !== 200) {
+      return {
+        message: `failed to upload file (${uploadResponse.statusText}) status code ${uploadResponse.status}`,
+      };
+    }
 
     return {
       id: fileId,
