@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.15.1 (2025-04-22)
+
+Full Changelog: [v0.15.0...v0.15.1](https://github.com/togethercomputer/together-typescript/compare/v0.15.0...v0.15.1)
+
+### Chores
+
+* **ci:** add timeout thresholds for CI jobs ([b642163](https://github.com/togethercomputer/together-typescript/commit/b6421631b6a99a425d8d3cdd4f9a5ff42de3fed0))
+* **client:** minor internal fixes ([f3be3a7](https://github.com/togethercomputer/together-typescript/commit/f3be3a7f235f840ac4428e8764844fb3445f3e5d))
+
 ## 0.15.0 (2025-04-10)
 
 Full Changelog: [v0.14.0...v0.15.0](https://github.com/togethercomputer/together-typescript/compare/v0.14.0...v0.15.0)
