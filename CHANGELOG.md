@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.15.2 (2025-04-25)
+
+Full Changelog: [v0.15.1...v0.15.2](https://github.com/togethercomputer/together-typescript/compare/v0.15.1...v0.15.2)
+
+### Features
+
+* **api:** api update ([bf9d03a](https://github.com/togethercomputer/together-typescript/commit/bf9d03adb1c2a740d84ac5354a49cc78edfde151))
+
+
+### Chores
+
+* **ci:** only use depot for staging repos ([41fd7ce](https://github.com/togethercomputer/together-typescript/commit/41fd7ce4f36b7aa27a89d428af5e5db4a7148b47))
+* **ci:** run on more branches and use depot runners ([c20d3fa](https://github.com/togethercomputer/together-typescript/commit/c20d3fa634251b49415362a42350da54fd9be771))
+
 ## 0.15.1 (2025-04-22)
 
 Full Changelog: [v0.15.0...v0.15.1](https://github.com/togethercomputer/together-typescript/compare/v0.15.0...v0.15.1)
