@@ -340,7 +340,8 @@ export namespace CompletionCreateParams {
         >;
 
     /**
-     * The role of the messages author. Choice between: system, user, or assistant.
+     * The role of the messages author. Choice between: system, user, assistant, or
+     * tool.
      */
     role: 'system' | 'user' | 'assistant' | 'tool';
   }
@@ -373,7 +374,7 @@ export namespace CompletionCreateParams {
     /**
      * The schema of the response format.
      */
-    schema?: Record<string, string>;
+    schema?: Record<string, unknown>;
 
     /**
      * The type of the response format.
