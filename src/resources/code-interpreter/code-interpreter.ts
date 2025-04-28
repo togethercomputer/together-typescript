@@ -127,10 +127,30 @@ export interface CodeInterpreterExecuteParams {
   language: 'python';
 
   /**
+   * Files to upload to the session. If present, files will be uploaded before
+   * executing the given code.
+   */
+  files?: Array<CodeInterpreterExecuteParams.File>;
+
+  /**
    * Identifier of the current session. Used to make follow-up calls. Requests will
    * return an error if the session does not belong to the caller or has expired.
    */
   session_id?: string;
+}
+
+export namespace CodeInterpreterExecuteParams {
+  export interface File {
+    content: string;
+
+    /**
+     * Encoding of the file content. Use `string` for text files such as code, and
+     * `base64` for binary files, such as images.
+     */
+    encoding: 'string' | 'base64';
+
+    name: string;
+  }
 }
 
 CodeInterpreter.Sessions = Sessions;
