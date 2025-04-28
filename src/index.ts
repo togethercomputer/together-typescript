@@ -20,6 +20,16 @@ import {
 } from './resources/completions';
 import { Embedding, EmbeddingCreateParams, Embeddings } from './resources/embeddings';
 import {
+  EndpointCreateParams,
+  EndpointCreateResponse,
+  EndpointListParams,
+  EndpointListResponse,
+  EndpointRetrieveResponse,
+  EndpointUpdateParams,
+  EndpointUpdateResponse,
+  Endpoints,
+} from './resources/endpoints';
+import {
   FileDeleteResponse,
   FileListResponse,
   FileObject,
@@ -35,8 +45,10 @@ import {
   FineTuneListResponse,
   FineTuneResource,
 } from './resources/fine-tune';
+import { Hardware, HardwareListParams, HardwareListResponse } from './resources/hardware';
 import { ImageCreateParams, ImageFile, Images } from './resources/images';
-import { ModelListResponse, Models } from './resources/models';
+import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
+import { ModelListResponse, ModelUploadParams, ModelUploadResponse, Models } from './resources/models';
 import { Chat } from './resources/chat/chat';
 import {
   CodeInterpreter,
@@ -166,6 +178,9 @@ export class Together extends Core.APIClient {
   images: API.Images = new API.Images(this);
   audio: API.Audio = new API.Audio(this);
   models: API.Models = new API.Models(this);
+  jobs: API.Jobs = new API.Jobs(this);
+  endpoints: API.Endpoints = new API.Endpoints(this);
+  hardware: API.Hardware = new API.Hardware(this);
 
   /**
    * Query a reranker model
@@ -222,6 +237,9 @@ Together.CodeInterpreter = CodeInterpreter;
 Together.Images = Images;
 Together.Audio = Audio;
 Together.Models = Models;
+Together.Jobs = Jobs;
+Together.Endpoints = Endpoints;
+Together.Hardware = Hardware;
 export declare namespace Together {
   export type RequestOptions = Core.RequestOptions;
 
@@ -274,7 +292,35 @@ export declare namespace Together {
 
   export { Audio as Audio, type AudioFile as AudioFile, type AudioCreateParams as AudioCreateParams };
 
-  export { Models as Models, type ModelListResponse as ModelListResponse };
+  export {
+    Models as Models,
+    type ModelListResponse as ModelListResponse,
+    type ModelUploadResponse as ModelUploadResponse,
+    type ModelUploadParams as ModelUploadParams,
+  };
+
+  export {
+    Jobs as Jobs,
+    type JobRetrieveResponse as JobRetrieveResponse,
+    type JobListResponse as JobListResponse,
+  };
+
+  export {
+    Endpoints as Endpoints,
+    type EndpointCreateResponse as EndpointCreateResponse,
+    type EndpointRetrieveResponse as EndpointRetrieveResponse,
+    type EndpointUpdateResponse as EndpointUpdateResponse,
+    type EndpointListResponse as EndpointListResponse,
+    type EndpointCreateParams as EndpointCreateParams,
+    type EndpointUpdateParams as EndpointUpdateParams,
+    type EndpointListParams as EndpointListParams,
+  };
+
+  export {
+    Hardware as Hardware,
+    type HardwareListResponse as HardwareListResponse,
+    type HardwareListParams as HardwareListParams,
+  };
 }
 
 export { toFile, fileFromPath } from './uploads';
