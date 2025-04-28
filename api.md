@@ -134,7 +134,48 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/models.ts">ModelListResponse</a></code>
+- <code><a href="./src/resources/models.ts">ModelUploadResponse</a></code>
 
 Methods:
 
 - <code title="get /models">client.models.<a href="./src/resources/models.ts">list</a>() -> ModelListResponse</code>
+- <code title="post /models">client.models.<a href="./src/resources/models.ts">upload</a>({ ...params }) -> ModelUploadResponse</code>
+
+# Jobs
+
+Types:
+
+- <code><a href="./src/resources/jobs.ts">JobRetrieveResponse</a></code>
+- <code><a href="./src/resources/jobs.ts">JobListResponse</a></code>
+
+Methods:
+
+- <code title="get /jobs/{jobId}">client.jobs.<a href="./src/resources/jobs.ts">retrieve</a>(jobId) -> JobRetrieveResponse</code>
+- <code title="get /jobs">client.jobs.<a href="./src/resources/jobs.ts">list</a>() -> JobListResponse</code>
+
+# Endpoints
+
+Types:
+
+- <code><a href="./src/resources/endpoints.ts">EndpointCreateResponse</a></code>
+- <code><a href="./src/resources/endpoints.ts">EndpointRetrieveResponse</a></code>
+- <code><a href="./src/resources/endpoints.ts">EndpointUpdateResponse</a></code>
+- <code><a href="./src/resources/endpoints.ts">EndpointListResponse</a></code>
+
+Methods:
+
+- <code title="post /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">create</a>({ ...params }) -> EndpointCreateResponse</code>
+- <code title="get /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">retrieve</a>(endpointId) -> EndpointRetrieveResponse</code>
+- <code title="patch /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">update</a>(endpointId, { ...params }) -> EndpointUpdateResponse</code>
+- <code title="get /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">list</a>({ ...params }) -> EndpointListResponse</code>
+- <code title="delete /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">delete</a>(endpointId) -> void</code>
+
+# Hardware
+
+Types:
+
+- <code><a href="./src/resources/hardware.ts">HardwareListResponse</a></code>
+
+Methods:
+
+- <code title="get /hardware">client.hardware.<a href="./src/resources/hardware.ts">list</a>({ ...params }) -> HardwareListResponse</code>

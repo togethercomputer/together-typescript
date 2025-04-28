@@ -19,6 +19,16 @@ export {
 } from './completions';
 export { Embeddings, type Embedding, type EmbeddingCreateParams } from './embeddings';
 export {
+  Endpoints,
+  type EndpointCreateResponse,
+  type EndpointRetrieveResponse,
+  type EndpointUpdateResponse,
+  type EndpointListResponse,
+  type EndpointCreateParams,
+  type EndpointUpdateParams,
+  type EndpointListParams,
+} from './endpoints';
+export {
   Files,
   type FileObject,
   type FileRetrieveResponse,
@@ -34,6 +44,8 @@ export {
   type FineTuneCreateParams,
   type FineTuneDownloadParams,
 } from './fine-tune';
+export { Hardware, type HardwareListResponse, type HardwareListParams } from './hardware';
 export { Images, type ImageFile, type ImageCreateParams } from './images';
-export { Models, type ModelListResponse } from './models';
+export { Jobs, type JobRetrieveResponse, type JobListResponse } from './jobs';
+export { Models, type ModelListResponse, type ModelUploadResponse, type ModelUploadParams } from './models';
 export { type RerankResponse, type RerankParams } from './top-level';
