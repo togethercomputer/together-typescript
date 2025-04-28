@@ -29,6 +29,7 @@ describe('resource codeInterpreter', () => {
     const response = await client.codeInterpreter.execute({
       code: "print('Hello, world!')",
       language: 'python',
+      files: [{ content: 'content', encoding: 'string', name: 'name' }],
       session_id: 'ses_abcDEF123',
     });
   });
