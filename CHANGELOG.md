@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.16.0 (2025-04-28)
+
+Full Changelog: [v0.15.2...v0.16.0](https://github.com/togethercomputer/together-typescript/compare/v0.15.2...v0.16.0)
+
+### Features
+
+* **api:** adds unspecified endpoints ([e35ae54](https://github.com/togethercomputer/together-typescript/commit/e35ae54cf74671bf7e5c8e08bbb53df816ec1502))
+* **api:** api update ([889a341](https://github.com/togethercomputer/together-typescript/commit/889a3411038c7393fcbae980422e08def4893317))
+
 ## 0.15.2 (2025-04-25)
 
 Full Changelog: [v0.15.1...v0.15.2](https://github.com/togethercomputer/together-typescript/compare/v0.15.1...v0.15.2)
