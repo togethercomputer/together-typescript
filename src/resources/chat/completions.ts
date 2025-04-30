@@ -67,7 +67,13 @@ export namespace ChatCompletion {
 export interface ChatCompletionAssistantMessageParam {
   role: 'assistant';
 
-  content?: string | null;
+  content?:
+    | string
+    | Array<
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+      >
+    | null;
 
   /**
    * @deprecated
@@ -123,7 +129,13 @@ export namespace ChatCompletionChunk {
     export interface Delta {
       role: 'system' | 'user' | 'assistant' | 'function' | 'tool';
 
-      content?: string | null;
+      content?:
+        | string
+        | Array<
+            | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+            | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+          >
+        | null;
 
       /**
        * @deprecated
@@ -160,7 +172,13 @@ export interface ChatCompletionFunctionMessageParam {
 }
 
 export interface ChatCompletionMessage {
-  content: string | null;
+  content:
+    | string
+    | Array<
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+      >
+    | null;
 
   role: 'assistant';
 
@@ -191,7 +209,12 @@ export type ChatCompletionMessageParam =
   | ChatCompletionFunctionMessageParam;
 
 export interface ChatCompletionSystemMessageParam {
-  content: string;
+  content:
+    | string
+    | Array<
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+      >;
 
   role: 'system';
 
@@ -215,7 +238,12 @@ export namespace ChatCompletionTool {
 }
 
 export interface ChatCompletionToolMessageParam {
-  content?: string;
+  content?:
+    | string
+    | Array<
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+      >;
 
   required?: unknown;
 
@@ -254,7 +282,12 @@ export interface ChatCompletionUsage {
 }
 
 export interface ChatCompletionUserMessageParam {
-  content: string;
+  content:
+    | string
+    | Array<
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+        | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+      >;
 
   role: 'user';
 
