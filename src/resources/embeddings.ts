@@ -6,6 +6,15 @@ import * as Core from '../core';
 export class Embeddings extends APIResource {
   /**
    * Query an embedding model for a given string of text.
+   *
+   * @example
+   * ```ts
+   * const embedding = await client.embeddings.create({
+   *   input:
+   *     'Our solar system orbits the Milky Way galaxy at about 515,000 mph',
+   *   model: 'togethercomputer/m2-bert-80M-8k-retrieval',
+   * });
+   * ```
    */
   create(body: EmbeddingCreateParams, options?: Core.RequestOptions): Core.APIPromise<Embedding> {
     return this._client.post('/embeddings', { body, ...options });

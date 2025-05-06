@@ -10,6 +10,15 @@ import { Stream } from '../streaming';
 export class Completions extends APIResource {
   /**
    * Query a language, code, or image model.
+   *
+   * @example
+   * ```ts
+   * const completion = await client.completions.create({
+   *   model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+   *   prompt:
+   *     '<s>[INST] What is the capital of France? [/INST]',
+   * });
+   * ```
    */
   create(body: CompletionCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<Completion>;
   create(
