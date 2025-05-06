@@ -10,6 +10,16 @@ import { Stream } from '../../streaming';
 export class Completions extends APIResource {
   /**
    * Query a chat model.
+   *
+   * @example
+   * ```ts
+   * const chatCompletion = await client.chat.completions.create(
+   *   {
+   *     messages: [{ content: 'string', role: 'system' }],
+   *     model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
+   *   },
+   * );
+   * ```
    */
   create(body: CompletionCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<ChatCompletion>;
   create(

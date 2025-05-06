@@ -6,6 +6,11 @@ import * as Core from '../core';
 export class Models extends APIResource {
   /**
    * Lists all of Together's open-source models
+   *
+   * @example
+   * ```ts
+   * const models = await client.models.list();
+   * ```
    */
   list(options?: Core.RequestOptions): Core.APIPromise<ModelListResponse> {
     return this._client.get('/models', options);
@@ -13,6 +18,14 @@ export class Models extends APIResource {
 
   /**
    * Upload a custom model from Hugging Face or S3
+   *
+   * @example
+   * ```ts
+   * const response = await client.models.upload({
+   *   model_name: 'Qwen2.5-72B-Instruct',
+   *   model_source: 'unsloth/Qwen2.5-72B-Instruct',
+   * });
+   * ```
    */
   upload(body: ModelUploadParams, options?: Core.RequestOptions): Core.APIPromise<ModelUploadResponse> {
     return this._client.post('/models', { body, ...options });
