@@ -6,6 +6,13 @@ import * as Core from '../core';
 export class Jobs extends APIResource {
   /**
    * Get the status of a specific job
+   *
+   * @example
+   * ```ts
+   * const job = await client.jobs.retrieve(
+   *   'job-a15dad11-8d8e-4007-97c5-a211304de284',
+   * );
+   * ```
    */
   retrieve(jobId: string, options?: Core.RequestOptions): Core.APIPromise<JobRetrieveResponse> {
     return this._client.get(`/jobs/${jobId}`, options);
@@ -13,6 +20,11 @@ export class Jobs extends APIResource {
 
   /**
    * List all jobs and their statuses
+   *
+   * @example
+   * ```ts
+   * const jobs = await client.jobs.list();
+   * ```
    */
   list(options?: Core.RequestOptions): Core.APIPromise<JobListResponse> {
     return this._client.get('/jobs', options);

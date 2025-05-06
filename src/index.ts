@@ -184,6 +184,20 @@ export class Together extends Core.APIClient {
 
   /**
    * Query a reranker model
+   *
+   * @example
+   * ```ts
+   * const response = await client.rerank({
+   *   documents: [
+   *     { title: 'bar', text: 'bar' },
+   *     { title: 'bar', text: 'bar' },
+   *     { title: 'bar', text: 'bar' },
+   *     { title: 'bar', text: 'bar' },
+   *   ],
+   *   model: 'Salesforce/Llama-Rank-V1',
+   *   query: 'What animals can I find near Peru?',
+   * });
+   * ```
    */
   rerank(
     body: TopLevelAPI.RerankParams,

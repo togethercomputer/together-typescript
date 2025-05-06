@@ -7,6 +7,18 @@ import { type Response } from '../_shims/index';
 export class Audio extends APIResource {
   /**
    * Generate audio from input text
+   *
+   * @example
+   * ```ts
+   * const audio = await client.audio.create({
+   *   input: 'input',
+   *   model: 'cartesia/sonic',
+   *   voice: 'laidback woman',
+   * });
+   *
+   * const content = await audio.blob();
+   * console.log(content);
+   * ```
    */
   create(body: AudioCreateParams, options?: Core.RequestOptions): Core.APIPromise<Response> {
     return this._client.post('/audio/speech', {
