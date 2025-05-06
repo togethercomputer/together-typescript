@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.16.1 (2025-05-06)
+
+Full Changelog: [v0.16.0...v0.16.1](https://github.com/togethercomputer/together-typescript/compare/v0.16.0...v0.16.1)
+
+### Chores
+
+* **ci:** bump node version for release workflows ([328ac07](https://github.com/togethercomputer/together-typescript/commit/328ac079658f878a74a28c3683e340bed6f15876))
+
+
+### Documentation
+
+* add examples to tsdocs ([e3bdd28](https://github.com/togethercomputer/together-typescript/commit/e3bdd286bdca4d56cae2b106f15283f594b05200))
+* **readme:** fix typo ([29c08f6](https://github.com/togethercomputer/together-typescript/commit/29c08f6c4126aa2a576aea5cbc0d16b033a9a04e))
+
 ## 0.16.0 (2025-04-28)
 
 Full Changelog: [v0.15.2...v0.16.0](https://github.com/togethercomputer/together-typescript/compare/v0.15.2...v0.16.0)
