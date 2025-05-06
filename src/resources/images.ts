@@ -6,6 +6,14 @@ import * as Core from '../core';
 export class Images extends APIResource {
   /**
    * Use an image model to generate an image for a given prompt.
+   *
+   * @example
+   * ```ts
+   * const imageFile = await client.images.create({
+   *   model: 'black-forest-labs/FLUX.1-schnell',
+   *   prompt: 'cat floating in space, cinematic',
+   * });
+   * ```
    */
   create(body: ImageCreateParams, options?: Core.RequestOptions): Core.APIPromise<ImageFile> {
     return this._client.post('/images/generations', { body, ...options });

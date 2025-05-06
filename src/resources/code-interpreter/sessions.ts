@@ -6,6 +6,12 @@ import * as Core from '../../core';
 export class Sessions extends APIResource {
   /**
    * Lists all your currently active sessions.
+   *
+   * @example
+   * ```ts
+   * const sessionListResponse =
+   *   await client.codeInterpreter.sessions.list();
+   * ```
    */
   list(options?: Core.RequestOptions): Core.APIPromise<SessionListResponse> {
     return this._client.get('/tci/sessions', options);

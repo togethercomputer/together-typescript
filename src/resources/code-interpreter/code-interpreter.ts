@@ -14,6 +14,15 @@ export class CodeInterpreter extends APIResource {
    * session_id, the code will be run in that session. This is useful for running
    * multiple code snippets in the same environment, because dependencies and similar
    * things are persisted between calls to the same session.
+   *
+   * @example
+   * ```ts
+   * const executeResponse =
+   *   await client.codeInterpreter.execute({
+   *     code: "print('Hello, world!')",
+   *     language: 'python',
+   *   });
+   * ```
    */
   execute(
     body: CodeInterpreterExecuteParams,

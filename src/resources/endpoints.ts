@@ -9,6 +9,15 @@ export class Endpoints extends APIResource {
    * Creates a new dedicated endpoint for serving models. The endpoint will
    * automatically start after creation. You can deploy any supported model on
    * hardware configurations that meet the model's requirements.
+   *
+   * @example
+   * ```ts
+   * const endpoint = await client.endpoints.create({
+   *   autoscaling: { max_replicas: 5, min_replicas: 2 },
+   *   hardware: '1x_nvidia_a100_80gb_sxm',
+   *   model: 'meta-llama/Llama-3-8b-chat-hf',
+   * });
+   * ```
    */
   create(body: EndpointCreateParams, options?: Core.RequestOptions): Core.APIPromise<EndpointCreateResponse> {
     return this._client.post('/endpoints', { body, ...options });
@@ -17,6 +26,13 @@ export class Endpoints extends APIResource {
   /**
    * Retrieves details about a specific endpoint, including its current state,
    * configuration, and scaling settings.
+   *
+   * @example
+   * ```ts
+   * const endpoint = await client.endpoints.retrieve(
+   *   'endpoint-d23901de-ef8f-44bf-b3e7-de9c1ca8f2d7',
+   * );
+   * ```
    */
   retrieve(endpointId: string, options?: Core.RequestOptions): Core.APIPromise<EndpointRetrieveResponse> {
     return this._client.get(`/endpoints/${endpointId}`, options);
@@ -25,6 +41,13 @@ export class Endpoints extends APIResource {
   /**
    * Updates an existing endpoint's configuration. You can modify the display name,
    * autoscaling settings, or change the endpoint's state (start/stop).
+   *
+   * @example
+   * ```ts
+   * const endpoint = await client.endpoints.update(
+   *   'endpoint-d23901de-ef8f-44bf-b3e7-de9c1ca8f2d7',
+   * );
+   * ```
    */
   update(
     endpointId: string,
@@ -37,6 +60,11 @@ export class Endpoints extends APIResource {
   /**
    * Returns a list of all endpoints associated with your account. You can filter the
    * results by type (dedicated or serverless).
+   *
+   * @example
+   * ```ts
+   * const endpoints = await client.endpoints.list();
+   * ```
    */
   list(query?: EndpointListParams, options?: Core.RequestOptions): Core.APIPromise<EndpointListResponse>;
   list(options?: Core.RequestOptions): Core.APIPromise<EndpointListResponse>;
@@ -52,6 +80,13 @@ export class Endpoints extends APIResource {
 
   /**
    * Permanently deletes an endpoint. This action cannot be undone.
+   *
+   * @example
+   * ```ts
+   * await client.endpoints.delete(
+   *   'endpoint-d23901de-ef8f-44bf-b3e7-de9c1ca8f2d7',
+   * );
+   * ```
    */
   delete(endpointId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.delete(`/endpoints/${endpointId}`, {
