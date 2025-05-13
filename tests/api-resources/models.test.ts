@@ -45,8 +45,11 @@ describe('resource models', () => {
     const response = await client.models.upload({
       model_name: 'Qwen2.5-72B-Instruct',
       model_source: 'unsloth/Qwen2.5-72B-Instruct',
+      base_model: 'Qwen/Qwen2.5-72B-Instruct',
       description: 'Finetuned Qwen2.5-72B-Instruct by Unsloth',
       hf_token: 'hf_examplehuggingfacetoken',
+      lora_model: 'my_username/Qwen2.5-72B-Instruct-lora',
+      model_type: 'model',
     });
   });
 });
