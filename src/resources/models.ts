@@ -17,7 +17,7 @@ export class Models extends APIResource {
   }
 
   /**
-   * Upload a custom model from Hugging Face or S3
+   * Upload a custom model or adapter from Hugging Face or S3
    *
    * @example
    * ```ts
@@ -102,6 +102,12 @@ export interface ModelUploadParams {
   model_source: string;
 
   /**
+   * The base model to use for an adapter if setting it to run against a serverless
+   * pool. Only used for model_type `adapter`.
+   */
+  base_model?: string;
+
+  /**
    * A description of your model
    */
   description?: string;
@@ -110,6 +116,17 @@ export interface ModelUploadParams {
    * Hugging Face token (if uploading from Hugging Face)
    */
   hf_token?: string;
+
+  /**
+   * The lora pool to use for an adapter if setting it to run against, say, a
+   * dedicated pool. Only used for model_type `adapter`.
+   */
+  lora_model?: string;
+
+  /**
+   * Whether the model is a full model or an adapter
+   */
+  model_type?: 'model' | 'adapter';
 }
 
 export declare namespace Models {
