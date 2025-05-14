@@ -214,6 +214,12 @@ export namespace FineTune {
 
   export interface TrainingMethodSft {
     method: 'sft';
+
+    /**
+     * Whether to mask the user messages in conversational data or prompts in
+     * instruction data.
+     */
+    train_on_inputs: boolean | 'auto';
   }
 
   export interface TrainingMethodDpo {
@@ -381,8 +387,8 @@ export interface FineTuneCreateParams {
   suffix?: string;
 
   /**
-   * Whether to mask the user messages in conversational data or prompts in
-   * instruction data.
+   * @deprecated Whether to mask the user messages in conversational data or prompts
+   * in instruction data.
    */
   train_on_inputs?: boolean | 'auto';
 
@@ -466,6 +472,12 @@ export namespace FineTuneCreateParams {
 
   export interface TrainingMethodSft {
     method: 'sft';
+
+    /**
+     * Whether to mask the user messages in conversational data or prompts in
+     * instruction data.
+     */
+    train_on_inputs: boolean | 'auto';
   }
 
   export interface TrainingMethodDpo {
