@@ -5,8 +5,6 @@ export {
   Completions,
   type ChatCompletion,
   type ChatCompletionChunk,
-  type ChatCompletionStructuredMessageImageURL,
-  type ChatCompletionStructuredMessageText,
   type ChatCompletionUsage,
   type CompletionCreateParams,
   type CompletionCreateParamsNonStreaming,
