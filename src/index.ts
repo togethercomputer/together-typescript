@@ -10,9 +10,11 @@ import { RerankParams, RerankResponse } from './resources/top-level';
 import { Audio, AudioCreateParams, AudioFile } from './resources/audio';
 import {
   Completion,
+  CompletionChunk,
   CompletionCreateParams,
   CompletionCreateParamsNonStreaming,
   CompletionCreateParamsStreaming,
+  CompletionUsage,
   Completions,
   LogProbs,
   ToolChoice,
@@ -264,6 +266,8 @@ export declare namespace Together {
   export {
     Completions as Completions,
     type Completion as Completion,
+    type CompletionChunk as CompletionChunk,
+    type CompletionUsage as CompletionUsage,
     type LogProbs as LogProbs,
     type ToolChoice as ToolChoice,
     type Tools as Tools,

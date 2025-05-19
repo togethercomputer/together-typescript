@@ -10,6 +10,8 @@ export {
 export {
   Completions,
   type Completion,
+  type CompletionChunk,
+  type CompletionUsage,
   type LogProbs,
   type ToolChoice,
   type Tools,
