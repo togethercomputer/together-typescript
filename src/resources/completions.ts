@@ -48,7 +48,7 @@ export interface Completion {
 
   model: string;
 
-  object: 'text_completion';
+  object: 'text.completion';
 
   usage: ChatCompletionsAPI.ChatCompletionUsage | null;
 
