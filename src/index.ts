@@ -40,7 +40,9 @@ import {
 } from './resources/files';
 import {
   FineTune,
+  FineTuneCancelResponse,
   FineTuneCreateParams,
+  FineTuneCreateResponse,
   FineTuneDownloadParams,
   FineTuneDownloadResponse,
   FineTuneEvent,
@@ -294,7 +296,9 @@ export declare namespace Together {
     FineTuneResource as FineTuneResource,
     type FineTune as FineTune,
     type FineTuneEvent as FineTuneEvent,
+    type FineTuneCreateResponse as FineTuneCreateResponse,
     type FineTuneListResponse as FineTuneListResponse,
+    type FineTuneCancelResponse as FineTuneCancelResponse,
     type FineTuneDownloadResponse as FineTuneDownloadResponse,
     type FineTuneCreateParams as FineTuneCreateParams,
     type FineTuneDownloadParams as FineTuneDownloadParams,
