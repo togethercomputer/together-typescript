@@ -54,11 +54,6 @@ export namespace ExecuteResponse {
        * Identifier of the current session. Used to make follow-up calls.
        */
       session_id: string;
-
-      /**
-       * Status of the execution. Currently only supports success.
-       */
-      status?: 'success';
     }
 
     export namespace Data {
