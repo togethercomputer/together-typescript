@@ -411,6 +411,8 @@ export interface FineTuneCreateResponse {
    */
   model?: string;
 
+  model_output_name?: string;
+
   /**
    * Number of checkpoints saved during training
    */
@@ -682,6 +684,8 @@ export namespace FineTuneListResponse {
      */
     model?: string;
 
+    model_output_name?: string;
+
     /**
      * Number of checkpoints saved during training
      */
@@ -948,6 +952,8 @@ export interface FineTuneCancelResponse {
    * Base model used for fine-tuning
    */
   model?: string;
+
+  model_output_name?: string;
 
   /**
    * Number of checkpoints saved during training
