@@ -33,6 +33,8 @@ export {
 export {
   Files,
   type FileObject,
+  type FilePurpose,
+  type FileType,
   type FileRetrieveResponse,
   type FileListResponse,
   type FileDeleteResponse,

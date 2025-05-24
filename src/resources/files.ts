@@ -2,6 +2,7 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
+import * as FilesAPI from './files';
 import { type Response } from '../_shims/index';
 
 export class Files extends APIResource {
@@ -55,6 +56,10 @@ export interface FileObject {
   size?: number;
 }
 
+export type FilePurpose = 'fine-tune';
+
+export type FileType = 'jsonl' | 'parquet';
+
 export interface FileRetrieveResponse {
   id: string;
 
@@ -64,7 +69,7 @@ export interface FileRetrieveResponse {
 
   filename: string;
 
-  FileType: 'jsonl' | 'parquet';
+  FileType: FileType;
 
   LineCount: number;
 
@@ -72,7 +77,7 @@ export interface FileRetrieveResponse {
 
   Processed: boolean;
 
-  purpose: 'fine-tune';
+  purpose: FilePurpose;
 }
 
 export interface FileListResponse {
@@ -89,7 +94,7 @@ export namespace FileListResponse {
 
     filename: string;
 
-    FileType: 'jsonl' | 'parquet';
+    FileType: FilesAPI.FileType;
 
     LineCount: number;
 
@@ -97,7 +102,7 @@ export namespace FileListResponse {
 
     Processed: boolean;
 
-    purpose: 'fine-tune';
+    purpose: FilesAPI.FilePurpose;
   }
 }
 
@@ -110,6 +115,8 @@ export interface FileDeleteResponse {
 export declare namespace Files {
   export {
     type FileObject as FileObject,
+    type FilePurpose as FilePurpose,
+    type FileType as FileType,
     type FileRetrieveResponse as FileRetrieveResponse,
     type FileListResponse as FileListResponse,
     type FileDeleteResponse as FileDeleteResponse,
