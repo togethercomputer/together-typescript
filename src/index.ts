@@ -35,7 +35,9 @@ import {
   FileDeleteResponse,
   FileListResponse,
   FileObject,
+  FilePurpose,
   FileRetrieveResponse,
+  FileType,
   Files,
 } from './resources/files';
 import {
@@ -287,6 +289,8 @@ export declare namespace Together {
   export {
     Files as Files,
     type FileObject as FileObject,
+    type FilePurpose as FilePurpose,
+    type FileType as FileType,
     type FileRetrieveResponse as FileRetrieveResponse,
     type FileListResponse as FileListResponse,
     type FileDeleteResponse as FileDeleteResponse,

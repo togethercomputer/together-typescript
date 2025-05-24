@@ -55,6 +55,8 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/files.ts">FileObject</a></code>
+- <code><a href="./src/resources/files.ts">FilePurpose</a></code>
+- <code><a href="./src/resources/files.ts">FileType</a></code>
 - <code><a href="./src/resources/files.ts">FileRetrieveResponse</a></code>
 - <code><a href="./src/resources/files.ts">FileListResponse</a></code>
 - <code><a href="./src/resources/files.ts">FileDeleteResponse</a></code>
