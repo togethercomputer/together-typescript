@@ -56,9 +56,22 @@ export interface FileObject {
   size?: number;
 }
 
-export type FilePurpose = 'fine-tune';
+/**
+ * The purpose of the file
+ */
+export type FilePurpose =
+  | 'fine-tune'
+  | 'eval'
+  | 'eval-sample'
+  | 'eval-output'
+  | 'eval-summary'
+  | 'batch-generated'
+  | 'batch-api';
 
-export type FileType = 'jsonl' | 'parquet';
+/**
+ * The type of the file
+ */
+export type FileType = 'csv' | 'jsonl' | 'parquet';
 
 export interface FileRetrieveResponse {
   id: string;
@@ -69,6 +82,9 @@ export interface FileRetrieveResponse {
 
   filename: string;
 
+  /**
+   * The type of the file
+   */
   FileType: FileType;
 
   LineCount: number;
@@ -77,6 +93,9 @@ export interface FileRetrieveResponse {
 
   Processed: boolean;
 
+  /**
+   * The purpose of the file
+   */
   purpose: FilePurpose;
 }
 
@@ -94,6 +113,9 @@ export namespace FileListResponse {
 
     filename: string;
 
+    /**
+     * The type of the file
+     */
     FileType: FilesAPI.FileType;
 
     LineCount: number;
@@ -102,6 +124,9 @@ export namespace FileListResponse {
 
     Processed: boolean;
 
+    /**
+     * The purpose of the file
+     */
     purpose: FilesAPI.FilePurpose;
   }
 }
