@@ -38,6 +38,8 @@ export {
   type FileRetrieveResponse,
   type FileListResponse,
   type FileDeleteResponse,
+  type FileUploadResponse,
+  type FileUploadParams,
 } from './files';
 export {
   FineTuneResource,
