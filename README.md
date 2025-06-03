@@ -26,16 +26,12 @@ const client = new Together({
   apiKey: process.env['TOGETHER_API_KEY'], // This is the default and can be omitted
 });
 
-async function main() {
-  const chatCompletion = await client.chat.completions.create({
-    messages: [{ role: 'user', content: 'Say this is a test!' }],
-    model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-  });
+const chatCompletion = await client.chat.completions.create({
+  messages: [{ role: 'user', content: 'Say this is a test!' }],
+  model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+});
 
-  console.log(chatCompletion.choices);
-}
-
-main();
+console.log(chatCompletion.choices);
 ```
 
 ## Streaming responses
@@ -72,15 +68,11 @@ const client = new Together({
   apiKey: process.env['TOGETHER_API_KEY'], // This is the default and can be omitted
 });
 
-async function main() {
-  const params: Together.Chat.CompletionCreateParams = {
-    messages: [{ role: 'user', content: 'Say this is a test' }],
-    model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-  };
-  const chatCompletion: Together.Chat.ChatCompletion = await client.chat.completions.create(params);
-}
-
-main();
+const params: Together.Chat.CompletionCreateParams = {
+  messages: [{ role: 'user', content: 'Say this is a test' }],
+  model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+};
+const chatCompletion: Together.Chat.ChatCompletion = await client.chat.completions.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -143,24 +135,20 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-async function main() {
-  const chatCompletion = await client.chat.completions
-    .create({
-      messages: [{ role: 'user', content: 'Say this is a test' }],
-      model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-    })
-    .catch(async (err) => {
-      if (err instanceof Together.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
-}
-
-main();
+const chatCompletion = await client.chat.completions
+  .create({
+    messages: [{ role: 'user', content: 'Say this is a test' }],
+    model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+  })
+  .catch(async (err) => {
+    if (err instanceof Together.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 ```
 
 Error codes are as follows:
