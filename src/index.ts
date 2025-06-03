@@ -14,7 +14,6 @@ import {
   CompletionCreateParams,
   CompletionCreateParamsNonStreaming,
   CompletionCreateParamsStreaming,
-  CompletionUsage,
   Completions,
   LogProbs,
   ToolChoice,
@@ -52,6 +51,7 @@ import {
   FineTuneEvent,
   FineTuneListResponse,
   FineTuneResource,
+  FineTuneRetrieveCheckpointsResponse,
 } from './resources/fine-tune';
 import { Hardware, HardwareListParams, HardwareListResponse } from './resources/hardware';
 import { ImageCreateParams, ImageFile, Images } from './resources/images';
@@ -273,7 +273,6 @@ export declare namespace Together {
     Completions as Completions,
     type Completion as Completion,
     type CompletionChunk as CompletionChunk,
-    type CompletionUsage as CompletionUsage,
     type LogProbs as LogProbs,
     type ToolChoice as ToolChoice,
     type Tools as Tools,
@@ -308,6 +307,7 @@ export declare namespace Together {
     type FineTuneListResponse as FineTuneListResponse,
     type FineTuneCancelResponse as FineTuneCancelResponse,
     type FineTuneDownloadResponse as FineTuneDownloadResponse,
+    type FineTuneRetrieveCheckpointsResponse as FineTuneRetrieveCheckpointsResponse,
     type FineTuneCreateParams as FineTuneCreateParams,
     type FineTuneDownloadParams as FineTuneDownloadParams,
   };

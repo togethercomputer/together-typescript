@@ -154,6 +154,42 @@ export namespace ChatCompletionChunk {
   }
 }
 
+export interface ChatCompletionStructuredMessageImageURL {
+  image_url?: ChatCompletionStructuredMessageImageURL.ImageURL;
+
+  type?: 'image_url';
+}
+
+export namespace ChatCompletionStructuredMessageImageURL {
+  export interface ImageURL {
+    /**
+     * The URL of the image
+     */
+    url: string;
+  }
+}
+
+export interface ChatCompletionStructuredMessageText {
+  text: string;
+
+  type: 'text';
+}
+
+export interface ChatCompletionStructuredMessageVideoURL {
+  type: 'video_url';
+
+  video_url: ChatCompletionStructuredMessageVideoURL.VideoURL;
+}
+
+export namespace ChatCompletionStructuredMessageVideoURL {
+  export interface VideoURL {
+    /**
+     * The URL of the video
+     */
+    url: string;
+  }
+}
+
 export interface ChatCompletionUsage {
   completion_tokens: number;
 
@@ -337,52 +373,14 @@ export namespace CompletionCreateParams {
     content:
       | string
       | Array<
-          | ChatCompletionUserMessageParam.UnionMember0
-          | ChatCompletionUserMessageParam.UnionMember1
-          | ChatCompletionUserMessageParam.Video
+          | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+          | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+          | ChatCompletionsAPI.ChatCompletionStructuredMessageVideoURL
         >;
 
     role: 'user';
 
     name?: string;
-  }
-
-  export namespace ChatCompletionUserMessageParam {
-    export interface UnionMember0 {
-      text: string;
-
-      type: 'text';
-    }
-
-    export interface UnionMember1 {
-      image_url?: UnionMember1.ImageURL;
-
-      type?: 'image_url';
-    }
-
-    export namespace UnionMember1 {
-      export interface ImageURL {
-        /**
-         * The URL of the image
-         */
-        url: string;
-      }
-    }
-
-    export interface Video {
-      type: 'video_url';
-
-      video_url: Video.VideoURL;
-    }
-
-    export namespace Video {
-      export interface VideoURL {
-        /**
-         * The URL of the video
-         */
-        url: string;
-      }
-    }
   }
 
   export interface ChatCompletionAssistantMessageParam {
@@ -475,6 +473,9 @@ export declare namespace Completions {
   export {
     type ChatCompletion as ChatCompletion,
     type ChatCompletionChunk as ChatCompletionChunk,
+    type ChatCompletionStructuredMessageImageURL as ChatCompletionStructuredMessageImageURL,
+    type ChatCompletionStructuredMessageText as ChatCompletionStructuredMessageText,
+    type ChatCompletionStructuredMessageVideoURL as ChatCompletionStructuredMessageVideoURL,
     type ChatCompletionUsage as ChatCompletionUsage,
     type CompletionCreateParams as CompletionCreateParams,
     type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,

@@ -16,6 +16,9 @@ Types:
 
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletion</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionChunk</a></code>
+- <code><a href="./src/resources/chat/completions.ts">ChatCompletionStructuredMessageImageURL</a></code>
+- <code><a href="./src/resources/chat/completions.ts">ChatCompletionStructuredMessageText</a></code>
+- <code><a href="./src/resources/chat/completions.ts">ChatCompletionStructuredMessageVideoURL</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionUsage</a></code>
 
 Methods:
@@ -28,7 +31,6 @@ Types:
 
 - <code><a href="./src/resources/completions.ts">Completion</a></code>
 - <code><a href="./src/resources/completions.ts">CompletionChunk</a></code>
-- <code><a href="./src/resources/completions.ts">CompletionUsage</a></code>
 - <code><a href="./src/resources/completions.ts">LogProbs</a></code>
 - <code><a href="./src/resources/completions.ts">ToolChoice</a></code>
 - <code><a href="./src/resources/completions.ts">Tools</a></code>
@@ -77,6 +79,7 @@ Types:
 - <code><a href="./src/resources/fine-tune.ts">FineTuneListResponse</a></code>
 - <code><a href="./src/resources/fine-tune.ts">FineTuneCancelResponse</a></code>
 - <code><a href="./src/resources/fine-tune.ts">FineTuneDownloadResponse</a></code>
+- <code><a href="./src/resources/fine-tune.ts">FineTuneRetrieveCheckpointsResponse</a></code>
 
 Methods:
 
@@ -86,6 +89,7 @@ Methods:
 - <code title="post /fine-tunes/{id}/cancel">client.fineTune.<a href="./src/resources/fine-tune.ts">cancel</a>(id) -> FineTuneCancelResponse</code>
 - <code title="get /finetune/download">client.fineTune.<a href="./src/resources/fine-tune.ts">download</a>({ ...params }) -> FineTuneDownloadResponse</code>
 - <code title="get /fine-tunes/{id}/events">client.fineTune.<a href="./src/resources/fine-tune.ts">listEvents</a>(id) -> FineTuneEvent</code>
+- <code title="get /fine-tunes/{id}/checkpoints">client.fineTune.<a href="./src/resources/fine-tune.ts">retrieveCheckpoints</a>(id) -> FineTuneRetrieveCheckpointsResponse</code>
 
 # CodeInterpreter
 

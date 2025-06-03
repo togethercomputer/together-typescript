@@ -139,14 +139,6 @@ export namespace CompletionChunk {
   }
 }
 
-export interface CompletionUsage {
-  completion_tokens: number;
-
-  prompt_tokens: number;
-
-  total_tokens: number;
-}
-
 export interface LogProbs {
   /**
    * List of token IDs corresponding to the logprobs
@@ -351,7 +343,6 @@ export declare namespace Completions {
   export {
     type Completion as Completion,
     type CompletionChunk as CompletionChunk,
-    type CompletionUsage as CompletionUsage,
     type LogProbs as LogProbs,
     type ToolChoice as ToolChoice,
     type Tools as Tools,

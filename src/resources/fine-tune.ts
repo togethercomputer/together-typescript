@@ -87,6 +87,23 @@ export class FineTuneResource extends APIResource {
   listEvents(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTuneEvent> {
     return this._client.get(`/fine-tunes/${id}/events`, options);
   }
+
+  /**
+   * List the checkpoints for a single fine-tuning job.
+   *
+   * @example
+   * ```ts
+   * const response = await client.fineTune.retrieveCheckpoints(
+   *   'id',
+   * );
+   * ```
+   */
+  retrieveCheckpoints(
+    id: string,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<FineTuneRetrieveCheckpointsResponse> {
+    return this._client.get(`/fine-tunes/${id}/checkpoints`, options);
+  }
 }
 
 export interface FineTune {
@@ -1167,6 +1184,22 @@ export interface FineTuneDownloadResponse {
   size?: number;
 }
 
+export interface FineTuneRetrieveCheckpointsResponse {
+  data: Array<FineTuneRetrieveCheckpointsResponse.Data>;
+}
+
+export namespace FineTuneRetrieveCheckpointsResponse {
+  export interface Data {
+    checkpoint_type: string;
+
+    created_at: string;
+
+    path: string;
+
+    step: number;
+  }
+}
+
 export interface FineTuneCreateParams {
   /**
    * Name of the base model to run fine-tune job on
@@ -1381,6 +1414,7 @@ export declare namespace FineTuneResource {
     type FineTuneListResponse as FineTuneListResponse,
     type FineTuneCancelResponse as FineTuneCancelResponse,
     type FineTuneDownloadResponse as FineTuneDownloadResponse,
+    type FineTuneRetrieveCheckpointsResponse as FineTuneRetrieveCheckpointsResponse,
     type FineTuneCreateParams as FineTuneCreateParams,
     type FineTuneDownloadParams as FineTuneDownloadParams,
   };
