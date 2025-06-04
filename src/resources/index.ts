@@ -11,7 +11,6 @@ export {
   Completions,
   type Completion,
   type CompletionChunk,
-  type CompletionUsage,
   type LogProbs,
   type ToolChoice,
   type Tools,
@@ -49,6 +48,7 @@ export {
   type FineTuneListResponse,
   type FineTuneCancelResponse,
   type FineTuneDownloadResponse,
+  type FineTuneRetrieveCheckpointsResponse,
   type FineTuneCreateParams,
   type FineTuneDownloadParams,
 } from './fine-tune';
