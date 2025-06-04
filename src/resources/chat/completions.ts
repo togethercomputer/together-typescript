@@ -255,6 +255,21 @@ export interface ChatCompletionStructuredMessageText {
   type: 'text';
 }
 
+export interface ChatCompletionStructuredMessageVideoURL {
+  type: 'video_url';
+
+  video_url: ChatCompletionStructuredMessageVideoURL.VideoURL;
+}
+
+export namespace ChatCompletionStructuredMessageVideoURL {
+  export interface VideoURL {
+    /**
+     * The URL of the video
+     */
+    url: string;
+  }
+}
+
 export interface ChatCompletionUsage {
   completion_tokens: number;
 
@@ -439,7 +454,17 @@ export namespace CompletionCreateParams {
   }
 
   export interface ChatCompletionUserMessageParam {
-    content: string;
+    /**
+     * The content of the message, which can either be a simple string or a structured
+     * format.
+     */
+    content:
+      | string
+      | Array<
+          | ChatCompletionsAPI.ChatCompletionStructuredMessageText
+          | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
+          | ChatCompletionsAPI.ChatCompletionStructuredMessageVideoURL
+        >;
 
     role: 'user';
 
@@ -545,6 +570,7 @@ export declare namespace Completions {
     type ChatCompletionToolMessageParam as ChatCompletionToolMessageParam,
     type ChatCompletionStructuredMessageImageURL as ChatCompletionStructuredMessageImageURL,
     type ChatCompletionStructuredMessageText as ChatCompletionStructuredMessageText,
+    type ChatCompletionStructuredMessageVideoURL as ChatCompletionStructuredMessageVideoURL,
     type ChatCompletionUsage as ChatCompletionUsage,
     type ChatCompletionUserMessageParam as ChatCompletionUserMessageParam,
     type CompletionCreateParams as CompletionCreateParams,

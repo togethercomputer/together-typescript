@@ -24,18 +24,18 @@ export class Completions extends APIResource {
   create(
     body: CompletionCreateParamsStreaming,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<Completion>>;
+  ): APIPromise<Stream<CompletionChunk>>;
   create(
     body: CompletionCreateParamsBase,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<Completion> | Completion>;
+  ): APIPromise<Stream<CompletionChunk> | Completion>;
   create(
     body: CompletionCreateParams,
     options?: Core.RequestOptions,
-  ): APIPromise<Completion> | APIPromise<Stream<Completion>> {
+  ): APIPromise<Completion> | APIPromise<Stream<CompletionChunk>> {
     return this._client.post('/completions', { body, ...options, stream: body.stream ?? false }) as
       | APIPromise<Completion>
-      | APIPromise<Stream<Completion>>;
+      | APIPromise<Stream<CompletionChunk>>;
   }
 }
 
@@ -71,6 +71,80 @@ export namespace Completion {
 
     text?: string;
   }
+}
+
+export interface CompletionChunk {
+  id: string;
+
+  token: CompletionChunk.Token;
+
+  choices: Array<CompletionChunk.Choice>;
+
+  finish_reason: 'stop' | 'eos' | 'length' | 'tool_calls' | 'function_call' | null;
+
+  usage: ChatCompletionsAPI.ChatCompletionUsage | null;
+
+  created?: number;
+
+  object?: 'completion.chunk';
+
+  seed?: number;
+}
+
+export namespace CompletionChunk {
+  export interface Token {
+    id: number;
+
+    logprob: number;
+
+    special: boolean;
+
+    text: string;
+  }
+
+  export interface Choice {
+    index: number;
+
+    delta?: Choice.Delta;
+
+    text?: string;
+  }
+
+  export namespace Choice {
+    export interface Delta {
+      role: 'system' | 'user' | 'assistant' | 'function' | 'tool';
+
+      content?: string | null;
+
+      /**
+       * @deprecated
+       */
+      function_call?: Delta.FunctionCall | null;
+
+      token_id?: number;
+
+      tool_calls?: Array<CompletionsAPI.ToolChoice>;
+    }
+
+    export namespace Delta {
+      /**
+       * @deprecated
+       */
+      export interface FunctionCall {
+        arguments: string;
+
+        name: string;
+      }
+    }
+  }
+}
+
+export interface CompletionUsage {
+  completion_tokens: number;
+
+  prompt_tokens: number;
+
+  total_tokens: number;
 }
 
 export interface LogProbs {
@@ -276,6 +350,8 @@ export interface CompletionCreateParamsStreaming extends CompletionCreateParamsB
 export declare namespace Completions {
   export {
     type Completion as Completion,
+    type CompletionChunk as CompletionChunk,
+    type CompletionUsage as CompletionUsage,
     type LogProbs as LogProbs,
     type ToolChoice as ToolChoice,
     type Tools as Tools,

@@ -25,6 +25,7 @@ Types:
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionToolMessageParam</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionStructuredMessageImageURL</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionStructuredMessageText</a></code>
+- <code><a href="./src/resources/chat/completions.ts">ChatCompletionStructuredMessageVideoURL</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionUsage</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionUserMessageParam</a></code>
 
@@ -37,6 +38,8 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/completions.ts">Completion</a></code>
+- <code><a href="./src/resources/completions.ts">CompletionChunk</a></code>
+- <code><a href="./src/resources/completions.ts">CompletionUsage</a></code>
 - <code><a href="./src/resources/completions.ts">LogProbs</a></code>
 - <code><a href="./src/resources/completions.ts">ToolChoice</a></code>
 - <code><a href="./src/resources/completions.ts">Tools</a></code>
