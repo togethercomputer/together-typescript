@@ -85,6 +85,56 @@ main();
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
 
+## File uploads
+
+Request parameters that correspond to file uploads can be passed in many different forms:
+
+- `File` (or an object with the same structure)
+- a `fetch` `Response` (or an object with the same structure)
+- an `fs.ReadStream`
+- the return value of our `toFile` helper
+
+```ts
+import fs from 'fs';
+import fetch from 'node-fetch';
+import Together, { toFile } from 'together-ai';
+
+const client = new Together();
+
+// If you have access to Node `fs` we recommend using `fs.createReadStream()`:
+await client.files.upload({
+  file: fs.createReadStream('/path/to/file'),
+  file_name: 'dataset.csv',
+  purpose: 'fine-tune',
+});
+
+// Or if you have the web `File` API you can pass a `File` instance:
+await client.files.upload({
+  file: new File(['my bytes'], 'file'),
+  file_name: 'dataset.csv',
+  purpose: 'fine-tune',
+});
+
+// You can also pass a `fetch` `Response`:
+await client.files.upload({
+  file: await fetch('https://somesite/file'),
+  file_name: 'dataset.csv',
+  purpose: 'fine-tune',
+});
+
+// Finally, if none of the above are convenient, you can use our `toFile` helper:
+await client.files.upload({
+  file: await toFile(Buffer.from('my bytes'), 'file'),
+  file_name: 'dataset.csv',
+  purpose: 'fine-tune',
+});
+await client.files.upload({
+  file: await toFile(new Uint8Array([0, 1, 2]), 'file'),
+  file_name: 'dataset.csv',
+  purpose: 'fine-tune',
+});
+```
+
 ## Handling errors
 
 When the library is unable to connect to the API,
