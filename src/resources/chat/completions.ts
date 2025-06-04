@@ -16,7 +16,7 @@ export class Completions extends APIResource {
    * ```ts
    * const chatCompletion = await client.chat.completions.create(
    *   {
-   *     messages: [{ content: 'string', role: 'system' }],
+   *     messages: [{ content: 'content', role: 'system' }],
    *     model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
    *   },
    * );
@@ -277,7 +277,13 @@ export interface CompletionCreateParamsBase {
   /**
    * A list of messages comprising the conversation so far.
    */
-  messages: Array<CompletionCreateParams.Message>;
+  messages: Array<
+    | CompletionCreateParams.ChatCompletionSystemMessageParam
+    | CompletionCreateParams.ChatCompletionUserMessageParam
+    | CompletionCreateParams.ChatCompletionAssistantMessageParam
+    | CompletionCreateParams.ChatCompletionToolMessageParam
+    | CompletionCreateParams.ChatCompletionFunctionMessageParam
+  >;
 
   /**
    * The name of the model to query.
@@ -424,41 +430,65 @@ export interface CompletionCreateParamsBase {
 }
 
 export namespace CompletionCreateParams {
-  export interface Message {
-    /**
-     * The content of the message, which can either be a simple string or a structured
-     * format.
-     */
-    content:
-      | string
-      | Array<
-          | ChatCompletionsAPI.ChatCompletionStructuredMessageText
-          | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
-          | Message.Video
-        >;
+  export interface ChatCompletionSystemMessageParam {
+    content: string;
 
-    /**
-     * The role of the messages author. Choice between: system, user, assistant, or
-     * tool.
-     */
-    role: 'system' | 'user' | 'assistant' | 'tool';
+    role: 'system';
+
+    name?: string;
   }
 
-  export namespace Message {
-    export interface Video {
-      type: 'video_url';
+  export interface ChatCompletionUserMessageParam {
+    content: string;
 
-      video_url: Video.VideoURL;
-    }
+    role: 'user';
 
-    export namespace Video {
-      export interface VideoURL {
-        /**
-         * The URL of the video
-         */
-        url: string;
-      }
+    name?: string;
+  }
+
+  export interface ChatCompletionAssistantMessageParam {
+    role: 'assistant';
+
+    content?: string | null;
+
+    /**
+     * @deprecated
+     */
+    function_call?: ChatCompletionAssistantMessageParam.FunctionCall;
+
+    name?: string;
+
+    tool_calls?: Array<CompletionsAPI.ToolChoice>;
+  }
+
+  export namespace ChatCompletionAssistantMessageParam {
+    /**
+     * @deprecated
+     */
+    export interface FunctionCall {
+      arguments: string;
+
+      name: string;
     }
+  }
+
+  export interface ChatCompletionToolMessageParam {
+    content: string;
+
+    role: 'tool';
+
+    tool_call_id: string;
+  }
+
+  /**
+   * @deprecated
+   */
+  export interface ChatCompletionFunctionMessageParam {
+    content: string;
+
+    name: string;
+
+    role: 'function';
   }
 
   export interface Name {
