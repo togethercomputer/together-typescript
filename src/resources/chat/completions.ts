@@ -461,14 +461,52 @@ export namespace CompletionCreateParams {
     content:
       | string
       | Array<
-          | ChatCompletionsAPI.ChatCompletionStructuredMessageText
-          | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
-          | ChatCompletionsAPI.ChatCompletionStructuredMessageVideoURL
+          | ChatCompletionUserMessageParam.UnionMember0
+          | ChatCompletionUserMessageParam.UnionMember1
+          | ChatCompletionUserMessageParam.Video
         >;
 
     role: 'user';
 
     name?: string;
+  }
+
+  export namespace ChatCompletionUserMessageParam {
+    export interface UnionMember0 {
+      text: string;
+
+      type: 'text';
+    }
+
+    export interface UnionMember1 {
+      image_url?: UnionMember1.ImageURL;
+
+      type?: 'image_url';
+    }
+
+    export namespace UnionMember1 {
+      export interface ImageURL {
+        /**
+         * The URL of the image
+         */
+        url: string;
+      }
+    }
+
+    export interface Video {
+      type: 'video_url';
+
+      video_url: Video.VideoURL;
+    }
+
+    export namespace Video {
+      export interface VideoURL {
+        /**
+         * The URL of the video
+         */
+        url: string;
+      }
+    }
   }
 
   export interface ChatCompletionAssistantMessageParam {
