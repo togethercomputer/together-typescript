@@ -73,12 +73,20 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/fine-tune.ts">CosineLrSchedulerArgs</a></code>
 - <code><a href="./src/resources/fine-tune.ts">FineTune</a></code>
 - <code><a href="./src/resources/fine-tune.ts">FineTuneEvent</a></code>
+- <code><a href="./src/resources/fine-tune.ts">FullTrainingType</a></code>
+- <code><a href="./src/resources/fine-tune.ts">LinearLrSchedulerArgs</a></code>
+- <code><a href="./src/resources/fine-tune.ts">LoRaTrainingType</a></code>
+- <code><a href="./src/resources/fine-tune.ts">LrScheduler</a></code>
+- <code><a href="./src/resources/fine-tune.ts">TrainingMethodDpo</a></code>
+- <code><a href="./src/resources/fine-tune.ts">TrainingMethodSft</a></code>
 - <code><a href="./src/resources/fine-tune.ts">FineTuneCreateResponse</a></code>
 - <code><a href="./src/resources/fine-tune.ts">FineTuneListResponse</a></code>
 - <code><a href="./src/resources/fine-tune.ts">FineTuneCancelResponse</a></code>
 - <code><a href="./src/resources/fine-tune.ts">FineTuneDownloadResponse</a></code>
+- <code><a href="./src/resources/fine-tune.ts">FineTuneListEventsResponse</a></code>
 - <code><a href="./src/resources/fine-tune.ts">FineTuneRetrieveCheckpointsResponse</a></code>
 
 Methods:
@@ -88,7 +96,7 @@ Methods:
 - <code title="get /fine-tunes">client.fineTune.<a href="./src/resources/fine-tune.ts">list</a>() -> FineTuneListResponse</code>
 - <code title="post /fine-tunes/{id}/cancel">client.fineTune.<a href="./src/resources/fine-tune.ts">cancel</a>(id) -> FineTuneCancelResponse</code>
 - <code title="get /finetune/download">client.fineTune.<a href="./src/resources/fine-tune.ts">download</a>({ ...params }) -> FineTuneDownloadResponse</code>
-- <code title="get /fine-tunes/{id}/events">client.fineTune.<a href="./src/resources/fine-tune.ts">listEvents</a>(id) -> FineTuneEvent</code>
+- <code title="get /fine-tunes/{id}/events">client.fineTune.<a href="./src/resources/fine-tune.ts">listEvents</a>(id) -> FineTuneListEventsResponse</code>
 - <code title="get /fine-tunes/{id}/checkpoints">client.fineTune.<a href="./src/resources/fine-tune.ts">retrieveCheckpoints</a>(id) -> FineTuneRetrieveCheckpointsResponse</code>
 
 # CodeInterpreter
@@ -115,6 +123,8 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/images.ts">ImageDataB64</a></code>
+- <code><a href="./src/resources/images.ts">ImageDataURL</a></code>
 - <code><a href="./src/resources/images.ts">ImageFile</a></code>
 
 Methods:
@@ -126,6 +136,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/audio.ts">AudioFile</a></code>
+- <code><a href="./src/resources/audio.ts">AudioSpeechStreamChunk</a></code>
 
 Methods:
 
@@ -159,6 +170,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/endpoints.ts">Autoscaling</a></code>
 - <code><a href="./src/resources/endpoints.ts">EndpointCreateResponse</a></code>
 - <code><a href="./src/resources/endpoints.ts">EndpointRetrieveResponse</a></code>
 - <code><a href="./src/resources/endpoints.ts">EndpointUpdateResponse</a></code>
