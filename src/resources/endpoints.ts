@@ -97,6 +97,21 @@ export class Endpoints extends APIResource {
 }
 
 /**
+ * Configuration for automatic scaling of replicas based on demand.
+ */
+export interface Autoscaling {
+  /**
+   * The maximum number of replicas to scale up to under load
+   */
+  max_replicas: number;
+
+  /**
+   * The minimum number of replicas to maintain, even when there is no load
+   */
+  min_replicas: number;
+}
+
+/**
  * Details about a dedicated endpoint deployment
  */
 export interface EndpointCreateResponse {
@@ -108,7 +123,7 @@ export interface EndpointCreateResponse {
   /**
    * Configuration for automatic scaling of the endpoint
    */
-  autoscaling: EndpointCreateResponse.Autoscaling;
+  autoscaling: Autoscaling;
 
   /**
    * Timestamp when the endpoint was created
@@ -154,23 +169,6 @@ export interface EndpointCreateResponse {
    * The type of endpoint
    */
   type: 'dedicated';
-}
-
-export namespace EndpointCreateResponse {
-  /**
-   * Configuration for automatic scaling of the endpoint
-   */
-  export interface Autoscaling {
-    /**
-     * The maximum number of replicas to scale up to under load
-     */
-    max_replicas: number;
-
-    /**
-     * The minimum number of replicas to maintain, even when there is no load
-     */
-    min_replicas: number;
-  }
 }
 
 /**
@@ -185,7 +183,7 @@ export interface EndpointRetrieveResponse {
   /**
    * Configuration for automatic scaling of the endpoint
    */
-  autoscaling: EndpointRetrieveResponse.Autoscaling;
+  autoscaling: Autoscaling;
 
   /**
    * Timestamp when the endpoint was created
@@ -231,23 +229,6 @@ export interface EndpointRetrieveResponse {
    * The type of endpoint
    */
   type: 'dedicated';
-}
-
-export namespace EndpointRetrieveResponse {
-  /**
-   * Configuration for automatic scaling of the endpoint
-   */
-  export interface Autoscaling {
-    /**
-     * The maximum number of replicas to scale up to under load
-     */
-    max_replicas: number;
-
-    /**
-     * The minimum number of replicas to maintain, even when there is no load
-     */
-    min_replicas: number;
-  }
 }
 
 /**
@@ -262,7 +243,7 @@ export interface EndpointUpdateResponse {
   /**
    * Configuration for automatic scaling of the endpoint
    */
-  autoscaling: EndpointUpdateResponse.Autoscaling;
+  autoscaling: Autoscaling;
 
   /**
    * Timestamp when the endpoint was created
@@ -308,23 +289,6 @@ export interface EndpointUpdateResponse {
    * The type of endpoint
    */
   type: 'dedicated';
-}
-
-export namespace EndpointUpdateResponse {
-  /**
-   * Configuration for automatic scaling of the endpoint
-   */
-  export interface Autoscaling {
-    /**
-     * The maximum number of replicas to scale up to under load
-     */
-    max_replicas: number;
-
-    /**
-     * The minimum number of replicas to maintain, even when there is no load
-     */
-    min_replicas: number;
-  }
 }
 
 export interface EndpointListResponse {
@@ -384,7 +348,7 @@ export interface EndpointCreateParams {
   /**
    * Configuration for automatic scaling of the endpoint
    */
-  autoscaling: EndpointCreateParams.Autoscaling;
+  autoscaling: Autoscaling;
 
   /**
    * The hardware configuration to use for this endpoint
@@ -424,28 +388,11 @@ export interface EndpointCreateParams {
   state?: 'STARTED' | 'STOPPED';
 }
 
-export namespace EndpointCreateParams {
-  /**
-   * Configuration for automatic scaling of the endpoint
-   */
-  export interface Autoscaling {
-    /**
-     * The maximum number of replicas to scale up to under load
-     */
-    max_replicas: number;
-
-    /**
-     * The minimum number of replicas to maintain, even when there is no load
-     */
-    min_replicas: number;
-  }
-}
-
 export interface EndpointUpdateParams {
   /**
    * New autoscaling configuration for the endpoint
    */
-  autoscaling?: EndpointUpdateParams.Autoscaling;
+  autoscaling?: Autoscaling;
 
   /**
    * A human-readable name for the endpoint
@@ -464,23 +411,6 @@ export interface EndpointUpdateParams {
   state?: 'STARTED' | 'STOPPED';
 }
 
-export namespace EndpointUpdateParams {
-  /**
-   * New autoscaling configuration for the endpoint
-   */
-  export interface Autoscaling {
-    /**
-     * The maximum number of replicas to scale up to under load
-     */
-    max_replicas: number;
-
-    /**
-     * The minimum number of replicas to maintain, even when there is no load
-     */
-    min_replicas: number;
-  }
-}
-
 export interface EndpointListParams {
   /**
    * Filter endpoints by type
@@ -490,6 +420,7 @@ export interface EndpointListParams {
 
 export declare namespace Endpoints {
   export {
+    type Autoscaling as Autoscaling,
     type EndpointCreateResponse as EndpointCreateResponse,
     type EndpointRetrieveResponse as EndpointRetrieveResponse,
     type EndpointUpdateResponse as EndpointUpdateResponse,

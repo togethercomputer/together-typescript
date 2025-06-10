@@ -7,7 +7,14 @@ import * as Uploads from './uploads';
 import * as API from './resources/index';
 import * as TopLevelAPI from './resources/top-level';
 import { RerankParams, RerankResponse } from './resources/top-level';
-import { Audio, AudioCreateParams, AudioFile } from './resources/audio';
+import {
+  Audio,
+  AudioCreateParams,
+  AudioCreateParamsNonStreaming,
+  AudioCreateParamsStreaming,
+  AudioFile,
+  AudioSpeechStreamChunk,
+} from './resources/audio';
 import {
   Completion,
   CompletionChunk,
@@ -21,6 +28,7 @@ import {
 } from './resources/completions';
 import { Embedding, EmbeddingCreateParams, Embeddings } from './resources/embeddings';
 import {
+  Autoscaling,
   EndpointCreateParams,
   EndpointCreateResponse,
   EndpointListParams,
@@ -42,6 +50,7 @@ import {
   Files,
 } from './resources/files';
 import {
+  CosineLrSchedulerArgs,
   FineTune,
   FineTuneCancelResponse,
   FineTuneCreateParams,
@@ -49,12 +58,19 @@ import {
   FineTuneDownloadParams,
   FineTuneDownloadResponse,
   FineTuneEvent,
+  FineTuneListEventsResponse,
   FineTuneListResponse,
   FineTuneResource,
   FineTuneRetrieveCheckpointsResponse,
+  FullTrainingType,
+  LinearLrSchedulerArgs,
+  LoRaTrainingType,
+  LrScheduler,
+  TrainingMethodDpo,
+  TrainingMethodSft,
 } from './resources/fine-tune';
 import { Hardware, HardwareListParams, HardwareListResponse } from './resources/hardware';
-import { ImageCreateParams, ImageFile, Images } from './resources/images';
+import { ImageCreateParams, ImageDataB64, ImageDataURL, ImageFile, Images } from './resources/images';
 import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
 import { ModelListResponse, ModelUploadParams, ModelUploadResponse, Models } from './resources/models';
 import { Chat } from './resources/chat/chat';
@@ -301,12 +317,20 @@ export declare namespace Together {
 
   export {
     FineTuneResource as FineTuneResource,
+    type CosineLrSchedulerArgs as CosineLrSchedulerArgs,
     type FineTune as FineTune,
     type FineTuneEvent as FineTuneEvent,
+    type FullTrainingType as FullTrainingType,
+    type LinearLrSchedulerArgs as LinearLrSchedulerArgs,
+    type LoRaTrainingType as LoRaTrainingType,
+    type LrScheduler as LrScheduler,
+    type TrainingMethodDpo as TrainingMethodDpo,
+    type TrainingMethodSft as TrainingMethodSft,
     type FineTuneCreateResponse as FineTuneCreateResponse,
     type FineTuneListResponse as FineTuneListResponse,
     type FineTuneCancelResponse as FineTuneCancelResponse,
     type FineTuneDownloadResponse as FineTuneDownloadResponse,
+    type FineTuneListEventsResponse as FineTuneListEventsResponse,
     type FineTuneRetrieveCheckpointsResponse as FineTuneRetrieveCheckpointsResponse,
     type FineTuneCreateParams as FineTuneCreateParams,
     type FineTuneDownloadParams as FineTuneDownloadParams,
@@ -318,9 +342,22 @@ export declare namespace Together {
     type CodeInterpreterExecuteParams as CodeInterpreterExecuteParams,
   };
 
-  export { Images as Images, type ImageFile as ImageFile, type ImageCreateParams as ImageCreateParams };
+  export {
+    Images as Images,
+    type ImageDataB64 as ImageDataB64,
+    type ImageDataURL as ImageDataURL,
+    type ImageFile as ImageFile,
+    type ImageCreateParams as ImageCreateParams,
+  };
 
-  export { Audio as Audio, type AudioFile as AudioFile, type AudioCreateParams as AudioCreateParams };
+  export {
+    Audio as Audio,
+    type AudioFile as AudioFile,
+    type AudioSpeechStreamChunk as AudioSpeechStreamChunk,
+    type AudioCreateParams as AudioCreateParams,
+    type AudioCreateParamsNonStreaming as AudioCreateParamsNonStreaming,
+    type AudioCreateParamsStreaming as AudioCreateParamsStreaming,
+  };
 
   export {
     Models as Models,
@@ -337,6 +374,7 @@ export declare namespace Together {
 
   export {
     Endpoints as Endpoints,
+    type Autoscaling as Autoscaling,
     type EndpointCreateResponse as EndpointCreateResponse,
     type EndpointRetrieveResponse as EndpointRetrieveResponse,
     type EndpointUpdateResponse as EndpointUpdateResponse,

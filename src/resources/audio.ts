@@ -1,7 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../resource';
+import { APIPromise } from '../core';
 import * as Core from '../core';
+import * as AudioAPI from './audio';
+import { Stream } from '../streaming';
 import { type Response } from '../_shims/index';
 
 export class Audio extends APIResource {
@@ -20,13 +23,26 @@ export class Audio extends APIResource {
    * console.log(content);
    * ```
    */
-  create(body: AudioCreateParams, options?: Core.RequestOptions): Core.APIPromise<Response> {
+  create(body: AudioCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<Response>;
+  create(
+    body: AudioCreateParamsStreaming,
+    options?: Core.RequestOptions,
+  ): APIPromise<Stream<AudioSpeechStreamChunk>>;
+  create(
+    body: AudioCreateParamsBase,
+    options?: Core.RequestOptions,
+  ): APIPromise<Stream<AudioSpeechStreamChunk> | Response>;
+  create(
+    body: AudioCreateParams,
+    options?: Core.RequestOptions,
+  ): APIPromise<Response> | APIPromise<Stream<AudioSpeechStreamChunk>> {
     return this._client.post('/audio/speech', {
       body,
       ...options,
       headers: { Accept: 'application/octet-stream', ...options?.headers },
+      stream: body.stream ?? false,
       __binaryResponse: true,
-    });
+    }) as APIPromise<Response> | APIPromise<Stream<AudioSpeechStreamChunk>>;
   }
 }
 
@@ -34,20 +50,7 @@ export type AudioFile = AudioFile.AudioSpeechStreamEvent | AudioFile.StreamSenti
 
 export namespace AudioFile {
   export interface AudioSpeechStreamEvent {
-    data: AudioSpeechStreamEvent.Data;
-  }
-
-  export namespace AudioSpeechStreamEvent {
-    export interface Data {
-      /**
-       * base64 encoded audio stream
-       */
-      b64: string;
-
-      model: string;
-
-      object: 'audio.tts.chunk';
-    }
+    data: AudioAPI.AudioSpeechStreamChunk;
   }
 
   export interface StreamSentinel {
@@ -55,7 +58,20 @@ export namespace AudioFile {
   }
 }
 
-export interface AudioCreateParams {
+export interface AudioSpeechStreamChunk {
+  /**
+   * base64 encoded audio stream
+   */
+  b64: string;
+
+  model: string;
+
+  object: 'audio.tts.chunk';
+}
+
+export type AudioCreateParams = AudioCreateParamsNonStreaming | AudioCreateParamsStreaming;
+
+export interface AudioCreateParamsBase {
   /**
    * Input text to generate the audio for
    */
@@ -117,6 +133,35 @@ export interface AudioCreateParams {
   stream?: boolean;
 }
 
+export namespace AudioCreateParams {
+  export type AudioCreateParamsNonStreaming = AudioAPI.AudioCreateParamsNonStreaming;
+  export type AudioCreateParamsStreaming = AudioAPI.AudioCreateParamsStreaming;
+}
+
+export interface AudioCreateParamsNonStreaming extends AudioCreateParamsBase {
+  /**
+   * If true, output is streamed for several characters at a time instead of waiting
+   * for the full response. The stream terminates with `data: [DONE]`. If false,
+   * return the encoded audio as octet stream
+   */
+  stream?: false;
+}
+
+export interface AudioCreateParamsStreaming extends AudioCreateParamsBase {
+  /**
+   * If true, output is streamed for several characters at a time instead of waiting
+   * for the full response. The stream terminates with `data: [DONE]`. If false,
+   * return the encoded audio as octet stream
+   */
+  stream: true;
+}
+
 export declare namespace Audio {
-  export { type AudioFile as AudioFile, type AudioCreateParams as AudioCreateParams };
+  export {
+    type AudioFile as AudioFile,
+    type AudioSpeechStreamChunk as AudioSpeechStreamChunk,
+    type AudioCreateParams as AudioCreateParams,
+    type AudioCreateParamsNonStreaming as AudioCreateParamsNonStreaming,
+    type AudioCreateParamsStreaming as AudioCreateParamsStreaming,
+  };
 }

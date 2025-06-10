@@ -9,8 +9,7 @@ const client = new Together({
 });
 
 describe('resource fineTune', () => {
-  // invalid oneOf in required props
-  test.skip('create: only required params', async () => {
+  test('create: only required params', async () => {
     const responsePromise = client.fineTune.create({ model: 'model', training_file: 'training_file' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -21,8 +20,7 @@ describe('resource fineTune', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // invalid oneOf in required props
-  test.skip('create: required and optional params', async () => {
+  test('create: required and optional params', async () => {
     const response = await client.fineTune.create({
       model: 'model',
       training_file: 'training_file',

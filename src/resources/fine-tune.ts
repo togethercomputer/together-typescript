@@ -2,6 +2,7 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
+import * as FineTuneAPI from './fine-tune';
 
 export class FineTuneResource extends APIResource {
   /**
@@ -79,12 +80,10 @@ export class FineTuneResource extends APIResource {
    *
    * @example
    * ```ts
-   * const fineTuneEvent = await client.fineTune.listEvents(
-   *   'id',
-   * );
+   * const response = await client.fineTune.listEvents('id');
    * ```
    */
-  listEvents(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTuneEvent> {
+  listEvents(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTuneListEventsResponse> {
     return this._client.get(`/fine-tunes/${id}/events`, options);
   }
 
@@ -104,6 +103,18 @@ export class FineTuneResource extends APIResource {
   ): Core.APIPromise<FineTuneRetrieveCheckpointsResponse> {
     return this._client.get(`/fine-tunes/${id}/checkpoints`, options);
   }
+}
+
+export interface CosineLrSchedulerArgs {
+  /**
+   * The ratio of the final learning rate to the peak learning rate
+   */
+  min_lr_ratio: number;
+
+  /**
+   * Number or fraction of cycles for the cosine learning rate scheduler
+   */
+  num_cycles: number;
 }
 
 export interface FineTune {
@@ -128,7 +139,7 @@ export interface FineTune {
 
   eval_steps?: number;
 
-  events?: Array<FineTune.Event>;
+  events?: Array<FineTuneEvent>;
 
   from_checkpoint?: string;
 
@@ -136,7 +147,7 @@ export interface FineTune {
 
   learning_rate?: number;
 
-  lr_scheduler?: FineTune.LrScheduler;
+  lr_scheduler?: LrScheduler;
 
   max_grad_norm?: number;
 
@@ -164,9 +175,9 @@ export interface FineTune {
 
   training_file?: string;
 
-  training_method?: FineTune.TrainingMethodSft | FineTune.TrainingMethodDpo;
+  training_method?: TrainingMethodSft | TrainingMethodDpo;
 
-  training_type?: FineTune.FullTrainingType | FineTune.LoRaTrainingType;
+  training_type?: FullTrainingType | LoRaTrainingType;
 
   trainingfile_numlines?: number;
 
@@ -185,181 +196,104 @@ export interface FineTune {
   weight_decay?: number;
 }
 
-export namespace FineTune {
-  export interface Event {
-    checkpoint_path: string;
-
-    created_at: string;
-
-    hash: string;
-
-    message: string;
-
-    model_path: string;
-
-    object: 'fine-tune-event';
-
-    param_count: number;
-
-    step: number;
-
-    token_count: number;
-
-    total_steps: number;
-
-    training_offset: number;
-
-    type:
-      | 'job_pending'
-      | 'job_start'
-      | 'job_stopped'
-      | 'model_downloading'
-      | 'model_download_complete'
-      | 'training_data_downloading'
-      | 'training_data_download_complete'
-      | 'validation_data_downloading'
-      | 'validation_data_download_complete'
-      | 'wandb_init'
-      | 'training_start'
-      | 'checkpoint_save'
-      | 'billing_limit'
-      | 'epoch_complete'
-      | 'training_complete'
-      | 'model_compressing'
-      | 'model_compression_complete'
-      | 'model_uploading'
-      | 'model_upload_complete'
-      | 'job_complete'
-      | 'job_error'
-      | 'cancel_requested'
-      | 'job_restarted'
-      | 'refund'
-      | 'warning';
-
-    wandb_url: string;
-
-    level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
-  }
-
-  export interface LrScheduler {
-    lr_scheduler_type: 'linear' | 'cosine';
-
-    lr_scheduler_args?: LrScheduler.LinearLrSchedulerArgs | LrScheduler.CosineLrSchedulerArgs;
-  }
-
-  export namespace LrScheduler {
-    export interface LinearLrSchedulerArgs {
-      /**
-       * The ratio of the final learning rate to the peak learning rate
-       */
-      min_lr_ratio?: number;
-    }
-
-    export interface CosineLrSchedulerArgs {
-      /**
-       * The ratio of the final learning rate to the peak learning rate
-       */
-      min_lr_ratio?: number;
-
-      /**
-       * Number or fraction of cycles for the cosine learning rate scheduler
-       */
-      num_cycles?: number;
-    }
-  }
-
-  export interface TrainingMethodSft {
-    method: 'sft';
-
-    /**
-     * Whether to mask the user messages in conversational data or prompts in
-     * instruction data.
-     */
-    train_on_inputs: boolean | 'auto';
-  }
-
-  export interface TrainingMethodDpo {
-    method: 'dpo';
-
-    dpo_beta?: number;
-  }
-
-  export interface FullTrainingType {
-    type: 'Full';
-  }
-
-  export interface LoRaTrainingType {
-    lora_alpha: number;
-
-    lora_r: number;
-
-    type: 'Lora';
-
-    lora_dropout?: number;
-
-    lora_trainable_modules?: string;
-  }
-}
-
 export interface FineTuneEvent {
-  data: Array<FineTuneEvent.Data>;
+  checkpoint_path: string;
+
+  created_at: string;
+
+  hash: string;
+
+  message: string;
+
+  model_path: string;
+
+  object: 'fine-tune-event';
+
+  param_count: number;
+
+  step: number;
+
+  token_count: number;
+
+  total_steps: number;
+
+  training_offset: number;
+
+  type:
+    | 'job_pending'
+    | 'job_start'
+    | 'job_stopped'
+    | 'model_downloading'
+    | 'model_download_complete'
+    | 'training_data_downloading'
+    | 'training_data_download_complete'
+    | 'validation_data_downloading'
+    | 'validation_data_download_complete'
+    | 'wandb_init'
+    | 'training_start'
+    | 'checkpoint_save'
+    | 'billing_limit'
+    | 'epoch_complete'
+    | 'training_complete'
+    | 'model_compressing'
+    | 'model_compression_complete'
+    | 'model_uploading'
+    | 'model_upload_complete'
+    | 'job_complete'
+    | 'job_error'
+    | 'cancel_requested'
+    | 'job_restarted'
+    | 'refund'
+    | 'warning';
+
+  wandb_url: string;
+
+  level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
 }
 
-export namespace FineTuneEvent {
-  export interface Data {
-    checkpoint_path: string;
+export interface FullTrainingType {
+  type: 'Full';
+}
 
-    created_at: string;
+export interface LinearLrSchedulerArgs {
+  /**
+   * The ratio of the final learning rate to the peak learning rate
+   */
+  min_lr_ratio?: number;
+}
 
-    hash: string;
+export interface LoRaTrainingType {
+  lora_alpha: number;
 
-    message: string;
+  lora_r: number;
 
-    model_path: string;
+  type: 'Lora';
 
-    object: 'fine-tune-event';
+  lora_dropout?: number;
 
-    param_count: number;
+  lora_trainable_modules?: string;
+}
 
-    step: number;
+export interface LrScheduler {
+  lr_scheduler_type: 'linear' | 'cosine';
 
-    token_count: number;
+  lr_scheduler_args?: LinearLrSchedulerArgs | CosineLrSchedulerArgs;
+}
 
-    total_steps: number;
+export interface TrainingMethodDpo {
+  method: 'dpo';
 
-    training_offset: number;
+  dpo_beta?: number;
+}
 
-    type:
-      | 'job_pending'
-      | 'job_start'
-      | 'job_stopped'
-      | 'model_downloading'
-      | 'model_download_complete'
-      | 'training_data_downloading'
-      | 'training_data_download_complete'
-      | 'validation_data_downloading'
-      | 'validation_data_download_complete'
-      | 'wandb_init'
-      | 'training_start'
-      | 'checkpoint_save'
-      | 'billing_limit'
-      | 'epoch_complete'
-      | 'training_complete'
-      | 'model_compressing'
-      | 'model_compression_complete'
-      | 'model_uploading'
-      | 'model_upload_complete'
-      | 'job_complete'
-      | 'job_error'
-      | 'cancel_requested'
-      | 'job_restarted'
-      | 'refund'
-      | 'warning';
+export interface TrainingMethodSft {
+  method: 'sft';
 
-    wandb_url: string;
-
-    level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
-  }
+  /**
+   * Whether to mask the user messages in conversational data or prompts in
+   * instruction data.
+   */
+  train_on_inputs: boolean | 'auto';
 }
 
 /**
@@ -401,7 +335,7 @@ export interface FineTuneCreateResponse {
   /**
    * Events related to this fine-tune job
    */
-  events?: Array<FineTuneCreateResponse.Event>;
+  events?: Array<FineTuneEvent>;
 
   /**
    * Checkpoint used to continue training
@@ -416,7 +350,7 @@ export interface FineTuneCreateResponse {
   /**
    * Learning rate scheduler configuration
    */
-  lr_scheduler?: FineTuneCreateResponse.LrScheduler;
+  lr_scheduler?: LrScheduler;
 
   /**
    * Maximum gradient norm for clipping
@@ -473,12 +407,12 @@ export interface FineTuneCreateResponse {
   /**
    * Method of training used
    */
-  training_method?: FineTuneCreateResponse.TrainingMethodSft | FineTuneCreateResponse.TrainingMethodDpo;
+  training_method?: TrainingMethodSft | TrainingMethodDpo;
 
   /**
    * Type of training used (full or LoRA)
    */
-  training_type?: FineTuneCreateResponse.FullTrainingType | FineTuneCreateResponse.LoRaTrainingType;
+  training_type?: FullTrainingType | LoRaTrainingType;
 
   /**
    * Identifier for the user who created the job
@@ -509,125 +443,6 @@ export interface FineTuneCreateResponse {
    * Weight decay value used
    */
   weight_decay?: number;
-}
-
-export namespace FineTuneCreateResponse {
-  export interface Event {
-    checkpoint_path: string;
-
-    created_at: string;
-
-    hash: string;
-
-    message: string;
-
-    model_path: string;
-
-    object: 'fine-tune-event';
-
-    param_count: number;
-
-    step: number;
-
-    token_count: number;
-
-    total_steps: number;
-
-    training_offset: number;
-
-    type:
-      | 'job_pending'
-      | 'job_start'
-      | 'job_stopped'
-      | 'model_downloading'
-      | 'model_download_complete'
-      | 'training_data_downloading'
-      | 'training_data_download_complete'
-      | 'validation_data_downloading'
-      | 'validation_data_download_complete'
-      | 'wandb_init'
-      | 'training_start'
-      | 'checkpoint_save'
-      | 'billing_limit'
-      | 'epoch_complete'
-      | 'training_complete'
-      | 'model_compressing'
-      | 'model_compression_complete'
-      | 'model_uploading'
-      | 'model_upload_complete'
-      | 'job_complete'
-      | 'job_error'
-      | 'cancel_requested'
-      | 'job_restarted'
-      | 'refund'
-      | 'warning';
-
-    wandb_url: string;
-
-    level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
-  }
-
-  /**
-   * Learning rate scheduler configuration
-   */
-  export interface LrScheduler {
-    lr_scheduler_type: 'linear' | 'cosine';
-
-    lr_scheduler_args?: LrScheduler.LinearLrSchedulerArgs | LrScheduler.CosineLrSchedulerArgs;
-  }
-
-  export namespace LrScheduler {
-    export interface LinearLrSchedulerArgs {
-      /**
-       * The ratio of the final learning rate to the peak learning rate
-       */
-      min_lr_ratio?: number;
-    }
-
-    export interface CosineLrSchedulerArgs {
-      /**
-       * The ratio of the final learning rate to the peak learning rate
-       */
-      min_lr_ratio?: number;
-
-      /**
-       * Number or fraction of cycles for the cosine learning rate scheduler
-       */
-      num_cycles?: number;
-    }
-  }
-
-  export interface TrainingMethodSft {
-    method: 'sft';
-
-    /**
-     * Whether to mask the user messages in conversational data or prompts in
-     * instruction data.
-     */
-    train_on_inputs: boolean | 'auto';
-  }
-
-  export interface TrainingMethodDpo {
-    method: 'dpo';
-
-    dpo_beta?: number;
-  }
-
-  export interface FullTrainingType {
-    type: 'Full';
-  }
-
-  export interface LoRaTrainingType {
-    lora_alpha: number;
-
-    lora_r: number;
-
-    type: 'Lora';
-
-    lora_dropout?: number;
-
-    lora_trainable_modules?: string;
-  }
 }
 
 export interface FineTuneListResponse {
@@ -674,7 +489,7 @@ export namespace FineTuneListResponse {
     /**
      * Events related to this fine-tune job
      */
-    events?: Array<Data.Event>;
+    events?: Array<FineTuneAPI.FineTuneEvent>;
 
     /**
      * Checkpoint used to continue training
@@ -689,7 +504,7 @@ export namespace FineTuneListResponse {
     /**
      * Learning rate scheduler configuration
      */
-    lr_scheduler?: Data.LrScheduler;
+    lr_scheduler?: FineTuneAPI.LrScheduler;
 
     /**
      * Maximum gradient norm for clipping
@@ -746,12 +561,12 @@ export namespace FineTuneListResponse {
     /**
      * Method of training used
      */
-    training_method?: Data.TrainingMethodSft | Data.TrainingMethodDpo;
+    training_method?: FineTuneAPI.TrainingMethodSft | FineTuneAPI.TrainingMethodDpo;
 
     /**
      * Type of training used (full or LoRA)
      */
-    training_type?: Data.FullTrainingType | Data.LoRaTrainingType;
+    training_type?: FineTuneAPI.FullTrainingType | FineTuneAPI.LoRaTrainingType;
 
     /**
      * Identifier for the user who created the job
@@ -782,125 +597,6 @@ export namespace FineTuneListResponse {
      * Weight decay value used
      */
     weight_decay?: number;
-  }
-
-  export namespace Data {
-    export interface Event {
-      checkpoint_path: string;
-
-      created_at: string;
-
-      hash: string;
-
-      message: string;
-
-      model_path: string;
-
-      object: 'fine-tune-event';
-
-      param_count: number;
-
-      step: number;
-
-      token_count: number;
-
-      total_steps: number;
-
-      training_offset: number;
-
-      type:
-        | 'job_pending'
-        | 'job_start'
-        | 'job_stopped'
-        | 'model_downloading'
-        | 'model_download_complete'
-        | 'training_data_downloading'
-        | 'training_data_download_complete'
-        | 'validation_data_downloading'
-        | 'validation_data_download_complete'
-        | 'wandb_init'
-        | 'training_start'
-        | 'checkpoint_save'
-        | 'billing_limit'
-        | 'epoch_complete'
-        | 'training_complete'
-        | 'model_compressing'
-        | 'model_compression_complete'
-        | 'model_uploading'
-        | 'model_upload_complete'
-        | 'job_complete'
-        | 'job_error'
-        | 'cancel_requested'
-        | 'job_restarted'
-        | 'refund'
-        | 'warning';
-
-      wandb_url: string;
-
-      level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
-    }
-
-    /**
-     * Learning rate scheduler configuration
-     */
-    export interface LrScheduler {
-      lr_scheduler_type: 'linear' | 'cosine';
-
-      lr_scheduler_args?: LrScheduler.LinearLrSchedulerArgs | LrScheduler.CosineLrSchedulerArgs;
-    }
-
-    export namespace LrScheduler {
-      export interface LinearLrSchedulerArgs {
-        /**
-         * The ratio of the final learning rate to the peak learning rate
-         */
-        min_lr_ratio?: number;
-      }
-
-      export interface CosineLrSchedulerArgs {
-        /**
-         * The ratio of the final learning rate to the peak learning rate
-         */
-        min_lr_ratio?: number;
-
-        /**
-         * Number or fraction of cycles for the cosine learning rate scheduler
-         */
-        num_cycles?: number;
-      }
-    }
-
-    export interface TrainingMethodSft {
-      method: 'sft';
-
-      /**
-       * Whether to mask the user messages in conversational data or prompts in
-       * instruction data.
-       */
-      train_on_inputs: boolean | 'auto';
-    }
-
-    export interface TrainingMethodDpo {
-      method: 'dpo';
-
-      dpo_beta?: number;
-    }
-
-    export interface FullTrainingType {
-      type: 'Full';
-    }
-
-    export interface LoRaTrainingType {
-      lora_alpha: number;
-
-      lora_r: number;
-
-      type: 'Lora';
-
-      lora_dropout?: number;
-
-      lora_trainable_modules?: string;
-    }
   }
 }
 
@@ -943,7 +639,7 @@ export interface FineTuneCancelResponse {
   /**
    * Events related to this fine-tune job
    */
-  events?: Array<FineTuneCancelResponse.Event>;
+  events?: Array<FineTuneEvent>;
 
   /**
    * Checkpoint used to continue training
@@ -958,7 +654,7 @@ export interface FineTuneCancelResponse {
   /**
    * Learning rate scheduler configuration
    */
-  lr_scheduler?: FineTuneCancelResponse.LrScheduler;
+  lr_scheduler?: LrScheduler;
 
   /**
    * Maximum gradient norm for clipping
@@ -1015,12 +711,12 @@ export interface FineTuneCancelResponse {
   /**
    * Method of training used
    */
-  training_method?: FineTuneCancelResponse.TrainingMethodSft | FineTuneCancelResponse.TrainingMethodDpo;
+  training_method?: TrainingMethodSft | TrainingMethodDpo;
 
   /**
    * Type of training used (full or LoRA)
    */
-  training_type?: FineTuneCancelResponse.FullTrainingType | FineTuneCancelResponse.LoRaTrainingType;
+  training_type?: FullTrainingType | LoRaTrainingType;
 
   /**
    * Identifier for the user who created the job
@@ -1053,125 +749,6 @@ export interface FineTuneCancelResponse {
   weight_decay?: number;
 }
 
-export namespace FineTuneCancelResponse {
-  export interface Event {
-    checkpoint_path: string;
-
-    created_at: string;
-
-    hash: string;
-
-    message: string;
-
-    model_path: string;
-
-    object: 'fine-tune-event';
-
-    param_count: number;
-
-    step: number;
-
-    token_count: number;
-
-    total_steps: number;
-
-    training_offset: number;
-
-    type:
-      | 'job_pending'
-      | 'job_start'
-      | 'job_stopped'
-      | 'model_downloading'
-      | 'model_download_complete'
-      | 'training_data_downloading'
-      | 'training_data_download_complete'
-      | 'validation_data_downloading'
-      | 'validation_data_download_complete'
-      | 'wandb_init'
-      | 'training_start'
-      | 'checkpoint_save'
-      | 'billing_limit'
-      | 'epoch_complete'
-      | 'training_complete'
-      | 'model_compressing'
-      | 'model_compression_complete'
-      | 'model_uploading'
-      | 'model_upload_complete'
-      | 'job_complete'
-      | 'job_error'
-      | 'cancel_requested'
-      | 'job_restarted'
-      | 'refund'
-      | 'warning';
-
-    wandb_url: string;
-
-    level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
-  }
-
-  /**
-   * Learning rate scheduler configuration
-   */
-  export interface LrScheduler {
-    lr_scheduler_type: 'linear' | 'cosine';
-
-    lr_scheduler_args?: LrScheduler.LinearLrSchedulerArgs | LrScheduler.CosineLrSchedulerArgs;
-  }
-
-  export namespace LrScheduler {
-    export interface LinearLrSchedulerArgs {
-      /**
-       * The ratio of the final learning rate to the peak learning rate
-       */
-      min_lr_ratio?: number;
-    }
-
-    export interface CosineLrSchedulerArgs {
-      /**
-       * The ratio of the final learning rate to the peak learning rate
-       */
-      min_lr_ratio?: number;
-
-      /**
-       * Number or fraction of cycles for the cosine learning rate scheduler
-       */
-      num_cycles?: number;
-    }
-  }
-
-  export interface TrainingMethodSft {
-    method: 'sft';
-
-    /**
-     * Whether to mask the user messages in conversational data or prompts in
-     * instruction data.
-     */
-    train_on_inputs: boolean | 'auto';
-  }
-
-  export interface TrainingMethodDpo {
-    method: 'dpo';
-
-    dpo_beta?: number;
-  }
-
-  export interface FullTrainingType {
-    type: 'Full';
-  }
-
-  export interface LoRaTrainingType {
-    lora_alpha: number;
-
-    lora_r: number;
-
-    type: 'Lora';
-
-    lora_dropout?: number;
-
-    lora_trainable_modules?: string;
-  }
-}
-
 export interface FineTuneDownloadResponse {
   id?: string;
 
@@ -1182,6 +759,10 @@ export interface FineTuneDownloadResponse {
   object?: 'local' | null;
 
   size?: number;
+}
+
+export interface FineTuneListEventsResponse {
+  data: Array<FineTuneEvent>;
 }
 
 export interface FineTuneRetrieveCheckpointsResponse {
@@ -1236,7 +817,7 @@ export interface FineTuneCreateParams {
    * The learning rate scheduler to use. It specifies how the learning rate is
    * adjusted during training.
    */
-  lr_scheduler?: FineTuneCreateParams.LrScheduler;
+  lr_scheduler?: LrScheduler;
 
   /**
    * Max gradient norm to be used for gradient clipping. Set to 0 to disable.
@@ -1274,9 +855,9 @@ export interface FineTuneCreateParams {
    * The training method to use. 'sft' for Supervised Fine-Tuning or 'dpo' for Direct
    * Preference Optimization.
    */
-  training_method?: FineTuneCreateParams.TrainingMethodSft | FineTuneCreateParams.TrainingMethodDpo;
+  training_method?: TrainingMethodSft | TrainingMethodDpo;
 
-  training_type?: FineTuneCreateParams.FullTrainingType | FineTuneCreateParams.LoRaTrainingType;
+  training_type?: FullTrainingType | LoRaTrainingType;
 
   /**
    * File-ID of a validation file uploaded to the Together API
@@ -1316,71 +897,6 @@ export interface FineTuneCreateParams {
   weight_decay?: number;
 }
 
-export namespace FineTuneCreateParams {
-  /**
-   * The learning rate scheduler to use. It specifies how the learning rate is
-   * adjusted during training.
-   */
-  export interface LrScheduler {
-    lr_scheduler_type: 'linear' | 'cosine';
-
-    lr_scheduler_args?: LrScheduler.LinearLrSchedulerArgs | LrScheduler.CosineLrSchedulerArgs;
-  }
-
-  export namespace LrScheduler {
-    export interface LinearLrSchedulerArgs {
-      /**
-       * The ratio of the final learning rate to the peak learning rate
-       */
-      min_lr_ratio?: number;
-    }
-
-    export interface CosineLrSchedulerArgs {
-      /**
-       * The ratio of the final learning rate to the peak learning rate
-       */
-      min_lr_ratio?: number;
-
-      /**
-       * Number or fraction of cycles for the cosine learning rate scheduler
-       */
-      num_cycles?: number;
-    }
-  }
-
-  export interface TrainingMethodSft {
-    method: 'sft';
-
-    /**
-     * Whether to mask the user messages in conversational data or prompts in
-     * instruction data.
-     */
-    train_on_inputs: boolean | 'auto';
-  }
-
-  export interface TrainingMethodDpo {
-    method: 'dpo';
-
-    dpo_beta?: number;
-  }
-
-  export interface FullTrainingType {
-    type: 'Full';
-  }
-
-  export interface LoRaTrainingType {
-    lora_alpha: number;
-
-    lora_r: number;
-
-    type: 'Lora';
-
-    lora_dropout?: number;
-
-    lora_trainable_modules?: string;
-  }
-}
-
 export interface FineTuneDownloadParams {
   /**
    * Fine-tune ID to download. A string that starts with `ft-`.
@@ -1408,12 +924,20 @@ export interface FineTuneDownloadParams {
 
 export declare namespace FineTuneResource {
   export {
+    type CosineLrSchedulerArgs as CosineLrSchedulerArgs,
     type FineTune as FineTune,
     type FineTuneEvent as FineTuneEvent,
+    type FullTrainingType as FullTrainingType,
+    type LinearLrSchedulerArgs as LinearLrSchedulerArgs,
+    type LoRaTrainingType as LoRaTrainingType,
+    type LrScheduler as LrScheduler,
+    type TrainingMethodDpo as TrainingMethodDpo,
+    type TrainingMethodSft as TrainingMethodSft,
     type FineTuneCreateResponse as FineTuneCreateResponse,
     type FineTuneListResponse as FineTuneListResponse,
     type FineTuneCancelResponse as FineTuneCancelResponse,
     type FineTuneDownloadResponse as FineTuneDownloadResponse,
+    type FineTuneListEventsResponse as FineTuneListEventsResponse,
     type FineTuneRetrieveCheckpointsResponse as FineTuneRetrieveCheckpointsResponse,
     type FineTuneCreateParams as FineTuneCreateParams,
     type FineTuneDownloadParams as FineTuneDownloadParams,

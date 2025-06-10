@@ -20,24 +20,26 @@ export class Images extends APIResource {
   }
 }
 
+export interface ImageDataB64 {
+  b64_json: string;
+
+  index: number;
+}
+
+export interface ImageDataURL {
+  index: number;
+
+  url: string;
+}
+
 export interface ImageFile {
   id: string;
 
-  data: Array<ImageFile.Data>;
+  data: Array<ImageDataB64 | ImageDataURL>;
 
   model: string;
 
   object: 'list';
-}
-
-export namespace ImageFile {
-  export interface Data {
-    index: number;
-
-    b64_json?: string;
-
-    url?: string;
-  }
 }
 
 export interface ImageCreateParams {
@@ -133,5 +135,10 @@ export namespace ImageCreateParams {
 }
 
 export declare namespace Images {
-  export { type ImageFile as ImageFile, type ImageCreateParams as ImageCreateParams };
+  export {
+    type ImageDataB64 as ImageDataB64,
+    type ImageDataURL as ImageDataURL,
+    type ImageFile as ImageFile,
+    type ImageCreateParams as ImageCreateParams,
+  };
 }
