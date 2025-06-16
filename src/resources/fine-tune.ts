@@ -284,6 +284,14 @@ export interface TrainingMethodDpo {
   method: 'dpo';
 
   dpo_beta?: number;
+
+  dpo_normalize_logratios_by_length?: boolean;
+
+  dpo_reference_free?: boolean;
+
+  rpo_alpha?: number;
+
+  simpo_gamma?: number;
 }
 
 export interface TrainingMethodSft {
