@@ -182,6 +182,7 @@ export class Together extends Core.APIClient {
 
     super({
       baseURL: options.baseURL!,
+      baseURLOverridden: baseURL ? baseURL !== 'https://api.together.xyz/v1' : false,
       timeout: options.timeout ?? 60000 /* 1 minute */,
       httpAgent: options.httpAgent,
       maxRetries: options.maxRetries,
@@ -205,6 +206,13 @@ export class Together extends Core.APIClient {
   jobs: API.Jobs = new API.Jobs(this);
   endpoints: API.Endpoints = new API.Endpoints(this);
   hardware: API.Hardware = new API.Hardware(this);
+
+  /**
+   * Check whether the base URL is set to its default.
+   */
+  #baseURLOverridden(): boolean {
+    return this.baseURL !== 'https://api.together.xyz/v1';
+  }
 
   /**
    * Query a reranker model
