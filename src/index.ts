@@ -16,6 +16,13 @@ import {
   AudioSpeechStreamChunk,
 } from './resources/audio';
 import {
+  BatchCreateParams,
+  BatchCreateResponse,
+  BatchListResponse,
+  BatchRetrieveResponse,
+  Batches,
+} from './resources/batches';
+import {
   Completion,
   CompletionChunk,
   CompletionCreateParams,
@@ -206,6 +213,7 @@ export class Together extends Core.APIClient {
   jobs: API.Jobs = new API.Jobs(this);
   endpoints: API.Endpoints = new API.Endpoints(this);
   hardware: API.Hardware = new API.Hardware(this);
+  batches: API.Batches = new API.Batches(this);
 
   /**
    * Check whether the base URL is set to its default.
@@ -286,6 +294,7 @@ Together.Models = Models;
 Together.Jobs = Jobs;
 Together.Endpoints = Endpoints;
 Together.Hardware = Hardware;
+Together.Batches = Batches;
 export declare namespace Together {
   export type RequestOptions = Core.RequestOptions;
 
@@ -396,6 +405,14 @@ export declare namespace Together {
     Hardware as Hardware,
     type HardwareListResponse as HardwareListResponse,
     type HardwareListParams as HardwareListParams,
+  };
+
+  export {
+    Batches as Batches,
+    type BatchCreateResponse as BatchCreateResponse,
+    type BatchRetrieveResponse as BatchRetrieveResponse,
+    type BatchListResponse as BatchListResponse,
+    type BatchCreateParams as BatchCreateParams,
   };
 }
 
