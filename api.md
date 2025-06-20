@@ -193,3 +193,17 @@ Types:
 Methods:
 
 - <code title="get /hardware">client.hardware.<a href="./src/resources/hardware.ts">list</a>({ ...params }) -> HardwareListResponse</code>
+
+# Batches
+
+Types:
+
+- <code><a href="./src/resources/batches.ts">BatchCreateResponse</a></code>
+- <code><a href="./src/resources/batches.ts">BatchRetrieveResponse</a></code>
+- <code><a href="./src/resources/batches.ts">BatchListResponse</a></code>
+
+Methods:
+
+- <code title="post /batches">client.batches.<a href="./src/resources/batches.ts">create</a>({ ...params }) -> BatchCreateResponse</code>
+- <code title="get /batches/{id}">client.batches.<a href="./src/resources/batches.ts">retrieve</a>(id) -> BatchRetrieveResponse</code>
+- <code title="get /batches">client.batches.<a href="./src/resources/batches.ts">list</a>() -> BatchListResponse</code>

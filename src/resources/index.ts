@@ -8,6 +8,13 @@ export {
   type AudioCreateParamsNonStreaming,
   type AudioCreateParamsStreaming,
 } from './audio';
+export {
+  Batches,
+  type BatchCreateResponse,
+  type BatchRetrieveResponse,
+  type BatchListResponse,
+  type BatchCreateParams,
+} from './batches';
 export { Chat } from './chat/chat';
 export {
   CodeInterpreter,
