@@ -8,8 +8,7 @@ const client = new Together({
 });
 
 describe('resource audio', () => {
-  // AttributeError: BinaryAPIResponse object has no attribute response
-  test.skip('create: required and optional params', async () => {
+  test('create: required and optional params', async () => {
     const response = await client.audio.create({
       input: 'input',
       model: 'cartesia/sonic',
