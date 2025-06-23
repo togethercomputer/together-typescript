@@ -43,7 +43,7 @@ export interface RerankParams {
   /**
    * List of documents, which can be either strings or objects.
    */
-  documents: Array<Record<string, unknown>> | Array<string>;
+  documents: Array<{ [key: string]: unknown }> | Array<string>;
 
   /**
    * The model to be used for the rerank request.

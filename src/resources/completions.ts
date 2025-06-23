@@ -189,7 +189,7 @@ export namespace Tools {
     /**
      * A map of parameter names to their values.
      */
-    parameters?: Record<string, unknown>;
+    parameters?: { [key: string]: unknown };
   }
 }
 
@@ -228,7 +228,7 @@ export interface CompletionCreateParamsBase {
   /**
    * Adjusts the likelihood of specific tokens appearing in the generated output.
    */
-  logit_bias?: Record<string, number>;
+  logit_bias?: { [key: string]: number };
 
   /**
    * Integer (0 or 1) that controls whether log probabilities of generated tokens are
