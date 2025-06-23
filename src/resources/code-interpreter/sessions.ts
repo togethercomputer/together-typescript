@@ -21,7 +21,7 @@ export class Sessions extends APIResource {
 export interface SessionListResponse {
   data?: SessionListResponse.Data;
 
-  errors?: Array<string | Record<string, unknown>>;
+  errors?: Array<string | { [key: string]: unknown }>;
 }
 
 export namespace SessionListResponse {

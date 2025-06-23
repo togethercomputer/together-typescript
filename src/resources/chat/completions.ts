@@ -338,7 +338,7 @@ export interface CompletionCreateParamsBase {
   /**
    * Adjusts the likelihood of specific tokens appearing in the generated output.
    */
-  logit_bias?: Record<string, number>;
+  logit_bias?: { [key: string]: number };
 
   /**
    * Integer (0 or 1) that controls whether log probabilities of generated tokens are
@@ -527,7 +527,7 @@ export namespace CompletionCreateParams {
     /**
      * The schema of the response format.
      */
-    schema?: Record<string, unknown>;
+    schema?: { [key: string]: unknown };
 
     /**
      * The type of the response format.

@@ -89,17 +89,17 @@ export namespace ExecuteResponse {
 
       export namespace DisplayorExecuteOutput {
         export interface Data {
-          'application/geo+json'?: Record<string, unknown>;
+          'application/geo+json'?: { [key: string]: unknown };
 
           'application/javascript'?: string;
 
-          'application/json'?: Record<string, unknown>;
+          'application/json'?: { [key: string]: unknown };
 
           'application/pdf'?: string;
 
-          'application/vnd.vega.v5+json'?: Record<string, unknown>;
+          'application/vnd.vega.v5+json'?: { [key: string]: unknown };
 
-          'application/vnd.vegalite.v4+json'?: Record<string, unknown>;
+          'application/vnd.vegalite.v4+json'?: { [key: string]: unknown };
 
           'image/gif'?: string;
 
@@ -124,7 +124,7 @@ export namespace ExecuteResponse {
   export interface FailedExecution {
     data: null;
 
-    errors: Array<string | Record<string, unknown>>;
+    errors: Array<string | { [key: string]: unknown }>;
   }
 }
 
