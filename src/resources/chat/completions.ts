@@ -377,11 +377,50 @@ export namespace CompletionCreateParams {
           | ChatCompletionsAPI.ChatCompletionStructuredMessageText
           | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
           | ChatCompletionsAPI.ChatCompletionStructuredMessageVideoURL
+          | ChatCompletionUserMessageParam.Audio
+          | ChatCompletionUserMessageParam.InputAudio
         >;
 
     role: 'user';
 
     name?: string;
+  }
+
+  export namespace ChatCompletionUserMessageParam {
+    export interface Audio {
+      audio_url: Audio.AudioURL;
+
+      type: 'audio_url';
+    }
+
+    export namespace Audio {
+      export interface AudioURL {
+        /**
+         * The URL of the audio
+         */
+        url: string;
+      }
+    }
+
+    export interface InputAudio {
+      input_audio: InputAudio.InputAudio;
+
+      type: 'input_audio';
+    }
+
+    export namespace InputAudio {
+      export interface InputAudio {
+        /**
+         * The base64 encoded audio data
+         */
+        data: string;
+
+        /**
+         * The format of the audio data
+         */
+        format: 'wav';
+      }
+    }
   }
 
   export interface ChatCompletionAssistantMessageParam {
