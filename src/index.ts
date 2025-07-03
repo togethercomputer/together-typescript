@@ -7,9 +7,24 @@ import * as Uploads from './uploads';
 import * as API from './resources/index';
 import * as TopLevelAPI from './resources/top-level';
 import { RerankParams, RerankResponse } from './resources/top-level';
-import { Audio, AudioCreateParams, AudioFile } from './resources/audio';
+import {
+  Audio,
+  AudioCreateParams,
+  AudioCreateParamsNonStreaming,
+  AudioCreateParamsStreaming,
+  AudioFile,
+  AudioSpeechStreamChunk,
+} from './resources/audio';
+import {
+  BatchCreateParams,
+  BatchCreateResponse,
+  BatchListResponse,
+  BatchRetrieveResponse,
+  Batches,
+} from './resources/batches';
 import {
   Completion,
+  CompletionChunk,
   CompletionCreateParams,
   CompletionCreateParamsNonStreaming,
   CompletionCreateParamsStreaming,
@@ -20,6 +35,7 @@ import {
 } from './resources/completions';
 import { Embedding, EmbeddingCreateParams, Embeddings } from './resources/embeddings';
 import {
+  Autoscaling,
   EndpointCreateParams,
   EndpointCreateResponse,
   EndpointListParams,
@@ -33,20 +49,35 @@ import {
   FileDeleteResponse,
   FileListResponse,
   FileObject,
+  FilePurpose,
   FileRetrieveResponse,
+  FileType,
+  FileUploadParams,
+  FileUploadResponse,
   Files,
 } from './resources/files';
 import {
+  CosineLrSchedulerArgs,
   FineTune,
+  FineTuneCancelResponse,
   FineTuneCreateParams,
+  FineTuneCreateResponse,
   FineTuneDownloadParams,
   FineTuneDownloadResponse,
   FineTuneEvent,
+  FineTuneListEventsResponse,
   FineTuneListResponse,
   FineTuneResource,
+  FineTuneRetrieveCheckpointsResponse,
+  FullTrainingType,
+  LinearLrSchedulerArgs,
+  LoRaTrainingType,
+  LrScheduler,
+  TrainingMethodDpo,
+  TrainingMethodSft,
 } from './resources/fine-tune';
 import { Hardware, HardwareListParams, HardwareListResponse } from './resources/hardware';
-import { ImageCreateParams, ImageFile, Images } from './resources/images';
+import { ImageCreateParams, ImageDataB64, ImageDataURL, ImageFile, Images } from './resources/images';
 import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
 import { ModelListResponse, ModelUploadParams, ModelUploadResponse, Models } from './resources/models';
 import { Chat } from './resources/chat/chat';
@@ -75,6 +106,8 @@ export interface ClientOptions {
    *
    * Note that request timeouts are retried by default, so in a worst-case scenario you may wait
    * much longer than this timeout before the promise succeeds or fails.
+   *
+   * @unit milliseconds
    */
   timeout?: number | undefined;
 
@@ -158,6 +191,7 @@ export class Together extends Core.APIClient {
 
     super({
       baseURL: options.baseURL!,
+      baseURLOverridden: baseURL ? baseURL !== 'https://api.together.xyz/v1' : false,
       timeout: options.timeout ?? 60000 /* 1 minute */,
       httpAgent: options.httpAgent,
       maxRetries: options.maxRetries,
@@ -181,9 +215,31 @@ export class Together extends Core.APIClient {
   jobs: API.Jobs = new API.Jobs(this);
   endpoints: API.Endpoints = new API.Endpoints(this);
   hardware: API.Hardware = new API.Hardware(this);
+  batches: API.Batches = new API.Batches(this);
+
+  /**
+   * Check whether the base URL is set to its default.
+   */
+  #baseURLOverridden(): boolean {
+    return this.baseURL !== 'https://api.together.xyz/v1';
+  }
 
   /**
    * Query a reranker model
+   *
+   * @example
+   * ```ts
+   * const response = await client.rerank({
+   *   documents: [
+   *     { title: 'bar', text: 'bar' },
+   *     { title: 'bar', text: 'bar' },
+   *     { title: 'bar', text: 'bar' },
+   *     { title: 'bar', text: 'bar' },
+   *   ],
+   *   model: 'Salesforce/Llama-Rank-V1',
+   *   query: 'What animals can I find near Peru?',
+   * });
+   * ```
    */
   rerank(
     body: TopLevelAPI.RerankParams,
@@ -240,6 +296,7 @@ Together.Models = Models;
 Together.Jobs = Jobs;
 Together.Endpoints = Endpoints;
 Together.Hardware = Hardware;
+Together.Batches = Batches;
 export declare namespace Together {
   export type RequestOptions = Core.RequestOptions;
 
@@ -250,6 +307,7 @@ export declare namespace Together {
   export {
     Completions as Completions,
     type Completion as Completion,
+    type CompletionChunk as CompletionChunk,
     type LogProbs as LogProbs,
     type ToolChoice as ToolChoice,
     type Tools as Tools,
@@ -267,17 +325,32 @@ export declare namespace Together {
   export {
     Files as Files,
     type FileObject as FileObject,
+    type FilePurpose as FilePurpose,
+    type FileType as FileType,
     type FileRetrieveResponse as FileRetrieveResponse,
     type FileListResponse as FileListResponse,
     type FileDeleteResponse as FileDeleteResponse,
+    type FileUploadResponse as FileUploadResponse,
+    type FileUploadParams as FileUploadParams,
   };
 
   export {
     FineTuneResource as FineTuneResource,
+    type CosineLrSchedulerArgs as CosineLrSchedulerArgs,
     type FineTune as FineTune,
     type FineTuneEvent as FineTuneEvent,
+    type FullTrainingType as FullTrainingType,
+    type LinearLrSchedulerArgs as LinearLrSchedulerArgs,
+    type LoRaTrainingType as LoRaTrainingType,
+    type LrScheduler as LrScheduler,
+    type TrainingMethodDpo as TrainingMethodDpo,
+    type TrainingMethodSft as TrainingMethodSft,
+    type FineTuneCreateResponse as FineTuneCreateResponse,
     type FineTuneListResponse as FineTuneListResponse,
+    type FineTuneCancelResponse as FineTuneCancelResponse,
     type FineTuneDownloadResponse as FineTuneDownloadResponse,
+    type FineTuneListEventsResponse as FineTuneListEventsResponse,
+    type FineTuneRetrieveCheckpointsResponse as FineTuneRetrieveCheckpointsResponse,
     type FineTuneCreateParams as FineTuneCreateParams,
     type FineTuneDownloadParams as FineTuneDownloadParams,
   };
@@ -288,9 +361,22 @@ export declare namespace Together {
     type CodeInterpreterExecuteParams as CodeInterpreterExecuteParams,
   };
 
-  export { Images as Images, type ImageFile as ImageFile, type ImageCreateParams as ImageCreateParams };
+  export {
+    Images as Images,
+    type ImageDataB64 as ImageDataB64,
+    type ImageDataURL as ImageDataURL,
+    type ImageFile as ImageFile,
+    type ImageCreateParams as ImageCreateParams,
+  };
 
-  export { Audio as Audio, type AudioFile as AudioFile, type AudioCreateParams as AudioCreateParams };
+  export {
+    Audio as Audio,
+    type AudioFile as AudioFile,
+    type AudioSpeechStreamChunk as AudioSpeechStreamChunk,
+    type AudioCreateParams as AudioCreateParams,
+    type AudioCreateParamsNonStreaming as AudioCreateParamsNonStreaming,
+    type AudioCreateParamsStreaming as AudioCreateParamsStreaming,
+  };
 
   export {
     Models as Models,
@@ -307,6 +393,7 @@ export declare namespace Together {
 
   export {
     Endpoints as Endpoints,
+    type Autoscaling as Autoscaling,
     type EndpointCreateResponse as EndpointCreateResponse,
     type EndpointRetrieveResponse as EndpointRetrieveResponse,
     type EndpointUpdateResponse as EndpointUpdateResponse,
@@ -320,6 +407,14 @@ export declare namespace Together {
     Hardware as Hardware,
     type HardwareListResponse as HardwareListResponse,
     type HardwareListParams as HardwareListParams,
+  };
+
+  export {
+    Batches as Batches,
+    type BatchCreateResponse as BatchCreateResponse,
+    type BatchRetrieveResponse as BatchRetrieveResponse,
+    type BatchListResponse as BatchListResponse,
+    type BatchCreateParams as BatchCreateParams,
   };
 }
 

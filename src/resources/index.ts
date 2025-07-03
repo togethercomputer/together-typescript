@@ -1,6 +1,20 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Audio, type AudioFile, type AudioCreateParams } from './audio';
+export {
+  Audio,
+  type AudioFile,
+  type AudioSpeechStreamChunk,
+  type AudioCreateParams,
+  type AudioCreateParamsNonStreaming,
+  type AudioCreateParamsStreaming,
+} from './audio';
+export {
+  Batches,
+  type BatchCreateResponse,
+  type BatchRetrieveResponse,
+  type BatchListResponse,
+  type BatchCreateParams,
+} from './batches';
 export { Chat } from './chat/chat';
 export {
   CodeInterpreter,
@@ -10,6 +24,7 @@ export {
 export {
   Completions,
   type Completion,
+  type CompletionChunk,
   type LogProbs,
   type ToolChoice,
   type Tools,
@@ -20,6 +35,7 @@ export {
 export { Embeddings, type Embedding, type EmbeddingCreateParams } from './embeddings';
 export {
   Endpoints,
+  type Autoscaling,
   type EndpointCreateResponse,
   type EndpointRetrieveResponse,
   type EndpointUpdateResponse,
@@ -31,21 +47,42 @@ export {
 export {
   Files,
   type FileObject,
+  type FilePurpose,
+  type FileType,
   type FileRetrieveResponse,
   type FileListResponse,
   type FileDeleteResponse,
+  type FileUploadResponse,
+  type FileUploadParams,
 } from './files';
 export {
   FineTuneResource,
+  type CosineLrSchedulerArgs,
   type FineTune,
   type FineTuneEvent,
+  type FullTrainingType,
+  type LinearLrSchedulerArgs,
+  type LoRaTrainingType,
+  type LrScheduler,
+  type TrainingMethodDpo,
+  type TrainingMethodSft,
+  type FineTuneCreateResponse,
   type FineTuneListResponse,
+  type FineTuneCancelResponse,
   type FineTuneDownloadResponse,
+  type FineTuneListEventsResponse,
+  type FineTuneRetrieveCheckpointsResponse,
   type FineTuneCreateParams,
   type FineTuneDownloadParams,
 } from './fine-tune';
 export { Hardware, type HardwareListResponse, type HardwareListParams } from './hardware';
-export { Images, type ImageFile, type ImageCreateParams } from './images';
+export {
+  Images,
+  type ImageDataB64,
+  type ImageDataURL,
+  type ImageFile,
+  type ImageCreateParams,
+} from './images';
 export { Jobs, type JobRetrieveResponse, type JobListResponse } from './jobs';
 export { Models, type ModelListResponse, type ModelUploadResponse, type ModelUploadParams } from './models';
 export { type RerankResponse, type RerankParams } from './top-level';

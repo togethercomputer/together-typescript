@@ -11,6 +11,16 @@ import { ChatCompletionStream, ChatCompletionStreamParams } from 'together-ai/li
 export class Completions extends APIResource {
   /**
    * Query a chat model.
+   *
+   * @example
+   * ```ts
+   * const chatCompletion = await client.chat.completions.create(
+   *   {
+   *     messages: [{ content: 'content', role: 'system' }],
+   *     model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
+   *   },
+   * );
+   * ```
    */
   create(body: CompletionCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<ChatCompletion>;
   create(
@@ -245,6 +255,21 @@ export interface ChatCompletionStructuredMessageText {
   type: 'text';
 }
 
+export interface ChatCompletionStructuredMessageVideoURL {
+  type: 'video_url';
+
+  video_url: ChatCompletionStructuredMessageVideoURL.VideoURL;
+}
+
+export namespace ChatCompletionStructuredMessageVideoURL {
+  export interface VideoURL {
+    /**
+     * The URL of the video
+     */
+    url: string;
+  }
+}
+
 export interface ChatCompletionUsage {
   completion_tokens: number;
 
@@ -267,7 +292,13 @@ export interface CompletionCreateParamsBase {
   /**
    * A list of messages comprising the conversation so far.
    */
-  messages: Array<CompletionCreateParams.Message>;
+  messages: Array<
+    | CompletionCreateParams.ChatCompletionSystemMessageParam
+    | CompletionCreateParams.ChatCompletionUserMessageParam
+    | CompletionCreateParams.ChatCompletionAssistantMessageParam
+    | CompletionCreateParams.ChatCompletionToolMessageParam
+    | CompletionCreateParams.ChatCompletionFunctionMessageParam
+  >;
 
   /**
    * The name of the model to query.
@@ -307,11 +338,12 @@ export interface CompletionCreateParamsBase {
   /**
    * Adjusts the likelihood of specific tokens appearing in the generated output.
    */
-  logit_bias?: Record<string, number>;
+  logit_bias?: { [key: string]: number };
 
   /**
-   * Integer (0 or 1) that controls whether log probabilities of generated tokens are
-   * returned. Log probabilities help assess model confidence in token predictions.
+   * An integer between 0 and 20 of the top k tokens to return log probabilities for
+   * at each generation step, instead of just the sampled token. Log probabilities
+   * help assess model confidence in token predictions.
    */
   logprobs?: number;
 
@@ -414,7 +446,15 @@ export interface CompletionCreateParamsBase {
 }
 
 export namespace CompletionCreateParams {
-  export interface Message {
+  export interface ChatCompletionSystemMessageParam {
+    content: string;
+
+    role: 'system';
+
+    name?: string;
+  }
+
+  export interface ChatCompletionUserMessageParam {
     /**
      * The content of the message, which can either be a simple string or a structured
      * format.
@@ -424,31 +464,96 @@ export namespace CompletionCreateParams {
       | Array<
           | ChatCompletionsAPI.ChatCompletionStructuredMessageText
           | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
-          | Message.Video
+          | ChatCompletionsAPI.ChatCompletionStructuredMessageVideoURL
+          | ChatCompletionUserMessageParam.Audio
+          | ChatCompletionUserMessageParam.InputAudio
         >;
 
-    /**
-     * The role of the messages author. Choice between: system, user, assistant, or
-     * tool.
-     */
-    role: 'system' | 'user' | 'assistant' | 'tool';
+    role: 'user';
+
+    name?: string;
   }
 
-  export namespace Message {
-    export interface Video {
-      type: 'video_url';
+  export namespace ChatCompletionUserMessageParam {
+    export interface Audio {
+      audio_url: Audio.AudioURL;
 
-      video_url: Video.VideoURL;
+      type: 'audio_url';
     }
 
-    export namespace Video {
-      export interface VideoURL {
+    export namespace Audio {
+      export interface AudioURL {
         /**
-         * The URL of the video
+         * The URL of the audio
          */
         url: string;
       }
     }
+
+    export interface InputAudio {
+      input_audio: InputAudio.InputAudio;
+
+      type: 'input_audio';
+    }
+
+    export namespace InputAudio {
+      export interface InputAudio {
+        /**
+         * The base64 encoded audio data
+         */
+        data: string;
+
+        /**
+         * The format of the audio data
+         */
+        format: 'wav';
+      }
+    }
+  }
+
+  export interface ChatCompletionAssistantMessageParam {
+    role: 'assistant';
+
+    content?: string | null;
+
+    /**
+     * @deprecated
+     */
+    function_call?: ChatCompletionAssistantMessageParam.FunctionCall;
+
+    name?: string;
+
+    tool_calls?: Array<CompletionsAPI.ToolChoice>;
+  }
+
+  export namespace ChatCompletionAssistantMessageParam {
+    /**
+     * @deprecated
+     */
+    export interface FunctionCall {
+      arguments: string;
+
+      name: string;
+    }
+  }
+
+  export interface ChatCompletionToolMessageParam {
+    content: string;
+
+    role: 'tool';
+
+    tool_call_id: string;
+  }
+
+  /**
+   * @deprecated
+   */
+  export interface ChatCompletionFunctionMessageParam {
+    content: string;
+
+    name: string;
+
+    role: 'function';
   }
 
   export interface Name {
@@ -462,7 +567,7 @@ export namespace CompletionCreateParams {
     /**
      * The schema of the response format.
      */
-    schema?: Record<string, unknown>;
+    schema?: { [key: string]: unknown };
 
     /**
      * The type of the response format.
@@ -505,6 +610,7 @@ export declare namespace Completions {
     type ChatCompletionToolMessageParam as ChatCompletionToolMessageParam,
     type ChatCompletionStructuredMessageImageURL as ChatCompletionStructuredMessageImageURL,
     type ChatCompletionStructuredMessageText as ChatCompletionStructuredMessageText,
+    type ChatCompletionStructuredMessageVideoURL as ChatCompletionStructuredMessageVideoURL,
     type ChatCompletionUsage as ChatCompletionUsage,
     type ChatCompletionUserMessageParam as ChatCompletionUserMessageParam,
     type CompletionCreateParams as CompletionCreateParams,

@@ -2,7 +2,7 @@
 
 import type { Together } from './index';
 
-export class APIResource {
+export abstract class APIResource {
   protected _client: Together;
 
   constructor(client: Together) {

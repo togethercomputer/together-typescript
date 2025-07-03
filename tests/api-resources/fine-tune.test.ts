@@ -9,8 +9,7 @@ const client = new Together({
 });
 
 describe('resource fineTune', () => {
-  // invalid oneOf in required props
-  test.skip('create: only required params', async () => {
+  test('create: only required params', async () => {
     const responsePromise = client.fineTune.create({ model: 'model', training_file: 'training_file' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -21,8 +20,7 @@ describe('resource fineTune', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // invalid oneOf in required props
-  test.skip('create: required and optional params', async () => {
+  test('create: required and optional params', async () => {
     const response = await client.fineTune.create({
       model: 'model',
       training_file: 'training_file',
@@ -36,7 +34,7 @@ describe('resource fineTune', () => {
       n_evals: 0,
       suffix: 'suffix',
       train_on_inputs: true,
-      training_method: { method: 'sft' },
+      training_method: { method: 'sft', train_on_inputs: true },
       training_type: { type: 'Full' },
       validation_file: 'validation_file',
       wandb_api_key: 'wandb_api_key',
@@ -138,5 +136,23 @@ describe('resource fineTune', () => {
     await expect(client.fineTune.listEvents('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
       Together.NotFoundError,
     );
+  });
+
+  test('retrieveCheckpoints', async () => {
+    const responsePromise = client.fineTune.retrieveCheckpoints('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieveCheckpoints: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.fineTune.retrieveCheckpoints('id', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Together.NotFoundError);
   });
 });

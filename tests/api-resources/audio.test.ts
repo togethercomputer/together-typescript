@@ -17,7 +17,7 @@ describe('resource audio', () => {
       response_encoding: 'pcm_f32le',
       response_format: 'mp3',
       sample_rate: 0,
-      stream: true,
+      stream: false,
     });
   });
 });

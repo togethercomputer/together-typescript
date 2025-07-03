@@ -6,13 +6,26 @@ import * as Core from '../core';
 export class Models extends APIResource {
   /**
    * Lists all of Together's open-source models
+   *
+   * @example
+   * ```ts
+   * const models = await client.models.list();
+   * ```
    */
   list(options?: Core.RequestOptions): Core.APIPromise<ModelListResponse> {
     return this._client.get('/models', options);
   }
 
   /**
-   * Upload a custom model from Hugging Face or S3
+   * Upload a custom model or adapter from Hugging Face or S3
+   *
+   * @example
+   * ```ts
+   * const response = await client.models.upload({
+   *   model_name: 'Qwen2.5-72B-Instruct',
+   *   model_source: 'unsloth/Qwen2.5-72B-Instruct',
+   * });
+   * ```
    */
   upload(body: ModelUploadParams, options?: Core.RequestOptions): Core.APIPromise<ModelUploadResponse> {
     return this._client.post('/models', { body, ...options });
@@ -89,6 +102,12 @@ export interface ModelUploadParams {
   model_source: string;
 
   /**
+   * The base model to use for an adapter if setting it to run against a serverless
+   * pool. Only used for model_type `adapter`.
+   */
+  base_model?: string;
+
+  /**
    * A description of your model
    */
   description?: string;
@@ -97,6 +116,17 @@ export interface ModelUploadParams {
    * Hugging Face token (if uploading from Hugging Face)
    */
   hf_token?: string;
+
+  /**
+   * The lora pool to use for an adapter if setting it to run against, say, a
+   * dedicated pool. Only used for model_type `adapter`.
+   */
+  lora_model?: string;
+
+  /**
+   * Whether the model is a full model or an adapter
+   */
+  model_type?: 'model' | 'adapter';
 }
 
 export declare namespace Models {

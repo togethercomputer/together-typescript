@@ -26,16 +26,12 @@ const client = new Together({
   apiKey: process.env['TOGETHER_API_KEY'], // This is the default and can be omitted
 });
 
-async function main() {
-  const chatCompletion = await client.chat.completions.create({
-    messages: [{ role: 'user', content: 'Say this is a test!' }],
-    model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-  });
+const chatCompletion = await client.chat.completions.create({
+  messages: [{ role: 'user', content: 'Say this is a test!' }],
+  model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+});
 
-  console.log(chatCompletion.choices);
-}
-
-main();
+console.log(chatCompletion.choices);
 ```
 
 ## Streaming responses
@@ -72,18 +68,64 @@ const client = new Together({
   apiKey: process.env['TOGETHER_API_KEY'], // This is the default and can be omitted
 });
 
-async function main() {
-  const params: Together.Chat.CompletionCreateParams = {
-    messages: [{ role: 'user', content: 'Say this is a test' }],
-    model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-  };
-  const chatCompletion: Together.Chat.ChatCompletion = await client.chat.completions.create(params);
-}
-
-main();
+const params: Together.Chat.CompletionCreateParams = {
+  messages: [{ role: 'user', content: 'Say this is a test' }],
+  model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+};
+const chatCompletion: Together.Chat.ChatCompletion = await client.chat.completions.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
+
+## File uploads
+
+Request parameters that correspond to file uploads can be passed in many different forms:
+
+- `File` (or an object with the same structure)
+- a `fetch` `Response` (or an object with the same structure)
+- an `fs.ReadStream`
+- the return value of our `toFile` helper
+
+```ts
+import fs from 'fs';
+import fetch from 'node-fetch';
+import Together, { toFile } from 'together-ai';
+
+const client = new Together();
+
+// If you have access to Node `fs` we recommend using `fs.createReadStream()`:
+await client.files.upload({
+  file: fs.createReadStream('/path/to/file'),
+  file_name: 'dataset.csv',
+  purpose: 'fine-tune',
+});
+
+// Or if you have the web `File` API you can pass a `File` instance:
+await client.files.upload({
+  file: new File(['my bytes'], 'file'),
+  file_name: 'dataset.csv',
+  purpose: 'fine-tune',
+});
+
+// You can also pass a `fetch` `Response`:
+await client.files.upload({
+  file: await fetch('https://somesite/file'),
+  file_name: 'dataset.csv',
+  purpose: 'fine-tune',
+});
+
+// Finally, if none of the above are convenient, you can use our `toFile` helper:
+await client.files.upload({
+  file: await toFile(Buffer.from('my bytes'), 'file'),
+  file_name: 'dataset.csv',
+  purpose: 'fine-tune',
+});
+await client.files.upload({
+  file: await toFile(new Uint8Array([0, 1, 2]), 'file'),
+  file_name: 'dataset.csv',
+  purpose: 'fine-tune',
+});
+```
 
 ## Handling errors
 
@@ -93,27 +135,23 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-async function main() {
-  const chatCompletion = await client.chat.completions
-    .create({
-      messages: [{ role: 'user', content: 'Say this is a test' }],
-      model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-    })
-    .catch(async (err) => {
-      if (err instanceof Together.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
-}
-
-main();
+const chatCompletion = await client.chat.completions
+  .create({
+    messages: [{ role: 'user', content: 'Say this is a test' }],
+    model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+  })
+  .catch(async (err) => {
+    if (err instanceof Together.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 ```
 
-Error codes are as followed:
+Error codes are as follows:
 
 | Status Code | Error Type                 |
 | ----------- | -------------------------- |

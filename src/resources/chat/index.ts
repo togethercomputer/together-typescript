@@ -15,6 +15,7 @@ export {
   type ChatCompletionChunk,
   type ChatCompletionStructuredMessageImageURL,
   type ChatCompletionStructuredMessageText,
+  type ChatCompletionStructuredMessageVideoURL,
   type ChatCompletionUsage,
   type CompletionCreateParams,
   type CompletionCreateParamsNonStreaming,

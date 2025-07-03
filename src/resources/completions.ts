@@ -10,23 +10,32 @@ import { Stream } from '../streaming';
 export class Completions extends APIResource {
   /**
    * Query a language, code, or image model.
+   *
+   * @example
+   * ```ts
+   * const completion = await client.completions.create({
+   *   model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+   *   prompt:
+   *     '<s>[INST] What is the capital of France? [/INST]',
+   * });
+   * ```
    */
   create(body: CompletionCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<Completion>;
   create(
     body: CompletionCreateParamsStreaming,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<Completion>>;
+  ): APIPromise<Stream<CompletionChunk>>;
   create(
     body: CompletionCreateParamsBase,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<Completion> | Completion>;
+  ): APIPromise<Stream<CompletionChunk> | Completion>;
   create(
     body: CompletionCreateParams,
     options?: Core.RequestOptions,
-  ): APIPromise<Completion> | APIPromise<Stream<Completion>> {
+  ): APIPromise<Completion> | APIPromise<Stream<CompletionChunk>> {
     return this._client.post('/completions', { body, ...options, stream: body.stream ?? false }) as
       | APIPromise<Completion>
-      | APIPromise<Stream<Completion>>;
+      | APIPromise<Stream<CompletionChunk>>;
   }
 }
 
@@ -39,7 +48,7 @@ export interface Completion {
 
   model: string;
 
-  object: 'text_completion';
+  object: 'text.completion';
 
   usage: ChatCompletionsAPI.ChatCompletionUsage | null;
 
@@ -61,6 +70,72 @@ export namespace Completion {
     logprobs?: CompletionsAPI.LogProbs;
 
     text?: string;
+  }
+}
+
+export interface CompletionChunk {
+  id: string;
+
+  token: CompletionChunk.Token;
+
+  choices: Array<CompletionChunk.Choice>;
+
+  finish_reason: 'stop' | 'eos' | 'length' | 'tool_calls' | 'function_call' | null;
+
+  usage: ChatCompletionsAPI.ChatCompletionUsage | null;
+
+  created?: number;
+
+  object?: 'completion.chunk';
+
+  seed?: number;
+}
+
+export namespace CompletionChunk {
+  export interface Token {
+    id: number;
+
+    logprob: number;
+
+    special: boolean;
+
+    text: string;
+  }
+
+  export interface Choice {
+    index: number;
+
+    delta?: Choice.Delta;
+
+    text?: string;
+  }
+
+  export namespace Choice {
+    export interface Delta {
+      role: 'system' | 'user' | 'assistant' | 'function' | 'tool';
+
+      content?: string | null;
+
+      /**
+       * @deprecated
+       */
+      function_call?: Delta.FunctionCall | null;
+
+      token_id?: number;
+
+      tool_calls?: Array<CompletionsAPI.ToolChoice>;
+    }
+
+    export namespace Delta {
+      /**
+       * @deprecated
+       */
+      export interface FunctionCall {
+        arguments: string;
+
+        name: string;
+      }
+    }
   }
 }
 
@@ -114,7 +189,7 @@ export namespace Tools {
     /**
      * A map of parameter names to their values.
      */
-    parameters?: Record<string, unknown>;
+    parameters?: { [key: string]: unknown };
   }
 }
 
@@ -153,11 +228,12 @@ export interface CompletionCreateParamsBase {
   /**
    * Adjusts the likelihood of specific tokens appearing in the generated output.
    */
-  logit_bias?: Record<string, number>;
+  logit_bias?: { [key: string]: number };
 
   /**
-   * Integer (0 or 1) that controls whether log probabilities of generated tokens are
-   * returned. Log probabilities help assess model confidence in token predictions.
+   * An integer between 0 and 20 of the top k tokens to return log probabilities for
+   * at each generation step, instead of just the sampled token. Log probabilities
+   * help assess model confidence in token predictions.
    */
   logprobs?: number;
 
@@ -267,6 +343,7 @@ export interface CompletionCreateParamsStreaming extends CompletionCreateParamsB
 export declare namespace Completions {
   export {
     type Completion as Completion,
+    type CompletionChunk as CompletionChunk,
     type LogProbs as LogProbs,
     type ToolChoice as ToolChoice,
     type Tools as Tools,

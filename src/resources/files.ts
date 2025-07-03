@@ -2,11 +2,17 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
+import * as FilesAPI from './files';
 import { type Response } from '../_shims/index';
 
 export class Files extends APIResource {
   /**
    * List the metadata for a single uploaded data file.
+   *
+   * @example
+   * ```ts
+   * const file = await client.files.retrieve('id');
+   * ```
    */
   retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<FileRetrieveResponse> {
     return this._client.get(`/files/${id}`, options);
@@ -14,6 +20,11 @@ export class Files extends APIResource {
 
   /**
    * List the metadata for all uploaded data files.
+   *
+   * @example
+   * ```ts
+   * const files = await client.files.list();
+   * ```
    */
   list(options?: Core.RequestOptions): Core.APIPromise<FileListResponse> {
     return this._client.get('/files', options);
@@ -21,6 +32,11 @@ export class Files extends APIResource {
 
   /**
    * Delete a previously uploaded data file.
+   *
+   * @example
+   * ```ts
+   * const file = await client.files.delete('id');
+   * ```
    */
   delete(id: string, options?: Core.RequestOptions): Core.APIPromise<FileDeleteResponse> {
     return this._client.delete(`/files/${id}`, options);
@@ -28,6 +44,14 @@ export class Files extends APIResource {
 
   /**
    * Get the contents of a single uploaded data file.
+   *
+   * @example
+   * ```ts
+   * const response = await client.files.content('id');
+   *
+   * const content = await response.blob();
+   * console.log(content);
+   * ```
    */
   content(id: string, options?: Core.RequestOptions): Core.APIPromise<Response> {
     return this._client.get(`/files/${id}/content`, {
@@ -55,6 +79,23 @@ export interface FileObject {
   size?: number;
 }
 
+/**
+ * The purpose of the file
+ */
+export type FilePurpose =
+  | 'fine-tune'
+  | 'eval'
+  | 'eval-sample'
+  | 'eval-output'
+  | 'eval-summary'
+  | 'batch-generated'
+  | 'batch-api';
+
+/**
+ * The type of the file
+ */
+export type FileType = 'csv' | 'jsonl' | 'parquet';
+
 export interface FileRetrieveResponse {
   id: string;
 
@@ -64,7 +105,10 @@ export interface FileRetrieveResponse {
 
   filename: string;
 
-  FileType: 'jsonl' | 'parquet';
+  /**
+   * The type of the file
+   */
+  FileType: FileType;
 
   LineCount: number;
 
@@ -72,7 +116,10 @@ export interface FileRetrieveResponse {
 
   Processed: boolean;
 
-  purpose: 'fine-tune';
+  /**
+   * The purpose of the file
+   */
+  purpose: FilePurpose;
 }
 
 export interface FileListResponse {
@@ -89,7 +136,10 @@ export namespace FileListResponse {
 
     filename: string;
 
-    FileType: 'jsonl' | 'parquet';
+    /**
+     * The type of the file
+     */
+    FileType: FilesAPI.FileType;
 
     LineCount: number;
 
@@ -97,7 +147,10 @@ export namespace FileListResponse {
 
     Processed: boolean;
 
-    purpose: 'fine-tune';
+    /**
+     * The purpose of the file
+     */
+    purpose: FilesAPI.FilePurpose;
   }
 }
 
@@ -107,11 +160,63 @@ export interface FileDeleteResponse {
   deleted?: boolean;
 }
 
+export interface FileUploadResponse {
+  id: string;
+
+  bytes: number;
+
+  created_at: number;
+
+  filename: string;
+
+  /**
+   * The type of the file
+   */
+  FileType: FileType;
+
+  LineCount: number;
+
+  object: string;
+
+  Processed: boolean;
+
+  /**
+   * The purpose of the file
+   */
+  purpose: FilePurpose;
+}
+
+export interface FileUploadParams {
+  /**
+   * The content of the file being uploaded
+   */
+  file: Core.Uploadable;
+
+  /**
+   * The name of the file being uploaded
+   */
+  file_name: string;
+
+  /**
+   * The purpose of the file
+   */
+  purpose: FilePurpose;
+
+  /**
+   * The type of the file
+   */
+  file_type?: FileType;
+}
+
 export declare namespace Files {
   export {
     type FileObject as FileObject,
+    type FilePurpose as FilePurpose,
+    type FileType as FileType,
     type FileRetrieveResponse as FileRetrieveResponse,
     type FileListResponse as FileListResponse,
     type FileDeleteResponse as FileDeleteResponse,
+    type FileUploadResponse as FileUploadResponse,
+    type FileUploadParams as FileUploadParams,
   };
 }

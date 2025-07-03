@@ -6,30 +6,40 @@ import * as Core from '../core';
 export class Images extends APIResource {
   /**
    * Use an image model to generate an image for a given prompt.
+   *
+   * @example
+   * ```ts
+   * const imageFile = await client.images.create({
+   *   model: 'black-forest-labs/FLUX.1-schnell',
+   *   prompt: 'cat floating in space, cinematic',
+   * });
+   * ```
    */
   create(body: ImageCreateParams, options?: Core.RequestOptions): Core.APIPromise<ImageFile> {
     return this._client.post('/images/generations', { body, ...options });
   }
 }
 
+export interface ImageDataB64 {
+  b64_json: string;
+
+  index: number;
+}
+
+export interface ImageDataURL {
+  index: number;
+
+  url: string;
+}
+
 export interface ImageFile {
   id: string;
 
-  data: Array<ImageFile.Data>;
+  data: Array<ImageDataB64 | ImageDataURL>;
 
   model: string;
 
   object: 'list';
-}
-
-export namespace ImageFile {
-  export interface Data {
-    index: number;
-
-    b64_json?: string;
-
-    url?: string;
-  }
 }
 
 export interface ImageCreateParams {
@@ -125,5 +135,10 @@ export namespace ImageCreateParams {
 }
 
 export declare namespace Images {
-  export { type ImageFile as ImageFile, type ImageCreateParams as ImageCreateParams };
+  export {
+    type ImageDataB64 as ImageDataB64,
+    type ImageDataURL as ImageDataURL,
+    type ImageFile as ImageFile,
+    type ImageCreateParams as ImageCreateParams,
+  };
 }
