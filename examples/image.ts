@@ -9,19 +9,11 @@ const together = new Together();
 
 async function main() {
   //Request the image generation
-  const image = await together.images.create({
-    model: 'runwayml/stable-diffusion-v1-5',
-    prompt: 'space robots',
-    n: 1,
+  const response = await together.images.create({
+    prompt: "a flying cat",
+    model: "black-forest-labs/FLUX.1-schnell",
+    steps: 4,
   });
-
-  //Write the image to a file
-  if (image.data && image.data[0] && image.data[0].b64_json) {
-    let image_data = image.data[0].b64_json;
-
-    const buffer = Buffer.from(image_data, 'base64');
-    fs.writeFileSync('image.jpg', buffer, { encoding: 'base64' });
-  }
 }
 
 main();
