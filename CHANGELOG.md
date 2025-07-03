@@ -1,5 +1,65 @@
 # Changelog
 
+## 0.17.0 (2025-07-03)
+
+Full Changelog: [v0.16.0...v0.17.0](https://github.com/togethercomputer/together-typescript/compare/v0.16.0...v0.17.0)
+
+### Features
+
+* **api:** add batch api to config ([6bf62dd](https://github.com/togethercomputer/together-typescript/commit/6bf62dd3d983873c0321ca97f780b898be85f7c5))
+* **api:** Add file_type and file_purpose ([f91fb18](https://github.com/togethercomputer/together-typescript/commit/f91fb1855454afb6ddda0484ee6cd385e10097b0))
+* **api:** add files/upload apu support and switch upload_file method over to use it. ([5e60c99](https://github.com/togethercomputer/together-typescript/commit/5e60c99098e3046f9e0d540f0ae29c13eac413f7))
+* **api:** address diagnostic issues in audio api, correct openapi issue in images api, disambiguate a response in finetune api, enable automated testing on finetune and images ([9131477](https://github.com/togethercomputer/together-typescript/commit/9131477f5980d16c3d6dc1f3b9d2dcf21895358d))
+* **api:** api update ([0f63bf1](https://github.com/togethercomputer/together-typescript/commit/0f63bf166570b12a6ab71f1f6778fefb2409a5b5))
+* **api:** api update ([cc8b7a8](https://github.com/togethercomputer/together-typescript/commit/cc8b7a8971d28a5214fb1edd5ba211d9ddebdf49))
+* **api:** api update ([1df5bbe](https://github.com/togethercomputer/together-typescript/commit/1df5bbe5c565106587672364f72975bca01770a8))
+* **api:** api update ([0b81ef9](https://github.com/togethercomputer/together-typescript/commit/0b81ef9c6645a6b92513ea1ad641542d1a9cbfdd))
+* **api:** api update ([fd4611d](https://github.com/togethercomputer/together-typescript/commit/fd4611d598c597a521b4aa7114d9f6c586ed4966))
+* **api:** api update ([ea28f8f](https://github.com/togethercomputer/together-typescript/commit/ea28f8f18912118374ff7c6dbdf54301da3a64f8))
+* **api:** api update ([9d7d2f1](https://github.com/togethercomputer/together-typescript/commit/9d7d2f11e150bd3e0ec1ba9a6ccc33d27679bdc3))
+* **api:** api update ([f52b93d](https://github.com/togethercomputer/together-typescript/commit/f52b93dfe3968326efefc5624beea20549656e10))
+* **api:** api update ([ebf6451](https://github.com/togethercomputer/together-typescript/commit/ebf64513ab30e86579e8212042784c8dec1ad1c1))
+* **api:** api update ([e50cdb2](https://github.com/togethercomputer/together-typescript/commit/e50cdb2d9a23607ba1c386f3b1739d66231f4590))
+* **api:** api update ([158a5c8](https://github.com/togethercomputer/together-typescript/commit/158a5c89456605a303c55d4577d7e11d5dd847b1))
+* **api:** Formatting fixes, some lint fixes ([6b6fc13](https://github.com/togethercomputer/together-typescript/commit/6b6fc137c34f63bbf356df610b2b198aa9109bb0))
+* **api:** get test_code_interpreter passing ([b67a035](https://github.com/togethercomputer/together-typescript/commit/b67a035ebad8c3764c4a9b6919f302bfd19573cf))
+* **api:** update spec / config to remove remaining codegen warnings ([1665d1f](https://github.com/togethercomputer/together-typescript/commit/1665d1f80c707b45d204997872fdcee741517861))
+* **api:** Update spec and config to get all tests except code-interpolation an fine_tune unit tests working. ([1cb0018](https://github.com/togethercomputer/together-typescript/commit/1cb001870511f924acaee1bf67aad683abce9d22))
+* **client:** add support for endpoint-specific base URLs ([41abee6](https://github.com/togethercomputer/together-typescript/commit/41abee6d1498a6695644adc6e2c3286403612998))
+
+
+### Bug Fixes
+
+* **ci:** release-doctor — report correct token name ([38fdf05](https://github.com/togethercomputer/together-typescript/commit/38fdf059359e309e5dee1e1d627644eeb1193eff))
+* **client:** don't send `Content-Type` for bodyless methods ([4104dc3](https://github.com/togethercomputer/together-typescript/commit/4104dc3d84e838d816af11ba0309eb7cadc564af))
+* publish script — handle NPM errors correctly ([78d1a5c](https://github.com/togethercomputer/together-typescript/commit/78d1a5c718bbf5a2e2cd2cee8f850cc23cd1f690))
+* **tests:** format ([82fad3c](https://github.com/togethercomputer/together-typescript/commit/82fad3cbfffd2bf042b07e34033d03d2390a34b8))
+* **tests:** remove unused tests ([bb90a25](https://github.com/togethercomputer/together-typescript/commit/bb90a25b0433b454d19a77d45822618e46203878))
+
+
+### Chores
+
+* **api:** re-enable audio unit tests ([5ac5b53](https://github.com/togethercomputer/together-typescript/commit/5ac5b5332379c2f86bd2048edb914461cd3e76f2))
+* **ci:** bump node version for release workflows ([681d96e](https://github.com/togethercomputer/together-typescript/commit/681d96e81cbdaa50d27519377ced7496574a49cd))
+* **ci:** enable for pull requests ([b3c7e61](https://github.com/togethercomputer/together-typescript/commit/b3c7e615f530ee0acaf7554e080f8f2e97e7c3d5))
+* **ci:** only run for pushes and fork pull requests ([448b1fa](https://github.com/togethercomputer/together-typescript/commit/448b1faa36bbd70f2a608b19aeb564e28043630d))
+* **docs:** grammar improvements ([c9d78f6](https://github.com/togethercomputer/together-typescript/commit/c9d78f63e644492be7b0388acb8c5bc383f9fbf7))
+* **docs:** use top-level-await in example snippets ([815f983](https://github.com/togethercomputer/together-typescript/commit/815f983932dfcc212c2e5d1efd46318d62c8eb7b))
+* improve publish-npm script --latest tag logic ([1025321](https://github.com/togethercomputer/together-typescript/commit/102532181512dfe468208e12e64cff2961d59fca))
+* **internal:** make base APIResource abstract ([d031002](https://github.com/togethercomputer/together-typescript/commit/d03100298d3a8815c6f9804e9f5c6d58d62a4ec5))
+* mention unit type in timeout docs ([488c92c](https://github.com/togethercomputer/together-typescript/commit/488c92ca13366d7554db85e163a6504f65900cf6))
+
+
+### Documentation
+
+* add examples to tsdocs ([64cbec4](https://github.com/togethercomputer/together-typescript/commit/64cbec43bd51f4e4c9bcb41a32aad78657f9a9c3))
+* **readme:** fix typo ([0b6aea3](https://github.com/togethercomputer/together-typescript/commit/0b6aea385fe6123df3d2116f80110d37852a0575))
+
+
+### Refactors
+
+* **types:** replace Record with mapped types ([07b8800](https://github.com/togethercomputer/together-typescript/commit/07b88009b94e6654768c60e1890d1d888746ab6f))
+
 ## 0.16.0 (2025-04-28)
 
 Full Changelog: [v0.15.2...v0.16.0](https://github.com/togethercomputer/together-typescript/compare/v0.15.2...v0.16.0)
