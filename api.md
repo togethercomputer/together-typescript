@@ -143,12 +143,32 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/audio.ts">AudioFile</a></code>
-- <code><a href="./src/resources/audio.ts">AudioSpeechStreamChunk</a></code>
+- <code><a href="./src/resources/audio/audio.ts">AudioFile</a></code>
+- <code><a href="./src/resources/audio/audio.ts">AudioSpeechStreamChunk</a></code>
 
 Methods:
 
-- <code title="post /audio/speech">client.audio.<a href="./src/resources/audio.ts">create</a>({ ...params }) -> Response</code>
+- <code title="post /audio/speech">client.audio.<a href="./src/resources/audio/audio.ts">create</a>({ ...params }) -> Response</code>
+
+## Transcriptions
+
+Types:
+
+- <code><a href="./src/resources/audio/transcriptions.ts">TranscriptionCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /audio/transcriptions">client.audio.transcriptions.<a href="./src/resources/audio/transcriptions.ts">create</a>({ ...params }) -> TranscriptionCreateResponse</code>
+
+## Translations
+
+Types:
+
+- <code><a href="./src/resources/audio/translations.ts">TranslationCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /audio/translations">client.audio.translations.<a href="./src/resources/audio/translations.ts">create</a>({ ...params }) -> TranslationCreateResponse</code>
 
 # Models
 
