@@ -816,6 +816,16 @@ export interface FineTuneCreateParams {
   from_checkpoint?: string;
 
   /**
+   * The API token for the Hugging Face Hub.
+   */
+  hf_api_token?: string;
+
+  /**
+   * The name of the Hugging Face repository to upload the fine-tuned model to.
+   */
+  hf_output_repo_name?: string;
+
+  /**
    * Controls how quickly the model adapts to new information (too high may cause
    * instability, too low may slow convergence)
    */
