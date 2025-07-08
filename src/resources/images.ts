@@ -24,10 +24,14 @@ export interface ImageDataB64 {
   b64_json: string;
 
   index: number;
+
+  type: 'b64_json';
 }
 
 export interface ImageDataURL {
   index: number;
+
+  type: 'url';
 
   url: string;
 }
@@ -60,11 +64,16 @@ export interface ImageCreateParams {
   prompt: string;
 
   /**
+   * If true, disables the safety checker for image generation.
+   */
+  disable_safety_checker?: boolean;
+
+  /**
    * Adjusts the alignment of the generated image with the input prompt. Higher
    * values (e.g., 8-10) make the output more faithful to the prompt, while lower
    * values (e.g., 1-5) encourage more creative freedom.
    */
-  guidance?: number;
+  guidance_scale?: number;
 
   /**
    * Height of the image to generate in number of pixels.
