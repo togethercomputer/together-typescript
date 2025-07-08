@@ -1,10 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../resource';
-import { APIPromise } from '../../core';
 import * as Core from '../../core';
-import * as AudioAPI from './audio';
-import { Stream } from '../../streaming';
 
 export class Transcriptions extends APIResource {
   /**
@@ -21,11 +18,8 @@ export class Transcriptions extends APIResource {
   create(
     body: TranscriptionCreateParams,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<AudioAPI.AudioSpeechStreamChunk>> {
-    return this._client.post(
-      '/audio/transcriptions',
-      Core.multipartFormRequestOptions({ body, ...options, stream: true }),
-    ) as APIPromise<Stream<AudioAPI.AudioSpeechStreamChunk>>;
+  ): Core.APIPromise<TranscriptionCreateResponse> {
+    return this._client.post('/audio/transcriptions', Core.multipartFormRequestOptions({ body, ...options }));
   }
 }
 
@@ -120,94 +114,48 @@ export namespace TranscriptionCreateResponse {
   }
 }
 
-export type TranscriptionCreateParams =
-  | TranscriptionCreateParamsNonStreaming
-  | TranscriptionCreateParamsNonStreaming;
+export interface TranscriptionCreateParams {
+  /**
+   * Audio file to transcribe
+   */
+  file: Core.Uploadable;
 
-export declare namespace TranscriptionCreateParams {
-  export interface TranscriptionCreateParamsNonStreaming {
-    /**
-     * Audio file to transcribe
-     */
-    file: Core.Uploadable;
+  /**
+   * Optional ISO 639-1 language code. If `auto` is provided, language is
+   * auto-detected.
+   */
+  language?: string;
 
-    /**
-     * Optional ISO 639-1 language code. If `auto` is provided, language is
-     * auto-detected.
-     */
-    language?: string;
+  /**
+   * Model to use for transcription
+   */
+  model?: 'openai/whisper-large-v3';
 
-    /**
-     * Model to use for transcription
-     */
-    model?: 'openai/whisper-large-v3';
+  /**
+   * Optional text to bias decoding.
+   */
+  prompt?: string;
 
-    /**
-     * Optional text to bias decoding.
-     */
-    prompt?: string;
+  /**
+   * The format of the response
+   */
+  response_format?: 'json' | 'verbose_json';
 
-    /**
-     * The format of the response
-     */
-    response_format?: 'json' | 'verbose_json';
+  /**
+   * Sampling temperature between 0.0 and 1.0
+   */
+  temperature?: number;
 
-    /**
-     * Sampling temperature between 0.0 and 1.0
-     */
-    temperature?: number;
-
-    /**
-     * Controls level of timestamp detail in verbose_json. Only used when
-     * response_format is verbose_json.
-     */
-    timestamp_granularities?: 'segment' | 'word';
-  }
-
-  export interface TranscriptionCreateParamsNonStreaming {
-    /**
-     * Audio file to transcribe
-     */
-    file: Core.Uploadable;
-
-    /**
-     * Optional ISO 639-1 language code. If `auto` is provided, language is
-     * auto-detected.
-     */
-    language?: string;
-
-    /**
-     * Model to use for transcription
-     */
-    model?: 'openai/whisper-large-v3';
-
-    /**
-     * Optional text to bias decoding.
-     */
-    prompt?: string;
-
-    /**
-     * The format of the response
-     */
-    response_format?: 'json' | 'verbose_json';
-
-    /**
-     * Sampling temperature between 0.0 and 1.0
-     */
-    temperature?: number;
-
-    /**
-     * Controls level of timestamp detail in verbose_json. Only used when
-     * response_format is verbose_json.
-     */
-    timestamp_granularities?: 'segment' | 'word';
-  }
+  /**
+   * Controls level of timestamp detail in verbose_json. Only used when
+   * response_format is verbose_json.
+   */
+  timestamp_granularities?: 'segment' | 'word';
 }
 
 export declare namespace Transcriptions {
   export {
     type TranscriptionCreateResponse as TranscriptionCreateResponse,
     type TranscriptionCreateParams as TranscriptionCreateParams,
-    type TranscriptionCreateParamsNonStreaming as TranscriptionCreateParamsNonStreaming,
   };
 }

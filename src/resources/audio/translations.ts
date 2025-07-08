@@ -1,10 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../resource';
-import { APIPromise } from '../../core';
 import * as Core from '../../core';
-import * as AudioAPI from './audio';
-import { Stream } from '../../streaming';
 
 export class Translations extends APIResource {
   /**
@@ -20,11 +17,8 @@ export class Translations extends APIResource {
   create(
     body: TranslationCreateParams,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<AudioAPI.AudioSpeechStreamChunk>> {
-    return this._client.post(
-      '/audio/translations',
-      Core.multipartFormRequestOptions({ body, ...options, stream: true }),
-    ) as APIPromise<Stream<AudioAPI.AudioSpeechStreamChunk>>;
+  ): Core.APIPromise<TranslationCreateResponse> {
+    return this._client.post('/audio/translations', Core.multipartFormRequestOptions({ body, ...options }));
   }
 }
 
@@ -119,94 +113,48 @@ export namespace TranslationCreateResponse {
   }
 }
 
-export type TranslationCreateParams =
-  | TranslationCreateParamsNonStreaming
-  | TranslationCreateParamsNonStreaming;
+export interface TranslationCreateParams {
+  /**
+   * Audio file to translate
+   */
+  file: Core.Uploadable;
 
-export declare namespace TranslationCreateParams {
-  export interface TranslationCreateParamsNonStreaming {
-    /**
-     * Audio file to translate
-     */
-    file: Core.Uploadable;
+  /**
+   * Target output language. Optional ISO 639-1 language code. If omitted, language
+   * is set to English.
+   */
+  language?: string;
 
-    /**
-     * Target output language. Optional ISO 639-1 language code. If omitted, language
-     * is set to English.
-     */
-    language?: string;
+  /**
+   * Model to use for translation
+   */
+  model?: 'openai/whisper-large-v3';
 
-    /**
-     * Model to use for translation
-     */
-    model?: 'openai/whisper-large-v3';
+  /**
+   * Optional text to bias decoding.
+   */
+  prompt?: string;
 
-    /**
-     * Optional text to bias decoding.
-     */
-    prompt?: string;
+  /**
+   * The format of the response
+   */
+  response_format?: 'json' | 'verbose_json';
 
-    /**
-     * The format of the response
-     */
-    response_format?: 'json' | 'verbose_json';
+  /**
+   * Sampling temperature between 0.0 and 1.0
+   */
+  temperature?: number;
 
-    /**
-     * Sampling temperature between 0.0 and 1.0
-     */
-    temperature?: number;
-
-    /**
-     * Controls level of timestamp detail in verbose_json. Only used when
-     * response_format is verbose_json.
-     */
-    timestamp_granularities?: 'segment' | 'word';
-  }
-
-  export interface TranslationCreateParamsNonStreaming {
-    /**
-     * Audio file to translate
-     */
-    file: Core.Uploadable;
-
-    /**
-     * Target output language. Optional ISO 639-1 language code. If omitted, language
-     * is set to English.
-     */
-    language?: string;
-
-    /**
-     * Model to use for translation
-     */
-    model?: 'openai/whisper-large-v3';
-
-    /**
-     * Optional text to bias decoding.
-     */
-    prompt?: string;
-
-    /**
-     * The format of the response
-     */
-    response_format?: 'json' | 'verbose_json';
-
-    /**
-     * Sampling temperature between 0.0 and 1.0
-     */
-    temperature?: number;
-
-    /**
-     * Controls level of timestamp detail in verbose_json. Only used when
-     * response_format is verbose_json.
-     */
-    timestamp_granularities?: 'segment' | 'word';
-  }
+  /**
+   * Controls level of timestamp detail in verbose_json. Only used when
+   * response_format is verbose_json.
+   */
+  timestamp_granularities?: 'segment' | 'word';
 }
 
 export declare namespace Translations {
   export {
     type TranslationCreateResponse as TranslationCreateResponse,
     type TranslationCreateParams as TranslationCreateParams,
-    type TranslationCreateParamsNonStreaming as TranslationCreateParamsNonStreaming,
   };
 }
