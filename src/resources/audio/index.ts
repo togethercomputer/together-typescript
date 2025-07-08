@@ -12,11 +12,5 @@ export {
   Transcriptions,
   type TranscriptionCreateResponse,
   type TranscriptionCreateParams,
-  type TranscriptionCreateParamsNonStreaming,
 } from './transcriptions';
-export {
-  Translations,
-  type TranslationCreateResponse,
-  type TranslationCreateParams,
-  type TranslationCreateParamsNonStreaming,
-} from './translations';
+export { Translations, type TranslationCreateResponse, type TranslationCreateParams } from './translations';

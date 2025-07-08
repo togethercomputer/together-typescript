@@ -5,19 +5,9 @@ import { APIPromise } from '../../core';
 import * as Core from '../../core';
 import * as AudioAPI from './audio';
 import * as TranscriptionsAPI from './transcriptions';
-import {
-  TranscriptionCreateParams,
-  TranscriptionCreateParamsNonStreaming,
-  TranscriptionCreateResponse,
-  Transcriptions,
-} from './transcriptions';
+import { TranscriptionCreateParams, TranscriptionCreateResponse, Transcriptions } from './transcriptions';
 import * as TranslationsAPI from './translations';
-import {
-  TranslationCreateParams,
-  TranslationCreateParamsNonStreaming,
-  TranslationCreateResponse,
-  Translations,
-} from './translations';
+import { TranslationCreateParams, TranslationCreateResponse, Translations } from './translations';
 import { Stream } from '../../streaming';
 import { type Response } from '../../_shims/index';
 
@@ -189,13 +179,11 @@ export declare namespace Audio {
     Transcriptions as Transcriptions,
     type TranscriptionCreateResponse as TranscriptionCreateResponse,
     type TranscriptionCreateParams as TranscriptionCreateParams,
-    type TranscriptionCreateParamsNonStreaming as TranscriptionCreateParamsNonStreaming,
   };
 
   export {
     Translations as Translations,
     type TranslationCreateResponse as TranslationCreateResponse,
     type TranslationCreateParams as TranslationCreateParams,
-    type TranslationCreateParamsNonStreaming as TranslationCreateParamsNonStreaming,
   };
 }
