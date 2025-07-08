@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.19.0 (2025-07-08)
+
+Full Changelog: [v0.18.0...v0.19.0](https://github.com/togethercomputer/together-typescript/compare/v0.18.0...v0.19.0)
+
+### Features
+
+* **api:** adding audio APIs ([2d2fa9a](https://github.com/togethercomputer/together-typescript/commit/2d2fa9a94c35c66b39e088cfe9599f986bce545b))
+* **api:** removed streaming from translation/transcription endpoints ([1b6c140](https://github.com/togethercomputer/together-typescript/commit/1b6c140c0e31ad8e55e2bb12d9da8198e451237c))
+
 ## 0.18.0 (2025-07-08)
 
 Full Changelog: [v0.17.0...v0.18.0](https://github.com/togethercomputer/together-typescript/compare/v0.17.0...v0.18.0)
