@@ -7,7 +7,7 @@ export {
   type AudioCreateParams,
   type AudioCreateParamsNonStreaming,
   type AudioCreateParamsStreaming,
-} from './audio';
+} from './audio/audio';
 export {
   Batches,
   type BatchCreateResponse,

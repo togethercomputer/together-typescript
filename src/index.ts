@@ -8,14 +8,6 @@ import * as API from './resources/index';
 import * as TopLevelAPI from './resources/top-level';
 import { RerankParams, RerankResponse } from './resources/top-level';
 import {
-  Audio,
-  AudioCreateParams,
-  AudioCreateParamsNonStreaming,
-  AudioCreateParamsStreaming,
-  AudioFile,
-  AudioSpeechStreamChunk,
-} from './resources/audio';
-import {
   BatchCreateParams,
   BatchCreateResponse,
   BatchListResponse,
@@ -80,6 +72,14 @@ import { Hardware, HardwareListParams, HardwareListResponse } from './resources/
 import { ImageCreateParams, ImageDataB64, ImageDataURL, ImageFile, Images } from './resources/images';
 import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
 import { ModelListResponse, ModelUploadParams, ModelUploadResponse, Models } from './resources/models';
+import {
+  Audio,
+  AudioCreateParams,
+  AudioCreateParamsNonStreaming,
+  AudioCreateParamsStreaming,
+  AudioFile,
+  AudioSpeechStreamChunk,
+} from './resources/audio/audio';
 import { Chat } from './resources/chat/chat';
 import {
   CodeInterpreter,
