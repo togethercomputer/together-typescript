@@ -88,11 +88,6 @@ export namespace TranscriptionCreateResponse {
        * The text content of the segment
        */
       text: string;
-
-      /**
-       * Array of token IDs for the segment
-       */
-      tokens: Array<number>;
     }
 
     export interface Word {
