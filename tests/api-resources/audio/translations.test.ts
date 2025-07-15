@@ -30,7 +30,7 @@ describe('resource translations', () => {
       prompt: 'prompt',
       response_format: 'json',
       temperature: 0,
-      timestamp_granularities: 'segment',
+      timestamp_granularities: ['word', 'segment'],
     });
   });
 });
