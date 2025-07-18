@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.21.0 (2025-07-18)
+
+Full Changelog: [v0.20.0...v0.21.0](https://github.com/togethercomputer/together-typescript/compare/v0.20.0...v0.21.0)
+
+### Features
+
+* **api:** api update ([35c3a4e](https://github.com/togethercomputer/together-typescript/commit/35c3a4e77ed9bab9708465a3d2da22519814fbc0))
+* **api:** api update ([03aed33](https://github.com/togethercomputer/together-typescript/commit/03aed3300c951b08ef446b099406ab2a5299ea6b))
+
 ## 0.20.0 (2025-07-10)
 
 Full Changelog: [v0.19.0...v0.20.0](https://github.com/togethercomputer/together-typescript/compare/v0.19.0...v0.20.0)
