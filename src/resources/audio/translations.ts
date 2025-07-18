@@ -142,9 +142,10 @@ export interface TranslationCreateParams {
 
   /**
    * Controls level of timestamp detail in verbose_json. Only used when
-   * response_format is verbose_json.
+   * response_format is verbose_json. Can be a single granularity or an array to get
+   * multiple levels.
    */
-  timestamp_granularities?: 'segment' | 'word';
+  timestamp_granularities?: 'segment' | 'word' | Array<'segment' | 'word'>;
 }
 
 export declare namespace Translations {
