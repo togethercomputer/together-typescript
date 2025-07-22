@@ -183,7 +183,7 @@ Types:
 
 Methods:
 
-- <code title="get /jobs/{jobId}">client.jobs.<a href="./src/resources/jobs.ts">retrieve</a>(jobId) -> JobRetrieveResponse</code>
+- <code title="get /jobs/{jobId}">client.jobs.<a href="./src/resources/jobs.ts">retrieve</a>(jobID) -> JobRetrieveResponse</code>
 - <code title="get /jobs">client.jobs.<a href="./src/resources/jobs.ts">list</a>() -> JobListResponse</code>
 
 # Endpoints
@@ -199,10 +199,10 @@ Types:
 Methods:
 
 - <code title="post /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">create</a>({ ...params }) -> EndpointCreateResponse</code>
-- <code title="get /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">retrieve</a>(endpointId) -> EndpointRetrieveResponse</code>
-- <code title="patch /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">update</a>(endpointId, { ...params }) -> EndpointUpdateResponse</code>
+- <code title="get /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">retrieve</a>(endpointID) -> EndpointRetrieveResponse</code>
+- <code title="patch /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">update</a>(endpointID, { ...params }) -> EndpointUpdateResponse</code>
 - <code title="get /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">list</a>({ ...params }) -> EndpointListResponse</code>
-- <code title="delete /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">delete</a>(endpointId) -> void</code>
+- <code title="delete /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">delete</a>(endpointID) -> void</code>
 
 # Hardware
 

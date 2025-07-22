@@ -1,7 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { type Uploadable } from '../../core/uploads';
+import { RequestOptions } from '../../internal/request-options';
+import { multipartFormRequestOptions } from '../../internal/uploads';
 
 export class Translations extends APIResource {
   /**
@@ -14,11 +17,11 @@ export class Translations extends APIResource {
    * });
    * ```
    */
-  create(
-    body: TranslationCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<TranslationCreateResponse> {
-    return this._client.post('/audio/translations', Core.multipartFormRequestOptions({ body, ...options }));
+  create(body: TranslationCreateParams, options?: RequestOptions): APIPromise<TranslationCreateResponse> {
+    return this._client.post(
+      '/audio/translations',
+      multipartFormRequestOptions({ body, ...options }, this._client),
+    );
   }
 }
 
@@ -112,7 +115,7 @@ export interface TranslationCreateParams {
   /**
    * Audio file to translate
    */
-  file: Core.Uploadable;
+  file: Uploadable;
 
   /**
    * Target output language. Optional ISO 639-1 language code. If omitted, language

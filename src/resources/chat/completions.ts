@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { APIPromise } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as ChatCompletionsAPI from './completions';
 import * as CompletionsAPI from '../completions';
-import { Stream } from '../../streaming';
+import { APIPromise } from '../../core/api-promise';
+import { Stream } from '../../core/streaming';
+import { RequestOptions } from '../../internal/request-options';
 
 export class Completions extends APIResource {
   /**
@@ -21,18 +21,18 @@ export class Completions extends APIResource {
    * );
    * ```
    */
-  create(body: CompletionCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<ChatCompletion>;
+  create(body: CompletionCreateParamsNonStreaming, options?: RequestOptions): APIPromise<ChatCompletion>;
   create(
     body: CompletionCreateParamsStreaming,
-    options?: Core.RequestOptions,
+    options?: RequestOptions,
   ): APIPromise<Stream<ChatCompletionChunk>>;
   create(
     body: CompletionCreateParamsBase,
-    options?: Core.RequestOptions,
+    options?: RequestOptions,
   ): APIPromise<Stream<ChatCompletionChunk> | ChatCompletion>;
   create(
     body: CompletionCreateParams,
-    options?: Core.RequestOptions,
+    options?: RequestOptions,
   ): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletionChunk>> {
     return this._client.post('/chat/completions', { body, ...options, stream: body.stream ?? false }) as
       | APIPromise<ChatCompletion>

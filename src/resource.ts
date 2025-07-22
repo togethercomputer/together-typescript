@@ -1,11 +1,2 @@
-// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
-
-import type { Together } from './index';
-
-export abstract class APIResource {
-  protected _client: Together;
-
-  constructor(client: Together) {
-    this._client = client;
-  }
-}
+/** @deprecated Import from ./core/resource instead */
+export * from './core/resource';

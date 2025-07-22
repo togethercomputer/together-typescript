@@ -1,8 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { buildHeaders } from '../internal/headers';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Endpoints extends APIResource {
   /**
@@ -19,7 +21,7 @@ export class Endpoints extends APIResource {
    * });
    * ```
    */
-  create(body: EndpointCreateParams, options?: Core.RequestOptions): Core.APIPromise<EndpointCreateResponse> {
+  create(body: EndpointCreateParams, options?: RequestOptions): APIPromise<EndpointCreateResponse> {
     return this._client.post('/endpoints', { body, ...options });
   }
 
@@ -34,8 +36,8 @@ export class Endpoints extends APIResource {
    * );
    * ```
    */
-  retrieve(endpointId: string, options?: Core.RequestOptions): Core.APIPromise<EndpointRetrieveResponse> {
-    return this._client.get(`/endpoints/${endpointId}`, options);
+  retrieve(endpointID: string, options?: RequestOptions): APIPromise<EndpointRetrieveResponse> {
+    return this._client.get(path`/endpoints/${endpointID}`, options);
   }
 
   /**
@@ -50,11 +52,11 @@ export class Endpoints extends APIResource {
    * ```
    */
   update(
-    endpointId: string,
+    endpointID: string,
     body: EndpointUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<EndpointUpdateResponse> {
-    return this._client.patch(`/endpoints/${endpointId}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<EndpointUpdateResponse> {
+    return this._client.patch(path`/endpoints/${endpointID}`, { body, ...options });
   }
 
   /**
@@ -66,15 +68,10 @@ export class Endpoints extends APIResource {
    * const endpoints = await client.endpoints.list();
    * ```
    */
-  list(query?: EndpointListParams, options?: Core.RequestOptions): Core.APIPromise<EndpointListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<EndpointListResponse>;
   list(
-    query: EndpointListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<EndpointListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
+    query: EndpointListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<EndpointListResponse> {
     return this._client.get('/endpoints', { query, ...options });
   }
 
@@ -88,10 +85,10 @@ export class Endpoints extends APIResource {
    * );
    * ```
    */
-  delete(endpointId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.delete(`/endpoints/${endpointId}`, {
+  delete(endpointID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.delete(path`/endpoints/${endpointID}`, {
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 }

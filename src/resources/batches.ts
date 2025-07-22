@@ -1,7 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Batches extends APIResource {
   /**
@@ -15,7 +17,7 @@ export class Batches extends APIResource {
    * });
    * ```
    */
-  create(body: BatchCreateParams, options?: Core.RequestOptions): Core.APIPromise<BatchCreateResponse> {
+  create(body: BatchCreateParams, options?: RequestOptions): APIPromise<BatchCreateResponse> {
     return this._client.post('/batches', { body, ...options });
   }
 
@@ -29,8 +31,8 @@ export class Batches extends APIResource {
    * );
    * ```
    */
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<BatchRetrieveResponse> {
-    return this._client.get(`/batches/${id}`, options);
+  retrieve(id: string, options?: RequestOptions): APIPromise<BatchRetrieveResponse> {
+    return this._client.get(path`/batches/${id}`, options);
   }
 
   /**
@@ -41,7 +43,7 @@ export class Batches extends APIResource {
    * const batches = await client.batches.list();
    * ```
    */
-  list(options?: Core.RequestOptions): Core.APIPromise<BatchListResponse> {
+  list(options?: RequestOptions): APIPromise<BatchListResponse> {
     return this._client.get('/batches', options);
   }
 }

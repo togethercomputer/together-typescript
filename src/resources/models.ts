@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { RequestOptions } from '../internal/request-options';
 
 export class Models extends APIResource {
   /**
@@ -12,7 +13,7 @@ export class Models extends APIResource {
    * const models = await client.models.list();
    * ```
    */
-  list(options?: Core.RequestOptions): Core.APIPromise<ModelListResponse> {
+  list(options?: RequestOptions): APIPromise<ModelListResponse> {
     return this._client.get('/models', options);
   }
 
@@ -27,7 +28,7 @@ export class Models extends APIResource {
    * });
    * ```
    */
-  upload(body: ModelUploadParams, options?: Core.RequestOptions): Core.APIPromise<ModelUploadResponse> {
+  upload(body: ModelUploadParams, options?: RequestOptions): APIPromise<ModelUploadResponse> {
     return this._client.post('/models', { body, ...options });
   }
 }

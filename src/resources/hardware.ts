@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { RequestOptions } from '../internal/request-options';
 
 export class Hardware extends APIResource {
   /**
@@ -10,15 +10,10 @@ export class Hardware extends APIResource {
    * model parameter is provided, it returns only hardware configurations compatible
    * with that model, including their current availability status.
    */
-  list(query?: HardwareListParams, options?: Core.RequestOptions): Core.APIPromise<HardwareListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<HardwareListResponse>;
   list(
-    query: HardwareListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<HardwareListResponse> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
+    query: HardwareListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<HardwareListResponse> {
     return this._client.get('/hardware', { query, ...options });
   }
 }

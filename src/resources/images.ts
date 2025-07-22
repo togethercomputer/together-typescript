@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { RequestOptions } from '../internal/request-options';
 
 export class Images extends APIResource {
   /**
@@ -15,7 +16,7 @@ export class Images extends APIResource {
    * });
    * ```
    */
-  create(body: ImageCreateParams, options?: Core.RequestOptions): Core.APIPromise<ImageFile> {
+  create(body: ImageCreateParams, options?: RequestOptions): APIPromise<ImageFile> {
     return this._client.post('/images/generations', { body, ...options });
   }
 }
