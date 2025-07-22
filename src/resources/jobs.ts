@@ -1,7 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Jobs extends APIResource {
   /**
@@ -14,8 +16,8 @@ export class Jobs extends APIResource {
    * );
    * ```
    */
-  retrieve(jobId: string, options?: Core.RequestOptions): Core.APIPromise<JobRetrieveResponse> {
-    return this._client.get(`/jobs/${jobId}`, options);
+  retrieve(jobID: string, options?: RequestOptions): APIPromise<JobRetrieveResponse> {
+    return this._client.get(path`/jobs/${jobID}`, options);
   }
 
   /**
@@ -26,7 +28,7 @@ export class Jobs extends APIResource {
    * const jobs = await client.jobs.list();
    * ```
    */
-  list(options?: Core.RequestOptions): Core.APIPromise<JobListResponse> {
+  list(options?: RequestOptions): APIPromise<JobListResponse> {
     return this._client.get('/jobs', options);
   }
 }

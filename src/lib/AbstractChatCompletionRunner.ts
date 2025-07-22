@@ -1,4 +1,4 @@
-import * as Core from 'together-ai/core';
+import { RequestOptions } from '../internal/request-options';
 import {
   type Completions,
   type ChatCompletion,
@@ -6,8 +6,8 @@ import {
   type ChatCompletionMessageParam,
   type CompletionCreateParams,
   type ChatCompletionTool,
-} from 'together-ai/resources/chat/completions';
-import { APIUserAbortError, TogetherError } from 'together-ai/error';
+} from '../resources/chat/completions';
+import { APIUserAbortError, TogetherError } from '../error';
 import {
   type RunnableFunction,
   isRunnableFunctionWithParse,
@@ -19,10 +19,10 @@ import {
   ChatCompletionStreamingToolRunnerParams,
 } from './ChatCompletionStreamingRunner';
 import { isAssistantMessage, isFunctionMessage, isToolMessage } from './chatCompletionUtils';
-import { ChatCompletionUsage } from 'together-ai/resources/chat/completions';
+import { ChatCompletionUsage } from '../resources/chat/completions';
 
 const DEFAULT_MAX_CHAT_COMPLETIONS = 10;
-export interface RunnerOptions extends Core.RequestOptions {
+export interface RunnerOptions extends RequestOptions {
   /** How many requests to make before canceling. Default 10. */
   maxChatCompletions?: number;
 }
@@ -421,7 +421,7 @@ export abstract class AbstractChatCompletionRunner<
   protected async _createChatCompletion(
     completions: Completions,
     params: CompletionCreateParams,
-    options?: Core.RequestOptions,
+    options?: RequestOptions,
   ): Promise<ChatCompletion> {
     const signal = options?.signal;
     if (signal) {
@@ -441,7 +441,7 @@ export abstract class AbstractChatCompletionRunner<
   protected async _runChatCompletion(
     completions: Completions,
     params: CompletionCreateParams,
-    options?: Core.RequestOptions,
+    options?: RequestOptions,
   ): Promise<ChatCompletion> {
     for (const message of params.messages) {
       this._addMessage(

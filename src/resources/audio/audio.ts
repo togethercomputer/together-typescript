@@ -1,15 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { APIPromise } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as AudioAPI from './audio';
 import * as TranscriptionsAPI from './transcriptions';
 import { TranscriptionCreateParams, TranscriptionCreateResponse, Transcriptions } from './transcriptions';
 import * as TranslationsAPI from './translations';
 import { TranslationCreateParams, TranslationCreateResponse, Translations } from './translations';
-import { Stream } from '../../streaming';
-import { type Response } from '../../_shims/index';
+import { APIPromise } from '../../core/api-promise';
+import { Stream } from '../../core/streaming';
+import { buildHeaders } from '../../internal/headers';
+import { RequestOptions } from '../../internal/request-options';
 
 export class Audio extends APIResource {
   transcriptions: TranscriptionsAPI.Transcriptions = new TranscriptionsAPI.Transcriptions(this._client);
@@ -30,23 +30,23 @@ export class Audio extends APIResource {
    * console.log(content);
    * ```
    */
-  create(body: AudioCreateParamsNonStreaming, options?: Core.RequestOptions): APIPromise<Response>;
+  create(body: AudioCreateParamsNonStreaming, options?: RequestOptions): APIPromise<Response>;
   create(
     body: AudioCreateParamsStreaming,
-    options?: Core.RequestOptions,
+    options?: RequestOptions,
   ): APIPromise<Stream<AudioSpeechStreamChunk>>;
   create(
     body: AudioCreateParamsBase,
-    options?: Core.RequestOptions,
+    options?: RequestOptions,
   ): APIPromise<Stream<AudioSpeechStreamChunk> | Response>;
   create(
     body: AudioCreateParams,
-    options?: Core.RequestOptions,
+    options?: RequestOptions,
   ): APIPromise<Response> | APIPromise<Stream<AudioSpeechStreamChunk>> {
     return this._client.post('/audio/speech', {
       body,
       ...options,
-      headers: { Accept: 'application/octet-stream', ...options?.headers },
+      headers: buildHeaders([{ Accept: 'application/octet-stream' }, options?.headers]),
       stream: body.stream ?? false,
       __binaryResponse: true,
     }) as APIPromise<Response> | APIPromise<Stream<AudioSpeechStreamChunk>>;

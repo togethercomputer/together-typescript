@@ -3,7 +3,7 @@ import {
   type ChatCompletionFunctionMessageParam,
   type ChatCompletionMessageParam,
   type ChatCompletionToolMessageParam,
-} from 'together-ai/resources/chat';
+} from '../resources/chat';
 
 export const isAssistantMessage = (
   message: ChatCompletionMessageParam | null | undefined,

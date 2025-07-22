@@ -1,12 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "include": ["dist/src"],
-  "exclude": ["dist/src/_shims/*-deno.ts"],
+  "exclude": [],
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
       "together-ai/*": ["dist/src/*"],
-      "together-ai": ["dist/src/index.ts"],
+      "together-ai": ["dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,

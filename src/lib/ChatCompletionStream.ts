@@ -1,19 +1,18 @@
-import * as Core from 'together-ai/core';
-import { TogetherError, APIUserAbortError } from 'together-ai/error';
+import { RequestOptions } from '../internal/request-options';
+import { TogetherError, APIUserAbortError } from '../error';
 import {
   Completions,
   type ChatCompletion,
   type ChatCompletionChunk,
   type CompletionCreateParams,
   type CompletionCreateParamsBase,
-} from 'together-ai/resources/chat/completions';
+} from '../resources/chat/completions';
 import {
   AbstractChatCompletionRunner,
   type AbstractChatCompletionRunnerEvents,
 } from './AbstractChatCompletionRunner';
-import { type ReadableStream } from 'together-ai/_shims/index';
-import { Stream } from 'together-ai/streaming';
-import { LogProbs } from 'together-ai/resources';
+import { Stream } from '../streaming';
+import { LogProbs } from '../resources';
 
 export interface ChatCompletionStreamEvents extends AbstractChatCompletionRunnerEvents {
   content: (contentDelta: string, contentSnapshot: string) => void;
@@ -50,7 +49,7 @@ export class ChatCompletionStream
   static createChatCompletion(
     completions: Completions,
     params: ChatCompletionStreamParams,
-    options?: Core.RequestOptions,
+    options?: RequestOptions,
   ): ChatCompletionStream {
     const runner = new ChatCompletionStream();
     runner._run(() =>
@@ -92,7 +91,7 @@ export class ChatCompletionStream
   protected override async _createChatCompletion(
     completions: Completions,
     params: CompletionCreateParams,
-    options?: Core.RequestOptions,
+    options?: RequestOptions,
   ): Promise<ChatCompletion> {
     const signal = options?.signal;
     if (signal) {
@@ -116,7 +115,7 @@ export class ChatCompletionStream
 
   protected async _fromReadableStream(
     readableStream: ReadableStream,
-    options?: Core.RequestOptions,
+    options?: RequestOptions,
   ): Promise<ChatCompletion> {
     const signal = options?.signal;
     if (signal) {

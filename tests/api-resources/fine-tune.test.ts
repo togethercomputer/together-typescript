@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import Together from 'together-ai';
-import { Response } from 'node-fetch';
 
 const client = new Together({
   apiKey: 'My API Key',
@@ -59,13 +58,6 @@ describe('resource fineTune', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('retrieve: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.fineTune.retrieve('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      Together.NotFoundError,
-    );
-  });
-
   test('list', async () => {
     const responsePromise = client.fineTune.list();
     const rawResponse = await responsePromise.asResponse();
@@ -77,13 +69,6 @@ describe('resource fineTune', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.fineTune.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      Together.NotFoundError,
-    );
-  });
-
   test('cancel', async () => {
     const responsePromise = client.fineTune.cancel('id');
     const rawResponse = await responsePromise.asResponse();
@@ -93,13 +78,6 @@ describe('resource fineTune', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('cancel: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.fineTune.cancel('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      Together.NotFoundError,
-    );
   });
 
   test('download: only required params', async () => {
@@ -133,13 +111,6 @@ describe('resource fineTune', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('listEvents: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.fineTune.listEvents('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      Together.NotFoundError,
-    );
-  });
-
   test('retrieveCheckpoints', async () => {
     const responsePromise = client.fineTune.retrieveCheckpoints('id');
     const rawResponse = await responsePromise.asResponse();
@@ -149,12 +120,5 @@ describe('resource fineTune', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieveCheckpoints: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.fineTune.retrieveCheckpoints('id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Together.NotFoundError);
   });
 });
