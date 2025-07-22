@@ -2,8 +2,7 @@
 
 // Example of uploading a file
 import { upload, ErrorResponse, FileResponse } from 'together-ai/lib/upload';
-import fetch from 'node-fetch';
-import * as core from 'together-ai/core';
+import { readEnv } from 'together-ai/internal/utils/env';
 
 async function main() {
   // Upload a file
@@ -18,7 +17,7 @@ async function main() {
 
   // Check if the file has any contents (https://docs.together.ai/reference/get_files-id-content)
   // @ts-ignore
-  const baseUrl = core.readEnv('TOGETHER_API_BASE_URL') || 'https://api.together.ai/v1';
+  const baseUrl = readEnv('TOGETHER_API_BASE_URL') || 'https://api.together.ai/v1';
   const url = `${baseUrl}/files/${file.id}/content`;
   const options = {
     method: 'GET',

@@ -2,7 +2,7 @@ import {
   type Completions,
   type ChatCompletionMessageParam,
   type CompletionCreateParamsNonStreaming,
-} from 'together-ai/resources/chat/completions';
+} from '../resources/chat/completions';
 import { type RunnableFunctions, type BaseFunctionsArgs, RunnableTools } from './RunnableFunction';
 import {
   AbstractChatCompletionRunner,

@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import Together from 'together-ai';
-import { Response } from 'node-fetch';
 
 const client = new Together({
   apiKey: 'My API Key',

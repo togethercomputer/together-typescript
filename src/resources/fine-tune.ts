@@ -1,8 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as FineTuneAPI from './fine-tune';
+import { APIPromise } from '../core/api-promise';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class FineTuneResource extends APIResource {
   /**
@@ -16,7 +18,7 @@ export class FineTuneResource extends APIResource {
    * });
    * ```
    */
-  create(body: FineTuneCreateParams, options?: Core.RequestOptions): Core.APIPromise<FineTuneCreateResponse> {
+  create(body: FineTuneCreateParams, options?: RequestOptions): APIPromise<FineTuneCreateResponse> {
     return this._client.post('/fine-tunes', { body, ...options });
   }
 
@@ -28,8 +30,8 @@ export class FineTuneResource extends APIResource {
    * const fineTune = await client.fineTune.retrieve('id');
    * ```
    */
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTune> {
-    return this._client.get(`/fine-tunes/${id}`, options);
+  retrieve(id: string, options?: RequestOptions): APIPromise<FineTune> {
+    return this._client.get(path`/fine-tunes/${id}`, options);
   }
 
   /**
@@ -41,7 +43,7 @@ export class FineTuneResource extends APIResource {
    * const fineTunes = await client.fineTune.list();
    * ```
    */
-  list(options?: Core.RequestOptions): Core.APIPromise<FineTuneListResponse> {
+  list(options?: RequestOptions): APIPromise<FineTuneListResponse> {
     return this._client.get('/fine-tunes', options);
   }
 
@@ -54,8 +56,8 @@ export class FineTuneResource extends APIResource {
    * const response = await client.fineTune.cancel('id');
    * ```
    */
-  cancel(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTuneCancelResponse> {
-    return this._client.post(`/fine-tunes/${id}/cancel`, options);
+  cancel(id: string, options?: RequestOptions): APIPromise<FineTuneCancelResponse> {
+    return this._client.post(path`/fine-tunes/${id}/cancel`, options);
   }
 
   /**
@@ -68,10 +70,7 @@ export class FineTuneResource extends APIResource {
    * });
    * ```
    */
-  download(
-    query: FineTuneDownloadParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<FineTuneDownloadResponse> {
+  download(query: FineTuneDownloadParams, options?: RequestOptions): APIPromise<FineTuneDownloadResponse> {
     return this._client.get('/finetune/download', { query, ...options });
   }
 
@@ -83,8 +82,8 @@ export class FineTuneResource extends APIResource {
    * const response = await client.fineTune.listEvents('id');
    * ```
    */
-  listEvents(id: string, options?: Core.RequestOptions): Core.APIPromise<FineTuneListEventsResponse> {
-    return this._client.get(`/fine-tunes/${id}/events`, options);
+  listEvents(id: string, options?: RequestOptions): APIPromise<FineTuneListEventsResponse> {
+    return this._client.get(path`/fine-tunes/${id}/events`, options);
   }
 
   /**
@@ -97,11 +96,8 @@ export class FineTuneResource extends APIResource {
    * );
    * ```
    */
-  retrieveCheckpoints(
-    id: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<FineTuneRetrieveCheckpointsResponse> {
-    return this._client.get(`/fine-tunes/${id}/checkpoints`, options);
+  retrieveCheckpoints(id: string, options?: RequestOptions): APIPromise<FineTuneRetrieveCheckpointsResponse> {
+    return this._client.get(path`/fine-tunes/${id}/checkpoints`, options);
   }
 }
 

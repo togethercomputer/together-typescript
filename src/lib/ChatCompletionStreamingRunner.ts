@@ -2,9 +2,8 @@ import {
   Completions,
   type ChatCompletionChunk,
   type CompletionCreateParamsStreaming,
-} from 'together-ai/resources/chat/completions';
+} from '../resources/chat/completions';
 import { RunnerOptions, type AbstractChatCompletionRunnerEvents } from './AbstractChatCompletionRunner';
-import { type ReadableStream } from 'together-ai/_shims/index';
 import { RunnableTools, type BaseFunctionsArgs, type RunnableFunctions } from './RunnableFunction';
 import { ChatCompletionSnapshot, ChatCompletionStream } from './ChatCompletionStream';
 

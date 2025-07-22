@@ -1,9 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as FilesAPI from './files';
-import { type Response } from '../_shims/index';
+import { APIPromise } from '../core/api-promise';
+import { type Uploadable } from '../core/uploads';
+import { buildHeaders } from '../internal/headers';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Files extends APIResource {
   /**
@@ -14,8 +17,8 @@ export class Files extends APIResource {
    * const file = await client.files.retrieve('id');
    * ```
    */
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<FileRetrieveResponse> {
-    return this._client.get(`/files/${id}`, options);
+  retrieve(id: string, options?: RequestOptions): APIPromise<FileRetrieveResponse> {
+    return this._client.get(path`/files/${id}`, options);
   }
 
   /**
@@ -26,7 +29,7 @@ export class Files extends APIResource {
    * const files = await client.files.list();
    * ```
    */
-  list(options?: Core.RequestOptions): Core.APIPromise<FileListResponse> {
+  list(options?: RequestOptions): APIPromise<FileListResponse> {
     return this._client.get('/files', options);
   }
 
@@ -38,8 +41,8 @@ export class Files extends APIResource {
    * const file = await client.files.delete('id');
    * ```
    */
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<FileDeleteResponse> {
-    return this._client.delete(`/files/${id}`, options);
+  delete(id: string, options?: RequestOptions): APIPromise<FileDeleteResponse> {
+    return this._client.delete(path`/files/${id}`, options);
   }
 
   /**
@@ -53,10 +56,10 @@ export class Files extends APIResource {
    * console.log(content);
    * ```
    */
-  content(id: string, options?: Core.RequestOptions): Core.APIPromise<Response> {
-    return this._client.get(`/files/${id}/content`, {
+  content(id: string, options?: RequestOptions): APIPromise<Response> {
+    return this._client.get(path`/files/${id}/content`, {
       ...options,
-      headers: { Accept: 'application/binary', ...options?.headers },
+      headers: buildHeaders([{ Accept: 'application/binary' }, options?.headers]),
       __binaryResponse: true,
     });
   }
@@ -190,7 +193,7 @@ export interface FileUploadParams {
   /**
    * The content of the file being uploaded
    */
-  file: Core.Uploadable;
+  file: Uploadable;
 
   /**
    * The name of the file being uploaded

@@ -1,9 +1,7 @@
 // Upload file to server using /files API
 
-import * as core from '../core';
-import { isAxiosError } from 'axios';
+import { readEnv } from '../internal/utils/env';
 import fs from 'fs';
-import fetch from 'node-fetch';
 import * as path from 'path';
 import progress from 'progress-stream';
 import readline from 'readline';
@@ -29,7 +27,7 @@ const failedUploadMessage = {
   message: 'failed to upload file',
 };
 
-const baseURL = core.readEnv('TOGETHER_API_BASE_URL') || 'https://api.together.xyz/v1';
+const baseURL = readEnv('TOGETHER_API_BASE_URL') || 'https://api.together.xyz/v1';
 const MAX_FILE_SIZE = 4.8; // GB
 const BYTES_PER_GB = 1024 * 1024 * 1024;
 const MIN_SAMPLES = 1;
@@ -203,7 +201,7 @@ export async function upload(fileName: string, check: boolean = true): Promise<F
   // 1. check if file exists
   // 2. get signed upload url
   // 3. upload file
-  const apiKey = core.readEnv('TOGETHER_API_KEY');
+  const apiKey = readEnv('TOGETHER_API_KEY');
 
   if (!apiKey) {
     return {
@@ -285,13 +283,10 @@ export async function upload(fileName: string, check: boolean = true): Promise<F
       processed: true,
     };
   } catch (error) {
-    if (isAxiosError(error)) {
-      // handle axios error here
-      if (error.status) {
-        return {
-          message: `failed to upload file with status ${error.status}`,
-        };
-      }
+    if (error instanceof Error && 'status' in error && error.status) {
+      return {
+        message: `failed to upload file with status ${error.status}`,
+      };
     }
 
     return {

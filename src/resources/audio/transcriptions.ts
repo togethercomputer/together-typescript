@@ -1,7 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { type Uploadable } from '../../core/uploads';
+import { RequestOptions } from '../../internal/request-options';
+import { multipartFormRequestOptions } from '../../internal/uploads';
 
 export class Transcriptions extends APIResource {
   /**
@@ -15,11 +18,11 @@ export class Transcriptions extends APIResource {
    *   });
    * ```
    */
-  create(
-    body: TranscriptionCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<TranscriptionCreateResponse> {
-    return this._client.post('/audio/transcriptions', Core.multipartFormRequestOptions({ body, ...options }));
+  create(body: TranscriptionCreateParams, options?: RequestOptions): APIPromise<TranscriptionCreateResponse> {
+    return this._client.post(
+      '/audio/transcriptions',
+      multipartFormRequestOptions({ body, ...options }, this._client),
+    );
   }
 }
 
@@ -113,7 +116,7 @@ export interface TranscriptionCreateParams {
   /**
    * Audio file to transcribe
    */
-  file: Core.Uploadable;
+  file: Uploadable;
 
   /**
    * Optional ISO 639-1 language code. If `auto` is provided, language is

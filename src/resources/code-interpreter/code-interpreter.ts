@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as SessionsAPI from './sessions';
 import { SessionListResponse, Sessions } from './sessions';
+import { APIPromise } from '../../core/api-promise';
+import { RequestOptions } from '../../internal/request-options';
 
 export class CodeInterpreter extends APIResource {
   sessions: SessionsAPI.Sessions = new SessionsAPI.Sessions(this._client);
@@ -24,10 +25,7 @@ export class CodeInterpreter extends APIResource {
    *   });
    * ```
    */
-  execute(
-    body: CodeInterpreterExecuteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ExecuteResponse> {
+  execute(body: CodeInterpreterExecuteParams, options?: RequestOptions): APIPromise<ExecuteResponse> {
     return this._client.post('/tci/execute', { body, ...options });
   }
 }
