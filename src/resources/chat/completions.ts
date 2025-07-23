@@ -98,7 +98,7 @@ export namespace ChatCompletion {
   }
 
   export interface Warning {
-    message?: string;
+    message: string;
   }
 }
 
@@ -162,7 +162,7 @@ export namespace ChatCompletionChunk {
   }
 
   export interface Warning {
-    message?: string;
+    message: string;
   }
 }
 
