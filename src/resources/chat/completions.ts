@@ -57,7 +57,7 @@ export interface ChatCompletion {
 
   usage?: ChatCompletionUsage | null;
 
-  warnings?: Array<ChatCompletion.Warning>;
+  warnings?: ChatCompletionWarnings;
 }
 
 export namespace ChatCompletion {
@@ -100,10 +100,6 @@ export namespace ChatCompletionAssistantMessageParam {
 
     name: string;
   }
-
-  export interface Warning {
-    message: string;
-  }
 }
 
 export interface ChatCompletionChunk {
@@ -121,7 +117,7 @@ export interface ChatCompletionChunk {
 
   usage?: ChatCompletionUsage | null;
 
-  warnings?: Array<ChatCompletionChunk.Warning>;
+  warnings?: ChatCompletionWarnings;
 }
 
 export namespace ChatCompletionChunk {
@@ -163,10 +159,6 @@ export namespace ChatCompletionChunk {
         name: string;
       }
     }
-  }
-
-  export interface Warning {
-    message: string;
   }
 }
 
@@ -288,6 +280,14 @@ export interface ChatCompletionUsage {
   prompt_tokens: number;
 
   total_tokens: number;
+}
+
+export type ChatCompletionWarnings = Array<ChatCompletionWarnings.ChatCompletionWarningItem>;
+
+export namespace ChatCompletionWarnings {
+  export interface ChatCompletionWarningItem {
+    message: string;
+  }
 }
 
 export interface ChatCompletionUserMessageParam {
@@ -624,6 +624,7 @@ export declare namespace Completions {
     type ChatCompletionStructuredMessageText as ChatCompletionStructuredMessageText,
     type ChatCompletionStructuredMessageVideoURL as ChatCompletionStructuredMessageVideoURL,
     type ChatCompletionUsage as ChatCompletionUsage,
+    type ChatCompletionWarnings as ChatCompletionWarnings,
     type ChatCompletionUserMessageParam as ChatCompletionUserMessageParam,
     type CompletionCreateParams as CompletionCreateParams,
     type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
