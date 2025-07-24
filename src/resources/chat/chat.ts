@@ -17,7 +17,6 @@ import {
   ChatCompletionStructuredMessageVideoURL,
   ChatCompletionUsage,
   ChatCompletionUserMessageParam,
-  ChatCompletionWarnings,
   CompletionCreateParams,
   CompletionCreateParamsNonStreaming,
   CompletionCreateParamsStreaming,
