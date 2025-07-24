@@ -1,6 +1,6 @@
 {
   "pkg": "together-ai",
-  "githubRepo": "https://github.com/stainless-sdks/togetherai-typescript",
+  "githubRepo": "https://github.com/togethercomputer/together-typescript",
   "clientClass": "Together",
   "methods": []
 }
