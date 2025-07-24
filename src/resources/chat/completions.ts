@@ -56,8 +56,6 @@ export interface ChatCompletion {
   object: 'chat.completion';
 
   usage?: ChatCompletionUsage | null;
-
-  warnings?: ChatCompletionWarnings;
 }
 
 export namespace ChatCompletion {
@@ -120,8 +118,6 @@ export interface ChatCompletionChunk {
   system_fingerprint?: string;
 
   usage?: ChatCompletionUsage | null;
-
-  warnings?: ChatCompletionWarnings;
 }
 
 export namespace ChatCompletionChunk {
@@ -292,14 +288,6 @@ export interface ChatCompletionUserMessageParam {
   role: 'user';
 
   name?: string;
-}
-
-export type ChatCompletionWarnings = Array<ChatCompletionWarnings.ChatCompletionWarningItem>;
-
-export namespace ChatCompletionWarnings {
-  export interface ChatCompletionWarningItem {
-    message: string;
-  }
 }
 
 export type CompletionCreateParams = CompletionCreateParamsNonStreaming | CompletionCreateParamsStreaming;
@@ -628,7 +616,6 @@ export declare namespace Completions {
     type ChatCompletionStructuredMessageText as ChatCompletionStructuredMessageText,
     type ChatCompletionStructuredMessageVideoURL as ChatCompletionStructuredMessageVideoURL,
     type ChatCompletionUsage as ChatCompletionUsage,
-    type ChatCompletionWarnings as ChatCompletionWarnings,
     type CompletionCreateParams as CompletionCreateParams,
     type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
     type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming,
