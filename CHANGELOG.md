@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.21.0 (2025-07-24)
+
+Full Changelog: [v0.20.0...v0.21.0](https://github.com/togethercomputer/together-typescript/compare/v0.20.0...v0.21.0)
+
+### Features
+
+* **api:** api update ([628189f](https://github.com/togethercomputer/together-typescript/commit/628189f9e751e0ec8eeae733aecd210dbd901793))
+* **api:** api update ([ef03895](https://github.com/togethercomputer/together-typescript/commit/ef03895d2f6f299939c8bec0bb0c6da0543fb8f2))
+* **api:** api update ([35c3a4e](https://github.com/togethercomputer/together-typescript/commit/35c3a4e77ed9bab9708465a3d2da22519814fbc0))
+* **api:** api update ([03aed33](https://github.com/togethercomputer/together-typescript/commit/03aed3300c951b08ef446b099406ab2a5299ea6b))
+* **api:** manual updates ([96dff27](https://github.com/togethercomputer/together-typescript/commit/96dff2779d938435fed7ff05c10ceb585a9d7a97))
+* **api:** manual updates ([bdf705c](https://github.com/togethercomputer/together-typescript/commit/bdf705c5ee169120e7f44f7e5f18b2be38edf8c3))
+* **api:** Update stainless sdk ([9fb6846](https://github.com/togethercomputer/together-typescript/commit/9fb68467529945ccbc40c66a477815ac5a09545c))
+* **api:** Upgrade Stainless sdk ([8c6dc1c](https://github.com/togethercomputer/together-typescript/commit/8c6dc1c700964cb299da982b07e4b8ee7fbe1abb))
+
 ## 0.20.0 (2025-07-10)
 
 Full Changelog: [v0.19.0...v0.20.0](https://github.com/togethercomputer/together-typescript/compare/v0.19.0...v0.20.0)
