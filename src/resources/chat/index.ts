@@ -9,7 +9,6 @@ export {
   type ChatCompletionStructuredMessageText,
   type ChatCompletionStructuredMessageVideoURL,
   type ChatCompletionUsage,
-  type ChatCompletionWarnings,
   type CompletionCreateParams,
   type CompletionCreateParamsNonStreaming,
   type CompletionCreateParamsStreaming,
