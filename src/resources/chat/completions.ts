@@ -56,6 +56,8 @@ export interface ChatCompletion {
   object: 'chat.completion';
 
   usage?: ChatCompletionUsage | null;
+
+  warnings?: Array<ChatCompletion.Warning>;
 }
 
 export namespace ChatCompletion {
@@ -102,6 +104,10 @@ export namespace ChatCompletionAssistantMessageParam {
 
     name: string;
   }
+
+  export interface Warning {
+    message: string;
+  }
 }
 
 export interface ChatCompletionChunk {
@@ -118,6 +124,8 @@ export interface ChatCompletionChunk {
   system_fingerprint?: string;
 
   usage?: ChatCompletionUsage | null;
+
+  warnings?: Array<ChatCompletionChunk.Warning>;
 }
 
 export namespace ChatCompletionChunk {
@@ -159,6 +167,10 @@ export namespace ChatCompletionChunk {
         name: string;
       }
     }
+  }
+
+  export interface Warning {
+    message: string;
   }
 }
 
