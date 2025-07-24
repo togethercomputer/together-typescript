@@ -20,6 +20,7 @@ Types:
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionStructuredMessageText</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionStructuredMessageVideoURL</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionUsage</a></code>
+- <code><a href="./src/resources/chat/completions.ts">ChatCompletionWarning</a></code>
 
 Methods:
 
