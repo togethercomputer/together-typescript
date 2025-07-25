@@ -286,6 +286,14 @@ export interface ChatCompletionUsage {
   total_tokens: number;
 }
 
+export interface ChatCompletionUserMessageParam {
+  content: string;
+
+  role: 'user';
+
+  name?: string;
+}
+
 export interface ChatCompletionWarning {
   message: string;
 }
