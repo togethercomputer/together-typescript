@@ -51,10 +51,6 @@
     "typescript": "5.8.3",
     "typescript-eslint": "8.31.1"
   },
-  "imports": {
-    "together-ai": ".",
-    "together-ai/*": "./src/*"
-  },
   "bin": {
     "together-ai": "bin/cli"
   },
