@@ -381,6 +381,13 @@ export interface CompletionCreateParamsBase {
   presence_penalty?: number;
 
   /**
+   * Controls the level of reasoning effort the model should apply when generating
+   * responses. Higher values may result in more thoughtful and detailed responses
+   * but may take longer to generate.
+   */
+  reasoning_effort?: 'low' | 'medium' | 'high';
+
+  /**
    * A number that controls the diversity of generated text by reducing the
    * likelihood of repeated sequences. Higher values decrease repetition.
    */
