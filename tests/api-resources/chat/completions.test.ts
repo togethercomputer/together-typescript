@@ -36,6 +36,7 @@ describe('resource completions', () => {
       min_p: 0,
       n: 1,
       presence_penalty: 0,
+      reasoning_effort: 'medium',
       repetition_penalty: 0,
       response_format: { schema: { foo: 'bar' }, type: 'json' },
       safety_model: 'safety_model_name',
