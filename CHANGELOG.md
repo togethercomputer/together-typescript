@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.21.1 (2025-08-05)
+
+Full Changelog: [v0.21.0...v0.21.1](https://github.com/togethercomputer/together-typescript/compare/v0.21.0...v0.21.1)
+
+### Features
+
+* **api:** api update ([7a8227d](https://github.com/togethercomputer/together-typescript/commit/7a8227d9f8132aba245a8f3ac39eb29b4a806927))
+
+
+### Chores
+
+* **internal:** remove redundant imports config ([c3242da](https://github.com/togethercomputer/together-typescript/commit/c3242dada950b34db48e16c4dd2467c46a7facee))
+
 ## 0.21.0 (2025-07-24)
 
 Full Changelog: [v0.20.0...v0.21.0](https://github.com/togethercomputer/together-typescript/compare/v0.20.0...v0.21.0)
