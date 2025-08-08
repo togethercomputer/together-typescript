@@ -116,7 +116,7 @@ export interface TranscriptionCreateParams {
   /**
    * Audio file to transcribe
    */
-  file: Uploadable;
+  file: Uploadable | string;
 
   /**
    * Optional ISO 639-1 language code. If `auto` is provided, language is
