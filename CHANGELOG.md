@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.21.2 (2025-08-08)
+
+Full Changelog: [v0.21.1...v0.21.2](https://github.com/togethercomputer/together-typescript/compare/v0.21.1...v0.21.2)
+
+### Chores
+
+* **internal:** move publish config ([cba5eb9](https://github.com/togethercomputer/together-typescript/commit/cba5eb9ea43f5b89581eacbe08dc1d35ab990a74))
+* **internal:** update comment in script ([a8e5ba4](https://github.com/togethercomputer/together-typescript/commit/a8e5ba4a816caca0f8682fcf935a57b8c4ad7535))
+* update @stainless-api/prism-cli to v5.15.0 ([fc26a78](https://github.com/togethercomputer/together-typescript/commit/fc26a7810f72a483c1b385ac1729e9768e486af7))
+
 ## 0.21.1 (2025-08-05)
 
 Full Changelog: [v0.21.0...v0.21.1](https://github.com/togethercomputer/together-typescript/compare/v0.21.0...v0.21.1)
