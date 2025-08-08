@@ -115,7 +115,7 @@ export interface TranslationCreateParams {
   /**
    * Audio file to translate
    */
-  file: Uploadable;
+  file: Uploadable | string;
 
   /**
    * Target output language. Optional ISO 639-1 language code. If omitted, language
