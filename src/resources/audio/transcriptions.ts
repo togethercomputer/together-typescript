@@ -14,7 +14,10 @@ export class Transcriptions extends APIResource {
    * ```ts
    * const transcription =
    *   await client.audio.transcriptions.create({
-   *     file: fs.createReadStream('path/to/file'),
+   *     file: {
+   *       data: fs.createReadStream('path/to/file'),
+   *       type: 'binary',
+   *     },
    *   });
    * ```
    */
@@ -114,9 +117,10 @@ export namespace TranscriptionCreateResponse {
 
 export interface TranscriptionCreateParams {
   /**
-   * Audio file to transcribe
+   * Audio file upload or public HTTP/HTTPS URL. Supported formats .wav, .mp3, .m4a,
+   * .webm, .flac.
    */
-  file: Uploadable;
+  file: TranscriptionCreateParams.Binary | TranscriptionCreateParams.URL;
 
   /**
    * Optional ISO 639-1 language code. If `auto` is provided, language is
@@ -150,6 +154,26 @@ export interface TranscriptionCreateParams {
    * multiple levels.
    */
   timestamp_granularities?: 'segment' | 'word' | Array<'segment' | 'word'>;
+}
+
+export namespace TranscriptionCreateParams {
+  export interface Binary {
+    /**
+     * Audio file to transcribe
+     */
+    data: Uploadable;
+
+    type: 'binary';
+  }
+
+  export interface URL {
+    type: 'url';
+
+    /**
+     * Public HTTPS URL to audio file
+     */
+    url: string;
+  }
 }
 
 export declare namespace Transcriptions {
