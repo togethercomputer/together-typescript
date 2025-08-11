@@ -8,7 +8,7 @@ const client = new Together({
 });
 
 describe('resource sessions', () => {
-  // skipped: currently no good way to test endpoints defining callbacks, Prism mock server will fail trying to reach the provided callback url
+  // Prism doesn't support callbacks yet
   test.skip('list', async () => {
     const responsePromise = client.codeInterpreter.sessions.list();
     const rawResponse = await responsePromise.asResponse();
