@@ -139,6 +139,10 @@ export interface FineTune {
 
   from_checkpoint?: string;
 
+  from_hf_model?: string;
+
+  hf_model_revision?: string;
+
   job_id?: string;
 
   learning_rate?: number;
@@ -347,6 +351,16 @@ export interface FineTuneCreateResponse {
   from_checkpoint?: string;
 
   /**
+   * Hugging Face Hub repo to start training from
+   */
+  from_hf_model?: string;
+
+  /**
+   * The revision of the Hugging Face Hub model to continue training from
+   */
+  hf_model_revision?: string;
+
+  /**
    * Learning rate used for training
    */
   learning_rate?: number;
@@ -501,6 +515,16 @@ export namespace FineTuneListResponse {
     from_checkpoint?: string;
 
     /**
+     * Hugging Face Hub repo to start training from
+     */
+    from_hf_model?: string;
+
+    /**
+     * The revision of the Hugging Face Hub model to continue training from
+     */
+    hf_model_revision?: string;
+
+    /**
      * Learning rate used for training
      */
     learning_rate?: number;
@@ -649,6 +673,16 @@ export interface FineTuneCancelResponse {
    * Checkpoint used to continue training
    */
   from_checkpoint?: string;
+
+  /**
+   * Hugging Face Hub repo to start training from
+   */
+  from_hf_model?: string;
+
+  /**
+   * The revision of the Hugging Face Hub model to continue training from
+   */
+  hf_model_revision?: string;
 
   /**
    * Learning rate used for training
@@ -812,9 +846,23 @@ export interface FineTuneCreateParams {
   from_checkpoint?: string;
 
   /**
+   * The Hugging Face Hub repo to start training from. Should be as close as possible
+   * to the base model (specified by the `model` argument) in terms of architecture
+   * and size.
+   */
+  from_hf_model?: string;
+
+  /**
    * The API token for the Hugging Face Hub.
    */
   hf_api_token?: string;
+
+  /**
+   * The revision of the Hugging Face Hub model to continue training from. E.g.,
+   * hf_model_revision=main (default, used if the argument is not provided) or
+   * hf_model_revision='607a30d783dfa663caf39e06633721c8d4cfcd7e' (specific commit).
+   */
+  hf_model_revision?: string;
 
   /**
    * The name of the Hugging Face repository to upload the fine-tuned model to.
