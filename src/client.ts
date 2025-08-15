@@ -829,6 +829,7 @@ export class Together {
   hardware: API.Hardware = new API.Hardware(this);
   batches: API.Batches = new API.Batches(this);
 }
+
 Together.Chat = Chat;
 Together.Completions = Completions;
 Together.Embeddings = Embeddings;
@@ -842,6 +843,7 @@ Together.Jobs = Jobs;
 Together.Endpoints = Endpoints;
 Together.Hardware = Hardware;
 Together.Batches = Batches;
+
 export declare namespace Together {
   export type RequestOptions = Opts.RequestOptions;
 
