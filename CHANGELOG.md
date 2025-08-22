@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.23.0 (2025-08-22)
+
+Full Changelog: [v0.22.0...v0.23.0](https://github.com/togethercomputer/together-typescript/compare/v0.22.0...v0.23.0)
+
+### Features
+
+* **mcp:** add code execution tool ([64ee6f0](https://github.com/togethercomputer/together-typescript/commit/64ee6f07840770cdd2ea842329ebddb8a629837f))
+
+
+### Chores
+
+* add package to package.json ([75e2a68](https://github.com/togethercomputer/together-typescript/commit/75e2a682d46a3087b8b6e0f22047faf1ce4f5a43))
+* **client:** qualify global Blob ([285d956](https://github.com/togethercomputer/together-typescript/commit/285d95638e1787ac2ef6d06e8697aa9fcdb5a7ea))
+* **deps:** update dependency @types/node to v20.17.58 ([f60e29d](https://github.com/togethercomputer/together-typescript/commit/f60e29d3b73d88633b1534dc7236d085f2e5a0f7))
+* **internal:** formatting change ([dac3480](https://github.com/togethercomputer/together-typescript/commit/dac3480d3d48ba31edda9833f8d8e2856ebe38a6))
+* update CI script ([a410b4d](https://github.com/togethercomputer/together-typescript/commit/a410b4d0865dac5ec0c4cf63b73dbee5e5b409af))
+
 ## 0.22.0 (2025-08-13)
 
 Full Changelog: [v0.21.1...v0.22.0](https://github.com/togethercomputer/together-typescript/compare/v0.21.1...v0.22.0)
