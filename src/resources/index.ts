@@ -45,6 +45,23 @@ export {
   type EndpointListParams,
 } from './endpoints';
 export {
+  Evaluation,
+  type EvaluationJudgeModelConfig,
+  type EvaluationModelRequest,
+  type EvaluationCreateResponse,
+  type EvaluationRetrieveResponse,
+  type EvaluationGetStatusResponse,
+  type EvaluationUpdateStatusResponse,
+  type EvaluationCreateParams,
+  type EvaluationUpdateStatusParams,
+} from './evaluation';
+export {
+  Evaluations,
+  type EvaluationListResponse,
+  type EvaluationGetAllowedModelsResponse,
+  type EvaluationListParams,
+} from './evaluations';
+export {
   Files,
   type FileObject,
   type FilePurpose,

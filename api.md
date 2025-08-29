@@ -228,3 +228,33 @@ Methods:
 - <code title="post /batches">client.batches.<a href="./src/resources/batches.ts">create</a>({ ...params }) -> BatchCreateResponse</code>
 - <code title="get /batches/{id}">client.batches.<a href="./src/resources/batches.ts">retrieve</a>(id) -> BatchRetrieveResponse</code>
 - <code title="get /batches">client.batches.<a href="./src/resources/batches.ts">list</a>() -> BatchListResponse</code>
+
+# Evaluation
+
+Types:
+
+- <code><a href="./src/resources/evaluation.ts">EvaluationJudgeModelConfig</a></code>
+- <code><a href="./src/resources/evaluation.ts">EvaluationModelRequest</a></code>
+- <code><a href="./src/resources/evaluation.ts">EvaluationCreateResponse</a></code>
+- <code><a href="./src/resources/evaluation.ts">EvaluationRetrieveResponse</a></code>
+- <code><a href="./src/resources/evaluation.ts">EvaluationGetStatusResponse</a></code>
+- <code><a href="./src/resources/evaluation.ts">EvaluationUpdateStatusResponse</a></code>
+
+Methods:
+
+- <code title="post /evaluation">client.evaluation.<a href="./src/resources/evaluation.ts">create</a>({ ...params }) -> EvaluationCreateResponse</code>
+- <code title="get /evaluation/{id}">client.evaluation.<a href="./src/resources/evaluation.ts">retrieve</a>(id) -> EvaluationRetrieveResponse</code>
+- <code title="get /evaluation/{id}/status">client.evaluation.<a href="./src/resources/evaluation.ts">getStatus</a>(id) -> EvaluationGetStatusResponse</code>
+- <code title="post /evaluation/{id}/update">client.evaluation.<a href="./src/resources/evaluation.ts">updateStatus</a>(id, { ...params }) -> EvaluationUpdateStatusResponse</code>
+
+# Evaluations
+
+Types:
+
+- <code><a href="./src/resources/evaluations.ts">EvaluationListResponse</a></code>
+- <code><a href="./src/resources/evaluations.ts">EvaluationGetAllowedModelsResponse</a></code>
+
+Methods:
+
+- <code title="get /evaluations">client.evaluations.<a href="./src/resources/evaluations.ts">list</a>({ ...params }) -> EvaluationListResponse</code>
+- <code title="get /evaluations/model-list">client.evaluations.<a href="./src/resources/evaluations.ts">getAllowedModels</a>() -> EvaluationGetAllowedModelsResponse</code>
