@@ -49,6 +49,23 @@ import {
   Endpoints,
 } from './resources/endpoints';
 import {
+  Evaluation,
+  EvaluationCreateParams,
+  EvaluationCreateResponse,
+  EvaluationGetStatusResponse,
+  EvaluationJudgeModelConfig,
+  EvaluationModelRequest,
+  EvaluationRetrieveResponse,
+  EvaluationUpdateStatusParams,
+  EvaluationUpdateStatusResponse,
+} from './resources/evaluation';
+import {
+  EvaluationGetAllowedModelsResponse,
+  EvaluationListParams,
+  EvaluationListResponse,
+  Evaluations,
+} from './resources/evaluations';
+import {
   FileDeleteResponse,
   FileListResponse,
   FileObject,
@@ -828,6 +845,8 @@ export class Together {
   endpoints: API.Endpoints = new API.Endpoints(this);
   hardware: API.Hardware = new API.Hardware(this);
   batches: API.Batches = new API.Batches(this);
+  evaluation: API.Evaluation = new API.Evaluation(this);
+  evaluations: API.Evaluations = new API.Evaluations(this);
 }
 
 Together.Chat = Chat;
@@ -843,6 +862,8 @@ Together.Jobs = Jobs;
 Together.Endpoints = Endpoints;
 Together.Hardware = Hardware;
 Together.Batches = Batches;
+Together.Evaluation = Evaluation;
+Together.Evaluations = Evaluations;
 
 export declare namespace Together {
   export type RequestOptions = Opts.RequestOptions;
@@ -962,5 +983,24 @@ export declare namespace Together {
     type BatchRetrieveResponse as BatchRetrieveResponse,
     type BatchListResponse as BatchListResponse,
     type BatchCreateParams as BatchCreateParams,
+  };
+
+  export {
+    Evaluation as Evaluation,
+    type EvaluationJudgeModelConfig as EvaluationJudgeModelConfig,
+    type EvaluationModelRequest as EvaluationModelRequest,
+    type EvaluationCreateResponse as EvaluationCreateResponse,
+    type EvaluationRetrieveResponse as EvaluationRetrieveResponse,
+    type EvaluationGetStatusResponse as EvaluationGetStatusResponse,
+    type EvaluationUpdateStatusResponse as EvaluationUpdateStatusResponse,
+    type EvaluationCreateParams as EvaluationCreateParams,
+    type EvaluationUpdateStatusParams as EvaluationUpdateStatusParams,
+  };
+
+  export {
+    Evaluations as Evaluations,
+    type EvaluationListResponse as EvaluationListResponse,
+    type EvaluationGetAllowedModelsResponse as EvaluationGetAllowedModelsResponse,
+    type EvaluationListParams as EvaluationListParams,
   };
 }

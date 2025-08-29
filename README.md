@@ -28,7 +28,7 @@ const client = new Together({
 
 const chatCompletion = await client.chat.completions.create({
   messages: [{ role: 'user', content: 'Say this is a test!' }],
-  model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+  model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
 });
 
 console.log(chatCompletion.choices);
@@ -45,7 +45,7 @@ const client = new Together();
 
 const stream = await client.chat.completions.create({
   messages: [{ role: 'user', content: 'Say this is a test' }],
-  model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+  model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
   stream: true,
 });
 for await (const chatCompletionChunk of stream) {
@@ -70,7 +70,7 @@ const client = new Together({
 
 const params: Together.Chat.CompletionCreateParams = {
   messages: [{ role: 'user', content: 'Say this is a test' }],
-  model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+  model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
 };
 const chatCompletion: Together.Chat.ChatCompletion = await client.chat.completions.create(params);
 ```
@@ -137,7 +137,7 @@ a subclass of `APIError` will be thrown:
 const chatCompletion = await client.chat.completions
   .create({
     messages: [{ role: 'user', content: 'Say this is a test' }],
-    model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
   })
   .catch(async (err) => {
     if (err instanceof Together.APIError) {
@@ -179,7 +179,7 @@ const client = new Together({
 });
 
 // Or, configure per-request:
-await client.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'mistralai/Mixtral-8x7B-Instruct-v0.1' }, {
+await client.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo' }, {
   maxRetries: 5,
 });
 ```
@@ -196,7 +196,7 @@ const client = new Together({
 });
 
 // Override per-request:
-await client.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'mistralai/Mixtral-8x7B-Instruct-v0.1' }, {
+await client.chat.completions.create({ messages: [{ role: 'user', content: 'Say this is a test' }], model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -222,7 +222,7 @@ const client = new Together();
 const response = await client.chat.completions
   .create({
     messages: [{ role: 'user', content: 'Say this is a test' }],
-    model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
   })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
@@ -231,7 +231,7 @@ console.log(response.statusText); // access the underlying Response object
 const { data: chatCompletion, response: raw } = await client.chat.completions
   .create({
     messages: [{ role: 'user', content: 'Say this is a test' }],
-    model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
