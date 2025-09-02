@@ -141,7 +141,7 @@ export interface EvaluationRetrieveResponse {
   /**
    * The parameters used for this evaluation
    */
-  parameters?: unknown;
+  parameters?: { [key: string]: unknown };
 
   /**
    * Results of the evaluation (when completed)
@@ -213,10 +213,7 @@ export namespace EvaluationRetrieveResponse {
   }
 
   export interface EvaluationScoreResults {
-    /**
-     * Aggregated score statistics
-     */
-    aggregated_scores?: unknown;
+    aggregated_scores?: EvaluationScoreResults.AggregatedScores;
 
     /**
      * number of failed samples generated from model
@@ -242,6 +239,16 @@ export namespace EvaluationRetrieveResponse {
      * Data File ID
      */
     result_file_id?: string;
+  }
+
+  export namespace EvaluationScoreResults {
+    export interface AggregatedScores {
+      mean_score?: number;
+
+      pass_percentage?: number;
+
+      std_score?: number;
+    }
   }
 
   export interface EvaluationCompareResults {
@@ -348,10 +355,7 @@ export namespace EvaluationGetStatusResponse {
   }
 
   export interface EvaluationScoreResults {
-    /**
-     * Aggregated score statistics
-     */
-    aggregated_scores?: unknown;
+    aggregated_scores?: EvaluationScoreResults.AggregatedScores;
 
     /**
      * number of failed samples generated from model
@@ -377,6 +381,16 @@ export namespace EvaluationGetStatusResponse {
      * Data File ID
      */
     result_file_id?: string;
+  }
+
+  export namespace EvaluationScoreResults {
+    export interface AggregatedScores {
+      mean_score?: number;
+
+      pass_percentage?: number;
+
+      std_score?: number;
+    }
   }
 
   export interface EvaluationCompareResults {
@@ -527,10 +541,120 @@ export interface EvaluationUpdateStatusParams {
    */
   error?: string;
 
-  /**
-   * Job results (required when status is 'completed')
-   */
-  results?: unknown;
+  results?:
+    | EvaluationUpdateStatusParams.EvaluationClassifyResults
+    | EvaluationUpdateStatusParams.EvaluationScoreResults
+    | EvaluationUpdateStatusParams.EvaluationCompareResults;
+}
+
+export namespace EvaluationUpdateStatusParams {
+  export interface EvaluationClassifyResults {
+    /**
+     * Number of failed generations.
+     */
+    generation_fail_count?: number | null;
+
+    /**
+     * Number of invalid labels
+     */
+    invalid_label_count?: number | null;
+
+    /**
+     * Number of failed judge generations
+     */
+    judge_fail_count?: number | null;
+
+    /**
+     * JSON string representing label counts
+     */
+    label_counts?: string;
+
+    /**
+     * Pecentage of pass labels.
+     */
+    pass_percentage?: number | null;
+
+    /**
+     * Data File ID
+     */
+    result_file_id?: string;
+  }
+
+  export interface EvaluationScoreResults {
+    aggregated_scores?: EvaluationScoreResults.AggregatedScores;
+
+    /**
+     * number of failed samples generated from model
+     */
+    failed_samples?: number;
+
+    /**
+     * Number of failed generations.
+     */
+    generation_fail_count?: number | null;
+
+    /**
+     * number of invalid scores generated from model
+     */
+    invalid_score_count?: number;
+
+    /**
+     * Number of failed judge generations
+     */
+    judge_fail_count?: number | null;
+
+    /**
+     * Data File ID
+     */
+    result_file_id?: string;
+  }
+
+  export namespace EvaluationScoreResults {
+    export interface AggregatedScores {
+      mean_score?: number;
+
+      pass_percentage?: number;
+
+      std_score?: number;
+    }
+  }
+
+  export interface EvaluationCompareResults {
+    /**
+     * Number of times model A won
+     */
+    A_wins?: number;
+
+    /**
+     * Number of times model B won
+     */
+    B_wins?: number;
+
+    /**
+     * Number of failed generations.
+     */
+    generation_fail_count?: number | null;
+
+    /**
+     * Number of failed judge generations
+     */
+    judge_fail_count?: number | null;
+
+    /**
+     * Total number of samples compared
+     */
+    num_samples?: number;
+
+    /**
+     * Data File ID
+     */
+    result_file_id?: string;
+
+    /**
+     * Number of ties
+     */
+    Ties?: number;
+  }
 }
 
 export declare namespace Evaluation {

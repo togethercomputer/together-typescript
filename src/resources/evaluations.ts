@@ -40,7 +40,7 @@ export namespace EvaluationListResponse {
     /**
      * The parameters used for this evaluation
      */
-    parameters?: unknown;
+    parameters?: { [key: string]: unknown };
 
     /**
      * Results of the evaluation (when completed)
@@ -112,10 +112,7 @@ export namespace EvaluationListResponse {
     }
 
     export interface EvaluationScoreResults {
-      /**
-       * Aggregated score statistics
-       */
-      aggregated_scores?: unknown;
+      aggregated_scores?: EvaluationScoreResults.AggregatedScores;
 
       /**
        * number of failed samples generated from model
@@ -141,6 +138,16 @@ export namespace EvaluationListResponse {
        * Data File ID
        */
       result_file_id?: string;
+    }
+
+    export namespace EvaluationScoreResults {
+      export interface AggregatedScores {
+        mean_score?: number;
+
+        pass_percentage?: number;
+
+        std_score?: number;
+      }
     }
 
     export interface EvaluationCompareResults {
