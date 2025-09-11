@@ -166,7 +166,6 @@ export class ChatCompletionStream
       }
 
       if (logprobs) {
-        console.log({ logprobs });
         if (!choice.logprobs) {
           choice.logprobs = { token_ids: [], token_logprobs: [], tokens: [] };
         }
