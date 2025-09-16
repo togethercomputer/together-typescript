@@ -82,6 +82,8 @@ export namespace ChatCompletion {
        */
       function_call?: Message.FunctionCall;
 
+      reasoning?: string | null;
+
       tool_calls?: Array<CompletionsAPI.ToolChoice>;
     }
 
