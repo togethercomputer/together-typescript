@@ -85,6 +85,7 @@ export interface ChatCompletionAssistantMessageParam {
 
   content?: string | null;
 
+  reasoning?: string | null;
   /**
    * @deprecated
    */
