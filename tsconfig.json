@@ -7,10 +7,9 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "baseUrl": "./",
     "paths": {
-      "together-ai/*": ["src/*"],
-      "together-ai": ["src/index.ts"]
+      "together-ai/*": ["./src/*"],
+      "together-ai": ["./src/index.ts"]
     },
     "noEmit": true,
 
