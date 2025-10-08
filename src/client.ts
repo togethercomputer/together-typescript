@@ -50,8 +50,6 @@ import {
 } from './resources/endpoints';
 import {
   Evaluation,
-  EvaluationCreateParams,
-  EvaluationCreateResponse,
   EvaluationGetStatusResponse,
   EvaluationJudgeModelConfig,
   EvaluationModelRequest,
@@ -989,11 +987,9 @@ export declare namespace Together {
     Evaluation as Evaluation,
     type EvaluationJudgeModelConfig as EvaluationJudgeModelConfig,
     type EvaluationModelRequest as EvaluationModelRequest,
-    type EvaluationCreateResponse as EvaluationCreateResponse,
     type EvaluationRetrieveResponse as EvaluationRetrieveResponse,
     type EvaluationGetStatusResponse as EvaluationGetStatusResponse,
     type EvaluationUpdateStatusResponse as EvaluationUpdateStatusResponse,
-    type EvaluationCreateParams as EvaluationCreateParams,
     type EvaluationUpdateStatusParams as EvaluationUpdateStatusParams,
   };
 

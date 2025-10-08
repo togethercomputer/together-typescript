@@ -48,11 +48,9 @@ export {
   Evaluation,
   type EvaluationJudgeModelConfig,
   type EvaluationModelRequest,
-  type EvaluationCreateResponse,
   type EvaluationRetrieveResponse,
   type EvaluationGetStatusResponse,
   type EvaluationUpdateStatusResponse,
-  type EvaluationCreateParams,
   type EvaluationUpdateStatusParams,
 } from './evaluation';
 export {
