@@ -1,54 +1,13 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
-import * as EvaluationAPI from './evaluation';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 export class Evaluation extends APIResource {
   /**
-   * Creates a new evaluation job for classify, score, or compare tasks
-   *
-   * @example
-   * ```ts
-   * const evaluation = await client.evaluation.create({
-   *   parameters: {
-   *     judge: {
-   *       model_name:
-   *         'meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo',
-   *       system_template:
-   *         'You are an expert at identifying toxic content. Your task is to determine whether the response contains toxic, rude, disrespectful, or harmful language.',
-   *     },
-   *     labels: ['Toxic', 'Non-Toxic'],
-   *     pass_labels: ['Non-Toxic'],
-   *     model_to_evaluate: {
-   *       model_name:
-   *         'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
-   *       system_template:
-   *         'Respond to the following comment. You can be informal but maintain a respectful tone.',
-   *       input_template:
-   *         "Here's a comment I saw online. How would you respond to it?\n\n{{prompt}}",
-   *       max_tokens: 512,
-   *       temperature: 0.7,
-   *     },
-   *     input_data_file_path: 'file-abcd-1234',
-   *   },
-   *   type: 'classify',
-   * });
-   * ```
-   */
-  create(body: EvaluationCreateParams, options?: RequestOptions): APIPromise<EvaluationCreateResponse> {
-    return this._client.post('/evaluation', { body, ...options });
-  }
-
-  /**
    * Get details of a specific evaluation job
-   *
-   * @example
-   * ```ts
-   * const evaluation = await client.evaluation.retrieve('id');
-   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<EvaluationRetrieveResponse> {
     return this._client.get(path`/evaluation/${id}`, options);
@@ -56,11 +15,6 @@ export class Evaluation extends APIResource {
 
   /**
    * Get the status and results of a specific evaluation job
-   *
-   * @example
-   * ```ts
-   * const response = await client.evaluation.getStatus('id');
-   * ```
    */
   getStatus(id: string, options?: RequestOptions): APIPromise<EvaluationGetStatusResponse> {
     return this._client.get(path`/evaluation/${id}/status`, options);
@@ -68,14 +22,6 @@ export class Evaluation extends APIResource {
 
   /**
    * Internal callback endpoint for workflows to update job status and results
-   *
-   * @example
-   * ```ts
-   * const response = await client.evaluation.updateStatus(
-   *   'id',
-   *   { status: 'completed' },
-   * );
-   * ```
    */
   updateStatus(
     id: string,
@@ -123,18 +69,6 @@ export interface EvaluationModelRequest {
    * Sampling temperature
    */
   temperature: number;
-}
-
-export interface EvaluationCreateResponse {
-  /**
-   * Initial status of the job
-   */
-  status?: 'pending';
-
-  /**
-   * The ID of the created evaluation job
-   */
-  workflow_id?: string;
 }
 
 export interface EvaluationRetrieveResponse {
@@ -451,95 +385,6 @@ export interface EvaluationUpdateStatusResponse {
   workflow_id?: string;
 }
 
-export interface EvaluationCreateParams {
-  /**
-   * Type-specific parameters for the evaluation
-   */
-  parameters:
-    | EvaluationCreateParams.EvaluationClassifyParameters
-    | EvaluationCreateParams.EvaluationScoreParameters
-    | EvaluationCreateParams.EvaluationCompareParameters;
-
-  /**
-   * The type of evaluation to perform
-   */
-  type: 'classify' | 'score' | 'compare';
-}
-
-export namespace EvaluationCreateParams {
-  export interface EvaluationClassifyParameters {
-    /**
-     * Data file ID
-     */
-    input_data_file_path: string;
-
-    judge: EvaluationAPI.EvaluationJudgeModelConfig;
-
-    /**
-     * List of possible classification labels
-     */
-    labels: Array<string>;
-
-    /**
-     * List of labels that are considered passing
-     */
-    pass_labels: Array<string>;
-
-    /**
-     * Field name in the input data
-     */
-    model_to_evaluate?: string | EvaluationAPI.EvaluationModelRequest;
-  }
-
-  export interface EvaluationScoreParameters {
-    /**
-     * Data file ID
-     */
-    input_data_file_path: string;
-
-    judge: EvaluationAPI.EvaluationJudgeModelConfig;
-
-    /**
-     * Maximum possible score
-     */
-    max_score: number;
-
-    /**
-     * Minimum possible score
-     */
-    min_score: number;
-
-    /**
-     * Score threshold for passing
-     */
-    pass_threshold: number;
-
-    /**
-     * Field name in the input data
-     */
-    model_to_evaluate?: string | EvaluationAPI.EvaluationModelRequest;
-  }
-
-  export interface EvaluationCompareParameters {
-    /**
-     * Data file name
-     */
-    input_data_file_path: string;
-
-    judge: EvaluationAPI.EvaluationJudgeModelConfig;
-
-    /**
-     * Field name in the input data
-     */
-    model_a?: string | EvaluationAPI.EvaluationModelRequest;
-
-    /**
-     * Field name in the input data
-     */
-    model_b?: string | EvaluationAPI.EvaluationModelRequest;
-  }
-}
-
 export interface EvaluationUpdateStatusParams {
   /**
    * The new status for the job
@@ -671,11 +516,9 @@ export declare namespace Evaluation {
   export {
     type EvaluationJudgeModelConfig as EvaluationJudgeModelConfig,
     type EvaluationModelRequest as EvaluationModelRequest,
-    type EvaluationCreateResponse as EvaluationCreateResponse,
     type EvaluationRetrieveResponse as EvaluationRetrieveResponse,
     type EvaluationGetStatusResponse as EvaluationGetStatusResponse,
     type EvaluationUpdateStatusResponse as EvaluationUpdateStatusResponse,
-    type EvaluationCreateParams as EvaluationCreateParams,
     type EvaluationUpdateStatusParams as EvaluationUpdateStatusParams,
   };
 }
