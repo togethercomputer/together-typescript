@@ -54,8 +54,6 @@ import {
   EvaluationJudgeModelConfig,
   EvaluationModelRequest,
   EvaluationRetrieveResponse,
-  EvaluationUpdateStatusParams,
-  EvaluationUpdateStatusResponse,
 } from './resources/evaluation';
 import {
   EvaluationGetAllowedModelsResponse,
@@ -989,8 +987,6 @@ export declare namespace Together {
     type EvaluationModelRequest as EvaluationModelRequest,
     type EvaluationRetrieveResponse as EvaluationRetrieveResponse,
     type EvaluationGetStatusResponse as EvaluationGetStatusResponse,
-    type EvaluationUpdateStatusResponse as EvaluationUpdateStatusResponse,
-    type EvaluationUpdateStatusParams as EvaluationUpdateStatusParams,
   };
 
   export {

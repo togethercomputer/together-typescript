@@ -29,30 +29,4 @@ describe('resource evaluation', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-
-  test('updateStatus: only required params', async () => {
-    const responsePromise = client.evaluation.updateStatus('id', { status: 'completed' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('updateStatus: required and optional params', async () => {
-    const response = await client.evaluation.updateStatus('id', {
-      status: 'completed',
-      error: 'error',
-      results: {
-        generation_fail_count: 0,
-        invalid_label_count: 0,
-        judge_fail_count: 0,
-        label_counts: '{"yes": 10, "no": 0}',
-        pass_percentage: 10,
-        result_file_id: 'file-1234-aefd',
-      },
-    });
-  });
 });
