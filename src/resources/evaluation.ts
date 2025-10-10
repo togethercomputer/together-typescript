@@ -19,17 +19,6 @@ export class Evaluation extends APIResource {
   getStatus(id: string, options?: RequestOptions): APIPromise<EvaluationGetStatusResponse> {
     return this._client.get(path`/evaluation/${id}/status`, options);
   }
-
-  /**
-   * Internal callback endpoint for workflows to update job status and results
-   */
-  updateStatus(
-    id: string,
-    body: EvaluationUpdateStatusParams,
-    options?: RequestOptions,
-  ): APIPromise<EvaluationUpdateStatusResponse> {
-    return this._client.post(path`/evaluation/${id}/update`, { body, ...options });
-  }
 }
 
 export interface EvaluationJudgeModelConfig {
@@ -379,146 +368,11 @@ export namespace EvaluationGetStatusResponse {
   }
 }
 
-export interface EvaluationUpdateStatusResponse {
-  status?: string;
-
-  workflow_id?: string;
-}
-
-export interface EvaluationUpdateStatusParams {
-  /**
-   * The new status for the job
-   */
-  status: 'completed' | 'error' | 'running' | 'queued' | 'user_error' | 'inference_error';
-
-  /**
-   * Error message
-   */
-  error?: string;
-
-  results?:
-    | EvaluationUpdateStatusParams.EvaluationClassifyResults
-    | EvaluationUpdateStatusParams.EvaluationScoreResults
-    | EvaluationUpdateStatusParams.EvaluationCompareResults;
-}
-
-export namespace EvaluationUpdateStatusParams {
-  export interface EvaluationClassifyResults {
-    /**
-     * Number of failed generations.
-     */
-    generation_fail_count?: number | null;
-
-    /**
-     * Number of invalid labels
-     */
-    invalid_label_count?: number | null;
-
-    /**
-     * Number of failed judge generations
-     */
-    judge_fail_count?: number | null;
-
-    /**
-     * JSON string representing label counts
-     */
-    label_counts?: string;
-
-    /**
-     * Pecentage of pass labels.
-     */
-    pass_percentage?: number | null;
-
-    /**
-     * Data File ID
-     */
-    result_file_id?: string;
-  }
-
-  export interface EvaluationScoreResults {
-    aggregated_scores?: EvaluationScoreResults.AggregatedScores;
-
-    /**
-     * number of failed samples generated from model
-     */
-    failed_samples?: number;
-
-    /**
-     * Number of failed generations.
-     */
-    generation_fail_count?: number | null;
-
-    /**
-     * number of invalid scores generated from model
-     */
-    invalid_score_count?: number;
-
-    /**
-     * Number of failed judge generations
-     */
-    judge_fail_count?: number | null;
-
-    /**
-     * Data File ID
-     */
-    result_file_id?: string;
-  }
-
-  export namespace EvaluationScoreResults {
-    export interface AggregatedScores {
-      mean_score?: number;
-
-      pass_percentage?: number;
-
-      std_score?: number;
-    }
-  }
-
-  export interface EvaluationCompareResults {
-    /**
-     * Number of times model A won
-     */
-    A_wins?: number;
-
-    /**
-     * Number of times model B won
-     */
-    B_wins?: number;
-
-    /**
-     * Number of failed generations.
-     */
-    generation_fail_count?: number | null;
-
-    /**
-     * Number of failed judge generations
-     */
-    judge_fail_count?: number | null;
-
-    /**
-     * Total number of samples compared
-     */
-    num_samples?: number;
-
-    /**
-     * Data File ID
-     */
-    result_file_id?: string;
-
-    /**
-     * Number of ties
-     */
-    Ties?: number;
-  }
-}
-
 export declare namespace Evaluation {
   export {
     type EvaluationJudgeModelConfig as EvaluationJudgeModelConfig,
     type EvaluationModelRequest as EvaluationModelRequest,
     type EvaluationRetrieveResponse as EvaluationRetrieveResponse,
     type EvaluationGetStatusResponse as EvaluationGetStatusResponse,
-    type EvaluationUpdateStatusResponse as EvaluationUpdateStatusResponse,
-    type EvaluationUpdateStatusParams as EvaluationUpdateStatusParams,
   };
 }

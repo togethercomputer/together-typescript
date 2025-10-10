@@ -244,13 +244,11 @@ Types:
 - <code><a href="./src/resources/evaluation.ts">EvaluationModelRequest</a></code>
 - <code><a href="./src/resources/evaluation.ts">EvaluationRetrieveResponse</a></code>
 - <code><a href="./src/resources/evaluation.ts">EvaluationGetStatusResponse</a></code>
-- <code><a href="./src/resources/evaluation.ts">EvaluationUpdateStatusResponse</a></code>
 
 Methods:
 
 - <code title="get /evaluation/{id}">client.evaluation.<a href="./src/resources/evaluation.ts">retrieve</a>(id) -> EvaluationRetrieveResponse</code>
 - <code title="get /evaluation/{id}/status">client.evaluation.<a href="./src/resources/evaluation.ts">getStatus</a>(id) -> EvaluationGetStatusResponse</code>
-- <code title="post /evaluation/{id}/update">client.evaluation.<a href="./src/resources/evaluation.ts">updateStatus</a>(id, { ...params }) -> EvaluationUpdateStatusResponse</code>
 
 # Evaluations
 

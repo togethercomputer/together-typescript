@@ -50,8 +50,6 @@ export {
   type EvaluationModelRequest,
   type EvaluationRetrieveResponse,
   type EvaluationGetStatusResponse,
-  type EvaluationUpdateStatusResponse,
-  type EvaluationUpdateStatusParams,
 } from './evaluation';
 export {
   Evaluations,
