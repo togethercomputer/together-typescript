@@ -1,5 +1,48 @@
 # Changelog
 
+## 0.23.0 (2025-10-10)
+
+Full Changelog: [v0.22.0...v0.23.0](https://github.com/togethercomputer/together-typescript/compare/v0.22.0...v0.23.0)
+
+### Features
+
+* **api:** add evals api to config ([ce742fc](https://github.com/togethercomputer/together-typescript/commit/ce742fcb4a95e99fa2c4e9f5c479e294d8dbfc98))
+* **api:** api update ([24e7fc8](https://github.com/togethercomputer/together-typescript/commit/24e7fc8228a835369895d809f3690173d06091a6))
+* **api:** api update ([437cce9](https://github.com/togethercomputer/together-typescript/commit/437cce9feb367ba4073ea619594a64ee1e2dfeed))
+* **api:** api update ([b4c3c0a](https://github.com/togethercomputer/together-typescript/commit/b4c3c0a49f56f2e50e4d9d7e87a0a1db598a56ac))
+* **api:** api update ([9a5bfb7](https://github.com/togethercomputer/together-typescript/commit/9a5bfb7d5eabb6f89d8981d46b50061baef28c51))
+* **api:** api update ([915a226](https://github.com/togethercomputer/together-typescript/commit/915a226ad75264493a4e67917215a02fb3bae907))
+* **mcp:** add code execution tool ([c768bb9](https://github.com/togethercomputer/together-typescript/commit/c768bb9a09001ef9955a3c899e4cfc2d588350f2))
+
+
+### Bug Fixes
+
+* coerce nullable values to undefined ([f6c7e43](https://github.com/togethercomputer/together-typescript/commit/f6c7e4344493e694fc9752ff48cb976633ead25b))
+
+
+### Performance Improvements
+
+* faster formatting ([c25ec03](https://github.com/togethercomputer/together-typescript/commit/c25ec03731097381b0a9584a94ff4fa6073fe6cc))
+
+
+### Chores
+
+* add package to package.json ([72025f2](https://github.com/togethercomputer/together-typescript/commit/72025f28d2156a530f5ad3c41723ee3cc8706426))
+* ci build action ([0f37b32](https://github.com/togethercomputer/together-typescript/commit/0f37b32dbee4ad5a5f19a6bb894f92cb2f5c36f4))
+* **client:** qualify global Blob ([a9f7b6f](https://github.com/togethercomputer/together-typescript/commit/a9f7b6f6b5634630ea1978a5e362e627df8825ca))
+* **deps:** update dependency @types/node to v20.17.58 ([f1839e8](https://github.com/togethercomputer/together-typescript/commit/f1839e85f502ad68c680556340d240dab3b28bd9))
+* do not install brew dependencies in ./scripts/bootstrap by default ([1050534](https://github.com/togethercomputer/together-typescript/commit/1050534f4ed0420d6aaa2598211f6f505169f5f0))
+* **internal:** codegen related update ([0ca46c4](https://github.com/togethercomputer/together-typescript/commit/0ca46c46bd358a67847f46d013f519aa3ee91325))
+* **internal:** fix incremental formatting in some cases ([5a42924](https://github.com/togethercomputer/together-typescript/commit/5a429243535a917a619c682f0e9e181f47b00e25))
+* **internal:** formatting change ([0282025](https://github.com/togethercomputer/together-typescript/commit/02820255f3c707f9170d987cefb2a74124aabad3))
+* **internal:** ignore .eslintcache ([5752a33](https://github.com/togethercomputer/together-typescript/commit/5752a3320d48e0708d63d07c3a0a3c265bd49b71))
+* **internal:** remove .eslintcache ([b41b509](https://github.com/togethercomputer/together-typescript/commit/b41b5092d3273c4013342fa7f7baff1035ab6b99))
+* **internal:** remove deprecated `compilerOptions.baseUrl` from tsconfig.json ([446dff9](https://github.com/togethercomputer/together-typescript/commit/446dff9b819d895eaa4c8b71652dc268c8ef695e))
+* **internal:** update global Error reference ([e53b252](https://github.com/togethercomputer/together-typescript/commit/e53b25217887ab211b03b93e2c09f3da4b20ef1e))
+* **internal:** use npm pack for build uploads ([246a904](https://github.com/togethercomputer/together-typescript/commit/246a9049ff91bb85949e2f0c630b2ad3e684752a))
+* **jsdoc:** fix [@link](https://github.com/link) annotations to refer only to parts of the package‘s public interface ([6b54b1d](https://github.com/togethercomputer/together-typescript/commit/6b54b1db48ede95e75def9c722059544fc108237))
+* update CI script ([99cae2f](https://github.com/togethercomputer/together-typescript/commit/99cae2f05724e68687d6c704a5b29d31dd5fa11f))
+
 ## 0.22.0 (2025-08-13)
 
 Full Changelog: [v0.21.1...v0.22.0](https://github.com/togethercomputer/together-typescript/compare/v0.21.1...v0.22.0)
