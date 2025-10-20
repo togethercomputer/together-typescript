@@ -96,6 +96,7 @@ import { Hardware, HardwareListParams, HardwareListResponse } from './resources/
 import { ImageCreateParams, ImageDataB64, ImageDataURL, ImageFile, Images } from './resources/images';
 import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
 import { ModelListResponse, ModelUploadParams, ModelUploadResponse, Models } from './resources/models';
+import { VideoCreateParams, VideoCreateResponse, VideoRetrieveResponse, Videos } from './resources/videos';
 import {
   Audio,
   AudioCreateParams,
@@ -828,6 +829,7 @@ export class Together {
 
   static toFile = Uploads.toFile;
 
+  videos: API.Videos = new API.Videos(this);
   chat: API.Chat = new API.Chat(this);
   completions: API.Completions = new API.Completions(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
@@ -845,6 +847,7 @@ export class Together {
   evaluations: API.Evaluations = new API.Evaluations(this);
 }
 
+Together.Videos = Videos;
 Together.Chat = Chat;
 Together.Completions = Completions;
 Together.Embeddings = Embeddings;
@@ -865,6 +868,13 @@ export declare namespace Together {
   export type RequestOptions = Opts.RequestOptions;
 
   export { type RerankResponse as RerankResponse, type RerankParams as RerankParams };
+
+  export {
+    Videos as Videos,
+    type VideoCreateResponse as VideoCreateResponse,
+    type VideoRetrieveResponse as VideoRetrieveResponse,
+    type VideoCreateParams as VideoCreateParams,
+  };
 
   export { Chat as Chat };
 

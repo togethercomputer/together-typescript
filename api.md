@@ -8,6 +8,18 @@ Methods:
 
 - <code title="post /rerank">client.<a href="./src/index.ts">rerank</a>({ ...params }) -> RerankResponse</code>
 
+# Videos
+
+Types:
+
+- <code><a href="./src/resources/videos.ts">VideoCreateResponse</a></code>
+- <code><a href="./src/resources/videos.ts">VideoRetrieveResponse</a></code>
+
+Methods:
+
+- <code title="post /videos">client.videos.<a href="./src/resources/videos.ts">create</a>({ ...params }) -> VideoCreateResponse</code>
+- <code title="get /videos/{id}">client.videos.<a href="./src/resources/videos.ts">retrieve</a>(id) -> VideoRetrieveResponse</code>
+
 # Chat
 
 ## Completions

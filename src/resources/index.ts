@@ -98,4 +98,10 @@ export {
 } from './images';
 export { Jobs, type JobRetrieveResponse, type JobListResponse } from './jobs';
 export { Models, type ModelListResponse, type ModelUploadResponse, type ModelUploadParams } from './models';
+export {
+  Videos,
+  type VideoCreateResponse,
+  type VideoRetrieveResponse,
+  type VideoCreateParams,
+} from './videos';
 export { type RerankResponse, type RerankParams } from './top-level';
