@@ -143,13 +143,13 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/videos.ts">VideoJob</a></code>
 - <code><a href="./src/resources/videos.ts">VideoCreateResponse</a></code>
-- <code><a href="./src/resources/videos.ts">VideoRetrieveResponse</a></code>
 
 Methods:
 
 - <code title="post /videos">client.videos.<a href="./src/resources/videos.ts">create</a>({ ...params }) -> VideoCreateResponse</code>
-- <code title="get /videos/{id}">client.videos.<a href="./src/resources/videos.ts">retrieve</a>(id) -> VideoRetrieveResponse</code>
+- <code title="get /videos/{id}">client.videos.<a href="./src/resources/videos.ts">retrieve</a>(id) -> VideoJob</code>
 
 # Audio
 

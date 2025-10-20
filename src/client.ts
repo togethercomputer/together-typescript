@@ -96,7 +96,7 @@ import { Hardware, HardwareListParams, HardwareListResponse } from './resources/
 import { ImageCreateParams, ImageDataB64, ImageDataURL, ImageFile, Images } from './resources/images';
 import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
 import { ModelListResponse, ModelUploadParams, ModelUploadResponse, Models } from './resources/models';
-import { VideoCreateParams, VideoCreateResponse, VideoRetrieveResponse, Videos } from './resources/videos';
+import { VideoCreateParams, VideoCreateResponse, VideoJob, Videos } from './resources/videos';
 import {
   Audio,
   AudioCreateParams,
@@ -938,8 +938,8 @@ export declare namespace Together {
 
   export {
     Videos as Videos,
+    type VideoJob as VideoJob,
     type VideoCreateResponse as VideoCreateResponse,
-    type VideoRetrieveResponse as VideoRetrieveResponse,
     type VideoCreateParams as VideoCreateParams,
   };
 
