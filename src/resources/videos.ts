@@ -25,10 +25,10 @@ export class Videos extends APIResource {
    *
    * @example
    * ```ts
-   * const video = await client.videos.retrieve('id');
+   * const videoJob = await client.videos.retrieve('id');
    * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<VideoRetrieveResponse> {
+  retrieve(id: string, options?: RequestOptions): APIPromise<VideoJob> {
     return this._client.get(path`/videos/${id}`, {
       defaultBaseURL: 'https://api.together.xyz/v2',
       ...options,
@@ -36,17 +36,10 @@ export class Videos extends APIResource {
   }
 }
 
-export interface VideoCreateResponse {
-  /**
-   * Unique identifier for the video job.
-   */
-  id?: string;
-}
-
 /**
  * Structured information describing a generated video job.
  */
-export interface VideoRetrieveResponse {
+export interface VideoJob {
   /**
    * Unique identifier for the video job.
    */
@@ -85,7 +78,7 @@ export interface VideoRetrieveResponse {
   /**
    * Error payload that explains why generation failed, if applicable.
    */
-  error?: VideoRetrieveResponse.Error;
+  error?: VideoJob.Error;
 
   /**
    * The object type, which is always video.
@@ -96,10 +89,10 @@ export interface VideoRetrieveResponse {
    * Available upon completion, the outputs provides the cost charged and the hosted
    * url to access the video
    */
-  outputs?: VideoRetrieveResponse.Outputs;
+  outputs?: VideoJob.Outputs;
 }
 
-export namespace VideoRetrieveResponse {
+export namespace VideoJob {
   /**
    * Error payload that explains why generation failed, if applicable.
    */
@@ -124,6 +117,13 @@ export namespace VideoRetrieveResponse {
      */
     video_url: string;
   }
+}
+
+export interface VideoCreateResponse {
+  /**
+   * Unique identifier for the video job.
+   */
+  id?: string;
 }
 
 export interface VideoCreateParams {
@@ -215,8 +215,8 @@ export namespace VideoCreateParams {
 
 export declare namespace Videos {
   export {
+    type VideoJob as VideoJob,
     type VideoCreateResponse as VideoCreateResponse,
-    type VideoRetrieveResponse as VideoRetrieveResponse,
     type VideoCreateParams as VideoCreateParams,
   };
 }
