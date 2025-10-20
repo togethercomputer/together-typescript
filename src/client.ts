@@ -826,7 +826,6 @@ export class Together {
 
   static toFile = Uploads.toFile;
 
-  videos: API.Videos = new API.Videos(this);
   chat: API.Chat = new API.Chat(this);
   completions: API.Completions = new API.Completions(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
@@ -834,6 +833,7 @@ export class Together {
   fineTune: API.FineTuneResource = new API.FineTuneResource(this);
   codeInterpreter: API.CodeInterpreter = new API.CodeInterpreter(this);
   images: API.Images = new API.Images(this);
+  videos: API.Videos = new API.Videos(this);
   audio: API.Audio = new API.Audio(this);
   models: API.Models = new API.Models(this);
   jobs: API.Jobs = new API.Jobs(this);
@@ -843,7 +843,6 @@ export class Together {
   evaluations: API.Evaluations = new API.Evaluations(this);
 }
 
-Together.Videos = Videos;
 Together.Chat = Chat;
 Together.Completions = Completions;
 Together.Embeddings = Embeddings;
@@ -851,6 +850,7 @@ Together.Files = Files;
 Together.FineTuneResource = FineTuneResource;
 Together.CodeInterpreter = CodeInterpreter;
 Together.Images = Images;
+Together.Videos = Videos;
 Together.Audio = Audio;
 Together.Models = Models;
 Together.Jobs = Jobs;
@@ -863,13 +863,6 @@ export declare namespace Together {
   export type RequestOptions = Opts.RequestOptions;
 
   export { type RerankResponse as RerankResponse, type RerankParams as RerankParams };
-
-  export {
-    Videos as Videos,
-    type VideoCreateResponse as VideoCreateResponse,
-    type VideoRetrieveResponse as VideoRetrieveResponse,
-    type VideoCreateParams as VideoCreateParams,
-  };
 
   export { Chat as Chat };
 
@@ -936,6 +929,13 @@ export declare namespace Together {
     type ImageDataURL as ImageDataURL,
     type ImageFile as ImageFile,
     type ImageCreateParams as ImageCreateParams,
+  };
+
+  export {
+    Videos as Videos,
+    type VideoCreateResponse as VideoCreateResponse,
+    type VideoRetrieveResponse as VideoRetrieveResponse,
+    type VideoCreateParams as VideoCreateParams,
   };
 
   export {
