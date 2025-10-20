@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.24.0 (2025-10-20)
+
+Full Changelog: [v0.23.0...v0.24.0](https://github.com/togethercomputer/together-typescript/compare/v0.23.0...v0.24.0)
+
+### Features
+
+* **api:** Add Video APIs ([7357d10](https://github.com/togethercomputer/together-typescript/commit/7357d10e9db6caeb01d8ed0a9d419289a17ae231))
+* **api:** manual updates ([d27605f](https://github.com/togethercomputer/together-typescript/commit/d27605f5e212f577424d6d6bf79e3cded2b53613))
+* **api:** manual updates ([e6d4a5a](https://github.com/togethercomputer/together-typescript/commit/e6d4a5a026d66fa897f56dc11760bfd7b5a918b6))
+* **api:** manual updates ([aaaf373](https://github.com/togethercomputer/together-typescript/commit/aaaf373c003f3f439c7e70c1559726b7d2744e3c))
+* **api:** manual updates ([3bb0334](https://github.com/togethercomputer/together-typescript/commit/3bb0334c85e9b30659d459295278f5e735cfd158))
+
 ## 0.23.0 (2025-10-10)
 
 Full Changelog: [v0.22.0...v0.23.0](https://github.com/togethercomputer/together-typescript/compare/v0.22.0...v0.23.0)
