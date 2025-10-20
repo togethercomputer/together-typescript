@@ -45,13 +45,16 @@ export {
   type EndpointListParams,
 } from './endpoints';
 export {
-  Evaluations,
+  Evaluation,
   type EvaluationJudgeModelConfig,
   type EvaluationModelRequest,
   type EvaluationRetrieveResponse,
+  type EvaluationGetStatusResponse,
+} from './evaluation';
+export {
+  Evaluations,
   type EvaluationListResponse,
   type EvaluationGetAllowedModelsResponse,
-  type EvaluationGetStatusResponse,
   type EvaluationListParams,
 } from './evaluations';
 export {
