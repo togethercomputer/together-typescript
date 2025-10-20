@@ -49,16 +49,13 @@ import {
   Endpoints,
 } from './resources/endpoints';
 import {
-  Evaluation,
+  EvaluationGetAllowedModelsResponse,
   EvaluationGetStatusResponse,
   EvaluationJudgeModelConfig,
-  EvaluationModelRequest,
-  EvaluationRetrieveResponse,
-} from './resources/evaluation';
-import {
-  EvaluationGetAllowedModelsResponse,
   EvaluationListParams,
   EvaluationListResponse,
+  EvaluationModelRequest,
+  EvaluationRetrieveResponse,
   Evaluations,
 } from './resources/evaluations';
 import {
@@ -843,7 +840,6 @@ export class Together {
   endpoints: API.Endpoints = new API.Endpoints(this);
   hardware: API.Hardware = new API.Hardware(this);
   batches: API.Batches = new API.Batches(this);
-  evaluation: API.Evaluation = new API.Evaluation(this);
   evaluations: API.Evaluations = new API.Evaluations(this);
 }
 
@@ -861,7 +857,6 @@ Together.Jobs = Jobs;
 Together.Endpoints = Endpoints;
 Together.Hardware = Hardware;
 Together.Batches = Batches;
-Together.Evaluation = Evaluation;
 Together.Evaluations = Evaluations;
 
 export declare namespace Together {
@@ -992,17 +987,13 @@ export declare namespace Together {
   };
 
   export {
-    Evaluation as Evaluation,
+    Evaluations as Evaluations,
     type EvaluationJudgeModelConfig as EvaluationJudgeModelConfig,
     type EvaluationModelRequest as EvaluationModelRequest,
     type EvaluationRetrieveResponse as EvaluationRetrieveResponse,
-    type EvaluationGetStatusResponse as EvaluationGetStatusResponse,
-  };
-
-  export {
-    Evaluations as Evaluations,
     type EvaluationListResponse as EvaluationListResponse,
     type EvaluationGetAllowedModelsResponse as EvaluationGetAllowedModelsResponse,
+    type EvaluationGetStatusResponse as EvaluationGetStatusResponse,
     type EvaluationListParams as EvaluationListParams,
   };
 }

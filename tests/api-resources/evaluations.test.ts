@@ -8,6 +8,17 @@ const client = new Together({
 });
 
 describe('resource evaluations', () => {
+  test('retrieve', async () => {
+    const responsePromise = client.evaluations.retrieve('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
   test('list', async () => {
     const responsePromise = client.evaluations.list();
     const rawResponse = await responsePromise.asResponse();
@@ -28,6 +39,17 @@ describe('resource evaluations', () => {
 
   test('getAllowedModels', async () => {
     const responsePromise = client.evaluations.getAllowedModels();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('getStatus', async () => {
+    const responsePromise = client.evaluations.getStatus('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
