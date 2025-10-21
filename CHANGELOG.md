@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.27.0 (2025-10-21)
+
+Full Changelog: [v0.26.0...v0.27.0](https://github.com/togethercomputer/together-typescript/compare/v0.26.0...v0.27.0)
+
+### Features
+
+* **api:** Rename evaluation sdks to evals ([4c3b732](https://github.com/togethercomputer/together-typescript/commit/4c3b732d55c852ba6b45cbed189dc729e660d6e2))
+
 ## 0.26.0 (2025-10-21)
 
 Full Changelog: [v0.25.0...v0.26.0](https://github.com/togethercomputer/together-typescript/compare/v0.25.0...v0.26.0)
