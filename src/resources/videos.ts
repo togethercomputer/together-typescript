@@ -138,9 +138,7 @@ export interface VideoCreateParams {
   fps?: number;
 
   /**
-   * Array of images to guide video generation, like keyframes. If size 1, starting
-   * frame, if size 2, starting and ending frame, if more than 2 then frame must be
-   * specified
+   * Array of images to guide video generation, similar to keyframes.
    */
   frame_images?: Array<VideoCreateParams.FrameImage>;
 
@@ -176,9 +174,11 @@ export interface VideoCreateParams {
   prompt?: string;
 
   /**
-   * TODO need to figure this out
+   * Unlike frame_images which constrain specific timeline positions, reference
+   * images guide the general appearance that should appear consistently across the
+   * video.
    */
-  reference_images?: Array<unknown>;
+  reference_images?: Array<string>;
 
   /**
    * Clip duration in seconds.
@@ -204,12 +204,20 @@ export interface VideoCreateParams {
 
 export namespace VideoCreateParams {
   export interface FrameImage {
-    frame: number | 'first' | 'last';
-
     /**
-     * idk
+     * URL path to hosted image that is used for a frame
      */
     input_image: string;
+
+    /**
+     * Optional param to specify where to insert the frame. If this is omitted, the
+     * following heuristics are applied:
+     *
+     * - frame_images size is one, frame is first.
+     * - If size is two, frames are first and last.
+     * - If size is larger, frames are first, last and evenly spaced between.
+     */
+    frame?: number | 'first' | 'last';
   }
 }
 
