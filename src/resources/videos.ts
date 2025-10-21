@@ -123,7 +123,7 @@ export interface VideoCreateResponse {
   /**
    * Unique identifier for the video job.
    */
-  id?: string;
+  id: string;
 }
 
 export interface VideoCreateParams {
