@@ -69,7 +69,7 @@ This affects the following methods:
 
 - `client.endpoints.list()`
 - `client.hardware.list()`
-- `client.evaluations.list()`
+- `client.evals.list()`
 
 ### Removed `httpAgent` in favor of `fetchOptions`
 
