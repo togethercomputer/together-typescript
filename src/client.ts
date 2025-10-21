@@ -49,18 +49,15 @@ import {
   Endpoints,
 } from './resources/endpoints';
 import {
-  Evaluation,
-  EvaluationGetStatusResponse,
+  EvalGetAllowedModelsResponse,
+  EvalGetStatusResponse,
+  EvalListParams,
+  EvalListResponse,
+  EvalRetrieveResponse,
+  Evals,
   EvaluationJudgeModelConfig,
   EvaluationModelRequest,
-  EvaluationRetrieveResponse,
-} from './resources/evaluation';
-import {
-  EvaluationGetAllowedModelsResponse,
-  EvaluationListParams,
-  EvaluationListResponse,
-  Evaluations,
-} from './resources/evaluations';
+} from './resources/evals';
 import {
   FileDeleteResponse,
   FileListResponse,
@@ -843,8 +840,7 @@ export class Together {
   endpoints: API.Endpoints = new API.Endpoints(this);
   hardware: API.Hardware = new API.Hardware(this);
   batches: API.Batches = new API.Batches(this);
-  evaluation: API.Evaluation = new API.Evaluation(this);
-  evaluations: API.Evaluations = new API.Evaluations(this);
+  evals: API.Evals = new API.Evals(this);
 }
 
 Together.Chat = Chat;
@@ -861,8 +857,7 @@ Together.Jobs = Jobs;
 Together.Endpoints = Endpoints;
 Together.Hardware = Hardware;
 Together.Batches = Batches;
-Together.Evaluation = Evaluation;
-Together.Evaluations = Evaluations;
+Together.Evals = Evals;
 
 export declare namespace Together {
   export type RequestOptions = Opts.RequestOptions;
@@ -992,17 +987,13 @@ export declare namespace Together {
   };
 
   export {
-    Evaluation as Evaluation,
+    Evals as Evals,
     type EvaluationJudgeModelConfig as EvaluationJudgeModelConfig,
     type EvaluationModelRequest as EvaluationModelRequest,
-    type EvaluationRetrieveResponse as EvaluationRetrieveResponse,
-    type EvaluationGetStatusResponse as EvaluationGetStatusResponse,
-  };
-
-  export {
-    Evaluations as Evaluations,
-    type EvaluationListResponse as EvaluationListResponse,
-    type EvaluationGetAllowedModelsResponse as EvaluationGetAllowedModelsResponse,
-    type EvaluationListParams as EvaluationListParams,
+    type EvalRetrieveResponse as EvalRetrieveResponse,
+    type EvalListResponse as EvalListResponse,
+    type EvalGetAllowedModelsResponse as EvalGetAllowedModelsResponse,
+    type EvalGetStatusResponse as EvalGetStatusResponse,
+    type EvalListParams as EvalListParams,
   };
 }
