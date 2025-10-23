@@ -472,6 +472,8 @@ export namespace CompletionCreateParams {
     role: 'tool';
 
     tool_call_id: string;
+
+    name?: string;
   }
 
   /**
