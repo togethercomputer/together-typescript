@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.28.0 (2025-10-23)
+
+Full Changelog: [v0.27.0...v0.28.0](https://github.com/togethercomputer/together-typescript/compare/v0.27.0...v0.28.0)
+
+### Features
+
+* **api:** api update ([568c387](https://github.com/togethercomputer/together-typescript/commit/568c387273383faf4970fe3360943c4006ddcae3))
+
+
+### Bug Fixes
+
+* Narrow type resolution on image create api via response_format discrimination ([1f56b8d](https://github.com/togethercomputer/together-typescript/commit/1f56b8dd9f44a6914865e0d88973f8eb60f116d6))
+
 ## 0.27.0 (2025-10-21)
 
 Full Changelog: [v0.26.0...v0.27.0](https://github.com/togethercomputer/together-typescript/compare/v0.26.0...v0.27.0)
