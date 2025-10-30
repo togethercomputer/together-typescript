@@ -11,8 +11,8 @@ describe('resource audio', () => {
   test('create: required and optional params', async () => {
     const response = await client.audio.create({
       input: 'input',
-      model: 'cartesia/sonic',
-      voice: 'laidback woman',
+      model: 'canopylabs/orpheus-3b-0.1-ft',
+      voice: 'voice',
       language: 'en',
       response_encoding: 'pcm_f32le',
       response_format: 'mp3',

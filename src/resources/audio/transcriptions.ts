@@ -65,6 +65,11 @@ export namespace TranscriptionCreateResponse {
     text: string;
 
     /**
+     * Array of transcription speaker segments (only when diarize is enabled)
+     */
+    speaker_segments?: Array<AudioTranscriptionVerboseJsonResponse.SpeakerSegment>;
+
+    /**
      * Array of transcription words (only when timestamp_granularities includes 'word')
      */
     words?: Array<AudioTranscriptionVerboseJsonResponse.Word>;
@@ -93,6 +98,62 @@ export namespace TranscriptionCreateResponse {
       text: string;
     }
 
+    export interface SpeakerSegment {
+      /**
+       * Unique identifier for the speaker segment
+       */
+      id: number;
+
+      /**
+       * End time of the speaker segment in seconds
+       */
+      end: number;
+
+      /**
+       * The speaker identifier
+       */
+      speaker_id: string;
+
+      /**
+       * Start time of the speaker segment in seconds
+       */
+      start: number;
+
+      /**
+       * The full text spoken by this speaker in this segment
+       */
+      text: string;
+
+      /**
+       * Array of words spoken by this speaker in this segment
+       */
+      words: Array<SpeakerSegment.Word>;
+    }
+
+    export namespace SpeakerSegment {
+      export interface Word {
+        /**
+         * End time of the word in seconds
+         */
+        end: number;
+
+        /**
+         * Start time of the word in seconds
+         */
+        start: number;
+
+        /**
+         * The word
+         */
+        word: string;
+
+        /**
+         * The speaker id for the word (only when diarize is enabled)
+         */
+        speaker_id?: string;
+      }
+    }
+
     export interface Word {
       /**
        * End time of the word in seconds
@@ -108,6 +169,11 @@ export namespace TranscriptionCreateResponse {
        * The word
        */
       word: string;
+
+      /**
+       * The speaker id for the word (only when diarize is enabled)
+       */
+      speaker_id?: string;
     }
   }
 }
@@ -117,6 +183,20 @@ export interface TranscriptionCreateParams {
    * Audio file to transcribe
    */
   file: Uploadable;
+
+  /**
+   * Whether to enable speaker diarization. When enabled, you will get the speaker id
+   * for each word in the transcription. In the response, in the words array, you
+   * will get the speaker id for each word. In addition, we also return the
+   * speaker_segments array which contains the speaker id for each speaker segment
+   * along with the start and end time of the segment along with all the words in the
+   * segment.
+   *
+   * For eg - ... "speaker_segments": [ "speaker_id": "SPEAKER_00", "start": 0,
+   * "end": 30.02, "words": [ { "id": 0, "word": "Tijana", "start": 0, "end": 11.475,
+   * "speaker_id": "SPEAKER_00" }, ...
+   */
+  diarize?: boolean;
 
   /**
    * Optional ISO 639-1 language code. If `auto` is provided, language is
