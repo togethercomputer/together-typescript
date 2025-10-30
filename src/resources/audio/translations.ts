@@ -107,6 +107,11 @@ export namespace TranslationCreateResponse {
        * The word
        */
       word: string;
+
+      /**
+       * The speaker id for the word (only when diarize is enabled)
+       */
+      speaker_id?: string;
     }
   }
 }
