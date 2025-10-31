@@ -339,12 +339,12 @@ describe('instantiate client', () => {
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new Together({ maxRetries: 10, apiKey: 'My API Key' });
-    expect(client.maxRetries).toEqual(10);
+    const client = new Together({ maxRetries: 4, apiKey: 'My API Key' });
+    expect(client.maxRetries).toEqual(4);
 
     // default
     const client2 = new Together({ apiKey: 'My API Key' });
-    expect(client2.maxRetries).toEqual(5);
+    expect(client2.maxRetries).toEqual(2);
   });
 
   describe('withOptions', () => {
