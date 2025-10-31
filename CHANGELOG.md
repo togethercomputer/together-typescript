@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.30.0 (2025-10-31)
+
+Full Changelog: [v0.29.0...v0.30.0](https://github.com/togethercomputer/together-typescript/compare/v0.29.0...v0.30.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** The default max retries for api calls has changed from 5 to 2. This may result in more frequent non-200 responses.
+
+### Features
+
+* **api:** Change the default max retries from 5 to 2 ([c246e91](https://github.com/togethercomputer/together-typescript/commit/c246e9101537576a1d499465f2d70ff3366d9816))
+
 ## 0.29.0 (2025-10-30)
 
 Full Changelog: [v0.28.0...v0.29.0](https://github.com/togethercomputer/together-typescript/compare/v0.28.0...v0.29.0)
