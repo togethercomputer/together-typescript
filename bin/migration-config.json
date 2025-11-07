@@ -1,6 +1,0 @@
-{
-  "pkg": "together-ai",
-  "githubRepo": "https://github.com/togethercomputer/together-typescript",
-  "clientClass": "Together",
-  "methods": []
-}
