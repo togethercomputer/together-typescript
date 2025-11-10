@@ -290,9 +290,19 @@ export interface EndpointUpdateParams {
 
 export interface EndpointListParams {
   /**
+   * If true, return only endpoints owned by the caller
+   */
+  mine?: boolean;
+
+  /**
    * Filter endpoints by type
    */
   type?: 'dedicated' | 'serverless';
+
+  /**
+   * Filter endpoints by usage type
+   */
+  usage_type?: 'on-demand' | 'reserved';
 }
 
 export declare namespace Endpoints {
