@@ -39,13 +39,11 @@ import {
 import { Embedding, EmbeddingCreateParams, Embeddings } from './resources/embeddings';
 import {
   Autoscaling,
+  DedicatedEndpoint,
   EndpointCreateParams,
-  EndpointCreateResponse,
   EndpointListParams,
   EndpointListResponse,
-  EndpointRetrieveResponse,
   EndpointUpdateParams,
-  EndpointUpdateResponse,
   Endpoints,
 } from './resources/endpoints';
 import {
@@ -968,9 +966,7 @@ export declare namespace Together {
   export {
     Endpoints as Endpoints,
     type Autoscaling as Autoscaling,
-    type EndpointCreateResponse as EndpointCreateResponse,
-    type EndpointRetrieveResponse as EndpointRetrieveResponse,
-    type EndpointUpdateResponse as EndpointUpdateResponse,
+    type DedicatedEndpoint as DedicatedEndpoint,
     type EndpointListResponse as EndpointListResponse,
     type EndpointCreateParams as EndpointCreateParams,
     type EndpointUpdateParams as EndpointUpdateParams,
