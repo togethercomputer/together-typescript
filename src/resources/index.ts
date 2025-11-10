@@ -78,11 +78,13 @@ export {
   type TrainingMethodSft,
   type FineTuneCreateResponse,
   type FineTuneListResponse,
+  type FineTuneDeleteResponse,
   type FineTuneCancelResponse,
   type FineTuneDownloadResponse,
   type FineTuneListEventsResponse,
   type FineTuneRetrieveCheckpointsResponse,
   type FineTuneCreateParams,
+  type FineTuneDeleteParams,
   type FineTuneDownloadParams,
 } from './fine-tune';
 export { Hardware, type HardwareListResponse, type HardwareListParams } from './hardware';

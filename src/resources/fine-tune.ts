@@ -48,6 +48,25 @@ export class FineTuneResource extends APIResource {
   }
 
   /**
+   * Delete a fine-tuning job.
+   *
+   * @example
+   * ```ts
+   * const fineTune = await client.fineTune.delete('id', {
+   *   force: true,
+   * });
+   * ```
+   */
+  delete(
+    id: string,
+    params: FineTuneDeleteParams,
+    options?: RequestOptions,
+  ): APIPromise<FineTuneDeleteResponse> {
+    const { force } = params;
+    return this._client.delete(path`/fine-tunes/${id}`, { query: { force }, ...options });
+  }
+
+  /**
    * Cancel a currently running fine-tuning job. Returns a FinetuneResponseTruncated
    * object.
    *
@@ -628,6 +647,13 @@ export namespace FineTuneListResponse {
   }
 }
 
+export interface FineTuneDeleteResponse {
+  /**
+   * Message indicating the result of the deletion
+   */
+  message?: string;
+}
+
 /**
  * A truncated version of the fine-tune response, used for POST /fine-tunes, GET
  * /fine-tunes and POST /fine-tunes/{id}/cancel endpoints
@@ -959,6 +985,10 @@ export interface FineTuneCreateParams {
   weight_decay?: number;
 }
 
+export interface FineTuneDeleteParams {
+  force: boolean;
+}
+
 export interface FineTuneDownloadParams {
   /**
    * Fine-tune ID to download. A string that starts with `ft-`.
@@ -997,11 +1027,13 @@ export declare namespace FineTuneResource {
     type TrainingMethodSft as TrainingMethodSft,
     type FineTuneCreateResponse as FineTuneCreateResponse,
     type FineTuneListResponse as FineTuneListResponse,
+    type FineTuneDeleteResponse as FineTuneDeleteResponse,
     type FineTuneCancelResponse as FineTuneCancelResponse,
     type FineTuneDownloadResponse as FineTuneDownloadResponse,
     type FineTuneListEventsResponse as FineTuneListEventsResponse,
     type FineTuneRetrieveCheckpointsResponse as FineTuneRetrieveCheckpointsResponse,
     type FineTuneCreateParams as FineTuneCreateParams,
+    type FineTuneDeleteParams as FineTuneDeleteParams,
     type FineTuneDownloadParams as FineTuneDownloadParams,
   };
 }
