@@ -72,7 +72,10 @@ describe('resource endpoints', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.endpoints.list({ type: 'dedicated' }, { path: '/_stainless_unknown_path' }),
+      client.endpoints.list(
+        { mine: true, type: 'dedicated', usage_type: 'on-demand' },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(Together.NotFoundError);
   });
 
