@@ -36,9 +36,7 @@ export { Embeddings, type Embedding, type EmbeddingCreateParams } from './embedd
 export {
   Endpoints,
   type Autoscaling,
-  type EndpointCreateResponse,
-  type EndpointRetrieveResponse,
-  type EndpointUpdateResponse,
+  type DedicatedEndpoint,
   type EndpointListResponse,
   type EndpointCreateParams,
   type EndpointUpdateParams,
