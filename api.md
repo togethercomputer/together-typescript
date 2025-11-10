@@ -213,16 +213,14 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/endpoints.ts">Autoscaling</a></code>
-- <code><a href="./src/resources/endpoints.ts">EndpointCreateResponse</a></code>
-- <code><a href="./src/resources/endpoints.ts">EndpointRetrieveResponse</a></code>
-- <code><a href="./src/resources/endpoints.ts">EndpointUpdateResponse</a></code>
+- <code><a href="./src/resources/endpoints.ts">DedicatedEndpoint</a></code>
 - <code><a href="./src/resources/endpoints.ts">EndpointListResponse</a></code>
 
 Methods:
 
-- <code title="post /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">create</a>({ ...params }) -> EndpointCreateResponse</code>
-- <code title="get /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">retrieve</a>(endpointID) -> EndpointRetrieveResponse</code>
-- <code title="patch /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">update</a>(endpointID, { ...params }) -> EndpointUpdateResponse</code>
+- <code title="post /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">create</a>({ ...params }) -> DedicatedEndpoint</code>
+- <code title="get /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">retrieve</a>(endpointID) -> DedicatedEndpoint</code>
+- <code title="patch /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">update</a>(endpointID, { ...params }) -> DedicatedEndpoint</code>
 - <code title="get /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">list</a>({ ...params }) -> EndpointListResponse</code>
 - <code title="delete /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">delete</a>(endpointID) -> void</code>
 

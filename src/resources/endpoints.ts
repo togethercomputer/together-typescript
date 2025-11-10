@@ -14,14 +14,14 @@ export class Endpoints extends APIResource {
    *
    * @example
    * ```ts
-   * const endpoint = await client.endpoints.create({
+   * const dedicatedEndpoint = await client.endpoints.create({
    *   autoscaling: { max_replicas: 5, min_replicas: 2 },
    *   hardware: '1x_nvidia_a100_80gb_sxm',
    *   model: 'meta-llama/Llama-3-8b-chat-hf',
    * });
    * ```
    */
-  create(body: EndpointCreateParams, options?: RequestOptions): APIPromise<EndpointCreateResponse> {
+  create(body: EndpointCreateParams, options?: RequestOptions): APIPromise<DedicatedEndpoint> {
     return this._client.post('/endpoints', { body, ...options });
   }
 
@@ -31,12 +31,12 @@ export class Endpoints extends APIResource {
    *
    * @example
    * ```ts
-   * const endpoint = await client.endpoints.retrieve(
+   * const dedicatedEndpoint = await client.endpoints.retrieve(
    *   'endpoint-d23901de-ef8f-44bf-b3e7-de9c1ca8f2d7',
    * );
    * ```
    */
-  retrieve(endpointID: string, options?: RequestOptions): APIPromise<EndpointRetrieveResponse> {
+  retrieve(endpointID: string, options?: RequestOptions): APIPromise<DedicatedEndpoint> {
     return this._client.get(path`/endpoints/${endpointID}`, options);
   }
 
@@ -46,7 +46,7 @@ export class Endpoints extends APIResource {
    *
    * @example
    * ```ts
-   * const endpoint = await client.endpoints.update(
+   * const dedicatedEndpoint = await client.endpoints.update(
    *   'endpoint-d23901de-ef8f-44bf-b3e7-de9c1ca8f2d7',
    * );
    * ```
@@ -55,7 +55,7 @@ export class Endpoints extends APIResource {
     endpointID: string,
     body: EndpointUpdateParams,
     options?: RequestOptions,
-  ): APIPromise<EndpointUpdateResponse> {
+  ): APIPromise<DedicatedEndpoint> {
     return this._client.patch(path`/endpoints/${endpointID}`, { body, ...options });
   }
 
@@ -111,127 +111,7 @@ export interface Autoscaling {
 /**
  * Details about a dedicated endpoint deployment
  */
-export interface EndpointCreateResponse {
-  /**
-   * Unique identifier for the endpoint
-   */
-  id: string;
-
-  /**
-   * Configuration for automatic scaling of the endpoint
-   */
-  autoscaling: Autoscaling;
-
-  /**
-   * Timestamp when the endpoint was created
-   */
-  created_at: string;
-
-  /**
-   * Human-readable name for the endpoint
-   */
-  display_name: string;
-
-  /**
-   * The hardware configuration used for this endpoint
-   */
-  hardware: string;
-
-  /**
-   * The model deployed on this endpoint
-   */
-  model: string;
-
-  /**
-   * System name for the endpoint
-   */
-  name: string;
-
-  /**
-   * The type of object
-   */
-  object: 'endpoint';
-
-  /**
-   * The owner of this endpoint
-   */
-  owner: string;
-
-  /**
-   * Current state of the endpoint
-   */
-  state: 'PENDING' | 'STARTING' | 'STARTED' | 'STOPPING' | 'STOPPED' | 'ERROR';
-
-  /**
-   * The type of endpoint
-   */
-  type: 'dedicated';
-}
-
-/**
- * Details about a dedicated endpoint deployment
- */
-export interface EndpointRetrieveResponse {
-  /**
-   * Unique identifier for the endpoint
-   */
-  id: string;
-
-  /**
-   * Configuration for automatic scaling of the endpoint
-   */
-  autoscaling: Autoscaling;
-
-  /**
-   * Timestamp when the endpoint was created
-   */
-  created_at: string;
-
-  /**
-   * Human-readable name for the endpoint
-   */
-  display_name: string;
-
-  /**
-   * The hardware configuration used for this endpoint
-   */
-  hardware: string;
-
-  /**
-   * The model deployed on this endpoint
-   */
-  model: string;
-
-  /**
-   * System name for the endpoint
-   */
-  name: string;
-
-  /**
-   * The type of object
-   */
-  object: 'endpoint';
-
-  /**
-   * The owner of this endpoint
-   */
-  owner: string;
-
-  /**
-   * Current state of the endpoint
-   */
-  state: 'PENDING' | 'STARTING' | 'STARTED' | 'STOPPING' | 'STOPPED' | 'ERROR';
-
-  /**
-   * The type of endpoint
-   */
-  type: 'dedicated';
-}
-
-/**
- * Details about a dedicated endpoint deployment
- */
-export interface EndpointUpdateResponse {
+export interface DedicatedEndpoint {
   /**
    * Unique identifier for the endpoint
    */
@@ -418,9 +298,7 @@ export interface EndpointListParams {
 export declare namespace Endpoints {
   export {
     type Autoscaling as Autoscaling,
-    type EndpointCreateResponse as EndpointCreateResponse,
-    type EndpointRetrieveResponse as EndpointRetrieveResponse,
-    type EndpointUpdateResponse as EndpointUpdateResponse,
+    type DedicatedEndpoint as DedicatedEndpoint,
     type EndpointListResponse as EndpointListResponse,
     type EndpointCreateParams as EndpointCreateParams,
     type EndpointUpdateParams as EndpointUpdateParams,
