@@ -75,6 +75,8 @@ import {
   FineTuneCancelResponse,
   FineTuneCreateParams,
   FineTuneCreateResponse,
+  FineTuneDeleteParams,
+  FineTuneDeleteResponse,
   FineTuneDownloadParams,
   FineTuneDownloadResponse,
   FineTuneEvent,
@@ -910,11 +912,13 @@ export declare namespace Together {
     type TrainingMethodSft as TrainingMethodSft,
     type FineTuneCreateResponse as FineTuneCreateResponse,
     type FineTuneListResponse as FineTuneListResponse,
+    type FineTuneDeleteResponse as FineTuneDeleteResponse,
     type FineTuneCancelResponse as FineTuneCancelResponse,
     type FineTuneDownloadResponse as FineTuneDownloadResponse,
     type FineTuneListEventsResponse as FineTuneListEventsResponse,
     type FineTuneRetrieveCheckpointsResponse as FineTuneRetrieveCheckpointsResponse,
     type FineTuneCreateParams as FineTuneCreateParams,
+    type FineTuneDeleteParams as FineTuneDeleteParams,
     type FineTuneDownloadParams as FineTuneDownloadParams,
   };
 
