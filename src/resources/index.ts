@@ -44,14 +44,14 @@ export {
 } from './endpoints';
 export {
   Evals,
-  type EvaluationJudgeModelConfig,
-  type EvaluationModelRequest,
-  type EvalRetrieveResponse,
+  type EvaluationJob,
+  type EvalCreateResponse,
+  type EvalUpdateResponse,
   type EvalListResponse,
-  type EvalGetAllowedModelsResponse,
-  type EvalGetStatusResponse,
+  type EvalStatusResponse,
+  type EvalCreateParams,
+  type EvalUpdateParams,
   type EvalListParams,
-  type EvalGetAllowedModelsParams,
 } from './evals';
 export {
   Files,

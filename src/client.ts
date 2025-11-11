@@ -47,15 +47,15 @@ import {
   Endpoints,
 } from './resources/endpoints';
 import {
-  EvalGetAllowedModelsParams,
-  EvalGetAllowedModelsResponse,
-  EvalGetStatusResponse,
+  EvalCreateParams,
+  EvalCreateResponse,
   EvalListParams,
   EvalListResponse,
-  EvalRetrieveResponse,
+  EvalStatusResponse,
+  EvalUpdateParams,
+  EvalUpdateResponse,
   Evals,
-  EvaluationJudgeModelConfig,
-  EvaluationModelRequest,
+  EvaluationJob,
 } from './resources/evals';
 import {
   FileDeleteResponse,
@@ -989,13 +989,13 @@ export declare namespace Together {
 
   export {
     Evals as Evals,
-    type EvaluationJudgeModelConfig as EvaluationJudgeModelConfig,
-    type EvaluationModelRequest as EvaluationModelRequest,
-    type EvalRetrieveResponse as EvalRetrieveResponse,
+    type EvaluationJob as EvaluationJob,
+    type EvalCreateResponse as EvalCreateResponse,
+    type EvalUpdateResponse as EvalUpdateResponse,
     type EvalListResponse as EvalListResponse,
-    type EvalGetAllowedModelsResponse as EvalGetAllowedModelsResponse,
-    type EvalGetStatusResponse as EvalGetStatusResponse,
+    type EvalStatusResponse as EvalStatusResponse,
+    type EvalCreateParams as EvalCreateParams,
+    type EvalUpdateParams as EvalUpdateParams,
     type EvalListParams as EvalListParams,
-    type EvalGetAllowedModelsParams as EvalGetAllowedModelsParams,
   };
 }
