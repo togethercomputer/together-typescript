@@ -7,80 +7,82 @@ import { path } from '../internal/utils/path';
 
 export class Evals extends APIResource {
   /**
-   * Get evaluation job details
+   * Create an evaluation job
+   *
+   * @example
+   * ```ts
+   * const _eval = await client.evals.create({
+   *   parameters: {
+   *     input_data_file_path: 'file-1234-aefd',
+   *     judge: {
+   *       model_name: 'meta-llama/Llama-3-70B-Instruct-Turbo',
+   *       system_template:
+   *         'Imagine you are a helpful assistant',
+   *     },
+   *     labels: ['yes', 'no'],
+   *     pass_labels: ['yes'],
+   *   },
+   *   type: 'classify',
+   * });
+   * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<EvalRetrieveResponse> {
+  create(body: EvalCreateParams, options?: RequestOptions): APIPromise<EvalCreateResponse> {
+    return this._client.post('/evaluation', { body, ...options });
+  }
+
+  /**
+   * Get evaluation job details
+   *
+   * @example
+   * ```ts
+   * const evaluationJob = await client.evals.retrieve('id');
+   * ```
+   */
+  retrieve(id: string, options?: RequestOptions): APIPromise<EvaluationJob> {
     return this._client.get(path`/evaluation/${id}`, options);
   }
 
   /**
-   * Get all evaluation jobs. Deprecated! Please use /evaluation
+   * Update evaluation job status and results
+   *
+   * @example
+   * ```ts
+   * const _eval = await client.evals.update('id');
+   * ```
+   */
+  update(id: string, body: EvalUpdateParams, options?: RequestOptions): APIPromise<EvalUpdateResponse> {
+    return this._client.post(path`/evaluation/${id}/update`, { body, ...options });
+  }
+
+  /**
+   * Get all evaluation jobs
+   *
+   * @example
+   * ```ts
+   * const evaluationJobs = await client.evals.list();
+   * ```
    */
   list(
     query: EvalListParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<EvalListResponse> {
-    return this._client.get('/evaluations', { query, ...options });
-  }
-
-  /**
-   * Get model list
-   */
-  getAllowedModels(
-    query: EvalGetAllowedModelsParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<EvalGetAllowedModelsResponse> {
-    return this._client.get('/evaluations/model-list', { query, ...options });
+    return this._client.get('/evaluation', { query, ...options });
   }
 
   /**
    * Get evaluation job status and results
+   *
+   * @example
+   * ```ts
+   * const response = await client.evals.status('id');
+   * ```
    */
-  getStatus(id: string, options?: RequestOptions): APIPromise<EvalGetStatusResponse> {
+  status(id: string, options?: RequestOptions): APIPromise<EvalStatusResponse> {
     return this._client.get(path`/evaluation/${id}/status`, options);
   }
 }
 
-export interface EvaluationJudgeModelConfig {
-  /**
-   * Name of the judge model
-   */
-  model_name: string;
-
-  /**
-   * System prompt template for the judge
-   */
-  system_template: string;
-}
-
-export interface EvaluationModelRequest {
-  /**
-   * Input prompt template
-   */
-  input_template: string;
-
-  /**
-   * Maximum number of tokens to generate
-   */
-  max_tokens: number;
-
-  /**
-   * Name of the model to evaluate
-   */
-  model_name: string;
-
-  /**
-   * System prompt template
-   */
-  system_template: string;
-
-  /**
-   * Sampling temperature
-   */
-  temperature: number;
-}
-
-export interface EvalRetrieveResponse {
+export interface EvaluationJob {
   /**
    * When the job was created
    */
@@ -100,10 +102,10 @@ export interface EvalRetrieveResponse {
    * Results of the evaluation (when completed)
    */
   results?:
-    | EvalRetrieveResponse.EvaluationClassifyResults
-    | EvalRetrieveResponse.EvaluationScoreResults
-    | EvalRetrieveResponse.EvaluationCompareResults
-    | EvalRetrieveResponse.Error
+    | EvaluationJob.EvaluationClassifyResults
+    | EvaluationJob.EvaluationScoreResults
+    | EvaluationJob.EvaluationCompareResults
+    | EvaluationJob.Error
     | null;
 
   /**
@@ -114,7 +116,7 @@ export interface EvalRetrieveResponse {
   /**
    * History of status updates (admin only)
    */
-  status_updates?: Array<EvalRetrieveResponse.StatusUpdate>;
+  status_updates?: Array<EvaluationJob.StatusUpdate>;
 
   /**
    * The type of evaluation
@@ -132,7 +134,7 @@ export interface EvalRetrieveResponse {
   workflow_id?: string;
 }
 
-export namespace EvalRetrieveResponse {
+export namespace EvaluationJob {
   export interface EvaluationClassifyResults {
     /**
      * Number of failed generations.
@@ -263,205 +265,34 @@ export namespace EvalRetrieveResponse {
   }
 }
 
-export type EvalListResponse = Array<EvalListResponse.EvalListResponseItem>;
+export interface EvalCreateResponse {
+  /**
+   * Initial status of the job
+   */
+  status?: 'pending';
 
-export namespace EvalListResponse {
-  export interface EvalListResponseItem {
-    /**
-     * When the job was created
-     */
-    created_at?: string;
-
-    /**
-     * ID of the job owner (admin only)
-     */
-    owner_id?: string;
-
-    /**
-     * The parameters used for this evaluation
-     */
-    parameters?: { [key: string]: unknown };
-
-    /**
-     * Results of the evaluation (when completed)
-     */
-    results?:
-      | EvalListResponseItem.EvaluationClassifyResults
-      | EvalListResponseItem.EvaluationScoreResults
-      | EvalListResponseItem.EvaluationCompareResults
-      | EvalListResponseItem.Error
-      | null;
-
-    /**
-     * Current status of the job
-     */
-    status?: 'pending' | 'queued' | 'running' | 'completed' | 'error' | 'user_error';
-
-    /**
-     * History of status updates (admin only)
-     */
-    status_updates?: Array<EvalListResponseItem.StatusUpdate>;
-
-    /**
-     * The type of evaluation
-     */
-    type?: 'classify' | 'score' | 'compare';
-
-    /**
-     * When the job was last updated
-     */
-    updated_at?: string;
-
-    /**
-     * The evaluation job ID
-     */
-    workflow_id?: string;
-  }
-
-  export namespace EvalListResponseItem {
-    export interface EvaluationClassifyResults {
-      /**
-       * Number of failed generations.
-       */
-      generation_fail_count?: number | null;
-
-      /**
-       * Number of invalid labels
-       */
-      invalid_label_count?: number | null;
-
-      /**
-       * Number of failed judge generations
-       */
-      judge_fail_count?: number | null;
-
-      /**
-       * JSON string representing label counts
-       */
-      label_counts?: string;
-
-      /**
-       * Pecentage of pass labels.
-       */
-      pass_percentage?: number | null;
-
-      /**
-       * Data File ID
-       */
-      result_file_id?: string;
-    }
-
-    export interface EvaluationScoreResults {
-      aggregated_scores?: EvaluationScoreResults.AggregatedScores;
-
-      /**
-       * number of failed samples generated from model
-       */
-      failed_samples?: number;
-
-      /**
-       * Number of failed generations.
-       */
-      generation_fail_count?: number | null;
-
-      /**
-       * number of invalid scores generated from model
-       */
-      invalid_score_count?: number;
-
-      /**
-       * Number of failed judge generations
-       */
-      judge_fail_count?: number | null;
-
-      /**
-       * Data File ID
-       */
-      result_file_id?: string;
-    }
-
-    export namespace EvaluationScoreResults {
-      export interface AggregatedScores {
-        mean_score?: number;
-
-        pass_percentage?: number;
-
-        std_score?: number;
-      }
-    }
-
-    export interface EvaluationCompareResults {
-      /**
-       * Number of times model A won
-       */
-      A_wins?: number;
-
-      /**
-       * Number of times model B won
-       */
-      B_wins?: number;
-
-      /**
-       * Number of failed generations.
-       */
-      generation_fail_count?: number | null;
-
-      /**
-       * Number of failed judge generations
-       */
-      judge_fail_count?: number | null;
-
-      /**
-       * Total number of samples compared
-       */
-      num_samples?: number;
-
-      /**
-       * Data File ID
-       */
-      result_file_id?: string;
-
-      /**
-       * Number of ties
-       */
-      Ties?: number;
-    }
-
-    export interface Error {
-      error?: string;
-    }
-
-    export interface StatusUpdate {
-      /**
-       * Additional message for this update
-       */
-      message?: string;
-
-      /**
-       * The status at this update
-       */
-      status?: string;
-
-      /**
-       * When this update occurred
-       */
-      timestamp?: string;
-    }
-  }
+  /**
+   * The ID of the created evaluation job
+   */
+  workflow_id?: string;
 }
 
-export interface EvalGetAllowedModelsResponse {
-  model_list?: Array<string>;
+export interface EvalUpdateResponse {
+  status?: string;
+
+  workflow_id?: string;
 }
 
-export interface EvalGetStatusResponse {
+export type EvalListResponse = Array<EvaluationJob>;
+
+export interface EvalStatusResponse {
   /**
    * The results of the evaluation job
    */
   results?:
-    | EvalGetStatusResponse.EvaluationClassifyResults
-    | EvalGetStatusResponse.EvaluationScoreResults
-    | EvalGetStatusResponse.EvaluationCompareResults;
+    | EvalStatusResponse.EvaluationClassifyResults
+    | EvalStatusResponse.EvaluationScoreResults
+    | EvalStatusResponse.EvaluationCompareResults;
 
   /**
    * The status of the evaluation job
@@ -469,7 +300,7 @@ export interface EvalGetStatusResponse {
   status?: 'completed' | 'error' | 'user_error' | 'running' | 'queued' | 'pending';
 }
 
-export namespace EvalGetStatusResponse {
+export namespace EvalStatusResponse {
   export interface EvaluationClassifyResults {
     /**
      * Number of failed generations.
@@ -579,6 +410,260 @@ export namespace EvalGetStatusResponse {
   }
 }
 
+export interface EvalCreateParams {
+  /**
+   * Type-specific parameters for the evaluation
+   */
+  parameters:
+    | EvalCreateParams.EvaluationClassifyParameters
+    | EvalCreateParams.EvaluationScoreParameters
+    | EvalCreateParams.EvaluationCompareParameters;
+
+  /**
+   * The type of evaluation to perform
+   */
+  type: 'classify' | 'score' | 'compare';
+}
+
+export namespace EvalCreateParams {
+  export interface EvaluationClassifyParameters {
+    /**
+     * Data file ID
+     */
+    input_data_file_path: string;
+
+    judge: EvaluationClassifyParameters.Judge;
+
+    /**
+     * List of possible classification labels
+     */
+    labels: Array<string>;
+
+    /**
+     * List of labels that are considered passing
+     */
+    pass_labels: Array<string>;
+
+    /**
+     * Field name in the input data
+     */
+    model_to_evaluate?: string | EvaluationClassifyParameters.EvaluationModelRequest;
+  }
+
+  export namespace EvaluationClassifyParameters {
+    export interface Judge {
+      /**
+       * Name of the judge model
+       */
+      model_name: string;
+
+      /**
+       * System prompt template for the judge
+       */
+      system_template: string;
+    }
+
+    export interface EvaluationModelRequest {
+      /**
+       * Input prompt template
+       */
+      input_template: string;
+
+      /**
+       * Maximum number of tokens to generate
+       */
+      max_tokens: number;
+
+      /**
+       * Name of the model to evaluate
+       */
+      model_name: string;
+
+      /**
+       * System prompt template
+       */
+      system_template: string;
+
+      /**
+       * Sampling temperature
+       */
+      temperature: number;
+    }
+  }
+
+  export interface EvaluationScoreParameters {
+    /**
+     * Data file ID
+     */
+    input_data_file_path: string;
+
+    judge: EvaluationScoreParameters.Judge;
+
+    /**
+     * Maximum possible score
+     */
+    max_score: number;
+
+    /**
+     * Minimum possible score
+     */
+    min_score: number;
+
+    /**
+     * Score threshold for passing
+     */
+    pass_threshold: number;
+
+    /**
+     * Field name in the input data
+     */
+    model_to_evaluate?: string | EvaluationScoreParameters.EvaluationModelRequest;
+  }
+
+  export namespace EvaluationScoreParameters {
+    export interface Judge {
+      /**
+       * Name of the judge model
+       */
+      model_name: string;
+
+      /**
+       * System prompt template for the judge
+       */
+      system_template: string;
+    }
+
+    export interface EvaluationModelRequest {
+      /**
+       * Input prompt template
+       */
+      input_template: string;
+
+      /**
+       * Maximum number of tokens to generate
+       */
+      max_tokens: number;
+
+      /**
+       * Name of the model to evaluate
+       */
+      model_name: string;
+
+      /**
+       * System prompt template
+       */
+      system_template: string;
+
+      /**
+       * Sampling temperature
+       */
+      temperature: number;
+    }
+  }
+
+  export interface EvaluationCompareParameters {
+    /**
+     * Data file name
+     */
+    input_data_file_path: string;
+
+    judge: EvaluationCompareParameters.Judge;
+
+    /**
+     * Field name in the input data
+     */
+    model_a?: string | EvaluationCompareParameters.EvaluationModelRequest;
+
+    /**
+     * Field name in the input data
+     */
+    model_b?: string | EvaluationCompareParameters.EvaluationModelRequest;
+  }
+
+  export namespace EvaluationCompareParameters {
+    export interface Judge {
+      /**
+       * Name of the judge model
+       */
+      model_name: string;
+
+      /**
+       * System prompt template for the judge
+       */
+      system_template: string;
+    }
+
+    export interface EvaluationModelRequest {
+      /**
+       * Input prompt template
+       */
+      input_template: string;
+
+      /**
+       * Maximum number of tokens to generate
+       */
+      max_tokens: number;
+
+      /**
+       * Name of the model to evaluate
+       */
+      model_name: string;
+
+      /**
+       * System prompt template
+       */
+      system_template: string;
+
+      /**
+       * Sampling temperature
+       */
+      temperature: number;
+    }
+
+    export interface EvaluationModelRequest {
+      /**
+       * Input prompt template
+       */
+      input_template: string;
+
+      /**
+       * Maximum number of tokens to generate
+       */
+      max_tokens: number;
+
+      /**
+       * Name of the model to evaluate
+       */
+      model_name: string;
+
+      /**
+       * System prompt template
+       */
+      system_template: string;
+
+      /**
+       * Sampling temperature
+       */
+      temperature: number;
+    }
+  }
+}
+
+export interface EvalUpdateParams {
+  /**
+   * Error message when status is 'error' or 'user_error'
+   */
+  error?: string;
+
+  /**
+   * The results of the evaluation job. The concrete structure depends on the type of
+   * evaluation job
+   */
+  results?: unknown;
+
+  status?: 'completed' | 'error' | 'user_error' | 'running' | 'queued' | 'pending';
+}
+
 export interface EvalListParams {
   limit?: number;
 
@@ -591,19 +676,15 @@ export interface EvalListParams {
   userId?: string;
 }
 
-export interface EvalGetAllowedModelsParams {
-  model_source?: string;
-}
-
 export declare namespace Evals {
   export {
-    type EvaluationJudgeModelConfig as EvaluationJudgeModelConfig,
-    type EvaluationModelRequest as EvaluationModelRequest,
-    type EvalRetrieveResponse as EvalRetrieveResponse,
+    type EvaluationJob as EvaluationJob,
+    type EvalCreateResponse as EvalCreateResponse,
+    type EvalUpdateResponse as EvalUpdateResponse,
     type EvalListResponse as EvalListResponse,
-    type EvalGetAllowedModelsResponse as EvalGetAllowedModelsResponse,
-    type EvalGetStatusResponse as EvalGetStatusResponse,
+    type EvalStatusResponse as EvalStatusResponse,
+    type EvalCreateParams as EvalCreateParams,
+    type EvalUpdateParams as EvalUpdateParams,
     type EvalListParams as EvalListParams,
-    type EvalGetAllowedModelsParams as EvalGetAllowedModelsParams,
   };
 }

@@ -70,7 +70,6 @@ This affects the following methods:
 - `client.endpoints.list()`
 - `client.hardware.list()`
 - `client.evals.list()`
-- `client.evals.getAllowedModels()`
 
 ### Removed `httpAgent` in favor of `fetchOptions`
 
