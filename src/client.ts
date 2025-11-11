@@ -47,6 +47,7 @@ import {
   Endpoints,
 } from './resources/endpoints';
 import {
+  EvalGetAllowedModelsParams,
   EvalGetAllowedModelsResponse,
   EvalGetStatusResponse,
   EvalListParams,
@@ -996,5 +997,6 @@ export declare namespace Together {
     type EvalGetAllowedModelsResponse as EvalGetAllowedModelsResponse,
     type EvalGetStatusResponse as EvalGetStatusResponse,
     type EvalListParams as EvalListParams,
+    type EvalGetAllowedModelsParams as EvalGetAllowedModelsParams,
   };
 }

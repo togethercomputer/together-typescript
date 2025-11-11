@@ -7,14 +7,14 @@ import { path } from '../internal/utils/path';
 
 export class Evals extends APIResource {
   /**
-   * Get details of a specific evaluation job
+   * Get evaluation job details
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<EvalRetrieveResponse> {
     return this._client.get(path`/evaluation/${id}`, options);
   }
 
   /**
-   * Get a list of evaluation jobs with optional filtering
+   * Get all evaluation jobs. Deprecated! Please use /evaluation
    */
   list(
     query: EvalListParams | null | undefined = {},
@@ -24,14 +24,17 @@ export class Evals extends APIResource {
   }
 
   /**
-   * Get the list of models that are allowed for evaluation
+   * Get model list
    */
-  getAllowedModels(options?: RequestOptions): APIPromise<EvalGetAllowedModelsResponse> {
-    return this._client.get('/evaluations/model-list', options);
+  getAllowedModels(
+    query: EvalGetAllowedModelsParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<EvalGetAllowedModelsResponse> {
+    return this._client.get('/evaluations/model-list', { query, ...options });
   }
 
   /**
-   * Get the status and results of a specific evaluation job
+   * Get evaluation job status and results
    */
   getStatus(id: string, options?: RequestOptions): APIPromise<EvalGetStatusResponse> {
     return this._client.get(path`/evaluation/${id}/status`, options);
@@ -452,14 +455,18 @@ export interface EvalGetAllowedModelsResponse {
 }
 
 export interface EvalGetStatusResponse {
+  /**
+   * The results of the evaluation job
+   */
   results?:
     | EvalGetStatusResponse.EvaluationClassifyResults
     | EvalGetStatusResponse.EvaluationScoreResults
-    | EvalGetStatusResponse.EvaluationCompareResults
-    | EvalGetStatusResponse.Error
-    | null;
+    | EvalGetStatusResponse.EvaluationCompareResults;
 
-  status?: 'pending' | 'queued' | 'running' | 'completed' | 'error' | 'user_error';
+  /**
+   * The status of the evaluation job
+   */
+  status?: 'completed' | 'error' | 'user_error' | 'running' | 'queued' | 'pending';
 }
 
 export namespace EvalGetStatusResponse {
@@ -570,22 +577,22 @@ export namespace EvalGetStatusResponse {
      */
     Ties?: number;
   }
-
-  export interface Error {
-    error?: string;
-  }
 }
 
 export interface EvalListParams {
-  /**
-   * Maximum number of results to return (max 100)
-   */
   limit?: number;
 
+  status?: string;
+
   /**
-   * Filter by job status
+   * Admin users can specify a user ID to filter jobs. Pass empty string to get all
+   * jobs.
    */
-  status?: 'pending' | 'queued' | 'running' | 'completed' | 'error' | 'user_error';
+  userId?: string;
+}
+
+export interface EvalGetAllowedModelsParams {
+  model_source?: string;
 }
 
 export declare namespace Evals {
@@ -597,5 +604,6 @@ export declare namespace Evals {
     type EvalGetAllowedModelsResponse as EvalGetAllowedModelsResponse,
     type EvalGetStatusResponse as EvalGetStatusResponse,
     type EvalListParams as EvalListParams,
+    type EvalGetAllowedModelsParams as EvalGetAllowedModelsParams,
   };
 }

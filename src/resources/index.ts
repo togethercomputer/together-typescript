@@ -51,6 +51,7 @@ export {
   type EvalGetAllowedModelsResponse,
   type EvalGetStatusResponse,
   type EvalListParams,
+  type EvalGetAllowedModelsParams,
 } from './evals';
 export {
   Files,
