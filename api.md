@@ -256,5 +256,5 @@ Methods:
 
 - <code title="get /evaluation/{id}">client.evals.<a href="./src/resources/evals.ts">retrieve</a>(id) -> EvalRetrieveResponse</code>
 - <code title="get /evaluations">client.evals.<a href="./src/resources/evals.ts">list</a>({ ...params }) -> EvalListResponse</code>
-- <code title="get /evaluations/model-list">client.evals.<a href="./src/resources/evals.ts">getAllowedModels</a>() -> EvalGetAllowedModelsResponse</code>
+- <code title="get /evaluations/model-list">client.evals.<a href="./src/resources/evals.ts">getAllowedModels</a>({ ...params }) -> EvalGetAllowedModelsResponse</code>
 - <code title="get /evaluation/{id}/status">client.evals.<a href="./src/resources/evals.ts">getStatus</a>(id) -> EvalGetStatusResponse</code>

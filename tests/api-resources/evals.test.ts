@@ -33,7 +33,10 @@ describe('resource evals', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.evals.list({ limit: 1, status: 'pending' }, { path: '/_stainless_unknown_path' }),
+      client.evals.list(
+        { limit: 0, status: 'status', userId: 'userId' },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(Together.NotFoundError);
   });
 
@@ -46,6 +49,13 @@ describe('resource evals', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('getAllowedModels: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.evals.getAllowedModels({ model_source: 'model_source' }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Together.NotFoundError);
   });
 
   test('getStatus', async () => {
