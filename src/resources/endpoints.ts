@@ -91,6 +91,18 @@ export class Endpoints extends APIResource {
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
+
+  /**
+   * List all available availability zones.
+   *
+   * @example
+   * ```ts
+   * const response = await client.endpoints.listAvzones();
+   * ```
+   */
+  listAvzones(options?: RequestOptions): APIPromise<EndpointListAvzonesResponse> {
+    return this._client.get('/clusters/availability-zones', options);
+  }
 }
 
 /**
@@ -221,6 +233,11 @@ export namespace EndpointListResponse {
   }
 }
 
+/**
+ * List of unique availability zones
+ */
+export type EndpointListAvzonesResponse = Array<string>;
+
 export interface EndpointCreateParams {
   /**
    * Configuration for automatic scaling of the endpoint
@@ -310,6 +327,7 @@ export declare namespace Endpoints {
     type Autoscaling as Autoscaling,
     type DedicatedEndpoint as DedicatedEndpoint,
     type EndpointListResponse as EndpointListResponse,
+    type EndpointListAvzonesResponse as EndpointListAvzonesResponse,
     type EndpointCreateParams as EndpointCreateParams,
     type EndpointUpdateParams as EndpointUpdateParams,
     type EndpointListParams as EndpointListParams,

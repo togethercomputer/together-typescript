@@ -38,6 +38,7 @@ export {
   type Autoscaling,
   type DedicatedEndpoint,
   type EndpointListResponse,
+  type EndpointListAvzonesResponse,
   type EndpointCreateParams,
   type EndpointUpdateParams,
   type EndpointListParams,
