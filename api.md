@@ -208,6 +208,7 @@ Types:
 - <code><a href="./src/resources/endpoints.ts">Autoscaling</a></code>
 - <code><a href="./src/resources/endpoints.ts">DedicatedEndpoint</a></code>
 - <code><a href="./src/resources/endpoints.ts">EndpointListResponse</a></code>
+- <code><a href="./src/resources/endpoints.ts">EndpointListAvzonesResponse</a></code>
 
 Methods:
 
@@ -216,6 +217,7 @@ Methods:
 - <code title="patch /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">update</a>(endpointID, { ...params }) -> DedicatedEndpoint</code>
 - <code title="get /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">list</a>({ ...params }) -> EndpointListResponse</code>
 - <code title="delete /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">delete</a>(endpointID) -> void</code>
+- <code title="get /clusters/availability-zones">client.endpoints.<a href="./src/resources/endpoints.ts">listAvzones</a>() -> EndpointListAvzonesResponse</code>
 
 # Hardware
 
