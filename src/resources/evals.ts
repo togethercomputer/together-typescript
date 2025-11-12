@@ -15,7 +15,8 @@ export class Evals extends APIResource {
    *   parameters: {
    *     input_data_file_path: 'file-1234-aefd',
    *     judge: {
-   *       model_name: 'meta-llama/Llama-3-70B-Instruct-Turbo',
+   *       model: 'meta-llama/Llama-3-70B-Instruct-Turbo',
+   *       model_source: 'serverless',
    *       system_template:
    *         'Imagine you are a helpful assistant',
    *     },
@@ -455,12 +456,27 @@ export namespace EvalCreateParams {
       /**
        * Name of the judge model
        */
-      model_name: string;
+      model: string;
+
+      /**
+       * Source of the judge model.
+       */
+      model_source: 'serverless' | 'dedicated' | 'external';
 
       /**
        * System prompt template for the judge
        */
       system_template: string;
+
+      /**
+       * Bearer/API token for external judge models.
+       */
+      external_api_token?: string;
+
+      /**
+       * Base URL for external judge models. Must be OpenAI-compatible base URL.
+       */
+      external_base_url?: string;
     }
 
     export interface EvaluationModelRequest {
@@ -477,7 +493,12 @@ export namespace EvalCreateParams {
       /**
        * Name of the model to evaluate
        */
-      model_name: string;
+      model: string;
+
+      /**
+       * Source of the model.
+       */
+      model_source: 'serverless' | 'dedicated' | 'external';
 
       /**
        * System prompt template
@@ -488,6 +509,16 @@ export namespace EvalCreateParams {
        * Sampling temperature
        */
       temperature: number;
+
+      /**
+       * Bearer/API token for external models.
+       */
+      external_api_token?: string;
+
+      /**
+       * Base URL for external models. Must be OpenAI-compatible base URL
+       */
+      external_base_url?: string;
     }
   }
 
@@ -525,12 +556,27 @@ export namespace EvalCreateParams {
       /**
        * Name of the judge model
        */
-      model_name: string;
+      model: string;
+
+      /**
+       * Source of the judge model.
+       */
+      model_source: 'serverless' | 'dedicated' | 'external';
 
       /**
        * System prompt template for the judge
        */
       system_template: string;
+
+      /**
+       * Bearer/API token for external judge models.
+       */
+      external_api_token?: string;
+
+      /**
+       * Base URL for external judge models. Must be OpenAI-compatible base URL.
+       */
+      external_base_url?: string;
     }
 
     export interface EvaluationModelRequest {
@@ -547,7 +593,12 @@ export namespace EvalCreateParams {
       /**
        * Name of the model to evaluate
        */
-      model_name: string;
+      model: string;
+
+      /**
+       * Source of the model.
+       */
+      model_source: 'serverless' | 'dedicated' | 'external';
 
       /**
        * System prompt template
@@ -558,6 +609,16 @@ export namespace EvalCreateParams {
        * Sampling temperature
        */
       temperature: number;
+
+      /**
+       * Bearer/API token for external models.
+       */
+      external_api_token?: string;
+
+      /**
+       * Base URL for external models. Must be OpenAI-compatible base URL
+       */
+      external_base_url?: string;
     }
   }
 
@@ -585,12 +646,27 @@ export namespace EvalCreateParams {
       /**
        * Name of the judge model
        */
-      model_name: string;
+      model: string;
+
+      /**
+       * Source of the judge model.
+       */
+      model_source: 'serverless' | 'dedicated' | 'external';
 
       /**
        * System prompt template for the judge
        */
       system_template: string;
+
+      /**
+       * Bearer/API token for external judge models.
+       */
+      external_api_token?: string;
+
+      /**
+       * Base URL for external judge models. Must be OpenAI-compatible base URL.
+       */
+      external_base_url?: string;
     }
 
     export interface EvaluationModelRequest {
@@ -607,7 +683,12 @@ export namespace EvalCreateParams {
       /**
        * Name of the model to evaluate
        */
-      model_name: string;
+      model: string;
+
+      /**
+       * Source of the model.
+       */
+      model_source: 'serverless' | 'dedicated' | 'external';
 
       /**
        * System prompt template
@@ -618,6 +699,16 @@ export namespace EvalCreateParams {
        * Sampling temperature
        */
       temperature: number;
+
+      /**
+       * Bearer/API token for external models.
+       */
+      external_api_token?: string;
+
+      /**
+       * Base URL for external models. Must be OpenAI-compatible base URL
+       */
+      external_base_url?: string;
     }
 
     export interface EvaluationModelRequest {
@@ -634,7 +725,12 @@ export namespace EvalCreateParams {
       /**
        * Name of the model to evaluate
        */
-      model_name: string;
+      model: string;
+
+      /**
+       * Source of the model.
+       */
+      model_source: 'serverless' | 'dedicated' | 'external';
 
       /**
        * System prompt template
@@ -645,6 +741,16 @@ export namespace EvalCreateParams {
        * Sampling temperature
        */
       temperature: number;
+
+      /**
+       * Bearer/API token for external models.
+       */
+      external_api_token?: string;
+
+      /**
+       * Base URL for external models. Must be OpenAI-compatible base URL
+       */
+      external_base_url?: string;
     }
   }
 }
