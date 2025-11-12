@@ -236,7 +236,9 @@ export namespace EndpointListResponse {
 /**
  * List of unique availability zones
  */
-export type EndpointListAvzonesResponse = Array<string>;
+export interface EndpointListAvzonesResponse {
+  avzones: Array<string>;
+}
 
 export interface EndpointCreateParams {
   /**
