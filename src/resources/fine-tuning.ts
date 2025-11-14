@@ -97,6 +97,20 @@ export class FineTuning extends APIResource {
   }
 
   /**
+   * List the checkpoints for a single fine-tuning job.
+   *
+   * @example
+   * ```ts
+   * const response = await client.fineTuning.listCheckpoints(
+   *   'id',
+   * );
+   * ```
+   */
+  listCheckpoints(id: string, options?: RequestOptions): APIPromise<FineTuningListCheckpointsResponse> {
+    return this._client.get(path`/fine-tunes/${id}/checkpoints`, options);
+  }
+
+  /**
    * List the events for a single fine-tuning job.
    *
    * @example
@@ -106,22 +120,6 @@ export class FineTuning extends APIResource {
    */
   listEvents(id: string, options?: RequestOptions): APIPromise<FineTuningListEventsResponse> {
     return this._client.get(path`/fine-tunes/${id}/events`, options);
-  }
-
-  /**
-   * List the checkpoints for a single fine-tuning job.
-   *
-   * @example
-   * ```ts
-   * const response =
-   *   await client.fineTuning.retrieveCheckpoints('id');
-   * ```
-   */
-  retrieveCheckpoints(
-    id: string,
-    options?: RequestOptions,
-  ): APIPromise<FineTuningRetrieveCheckpointsResponse> {
-    return this._client.get(path`/fine-tunes/${id}/checkpoints`, options);
   }
 }
 
@@ -830,15 +828,11 @@ export interface FineTuningDownloadResponse {
   size?: number;
 }
 
-export interface FineTuningListEventsResponse {
-  data: Array<FineTuneEvent>;
+export interface FineTuningListCheckpointsResponse {
+  data: Array<FineTuningListCheckpointsResponse.Data>;
 }
 
-export interface FineTuningRetrieveCheckpointsResponse {
-  data: Array<FineTuningRetrieveCheckpointsResponse.Data>;
-}
-
-export namespace FineTuningRetrieveCheckpointsResponse {
+export namespace FineTuningListCheckpointsResponse {
   export interface Data {
     checkpoint_type: string;
 
@@ -848,6 +842,10 @@ export namespace FineTuningRetrieveCheckpointsResponse {
 
     step: number;
   }
+}
+
+export interface FineTuningListEventsResponse {
+  data: Array<FineTuneEvent>;
 }
 
 export interface FineTuningCreateParams {
@@ -1035,8 +1033,8 @@ export declare namespace FineTuning {
     type FineTuningDeleteResponse as FineTuningDeleteResponse,
     type FineTuningCancelResponse as FineTuningCancelResponse,
     type FineTuningDownloadResponse as FineTuningDownloadResponse,
+    type FineTuningListCheckpointsResponse as FineTuningListCheckpointsResponse,
     type FineTuningListEventsResponse as FineTuningListEventsResponse,
-    type FineTuningRetrieveCheckpointsResponse as FineTuningRetrieveCheckpointsResponse,
     type FineTuningCreateParams as FineTuningCreateParams,
     type FineTuningDeleteParams as FineTuningDeleteParams,
     type FineTuningDownloadParams as FineTuningDownloadParams,

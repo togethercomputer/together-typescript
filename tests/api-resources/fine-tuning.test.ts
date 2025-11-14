@@ -117,8 +117,8 @@ describe('resource fineTuning', () => {
     });
   });
 
-  test('listEvents', async () => {
-    const responsePromise = client.fineTuning.listEvents('id');
+  test('listCheckpoints', async () => {
+    const responsePromise = client.fineTuning.listCheckpoints('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -128,8 +128,8 @@ describe('resource fineTuning', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('retrieveCheckpoints', async () => {
-    const responsePromise = client.fineTuning.retrieveCheckpoints('id');
+  test('listEvents', async () => {
+    const responsePromise = client.fineTuning.listEvents('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
