@@ -7,9 +7,9 @@ const client = new Together({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource fineTune', () => {
+describe('resource fineTuning', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.fineTune.create({ model: 'model', training_file: 'training_file' });
+    const responsePromise = client.fineTuning.create({ model: 'model', training_file: 'training_file' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,7 +20,7 @@ describe('resource fineTune', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.fineTune.create({
+    const response = await client.fineTuning.create({
       model: 'model',
       training_file: 'training_file',
       batch_size: 0,
@@ -50,7 +50,7 @@ describe('resource fineTune', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.fineTune.retrieve('id');
+    const responsePromise = client.fineTuning.retrieve('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -61,7 +61,7 @@ describe('resource fineTune', () => {
   });
 
   test('list', async () => {
-    const responsePromise = client.fineTune.list();
+    const responsePromise = client.fineTuning.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -72,7 +72,7 @@ describe('resource fineTune', () => {
   });
 
   test('delete: only required params', async () => {
-    const responsePromise = client.fineTune.delete('id', { force: true });
+    const responsePromise = client.fineTuning.delete('id', { force: true });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -83,11 +83,11 @@ describe('resource fineTune', () => {
   });
 
   test('delete: required and optional params', async () => {
-    const response = await client.fineTune.delete('id', { force: true });
+    const response = await client.fineTuning.delete('id', { force: true });
   });
 
   test('cancel', async () => {
-    const responsePromise = client.fineTune.cancel('id');
+    const responsePromise = client.fineTuning.cancel('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -98,7 +98,7 @@ describe('resource fineTune', () => {
   });
 
   test('download: only required params', async () => {
-    const responsePromise = client.fineTune.download({ ft_id: 'ft_id' });
+    const responsePromise = client.fineTuning.download({ ft_id: 'ft_id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -109,7 +109,7 @@ describe('resource fineTune', () => {
   });
 
   test('download: required and optional params', async () => {
-    const response = await client.fineTune.download({
+    const response = await client.fineTuning.download({
       ft_id: 'ft_id',
       checkpoint: 'merged',
       checkpoint_step: 0,
@@ -118,7 +118,7 @@ describe('resource fineTune', () => {
   });
 
   test('listEvents', async () => {
-    const responsePromise = client.fineTune.listEvents('id');
+    const responsePromise = client.fineTuning.listEvents('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -129,7 +129,7 @@ describe('resource fineTune', () => {
   });
 
   test('retrieveCheckpoints', async () => {
-    const responsePromise = client.fineTune.retrieveCheckpoints('id');
+    const responsePromise = client.fineTuning.retrieveCheckpoints('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
