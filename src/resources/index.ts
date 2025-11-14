@@ -66,7 +66,7 @@ export {
   type FileUploadParams,
 } from './files';
 export {
-  FineTuneResource,
+  FineTuning,
   type CosineLrSchedulerArgs,
   type FineTune,
   type FineTuneEvent,
@@ -76,17 +76,17 @@ export {
   type LrScheduler,
   type TrainingMethodDpo,
   type TrainingMethodSft,
-  type FineTuneCreateResponse,
-  type FineTuneListResponse,
-  type FineTuneDeleteResponse,
-  type FineTuneCancelResponse,
-  type FineTuneDownloadResponse,
-  type FineTuneListEventsResponse,
-  type FineTuneRetrieveCheckpointsResponse,
-  type FineTuneCreateParams,
-  type FineTuneDeleteParams,
-  type FineTuneDownloadParams,
-} from './fine-tune';
+  type FineTuningCreateResponse,
+  type FineTuningListResponse,
+  type FineTuningDeleteResponse,
+  type FineTuningCancelResponse,
+  type FineTuningDownloadResponse,
+  type FineTuningListEventsResponse,
+  type FineTuningRetrieveCheckpointsResponse,
+  type FineTuningCreateParams,
+  type FineTuningDeleteParams,
+  type FineTuningDownloadParams,
+} from './fine-tuning';
 export { Hardware, type HardwareListResponse, type HardwareListParams } from './hardware';
 export {
   Images,

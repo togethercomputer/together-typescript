@@ -72,25 +72,25 @@ import {
 import {
   CosineLrSchedulerArgs,
   FineTune,
-  FineTuneCancelResponse,
-  FineTuneCreateParams,
-  FineTuneCreateResponse,
-  FineTuneDeleteParams,
-  FineTuneDeleteResponse,
-  FineTuneDownloadParams,
-  FineTuneDownloadResponse,
   FineTuneEvent,
-  FineTuneListEventsResponse,
-  FineTuneListResponse,
-  FineTuneResource,
-  FineTuneRetrieveCheckpointsResponse,
+  FineTuning,
+  FineTuningCancelResponse,
+  FineTuningCreateParams,
+  FineTuningCreateResponse,
+  FineTuningDeleteParams,
+  FineTuningDeleteResponse,
+  FineTuningDownloadParams,
+  FineTuningDownloadResponse,
+  FineTuningListEventsResponse,
+  FineTuningListResponse,
+  FineTuningRetrieveCheckpointsResponse,
   FullTrainingType,
   LinearLrSchedulerArgs,
   LoRaTrainingType,
   LrScheduler,
   TrainingMethodDpo,
   TrainingMethodSft,
-} from './resources/fine-tune';
+} from './resources/fine-tuning';
 import { Hardware, HardwareListParams, HardwareListResponse } from './resources/hardware';
 import { ImageCreateParams, ImageDataB64, ImageDataURL, ImageFile, Images } from './resources/images';
 import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
@@ -832,7 +832,7 @@ export class Together {
   completions: API.Completions = new API.Completions(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
   files: API.Files = new API.Files(this);
-  fineTune: API.FineTuneResource = new API.FineTuneResource(this);
+  fineTuning: API.FineTuning = new API.FineTuning(this);
   codeInterpreter: API.CodeInterpreter = new API.CodeInterpreter(this);
   images: API.Images = new API.Images(this);
   videos: API.Videos = new API.Videos(this);
@@ -849,7 +849,7 @@ Together.Chat = Chat;
 Together.Completions = Completions;
 Together.Embeddings = Embeddings;
 Together.Files = Files;
-Together.FineTuneResource = FineTuneResource;
+Together.FineTuning = FineTuning;
 Together.CodeInterpreter = CodeInterpreter;
 Together.Images = Images;
 Together.Videos = Videos;
@@ -899,7 +899,7 @@ export declare namespace Together {
   };
 
   export {
-    FineTuneResource as FineTuneResource,
+    FineTuning as FineTuning,
     type CosineLrSchedulerArgs as CosineLrSchedulerArgs,
     type FineTune as FineTune,
     type FineTuneEvent as FineTuneEvent,
@@ -909,16 +909,16 @@ export declare namespace Together {
     type LrScheduler as LrScheduler,
     type TrainingMethodDpo as TrainingMethodDpo,
     type TrainingMethodSft as TrainingMethodSft,
-    type FineTuneCreateResponse as FineTuneCreateResponse,
-    type FineTuneListResponse as FineTuneListResponse,
-    type FineTuneDeleteResponse as FineTuneDeleteResponse,
-    type FineTuneCancelResponse as FineTuneCancelResponse,
-    type FineTuneDownloadResponse as FineTuneDownloadResponse,
-    type FineTuneListEventsResponse as FineTuneListEventsResponse,
-    type FineTuneRetrieveCheckpointsResponse as FineTuneRetrieveCheckpointsResponse,
-    type FineTuneCreateParams as FineTuneCreateParams,
-    type FineTuneDeleteParams as FineTuneDeleteParams,
-    type FineTuneDownloadParams as FineTuneDownloadParams,
+    type FineTuningCreateResponse as FineTuningCreateResponse,
+    type FineTuningListResponse as FineTuningListResponse,
+    type FineTuningDeleteResponse as FineTuningDeleteResponse,
+    type FineTuningCancelResponse as FineTuningCancelResponse,
+    type FineTuningDownloadResponse as FineTuningDownloadResponse,
+    type FineTuningListEventsResponse as FineTuningListEventsResponse,
+    type FineTuningRetrieveCheckpointsResponse as FineTuningRetrieveCheckpointsResponse,
+    type FineTuningCreateParams as FineTuningCreateParams,
+    type FineTuningDeleteParams as FineTuningDeleteParams,
+    type FineTuningDownloadParams as FineTuningDownloadParams,
   };
 
   export {
