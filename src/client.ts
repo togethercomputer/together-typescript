@@ -19,6 +19,7 @@ import * as TopLevelAPI from './resources/top-level';
 import { RerankParams, RerankResponse } from './resources/top-level';
 import { APIPromise } from './core/api-promise';
 import {
+  BatchCancelResponse,
   BatchCreateParams,
   BatchCreateResponse,
   BatchListResponse,
@@ -986,6 +987,7 @@ export declare namespace Together {
     type BatchCreateResponse as BatchCreateResponse,
     type BatchRetrieveResponse as BatchRetrieveResponse,
     type BatchListResponse as BatchListResponse,
+    type BatchCancelResponse as BatchCancelResponse,
     type BatchCreateParams as BatchCreateParams,
   };
 

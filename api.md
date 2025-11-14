@@ -246,12 +246,14 @@ Types:
 - <code><a href="./src/resources/batches.ts">BatchCreateResponse</a></code>
 - <code><a href="./src/resources/batches.ts">BatchRetrieveResponse</a></code>
 - <code><a href="./src/resources/batches.ts">BatchListResponse</a></code>
+- <code><a href="./src/resources/batches.ts">BatchCancelResponse</a></code>
 
 Methods:
 
 - <code title="post /batches">client.batches.<a href="./src/resources/batches.ts">create</a>({ ...params }) -> BatchCreateResponse</code>
 - <code title="get /batches/{id}">client.batches.<a href="./src/resources/batches.ts">retrieve</a>(id) -> BatchRetrieveResponse</code>
 - <code title="get /batches">client.batches.<a href="./src/resources/batches.ts">list</a>() -> BatchListResponse</code>
+- <code title="post /batches/{id}/cancel">client.batches.<a href="./src/resources/batches.ts">cancel</a>(id) -> BatchCancelResponse</code>
 
 # Evals
 
