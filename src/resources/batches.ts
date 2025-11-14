@@ -46,6 +46,20 @@ export class Batches extends APIResource {
   list(options?: RequestOptions): APIPromise<BatchListResponse> {
     return this._client.get('/batches', options);
   }
+
+  /**
+   * Cancel a batch job by ID
+   *
+   * @example
+   * ```ts
+   * const response = await client.batches.cancel(
+   *   'batch_job_abc123def456',
+   * );
+   * ```
+   */
+  cancel(id: string, options?: RequestOptions): APIPromise<BatchCancelResponse> {
+    return this._client.post(path`/batches/${id}/cancel`, options);
+  }
 }
 
 export interface BatchCreateResponse {
@@ -186,6 +200,48 @@ export namespace BatchListResponse {
   }
 }
 
+export interface BatchCancelResponse {
+  id?: string;
+
+  completed_at?: string;
+
+  created_at?: string;
+
+  endpoint?: string;
+
+  error?: string;
+
+  error_file_id?: string;
+
+  /**
+   * Size of input file in bytes
+   */
+  file_size_bytes?: number;
+
+  input_file_id?: string;
+
+  job_deadline?: string;
+
+  /**
+   * Model used for processing requests
+   */
+  model_id?: string;
+
+  output_file_id?: string;
+
+  /**
+   * Completion progress (0.0 to 100)
+   */
+  progress?: number;
+
+  /**
+   * Current status of the batch job
+   */
+  status?: 'VALIDATING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED' | 'EXPIRED' | 'CANCELLED';
+
+  user_id?: string;
+}
+
 export interface BatchCreateParams {
   /**
    * The endpoint to use for batch processing
@@ -218,6 +274,7 @@ export declare namespace Batches {
     type BatchCreateResponse as BatchCreateResponse,
     type BatchRetrieveResponse as BatchRetrieveResponse,
     type BatchListResponse as BatchListResponse,
+    type BatchCancelResponse as BatchCancelResponse,
     type BatchCreateParams as BatchCreateParams,
   };
 }

@@ -1,24 +1,24 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
-import * as FineTuneAPI from './fine-tune';
+import * as FineTuningAPI from './fine-tuning';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
-export class FineTuneResource extends APIResource {
+export class FineTuning extends APIResource {
   /**
    * Create a fine-tuning job with the provided model and training data.
    *
    * @example
    * ```ts
-   * const fineTune = await client.fineTune.create({
+   * const fineTuning = await client.fineTuning.create({
    *   model: 'model',
    *   training_file: 'training_file',
    * });
    * ```
    */
-  create(body: FineTuneCreateParams, options?: RequestOptions): APIPromise<FineTuneCreateResponse> {
+  create(body: FineTuningCreateParams, options?: RequestOptions): APIPromise<FineTuningCreateResponse> {
     return this._client.post('/fine-tunes', { body, ...options });
   }
 
@@ -27,7 +27,7 @@ export class FineTuneResource extends APIResource {
    *
    * @example
    * ```ts
-   * const fineTune = await client.fineTune.retrieve('id');
+   * const fineTune = await client.fineTuning.retrieve('id');
    * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<FineTune> {
@@ -40,11 +40,30 @@ export class FineTuneResource extends APIResource {
    *
    * @example
    * ```ts
-   * const fineTunes = await client.fineTune.list();
+   * const fineTunings = await client.fineTuning.list();
    * ```
    */
-  list(options?: RequestOptions): APIPromise<FineTuneListResponse> {
+  list(options?: RequestOptions): APIPromise<FineTuningListResponse> {
     return this._client.get('/fine-tunes', options);
+  }
+
+  /**
+   * Delete a fine-tuning job.
+   *
+   * @example
+   * ```ts
+   * const fineTuning = await client.fineTuning.delete('id', {
+   *   force: true,
+   * });
+   * ```
+   */
+  delete(
+    id: string,
+    params: FineTuningDeleteParams,
+    options?: RequestOptions,
+  ): APIPromise<FineTuningDeleteResponse> {
+    const { force } = params;
+    return this._client.delete(path`/fine-tunes/${id}`, { query: { force }, ...options });
   }
 
   /**
@@ -53,10 +72,10 @@ export class FineTuneResource extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.fineTune.cancel('id');
+   * const response = await client.fineTuning.cancel('id');
    * ```
    */
-  cancel(id: string, options?: RequestOptions): APIPromise<FineTuneCancelResponse> {
+  cancel(id: string, options?: RequestOptions): APIPromise<FineTuningCancelResponse> {
     return this._client.post(path`/fine-tunes/${id}/cancel`, options);
   }
 
@@ -65,25 +84,16 @@ export class FineTuneResource extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.fineTune.download({
+   * const response = await client.fineTuning.download({
    *   ft_id: 'ft_id',
    * });
    * ```
    */
-  download(query: FineTuneDownloadParams, options?: RequestOptions): APIPromise<FineTuneDownloadResponse> {
+  download(
+    query: FineTuningDownloadParams,
+    options?: RequestOptions,
+  ): APIPromise<FineTuningDownloadResponse> {
     return this._client.get('/finetune/download', { query, ...options });
-  }
-
-  /**
-   * List the events for a single fine-tuning job.
-   *
-   * @example
-   * ```ts
-   * const response = await client.fineTune.listEvents('id');
-   * ```
-   */
-  listEvents(id: string, options?: RequestOptions): APIPromise<FineTuneListEventsResponse> {
-    return this._client.get(path`/fine-tunes/${id}/events`, options);
   }
 
   /**
@@ -91,13 +101,25 @@ export class FineTuneResource extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.fineTune.retrieveCheckpoints(
+   * const response = await client.fineTuning.listCheckpoints(
    *   'id',
    * );
    * ```
    */
-  retrieveCheckpoints(id: string, options?: RequestOptions): APIPromise<FineTuneRetrieveCheckpointsResponse> {
+  listCheckpoints(id: string, options?: RequestOptions): APIPromise<FineTuningListCheckpointsResponse> {
     return this._client.get(path`/fine-tunes/${id}/checkpoints`, options);
+  }
+
+  /**
+   * List the events for a single fine-tuning job.
+   *
+   * @example
+   * ```ts
+   * const response = await client.fineTuning.listEvents('id');
+   * ```
+   */
+  listEvents(id: string, options?: RequestOptions): APIPromise<FineTuningListEventsResponse> {
+    return this._client.get(path`/fine-tunes/${id}/events`, options);
   }
 }
 
@@ -308,7 +330,7 @@ export interface TrainingMethodSft {
  * A truncated version of the fine-tune response, used for POST /fine-tunes, GET
  * /fine-tunes and POST /fine-tunes/{id}/cancel endpoints
  */
-export interface FineTuneCreateResponse {
+export interface FineTuningCreateResponse {
   /**
    * Unique identifier for the fine-tune job
    */
@@ -463,11 +485,11 @@ export interface FineTuneCreateResponse {
   weight_decay?: number;
 }
 
-export interface FineTuneListResponse {
-  data: Array<FineTuneListResponse.Data>;
+export interface FineTuningListResponse {
+  data: Array<FineTuningListResponse.Data>;
 }
 
-export namespace FineTuneListResponse {
+export namespace FineTuningListResponse {
   /**
    * A truncated version of the fine-tune response, used for POST /fine-tunes, GET
    * /fine-tunes and POST /fine-tunes/{id}/cancel endpoints
@@ -507,7 +529,7 @@ export namespace FineTuneListResponse {
     /**
      * Events related to this fine-tune job
      */
-    events?: Array<FineTuneAPI.FineTuneEvent>;
+    events?: Array<FineTuningAPI.FineTuneEvent>;
 
     /**
      * Checkpoint used to continue training
@@ -532,7 +554,7 @@ export namespace FineTuneListResponse {
     /**
      * Learning rate scheduler configuration
      */
-    lr_scheduler?: FineTuneAPI.LrScheduler;
+    lr_scheduler?: FineTuningAPI.LrScheduler;
 
     /**
      * Maximum gradient norm for clipping
@@ -589,12 +611,12 @@ export namespace FineTuneListResponse {
     /**
      * Method of training used
      */
-    training_method?: FineTuneAPI.TrainingMethodSft | FineTuneAPI.TrainingMethodDpo;
+    training_method?: FineTuningAPI.TrainingMethodSft | FineTuningAPI.TrainingMethodDpo;
 
     /**
      * Type of training used (full or LoRA)
      */
-    training_type?: FineTuneAPI.FullTrainingType | FineTuneAPI.LoRaTrainingType;
+    training_type?: FineTuningAPI.FullTrainingType | FineTuningAPI.LoRaTrainingType;
 
     /**
      * Identifier for the user who created the job
@@ -628,11 +650,18 @@ export namespace FineTuneListResponse {
   }
 }
 
+export interface FineTuningDeleteResponse {
+  /**
+   * Message indicating the result of the deletion
+   */
+  message?: string;
+}
+
 /**
  * A truncated version of the fine-tune response, used for POST /fine-tunes, GET
  * /fine-tunes and POST /fine-tunes/{id}/cancel endpoints
  */
-export interface FineTuneCancelResponse {
+export interface FineTuningCancelResponse {
   /**
    * Unique identifier for the fine-tune job
    */
@@ -787,7 +816,7 @@ export interface FineTuneCancelResponse {
   weight_decay?: number;
 }
 
-export interface FineTuneDownloadResponse {
+export interface FineTuningDownloadResponse {
   id?: string;
 
   checkpoint_step?: number;
@@ -799,15 +828,11 @@ export interface FineTuneDownloadResponse {
   size?: number;
 }
 
-export interface FineTuneListEventsResponse {
-  data: Array<FineTuneEvent>;
+export interface FineTuningListCheckpointsResponse {
+  data: Array<FineTuningListCheckpointsResponse.Data>;
 }
 
-export interface FineTuneRetrieveCheckpointsResponse {
-  data: Array<FineTuneRetrieveCheckpointsResponse.Data>;
-}
-
-export namespace FineTuneRetrieveCheckpointsResponse {
+export namespace FineTuningListCheckpointsResponse {
   export interface Data {
     checkpoint_type: string;
 
@@ -819,7 +844,11 @@ export namespace FineTuneRetrieveCheckpointsResponse {
   }
 }
 
-export interface FineTuneCreateParams {
+export interface FineTuningListEventsResponse {
+  data: Array<FineTuneEvent>;
+}
+
+export interface FineTuningCreateParams {
   /**
    * Name of the base model to run fine-tune job on
    */
@@ -959,7 +988,11 @@ export interface FineTuneCreateParams {
   weight_decay?: number;
 }
 
-export interface FineTuneDownloadParams {
+export interface FineTuningDeleteParams {
+  force: boolean;
+}
+
+export interface FineTuningDownloadParams {
   /**
    * Fine-tune ID to download. A string that starts with `ft-`.
    */
@@ -984,7 +1017,7 @@ export interface FineTuneDownloadParams {
   output?: string;
 }
 
-export declare namespace FineTuneResource {
+export declare namespace FineTuning {
   export {
     type CosineLrSchedulerArgs as CosineLrSchedulerArgs,
     type FineTune as FineTune,
@@ -995,13 +1028,15 @@ export declare namespace FineTuneResource {
     type LrScheduler as LrScheduler,
     type TrainingMethodDpo as TrainingMethodDpo,
     type TrainingMethodSft as TrainingMethodSft,
-    type FineTuneCreateResponse as FineTuneCreateResponse,
-    type FineTuneListResponse as FineTuneListResponse,
-    type FineTuneCancelResponse as FineTuneCancelResponse,
-    type FineTuneDownloadResponse as FineTuneDownloadResponse,
-    type FineTuneListEventsResponse as FineTuneListEventsResponse,
-    type FineTuneRetrieveCheckpointsResponse as FineTuneRetrieveCheckpointsResponse,
-    type FineTuneCreateParams as FineTuneCreateParams,
-    type FineTuneDownloadParams as FineTuneDownloadParams,
+    type FineTuningCreateResponse as FineTuningCreateResponse,
+    type FineTuningListResponse as FineTuningListResponse,
+    type FineTuningDeleteResponse as FineTuningDeleteResponse,
+    type FineTuningCancelResponse as FineTuningCancelResponse,
+    type FineTuningDownloadResponse as FineTuningDownloadResponse,
+    type FineTuningListCheckpointsResponse as FineTuningListCheckpointsResponse,
+    type FineTuningListEventsResponse as FineTuningListEventsResponse,
+    type FineTuningCreateParams as FineTuningCreateParams,
+    type FineTuningDeleteParams as FineTuningDeleteParams,
+    type FineTuningDownloadParams as FineTuningDownloadParams,
   };
 }

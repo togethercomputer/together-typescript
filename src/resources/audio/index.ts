@@ -14,3 +14,4 @@ export {
   type TranscriptionCreateParams,
 } from './transcriptions';
 export { Translations, type TranslationCreateResponse, type TranslationCreateParams } from './translations';
+export { Voices, type VoiceListResponse } from './voices';

@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.31.0 (2025-11-14)
+
+Full Changelog: [v0.30.0...v0.31.0](https://github.com/togethercomputer/together-typescript/compare/v0.30.0...v0.31.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** Access to the api for listing checkpoints has changed its name to `list_checkpoints`
+* **api:** Access to fine tuning APIs namespace has changed from `fine_tune` to `fine_tuning`
+
+### Features
+
+* **api:** Add audio.voices.list sdk ([890595e](https://github.com/togethercomputer/together-typescript/commit/890595e53cdfd3e28a60cde87426f48ddb81a261))
+* **api:** Add batches.cancel API ([b1133f8](https://github.com/togethercomputer/together-typescript/commit/b1133f805588621237922f13cfd2b9e0a4401a0e))
+* **api:** Add endpoints.list_avzones ([606fea8](https://github.com/togethercomputer/together-typescript/commit/606fea8873f5d511b619cfce63c3762ffc61db89))
+* **api:** Add fine_tune.delete API ([79d0c84](https://github.com/togethercomputer/together-typescript/commit/79d0c84157bddcfe54de5d0ce1c12866b4c1243d))
+* **api:** api update ([4be10bc](https://github.com/togethercomputer/together-typescript/commit/4be10bcc5ba0f6af6b42eda9edbb8d6bb921fb02))
+* **api:** api update ([e594a76](https://github.com/togethercomputer/together-typescript/commit/e594a76294cf6c591b49f84f8769c045423b9d2a))
+* **api:** api update ([8ec7bf0](https://github.com/togethercomputer/together-typescript/commit/8ec7bf0af42f2b9c4ff21f03a8978ed947bdec74))
+* **api:** api update ([04797be](https://github.com/togethercomputer/together-typescript/commit/04797be698349057cec045107b183e19e99c0ef3))
+* **api:** api update ([c219bfd](https://github.com/togethercomputer/together-typescript/commit/c219bfd42f433da46c8689929dd99eef55c9dda4))
+* **api:** manual updates ([9f78929](https://github.com/togethercomputer/together-typescript/commit/9f78929f9162d4c84a0f0643d4070d96dac32e76))
+* **api:** Update Eval APIs ([c91b8c0](https://github.com/togethercomputer/together-typescript/commit/c91b8c082eb8e84841820d23bf7dbf1450525b67))
+
+
+### Styles
+
+* **api:** Change fine tuning method `retrieve_checkpoints` to `list_checkpoints` ([b2c168a](https://github.com/togethercomputer/together-typescript/commit/b2c168afce5f78c915b06559d2c226b5220160c1))
+* **api:** Change fine tuning namespace to `fine_tuning` ([77b1211](https://github.com/togethercomputer/together-typescript/commit/77b1211ece96ad340628409c0ae08bac9fab2e0a))
+
 ## 0.30.0 (2025-11-04)
 
 Full Changelog: [v0.29.0...v0.30.0](https://github.com/togethercomputer/together-typescript/compare/v0.29.0...v0.30.0)

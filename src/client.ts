@@ -19,6 +19,7 @@ import * as TopLevelAPI from './resources/top-level';
 import { RerankParams, RerankResponse } from './resources/top-level';
 import { APIPromise } from './core/api-promise';
 import {
+  BatchCancelResponse,
   BatchCreateParams,
   BatchCreateResponse,
   BatchListResponse,
@@ -39,24 +40,24 @@ import {
 import { Embedding, EmbeddingCreateParams, Embeddings } from './resources/embeddings';
 import {
   Autoscaling,
+  DedicatedEndpoint,
   EndpointCreateParams,
-  EndpointCreateResponse,
+  EndpointListAvzonesResponse,
   EndpointListParams,
   EndpointListResponse,
-  EndpointRetrieveResponse,
   EndpointUpdateParams,
-  EndpointUpdateResponse,
   Endpoints,
 } from './resources/endpoints';
 import {
-  EvalGetAllowedModelsResponse,
-  EvalGetStatusResponse,
+  EvalCreateParams,
+  EvalCreateResponse,
   EvalListParams,
   EvalListResponse,
-  EvalRetrieveResponse,
+  EvalStatusResponse,
+  EvalUpdateParams,
+  EvalUpdateResponse,
   Evals,
-  EvaluationJudgeModelConfig,
-  EvaluationModelRequest,
+  EvaluationJob,
 } from './resources/evals';
 import {
   FileDeleteResponse,
@@ -72,23 +73,25 @@ import {
 import {
   CosineLrSchedulerArgs,
   FineTune,
-  FineTuneCancelResponse,
-  FineTuneCreateParams,
-  FineTuneCreateResponse,
-  FineTuneDownloadParams,
-  FineTuneDownloadResponse,
   FineTuneEvent,
-  FineTuneListEventsResponse,
-  FineTuneListResponse,
-  FineTuneResource,
-  FineTuneRetrieveCheckpointsResponse,
+  FineTuning,
+  FineTuningCancelResponse,
+  FineTuningCreateParams,
+  FineTuningCreateResponse,
+  FineTuningDeleteParams,
+  FineTuningDeleteResponse,
+  FineTuningDownloadParams,
+  FineTuningDownloadResponse,
+  FineTuningListCheckpointsResponse,
+  FineTuningListEventsResponse,
+  FineTuningListResponse,
   FullTrainingType,
   LinearLrSchedulerArgs,
   LoRaTrainingType,
   LrScheduler,
   TrainingMethodDpo,
   TrainingMethodSft,
-} from './resources/fine-tune';
+} from './resources/fine-tuning';
 import { Hardware, HardwareListParams, HardwareListResponse } from './resources/hardware';
 import { ImageCreateParams, ImageDataB64, ImageDataURL, ImageFile, Images } from './resources/images';
 import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
@@ -831,7 +834,7 @@ export class Together {
   completions: API.Completions = new API.Completions(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
   files: API.Files = new API.Files(this);
-  fineTune: API.FineTuneResource = new API.FineTuneResource(this);
+  fineTuning: API.FineTuning = new API.FineTuning(this);
   codeInterpreter: API.CodeInterpreter = new API.CodeInterpreter(this);
   images: API.Images = new API.Images(this);
   videos: API.Videos = new API.Videos(this);
@@ -848,7 +851,7 @@ Together.Chat = Chat;
 Together.Completions = Completions;
 Together.Embeddings = Embeddings;
 Together.Files = Files;
-Together.FineTuneResource = FineTuneResource;
+Together.FineTuning = FineTuning;
 Together.CodeInterpreter = CodeInterpreter;
 Together.Images = Images;
 Together.Videos = Videos;
@@ -898,7 +901,7 @@ export declare namespace Together {
   };
 
   export {
-    FineTuneResource as FineTuneResource,
+    FineTuning as FineTuning,
     type CosineLrSchedulerArgs as CosineLrSchedulerArgs,
     type FineTune as FineTune,
     type FineTuneEvent as FineTuneEvent,
@@ -908,14 +911,16 @@ export declare namespace Together {
     type LrScheduler as LrScheduler,
     type TrainingMethodDpo as TrainingMethodDpo,
     type TrainingMethodSft as TrainingMethodSft,
-    type FineTuneCreateResponse as FineTuneCreateResponse,
-    type FineTuneListResponse as FineTuneListResponse,
-    type FineTuneCancelResponse as FineTuneCancelResponse,
-    type FineTuneDownloadResponse as FineTuneDownloadResponse,
-    type FineTuneListEventsResponse as FineTuneListEventsResponse,
-    type FineTuneRetrieveCheckpointsResponse as FineTuneRetrieveCheckpointsResponse,
-    type FineTuneCreateParams as FineTuneCreateParams,
-    type FineTuneDownloadParams as FineTuneDownloadParams,
+    type FineTuningCreateResponse as FineTuningCreateResponse,
+    type FineTuningListResponse as FineTuningListResponse,
+    type FineTuningDeleteResponse as FineTuningDeleteResponse,
+    type FineTuningCancelResponse as FineTuningCancelResponse,
+    type FineTuningDownloadResponse as FineTuningDownloadResponse,
+    type FineTuningListCheckpointsResponse as FineTuningListCheckpointsResponse,
+    type FineTuningListEventsResponse as FineTuningListEventsResponse,
+    type FineTuningCreateParams as FineTuningCreateParams,
+    type FineTuningDeleteParams as FineTuningDeleteParams,
+    type FineTuningDownloadParams as FineTuningDownloadParams,
   };
 
   export {
@@ -964,10 +969,9 @@ export declare namespace Together {
   export {
     Endpoints as Endpoints,
     type Autoscaling as Autoscaling,
-    type EndpointCreateResponse as EndpointCreateResponse,
-    type EndpointRetrieveResponse as EndpointRetrieveResponse,
-    type EndpointUpdateResponse as EndpointUpdateResponse,
+    type DedicatedEndpoint as DedicatedEndpoint,
     type EndpointListResponse as EndpointListResponse,
+    type EndpointListAvzonesResponse as EndpointListAvzonesResponse,
     type EndpointCreateParams as EndpointCreateParams,
     type EndpointUpdateParams as EndpointUpdateParams,
     type EndpointListParams as EndpointListParams,
@@ -984,17 +988,19 @@ export declare namespace Together {
     type BatchCreateResponse as BatchCreateResponse,
     type BatchRetrieveResponse as BatchRetrieveResponse,
     type BatchListResponse as BatchListResponse,
+    type BatchCancelResponse as BatchCancelResponse,
     type BatchCreateParams as BatchCreateParams,
   };
 
   export {
     Evals as Evals,
-    type EvaluationJudgeModelConfig as EvaluationJudgeModelConfig,
-    type EvaluationModelRequest as EvaluationModelRequest,
-    type EvalRetrieveResponse as EvalRetrieveResponse,
+    type EvaluationJob as EvaluationJob,
+    type EvalCreateResponse as EvalCreateResponse,
+    type EvalUpdateResponse as EvalUpdateResponse,
     type EvalListResponse as EvalListResponse,
-    type EvalGetAllowedModelsResponse as EvalGetAllowedModelsResponse,
-    type EvalGetStatusResponse as EvalGetStatusResponse,
+    type EvalStatusResponse as EvalStatusResponse,
+    type EvalCreateParams as EvalCreateParams,
+    type EvalUpdateParams as EvalUpdateParams,
     type EvalListParams as EvalListParams,
   };
 }

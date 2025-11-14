@@ -121,6 +121,8 @@ export namespace CompletionChunk {
        */
       function_call?: Delta.FunctionCall | null;
 
+      reasoning?: string | null;
+
       token_id?: number;
 
       tool_calls?: Array<CompletionsAPI.ToolChoice>;

@@ -13,6 +13,7 @@ export {
   type BatchCreateResponse,
   type BatchRetrieveResponse,
   type BatchListResponse,
+  type BatchCancelResponse,
   type BatchCreateParams,
 } from './batches';
 export { Chat } from './chat/chat';
@@ -36,22 +37,22 @@ export { Embeddings, type Embedding, type EmbeddingCreateParams } from './embedd
 export {
   Endpoints,
   type Autoscaling,
-  type EndpointCreateResponse,
-  type EndpointRetrieveResponse,
-  type EndpointUpdateResponse,
+  type DedicatedEndpoint,
   type EndpointListResponse,
+  type EndpointListAvzonesResponse,
   type EndpointCreateParams,
   type EndpointUpdateParams,
   type EndpointListParams,
 } from './endpoints';
 export {
   Evals,
-  type EvaluationJudgeModelConfig,
-  type EvaluationModelRequest,
-  type EvalRetrieveResponse,
+  type EvaluationJob,
+  type EvalCreateResponse,
+  type EvalUpdateResponse,
   type EvalListResponse,
-  type EvalGetAllowedModelsResponse,
-  type EvalGetStatusResponse,
+  type EvalStatusResponse,
+  type EvalCreateParams,
+  type EvalUpdateParams,
   type EvalListParams,
 } from './evals';
 export {
@@ -66,7 +67,7 @@ export {
   type FileUploadParams,
 } from './files';
 export {
-  FineTuneResource,
+  FineTuning,
   type CosineLrSchedulerArgs,
   type FineTune,
   type FineTuneEvent,
@@ -76,15 +77,17 @@ export {
   type LrScheduler,
   type TrainingMethodDpo,
   type TrainingMethodSft,
-  type FineTuneCreateResponse,
-  type FineTuneListResponse,
-  type FineTuneCancelResponse,
-  type FineTuneDownloadResponse,
-  type FineTuneListEventsResponse,
-  type FineTuneRetrieveCheckpointsResponse,
-  type FineTuneCreateParams,
-  type FineTuneDownloadParams,
-} from './fine-tune';
+  type FineTuningCreateResponse,
+  type FineTuningListResponse,
+  type FineTuningDeleteResponse,
+  type FineTuningCancelResponse,
+  type FineTuningDownloadResponse,
+  type FineTuningListCheckpointsResponse,
+  type FineTuningListEventsResponse,
+  type FineTuningCreateParams,
+  type FineTuningDeleteParams,
+  type FineTuningDownloadParams,
+} from './fine-tuning';
 export { Hardware, type HardwareListResponse, type HardwareListParams } from './hardware';
 export {
   Images,
