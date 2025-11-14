@@ -6,12 +6,15 @@ import * as TranscriptionsAPI from './transcriptions';
 import { TranscriptionCreateParams, TranscriptionCreateResponse, Transcriptions } from './transcriptions';
 import * as TranslationsAPI from './translations';
 import { TranslationCreateParams, TranslationCreateResponse, Translations } from './translations';
+import * as VoicesAPI from './voices';
+import { VoiceListResponse, Voices } from './voices';
 import { APIPromise } from '../../core/api-promise';
 import { Stream } from '../../core/streaming';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
 export class Audio extends APIResource {
+  voices: VoicesAPI.Voices = new VoicesAPI.Voices(this._client);
   transcriptions: TranscriptionsAPI.Transcriptions = new TranscriptionsAPI.Transcriptions(this._client);
   translations: TranslationsAPI.Translations = new TranslationsAPI.Translations(this._client);
 
@@ -175,6 +178,7 @@ export interface AudioCreateParamsStreaming extends AudioCreateParamsBase {
   stream: true;
 }
 
+Audio.Voices = Voices;
 Audio.Transcriptions = Transcriptions;
 Audio.Translations = Translations;
 
@@ -186,6 +190,8 @@ export declare namespace Audio {
     type AudioCreateParamsNonStreaming as AudioCreateParamsNonStreaming,
     type AudioCreateParamsStreaming as AudioCreateParamsStreaming,
   };
+
+  export { Voices as Voices, type VoiceListResponse as VoiceListResponse };
 
   export {
     Transcriptions as Transcriptions,

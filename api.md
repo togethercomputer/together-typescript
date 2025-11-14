@@ -164,6 +164,16 @@ Methods:
 
 - <code title="post /audio/speech">client.audio.<a href="./src/resources/audio/audio.ts">create</a>({ ...params }) -> Response</code>
 
+## Voices
+
+Types:
+
+- <code><a href="./src/resources/audio/voices.ts">VoiceListResponse</a></code>
+
+Methods:
+
+- <code title="get /voices">client.audio.voices.<a href="./src/resources/audio/voices.ts">list</a>() -> VoiceListResponse</code>
+
 ## Transcriptions
 
 Types:
