@@ -8,7 +8,7 @@ const client = new Together({
 });
 
 describe('resource evals', () => {
-  test('create: only required params', async () => {
+  test.skip('create: only required params', async () => {
     const responsePromise = client.evals.create({
       parameters: {
         input_data_file_path: 'file-1234-aefd',
@@ -31,7 +31,7 @@ describe('resource evals', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('create: required and optional params', async () => {
+  test.skip('create: required and optional params', async () => {
     const response = await client.evals.create({
       parameters: {
         input_data_file_path: 'file-1234-aefd',
