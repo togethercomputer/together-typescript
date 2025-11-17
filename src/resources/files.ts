@@ -68,8 +68,8 @@ export class Files extends APIResource {
   /**
    * Upload a file.
    */
-  upload(file: string, purpose: FilePurpose, check: boolean = true): ReturnType<typeof upload> {
-    return upload(file, purpose, check);
+  upload(file: string, purpose: FilePurpose, check: boolean = true): APIPromise<FileRetrieveResponse> {
+    return upload(this._client, file, purpose, check);
   }
 }
 

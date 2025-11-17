@@ -463,9 +463,7 @@ async function _check_csv(file: string, purpose: FilePurpose | string): Promise<
       }
     }
 
-    report_dict.update = _check_samples_count(file, report_dict, idx);
-    Object.assign(report_dict, report_dict.update);
-    delete (report_dict as any).update;
+    Object.assign(report_dict, _check_samples_count(file, report_dict, idx));
     report_dict.load_csv = true;
   } catch (e) {
     report_dict.load_csv = false;
@@ -573,7 +571,9 @@ async function _check_jsonl(file: string, purpose: FilePurpose | string): Promis
         } else if (current_format === DatasetFormat.CONVERSATION) {
           const message_column = JSONL_REQUIRED_COLUMNS_MAP[DatasetFormat.CONVERSATION][0];
           const require_assistant = purpose !== 'eval';
-          validate_messages(json_line[message_column], idx, require_assistant);
+          // @ts-ignore - just bad typescript not being great at record access
+          const messages = json_line[message_column];
+          validate_messages(messages, idx, require_assistant);
         } else {
           for (const column of JSONL_REQUIRED_COLUMNS_MAP[current_format]) {
             if (typeof json_line[column] !== 'string') {

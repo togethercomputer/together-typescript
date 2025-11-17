@@ -292,10 +292,7 @@ describe('checkFile', () => {
         const file = path.join(tmpDir, 'missing_field_in_conversation.jsonl');
         const content = [
           {
-            messages: [
-              { role: 'user', content: 'Hi' },
-              { role: 'assistant' },
-            ],
+            messages: [{ role: 'user', content: 'Hi' }, { role: 'assistant' }],
           },
         ];
         fs.writeFileSync(file, content.map((item) => JSON.stringify(item)).join('\n'));
@@ -309,11 +306,7 @@ describe('checkFile', () => {
         const file = path.join(tmpDir, 'wrong_turn_type.jsonl');
         const content = [
           {
-            messages: [
-              'Hi!',
-              { role: 'user', content: 'Hi' },
-              { role: 'assistant' },
-            ],
+            messages: ['Hi!', { role: 'user', content: 'Hi' }, { role: 'assistant' }],
           },
         ];
         fs.writeFileSync(file, content.map((item) => JSON.stringify(item)).join('\n'));
@@ -427,4 +420,3 @@ describe('checkFile', () => {
     });
   });
 });
-
