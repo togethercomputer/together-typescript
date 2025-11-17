@@ -3,10 +3,8 @@
 import { readEnv } from '../internal/utils/env';
 import fs from 'fs';
 import * as path from 'path';
-import progress from 'progress-stream';
-import readline from 'readline';
-import pkg from 'parquetjs';
-const { ParquetReader } = pkg;
+import { FilePurpose } from '../resources';
+import { checkFile } from './check-file';
 
 export interface FileResponse {
   id: string;
@@ -28,153 +26,12 @@ const failedUploadMessage = {
 };
 
 const baseURL = readEnv('TOGETHER_API_BASE_URL') || 'https://api.together.xyz/v1';
-const MAX_FILE_SIZE = 4.8; // GB
-const BYTES_PER_GB = 1024 * 1024 * 1024;
-const MIN_SAMPLES = 1;
-const PARQUET_EXPECTED_COLUMNS = ['input_ids', 'attention_mask', 'labels'];
 
-export interface CheckFileResponse {
-  success: boolean;
-  message?: string;
-}
-export async function check_file(fileName: string): Promise<CheckFileResponse> {
-  const stat = fs.statSync(fileName);
-  if (stat.size == 0) {
-    return { success: false, message: `File is empty` };
-  }
-
-  if (stat.size > MAX_FILE_SIZE * BYTES_PER_GB) {
-    return { success: false, message: `File size exceeds the limit of ${MAX_FILE_SIZE} GB` };
-  }
-
-  const fileType = path.extname(fileName);
-  if (fileType !== '.jsonl' && fileType !== '.parquet') {
-    return {
-      success: false,
-      message: 'File type must be either .jsonl or .parquet',
-    };
-  }
-
-  if (fileType == '.jsonl') {
-    const jsonlCheck = await check_jsonl(fileName);
-    if (jsonlCheck) {
-      return { success: false, message: jsonlCheck };
-    }
-  }
-
-  if (fileType == '.parquet') {
-    const parquetCheck = await check_parquet(fileName);
-    if (parquetCheck) {
-      return { success: false, message: parquetCheck };
-    }
-  }
-
-  return { success: true };
-}
-
-export async function check_parquet(fileName: string): Promise<string | undefined> {
-  try {
-    const reader = await ParquetReader.openFile(fileName);
-    const cursor = reader.getCursor();
-    let record = null;
-
-    const fieldNames = Object.keys(reader.schema.fields);
-    if (!('input_ids' in fieldNames)) {
-      return `Parquet file ${fileName} does not contain the 'input_ids' column.`;
-    }
-
-    for (const fieldName in fieldNames) {
-      if (!PARQUET_EXPECTED_COLUMNS.includes(fieldName)) {
-        return `Parquet file ${fileName} contains unexpected column ${fieldName}. Only ${PARQUET_EXPECTED_COLUMNS.join(
-          ', ',
-        )} are supported`;
-      }
-    }
-
-    const numRows = reader.getRowCount() as unknown as number;
-    if (numRows < MIN_SAMPLES) {
-      return `Parquet file ${fileName} contains only ${numRows} samples. Minimum of ${MIN_SAMPLES} samples are required`;
-    }
-
-    await reader.close();
-  } catch (err) {
-    return `failed to read parquet file ${fileName}`;
-  }
-
-  return undefined;
-}
-
-// return undefined if the file is valid, otherwise return an error message
-export async function check_jsonl(fileName: string): Promise<string | undefined> {
-  const fileStream = fs.createReadStream(fileName);
-
-  const rl = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity,
-  });
-
-  let errors: string[] = [];
-  let lineNumber = 1;
-  for await (const line of rl) {
-    try {
-      // do not proceed if there are too many errors
-      if (errors.length > 20) {
-        break;
-      }
-      const parsedLine = JSON.parse(line);
-
-      if (typeof parsedLine !== 'object') {
-        errors.push(`Line number ${lineNumber} is not a valid JSON object`);
-        continue;
-      }
-
-      const isTextFormat = 'text' in parsedLine;
-      const isMessagesFormat = 'messages' in parsedLine;
-
-      if (!isTextFormat && !isMessagesFormat) {
-        errors.push(
-          `Invalid format found on line ${lineNumber} of the the input file. Expected format: {'text': 'my sample string'} or {'messages': [{role: 'role', content: 'content'}]}.`,
-        );
-        continue;
-      }
-
-      if (isTextFormat && typeof parsedLine['text'] !== 'string') {
-        errors.push(`'Invalid value type for "text" key on line ${lineNumber}. Expected string`);
-        continue;
-      }
-
-      if (isMessagesFormat) {
-        const firstMessage = parsedLine['messages'][0];
-        // console.log({ firstMessage });
-        const firstLineHasRole = typeof firstMessage['role'] === 'string';
-        const firstLineHasContent = typeof firstMessage['content'] === 'string';
-        if (!firstLineHasRole || !firstLineHasContent) {
-          errors.push(
-            `Invalid format found on line ${lineNumber} of the the input file. Expected format: {'messages': [{role: 'role', content: 'content'}]}.`,
-          );
-          continue;
-        }
-      }
-    } catch (error) {
-      errors.push(`Error parsing line number ${lineNumber}`);
-    }
-    lineNumber += 1;
-  }
-
-  lineNumber -= 1;
-  if (lineNumber < MIN_SAMPLES) {
-    errors.push(`Processing ${fileName} resulted in only ${lineNumber - 1} samples.`);
-  }
-
-  if (errors.length > 0) {
-    return errors.join('\n');
-  }
-
-  return undefined;
-}
-
-export async function upload(fileName: string, check: boolean = true): Promise<FileResponse | ErrorResponse> {
-  let purpose = 'fine-tune';
+export async function upload(
+  fileName: string,
+  purpose: FilePurpose,
+  check: boolean = true,
+): Promise<FileResponse | ErrorResponse> {
   if (!fs.existsSync(fileName)) {
     return {
       message: 'File does not exists',
@@ -189,10 +46,10 @@ export async function upload(fileName: string, check: boolean = true): Promise<F
   }
 
   if (check) {
-    const checkFile = await check_file(fileName);
-    if (!checkFile.success) {
+    const checkResponse = await checkFile(fileName, purpose);
+    if (!checkResponse.is_check_passed) {
       return {
-        message: checkFile.message || `verification of ${fileName} failed with some unknown reason`,
+        message: checkResponse.message || `verification of ${fileName} failed with some unknown reason`,
       };
     }
   }
@@ -243,17 +100,6 @@ export async function upload(fileName: string, check: boolean = true): Promise<F
     const fileStream = fs.createReadStream(fileName);
     const fileSize = fs.statSync(fileName).size;
 
-    const progressStream = progress({
-      length: fileSize,
-      time: 100, // Emit progress events every 100ms
-    });
-
-    // Listen to progress events and log them
-    progressStream.on('progress', (progress) => {
-      displayProgress(progress.percentage);
-    });
-
-    let uploadedBytes = 0;
     // upload the file to uploadUrl
     const uploadResponse = await fetch(uploadUrl, {
       method: 'PUT',
@@ -261,11 +107,9 @@ export async function upload(fileName: string, check: boolean = true): Promise<F
         'Content-Type': 'application/octet-stream',
         'Content-Length': `${fileSize}`,
       },
-      body: fileStream.pipe(progressStream),
+      body: fileStream,
     });
 
-    displayProgress(100);
-    process.stdout.write('\n');
     if (uploadResponse.status !== 200) {
       return {
         message: `failed to upload file (${uploadResponse.statusText}) status code ${uploadResponse.status}`,
@@ -293,24 +137,4 @@ export async function upload(fileName: string, check: boolean = true): Promise<F
       message: 'failed to upload file',
     };
   }
-}
-
-async function displayProgress(progress: number) {
-  const barWidth = 40; // Number of characters for the progress bar
-  const completedBars = Math.round((progress / 100) * barWidth);
-  let remainingBars = barWidth - completedBars;
-  if (remainingBars < 0) {
-    remainingBars = 0;
-  }
-  const progressBar = `[${'='.repeat(completedBars)}${' '.repeat(remainingBars)}] ${progress.toFixed(2)}%`;
-
-  // Clear the line and write progress
-  //process.stdout.clearLine(0); //clean entire line
-  process.stdout.cursorTo(0);
-  process.stdout.write(progressBar, () => {});
-  await sleep(2000);
-}
-
-async function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
