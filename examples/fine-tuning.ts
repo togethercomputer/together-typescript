@@ -9,7 +9,7 @@ async function main() {
   const fileId = 'file-bf72b951-fa1a-41af-a152-fe385dca0201';
 
   // Create a model
-  const fineTuneModel = await together.fineTune.create({
+  const fineTuneModel = await together.fineTuning.create({
     model: 'meta-llama/Meta-Llama-3-8B',
     training_file: fileId,
   });
@@ -20,7 +20,7 @@ async function main() {
 
   //Wait for completion
   while (true) {
-    const fineTuneStatus = await together.fineTune.retrieve(fineTuneId);
+    const fineTuneStatus = await together.fineTuning.retrieve(fineTuneId);
     if (fineTuneStatus.status === 'completed') {
       break;
     } else {
@@ -29,13 +29,13 @@ async function main() {
   }
 
   //List the model events
-  const modelEvents = await together.fineTune.listEvents(fineTuneId);
+  const modelEvents = await together.fineTuning.listEvents(fineTuneId);
   for (const e of modelEvents.data) {
     console.log(e);
   }
 
   //Download the model
-  const down = await together.fineTune.download({
+  const down = await together.fineTuning.download({
     ft_id: fineTuneId,
   });
   console.log(JSON.stringify(down));
