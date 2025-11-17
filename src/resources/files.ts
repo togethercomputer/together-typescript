@@ -7,6 +7,7 @@ import { type Uploadable } from '../core/uploads';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
+import { upload } from '../lib/upload';
 
 export class Files extends APIResource {
   /**
@@ -67,8 +68,8 @@ export class Files extends APIResource {
   /**
    * Upload a file.
    */
-  upload(_: string): Promise<void> {
-    throw 'please use together-ai/lib/upload';
+  upload(file: string, purpose: FilePurpose, check: boolean = true): ReturnType<typeof upload> {
+    return upload(file, purpose, check);
   }
 }
 
