@@ -93,8 +93,6 @@ export function upload(
           body: fileStream,
         });
 
-        // uploadResponse.
-
         if (uploadResponse.status !== 200) {
           return reject({
             message: `failed to upload file (${uploadResponse.statusText}) status code ${uploadResponse.status}`,
