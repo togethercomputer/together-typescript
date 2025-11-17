@@ -1,23 +1,13 @@
 // Upload file to server using /files API
 
 import { readEnv } from '../internal/utils/env';
-import fs from 'fs';
+import fs from 'fs/promises';
+import { createReadStream } from 'fs';
 import * as path from 'path';
-import progress from 'progress-stream';
-import readline from 'readline';
-import pkg from 'parquetjs';
-const { ParquetReader } = pkg;
-
-export interface FileResponse {
-  id: string;
-  object: string;
-  type: 'jsonl' | 'parquet';
-  purpose: 'fine-tune';
-  filename: string;
-  bytes: number;
-  line_count: number;
-  processed: boolean;
-}
+import { FilePurpose, FileRetrieveResponse } from '../resources';
+import { checkFile } from './check-file';
+import { Together } from '../client';
+import { APIPromise } from '../core/api-promise';
 
 export interface ErrorResponse {
   message: string;
@@ -28,289 +18,104 @@ const failedUploadMessage = {
 };
 
 const baseURL = readEnv('TOGETHER_API_BASE_URL') || 'https://api.together.xyz/v1';
-const MAX_FILE_SIZE = 4.8; // GB
-const BYTES_PER_GB = 1024 * 1024 * 1024;
-const MIN_SAMPLES = 1;
-const PARQUET_EXPECTED_COLUMNS = ['input_ids', 'attention_mask', 'labels'];
 
-export interface CheckFileResponse {
-  success: boolean;
-  message?: string;
-}
-export async function check_file(fileName: string): Promise<CheckFileResponse> {
-  const stat = fs.statSync(fileName);
-  if (stat.size == 0) {
-    return { success: false, message: `File is empty` };
-  }
+export function upload(
+  client: Together,
+  fileName: string,
+  purpose: FilePurpose,
+  check: boolean = true,
+): APIPromise<FileRetrieveResponse> {
+  return new APIPromise<FileRetrieveResponse>(
+    client,
+    new Promise(async (resolve, reject) => {
+      let fileSize = 0;
 
-  if (stat.size > MAX_FILE_SIZE * BYTES_PER_GB) {
-    return { success: false, message: `File size exceeds the limit of ${MAX_FILE_SIZE} GB` };
-  }
-
-  const fileType = path.extname(fileName);
-  if (fileType !== '.jsonl' && fileType !== '.parquet') {
-    return {
-      success: false,
-      message: 'File type must be either .jsonl or .parquet',
-    };
-  }
-
-  if (fileType == '.jsonl') {
-    const jsonlCheck = await check_jsonl(fileName);
-    if (jsonlCheck) {
-      return { success: false, message: jsonlCheck };
-    }
-  }
-
-  if (fileType == '.parquet') {
-    const parquetCheck = await check_parquet(fileName);
-    if (parquetCheck) {
-      return { success: false, message: parquetCheck };
-    }
-  }
-
-  return { success: true };
-}
-
-export async function check_parquet(fileName: string): Promise<string | undefined> {
-  try {
-    const reader = await ParquetReader.openFile(fileName);
-    const cursor = reader.getCursor();
-    let record = null;
-
-    const fieldNames = Object.keys(reader.schema.fields);
-    if (!('input_ids' in fieldNames)) {
-      return `Parquet file ${fileName} does not contain the 'input_ids' column.`;
-    }
-
-    for (const fieldName in fieldNames) {
-      if (!PARQUET_EXPECTED_COLUMNS.includes(fieldName)) {
-        return `Parquet file ${fileName} contains unexpected column ${fieldName}. Only ${PARQUET_EXPECTED_COLUMNS.join(
-          ', ',
-        )} are supported`;
-      }
-    }
-
-    const numRows = reader.getRowCount() as unknown as number;
-    if (numRows < MIN_SAMPLES) {
-      return `Parquet file ${fileName} contains only ${numRows} samples. Minimum of ${MIN_SAMPLES} samples are required`;
-    }
-
-    await reader.close();
-  } catch (err) {
-    return `failed to read parquet file ${fileName}`;
-  }
-
-  return undefined;
-}
-
-// return undefined if the file is valid, otherwise return an error message
-export async function check_jsonl(fileName: string): Promise<string | undefined> {
-  const fileStream = fs.createReadStream(fileName);
-
-  const rl = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity,
-  });
-
-  let errors: string[] = [];
-  let lineNumber = 1;
-  for await (const line of rl) {
-    try {
-      // do not proceed if there are too many errors
-      if (errors.length > 20) {
-        break;
-      }
-      const parsedLine = JSON.parse(line);
-
-      if (typeof parsedLine !== 'object') {
-        errors.push(`Line number ${lineNumber} is not a valid JSON object`);
-        continue;
+      try {
+        const stat = await fs.stat(fileName);
+        fileSize = stat.size;
+      } catch {
+        reject(new Error('File does not exists'));
       }
 
-      const isTextFormat = 'text' in parsedLine;
-      const isMessagesFormat = 'messages' in parsedLine;
-
-      if (!isTextFormat && !isMessagesFormat) {
-        errors.push(
-          `Invalid format found on line ${lineNumber} of the the input file. Expected format: {'text': 'my sample string'} or {'messages': [{role: 'role', content: 'content'}]}.`,
-        );
-        continue;
+      const fileType = path.extname(fileName).replace('.', '');
+      if (fileType !== 'jsonl' && fileType !== 'parquet' && fileType !== 'csv') {
+        return {
+          message: 'File type must be either .jsonl, .parquet, or .csv',
+        };
       }
 
-      if (isTextFormat && typeof parsedLine['text'] !== 'string') {
-        errors.push(`'Invalid value type for "text" key on line ${lineNumber}. Expected string`);
-        continue;
-      }
-
-      if (isMessagesFormat) {
-        const firstMessage = parsedLine['messages'][0];
-        // console.log({ firstMessage });
-        const firstLineHasRole = typeof firstMessage['role'] === 'string';
-        const firstLineHasContent = typeof firstMessage['content'] === 'string';
-        if (!firstLineHasRole || !firstLineHasContent) {
-          errors.push(
-            `Invalid format found on line ${lineNumber} of the the input file. Expected format: {'messages': [{role: 'role', content: 'content'}]}.`,
-          );
-          continue;
+      if (check) {
+        const checkResponse = await checkFile(fileName, purpose);
+        if (!checkResponse.is_check_passed) {
+          reject(checkResponse.message || `verification of ${fileName} failed with some unknown reason`);
         }
       }
-    } catch (error) {
-      errors.push(`Error parsing line number ${lineNumber}`);
-    }
-    lineNumber += 1;
-  }
 
-  lineNumber -= 1;
-  if (lineNumber < MIN_SAMPLES) {
-    errors.push(`Processing ${fileName} resulted in only ${lineNumber - 1} samples.`);
-  }
+      try {
+        const params = new URLSearchParams({
+          file_name: fileName,
+          file_type: fileType,
+          purpose: purpose,
+        });
+        const fullUrl = `${baseURL}/files?${params}`;
+        const r = await fetch(fullUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Bearer ${client.apiKey}`,
+          },
+          redirect: 'manual',
+          body: params.toString(),
+        });
 
-  if (errors.length > 0) {
-    return errors.join('\n');
-  }
+        if (r.status !== 302) {
+          return reject(failedUploadMessage);
+        }
 
-  return undefined;
-}
+        const uploadUrl = r.headers.get('location') || '';
+        if (!uploadUrl || uploadUrl === '') {
+          return reject(failedUploadMessage);
+        }
+        const fileId = r.headers.get('x-together-file-id') || '';
+        if (!fileId || fileId === '') {
+          return reject(failedUploadMessage);
+        }
 
-export async function upload(fileName: string, check: boolean = true): Promise<FileResponse | ErrorResponse> {
-  let purpose = 'fine-tune';
-  if (!fs.existsSync(fileName)) {
-    return {
-      message: 'File does not exists',
-    };
-  }
+        const fileStream = createReadStream(fileName);
 
-  const fileType = path.extname(fileName);
-  if (fileType !== '.jsonl' && fileType !== '.parquet') {
-    return {
-      message: 'File type must be either .jsonl or .parquet',
-    };
-  }
+        // upload the file to uploadUrl
+        const uploadResponse = await fetch(uploadUrl, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/octet-stream',
+            'Content-Length': fileSize.toString(),
+          },
+          body: fileStream,
+        });
 
-  if (check) {
-    const checkFile = await check_file(fileName);
-    if (!checkFile.success) {
-      return {
-        message: checkFile.message || `verification of ${fileName} failed with some unknown reason`,
-      };
-    }
-  }
+        if (uploadResponse.status !== 200) {
+          return reject({
+            message: `failed to upload file (${uploadResponse.statusText}) status code ${uploadResponse.status}`,
+          });
+        }
 
-  // steps to do
-  // 1. check if file exists
-  // 2. get signed upload url
-  // 3. upload file
-  const apiKey = readEnv('TOGETHER_API_KEY');
+        const data = await client.files.retrieve(fileId).asResponse();
 
-  if (!apiKey) {
-    return {
-      message: 'API key is required',
-    };
-  }
-
-  const getSigned = baseURL + '/files';
-
-  try {
-    const params = new URLSearchParams({
-      file_name: fileName,
-      purpose: purpose,
-    });
-    const fullUrl = `${getSigned}?${params}`;
-    const r = await fetch(fullUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      redirect: 'manual',
-      body: params.toString(),
-    });
-
-    if (r.status !== 302) {
-      return failedUploadMessage;
-    }
-
-    const uploadUrl = r.headers.get('location') || '';
-    if (!uploadUrl || uploadUrl === '') {
-      return failedUploadMessage;
-    }
-    const fileId = r.headers.get('x-together-file-id') || '';
-    if (!fileId || fileId === '') {
-      return failedUploadMessage;
-    }
-
-    const fileStream = fs.createReadStream(fileName);
-    const fileSize = fs.statSync(fileName).size;
-
-    const progressStream = progress({
-      length: fileSize,
-      time: 100, // Emit progress events every 100ms
-    });
-
-    // Listen to progress events and log them
-    progressStream.on('progress', (progress) => {
-      displayProgress(progress.percentage);
-    });
-
-    let uploadedBytes = 0;
-    // upload the file to uploadUrl
-    const uploadResponse = await fetch(uploadUrl, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/octet-stream',
-        'Content-Length': `${fileSize}`,
-      },
-      body: fileStream.pipe(progressStream),
-    });
-
-    displayProgress(100);
-    process.stdout.write('\n');
-    if (uploadResponse.status !== 200) {
-      return {
-        message: `failed to upload file (${uploadResponse.statusText}) status code ${uploadResponse.status}`,
-      };
-    }
-
-    return {
-      id: fileId,
-      object: 'file',
-      type: 'jsonl',
-      purpose: 'fine-tune',
-      filename: fileName,
-      bytes: fileSize,
-      line_count: 0,
-      processed: true,
-    };
-  } catch (error) {
-    if (error instanceof Error && 'status' in error && error.status) {
-      return {
-        message: `failed to upload file with status ${error.status}`,
-      };
-    }
-
-    return {
-      message: 'failed to upload file',
-    };
-  }
-}
-
-async function displayProgress(progress: number) {
-  const barWidth = 40; // Number of characters for the progress bar
-  const completedBars = Math.round((progress / 100) * barWidth);
-  let remainingBars = barWidth - completedBars;
-  if (remainingBars < 0) {
-    remainingBars = 0;
-  }
-  const progressBar = `[${'='.repeat(completedBars)}${' '.repeat(remainingBars)}] ${progress.toFixed(2)}%`;
-
-  // Clear the line and write progress
-  //process.stdout.clearLine(0); //clean entire line
-  process.stdout.cursorTo(0);
-  process.stdout.write(progressBar, () => {});
-  await sleep(2000);
-}
-
-async function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+        // Forcing the shape into the APIResponse interface
+        resolve({
+          controller: new AbortController(),
+          requestLogID: '',
+          retryOfRequestLogID: undefined,
+          startTime: Date.now(),
+          options: {
+            method: 'post',
+            path: '/files',
+          },
+          response: data,
+        });
+      } catch (error) {
+        reject(error);
+      }
+    }),
+  );
 }

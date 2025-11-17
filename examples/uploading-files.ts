@@ -1,12 +1,13 @@
 #!/usr/bin/env -S npm run tsn -T
 
 // Example of uploading a file
-import { upload, ErrorResponse, FileResponse } from 'together-ai/lib/upload';
-import { readEnv } from 'together-ai/internal/utils/env';
+import Together from 'together-ai';
+
+const together = new Together();
 
 async function main() {
   // Upload a file
-  const file: ErrorResponse | FileResponse = await upload('./examples/coqa.jsonl');
+  const file = await together.files.upload('./examples/coqa-small.jsonl', 'fine-tune');
   console.log('Uploaded file');
   console.log(file);
 
@@ -16,18 +17,7 @@ async function main() {
   }
 
   // Check if the file has any contents (https://docs.together.ai/reference/get_files-id-content)
-  // @ts-ignore
-  const baseUrl = readEnv('TOGETHER_API_BASE_URL') || 'https://api.together.ai/v1';
-  const url = `${baseUrl}/files/${file.id}/content`;
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      authorization: `Bearer ${process.env['TOGETHER_API_KEY']}`,
-    },
-  };
-
-  const res = await fetch(url, options);
+  const res = await together.files.content(file.id);
   console.log(await res.text());
 }
 
