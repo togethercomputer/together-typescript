@@ -79,7 +79,6 @@ export {
   type FineTuningListResponse,
   type FineTuningDeleteResponse,
   type FineTuningCancelResponse,
-  type FineTuningDownloadResponse,
   type FineTuningListCheckpointsResponse,
   type FineTuningListEventsResponse,
   type FineTuningCreateParams,

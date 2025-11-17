@@ -3,6 +3,7 @@
 import { APIResource } from '../core/resource';
 import * as FineTuningAPI from './fine-tuning';
 import { APIPromise } from '../core/api-promise';
+import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
@@ -80,20 +81,25 @@ export class FineTuning extends APIResource {
   }
 
   /**
-   * Download a compressed fine-tuned model or checkpoint to local disk.
+   * Download a compressed fine-tuned model or checkpoint.
    *
    * @example
    * ```ts
    * const response = await client.fineTuning.download({
    *   ft_id: 'ft_id',
    * });
+   *
+   * const content = await response.blob();
+   * console.log(content);
    * ```
    */
-  download(
-    query: FineTuningDownloadParams,
-    options?: RequestOptions,
-  ): APIPromise<FineTuningDownloadResponse> {
-    return this._client.get('/finetune/download', { query, ...options });
+  download(query: FineTuningDownloadParams, options?: RequestOptions): APIPromise<Response> {
+    return this._client.get('/finetune/download', {
+      query,
+      ...options,
+      headers: buildHeaders([{ Accept: 'application/octet-stream' }, options?.headers]),
+      __binaryResponse: true,
+    });
   }
 
   /**
@@ -816,18 +822,6 @@ export interface FineTuningCancelResponse {
   weight_decay?: number;
 }
 
-export interface FineTuningDownloadResponse {
-  id?: string;
-
-  checkpoint_step?: number;
-
-  filename?: string;
-
-  object?: 'local' | null;
-
-  size?: number;
-}
-
 export interface FineTuningListCheckpointsResponse {
   data: Array<FineTuningListCheckpointsResponse.Data>;
 }
@@ -1002,19 +996,13 @@ export interface FineTuningDownloadParams {
    * Specifies checkpoint type to download - `merged` vs `adapter`. This field is
    * required if the checkpoint_step is not set.
    */
-  checkpoint?: 'merged' | 'adapter';
+  checkpoint?: 'merged' | 'adapter' | 'model_output_path';
 
   /**
    * Specifies step number for checkpoint to download. Ignores `checkpoint` value if
    * set.
    */
   checkpoint_step?: number;
-
-  /**
-   * Specifies output file name for downloaded model. Defaults to
-   * `$PWD/{model_name}.{extension}`.
-   */
-  output?: string;
 }
 
 export declare namespace FineTuning {
@@ -1032,7 +1020,6 @@ export declare namespace FineTuning {
     type FineTuningListResponse as FineTuningListResponse,
     type FineTuningDeleteResponse as FineTuningDeleteResponse,
     type FineTuningCancelResponse as FineTuningCancelResponse,
-    type FineTuningDownloadResponse as FineTuningDownloadResponse,
     type FineTuningListCheckpointsResponse as FineTuningListCheckpointsResponse,
     type FineTuningListEventsResponse as FineTuningListEventsResponse,
     type FineTuningCreateParams as FineTuningCreateParams,
