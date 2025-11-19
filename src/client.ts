@@ -66,8 +66,6 @@ import {
   FilePurpose,
   FileRetrieveResponse,
   FileType,
-  FileUploadParams,
-  FileUploadResponse,
   Files,
 } from './resources/files';
 import {
@@ -896,8 +894,6 @@ export declare namespace Together {
     type FileRetrieveResponse as FileRetrieveResponse,
     type FileListResponse as FileListResponse,
     type FileDeleteResponse as FileDeleteResponse,
-    type FileUploadResponse as FileUploadResponse,
-    type FileUploadParams as FileUploadParams,
   };
 
   export {
