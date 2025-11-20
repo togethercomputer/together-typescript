@@ -95,5 +95,5 @@ export {
 } from './images';
 export { Jobs, type JobRetrieveResponse, type JobListResponse } from './jobs';
 export { Models, type ModelListResponse, type ModelUploadResponse, type ModelUploadParams } from './models';
+export { Rerank, type RerankCreateResponse, type RerankCreateParams } from './rerank';
 export { Videos, type VideoJob, type VideoCreateResponse, type VideoCreateParams } from './videos';
-export { type RerankResponse, type RerankParams } from './top-level';

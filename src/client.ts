@@ -15,8 +15,6 @@ import { VERSION } from './version';
 import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
-import * as TopLevelAPI from './resources/top-level';
-import { RerankParams, RerankResponse } from './resources/top-level';
 import { APIPromise } from './core/api-promise';
 import {
   BatchCancelResponse,
@@ -93,6 +91,7 @@ import { Hardware, HardwareListParams, HardwareListResponse } from './resources/
 import { ImageDataB64, ImageDataURL, ImageFile, ImageGenerateParams, Images } from './resources/images';
 import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
 import { ModelListResponse, ModelUploadParams, ModelUploadResponse, Models } from './resources/models';
+import { Rerank, RerankCreateParams, RerankCreateResponse } from './resources/rerank';
 import { VideoCreateParams, VideoCreateResponse, VideoJob, Videos } from './resources/videos';
 import {
   Audio,
@@ -287,27 +286,6 @@ export class Together {
    */
   #baseURLOverridden(): boolean {
     return this.baseURL !== 'https://api.together.xyz/v1';
-  }
-
-  /**
-   * Query a reranker model
-   *
-   * @example
-   * ```ts
-   * const response = await client.rerank({
-   *   documents: [
-   *     { title: 'bar', text: 'bar' },
-   *     { title: 'bar', text: 'bar' },
-   *     { title: 'bar', text: 'bar' },
-   *     { title: 'bar', text: 'bar' },
-   *   ],
-   *   model: 'Salesforce/Llama-Rank-V1',
-   *   query: 'What animals can I find near Peru?',
-   * });
-   * ```
-   */
-  rerank(body: TopLevelAPI.RerankParams, options?: RequestOptions): APIPromise<TopLevelAPI.RerankResponse> {
-    return this.post('/rerank', { body, ...options });
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -840,6 +818,7 @@ export class Together {
   jobs: API.Jobs = new API.Jobs(this);
   endpoints: API.Endpoints = new API.Endpoints(this);
   hardware: API.Hardware = new API.Hardware(this);
+  rerank: API.Rerank = new API.Rerank(this);
   batches: API.Batches = new API.Batches(this);
   evals: API.Evals = new API.Evals(this);
 }
@@ -857,13 +836,12 @@ Together.Models = Models;
 Together.Jobs = Jobs;
 Together.Endpoints = Endpoints;
 Together.Hardware = Hardware;
+Together.Rerank = Rerank;
 Together.Batches = Batches;
 Together.Evals = Evals;
 
 export declare namespace Together {
   export type RequestOptions = Opts.RequestOptions;
-
-  export { type RerankResponse as RerankResponse, type RerankParams as RerankParams };
 
   export { Chat as Chat };
 
@@ -975,6 +953,12 @@ export declare namespace Together {
     Hardware as Hardware,
     type HardwareListResponse as HardwareListResponse,
     type HardwareListParams as HardwareListParams,
+  };
+
+  export {
+    Rerank as Rerank,
+    type RerankCreateResponse as RerankCreateResponse,
+    type RerankCreateParams as RerankCreateParams,
   };
 
   export {
