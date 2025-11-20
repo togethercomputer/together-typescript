@@ -95,7 +95,7 @@ Methods:
 - <code title="get /fine-tunes">client.fineTuning.<a href="./src/resources/fine-tuning.ts">list</a>() -> FineTuningListResponse</code>
 - <code title="delete /fine-tunes/{id}">client.fineTuning.<a href="./src/resources/fine-tuning.ts">delete</a>(id, { ...params }) -> FineTuningDeleteResponse</code>
 - <code title="post /fine-tunes/{id}/cancel">client.fineTuning.<a href="./src/resources/fine-tuning.ts">cancel</a>(id) -> FineTuningCancelResponse</code>
-- <code title="get /finetune/download">client.fineTuning.<a href="./src/resources/fine-tuning.ts">download</a>({ ...params }) -> Response</code>
+- <code title="get /finetune/download">client.fineTuning.<a href="./src/resources/fine-tuning.ts">content</a>({ ...params }) -> Response</code>
 - <code title="get /fine-tunes/{id}/checkpoints">client.fineTuning.<a href="./src/resources/fine-tuning.ts">listCheckpoints</a>(id) -> FineTuningListCheckpointsResponse</code>
 - <code title="get /fine-tunes/{id}/events">client.fineTuning.<a href="./src/resources/fine-tuning.ts">listEvents</a>(id) -> FineTuningListEventsResponse</code>
 
