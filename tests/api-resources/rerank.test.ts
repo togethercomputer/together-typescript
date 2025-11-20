@@ -7,9 +7,9 @@ const client = new Together({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('top level methods', () => {
-  test('rerank: only required params', async () => {
-    const responsePromise = client.rerank({
+describe('resource rerank', () => {
+  test('create: only required params', async () => {
+    const responsePromise = client.rerank.create({
       documents: [
         { title: 'bar', text: 'bar' },
         { title: 'bar', text: 'bar' },
@@ -28,8 +28,8 @@ describe('top level methods', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('rerank: required and optional params', async () => {
-    const response = await client.rerank({
+  test('create: required and optional params', async () => {
+    const response = await client.rerank.create({
       documents: [
         { title: 'bar', text: 'bar' },
         { title: 'bar', text: 'bar' },
