@@ -90,7 +90,7 @@ import {
   TrainingMethodSft,
 } from './resources/fine-tuning';
 import { Hardware, HardwareListParams, HardwareListResponse } from './resources/hardware';
-import { ImageCreateParams, ImageDataB64, ImageDataURL, ImageFile, Images } from './resources/images';
+import { ImageDataB64, ImageDataURL, ImageFile, ImageGenerateParams, Images } from './resources/images';
 import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
 import { ModelListResponse, ModelUploadParams, ModelUploadResponse, Models } from './resources/models';
 import { VideoCreateParams, VideoCreateResponse, VideoJob, Videos } from './resources/videos';
@@ -927,7 +927,7 @@ export declare namespace Together {
     type ImageDataB64 as ImageDataB64,
     type ImageDataURL as ImageDataURL,
     type ImageFile as ImageFile,
-    type ImageCreateParams as ImageCreateParams,
+    type ImageGenerateParams as ImageGenerateParams,
   };
 
   export {
