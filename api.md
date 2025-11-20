@@ -136,7 +136,7 @@ Types:
 
 Methods:
 
-- <code title="post /images/generations">client.images.<a href="./src/resources/images.ts">create</a>({ ...params }) -> ImageFile</code>
+- <code title="post /images/generations">client.images.<a href="./src/resources/images.ts">generate</a>({ ...params }) -> ImageFile</code>
 
 # Videos
 

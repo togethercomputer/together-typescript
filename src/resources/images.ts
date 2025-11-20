@@ -10,13 +10,13 @@ export class Images extends APIResource {
    *
    * @example
    * ```ts
-   * const imageFile = await client.images.create({
+   * const imageFile = await client.images.generate({
    *   model: 'black-forest-labs/FLUX.1-schnell',
    *   prompt: 'cat floating in space, cinematic',
    * });
    * ```
    */
-  create<Body extends ImageCreateParams>(
+  generate<Body extends ImageGenerateParams>(
     body: Body,
     options?: RequestOptions,
   ): APIPromise<
@@ -54,7 +54,7 @@ export interface ImageFile {
   object: 'list';
 }
 
-export interface ImageCreateParams {
+export interface ImageGenerateParams {
   /**
    * The model to use for image generation.
    *
@@ -92,7 +92,7 @@ export interface ImageCreateParams {
    * An array of objects that define LoRAs (Low-Rank Adaptations) to influence the
    * generated image.
    */
-  image_loras?: Array<ImageCreateParams.ImageLora>;
+  image_loras?: Array<ImageGenerateParams.ImageLora>;
 
   /**
    * URL of an image to use for image models that support it.
@@ -136,7 +136,7 @@ export interface ImageCreateParams {
   width?: number;
 }
 
-export namespace ImageCreateParams {
+export namespace ImageGenerateParams {
   export interface ImageLora {
     /**
      * The URL of the LoRA to apply (e.g.
@@ -156,6 +156,6 @@ export declare namespace Images {
     type ImageDataB64 as ImageDataB64,
     type ImageDataURL as ImageDataURL,
     type ImageFile as ImageFile,
-    type ImageCreateParams as ImageCreateParams,
+    type ImageGenerateParams as ImageGenerateParams,
   };
 }

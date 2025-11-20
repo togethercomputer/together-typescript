@@ -91,7 +91,7 @@ export {
   type ImageDataB64,
   type ImageDataURL,
   type ImageFile,
-  type ImageCreateParams,
+  type ImageGenerateParams,
 } from './images';
 export { Jobs, type JobRetrieveResponse, type JobListResponse } from './jobs';
 export { Models, type ModelListResponse, type ModelUploadResponse, type ModelUploadParams } from './models';
