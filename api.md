@@ -1,13 +1,3 @@
-# Together
-
-Types:
-
-- <code><a href="./src/resources/top-level.ts">RerankResponse</a></code>
-
-Methods:
-
-- <code title="post /rerank">client.<a href="./src/index.ts">rerank</a>({ ...params }) -> RerankResponse</code>
-
 # Chat
 
 ## Completions
@@ -242,6 +232,16 @@ Types:
 Methods:
 
 - <code title="get /hardware">client.hardware.<a href="./src/resources/hardware.ts">list</a>({ ...params }) -> HardwareListResponse</code>
+
+# Rerank
+
+Types:
+
+- <code><a href="./src/resources/rerank.ts">RerankCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /rerank">client.rerank.<a href="./src/resources/rerank.ts">create</a>({ ...params }) -> RerankCreateResponse</code>
 
 # Batches
 
