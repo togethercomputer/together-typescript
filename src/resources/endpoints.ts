@@ -257,6 +257,11 @@ export interface EndpointCreateParams {
   model: string;
 
   /**
+   * Create the endpoint in a specified availability zone (e.g., us-central-4b)
+   */
+  availability_zone?: string;
+
+  /**
    * Whether to disable the prompt cache for this endpoint
    */
   disable_prompt_cache?: boolean;
