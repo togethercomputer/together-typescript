@@ -74,11 +74,11 @@ import {
   FineTuneEvent,
   FineTuning,
   FineTuningCancelResponse,
+  FineTuningContentParams,
   FineTuningCreateParams,
   FineTuningCreateResponse,
   FineTuningDeleteParams,
   FineTuningDeleteResponse,
-  FineTuningDownloadParams,
   FineTuningListCheckpointsResponse,
   FineTuningListEventsResponse,
   FineTuningListResponse,
@@ -914,7 +914,7 @@ export declare namespace Together {
     type FineTuningListEventsResponse as FineTuningListEventsResponse,
     type FineTuningCreateParams as FineTuningCreateParams,
     type FineTuningDeleteParams as FineTuningDeleteParams,
-    type FineTuningDownloadParams as FineTuningDownloadParams,
+    type FineTuningContentParams as FineTuningContentParams,
   };
 
   export {
