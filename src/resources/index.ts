@@ -83,7 +83,7 @@ export {
   type FineTuningListEventsResponse,
   type FineTuningCreateParams,
   type FineTuningDeleteParams,
-  type FineTuningDownloadParams,
+  type FineTuningContentParams,
 } from './fine-tuning';
 export { Hardware, type HardwareListResponse, type HardwareListParams } from './hardware';
 export {

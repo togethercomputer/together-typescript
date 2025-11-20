@@ -85,7 +85,7 @@ export class FineTuning extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.fineTuning.download({
+   * const response = await client.fineTuning.content({
    *   ft_id: 'ft_id',
    * });
    *
@@ -93,7 +93,7 @@ export class FineTuning extends APIResource {
    * console.log(content);
    * ```
    */
-  download(query: FineTuningDownloadParams, options?: RequestOptions): APIPromise<Response> {
+  content(query: FineTuningContentParams, options?: RequestOptions): APIPromise<Response> {
     return this._client.get('/finetune/download', {
       query,
       ...options,
@@ -986,7 +986,7 @@ export interface FineTuningDeleteParams {
   force: boolean;
 }
 
-export interface FineTuningDownloadParams {
+export interface FineTuningContentParams {
   /**
    * Fine-tune ID to download. A string that starts with `ft-`.
    */
@@ -1024,6 +1024,6 @@ export declare namespace FineTuning {
     type FineTuningListEventsResponse as FineTuningListEventsResponse,
     type FineTuningCreateParams as FineTuningCreateParams,
     type FineTuningDeleteParams as FineTuningDeleteParams,
-    type FineTuningDownloadParams as FineTuningDownloadParams,
+    type FineTuningContentParams as FineTuningContentParams,
   };
 }
