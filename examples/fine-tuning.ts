@@ -35,7 +35,7 @@ async function main() {
   }
 
   //Download the model
-  const down = await together.fineTuning.download({
+  const down = await together.fineTuning.content({
     ft_id: fineTuneId,
   });
   console.log(JSON.stringify(down));
