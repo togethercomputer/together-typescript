@@ -148,9 +148,11 @@ Types:
 - <code><a href="./src/resources/audio/audio.ts">AudioFile</a></code>
 - <code><a href="./src/resources/audio/audio.ts">AudioSpeechStreamChunk</a></code>
 
+## Speech
+
 Methods:
 
-- <code title="post /audio/speech">client.audio.<a href="./src/resources/audio/audio.ts">create</a>({ ...params }) -> Response</code>
+- <code title="post /audio/speech">client.audio.speech.<a href="./src/resources/audio/speech.ts">create</a>({ ...params }) -> Response</code>
 
 ## Voices
 
