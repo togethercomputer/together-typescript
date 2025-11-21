@@ -93,14 +93,7 @@ import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
 import { ModelListResponse, ModelUploadParams, ModelUploadResponse, Models } from './resources/models';
 import { Rerank, RerankCreateParams, RerankCreateResponse } from './resources/rerank';
 import { VideoCreateParams, VideoCreateResponse, VideoJob, Videos } from './resources/videos';
-import {
-  Audio,
-  AudioCreateParams,
-  AudioCreateParamsNonStreaming,
-  AudioCreateParamsStreaming,
-  AudioFile,
-  AudioSpeechStreamChunk,
-} from './resources/audio/audio';
+import { Audio, AudioFile, AudioSpeechStreamChunk } from './resources/audio/audio';
 import { Chat } from './resources/chat/chat';
 import {
   CodeInterpreter,
@@ -919,9 +912,6 @@ export declare namespace Together {
     Audio as Audio,
     type AudioFile as AudioFile,
     type AudioSpeechStreamChunk as AudioSpeechStreamChunk,
-    type AudioCreateParams as AudioCreateParams,
-    type AudioCreateParamsNonStreaming as AudioCreateParamsNonStreaming,
-    type AudioCreateParamsStreaming as AudioCreateParamsStreaming,
   };
 
   export {
