@@ -1,13 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+export { Audio, type AudioFile, type AudioSpeechStreamChunk } from './audio';
 export {
-  Audio,
-  type AudioFile,
-  type AudioSpeechStreamChunk,
-  type AudioCreateParams,
-  type AudioCreateParamsNonStreaming,
-  type AudioCreateParamsStreaming,
-} from './audio';
+  Speech,
+  type SpeechCreateParams,
+  type SpeechCreateParamsNonStreaming,
+  type SpeechCreateParamsStreaming,
+} from './speech';
 export {
   Transcriptions,
   type TranscriptionCreateResponse,
