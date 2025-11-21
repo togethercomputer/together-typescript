@@ -15,10 +15,9 @@ import { VERSION } from './version';
 import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
-import * as TopLevelAPI from './resources/top-level';
-import { RerankParams, RerankResponse } from './resources/top-level';
 import { APIPromise } from './core/api-promise';
 import {
+  BatchCancelResponse,
   BatchCreateParams,
   BatchCreateResponse,
   BatchListResponse,
@@ -39,24 +38,24 @@ import {
 import { Embedding, EmbeddingCreateParams, Embeddings } from './resources/embeddings';
 import {
   Autoscaling,
+  DedicatedEndpoint,
   EndpointCreateParams,
-  EndpointCreateResponse,
+  EndpointListAvzonesResponse,
   EndpointListParams,
   EndpointListResponse,
-  EndpointRetrieveResponse,
   EndpointUpdateParams,
-  EndpointUpdateResponse,
   Endpoints,
 } from './resources/endpoints';
 import {
-  EvalGetAllowedModelsResponse,
-  EvalGetStatusResponse,
+  EvalCreateParams,
+  EvalCreateResponse,
   EvalListParams,
   EvalListResponse,
-  EvalRetrieveResponse,
+  EvalStatusResponse,
+  EvalUpdateParams,
+  EvalUpdateResponse,
   Evals,
-  EvaluationJudgeModelConfig,
-  EvaluationModelRequest,
+  EvaluationJob,
 } from './resources/evals';
 import {
   FileDeleteResponse,
@@ -65,43 +64,36 @@ import {
   FilePurpose,
   FileRetrieveResponse,
   FileType,
-  FileUploadParams,
-  FileUploadResponse,
   Files,
 } from './resources/files';
 import {
   CosineLrSchedulerArgs,
   FineTune,
-  FineTuneCancelResponse,
-  FineTuneCreateParams,
-  FineTuneCreateResponse,
-  FineTuneDownloadParams,
-  FineTuneDownloadResponse,
   FineTuneEvent,
-  FineTuneListEventsResponse,
-  FineTuneListResponse,
-  FineTuneResource,
-  FineTuneRetrieveCheckpointsResponse,
+  FineTuning,
+  FineTuningCancelResponse,
+  FineTuningContentParams,
+  FineTuningCreateParams,
+  FineTuningCreateResponse,
+  FineTuningDeleteParams,
+  FineTuningDeleteResponse,
+  FineTuningListCheckpointsResponse,
+  FineTuningListEventsResponse,
+  FineTuningListResponse,
   FullTrainingType,
   LinearLrSchedulerArgs,
   LoRaTrainingType,
   LrScheduler,
   TrainingMethodDpo,
   TrainingMethodSft,
-} from './resources/fine-tune';
+} from './resources/fine-tuning';
 import { Hardware, HardwareListParams, HardwareListResponse } from './resources/hardware';
-import { ImageCreateParams, ImageDataB64, ImageDataURL, ImageFile, Images } from './resources/images';
+import { ImageDataB64, ImageDataURL, ImageFile, ImageGenerateParams, Images } from './resources/images';
 import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
 import { ModelListResponse, ModelUploadParams, ModelUploadResponse, Models } from './resources/models';
+import { Rerank, RerankCreateParams, RerankCreateResponse } from './resources/rerank';
 import { VideoCreateParams, VideoCreateResponse, VideoJob, Videos } from './resources/videos';
-import {
-  Audio,
-  AudioCreateParams,
-  AudioCreateParamsNonStreaming,
-  AudioCreateParamsStreaming,
-  AudioFile,
-  AudioSpeechStreamChunk,
-} from './resources/audio/audio';
+import { Audio, AudioFile, AudioSpeechStreamChunk } from './resources/audio/audio';
 import { Chat } from './resources/chat/chat';
 import {
   CodeInterpreter,
@@ -287,27 +279,6 @@ export class Together {
    */
   #baseURLOverridden(): boolean {
     return this.baseURL !== 'https://api.together.xyz/v1';
-  }
-
-  /**
-   * Query a reranker model
-   *
-   * @example
-   * ```ts
-   * const response = await client.rerank({
-   *   documents: [
-   *     { title: 'bar', text: 'bar' },
-   *     { title: 'bar', text: 'bar' },
-   *     { title: 'bar', text: 'bar' },
-   *     { title: 'bar', text: 'bar' },
-   *   ],
-   *   model: 'Salesforce/Llama-Rank-V1',
-   *   query: 'What animals can I find near Peru?',
-   * });
-   * ```
-   */
-  rerank(body: TopLevelAPI.RerankParams, options?: RequestOptions): APIPromise<TopLevelAPI.RerankResponse> {
-    return this.post('/rerank', { body, ...options });
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -831,7 +802,7 @@ export class Together {
   completions: API.Completions = new API.Completions(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
   files: API.Files = new API.Files(this);
-  fineTune: API.FineTuneResource = new API.FineTuneResource(this);
+  fineTuning: API.FineTuning = new API.FineTuning(this);
   codeInterpreter: API.CodeInterpreter = new API.CodeInterpreter(this);
   images: API.Images = new API.Images(this);
   videos: API.Videos = new API.Videos(this);
@@ -840,6 +811,7 @@ export class Together {
   jobs: API.Jobs = new API.Jobs(this);
   endpoints: API.Endpoints = new API.Endpoints(this);
   hardware: API.Hardware = new API.Hardware(this);
+  rerank: API.Rerank = new API.Rerank(this);
   batches: API.Batches = new API.Batches(this);
   evals: API.Evals = new API.Evals(this);
 }
@@ -848,7 +820,7 @@ Together.Chat = Chat;
 Together.Completions = Completions;
 Together.Embeddings = Embeddings;
 Together.Files = Files;
-Together.FineTuneResource = FineTuneResource;
+Together.FineTuning = FineTuning;
 Together.CodeInterpreter = CodeInterpreter;
 Together.Images = Images;
 Together.Videos = Videos;
@@ -857,13 +829,12 @@ Together.Models = Models;
 Together.Jobs = Jobs;
 Together.Endpoints = Endpoints;
 Together.Hardware = Hardware;
+Together.Rerank = Rerank;
 Together.Batches = Batches;
 Together.Evals = Evals;
 
 export declare namespace Together {
   export type RequestOptions = Opts.RequestOptions;
-
-  export { type RerankResponse as RerankResponse, type RerankParams as RerankParams };
 
   export { Chat as Chat };
 
@@ -893,12 +864,10 @@ export declare namespace Together {
     type FileRetrieveResponse as FileRetrieveResponse,
     type FileListResponse as FileListResponse,
     type FileDeleteResponse as FileDeleteResponse,
-    type FileUploadResponse as FileUploadResponse,
-    type FileUploadParams as FileUploadParams,
   };
 
   export {
-    FineTuneResource as FineTuneResource,
+    FineTuning as FineTuning,
     type CosineLrSchedulerArgs as CosineLrSchedulerArgs,
     type FineTune as FineTune,
     type FineTuneEvent as FineTuneEvent,
@@ -908,14 +877,15 @@ export declare namespace Together {
     type LrScheduler as LrScheduler,
     type TrainingMethodDpo as TrainingMethodDpo,
     type TrainingMethodSft as TrainingMethodSft,
-    type FineTuneCreateResponse as FineTuneCreateResponse,
-    type FineTuneListResponse as FineTuneListResponse,
-    type FineTuneCancelResponse as FineTuneCancelResponse,
-    type FineTuneDownloadResponse as FineTuneDownloadResponse,
-    type FineTuneListEventsResponse as FineTuneListEventsResponse,
-    type FineTuneRetrieveCheckpointsResponse as FineTuneRetrieveCheckpointsResponse,
-    type FineTuneCreateParams as FineTuneCreateParams,
-    type FineTuneDownloadParams as FineTuneDownloadParams,
+    type FineTuningCreateResponse as FineTuningCreateResponse,
+    type FineTuningListResponse as FineTuningListResponse,
+    type FineTuningDeleteResponse as FineTuningDeleteResponse,
+    type FineTuningCancelResponse as FineTuningCancelResponse,
+    type FineTuningListCheckpointsResponse as FineTuningListCheckpointsResponse,
+    type FineTuningListEventsResponse as FineTuningListEventsResponse,
+    type FineTuningCreateParams as FineTuningCreateParams,
+    type FineTuningDeleteParams as FineTuningDeleteParams,
+    type FineTuningContentParams as FineTuningContentParams,
   };
 
   export {
@@ -929,7 +899,7 @@ export declare namespace Together {
     type ImageDataB64 as ImageDataB64,
     type ImageDataURL as ImageDataURL,
     type ImageFile as ImageFile,
-    type ImageCreateParams as ImageCreateParams,
+    type ImageGenerateParams as ImageGenerateParams,
   };
 
   export {
@@ -943,9 +913,6 @@ export declare namespace Together {
     Audio as Audio,
     type AudioFile as AudioFile,
     type AudioSpeechStreamChunk as AudioSpeechStreamChunk,
-    type AudioCreateParams as AudioCreateParams,
-    type AudioCreateParamsNonStreaming as AudioCreateParamsNonStreaming,
-    type AudioCreateParamsStreaming as AudioCreateParamsStreaming,
   };
 
   export {
@@ -964,10 +931,9 @@ export declare namespace Together {
   export {
     Endpoints as Endpoints,
     type Autoscaling as Autoscaling,
-    type EndpointCreateResponse as EndpointCreateResponse,
-    type EndpointRetrieveResponse as EndpointRetrieveResponse,
-    type EndpointUpdateResponse as EndpointUpdateResponse,
+    type DedicatedEndpoint as DedicatedEndpoint,
     type EndpointListResponse as EndpointListResponse,
+    type EndpointListAvzonesResponse as EndpointListAvzonesResponse,
     type EndpointCreateParams as EndpointCreateParams,
     type EndpointUpdateParams as EndpointUpdateParams,
     type EndpointListParams as EndpointListParams,
@@ -980,21 +946,29 @@ export declare namespace Together {
   };
 
   export {
+    Rerank as Rerank,
+    type RerankCreateResponse as RerankCreateResponse,
+    type RerankCreateParams as RerankCreateParams,
+  };
+
+  export {
     Batches as Batches,
     type BatchCreateResponse as BatchCreateResponse,
     type BatchRetrieveResponse as BatchRetrieveResponse,
     type BatchListResponse as BatchListResponse,
+    type BatchCancelResponse as BatchCancelResponse,
     type BatchCreateParams as BatchCreateParams,
   };
 
   export {
     Evals as Evals,
-    type EvaluationJudgeModelConfig as EvaluationJudgeModelConfig,
-    type EvaluationModelRequest as EvaluationModelRequest,
-    type EvalRetrieveResponse as EvalRetrieveResponse,
+    type EvaluationJob as EvaluationJob,
+    type EvalCreateResponse as EvalCreateResponse,
+    type EvalUpdateResponse as EvalUpdateResponse,
     type EvalListResponse as EvalListResponse,
-    type EvalGetAllowedModelsResponse as EvalGetAllowedModelsResponse,
-    type EvalGetStatusResponse as EvalGetStatusResponse,
+    type EvalStatusResponse as EvalStatusResponse,
+    type EvalCreateParams as EvalCreateParams,
+    type EvalUpdateParams as EvalUpdateParams,
     type EvalListParams as EvalListParams,
   };
 }

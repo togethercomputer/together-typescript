@@ -1,18 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export {
-  Audio,
-  type AudioFile,
-  type AudioSpeechStreamChunk,
-  type AudioCreateParams,
-  type AudioCreateParamsNonStreaming,
-  type AudioCreateParamsStreaming,
-} from './audio/audio';
+export { Audio, type AudioFile, type AudioSpeechStreamChunk } from './audio/audio';
 export {
   Batches,
   type BatchCreateResponse,
   type BatchRetrieveResponse,
   type BatchListResponse,
+  type BatchCancelResponse,
   type BatchCreateParams,
 } from './batches';
 export { Chat } from './chat/chat';
@@ -36,22 +30,22 @@ export { Embeddings, type Embedding, type EmbeddingCreateParams } from './embedd
 export {
   Endpoints,
   type Autoscaling,
-  type EndpointCreateResponse,
-  type EndpointRetrieveResponse,
-  type EndpointUpdateResponse,
+  type DedicatedEndpoint,
   type EndpointListResponse,
+  type EndpointListAvzonesResponse,
   type EndpointCreateParams,
   type EndpointUpdateParams,
   type EndpointListParams,
 } from './endpoints';
 export {
   Evals,
-  type EvaluationJudgeModelConfig,
-  type EvaluationModelRequest,
-  type EvalRetrieveResponse,
+  type EvaluationJob,
+  type EvalCreateResponse,
+  type EvalUpdateResponse,
   type EvalListResponse,
-  type EvalGetAllowedModelsResponse,
-  type EvalGetStatusResponse,
+  type EvalStatusResponse,
+  type EvalCreateParams,
+  type EvalUpdateParams,
   type EvalListParams,
 } from './evals';
 export {
@@ -62,11 +56,9 @@ export {
   type FileRetrieveResponse,
   type FileListResponse,
   type FileDeleteResponse,
-  type FileUploadResponse,
-  type FileUploadParams,
 } from './files';
 export {
-  FineTuneResource,
+  FineTuning,
   type CosineLrSchedulerArgs,
   type FineTune,
   type FineTuneEvent,
@@ -76,24 +68,25 @@ export {
   type LrScheduler,
   type TrainingMethodDpo,
   type TrainingMethodSft,
-  type FineTuneCreateResponse,
-  type FineTuneListResponse,
-  type FineTuneCancelResponse,
-  type FineTuneDownloadResponse,
-  type FineTuneListEventsResponse,
-  type FineTuneRetrieveCheckpointsResponse,
-  type FineTuneCreateParams,
-  type FineTuneDownloadParams,
-} from './fine-tune';
+  type FineTuningCreateResponse,
+  type FineTuningListResponse,
+  type FineTuningDeleteResponse,
+  type FineTuningCancelResponse,
+  type FineTuningListCheckpointsResponse,
+  type FineTuningListEventsResponse,
+  type FineTuningCreateParams,
+  type FineTuningDeleteParams,
+  type FineTuningContentParams,
+} from './fine-tuning';
 export { Hardware, type HardwareListResponse, type HardwareListParams } from './hardware';
 export {
   Images,
   type ImageDataB64,
   type ImageDataURL,
   type ImageFile,
-  type ImageCreateParams,
+  type ImageGenerateParams,
 } from './images';
 export { Jobs, type JobRetrieveResponse, type JobListResponse } from './jobs';
 export { Models, type ModelListResponse, type ModelUploadResponse, type ModelUploadParams } from './models';
+export { Rerank, type RerankCreateResponse, type RerankCreateParams } from './rerank';
 export { Videos, type VideoJob, type VideoCreateResponse, type VideoCreateParams } from './videos';
-export { type RerankResponse, type RerankParams } from './top-level';

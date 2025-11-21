@@ -1,5 +1,53 @@
 # Changelog
 
+## 0.31.0 (2025-11-21)
+
+Full Changelog: [v0.30.0...v0.31.0](https://github.com/togethercomputer/together-typescript/compare/v0.30.0...v0.31.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** Change call signature for `audio.create` to `audio.speech.create` to match spec with python library and add space for future APIs
+* **api:** Update method signature for reranking to `rerank.create()`
+* **api:** Change Fine Tuning method name from `download()` to `content()` to align with other namespaces
+* **api:** For the TS SDK the `images.create` is now `images.generate`
+* **api:** Access to the api for listing checkpoints has changed its name to `list_checkpoints`
+* **api:** Access to fine tuning APIs namespace has changed from `fine_tune` to `fine_tuning`
+
+### Features
+
+* **api:** Add audio.voices.list sdk ([890595e](https://github.com/togethercomputer/together-typescript/commit/890595e53cdfd3e28a60cde87426f48ddb81a261))
+* **api:** Add batches.cancel API ([b1133f8](https://github.com/togethercomputer/together-typescript/commit/b1133f805588621237922f13cfd2b9e0a4401a0e))
+* **api:** Add endpoints.list_avzones ([606fea8](https://github.com/togethercomputer/together-typescript/commit/606fea8873f5d511b619cfce63c3762ffc61db89))
+* **api:** Add fine_tune.delete API ([79d0c84](https://github.com/togethercomputer/together-typescript/commit/79d0c84157bddcfe54de5d0ce1c12866b4c1243d))
+* **api:** api update ([1022fa6](https://github.com/togethercomputer/together-typescript/commit/1022fa67aa9b090292cecf1876eed0091e7497e5))
+* **api:** api update ([da3e212](https://github.com/togethercomputer/together-typescript/commit/da3e212281b055ef30d492e350664e6fe61f0153))
+* **api:** api update ([4be10bc](https://github.com/togethercomputer/together-typescript/commit/4be10bcc5ba0f6af6b42eda9edbb8d6bb921fb02))
+* **api:** api update ([e594a76](https://github.com/togethercomputer/together-typescript/commit/e594a76294cf6c591b49f84f8769c045423b9d2a))
+* **api:** api update ([8ec7bf0](https://github.com/togethercomputer/together-typescript/commit/8ec7bf0af42f2b9c4ff21f03a8978ed947bdec74))
+* **api:** api update ([04797be](https://github.com/togethercomputer/together-typescript/commit/04797be698349057cec045107b183e19e99c0ef3))
+* **api:** api update ([c219bfd](https://github.com/togethercomputer/together-typescript/commit/c219bfd42f433da46c8689929dd99eef55c9dda4))
+* **api:** Change fine tuning download method to `.create` ([34f7fe5](https://github.com/togethercomputer/together-typescript/commit/34f7fe5c5a09f86163f895495749f4a6e9123581))
+* **api:** Change image creation signature to `images.generate` ([250569f](https://github.com/togethercomputer/together-typescript/commit/250569f9e066e49c0bc70b36bcbb9f1f4e9afd1e))
+* **api:** Change rerank method signature ([70a0ddc](https://github.com/togethercomputer/together-typescript/commit/70a0ddc63a2378a65a5064980043cc154aebe216))
+* **api:** Change TTS call signature ([fd2189a](https://github.com/togethercomputer/together-typescript/commit/fd2189ae4f99a3e5c9c7873575858550a57d02cc))
+* **api:** files.upload supported with custom file checks ([5cba49f](https://github.com/togethercomputer/together-typescript/commit/5cba49fcd138e7f0acb9c039f03a35eb82df9e30))
+* **api:** manual updates ([9f78929](https://github.com/togethercomputer/together-typescript/commit/9f78929f9162d4c84a0f0643d4070d96dac32e76))
+* **api:** Update Eval APIs ([c91b8c0](https://github.com/togethercomputer/together-typescript/commit/c91b8c082eb8e84841820d23bf7dbf1450525b67))
+
+
+### Chores
+
+* **api:** Ensure file.upload API remains in codebase after stainless sync ([68895c0](https://github.com/togethercomputer/together-typescript/commit/68895c0a387fcc1ed68b36e927d6696004715b92))
+* **api:** Remove auto-generated files upload API to support custom coded version ([94c54cb](https://github.com/togethercomputer/together-typescript/commit/94c54cbd65bdee4bd671c8cbe97384b51c3da674))
+* Fix API example ([8f34c93](https://github.com/togethercomputer/together-typescript/commit/8f34c934bd573b99dc1521821f9d57c0cbf9dea8))
+* Fix fine tuning examples ([b477053](https://github.com/togethercomputer/together-typescript/commit/b477053e00e72257bda93c75d1dec54326e84628))
+
+
+### Styles
+
+* **api:** Change fine tuning method `retrieve_checkpoints` to `list_checkpoints` ([b2c168a](https://github.com/togethercomputer/together-typescript/commit/b2c168afce5f78c915b06559d2c226b5220160c1))
+* **api:** Change fine tuning namespace to `fine_tuning` ([77b1211](https://github.com/togethercomputer/together-typescript/commit/77b1211ece96ad340628409c0ae08bac9fab2e0a))
+
 ## 0.30.0 (2025-11-04)
 
 Full Changelog: [v0.29.0...v0.30.0](https://github.com/togethercomputer/together-typescript/compare/v0.29.0...v0.30.0)

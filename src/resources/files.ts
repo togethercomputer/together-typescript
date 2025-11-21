@@ -3,10 +3,10 @@
 import { APIResource } from '../core/resource';
 import * as FilesAPI from './files';
 import { APIPromise } from '../core/api-promise';
-import { type Uploadable } from '../core/uploads';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
+import { upload } from '../lib/upload';
 
 export class Files extends APIResource {
   /**
@@ -66,9 +66,10 @@ export class Files extends APIResource {
 
   /**
    * Upload a file.
+   * CUSTOM CODE. DO NOT LET STAINLESS REMOVE.
    */
-  upload(_: string): Promise<void> {
-    throw 'please use together-ai/lib/upload';
+  upload(file: string, purpose: FilePurpose, check: boolean = true): APIPromise<FileRetrieveResponse> {
+    return upload(this._client, file, purpose, check);
   }
 }
 
@@ -163,54 +164,6 @@ export interface FileDeleteResponse {
   deleted?: boolean;
 }
 
-export interface FileUploadResponse {
-  id: string;
-
-  bytes: number;
-
-  created_at: number;
-
-  filename: string;
-
-  /**
-   * The type of the file
-   */
-  FileType: FileType;
-
-  LineCount: number;
-
-  object: string;
-
-  Processed: boolean;
-
-  /**
-   * The purpose of the file
-   */
-  purpose: FilePurpose;
-}
-
-export interface FileUploadParams {
-  /**
-   * The content of the file being uploaded
-   */
-  file: Uploadable;
-
-  /**
-   * The name of the file being uploaded
-   */
-  file_name: string;
-
-  /**
-   * The purpose of the file
-   */
-  purpose: FilePurpose;
-
-  /**
-   * The type of the file
-   */
-  file_type?: FileType;
-}
-
 export declare namespace Files {
   export {
     type FileObject as FileObject,
@@ -219,7 +172,5 @@ export declare namespace Files {
     type FileRetrieveResponse as FileRetrieveResponse,
     type FileListResponse as FileListResponse,
     type FileDeleteResponse as FileDeleteResponse,
-    type FileUploadResponse as FileUploadResponse,
-    type FileUploadParams as FileUploadParams,
   };
 }
