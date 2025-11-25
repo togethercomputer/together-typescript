@@ -41,11 +41,9 @@ export {
   Evals,
   type EvaluationJob,
   type EvalCreateResponse,
-  type EvalUpdateResponse,
   type EvalListResponse,
   type EvalStatusResponse,
   type EvalCreateParams,
-  type EvalUpdateParams,
   type EvalListParams,
 } from './evals';
 export {
