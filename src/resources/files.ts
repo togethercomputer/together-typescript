@@ -67,7 +67,7 @@ export class Files extends APIResource {
    * Upload a file.
    * CUSTOM CODE. DO NOT LET STAINLESS REMOVE.
    */
-  upload(file: string, purpose: FilePurpose, check: boolean = true): APIPromise<FileRetrieveResponse> {
+  upload(file: string, purpose: FilePurpose, check: boolean = true): APIPromise<FileResponse> {
     return upload(this._client, file, purpose, check);
   }
 }
