@@ -4,7 +4,7 @@ import { readEnv } from '../internal/utils/env';
 import fs from 'fs/promises';
 import { createReadStream } from 'fs';
 import * as path from 'path';
-import { FilePurpose, FileRetrieveResponse } from '../resources';
+import { FilePurpose, FileResponse } from '../resources';
 import { checkFile } from './check-file';
 import { Together } from '../client';
 import { APIPromise } from '../core/api-promise';
@@ -24,8 +24,8 @@ export function upload(
   fileName: string,
   purpose: FilePurpose,
   check: boolean = true,
-): APIPromise<FileRetrieveResponse> {
-  return new APIPromise<FileRetrieveResponse>(
+): APIPromise<FileResponse> {
+  return new APIPromise<FileResponse>(
     client,
     new Promise(async (resolve, reject) => {
       let fileSize = 0;
