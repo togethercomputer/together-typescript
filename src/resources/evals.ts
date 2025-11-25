@@ -44,18 +44,6 @@ export class Evals extends APIResource {
   }
 
   /**
-   * Update evaluation job status and results
-   *
-   * @example
-   * ```ts
-   * const _eval = await client.evals.update('id');
-   * ```
-   */
-  update(id: string, body: EvalUpdateParams, options?: RequestOptions): APIPromise<EvalUpdateResponse> {
-    return this._client.post(path`/evaluation/${id}/update`, { body, ...options });
-  }
-
-  /**
    * Get all evaluation jobs
    *
    * @example
@@ -275,12 +263,6 @@ export interface EvalCreateResponse {
   /**
    * The ID of the created evaluation job
    */
-  workflow_id?: string;
-}
-
-export interface EvalUpdateResponse {
-  status?: string;
-
   workflow_id?: string;
 }
 
@@ -755,21 +737,6 @@ export namespace EvalCreateParams {
   }
 }
 
-export interface EvalUpdateParams {
-  /**
-   * Error message when status is 'error' or 'user_error'
-   */
-  error?: string;
-
-  /**
-   * The results of the evaluation job. The concrete structure depends on the type of
-   * evaluation job
-   */
-  results?: unknown;
-
-  status?: 'completed' | 'error' | 'user_error' | 'running' | 'queued' | 'pending';
-}
-
 export interface EvalListParams {
   limit?: number;
 
@@ -786,11 +753,9 @@ export declare namespace Evals {
   export {
     type EvaluationJob as EvaluationJob,
     type EvalCreateResponse as EvalCreateResponse,
-    type EvalUpdateResponse as EvalUpdateResponse,
     type EvalListResponse as EvalListResponse,
     type EvalStatusResponse as EvalStatusResponse,
     type EvalCreateParams as EvalCreateParams,
-    type EvalUpdateParams as EvalUpdateParams,
     type EvalListParams as EvalListParams,
   };
 }

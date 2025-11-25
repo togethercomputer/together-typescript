@@ -260,7 +260,6 @@ Types:
 
 - <code><a href="./src/resources/evals.ts">EvaluationJob</a></code>
 - <code><a href="./src/resources/evals.ts">EvalCreateResponse</a></code>
-- <code><a href="./src/resources/evals.ts">EvalUpdateResponse</a></code>
 - <code><a href="./src/resources/evals.ts">EvalListResponse</a></code>
 - <code><a href="./src/resources/evals.ts">EvalStatusResponse</a></code>
 
@@ -268,6 +267,5 @@ Methods:
 
 - <code title="post /evaluation">client.evals.<a href="./src/resources/evals.ts">create</a>({ ...params }) -> EvalCreateResponse</code>
 - <code title="get /evaluation/{id}">client.evals.<a href="./src/resources/evals.ts">retrieve</a>(id) -> EvaluationJob</code>
-- <code title="post /evaluation/{id}/update">client.evals.<a href="./src/resources/evals.ts">update</a>(id, { ...params }) -> EvalUpdateResponse</code>
 - <code title="get /evaluation">client.evals.<a href="./src/resources/evals.ts">list</a>({ ...params }) -> EvalListResponse</code>
 - <code title="get /evaluation/{id}/status">client.evals.<a href="./src/resources/evals.ts">status</a>(id) -> EvalStatusResponse</code>
