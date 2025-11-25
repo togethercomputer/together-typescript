@@ -51,17 +51,17 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/files.ts">FileList</a></code>
 - <code><a href="./src/resources/files.ts">FileObject</a></code>
 - <code><a href="./src/resources/files.ts">FilePurpose</a></code>
+- <code><a href="./src/resources/files.ts">FileResponse</a></code>
 - <code><a href="./src/resources/files.ts">FileType</a></code>
-- <code><a href="./src/resources/files.ts">FileRetrieveResponse</a></code>
-- <code><a href="./src/resources/files.ts">FileListResponse</a></code>
 - <code><a href="./src/resources/files.ts">FileDeleteResponse</a></code>
 
 Methods:
 
-- <code title="get /files/{id}">client.files.<a href="./src/resources/files.ts">retrieve</a>(id) -> FileRetrieveResponse</code>
-- <code title="get /files">client.files.<a href="./src/resources/files.ts">list</a>() -> FileListResponse</code>
+- <code title="get /files/{id}">client.files.<a href="./src/resources/files.ts">retrieve</a>(id) -> FileResponse</code>
+- <code title="get /files">client.files.<a href="./src/resources/files.ts">list</a>() -> FileList</code>
 - <code title="delete /files/{id}">client.files.<a href="./src/resources/files.ts">delete</a>(id) -> FileDeleteResponse</code>
 - <code title="get /files/{id}/content">client.files.<a href="./src/resources/files.ts">content</a>(id) -> Response</code>
 - <code title="post /files/upload">client.files.<a href="./src/resources/files.ts">upload</a>({ ...params }) -> FileRetrieveResponse</code>
@@ -70,15 +70,9 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/fine-tuning.ts">CosineLrSchedulerArgs</a></code>
-- <code><a href="./src/resources/fine-tuning.ts">FineTune</a></code>
-- <code><a href="./src/resources/fine-tuning.ts">FineTuneEvent</a></code>
-- <code><a href="./src/resources/fine-tuning.ts">FullTrainingType</a></code>
-- <code><a href="./src/resources/fine-tuning.ts">LinearLrSchedulerArgs</a></code>
-- <code><a href="./src/resources/fine-tuning.ts">LoRaTrainingType</a></code>
-- <code><a href="./src/resources/fine-tuning.ts">LrScheduler</a></code>
-- <code><a href="./src/resources/fine-tuning.ts">TrainingMethodDpo</a></code>
-- <code><a href="./src/resources/fine-tuning.ts">TrainingMethodSft</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FinetuneEvent</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FinetuneEventType</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FinetuneResponse</a></code>
 - <code><a href="./src/resources/fine-tuning.ts">FineTuningCreateResponse</a></code>
 - <code><a href="./src/resources/fine-tuning.ts">FineTuningListResponse</a></code>
 - <code><a href="./src/resources/fine-tuning.ts">FineTuningDeleteResponse</a></code>
@@ -89,7 +83,7 @@ Types:
 Methods:
 
 - <code title="post /fine-tunes">client.fineTuning.<a href="./src/resources/fine-tuning.ts">create</a>({ ...params }) -> FineTuningCreateResponse</code>
-- <code title="get /fine-tunes/{id}">client.fineTuning.<a href="./src/resources/fine-tuning.ts">retrieve</a>(id) -> FineTune</code>
+- <code title="get /fine-tunes/{id}">client.fineTuning.<a href="./src/resources/fine-tuning.ts">retrieve</a>(id) -> FinetuneResponse</code>
 - <code title="get /fine-tunes">client.fineTuning.<a href="./src/resources/fine-tuning.ts">list</a>() -> FineTuningListResponse</code>
 - <code title="delete /fine-tunes/{id}">client.fineTuning.<a href="./src/resources/fine-tuning.ts">delete</a>(id, { ...params }) -> FineTuningDeleteResponse</code>
 - <code title="post /fine-tunes/{id}/cancel">client.fineTuning.<a href="./src/resources/fine-tuning.ts">cancel</a>(id) -> FineTuningCancelResponse</code>
@@ -188,6 +182,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/models.ts">ModelObject</a></code>
 - <code><a href="./src/resources/models.ts">ModelListResponse</a></code>
 - <code><a href="./src/resources/models.ts">ModelUploadResponse</a></code>
 
@@ -250,17 +245,16 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/batches.ts">BatchJob</a></code>
 - <code><a href="./src/resources/batches.ts">BatchCreateResponse</a></code>
-- <code><a href="./src/resources/batches.ts">BatchRetrieveResponse</a></code>
 - <code><a href="./src/resources/batches.ts">BatchListResponse</a></code>
-- <code><a href="./src/resources/batches.ts">BatchCancelResponse</a></code>
 
 Methods:
 
 - <code title="post /batches">client.batches.<a href="./src/resources/batches.ts">create</a>({ ...params }) -> BatchCreateResponse</code>
-- <code title="get /batches/{id}">client.batches.<a href="./src/resources/batches.ts">retrieve</a>(id) -> BatchRetrieveResponse</code>
+- <code title="get /batches/{id}">client.batches.<a href="./src/resources/batches.ts">retrieve</a>(id) -> BatchJob</code>
 - <code title="get /batches">client.batches.<a href="./src/resources/batches.ts">list</a>() -> BatchListResponse</code>
-- <code title="post /batches/{id}/cancel">client.batches.<a href="./src/resources/batches.ts">cancel</a>(id) -> BatchCancelResponse</code>
+- <code title="post /batches/{id}/cancel">client.batches.<a href="./src/resources/batches.ts">cancel</a>(id) -> BatchJob</code>
 
 # Evals
 

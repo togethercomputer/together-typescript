@@ -17,11 +17,10 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
-  BatchCancelResponse,
   BatchCreateParams,
   BatchCreateResponse,
+  BatchJob,
   BatchListResponse,
-  BatchRetrieveResponse,
   Batches,
 } from './resources/batches';
 import {
@@ -57,17 +56,14 @@ import {
 } from './resources/evals';
 import {
   FileDeleteResponse,
-  FileListResponse,
+  FileList,
   FileObject,
   FilePurpose,
-  FileRetrieveResponse,
+  FileResponse,
   FileType,
   Files,
 } from './resources/files';
 import {
-  CosineLrSchedulerArgs,
-  FineTune,
-  FineTuneEvent,
   FineTuning,
   FineTuningCancelResponse,
   FineTuningContentParams,
@@ -78,17 +74,20 @@ import {
   FineTuningListCheckpointsResponse,
   FineTuningListEventsResponse,
   FineTuningListResponse,
-  FullTrainingType,
-  LinearLrSchedulerArgs,
-  LoRaTrainingType,
-  LrScheduler,
-  TrainingMethodDpo,
-  TrainingMethodSft,
+  FinetuneEvent,
+  FinetuneEventType,
+  FinetuneResponse,
 } from './resources/fine-tuning';
 import { Hardware, HardwareListParams, HardwareListResponse } from './resources/hardware';
 import { ImageDataB64, ImageDataURL, ImageFile, ImageGenerateParams, Images } from './resources/images';
 import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
-import { ModelListResponse, ModelUploadParams, ModelUploadResponse, Models } from './resources/models';
+import {
+  ModelListResponse,
+  ModelObject,
+  ModelUploadParams,
+  ModelUploadResponse,
+  Models,
+} from './resources/models';
 import { Rerank, RerankCreateParams, RerankCreateResponse } from './resources/rerank';
 import { VideoCreateParams, VideoCreateResponse, VideoJob, Videos } from './resources/videos';
 import { Audio, AudioFile, AudioSpeechStreamChunk } from './resources/audio/audio';
@@ -856,25 +855,19 @@ export declare namespace Together {
 
   export {
     Files as Files,
+    type FileList as FileList,
     type FileObject as FileObject,
     type FilePurpose as FilePurpose,
+    type FileResponse as FileResponse,
     type FileType as FileType,
-    type FileRetrieveResponse as FileRetrieveResponse,
-    type FileListResponse as FileListResponse,
     type FileDeleteResponse as FileDeleteResponse,
   };
 
   export {
     FineTuning as FineTuning,
-    type CosineLrSchedulerArgs as CosineLrSchedulerArgs,
-    type FineTune as FineTune,
-    type FineTuneEvent as FineTuneEvent,
-    type FullTrainingType as FullTrainingType,
-    type LinearLrSchedulerArgs as LinearLrSchedulerArgs,
-    type LoRaTrainingType as LoRaTrainingType,
-    type LrScheduler as LrScheduler,
-    type TrainingMethodDpo as TrainingMethodDpo,
-    type TrainingMethodSft as TrainingMethodSft,
+    type FinetuneEvent as FinetuneEvent,
+    type FinetuneEventType as FinetuneEventType,
+    type FinetuneResponse as FinetuneResponse,
     type FineTuningCreateResponse as FineTuningCreateResponse,
     type FineTuningListResponse as FineTuningListResponse,
     type FineTuningDeleteResponse as FineTuningDeleteResponse,
@@ -915,6 +908,7 @@ export declare namespace Together {
 
   export {
     Models as Models,
+    type ModelObject as ModelObject,
     type ModelListResponse as ModelListResponse,
     type ModelUploadResponse as ModelUploadResponse,
     type ModelUploadParams as ModelUploadParams,
@@ -951,10 +945,9 @@ export declare namespace Together {
 
   export {
     Batches as Batches,
+    type BatchJob as BatchJob,
     type BatchCreateResponse as BatchCreateResponse,
-    type BatchRetrieveResponse as BatchRetrieveResponse,
     type BatchListResponse as BatchListResponse,
-    type BatchCancelResponse as BatchCancelResponse,
     type BatchCreateParams as BatchCreateParams,
   };
 
