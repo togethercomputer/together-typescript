@@ -52,8 +52,6 @@ import {
   EvalListParams,
   EvalListResponse,
   EvalStatusResponse,
-  EvalUpdateParams,
-  EvalUpdateResponse,
   Evals,
   EvaluationJob,
 } from './resources/evals';
@@ -964,11 +962,9 @@ export declare namespace Together {
     Evals as Evals,
     type EvaluationJob as EvaluationJob,
     type EvalCreateResponse as EvalCreateResponse,
-    type EvalUpdateResponse as EvalUpdateResponse,
     type EvalListResponse as EvalListResponse,
     type EvalStatusResponse as EvalStatusResponse,
     type EvalCreateParams as EvalCreateParams,
-    type EvalUpdateParams as EvalUpdateParams,
     type EvalListParams as EvalListParams,
   };
 }
