@@ -3,10 +3,9 @@
 export { Audio, type AudioFile, type AudioSpeechStreamChunk } from './audio/audio';
 export {
   Batches,
+  type BatchJob,
   type BatchCreateResponse,
-  type BatchRetrieveResponse,
   type BatchListResponse,
-  type BatchCancelResponse,
   type BatchCreateParams,
 } from './batches';
 export { Chat } from './chat/chat';
@@ -48,24 +47,18 @@ export {
 } from './evals';
 export {
   Files,
+  type FileList,
   type FileObject,
   type FilePurpose,
+  type FileResponse,
   type FileType,
-  type FileRetrieveResponse,
-  type FileListResponse,
   type FileDeleteResponse,
 } from './files';
 export {
   FineTuning,
-  type CosineLrSchedulerArgs,
-  type FineTune,
-  type FineTuneEvent,
-  type FullTrainingType,
-  type LinearLrSchedulerArgs,
-  type LoRaTrainingType,
-  type LrScheduler,
-  type TrainingMethodDpo,
-  type TrainingMethodSft,
+  type FinetuneEvent,
+  type FinetuneEventType,
+  type FinetuneResponse,
   type FineTuningCreateResponse,
   type FineTuningListResponse,
   type FineTuningDeleteResponse,
@@ -85,6 +78,12 @@ export {
   type ImageGenerateParams,
 } from './images';
 export { Jobs, type JobRetrieveResponse, type JobListResponse } from './jobs';
-export { Models, type ModelListResponse, type ModelUploadResponse, type ModelUploadParams } from './models';
+export {
+  Models,
+  type ModelObject,
+  type ModelListResponse,
+  type ModelUploadResponse,
+  type ModelUploadParams,
+} from './models';
 export { Rerank, type RerankCreateResponse, type RerankCreateParams } from './rerank';
 export { Videos, type VideoJob, type VideoCreateResponse, type VideoCreateParams } from './videos';
