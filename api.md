@@ -1,13 +1,3 @@
-# Together
-
-Types:
-
-- <code><a href="./src/resources/top-level.ts">RerankResponse</a></code>
-
-Methods:
-
-- <code title="post /rerank">client.<a href="./src/index.ts">rerank</a>({ ...params }) -> RerankResponse</code>
-
 # Chat
 
 ## Completions
@@ -61,51 +51,45 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/files.ts">FileList</a></code>
 - <code><a href="./src/resources/files.ts">FileObject</a></code>
 - <code><a href="./src/resources/files.ts">FilePurpose</a></code>
+- <code><a href="./src/resources/files.ts">FileResponse</a></code>
 - <code><a href="./src/resources/files.ts">FileType</a></code>
-- <code><a href="./src/resources/files.ts">FileRetrieveResponse</a></code>
-- <code><a href="./src/resources/files.ts">FileListResponse</a></code>
 - <code><a href="./src/resources/files.ts">FileDeleteResponse</a></code>
-- <code><a href="./src/resources/files.ts">FileUploadResponse</a></code>
 
 Methods:
 
-- <code title="get /files/{id}">client.files.<a href="./src/resources/files.ts">retrieve</a>(id) -> FileRetrieveResponse</code>
-- <code title="get /files">client.files.<a href="./src/resources/files.ts">list</a>() -> FileListResponse</code>
+- <code title="get /files/{id}">client.files.<a href="./src/resources/files.ts">retrieve</a>(id) -> FileResponse</code>
+- <code title="get /files">client.files.<a href="./src/resources/files.ts">list</a>() -> FileList</code>
 - <code title="delete /files/{id}">client.files.<a href="./src/resources/files.ts">delete</a>(id) -> FileDeleteResponse</code>
 - <code title="get /files/{id}/content">client.files.<a href="./src/resources/files.ts">content</a>(id) -> Response</code>
-- <code title="post /files/upload">client.files.<a href="./src/resources/files.ts">upload</a>({ ...params }) -> FileUploadResponse</code>
+- <code title="post /files/upload">client.files.<a href="./src/resources/files.ts">upload</a>({ ...params }) -> FileResponse</code>
 
-# FineTune
+# FineTuning
 
 Types:
 
-- <code><a href="./src/resources/fine-tune.ts">CosineLrSchedulerArgs</a></code>
-- <code><a href="./src/resources/fine-tune.ts">FineTune</a></code>
-- <code><a href="./src/resources/fine-tune.ts">FineTuneEvent</a></code>
-- <code><a href="./src/resources/fine-tune.ts">FullTrainingType</a></code>
-- <code><a href="./src/resources/fine-tune.ts">LinearLrSchedulerArgs</a></code>
-- <code><a href="./src/resources/fine-tune.ts">LoRaTrainingType</a></code>
-- <code><a href="./src/resources/fine-tune.ts">LrScheduler</a></code>
-- <code><a href="./src/resources/fine-tune.ts">TrainingMethodDpo</a></code>
-- <code><a href="./src/resources/fine-tune.ts">TrainingMethodSft</a></code>
-- <code><a href="./src/resources/fine-tune.ts">FineTuneCreateResponse</a></code>
-- <code><a href="./src/resources/fine-tune.ts">FineTuneListResponse</a></code>
-- <code><a href="./src/resources/fine-tune.ts">FineTuneCancelResponse</a></code>
-- <code><a href="./src/resources/fine-tune.ts">FineTuneDownloadResponse</a></code>
-- <code><a href="./src/resources/fine-tune.ts">FineTuneListEventsResponse</a></code>
-- <code><a href="./src/resources/fine-tune.ts">FineTuneRetrieveCheckpointsResponse</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FinetuneEvent</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FinetuneEventType</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FinetuneResponse</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FineTuningCreateResponse</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FineTuningListResponse</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FineTuningDeleteResponse</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FineTuningCancelResponse</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FineTuningListCheckpointsResponse</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FineTuningListEventsResponse</a></code>
 
 Methods:
 
-- <code title="post /fine-tunes">client.fineTune.<a href="./src/resources/fine-tune.ts">create</a>({ ...params }) -> FineTuneCreateResponse</code>
-- <code title="get /fine-tunes/{id}">client.fineTune.<a href="./src/resources/fine-tune.ts">retrieve</a>(id) -> FineTune</code>
-- <code title="get /fine-tunes">client.fineTune.<a href="./src/resources/fine-tune.ts">list</a>() -> FineTuneListResponse</code>
-- <code title="post /fine-tunes/{id}/cancel">client.fineTune.<a href="./src/resources/fine-tune.ts">cancel</a>(id) -> FineTuneCancelResponse</code>
-- <code title="get /finetune/download">client.fineTune.<a href="./src/resources/fine-tune.ts">download</a>({ ...params }) -> FineTuneDownloadResponse</code>
-- <code title="get /fine-tunes/{id}/events">client.fineTune.<a href="./src/resources/fine-tune.ts">listEvents</a>(id) -> FineTuneListEventsResponse</code>
-- <code title="get /fine-tunes/{id}/checkpoints">client.fineTune.<a href="./src/resources/fine-tune.ts">retrieveCheckpoints</a>(id) -> FineTuneRetrieveCheckpointsResponse</code>
+- <code title="post /fine-tunes">client.fineTuning.<a href="./src/resources/fine-tuning.ts">create</a>({ ...params }) -> FineTuningCreateResponse</code>
+- <code title="get /fine-tunes/{id}">client.fineTuning.<a href="./src/resources/fine-tuning.ts">retrieve</a>(id) -> FinetuneResponse</code>
+- <code title="get /fine-tunes">client.fineTuning.<a href="./src/resources/fine-tuning.ts">list</a>() -> FineTuningListResponse</code>
+- <code title="delete /fine-tunes/{id}">client.fineTuning.<a href="./src/resources/fine-tuning.ts">delete</a>(id, { ...params }) -> FineTuningDeleteResponse</code>
+- <code title="post /fine-tunes/{id}/cancel">client.fineTuning.<a href="./src/resources/fine-tuning.ts">cancel</a>(id) -> FineTuningCancelResponse</code>
+- <code title="get /finetune/download">client.fineTuning.<a href="./src/resources/fine-tuning.ts">content</a>({ ...params }) -> Response</code>
+- <code title="get /fine-tunes/{id}/checkpoints">client.fineTuning.<a href="./src/resources/fine-tuning.ts">listCheckpoints</a>(id) -> FineTuningListCheckpointsResponse</code>
+- <code title="get /fine-tunes/{id}/events">client.fineTuning.<a href="./src/resources/fine-tuning.ts">listEvents</a>(id) -> FineTuningListEventsResponse</code>
 
 # CodeInterpreter
 
@@ -137,18 +121,17 @@ Types:
 
 Methods:
 
-- <code title="post /images/generations">client.images.<a href="./src/resources/images.ts">create</a>({ ...params }) -> ImageFile</code>
+- <code title="post /images/generations">client.images.<a href="./src/resources/images.ts">generate</a>({ ...params }) -> ImageFile</code>
 
 # Videos
 
 Types:
 
 - <code><a href="./src/resources/videos.ts">VideoJob</a></code>
-- <code><a href="./src/resources/videos.ts">VideoCreateResponse</a></code>
 
 Methods:
 
-- <code title="post /videos">client.videos.<a href="./src/resources/videos.ts">create</a>({ ...params }) -> VideoCreateResponse</code>
+- <code title="post /videos">client.videos.<a href="./src/resources/videos.ts">create</a>({ ...params }) -> VideoJob</code>
 - <code title="get /videos/{id}">client.videos.<a href="./src/resources/videos.ts">retrieve</a>(id) -> VideoJob</code>
 
 # Audio
@@ -158,9 +141,21 @@ Types:
 - <code><a href="./src/resources/audio/audio.ts">AudioFile</a></code>
 - <code><a href="./src/resources/audio/audio.ts">AudioSpeechStreamChunk</a></code>
 
+## Speech
+
 Methods:
 
-- <code title="post /audio/speech">client.audio.<a href="./src/resources/audio/audio.ts">create</a>({ ...params }) -> Response</code>
+- <code title="post /audio/speech">client.audio.speech.<a href="./src/resources/audio/speech.ts">create</a>({ ...params }) -> Response</code>
+
+## Voices
+
+Types:
+
+- <code><a href="./src/resources/audio/voices.ts">VoiceListResponse</a></code>
+
+Methods:
+
+- <code title="get /voices">client.audio.voices.<a href="./src/resources/audio/voices.ts">list</a>() -> VoiceListResponse</code>
 
 ## Transcriptions
 
@@ -186,6 +181,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/models.ts">ModelObject</a></code>
 - <code><a href="./src/resources/models.ts">ModelListResponse</a></code>
 - <code><a href="./src/resources/models.ts">ModelUploadResponse</a></code>
 
@@ -211,18 +207,18 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/endpoints.ts">Autoscaling</a></code>
-- <code><a href="./src/resources/endpoints.ts">EndpointCreateResponse</a></code>
-- <code><a href="./src/resources/endpoints.ts">EndpointRetrieveResponse</a></code>
-- <code><a href="./src/resources/endpoints.ts">EndpointUpdateResponse</a></code>
+- <code><a href="./src/resources/endpoints.ts">DedicatedEndpoint</a></code>
 - <code><a href="./src/resources/endpoints.ts">EndpointListResponse</a></code>
+- <code><a href="./src/resources/endpoints.ts">EndpointListAvzonesResponse</a></code>
 
 Methods:
 
-- <code title="post /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">create</a>({ ...params }) -> EndpointCreateResponse</code>
-- <code title="get /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">retrieve</a>(endpointID) -> EndpointRetrieveResponse</code>
-- <code title="patch /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">update</a>(endpointID, { ...params }) -> EndpointUpdateResponse</code>
+- <code title="post /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">create</a>({ ...params }) -> DedicatedEndpoint</code>
+- <code title="get /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">retrieve</a>(endpointID) -> DedicatedEndpoint</code>
+- <code title="patch /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">update</a>(endpointID, { ...params }) -> DedicatedEndpoint</code>
 - <code title="get /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">list</a>({ ...params }) -> EndpointListResponse</code>
 - <code title="delete /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">delete</a>(endpointID) -> void</code>
+- <code title="get /clusters/availability-zones">client.endpoints.<a href="./src/resources/endpoints.ts">listAvzones</a>() -> EndpointListAvzonesResponse</code>
 
 # Hardware
 
@@ -234,34 +230,43 @@ Methods:
 
 - <code title="get /hardware">client.hardware.<a href="./src/resources/hardware.ts">list</a>({ ...params }) -> HardwareListResponse</code>
 
+# Rerank
+
+Types:
+
+- <code><a href="./src/resources/rerank.ts">RerankCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /rerank">client.rerank.<a href="./src/resources/rerank.ts">create</a>({ ...params }) -> RerankCreateResponse</code>
+
 # Batches
 
 Types:
 
+- <code><a href="./src/resources/batches.ts">BatchJob</a></code>
 - <code><a href="./src/resources/batches.ts">BatchCreateResponse</a></code>
-- <code><a href="./src/resources/batches.ts">BatchRetrieveResponse</a></code>
 - <code><a href="./src/resources/batches.ts">BatchListResponse</a></code>
 
 Methods:
 
 - <code title="post /batches">client.batches.<a href="./src/resources/batches.ts">create</a>({ ...params }) -> BatchCreateResponse</code>
-- <code title="get /batches/{id}">client.batches.<a href="./src/resources/batches.ts">retrieve</a>(id) -> BatchRetrieveResponse</code>
+- <code title="get /batches/{id}">client.batches.<a href="./src/resources/batches.ts">retrieve</a>(id) -> BatchJob</code>
 - <code title="get /batches">client.batches.<a href="./src/resources/batches.ts">list</a>() -> BatchListResponse</code>
+- <code title="post /batches/{id}/cancel">client.batches.<a href="./src/resources/batches.ts">cancel</a>(id) -> BatchJob</code>
 
 # Evals
 
 Types:
 
-- <code><a href="./src/resources/evals.ts">EvaluationJudgeModelConfig</a></code>
-- <code><a href="./src/resources/evals.ts">EvaluationModelRequest</a></code>
-- <code><a href="./src/resources/evals.ts">EvalRetrieveResponse</a></code>
+- <code><a href="./src/resources/evals.ts">EvaluationJob</a></code>
+- <code><a href="./src/resources/evals.ts">EvalCreateResponse</a></code>
 - <code><a href="./src/resources/evals.ts">EvalListResponse</a></code>
-- <code><a href="./src/resources/evals.ts">EvalGetAllowedModelsResponse</a></code>
-- <code><a href="./src/resources/evals.ts">EvalGetStatusResponse</a></code>
+- <code><a href="./src/resources/evals.ts">EvalStatusResponse</a></code>
 
 Methods:
 
-- <code title="get /evaluation/{id}">client.evals.<a href="./src/resources/evals.ts">retrieve</a>(id) -> EvalRetrieveResponse</code>
-- <code title="get /evaluations">client.evals.<a href="./src/resources/evals.ts">list</a>({ ...params }) -> EvalListResponse</code>
-- <code title="get /evaluations/model-list">client.evals.<a href="./src/resources/evals.ts">getAllowedModels</a>() -> EvalGetAllowedModelsResponse</code>
-- <code title="get /evaluation/{id}/status">client.evals.<a href="./src/resources/evals.ts">getStatus</a>(id) -> EvalGetStatusResponse</code>
+- <code title="post /evaluation">client.evals.<a href="./src/resources/evals.ts">create</a>({ ...params }) -> EvalCreateResponse</code>
+- <code title="get /evaluation/{id}">client.evals.<a href="./src/resources/evals.ts">retrieve</a>(id) -> EvaluationJob</code>
+- <code title="get /evaluation">client.evals.<a href="./src/resources/evals.ts">list</a>({ ...params }) -> EvalListResponse</code>
+- <code title="get /evaluation/{id}/status">client.evals.<a href="./src/resources/evals.ts">status</a>(id) -> EvalStatusResponse</code>

@@ -11,12 +11,12 @@ export class Videos extends APIResource {
    *
    * @example
    * ```ts
-   * const video = await client.videos.create({
+   * const videoJob = await client.videos.create({
    *   model: 'model',
    * });
    * ```
    */
-  create(body: VideoCreateParams, options?: RequestOptions): APIPromise<VideoCreateResponse> {
+  create(body: VideoCreateParams, options?: RequestOptions): APIPromise<VideoJob> {
     return this._client.post('/videos', { body, defaultBaseURL: 'https://api.together.xyz/v2', ...options });
   }
 
@@ -119,13 +119,6 @@ export namespace VideoJob {
   }
 }
 
-export interface VideoCreateResponse {
-  /**
-   * Unique identifier for the video job.
-   */
-  id: string;
-}
-
 export interface VideoCreateParams {
   /**
    * The model to be used for the video creation request.
@@ -222,9 +215,5 @@ export namespace VideoCreateParams {
 }
 
 export declare namespace Videos {
-  export {
-    type VideoJob as VideoJob,
-    type VideoCreateResponse as VideoCreateResponse,
-    type VideoCreateParams as VideoCreateParams,
-  };
+  export { type VideoJob as VideoJob, type VideoCreateParams as VideoCreateParams };
 }

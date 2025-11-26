@@ -26,12 +26,12 @@ export class Batches extends APIResource {
    *
    * @example
    * ```ts
-   * const batch = await client.batches.retrieve(
+   * const batchJob = await client.batches.retrieve(
    *   'batch_job_abc123def456',
    * );
    * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<BatchRetrieveResponse> {
+  retrieve(id: string, options?: RequestOptions): APIPromise<BatchJob> {
     return this._client.get(path`/batches/${id}`, options);
   }
 
@@ -40,65 +40,29 @@ export class Batches extends APIResource {
    *
    * @example
    * ```ts
-   * const batches = await client.batches.list();
+   * const batchJobs = await client.batches.list();
    * ```
    */
   list(options?: RequestOptions): APIPromise<BatchListResponse> {
     return this._client.get('/batches', options);
   }
-}
 
-export interface BatchCreateResponse {
-  job?: BatchCreateResponse.Job;
-
-  warning?: string;
-}
-
-export namespace BatchCreateResponse {
-  export interface Job {
-    id?: string;
-
-    completed_at?: string;
-
-    created_at?: string;
-
-    endpoint?: string;
-
-    error?: string;
-
-    error_file_id?: string;
-
-    /**
-     * Size of input file in bytes
-     */
-    file_size_bytes?: number;
-
-    input_file_id?: string;
-
-    job_deadline?: string;
-
-    /**
-     * Model used for processing requests
-     */
-    model_id?: string;
-
-    output_file_id?: string;
-
-    /**
-     * Completion progress (0.0 to 100)
-     */
-    progress?: number;
-
-    /**
-     * Current status of the batch job
-     */
-    status?: 'VALIDATING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED' | 'EXPIRED' | 'CANCELLED';
-
-    user_id?: string;
+  /**
+   * Cancel a batch job by ID
+   *
+   * @example
+   * ```ts
+   * const batchJob = await client.batches.cancel(
+   *   'batch_job_abc123def456',
+   * );
+   * ```
+   */
+  cancel(id: string, options?: RequestOptions): APIPromise<BatchJob> {
+    return this._client.post(path`/batches/${id}/cancel`, options);
   }
 }
 
-export interface BatchRetrieveResponse {
+export interface BatchJob {
   id?: string;
 
   completed_at?: string;
@@ -140,51 +104,13 @@ export interface BatchRetrieveResponse {
   user_id?: string;
 }
 
-export type BatchListResponse = Array<BatchListResponse.BatchListResponseItem>;
+export interface BatchCreateResponse {
+  job?: BatchJob;
 
-export namespace BatchListResponse {
-  export interface BatchListResponseItem {
-    id?: string;
-
-    completed_at?: string;
-
-    created_at?: string;
-
-    endpoint?: string;
-
-    error?: string;
-
-    error_file_id?: string;
-
-    /**
-     * Size of input file in bytes
-     */
-    file_size_bytes?: number;
-
-    input_file_id?: string;
-
-    job_deadline?: string;
-
-    /**
-     * Model used for processing requests
-     */
-    model_id?: string;
-
-    output_file_id?: string;
-
-    /**
-     * Completion progress (0.0 to 100)
-     */
-    progress?: number;
-
-    /**
-     * Current status of the batch job
-     */
-    status?: 'VALIDATING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED' | 'EXPIRED' | 'CANCELLED';
-
-    user_id?: string;
-  }
+  warning?: string;
 }
+
+export type BatchListResponse = Array<BatchJob>;
 
 export interface BatchCreateParams {
   /**
@@ -215,8 +141,8 @@ export interface BatchCreateParams {
 
 export declare namespace Batches {
   export {
+    type BatchJob as BatchJob,
     type BatchCreateResponse as BatchCreateResponse,
-    type BatchRetrieveResponse as BatchRetrieveResponse,
     type BatchListResponse as BatchListResponse,
     type BatchCreateParams as BatchCreateParams,
   };

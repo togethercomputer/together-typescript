@@ -7,9 +7,9 @@ const client = new Together({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource audio', () => {
+describe('resource speech', () => {
   test('create: required and optional params', async () => {
-    const response = await client.audio.create({
+    const response = await client.audio.speech.create({
       input: 'input',
       model: 'canopylabs/orpheus-3b-0.1-ft',
       voice: 'voice',

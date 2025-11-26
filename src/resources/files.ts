@@ -1,12 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
-import * as FilesAPI from './files';
 import { APIPromise } from '../core/api-promise';
-import { type Uploadable } from '../core/uploads';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
+import { upload } from '../lib/upload';
 
 export class Files extends APIResource {
   /**
@@ -14,10 +13,10 @@ export class Files extends APIResource {
    *
    * @example
    * ```ts
-   * const file = await client.files.retrieve('id');
+   * const fileResponse = await client.files.retrieve('id');
    * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<FileRetrieveResponse> {
+  retrieve(id: string, options?: RequestOptions): APIPromise<FileResponse> {
     return this._client.get(path`/files/${id}`, options);
   }
 
@@ -26,10 +25,10 @@ export class Files extends APIResource {
    *
    * @example
    * ```ts
-   * const files = await client.files.list();
+   * const fileList = await client.files.list();
    * ```
    */
-  list(options?: RequestOptions): APIPromise<FileListResponse> {
+  list(options?: RequestOptions): APIPromise<FileList> {
     return this._client.get('/files', options);
   }
 
@@ -66,10 +65,15 @@ export class Files extends APIResource {
 
   /**
    * Upload a file.
+   * CUSTOM CODE. DO NOT LET STAINLESS REMOVE.
    */
-  upload(_: string): Promise<void> {
-    throw 'please use together-ai/lib/upload';
+  upload(file: string, purpose: FilePurpose, check: boolean = true): APIPromise<FileResponse> {
+    return upload(this._client, file, purpose, check);
   }
+}
+
+export interface FileList {
+  data: Array<FileResponse>;
 }
 
 export interface FileObject {
@@ -94,12 +98,7 @@ export type FilePurpose =
   | 'batch-generated'
   | 'batch-api';
 
-/**
- * The type of the file
- */
-export type FileType = 'csv' | 'jsonl' | 'parquet';
-
-export interface FileRetrieveResponse {
+export interface FileResponse {
   id: string;
 
   bytes: number;
@@ -125,37 +124,10 @@ export interface FileRetrieveResponse {
   purpose: FilePurpose;
 }
 
-export interface FileListResponse {
-  data: Array<FileListResponse.Data>;
-}
-
-export namespace FileListResponse {
-  export interface Data {
-    id: string;
-
-    bytes: number;
-
-    created_at: number;
-
-    filename: string;
-
-    /**
-     * The type of the file
-     */
-    FileType: FilesAPI.FileType;
-
-    LineCount: number;
-
-    object: string;
-
-    Processed: boolean;
-
-    /**
-     * The purpose of the file
-     */
-    purpose: FilesAPI.FilePurpose;
-  }
-}
+/**
+ * The type of the file
+ */
+export type FileType = 'csv' | 'jsonl' | 'parquet';
 
 export interface FileDeleteResponse {
   id?: string;
@@ -163,63 +135,13 @@ export interface FileDeleteResponse {
   deleted?: boolean;
 }
 
-export interface FileUploadResponse {
-  id: string;
-
-  bytes: number;
-
-  created_at: number;
-
-  filename: string;
-
-  /**
-   * The type of the file
-   */
-  FileType: FileType;
-
-  LineCount: number;
-
-  object: string;
-
-  Processed: boolean;
-
-  /**
-   * The purpose of the file
-   */
-  purpose: FilePurpose;
-}
-
-export interface FileUploadParams {
-  /**
-   * The content of the file being uploaded
-   */
-  file: Uploadable;
-
-  /**
-   * The name of the file being uploaded
-   */
-  file_name: string;
-
-  /**
-   * The purpose of the file
-   */
-  purpose: FilePurpose;
-
-  /**
-   * The type of the file
-   */
-  file_type?: FileType;
-}
-
 export declare namespace Files {
   export {
+    type FileList as FileList,
     type FileObject as FileObject,
     type FilePurpose as FilePurpose,
+    type FileResponse as FileResponse,
     type FileType as FileType,
-    type FileRetrieveResponse as FileRetrieveResponse,
-    type FileListResponse as FileListResponse,
     type FileDeleteResponse as FileDeleteResponse,
-    type FileUploadResponse as FileUploadResponse,
-    type FileUploadParams as FileUploadParams,
   };
 }

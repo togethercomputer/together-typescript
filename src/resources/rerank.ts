@@ -1,8 +1,34 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { APIResource } from '../core/resource';
 import * as CompletionsAPI from './chat/completions';
+import { APIPromise } from '../core/api-promise';
+import { RequestOptions } from '../internal/request-options';
 
-export interface RerankResponse {
+export class Rerank extends APIResource {
+  /**
+   * Query a reranker model
+   *
+   * @example
+   * ```ts
+   * const rerank = await client.rerank.create({
+   *   documents: [
+   *     { title: 'bar', text: 'bar' },
+   *     { title: 'bar', text: 'bar' },
+   *     { title: 'bar', text: 'bar' },
+   *     { title: 'bar', text: 'bar' },
+   *   ],
+   *   model: 'Salesforce/Llama-Rank-V1',
+   *   query: 'What animals can I find near Peru?',
+   * });
+   * ```
+   */
+  create(body: RerankCreateParams, options?: RequestOptions): APIPromise<RerankCreateResponse> {
+    return this._client.post('/rerank', { body, ...options });
+  }
+}
+
+export interface RerankCreateResponse {
   /**
    * The model to be used for the rerank request.
    */
@@ -13,7 +39,7 @@ export interface RerankResponse {
    */
   object: 'rerank';
 
-  results: Array<RerankResponse.Result>;
+  results: Array<RerankCreateResponse.Result>;
 
   /**
    * Request ID
@@ -23,7 +49,7 @@ export interface RerankResponse {
   usage?: CompletionsAPI.ChatCompletionUsage | null;
 }
 
-export namespace RerankResponse {
+export namespace RerankCreateResponse {
   export interface Result {
     document: Result.Document;
 
@@ -39,7 +65,7 @@ export namespace RerankResponse {
   }
 }
 
-export interface RerankParams {
+export interface RerankCreateParams {
   /**
    * List of documents, which can be either strings or objects.
    */
@@ -74,6 +100,6 @@ export interface RerankParams {
   top_n?: number;
 }
 
-export declare namespace TopLevel {
-  export { type RerankResponse as RerankResponse, type RerankParams as RerankParams };
+export declare namespace Rerank {
+  export { type RerankCreateResponse as RerankCreateResponse, type RerankCreateParams as RerankCreateParams };
 }

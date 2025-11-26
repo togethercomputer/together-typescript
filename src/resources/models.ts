@@ -10,7 +10,7 @@ export class Models extends APIResource {
    *
    * @example
    * ```ts
-   * const models = await client.models.list();
+   * const modelObjects = await client.models.list();
    * ```
    */
   list(options?: RequestOptions): APIPromise<ModelListResponse> {
@@ -33,45 +33,43 @@ export class Models extends APIResource {
   }
 }
 
-export type ModelListResponse = Array<ModelListResponse.ModelListResponseItem>;
+export interface ModelObject {
+  id: string;
 
-export namespace ModelListResponse {
-  export interface ModelListResponseItem {
-    id: string;
+  created: number;
 
-    created: number;
+  object: string;
 
-    object: string;
+  type: 'chat' | 'language' | 'code' | 'image' | 'embedding' | 'moderation' | 'rerank';
 
-    type: 'chat' | 'language' | 'code' | 'image' | 'embedding' | 'moderation' | 'rerank';
+  context_length?: number;
 
-    context_length?: number;
+  display_name?: string;
 
-    display_name?: string;
+  license?: string;
 
-    license?: string;
+  link?: string;
 
-    link?: string;
+  organization?: string;
 
-    organization?: string;
+  pricing?: ModelObject.Pricing;
+}
 
-    pricing?: ModelListResponseItem.Pricing;
-  }
+export namespace ModelObject {
+  export interface Pricing {
+    base: number;
 
-  export namespace ModelListResponseItem {
-    export interface Pricing {
-      base: number;
+    finetune: number;
 
-      finetune: number;
+    hourly: number;
 
-      hourly: number;
+    input: number;
 
-      input: number;
-
-      output: number;
-    }
+    output: number;
   }
 }
+
+export type ModelListResponse = Array<ModelObject>;
 
 export interface ModelUploadResponse {
   data: ModelUploadResponse.Data;
@@ -132,6 +130,7 @@ export interface ModelUploadParams {
 
 export declare namespace Models {
   export {
+    type ModelObject as ModelObject,
     type ModelListResponse as ModelListResponse,
     type ModelUploadResponse as ModelUploadResponse,
     type ModelUploadParams as ModelUploadParams,
