@@ -86,9 +86,4 @@ export {
   type ModelUploadParams,
 } from './models';
 export { Rerank, type RerankCreateResponse, type RerankCreateParams } from './rerank';
-export {
-  Videos,
-  type VideoCreateResponse,
-  type VideoRetrieveResponse,
-  type VideoCreateParams,
-} from './videos';
+export { Videos, type VideoJob, type VideoCreateParams } from './videos';

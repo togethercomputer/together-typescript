@@ -11,12 +11,12 @@ export class Videos extends APIResource {
    *
    * @example
    * ```ts
-   * const video = await client.videos.create({
+   * const videoJob = await client.videos.create({
    *   model: 'model',
    * });
    * ```
    */
-  create(body: VideoCreateParams, options?: RequestOptions): APIPromise<VideoCreateResponse> {
+  create(body: VideoCreateParams, options?: RequestOptions): APIPromise<VideoJob> {
     return this._client.post('/videos', { body, defaultBaseURL: 'https://api.together.xyz/v2', ...options });
   }
 
@@ -25,10 +25,10 @@ export class Videos extends APIResource {
    *
    * @example
    * ```ts
-   * const video = await client.videos.retrieve('id');
+   * const videoJob = await client.videos.retrieve('id');
    * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<VideoRetrieveResponse> {
+  retrieve(id: string, options?: RequestOptions): APIPromise<VideoJob> {
     return this._client.get(path`/videos/${id}`, {
       defaultBaseURL: 'https://api.together.xyz/v2',
       ...options,
@@ -39,7 +39,7 @@ export class Videos extends APIResource {
 /**
  * Structured information describing a generated video job.
  */
-export interface VideoCreateResponse {
+export interface VideoJob {
   /**
    * Unique identifier for the video job.
    */
@@ -78,7 +78,7 @@ export interface VideoCreateResponse {
   /**
    * Error payload that explains why generation failed, if applicable.
    */
-  error?: VideoCreateResponse.Error;
+  error?: VideoJob.Error;
 
   /**
    * The object type, which is always video.
@@ -89,93 +89,10 @@ export interface VideoCreateResponse {
    * Available upon completion, the outputs provides the cost charged and the hosted
    * url to access the video
    */
-  outputs?: VideoCreateResponse.Outputs;
+  outputs?: VideoJob.Outputs;
 }
 
-export namespace VideoCreateResponse {
-  /**
-   * Error payload that explains why generation failed, if applicable.
-   */
-  export interface Error {
-    message: string;
-
-    code?: string;
-  }
-
-  /**
-   * Available upon completion, the outputs provides the cost charged and the hosted
-   * url to access the video
-   */
-  export interface Outputs {
-    /**
-     * The cost of generated video charged to the owners account.
-     */
-    cost: number;
-
-    /**
-     * URL hosting the generated video
-     */
-    video_url: string;
-  }
-}
-
-/**
- * Structured information describing a generated video job.
- */
-export interface VideoRetrieveResponse {
-  /**
-   * Unique identifier for the video job.
-   */
-  id: string;
-
-  /**
-   * Unix timestamp (seconds) for when the job was created.
-   */
-  created_at: number;
-
-  /**
-   * The video generation model that produced the job.
-   */
-  model: string;
-
-  /**
-   * Duration of the generated clip in seconds.
-   */
-  seconds: string;
-
-  /**
-   * The resolution of the generated video.
-   */
-  size: string;
-
-  /**
-   * Current lifecycle status of the video job.
-   */
-  status: 'in_progress' | 'completed' | 'failed';
-
-  /**
-   * Unix timestamp (seconds) for when the job completed, if finished.
-   */
-  completed_at?: number;
-
-  /**
-   * Error payload that explains why generation failed, if applicable.
-   */
-  error?: VideoRetrieveResponse.Error;
-
-  /**
-   * The object type, which is always video.
-   */
-  object?: 'video';
-
-  /**
-   * Available upon completion, the outputs provides the cost charged and the hosted
-   * url to access the video
-   */
-  outputs?: VideoRetrieveResponse.Outputs;
-}
-
-export namespace VideoRetrieveResponse {
+export namespace VideoJob {
   /**
    * Error payload that explains why generation failed, if applicable.
    */
@@ -298,9 +215,5 @@ export namespace VideoCreateParams {
 }
 
 export declare namespace Videos {
-  export {
-    type VideoCreateResponse as VideoCreateResponse,
-    type VideoRetrieveResponse as VideoRetrieveResponse,
-    type VideoCreateParams as VideoCreateParams,
-  };
+  export { type VideoJob as VideoJob, type VideoCreateParams as VideoCreateParams };
 }
