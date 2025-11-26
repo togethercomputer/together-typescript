@@ -89,7 +89,7 @@ import {
   Models,
 } from './resources/models';
 import { Rerank, RerankCreateParams, RerankCreateResponse } from './resources/rerank';
-import { VideoCreateParams, VideoCreateResponse, VideoJob, Videos } from './resources/videos';
+import { VideoCreateParams, VideoCreateResponse, VideoRetrieveResponse, Videos } from './resources/videos';
 import { Audio, AudioFile, AudioSpeechStreamChunk } from './resources/audio/audio';
 import { Chat } from './resources/chat/chat';
 import {
@@ -894,8 +894,8 @@ export declare namespace Together {
 
   export {
     Videos as Videos,
-    type VideoJob as VideoJob,
     type VideoCreateResponse as VideoCreateResponse,
+    type VideoRetrieveResponse as VideoRetrieveResponse,
     type VideoCreateParams as VideoCreateParams,
   };
 
