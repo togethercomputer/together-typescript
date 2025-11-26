@@ -55,17 +55,15 @@ export class FineTuning extends APIResource {
    *
    * @example
    * ```ts
-   * const fineTuning = await client.fineTuning.delete('id', {
-   *   force: true,
-   * });
+   * const fineTuning = await client.fineTuning.delete('id');
    * ```
    */
   delete(
     id: string,
-    params: FineTuningDeleteParams,
+    params: FineTuningDeleteParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<FineTuningDeleteResponse> {
-    const { force } = params;
+    const { force } = params ?? {};
     return this._client.delete(path`/fine-tunes/${id}`, { query: { force }, ...options });
   }
 
@@ -83,7 +81,7 @@ export class FineTuning extends APIResource {
   }
 
   /**
-   * Download a compressed fine-tuned model or checkpoint.
+   * Receive a compressed fine-tuned model or checkpoint.
    *
    * @example
    * ```ts
@@ -1280,7 +1278,7 @@ export namespace FineTuningCreateParams {
 }
 
 export interface FineTuningDeleteParams {
-  force: boolean;
+  force?: boolean;
 }
 
 export interface FineTuningContentParams {

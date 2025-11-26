@@ -71,8 +71,8 @@ describe('resource fineTuning', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('delete: only required params', async () => {
-    const responsePromise = client.fineTuning.delete('id', { force: true });
+  test('delete', async () => {
+    const responsePromise = client.fineTuning.delete('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -82,8 +82,11 @@ describe('resource fineTuning', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('delete: required and optional params', async () => {
-    const response = await client.fineTuning.delete('id', { force: true });
+  test('delete: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.fineTuning.delete('id', { force: true }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Together.NotFoundError);
   });
 
   test('cancel', async () => {
