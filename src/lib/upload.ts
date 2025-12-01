@@ -1,13 +1,11 @@
 // Upload file to server using /files API
 
 import { readEnv } from '../internal/utils/env';
-import fs from 'fs/promises';
-import { createReadStream } from 'fs';
-import * as path from 'path';
 import { FilePurpose, FileResponse } from '../resources';
 import { checkFile } from './check-file';
 import { Together } from '../client';
 import { APIPromise } from '../core/api-promise';
+import { makeReadableStream } from '../internal/shims';
 
 export interface ErrorResponse {
   message: string;
@@ -21,23 +19,16 @@ const baseURL = readEnv('TOGETHER_API_BASE_URL') || 'https://api.together.xyz/v1
 
 export function upload(
   client: Together,
-  fileName: string,
+  file: File,
   purpose: FilePurpose,
   check: boolean = true,
 ): APIPromise<FileResponse> {
   return new APIPromise<FileResponse>(
     client,
     new Promise(async (resolve, reject) => {
-      let fileSize = 0;
+      const fileSize = file.size;
 
-      try {
-        const stat = await fs.stat(fileName);
-        fileSize = stat.size;
-      } catch {
-        reject(new Error('File does not exists'));
-      }
-
-      const fileType = path.extname(fileName).replace('.', '');
+      const fileType = _extensionFromFileName(file.name);
       if (fileType !== 'jsonl' && fileType !== 'parquet' && fileType !== 'csv') {
         return {
           message: 'File type must be either .jsonl, .parquet, or .csv',
@@ -45,15 +36,16 @@ export function upload(
       }
 
       if (check) {
-        const checkResponse = await checkFile(fileName, purpose);
+        const checkResponse = await checkFile(file, fileType, purpose);
         if (!checkResponse.is_check_passed) {
-          reject(checkResponse.message || `verification of ${fileName} failed with some unknown reason`);
+          console.log(checkResponse);
+          reject(checkResponse.message || `verification of ${file.name} failed with some unknown reason`);
         }
       }
 
       try {
         const params = new URLSearchParams({
-          file_name: fileName,
+          file_name: file.name,
           file_type: fileType,
           purpose: purpose,
         });
@@ -81,7 +73,7 @@ export function upload(
           return reject(failedUploadMessage);
         }
 
-        const fileStream = createReadStream(fileName);
+        const fileStream = makeReadableStream(file.stream());
 
         // upload the file to uploadUrl
         const uploadResponse = await fetch(uploadUrl, {
@@ -118,4 +110,13 @@ export function upload(
       }
     }),
   );
+}
+
+function _extensionFromFileName(fileName: string): string {
+  const lastDotIndex = fileName.lastIndexOf('.');
+  if (lastDotIndex === -1 || lastDotIndex === 0 || lastDotIndex === fileName.length - 1) {
+    return '';
+  }
+  console.log(fileName.slice(lastDotIndex + 1));
+  return fileName.slice(lastDotIndex + 1);
 }

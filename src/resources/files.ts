@@ -6,6 +6,7 @@ import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 import { upload } from '../lib/upload';
+import { toFile } from 'together-ai/uploads';
 
 export class Files extends APIResource {
   /**
@@ -67,7 +68,7 @@ export class Files extends APIResource {
    * Upload a file.
    * CUSTOM CODE. DO NOT LET STAINLESS REMOVE.
    */
-  upload(file: string, purpose: FilePurpose, check: boolean = true): APIPromise<FileResponse> {
+  upload(file: File, purpose: FilePurpose, check: boolean = true): APIPromise<FileResponse> {
     return upload(this._client, file, purpose, check);
   }
 }

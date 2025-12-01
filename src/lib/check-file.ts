@@ -1,9 +1,10 @@
-import fs from 'fs/promises';
-import * as path from 'path';
-import readline from 'readline';
+// import fs from 'fs/promises';
+// import * as path from 'path';
+// import readline from 'readline';
 import { FilePurpose } from '../resources';
-import { createReadStream } from 'fs';
+// import { createReadStream } from 'fs';
 import { isUtf8 } from 'buffer';
+// import { makeReadableStream } from 'together-ai/internal/shims';
 
 // Constants
 const MIN_SAMPLES = 1;
@@ -60,15 +61,14 @@ export interface CheckFileReport {
 }
 
 export async function checkFile(
-  file: string,
+  file: File,
+  fileType: string,
   purpose: FilePurpose | string = 'fine-tune',
 ): Promise<CheckFileReport> {
-  const filePath = path.resolve(file);
-
   const report_dict: CheckFileReport = {
     is_check_passed: true,
     message: 'Checks passed',
-    found: null,
+    found: true,
     file_size: null,
     utf8: null,
     line_type: null,
@@ -81,16 +81,7 @@ export async function checkFile(
   };
 
   try {
-    const stats = await fs.stat(filePath);
-    if (!stats.isFile()) {
-      report_dict.found = false;
-      report_dict.is_check_passed = false;
-      return report_dict;
-    }
-
-    report_dict.found = true;
-
-    const file_size = stats.size;
+    const file_size = file.size;
 
     if (file_size > MAX_FILE_SIZE_GB * NUM_BYTES_IN_GB) {
       report_dict.message = `Maximum supported file size is ${MAX_FILE_SIZE_GB} GB. Found file with size of ${
@@ -112,20 +103,18 @@ export async function checkFile(
   }
 
   let data_report_dict: Partial<CheckFileReport> = {};
-  const ext = path.extname(filePath);
+  report_dict.filetype = fileType;
+  console.log('>>', report_dict.filetype);
 
   try {
-    if (ext === '.jsonl') {
-      report_dict.filetype = 'jsonl';
-      data_report_dict = await _check_jsonl(filePath, purpose);
-    } else if (ext === '.parquet') {
-      report_dict.filetype = 'parquet';
-      data_report_dict = await _check_parquet(filePath, purpose);
-    } else if (ext === '.csv') {
-      report_dict.filetype = 'csv';
-      data_report_dict = await _check_csv(filePath, purpose);
+    if (report_dict.filetype === 'jsonl') {
+      data_report_dict = await _check_jsonl(file, purpose);
+    } else if (report_dict.filetype === 'parquet') {
+      data_report_dict = await _check_parquet(file, purpose);
+    } else if (report_dict.filetype === 'csv') {
+      data_report_dict = await _check_csv(file, purpose);
     } else {
-      report_dict.filetype = `Unknown extension of file ${filePath}. Only files with extensions .jsonl and .parquet are supported.`;
+      report_dict.filetype = `Unknown extension of file ${file.name}. Only files with extensions .jsonl and .parquet are supported.`;
       report_dict.is_check_passed = false;
     }
   } catch (e) {
@@ -376,9 +365,9 @@ export function validate_preference_openai(example: Record<string, any>, idx: nu
   }
 }
 
-async function _check_utf8(file: string): Promise<Partial<CheckFileReport>> {
+async function _check_utf8(file: File): Promise<Partial<CheckFileReport>> {
   const report_dict: Partial<CheckFileReport> = {};
-  const content = await fs.readFile(file);
+  const content = await file.arrayBuffer();
   report_dict.utf8 = isUtf8(content);
 
   if (!report_dict.utf8) {
@@ -390,13 +379,13 @@ async function _check_utf8(file: string): Promise<Partial<CheckFileReport>> {
 }
 
 function _check_samples_count(
-  file: string,
+  file: File,
   report_dict: Partial<CheckFileReport>,
   idx: number,
 ): Partial<CheckFileReport> {
   if (idx + 1 < MIN_SAMPLES) {
     report_dict.has_min_samples = false;
-    report_dict.message = `Processing ${file} resulted in only ${
+    report_dict.message = `Processing ${file.name} resulted in only ${
       idx + 1
     } samples. Our minimum is ${MIN_SAMPLES} samples. `;
     report_dict.is_check_passed = false;
@@ -408,7 +397,7 @@ function _check_samples_count(
   return report_dict;
 }
 
-async function _check_csv(file: string, purpose: FilePurpose | string): Promise<Partial<CheckFileReport>> {
+async function _check_csv(file: File, purpose: FilePurpose | string): Promise<Partial<CheckFileReport>> {
   const report_dict: Partial<CheckFileReport> = {};
 
   if (purpose !== 'eval') {
@@ -424,11 +413,11 @@ async function _check_csv(file: string, purpose: FilePurpose | string): Promise<
     return report_dict;
   }
 
-  const fileStream = createReadStream(file);
-  const rl = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity,
-  });
+  const fileStream = file.stream();
+  // const rl = readline.createInterface({
+  //   input: fileStream,
+  //   crlfDelay: Infinity,
+  // });
 
   let idx = -1;
 
@@ -436,13 +425,13 @@ async function _check_csv(file: string, purpose: FilePurpose | string): Promise<
     let header: string[] | null = null;
     let isFirstLine = true;
 
-    for await (const line of rl) {
+    for await (const line of fileStream[Symbol.asyncIterator]()) {
       if (isFirstLine) {
         header = line.split(',').map((col) => col.trim());
         if (!header || header.length === 0 || header[0] === '') {
           report_dict.message = 'CSV file is empty or has no header.';
           report_dict.is_check_passed = false;
-          await rl.close();
+          // await rl.close();
           return report_dict;
         }
         isFirstLine = false;
@@ -485,13 +474,13 @@ async function _check_csv(file: string, purpose: FilePurpose | string): Promise<
       }
     }
   } finally {
-    await rl.close();
+    // await rl.close();
   }
 
   return report_dict;
 }
 
-async function _check_jsonl(file: string, purpose: FilePurpose | string): Promise<Partial<CheckFileReport>> {
+async function _check_jsonl(file: File, purpose: FilePurpose | string): Promise<Partial<CheckFileReport>> {
   const report_dict: Partial<CheckFileReport> = {};
 
   const utf8Check = await _check_utf8(file);
@@ -501,17 +490,23 @@ async function _check_jsonl(file: string, purpose: FilePurpose | string): Promis
     return report_dict;
   }
 
-  const fileStream = createReadStream(file);
-  const rl = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity,
-  });
+  const fileStream = file.stream();
+  const reader = fileStream.getReader();
+  const decoder = new TextDecoderStream();
+  fileStream.pipeThrough(decoder);
+
+
+  // const rl = readline.createInterface({
+  //   input: fileStream,
+  //   crlfDelay: Infinity,
+  // });
 
   let dataset_format: DatasetFormat | null = null;
   let idx = -1;
 
   try {
-    for await (const line of rl) {
+    for await (const line of decoder.readable) {
+      console.log('..', line);
       idx++;
       const json_line = JSON.parse(line);
 
@@ -626,7 +621,7 @@ async function _check_jsonl(file: string, purpose: FilePurpose | string): Promis
       }
     }
   } finally {
-    await rl.close();
+    // await rl.close();
   }
 
   if (!('text_field' in report_dict)) {
@@ -642,10 +637,7 @@ async function _check_jsonl(file: string, purpose: FilePurpose | string): Promis
   return report_dict;
 }
 
-async function _check_parquet(
-  file: string,
-  purpose: FilePurpose | string,
-): Promise<Partial<CheckFileReport>> {
+async function _check_parquet(file: File, purpose: FilePurpose | string): Promise<Partial<CheckFileReport>> {
   let ParquetReader: any;
   try {
     // ParquetJS is optional as it's large and isn't compatible with older systems.

@@ -1,23 +1,27 @@
 #!/usr/bin/env -S npm run tsn -T
 
 // Example of uploading a file
-import Together from 'together-ai';
+import { createReadStream } from 'fs';
+import Together, { toFile } from 'together-ai';
 
 const together = new Together();
 
 async function main() {
+  const file = await toFile(createReadStream('./examples/coqa-small.jsonl'), undefined, {
+    type: 'application/json',
+  });
   // Upload a file
-  const file = await together.files.upload('./examples/coqa-small.jsonl', 'fine-tune');
+  const upload = await together.files.upload(file, 'fine-tune');
   console.log('Uploaded file');
-  console.log(file);
+  console.log(upload);
 
-  if ('message' in file) {
-    console.error(file.message);
+  if ('message' in upload) {
+    console.error(upload.message);
     return;
   }
 
   // Check if the file has any contents (https://docs.together.ai/reference/get_files-id-content)
-  const res = await together.files.content(file.id);
+  const res = await together.files.content(upload.id);
   console.log(await res.text());
 }
 
