@@ -5,8 +5,8 @@
  * In the interim, this file provides a way to import the APIs in a way that will not break the SDK in the browser.
  */
 
-import { type stat } from 'fs/promises';
-import { type readFile, type createReadStream } from 'fs';
+import { type stat, type readFile } from 'fs/promises';
+import { type createReadStream } from 'fs';
 import { type extname, type resolve } from 'path';
 import type readline from 'readline';
 import { type isUtf8 } from 'buffer';
