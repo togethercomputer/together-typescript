@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.31.1 (2025-12-01)
+
+Full Changelog: [v0.31.0...v0.31.1](https://github.com/togethercomputer/together-typescript/compare/v0.31.0...v0.31.1)
+
+### Bug Fixes
+
+* move optional dependency out of core dependency ([9c74017](https://github.com/togethercomputer/together-typescript/commit/9c7401705a9e5609bed9b1b0d1d5d7891fc47ce1))
+
 ## 0.31.0 (2025-12-01)
 
 Full Changelog: [v0.30.0...v0.31.0](https://github.com/togethercomputer/together-typescript/compare/v0.30.0...v0.31.0)
