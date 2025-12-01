@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.31.2 (2025-12-01)
+
+Full Changelog: [v0.31.1...v0.31.2](https://github.com/togethercomputer/together-typescript/compare/v0.31.1...v0.31.2)
+
+### Bug Fixes
+
+* allow build to function in browser environments ([89cf3bf](https://github.com/togethercomputer/together-typescript/commit/89cf3bfc5e6b97cb31d941f8a60e338dd79cc4ab))
+
+
+### Chores
+
+* fix internal bad type reference ([1c646b3](https://github.com/togethercomputer/together-typescript/commit/1c646b3b58be268d3554baf6054c0dea8efac481))
+* fix tests ([4fcedb5](https://github.com/togethercomputer/together-typescript/commit/4fcedb5d5a5b81847245e065618a195cd7d93be4))
+
 ## 0.31.1 (2025-12-01)
 
 Full Changelog: [v0.31.0...v0.31.1](https://github.com/togethercomputer/together-typescript/compare/v0.31.0...v0.31.1)
