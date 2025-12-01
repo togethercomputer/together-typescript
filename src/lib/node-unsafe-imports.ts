@@ -25,7 +25,7 @@ try {
   readlineMethod = require('readline');
   isUtf8Method = require('buffer').isUtf8;
   resolveMethod = require('path').resolve;
-  readFileMethod = require('fs').readFile;
+  readFileMethod = require('fs/promises').readFile;
 } catch {}
 
 export {
