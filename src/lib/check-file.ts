@@ -1,9 +1,5 @@
-import fs from 'fs/promises';
-import * as path from 'path';
-import readline from 'readline';
 import { FilePurpose } from '../resources';
-import { createReadStream } from 'fs';
-import { isUtf8 } from 'buffer';
+import { createReadStream, readline, isUtf8, resolve, stat, extname, readFile } from './node-unsafe-imports';
 
 // Constants
 const MIN_SAMPLES = 1;
@@ -63,7 +59,7 @@ export async function checkFile(
   file: string,
   purpose: FilePurpose | string = 'fine-tune',
 ): Promise<CheckFileReport> {
-  const filePath = path.resolve(file);
+  const filePath = resolve(file);
 
   const report_dict: CheckFileReport = {
     is_check_passed: true,
@@ -81,7 +77,7 @@ export async function checkFile(
   };
 
   try {
-    const stats = await fs.stat(filePath);
+    const stats = await stat(filePath);
     if (!stats.isFile()) {
       report_dict.found = false;
       report_dict.is_check_passed = false;
@@ -112,7 +108,7 @@ export async function checkFile(
   }
 
   let data_report_dict: Partial<CheckFileReport> = {};
-  const ext = path.extname(filePath);
+  const ext = extname(filePath);
 
   try {
     if (ext === '.jsonl') {
@@ -378,7 +374,7 @@ export function validate_preference_openai(example: Record<string, any>, idx: nu
 
 async function _check_utf8(file: string): Promise<Partial<CheckFileReport>> {
   const report_dict: Partial<CheckFileReport> = {};
-  const content = await fs.readFile(file);
+  const content = await readFile(file);
   report_dict.utf8 = isUtf8(content);
 
   if (!report_dict.utf8) {
