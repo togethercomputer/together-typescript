@@ -1,11 +1,9 @@
 // Upload file to server using /files API
 
 import { readEnv } from '../internal/utils/env';
-import fs from 'fs/promises';
-import { createReadStream } from 'fs';
-import * as path from 'path';
 import { FilePurpose, FileResponse } from '../resources';
 import { checkFile } from './check-file';
+import { createReadStream, stat, extname } from './node-unsafe-imports';
 import { Together } from '../client';
 import { APIPromise } from '../core/api-promise';
 
@@ -31,13 +29,13 @@ export function upload(
       let fileSize = 0;
 
       try {
-        const stat = await fs.stat(fileName);
-        fileSize = stat.size;
+        const stats = await stat(fileName);
+        fileSize = stats.size;
       } catch {
         reject(new Error('File does not exists'));
       }
 
-      const fileType = path.extname(fileName).replace('.', '');
+      const fileType = extname(fileName).replace('.', '');
       if (fileType !== 'jsonl' && fileType !== 'parquet' && fileType !== 'csv') {
         return {
           message: 'File type must be either .jsonl, .parquet, or .csv',
