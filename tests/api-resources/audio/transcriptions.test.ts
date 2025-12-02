@@ -26,6 +26,8 @@ describe('resource transcriptions', () => {
       file: await toFile(Buffer.from('# my file contents'), 'README.md'),
       diarize: true,
       language: 'en',
+      max_speakers: 0,
+      min_speakers: 0,
       model: 'openai/whisper-large-v3',
       prompt: 'prompt',
       response_format: 'json',

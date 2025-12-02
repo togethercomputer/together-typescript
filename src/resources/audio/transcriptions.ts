@@ -205,6 +205,18 @@ export interface TranscriptionCreateParams {
   language?: string;
 
   /**
+   * Maximum number of speakers expected in the audio. Used to improve diarization
+   * accuracy when the approximate number of speakers is known.
+   */
+  max_speakers?: number;
+
+  /**
+   * Minimum number of speakers expected in the audio. Used to improve diarization
+   * accuracy when the approximate number of speakers is known.
+   */
+  min_speakers?: number;
+
+  /**
    * Model to use for transcription
    */
   model?: 'openai/whisper-large-v3';
