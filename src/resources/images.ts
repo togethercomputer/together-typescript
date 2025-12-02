@@ -116,6 +116,13 @@ export interface ImageGenerateParams {
   output_format?: 'jpeg' | 'png';
 
   /**
+   * An array of image URLs that guide the overall appearance and style of the
+   * generated image. These reference images influence the visual characteristics
+   * consistently across the generation.
+   */
+  reference_images?: Array<string>;
+
+  /**
    * Format of the image response. Can be either a base64 string or a URL.
    */
   response_format?: 'base64' | 'url';
