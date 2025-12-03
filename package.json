@@ -1,6 +1,6 @@
 {
   "name": "together-ai",
-  "version": "0.31.2",
+  "version": "0.32.0",
   "description": "The official TypeScript library for the Together API",
   "author": "Together <dev-feedback@TogetherAI.com>",
   "types": "dist/index.d.ts",
@@ -35,7 +35,7 @@
     "@types/parquetjs": "^0.10.6",
     "@typescript-eslint/eslint-plugin": "8.31.1",
     "@typescript-eslint/parser": "8.31.1",
-    "eslint": "^9.20.1",
+    "eslint": "^9.39.1",
     "eslint-plugin-prettier": "^5.4.1",
     "eslint-plugin-unused-imports": "^4.1.4",
     "iconv-lite": "^0.6.3",

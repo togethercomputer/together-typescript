@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.32.0 (2025-12-02)
+
+Full Changelog: [v0.31.2...v0.32.0](https://github.com/togethercomputer/together-typescript/compare/v0.31.2...v0.32.0)
+
+### Features
+
+* **api:** api update ([11770a0](https://github.com/togethercomputer/together-typescript/commit/11770a025e7463bc859d51221e6401772e2e49f8))
+* **api:** api update ([037bc6e](https://github.com/togethercomputer/together-typescript/commit/037bc6e53f4b9bf05f79c289f1f1c9b174914dd1))
+
+
+### Chores
+
+* **internal:** upgrade eslint ([712f80d](https://github.com/togethercomputer/together-typescript/commit/712f80da2e1926c62f6f70e1a78fea5eac9e7ac4))
+
 ## 0.31.2 (2025-12-01)
 
 Full Changelog: [v0.31.1...v0.31.2](https://github.com/togethercomputer/together-typescript/compare/v0.31.1...v0.31.2)
