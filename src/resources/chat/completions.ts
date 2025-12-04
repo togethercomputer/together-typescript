@@ -307,8 +307,19 @@ export interface CompletionCreateParamsBase {
 
   /**
    * An object specifying the format that the model must output.
+   *
+   * Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured
+   * Outputs which ensures the model will match your supplied JSON schema. Learn more
+   * in the [Structured Outputs guide](https://docs.together.ai/docs/json-mode).
+   *
+   * Setting to `{ "type": "json_object" }` enables the older JSON mode, which
+   * ensures the message the model generates is valid JSON. Using `json_schema` is
+   * preferred for models that support it.
    */
-  response_format?: CompletionCreateParams.ResponseFormat;
+  response_format?:
+    | CompletionCreateParams.Text
+    | CompletionCreateParams.JsonSchema
+    | CompletionCreateParams.JsonObject;
 
   /**
    * The name of the moderation model used to validate tokens. Choose from the
@@ -494,18 +505,75 @@ export namespace CompletionCreateParams {
   }
 
   /**
-   * An object specifying the format that the model must output.
+   * Default response format. Used to generate text responses.
    */
-  export interface ResponseFormat {
+  export interface Text {
     /**
-     * The schema of the response format.
+     * The type of response format being defined. Always `text`.
      */
-    schema?: { [key: string]: unknown };
+    type: 'text';
+  }
+
+  /**
+   * JSON Schema response format. Used to generate structured JSON responses. Learn
+   * more about [Structured Outputs](https://docs.together.ai/docs/json-mode).
+   */
+  export interface JsonSchema {
+    /**
+     * Structured Outputs configuration options, including a JSON Schema.
+     */
+    json_schema: JsonSchema.JsonSchema;
 
     /**
-     * The type of the response format.
+     * The type of response format being defined. Always `json_schema`.
      */
-    type?: string;
+    type: 'json_schema';
+  }
+
+  export namespace JsonSchema {
+    /**
+     * Structured Outputs configuration options, including a JSON Schema.
+     */
+    export interface JsonSchema {
+      /**
+       * The name of the response format. Must be a-z, A-Z, 0-9, or contain underscores
+       * and dashes, with a maximum length of 64.
+       */
+      name: string;
+
+      /**
+       * A description of what the response format is for, used by the model to determine
+       * how to respond in the format.
+       */
+      description?: string;
+
+      /**
+       * The schema for the response format, described as a JSON Schema object. Learn how
+       * to build JSON schemas [here](https://json-schema.org/).
+       */
+      schema?: { [key: string]: unknown };
+
+      /**
+       * Whether to enable strict schema adherence when generating the output. If set to
+       * true, the model will always follow the exact schema defined in the `schema`
+       * field. Only a subset of JSON Schema is supported when `strict` is `true`. To
+       * learn more, read the
+       * [Structured Outputs guide](https://docs.together.ai/docs/json-mode).
+       */
+      strict?: boolean | null;
+    }
+  }
+
+  /**
+   * JSON object response format. An older method of generating JSON responses. Using
+   * `json_schema` is recommended for models that support it. Note that the model
+   * will not generate JSON without a system or user message instructing it to do so.
+   */
+  export interface JsonObject {
+    /**
+     * The type of response format being defined. Always `json_object`.
+     */
+    type: 'json_object';
   }
 
   export type CompletionCreateParamsNonStreaming = ChatCompletionsAPI.CompletionCreateParamsNonStreaming;
