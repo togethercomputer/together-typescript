@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.33.1 (2025-12-05)
+
+Full Changelog: [v0.33.0...v0.33.1](https://github.com/togethercomputer/together-typescript/compare/v0.33.0...v0.33.1)
+
+### Bug Fixes
+
+* **mcp:** correct code tool API endpoint ([d56a0f6](https://github.com/togethercomputer/together-typescript/commit/d56a0f64679a585ecfa69e4b7e0a4a56fda4a48d))
+* **mcp:** return correct lines on typescript errors ([be827cf](https://github.com/togethercomputer/together-typescript/commit/be827cf5523958f65849c87fcf9b6631f697b1aa))
+
+
+### Chores
+
+* **internal:** codegen related update ([1862dd3](https://github.com/togethercomputer/together-typescript/commit/1862dd356c5c6803bdbd9bf5bf5c031f949021b0))
+* **internal:** codegen related update ([b04ce10](https://github.com/togethercomputer/together-typescript/commit/b04ce101c30274e1fac82d521d9508081e1d9ed8))
+
 ## 0.33.0 (2025-12-04)
 
 Full Changelog: [v0.32.0...v0.33.0](https://github.com/togethercomputer/together-typescript/compare/v0.32.0...v0.33.0)
