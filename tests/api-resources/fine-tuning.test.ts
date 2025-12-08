@@ -108,6 +108,32 @@ describe('resource fineTuning', () => {
     });
   });
 
+  test('estimatePrice: only required params', async () => {
+    const responsePromise = client.fineTuning.estimatePrice({
+      model: 'model',
+      training_file: 'training_file',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('estimatePrice: required and optional params', async () => {
+    const response = await client.fineTuning.estimatePrice({
+      model: 'model',
+      training_file: 'training_file',
+      n_epochs: 0,
+      n_evals: 0,
+      training_method: { method: 'sft', train_on_inputs: true },
+      training_type: { type: 'Full' },
+      validation_file: 'validation_file',
+    });
+  });
+
   test('listCheckpoints', async () => {
     const responsePromise = client.fineTuning.listCheckpoints('id');
     const rawResponse = await responsePromise.asResponse();

@@ -103,6 +103,24 @@ export class FineTuning extends APIResource {
   }
 
   /**
+   * Estimate the price of a fine-tuning job.
+   *
+   * @example
+   * ```ts
+   * const response = await client.fineTuning.estimatePrice({
+   *   model: 'model',
+   *   training_file: 'training_file',
+   * });
+   * ```
+   */
+  estimatePrice(
+    body: FineTuningEstimatePriceParams,
+    options?: RequestOptions,
+  ): APIPromise<FineTuningEstimatePriceResponse> {
+    return this._client.post('/fine-tunes/estimate-price', { body, ...options });
+  }
+
+  /**
    * List the checkpoints for a single fine-tuning job.
    *
    * @example
@@ -1044,6 +1062,33 @@ export namespace FineTuningCancelResponse {
   }
 }
 
+export interface FineTuningEstimatePriceResponse {
+  /**
+   * Whether the user is allowed to proceed with the fine-tuning job
+   */
+  allowed_to_proceed?: boolean;
+
+  /**
+   * The estimated number of tokens for evaluation
+   */
+  estimated_eval_token_count?: number;
+
+  /**
+   * The price of the fine-tuning job
+   */
+  estimated_total_price?: number;
+
+  /**
+   * The estimated number of tokens to be trained
+   */
+  estimated_train_token_count?: number;
+
+  /**
+   * The user's credit limit in dollars
+   */
+  user_limit?: number;
+}
+
 export interface FineTuningListCheckpointsResponse {
   data: Array<FineTuningListCheckpointsResponse.Data>;
 }
@@ -1300,6 +1345,88 @@ export interface FineTuningContentParams {
   checkpoint_step?: number;
 }
 
+export interface FineTuningEstimatePriceParams {
+  /**
+   * Name of the base model to run fine-tune job on
+   */
+  model: string;
+
+  /**
+   * File-ID of a training file uploaded to the Together API
+   */
+  training_file: string;
+
+  /**
+   * Number of complete passes through the training dataset (higher values may
+   * improve results but increase cost and risk of overfitting)
+   */
+  n_epochs?: number;
+
+  /**
+   * Number of evaluations to be run on a given validation set during training
+   */
+  n_evals?: number;
+
+  /**
+   * The training method to use. 'sft' for Supervised Fine-Tuning or 'dpo' for Direct
+   * Preference Optimization.
+   */
+  training_method?:
+    | FineTuningEstimatePriceParams.TrainingMethodSft
+    | FineTuningEstimatePriceParams.TrainingMethodDpo;
+
+  training_type?:
+    | FineTuningEstimatePriceParams.FullTrainingType
+    | FineTuningEstimatePriceParams.LoRaTrainingType;
+
+  /**
+   * File-ID of a validation file uploaded to the Together API
+   */
+  validation_file?: string;
+}
+
+export namespace FineTuningEstimatePriceParams {
+  export interface TrainingMethodSft {
+    method: 'sft';
+
+    /**
+     * Whether to mask the user messages in conversational data or prompts in
+     * instruction data.
+     */
+    train_on_inputs: boolean | 'auto';
+  }
+
+  export interface TrainingMethodDpo {
+    method: 'dpo';
+
+    dpo_beta?: number;
+
+    dpo_normalize_logratios_by_length?: boolean;
+
+    dpo_reference_free?: boolean;
+
+    rpo_alpha?: number;
+
+    simpo_gamma?: number;
+  }
+
+  export interface FullTrainingType {
+    type: 'Full';
+  }
+
+  export interface LoRaTrainingType {
+    lora_alpha: number;
+
+    lora_r: number;
+
+    type: 'Lora';
+
+    lora_dropout?: number;
+
+    lora_trainable_modules?: string;
+  }
+}
+
 export declare namespace FineTuning {
   export {
     type FinetuneEvent as FinetuneEvent,
@@ -1309,10 +1436,12 @@ export declare namespace FineTuning {
     type FineTuningListResponse as FineTuningListResponse,
     type FineTuningDeleteResponse as FineTuningDeleteResponse,
     type FineTuningCancelResponse as FineTuningCancelResponse,
+    type FineTuningEstimatePriceResponse as FineTuningEstimatePriceResponse,
     type FineTuningListCheckpointsResponse as FineTuningListCheckpointsResponse,
     type FineTuningListEventsResponse as FineTuningListEventsResponse,
     type FineTuningCreateParams as FineTuningCreateParams,
     type FineTuningDeleteParams as FineTuningDeleteParams,
     type FineTuningContentParams as FineTuningContentParams,
+    type FineTuningEstimatePriceParams as FineTuningEstimatePriceParams,
   };
 }
