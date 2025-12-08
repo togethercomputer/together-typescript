@@ -63,11 +63,13 @@ export {
   type FineTuningListResponse,
   type FineTuningDeleteResponse,
   type FineTuningCancelResponse,
+  type FineTuningEstimatePriceResponse,
   type FineTuningListCheckpointsResponse,
   type FineTuningListEventsResponse,
   type FineTuningCreateParams,
   type FineTuningDeleteParams,
   type FineTuningContentParams,
+  type FineTuningEstimatePriceParams,
 } from './fine-tuning';
 export { Hardware, type HardwareListResponse, type HardwareListParams } from './hardware';
 export {
