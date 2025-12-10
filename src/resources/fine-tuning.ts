@@ -108,7 +108,6 @@ export class FineTuning extends APIResource {
    * @example
    * ```ts
    * const response = await client.fineTuning.estimatePrice({
-   *   model: 'model',
    *   training_file: 'training_file',
    * });
    * ```
@@ -1347,14 +1346,22 @@ export interface FineTuningContentParams {
 
 export interface FineTuningEstimatePriceParams {
   /**
-   * Name of the base model to run fine-tune job on
-   */
-  model: string;
-
-  /**
    * File-ID of a training file uploaded to the Together API
    */
   training_file: string;
+
+  /**
+   * The checkpoint identifier to continue training from a previous fine-tuning job.
+   * Format is `{$JOB_ID}` or `{$OUTPUT_MODEL_NAME}` or `{$JOB_ID}:{$STEP}` or
+   * `{$OUTPUT_MODEL_NAME}:{$STEP}`. The step value is optional; without it, the
+   * final checkpoint will be used.
+   */
+  from_checkpoint?: string;
+
+  /**
+   * Name of the base model to run fine-tune job on
+   */
+  model?: string;
 
   /**
    * Number of complete passes through the training dataset (higher values may
