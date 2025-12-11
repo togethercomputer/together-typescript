@@ -68,6 +68,7 @@ client.example.list(undefined, { headers: { ... } });
 This affects the following methods:
 
 - `client.fineTuning.delete()`
+- `client.models.list()`
 - `client.endpoints.list()`
 - `client.hardware.list()`
 - `client.evals.list()`

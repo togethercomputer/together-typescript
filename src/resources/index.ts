@@ -85,6 +85,7 @@ export {
   type ModelObject,
   type ModelListResponse,
   type ModelUploadResponse,
+  type ModelListParams,
   type ModelUploadParams,
 } from './models';
 export { Rerank, type RerankCreateResponse, type RerankCreateParams } from './rerank';
