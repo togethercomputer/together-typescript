@@ -13,8 +13,11 @@ export class Models extends APIResource {
    * const modelObjects = await client.models.list();
    * ```
    */
-  list(options?: RequestOptions): APIPromise<ModelListResponse> {
-    return this._client.get('/models', options);
+  list(
+    query: ModelListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ModelListResponse> {
+    return this._client.get('/models', { query, ...options });
   }
 
   /**
@@ -89,6 +92,13 @@ export namespace ModelUploadResponse {
   }
 }
 
+export interface ModelListParams {
+  /**
+   * Filter models to only return dedicated models
+   */
+  dedicated?: boolean;
+}
+
 export interface ModelUploadParams {
   /**
    * The name to give to your uploaded model
@@ -133,6 +143,7 @@ export declare namespace Models {
     type ModelObject as ModelObject,
     type ModelListResponse as ModelListResponse,
     type ModelUploadResponse as ModelUploadResponse,
+    type ModelListParams as ModelListParams,
     type ModelUploadParams as ModelUploadParams,
   };
 }
