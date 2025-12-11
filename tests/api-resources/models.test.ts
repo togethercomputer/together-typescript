@@ -19,6 +19,13 @@ describe('resource models', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.models.list({ dedicated: true }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Together.NotFoundError);
+  });
+
   test('upload: only required params', async () => {
     const responsePromise = client.models.upload({
       model_name: 'Qwen2.5-72B-Instruct',

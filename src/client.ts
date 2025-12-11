@@ -84,6 +84,7 @@ import { Hardware, HardwareListParams, HardwareListResponse } from './resources/
 import { ImageDataB64, ImageDataURL, ImageFile, ImageGenerateParams, Images } from './resources/images';
 import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
 import {
+  ModelListParams,
   ModelListResponse,
   ModelObject,
   ModelUploadParams,
@@ -909,6 +910,7 @@ export declare namespace Together {
     type ModelObject as ModelObject,
     type ModelListResponse as ModelListResponse,
     type ModelUploadResponse as ModelUploadResponse,
+    type ModelListParams as ModelListParams,
     type ModelUploadParams as ModelUploadParams,
   };
 

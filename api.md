@@ -181,7 +181,7 @@ Types:
 
 Methods:
 
-- <code title="get /models">client.models.<a href="./src/resources/models.ts">list</a>() -> ModelListResponse</code>
+- <code title="get /models">client.models.<a href="./src/resources/models.ts">list</a>({ ...params }) -> ModelListResponse</code>
 - <code title="post /models">client.models.<a href="./src/resources/models.ts">upload</a>({ ...params }) -> ModelUploadResponse</code>
 
 # Jobs
