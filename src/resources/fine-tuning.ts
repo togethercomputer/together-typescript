@@ -255,6 +255,11 @@ export interface FinetuneResponse {
 
   param_count?: number;
 
+  /**
+   * Progress information for a fine-tuning job
+   */
+  progress?: FinetuneResponse.Progress;
+
   queue_depth?: number;
 
   token_count?: number;
@@ -312,6 +317,21 @@ export namespace FinetuneResponse {
        */
       num_cycles: number;
     }
+  }
+
+  /**
+   * Progress information for a fine-tuning job
+   */
+  export interface Progress {
+    /**
+     * Whether time estimate is available
+     */
+    estimate_available: boolean;
+
+    /**
+     * Estimated time remaining in seconds for the fine-tuning job to next state
+     */
+    seconds_remaining: number;
   }
 
   export interface TrainingMethodSft {
@@ -454,6 +474,11 @@ export interface FineTuningCreateResponse {
   owner_address?: string;
 
   /**
+   * Progress information for the fine-tuning job
+   */
+  progress?: FineTuningCreateResponse.Progress;
+
+  /**
    * Suffix added to the fine-tuned model name
    */
   suffix?: string;
@@ -543,6 +568,21 @@ export namespace FineTuningCreateResponse {
        */
       num_cycles: number;
     }
+  }
+
+  /**
+   * Progress information for the fine-tuning job
+   */
+  export interface Progress {
+    /**
+     * Whether time estimate is available
+     */
+    estimate_available: boolean;
+
+    /**
+     * Estimated time remaining in seconds for the fine-tuning job to next state
+     */
+    seconds_remaining: number;
   }
 
   export interface TrainingMethodSft {
@@ -690,6 +730,11 @@ export namespace FineTuningListResponse {
     owner_address?: string;
 
     /**
+     * Progress information for the fine-tuning job
+     */
+    progress?: Data.Progress;
+
+    /**
      * Suffix added to the fine-tuned model name
      */
     suffix?: string;
@@ -779,6 +824,21 @@ export namespace FineTuningListResponse {
          */
         num_cycles: number;
       }
+    }
+
+    /**
+     * Progress information for the fine-tuning job
+     */
+    export interface Progress {
+      /**
+       * Whether time estimate is available
+       */
+      estimate_available: boolean;
+
+      /**
+       * Estimated time remaining in seconds for the fine-tuning job to next state
+       */
+      seconds_remaining: number;
     }
 
     export interface TrainingMethodSft {
@@ -929,6 +989,11 @@ export interface FineTuningCancelResponse {
   owner_address?: string;
 
   /**
+   * Progress information for the fine-tuning job
+   */
+  progress?: FineTuningCancelResponse.Progress;
+
+  /**
    * Suffix added to the fine-tuned model name
    */
   suffix?: string;
@@ -1018,6 +1083,21 @@ export namespace FineTuningCancelResponse {
        */
       num_cycles: number;
     }
+  }
+
+  /**
+   * Progress information for the fine-tuning job
+   */
+  export interface Progress {
+    /**
+     * Whether time estimate is available
+     */
+    estimate_available: boolean;
+
+    /**
+     * Estimated time remaining in seconds for the fine-tuning job to next state
+     */
+    seconds_remaining: number;
   }
 
   export interface TrainingMethodSft {
