@@ -180,9 +180,10 @@ export namespace TranscriptionCreateResponse {
 
 export interface TranscriptionCreateParams {
   /**
-   * Audio file to transcribe
+   * Audio file upload or public HTTP/HTTPS URL. Supported formats .wav, .mp3, .m4a,
+   * .webm, .flac.
    */
-  file: Uploadable;
+  file: Uploadable | string;
 
   /**
    * Whether to enable speaker diarization. When enabled, you will get the speaker id

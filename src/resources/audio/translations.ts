@@ -118,9 +118,10 @@ export namespace TranslationCreateResponse {
 
 export interface TranslationCreateParams {
   /**
-   * Audio file to translate
+   * Audio file upload or public HTTP/HTTPS URL. Supported formats .wav, .mp3, .m4a,
+   * .webm, .flac.
    */
-  file: Uploadable;
+  file: Uploadable | string;
 
   /**
    * Target output language. Optional ISO 639-1 language code. If omitted, language
