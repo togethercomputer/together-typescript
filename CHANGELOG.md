@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.34.0 (2025-12-16)
+
+Full Changelog: [v0.33.0...v0.34.0](https://github.com/togethercomputer/together-typescript/compare/v0.33.0...v0.34.0)
+
+### Features
+
+* **api:** Add fine_tuning.estimate_price api ([5bc345a](https://github.com/togethercomputer/together-typescript/commit/5bc345adce35d357415fc7df4d98891c992ece7a))
+* **api:** api update ([45fab63](https://github.com/togethercomputer/together-typescript/commit/45fab633cea650b044caedc9ccb038db789b233c))
+* **api:** api update ([ed3cd71](https://github.com/togethercomputer/together-typescript/commit/ed3cd7178317fcca2bee85925e091015dc5c0bd9))
+* **api:** api update ([fa70d77](https://github.com/togethercomputer/together-typescript/commit/fa70d7798bba67820b9a9a1b5623ea9fd14ffca0))
+* **files:** add support for string alternative to file upload type ([94f6844](https://github.com/togethercomputer/together-typescript/commit/94f6844d669e2ecc438737b7f53b1cdedbc634b6))
+
+
+### Bug Fixes
+
+* **mcp:** correct code tool API endpoint ([d56a0f6](https://github.com/togethercomputer/together-typescript/commit/d56a0f64679a585ecfa69e4b7e0a4a56fda4a48d))
+* **mcp:** return correct lines on typescript errors ([be827cf](https://github.com/togethercomputer/together-typescript/commit/be827cf5523958f65849c87fcf9b6631f697b1aa))
+
+
+### Chores
+
+* internal - format ([df4bf75](https://github.com/togethercomputer/together-typescript/commit/df4bf75596ddddaef7e24e8fdc0867a5cf06fb6d))
+* **internal:** codegen related update ([1862dd3](https://github.com/togethercomputer/together-typescript/commit/1862dd356c5c6803bdbd9bf5bf5c031f949021b0))
+* **internal:** codegen related update ([b04ce10](https://github.com/togethercomputer/together-typescript/commit/b04ce101c30274e1fac82d521d9508081e1d9ed8))
+
 ## 0.33.0 (2025-12-04)
 
 Full Changelog: [v0.32.0...v0.33.0](https://github.com/togethercomputer/together-typescript/compare/v0.32.0...v0.33.0)
