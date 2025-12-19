@@ -44,7 +44,7 @@ import Together from 'together-ai';
 const client = new Together();
 
 const stream = await client.chat.completions.create({
-  messages: [{ role: 'user', content: 'Say this is a test' }],
+  messages: [{ role: 'user', content: 'Say this is a test!' }],
   model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
   stream: true,
 });
