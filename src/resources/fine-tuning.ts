@@ -247,6 +247,8 @@ export interface FinetuneResponse {
 
   model_output_path?: string;
 
+  multimodal_params?: FinetuneResponse.MultimodalParams;
+
   n_checkpoints?: number;
 
   n_epochs?: number;
@@ -317,6 +319,14 @@ export namespace FinetuneResponse {
        */
       num_cycles: number;
     }
+  }
+
+  export interface MultimodalParams {
+    /**
+     * Whether to train the vision encoder of the model. Only available for multimodal
+     * models.
+     */
+    train_vision?: boolean;
   }
 
   /**
@@ -1255,6 +1265,8 @@ export interface FineTuningCreateParams {
    */
   max_grad_norm?: number;
 
+  multimodal_params?: FineTuningCreateParams.MultimodalParams;
+
   /**
    * Number of intermediate model versions saved during training for evaluation
    */
@@ -1360,6 +1372,14 @@ export namespace FineTuningCreateParams {
     }
   }
 
+  export interface MultimodalParams {
+    /**
+     * Whether to train the vision encoder of the model. Only available for multimodal
+     * models.
+     */
+    train_vision?: boolean;
+  }
+
   export interface TrainingMethodSft {
     method: 'sft';
 
@@ -1443,6 +1463,8 @@ export interface FineTuningEstimatePriceParams {
    */
   model?: string;
 
+  multimodal_params?: FineTuningEstimatePriceParams.MultimodalParams;
+
   /**
    * Number of complete passes through the training dataset (higher values may
    * improve results but increase cost and risk of overfitting)
@@ -1473,6 +1495,14 @@ export interface FineTuningEstimatePriceParams {
 }
 
 export namespace FineTuningEstimatePriceParams {
+  export interface MultimodalParams {
+    /**
+     * Whether to train the vision encoder of the model. Only available for multimodal
+     * models.
+     */
+    train_vision?: boolean;
+  }
+
   export interface TrainingMethodSft {
     method: 'sft';
 
