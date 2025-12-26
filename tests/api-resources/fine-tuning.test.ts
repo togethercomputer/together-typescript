@@ -125,7 +125,6 @@ describe('resource fineTuning', () => {
       training_file: 'training_file',
       from_checkpoint: 'from_checkpoint',
       model: 'model',
-      multimodal_params: { train_vision: true },
       n_epochs: 0,
       n_evals: 0,
       training_method: { method: 'sft', train_on_inputs: true },
