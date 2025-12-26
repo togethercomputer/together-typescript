@@ -247,6 +247,8 @@ export interface FinetuneResponse {
 
   model_output_path?: string;
 
+  multimodal_params?: FinetuneResponse.MultimodalParams;
+
   n_checkpoints?: number;
 
   n_epochs?: number;
@@ -317,6 +319,14 @@ export namespace FinetuneResponse {
        */
       num_cycles: number;
     }
+  }
+
+  export interface MultimodalParams {
+    /**
+     * Whether to train the vision encoder of the model. Only available for multimodal
+     * models.
+     */
+    train_vision?: boolean;
   }
 
   /**
@@ -1255,6 +1265,8 @@ export interface FineTuningCreateParams {
    */
   max_grad_norm?: number;
 
+  multimodal_params?: FineTuningCreateParams.MultimodalParams;
+
   /**
    * Number of intermediate model versions saved during training for evaluation
    */
@@ -1358,6 +1370,14 @@ export namespace FineTuningCreateParams {
        */
       num_cycles: number;
     }
+  }
+
+  export interface MultimodalParams {
+    /**
+     * Whether to train the vision encoder of the model. Only available for multimodal
+     * models.
+     */
+    train_vision?: boolean;
   }
 
   export interface TrainingMethodSft {

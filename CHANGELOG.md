@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.35.0 (2025-12-26)
+
+Full Changelog: [v0.34.0...v0.35.0](https://github.com/togethercomputer/together-typescript/compare/v0.34.0...v0.35.0)
+
+### Features
+
+* Support VLM finetuning ([4a0271f](https://github.com/togethercomputer/together-typescript/commit/4a0271f78cecc05e137c6977238917fdf2bae381))
+* VLM Support update ([f595d10](https://github.com/togethercomputer/together-typescript/commit/f595d105a9bade8b4ff62d3bd18e008e739d910e))
+
+
+### Documentation
+
+* add more examples ([99b172f](https://github.com/togethercomputer/together-typescript/commit/99b172f6c74ed1fd50342b22da4494e200a4a5fc))
+
 ## 0.34.0 (2025-12-16)
 
 Full Changelog: [v0.33.0...v0.34.0](https://github.com/togethercomputer/together-typescript/compare/v0.33.0...v0.34.0)
