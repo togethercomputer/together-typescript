@@ -30,7 +30,10 @@ describe('resource fineTuning', () => {
       hf_model_revision: 'hf_model_revision',
       hf_output_repo_name: 'hf_output_repo_name',
       learning_rate: 0,
-      lr_scheduler: { lr_scheduler_type: 'linear', lr_scheduler_args: { min_lr_ratio: 0 } },
+      lr_scheduler: {
+        lr_scheduler_type: 'linear',
+        lr_scheduler_args: { min_lr_ratio: 0 },
+      },
       max_grad_norm: 0,
       multimodal_params: { train_vision: true },
       n_checkpoints: 0,
