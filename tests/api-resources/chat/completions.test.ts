@@ -32,6 +32,8 @@ describe('resource completions', () => {
         },
       ],
       model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
+      chat_template_kwargs: {},
+      compliance: 'hipaa',
       context_length_exceeded_behavior: 'truncate',
       echo: true,
       frequency_penalty: 0,
