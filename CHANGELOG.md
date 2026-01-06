@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.35.0 (2026-01-06)
+
+Full Changelog: [v0.34.0...v0.35.0](https://github.com/togethercomputer/together-typescript/compare/v0.34.0...v0.35.0)
+
+### Features
+
+* Add compliance and chat_template_kwargs to chat completions spec ([137e09b](https://github.com/togethercomputer/together-typescript/commit/137e09b3f4d4bbf459d6c1e5ebbbcee0df60da51))
+* Support VLM finetuning ([4a0271f](https://github.com/togethercomputer/together-typescript/commit/4a0271f78cecc05e137c6977238917fdf2bae381))
+* VLM Support update ([f595d10](https://github.com/togethercomputer/together-typescript/commit/f595d105a9bade8b4ff62d3bd18e008e739d910e))
+
+
+### Chores
+
+* break long lines in snippets into multiline ([6b244ee](https://github.com/togethercomputer/together-typescript/commit/6b244eecf98a507718759113d7d1372463a4230f))
+* **internal:** codegen related update ([ebd27f6](https://github.com/togethercomputer/together-typescript/commit/ebd27f699339a11370d08b33efc0ae8db1641b80))
+
+
+### Documentation
+
+* add more examples ([99b172f](https://github.com/togethercomputer/together-typescript/commit/99b172f6c74ed1fd50342b22da4494e200a4a5fc))
+
 ## 0.34.0 (2025-12-16)
 
 Full Changelog: [v0.33.0...v0.34.0](https://github.com/togethercomputer/together-typescript/compare/v0.33.0...v0.34.0)
