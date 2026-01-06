@@ -24,7 +24,13 @@ describe('resource completions', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.chat.completions.create({
-      messages: [{ content: 'content', role: 'system', name: 'name' }],
+      messages: [
+        {
+          content: 'content',
+          role: 'system',
+          name: 'name',
+        },
+      ],
       model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
       context_length_exceeded_behavior: 'truncate',
       echo: true,
