@@ -94,6 +94,7 @@ import {
 import { Rerank, RerankCreateParams, RerankCreateResponse } from './resources/rerank';
 import { VideoCreateParams, VideoJob, Videos } from './resources/videos';
 import { Audio, AudioFile, AudioSpeechStreamChunk } from './resources/audio/audio';
+import { Beta } from './resources/beta/beta';
 import { Chat } from './resources/chat/chat';
 import {
   CodeInterpreter,
@@ -797,6 +798,7 @@ export class Together {
 
   static toFile = Uploads.toFile;
 
+  beta: API.Beta = new API.Beta(this);
   chat: API.Chat = new API.Chat(this);
   completions: API.Completions = new API.Completions(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
@@ -815,6 +817,7 @@ export class Together {
   evals: API.Evals = new API.Evals(this);
 }
 
+Together.Beta = Beta;
 Together.Chat = Chat;
 Together.Completions = Completions;
 Together.Embeddings = Embeddings;
@@ -834,6 +837,8 @@ Together.Evals = Evals;
 
 export declare namespace Together {
   export type RequestOptions = Opts.RequestOptions;
+
+  export { Beta as Beta };
 
   export { Chat as Chat };
 

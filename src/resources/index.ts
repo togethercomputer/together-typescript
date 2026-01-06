@@ -8,6 +8,7 @@ export {
   type BatchListResponse,
   type BatchCreateParams,
 } from './batches';
+export { Beta } from './beta/beta';
 export { Chat } from './chat/chat';
 export {
   CodeInterpreter,

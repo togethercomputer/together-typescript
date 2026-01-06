@@ -135,16 +135,16 @@ If you were relying on anything that was only exported from `together-ai/core` a
 
 #### Resource classes
 
-Previously under certain circumstances it was possible to import resource classes like `Chat` directly from the root of the package. This was never valid at the type level and only worked in CommonJS files.
+Previously under certain circumstances it was possible to import resource classes like `Beta` directly from the root of the package. This was never valid at the type level and only worked in CommonJS files.
 Now you must always either reference them as static class properties or import them directly from the files in which they are defined.
 
 ```typescript
 // Before
-const { Chat } = require('together-ai');
+const { Beta } = require('together-ai');
 
 // After
 const { Together } = require('together-ai');
-Together.Chat; // or import directly from together-ai/resources/chat/chat
+Together.Beta; // or import directly from together-ai/resources/beta/beta
 ```
 
 #### Cleaned up `uploads` exports

@@ -1,3 +1,42 @@
+# Beta
+
+## Clusters
+
+Types:
+
+- <code><a href="./src/resources/beta/clusters/clusters.ts">Cluster</a></code>
+- <code><a href="./src/resources/beta/clusters/clusters.ts">ClusterCreateResponse</a></code>
+- <code><a href="./src/resources/beta/clusters/clusters.ts">ClusterUpdateResponse</a></code>
+- <code><a href="./src/resources/beta/clusters/clusters.ts">ClusterListResponse</a></code>
+- <code><a href="./src/resources/beta/clusters/clusters.ts">ClusterDeleteResponse</a></code>
+- <code><a href="./src/resources/beta/clusters/clusters.ts">ClusterListRegionsResponse</a></code>
+
+Methods:
+
+- <code title="post /clusters">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">create</a>({ ...params }) -> ClusterCreateResponse</code>
+- <code title="get /clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">retrieve</a>(clusterID) -> Cluster</code>
+- <code title="put /clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">update</a>(clusterID, { ...params }) -> ClusterUpdateResponse</code>
+- <code title="get /clusters">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">list</a>() -> ClusterListResponse</code>
+- <code title="delete /clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">delete</a>(clusterID) -> ClusterDeleteResponse</code>
+- <code title="get /clusters/regions">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">listRegions</a>() -> ClusterListRegionsResponse</code>
+
+### Storage
+
+Types:
+
+- <code><a href="./src/resources/beta/clusters/storage.ts">ClusterStorage</a></code>
+- <code><a href="./src/resources/beta/clusters/storage.ts">StorageCreateResponse</a></code>
+- <code><a href="./src/resources/beta/clusters/storage.ts">StorageListResponse</a></code>
+- <code><a href="./src/resources/beta/clusters/storage.ts">StorageDeleteResponse</a></code>
+
+Methods:
+
+- <code title="post /clusters/storages">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">create</a>({ ...params }) -> StorageCreateResponse</code>
+- <code title="get /clusters/storages/{volume_id}">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">retrieve</a>(volumeID) -> ClusterStorage</code>
+- <code title="put /clusters/storages">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">update</a>({ ...params }) -> ClusterStorage</code>
+- <code title="get /clusters/storages">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">list</a>() -> StorageListResponse</code>
+- <code title="delete /clusters/storages/{volume_id}">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">delete</a>(volumeID) -> StorageDeleteResponse</code>
+
 # Chat
 
 ## Completions
