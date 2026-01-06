@@ -237,6 +237,10 @@ export interface CompletionCreateParamsBase {
     | 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo'
     | (string & {});
 
+  chat_template_kwargs?: unknown;
+
+  compliance?: 'hipaa';
+
   /**
    * Defined the behavior of the API when max_tokens exceed the maximum context
    * length of the model. When set to 'error', API will return 400 with appropriate
