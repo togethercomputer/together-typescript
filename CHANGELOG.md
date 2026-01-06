@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.35.1 (2026-01-06)
+
+Full Changelog: [v0.35.0...v0.35.1](https://github.com/togethercomputer/together-typescript/compare/v0.35.0...v0.35.1)
+
+### Chores
+
+* Add Instant Clusters to OpenAPI spec ([2b597be](https://github.com/togethercomputer/together-typescript/commit/2b597be4cc4fd46d62286e415e892687a8f52917))
+
 ## 0.35.0 (2026-01-06)
 
 Full Changelog: [v0.34.0...v0.35.0](https://github.com/togethercomputer/together-typescript/compare/v0.34.0...v0.35.0)
