@@ -36,16 +36,6 @@ import {
 } from './resources/completions';
 import { Embedding, EmbeddingCreateParams, Embeddings } from './resources/embeddings';
 import {
-  Autoscaling,
-  DedicatedEndpoint,
-  EndpointCreateParams,
-  EndpointListAvzonesResponse,
-  EndpointListParams,
-  EndpointListResponse,
-  EndpointUpdateParams,
-  Endpoints,
-} from './resources/endpoints';
-import {
   EvalCreateParams,
   EvalCreateResponse,
   EvalListParams,
@@ -101,6 +91,23 @@ import {
   CodeInterpreterExecuteParams,
   ExecuteResponse,
 } from './resources/code-interpreter/code-interpreter';
+import {
+  Autoscaling,
+  DedicatedEndpoint,
+  EndpointCreateClusterParams,
+  EndpointCreateClusterResponse,
+  EndpointCreateParams,
+  EndpointDeleteClusterResponse,
+  EndpointListAvzonesResponse,
+  EndpointListClustersResponse,
+  EndpointListParams,
+  EndpointListRegionsResponse,
+  EndpointListResponse,
+  EndpointUpdateClusterParams,
+  EndpointUpdateClusterResponse,
+  EndpointUpdateParams,
+  Endpoints,
+} from './resources/endpoints/endpoints';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -930,10 +937,17 @@ export declare namespace Together {
     type Autoscaling as Autoscaling,
     type DedicatedEndpoint as DedicatedEndpoint,
     type EndpointListResponse as EndpointListResponse,
+    type EndpointCreateClusterResponse as EndpointCreateClusterResponse,
+    type EndpointDeleteClusterResponse as EndpointDeleteClusterResponse,
     type EndpointListAvzonesResponse as EndpointListAvzonesResponse,
+    type EndpointListClustersResponse as EndpointListClustersResponse,
+    type EndpointListRegionsResponse as EndpointListRegionsResponse,
+    type EndpointUpdateClusterResponse as EndpointUpdateClusterResponse,
     type EndpointCreateParams as EndpointCreateParams,
     type EndpointUpdateParams as EndpointUpdateParams,
     type EndpointListParams as EndpointListParams,
+    type EndpointCreateClusterParams as EndpointCreateClusterParams,
+    type EndpointUpdateClusterParams as EndpointUpdateClusterParams,
   };
 
   export {
