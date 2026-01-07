@@ -95,8 +95,101 @@ describe('resource endpoints', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('createCluster: only required params', async () => {
+    const responsePromise = client.endpoints.createCluster({
+      billing_type: 'RESERVED',
+      cluster_name: 'cluster_name',
+      driver_version: 'CUDA_12_5_555',
+      duration_days: 0,
+      gpu_type: 'H100_SXM',
+      num_gpus: 0,
+      region: 'us-central-8',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('createCluster: required and optional params', async () => {
+    const response = await client.endpoints.createCluster({
+      billing_type: 'RESERVED',
+      cluster_name: 'cluster_name',
+      driver_version: 'CUDA_12_5_555',
+      duration_days: 0,
+      gpu_type: 'H100_SXM',
+      num_gpus: 0,
+      region: 'us-central-8',
+      cluster_type: 'KUBERNETES',
+      shared_volume: {
+        region: 'region',
+        size_tib: 0,
+        volume_name: 'volume_name',
+      },
+      volume_id: 'volume_id',
+    });
+  });
+
+  test('deleteCluster', async () => {
+    const responsePromise = client.endpoints.deleteCluster('cluster_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
   test('listAvzones', async () => {
     const responsePromise = client.endpoints.listAvzones();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listClusters', async () => {
+    const responsePromise = client.endpoints.listClusters();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listRegions', async () => {
+    const responsePromise = client.endpoints.listRegions();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieveCluster', async () => {
+    const responsePromise = client.endpoints.retrieveCluster('cluster_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('updateCluster', async () => {
+    const responsePromise = client.endpoints.updateCluster('cluster_id', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

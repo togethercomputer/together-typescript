@@ -247,19 +247,46 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/endpoints.ts">Autoscaling</a></code>
-- <code><a href="./src/resources/endpoints.ts">DedicatedEndpoint</a></code>
-- <code><a href="./src/resources/endpoints.ts">EndpointListResponse</a></code>
-- <code><a href="./src/resources/endpoints.ts">EndpointListAvzonesResponse</a></code>
+- <code><a href="./src/resources/endpoints/endpoints.ts">Autoscaling</a></code>
+- <code><a href="./src/resources/endpoints/endpoints.ts">DedicatedEndpoint</a></code>
+- <code><a href="./src/resources/endpoints/endpoints.ts">EndpointListResponse</a></code>
+- <code><a href="./src/resources/endpoints/endpoints.ts">EndpointCreateClusterResponse</a></code>
+- <code><a href="./src/resources/endpoints/endpoints.ts">EndpointDeleteClusterResponse</a></code>
+- <code><a href="./src/resources/endpoints/endpoints.ts">EndpointListAvzonesResponse</a></code>
+- <code><a href="./src/resources/endpoints/endpoints.ts">EndpointListClustersResponse</a></code>
+- <code><a href="./src/resources/endpoints/endpoints.ts">EndpointListRegionsResponse</a></code>
+- <code><a href="./src/resources/endpoints/endpoints.ts">EndpointUpdateClusterResponse</a></code>
 
 Methods:
 
-- <code title="post /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">create</a>({ ...params }) -> DedicatedEndpoint</code>
-- <code title="get /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">retrieve</a>(endpointID) -> DedicatedEndpoint</code>
-- <code title="patch /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">update</a>(endpointID, { ...params }) -> DedicatedEndpoint</code>
-- <code title="get /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">list</a>({ ...params }) -> EndpointListResponse</code>
-- <code title="delete /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">delete</a>(endpointID) -> void</code>
-- <code title="get /clusters/availability-zones">client.endpoints.<a href="./src/resources/endpoints.ts">listAvzones</a>() -> EndpointListAvzonesResponse</code>
+- <code title="post /endpoints">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">create</a>({ ...params }) -> DedicatedEndpoint</code>
+- <code title="get /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">retrieve</a>(endpointID) -> DedicatedEndpoint</code>
+- <code title="patch /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">update</a>(endpointID, { ...params }) -> DedicatedEndpoint</code>
+- <code title="get /endpoints">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">list</a>({ ...params }) -> EndpointListResponse</code>
+- <code title="delete /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">delete</a>(endpointID) -> void</code>
+- <code title="post /clusters">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">createCluster</a>({ ...params }) -> EndpointCreateClusterResponse</code>
+- <code title="delete /clusters/{cluster_id}">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">deleteCluster</a>(clusterID) -> EndpointDeleteClusterResponse</code>
+- <code title="get /clusters/availability-zones">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">listAvzones</a>() -> EndpointListAvzonesResponse</code>
+- <code title="get /clusters">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">listClusters</a>() -> EndpointListClustersResponse</code>
+- <code title="get /clusters/regions">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">listRegions</a>() -> EndpointListRegionsResponse</code>
+- <code title="get /clusters/{cluster_id}">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">retrieveCluster</a>(clusterID) -> Cluster</code>
+- <code title="put /clusters/{cluster_id}">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">updateCluster</a>(clusterID, { ...params }) -> EndpointUpdateClusterResponse</code>
+
+## Storages
+
+Types:
+
+- <code><a href="./src/resources/endpoints/storages.ts">StorageCreateSharedVolumeResponse</a></code>
+- <code><a href="./src/resources/endpoints/storages.ts">StorageDeleteSharedVolumeResponse</a></code>
+- <code><a href="./src/resources/endpoints/storages.ts">StorageListSharedVolumesResponse</a></code>
+
+Methods:
+
+- <code title="post /clusters/storages">client.endpoints.storages.<a href="./src/resources/endpoints/storages.ts">createSharedVolume</a>({ ...params }) -> StorageCreateSharedVolumeResponse</code>
+- <code title="delete /clusters/storages/{volume_id}">client.endpoints.storages.<a href="./src/resources/endpoints/storages.ts">deleteSharedVolume</a>(volumeID) -> StorageDeleteSharedVolumeResponse</code>
+- <code title="get /clusters/storages">client.endpoints.storages.<a href="./src/resources/endpoints/storages.ts">listSharedVolumes</a>() -> StorageListSharedVolumesResponse</code>
+- <code title="get /clusters/storages/{volume_id}">client.endpoints.storages.<a href="./src/resources/endpoints/storages.ts">retrieveSharedVolume</a>(volumeID) -> ClusterStorage</code>
+- <code title="put /clusters/storages">client.endpoints.storages.<a href="./src/resources/endpoints/storages.ts">updateSharedVolume</a>({ ...params }) -> ClusterStorage</code>
 
 # Hardware
 
