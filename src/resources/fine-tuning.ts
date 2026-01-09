@@ -264,6 +264,8 @@ export interface FinetuneResponse {
 
   queue_depth?: number;
 
+  started_at?: string;
+
   token_count?: number;
 
   total_price?: number;
@@ -487,6 +489,11 @@ export interface FineTuningCreateResponse {
    * Progress information for the fine-tuning job
    */
   progress?: FineTuningCreateResponse.Progress;
+
+  /**
+   * Start timestamp of the current stage of the fine-tune job
+   */
+  started_at?: string;
 
   /**
    * Suffix added to the fine-tuned model name
@@ -743,6 +750,11 @@ export namespace FineTuningListResponse {
      * Progress information for the fine-tuning job
      */
     progress?: Data.Progress;
+
+    /**
+     * Start timestamp of the current stage of the fine-tune job
+     */
+    started_at?: string;
 
     /**
      * Suffix added to the fine-tuned model name
@@ -1002,6 +1014,11 @@ export interface FineTuningCancelResponse {
    * Progress information for the fine-tuning job
    */
   progress?: FineTuningCancelResponse.Progress;
+
+  /**
+   * Start timestamp of the current stage of the fine-tune job
+   */
+  started_at?: string;
 
   /**
    * Suffix added to the fine-tuned model name

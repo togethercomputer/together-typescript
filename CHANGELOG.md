@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.36.0 (2026-01-09)
+
+Full Changelog: [v0.35.1...v0.36.0](https://github.com/togethercomputer/together-typescript/compare/v0.35.1...v0.36.0)
+
+### Features
+
+* Add started_at timestamp to fix time estimation ([acd4d18](https://github.com/togethercomputer/together-typescript/commit/acd4d18cd15b9967543ba4b88f0a80fdc279d3a4))
+
+
+### Chores
+
+* **api:** Remove APIs that were accidentally added in the wrong namespace ([4f06842](https://github.com/togethercomputer/together-typescript/commit/4f068422db3df198a530dba1423a99cbd83a2ab8))
+
 ## 0.35.1 (2026-01-06)
 
 Full Changelog: [v0.35.0...v0.35.1](https://github.com/togethercomputer/together-typescript/compare/v0.35.0...v0.35.1)
