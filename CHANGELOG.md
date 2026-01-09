@@ -6,7 +6,6 @@ Full Changelog: [v0.35.1...v0.36.0](https://github.com/togethercomputer/together
 
 ### Features
 
-* [wip] ([784caef](https://github.com/togethercomputer/together-typescript/commit/784caefc6c7ee3764bca0dc64611a26fadc44355))
 * Add started_at timestamp to fix time estimation ([acd4d18](https://github.com/togethercomputer/together-typescript/commit/acd4d18cd15b9967543ba4b88f0a80fdc279d3a4))
 
 
