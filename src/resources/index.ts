@@ -32,18 +32,11 @@ export {
   type Autoscaling,
   type DedicatedEndpoint,
   type EndpointListResponse,
-  type EndpointCreateClusterResponse,
-  type EndpointDeleteClusterResponse,
   type EndpointListAvzonesResponse,
-  type EndpointListClustersResponse,
-  type EndpointListRegionsResponse,
-  type EndpointUpdateClusterResponse,
   type EndpointCreateParams,
   type EndpointUpdateParams,
   type EndpointListParams,
-  type EndpointCreateClusterParams,
-  type EndpointUpdateClusterParams,
-} from './endpoints/endpoints';
+} from './endpoints';
 export {
   Evals,
   type EvaluationJob,
