@@ -19,21 +19,25 @@ export class Clusters extends APIResource {
   storage: StorageAPI.Storage = new StorageAPI.Storage(this._client);
 
   /**
-   * Create GPU Cluster
+   * Create an Instant Cluster on Together's high-performance GPU clusters. With
+   * features like on-demand scaling, long-lived resizable high-bandwidth shared
+   * DC-local storage, Kubernetes and Slurm cluster flavors, a REST API, and
+   * Terraform support, you can run workloads flexibly without complex infrastructure
+   * management.
    */
   create(body: ClusterCreateParams, options?: RequestOptions): APIPromise<ClusterCreateResponse> {
     return this._client.post('/clusters', { body, ...options });
   }
 
   /**
-   * Get GPU cluster by cluster ID
+   * Retrieve information about a specific GPU cluster.
    */
   retrieve(clusterID: string, options?: RequestOptions): APIPromise<Cluster> {
     return this._client.get(path`/clusters/${clusterID}`, options);
   }
 
   /**
-   * Update a GPU Cluster.
+   * Update the configuration of an existing GPU cluster.
    */
   update(
     clusterID: string,
@@ -51,7 +55,7 @@ export class Clusters extends APIResource {
   }
 
   /**
-   * Delete GPU cluster by cluster ID
+   * Delete a GPU cluster by cluster ID.
    */
   delete(clusterID: string, options?: RequestOptions): APIPromise<ClusterDeleteResponse> {
     return this._client.delete(path`/clusters/${clusterID}`, options);

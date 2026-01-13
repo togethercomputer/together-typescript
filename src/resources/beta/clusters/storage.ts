@@ -7,21 +7,25 @@ import { path } from '../../../internal/utils/path';
 
 export class Storage extends APIResource {
   /**
-   * Create a shared volume.
+   * Instant Clusters supports long-lived, resizable in-DC shared storage with user
+   * data persistence. You can dynamically create and attach volumes to your cluster
+   * at cluster creation time, and resize as your data grows. All shared storage is
+   * backed by multi-NIC bare metal paths, ensuring high-throughput and low-latency
+   * performance for shared storage.
    */
   create(body: StorageCreateParams, options?: RequestOptions): APIPromise<StorageCreateResponse> {
     return this._client.post('/clusters/storages', { body, ...options });
   }
 
   /**
-   * Get shared volume by volume Id.
+   * Retrieve information about a specific shared volume.
    */
   retrieve(volumeID: string, options?: RequestOptions): APIPromise<ClusterStorage> {
     return this._client.get(path`/clusters/storages/${volumeID}`, options);
   }
 
   /**
-   * Update a shared volume.
+   * Update the configuration of an existing shared volume.
    */
   update(body: StorageUpdateParams, options?: RequestOptions): APIPromise<ClusterStorage> {
     return this._client.put('/clusters/storages', { body, ...options });
@@ -35,7 +39,8 @@ export class Storage extends APIResource {
   }
 
   /**
-   * Delete shared volume by volume id.
+   * Delete a shared volume. Note that if this volume is attached to a cluster,
+   * deleting will fail.
    */
   delete(volumeID: string, options?: RequestOptions): APIPromise<StorageDeleteResponse> {
     return this._client.delete(path`/clusters/storages/${volumeID}`, options);
