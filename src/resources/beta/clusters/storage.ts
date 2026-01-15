@@ -13,7 +13,7 @@ export class Storage extends APIResource {
    * backed by multi-NIC bare metal paths, ensuring high-throughput and low-latency
    * performance for shared storage.
    */
-  create(body: StorageCreateParams, options?: RequestOptions): APIPromise<StorageCreateResponse> {
+  create(body: StorageCreateParams, options?: RequestOptions): APIPromise<ClusterStorage> {
     return this._client.post('/clusters/storages', { body, ...options });
   }
 
@@ -50,13 +50,11 @@ export class Storage extends APIResource {
 export interface ClusterStorage {
   size_tib: number;
 
+  status: 'available' | 'bound' | 'provisioning';
+
   volume_id: string;
 
   volume_name: string;
-}
-
-export interface StorageCreateResponse {
-  volume_id: string;
 }
 
 export interface StorageListResponse {
@@ -90,7 +88,6 @@ export interface StorageUpdateParams {
 export declare namespace Storage {
   export {
     type ClusterStorage as ClusterStorage,
-    type StorageCreateResponse as StorageCreateResponse,
     type StorageListResponse as StorageListResponse,
     type StorageDeleteResponse as StorageDeleteResponse,
     type StorageCreateParams as StorageCreateParams,

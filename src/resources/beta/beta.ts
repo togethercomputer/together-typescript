@@ -5,12 +5,10 @@ import * as ClustersAPI from './clusters/clusters';
 import {
   Cluster,
   ClusterCreateParams,
-  ClusterCreateResponse,
   ClusterDeleteResponse,
   ClusterListRegionsResponse,
   ClusterListResponse,
   ClusterUpdateParams,
-  ClusterUpdateResponse,
   Clusters,
 } from './clusters/clusters';
 
@@ -24,8 +22,6 @@ export declare namespace Beta {
   export {
     Clusters as Clusters,
     type Cluster as Cluster,
-    type ClusterCreateResponse as ClusterCreateResponse,
-    type ClusterUpdateResponse as ClusterUpdateResponse,
     type ClusterListResponse as ClusterListResponse,
     type ClusterDeleteResponse as ClusterDeleteResponse,
     type ClusterListRegionsResponse as ClusterListRegionsResponse,

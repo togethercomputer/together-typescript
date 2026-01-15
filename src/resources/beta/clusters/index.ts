@@ -3,8 +3,6 @@
 export {
   Clusters,
   type Cluster,
-  type ClusterCreateResponse,
-  type ClusterUpdateResponse,
   type ClusterListResponse,
   type ClusterDeleteResponse,
   type ClusterListRegionsResponse,
@@ -14,7 +12,6 @@ export {
 export {
   Storage,
   type ClusterStorage,
-  type StorageCreateResponse,
   type StorageListResponse,
   type StorageDeleteResponse,
   type StorageCreateParams,
