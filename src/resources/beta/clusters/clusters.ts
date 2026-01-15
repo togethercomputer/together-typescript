@@ -6,7 +6,6 @@ import {
   ClusterStorage,
   Storage,
   StorageCreateParams,
-  StorageCreateResponse,
   StorageDeleteResponse,
   StorageListResponse,
   StorageUpdateParams,
@@ -25,7 +24,7 @@ export class Clusters extends APIResource {
    * Terraform support, you can run workloads flexibly without complex infrastructure
    * management.
    */
-  create(body: ClusterCreateParams, options?: RequestOptions): APIPromise<ClusterCreateResponse> {
+  create(body: ClusterCreateParams, options?: RequestOptions): APIPromise<Cluster> {
     return this._client.post('/clusters', { body, ...options });
   }
 
@@ -39,11 +38,7 @@ export class Clusters extends APIResource {
   /**
    * Update the configuration of an existing GPU cluster.
    */
-  update(
-    clusterID: string,
-    body: ClusterUpdateParams,
-    options?: RequestOptions,
-  ): APIPromise<ClusterUpdateResponse> {
+  update(clusterID: string, body: ClusterUpdateParams, options?: RequestOptions): APIPromise<Cluster> {
     return this._client.put(path`/clusters/${clusterID}`, { body, ...options });
   }
 
@@ -157,14 +152,6 @@ export namespace Cluster {
   }
 }
 
-export interface ClusterCreateResponse {
-  cluster_id: string;
-}
-
-export interface ClusterUpdateResponse {
-  cluster_id: string;
-}
-
 export interface ClusterListResponse {
   clusters: Array<Cluster>;
 }
@@ -203,11 +190,6 @@ export interface ClusterCreateParams {
   driver_version: 'CUDA_12_5_555' | 'CUDA_12_6_560' | 'CUDA_12_6_565' | 'CUDA_12_8_570';
 
   /**
-   * Duration in days to keep the cluster running.
-   */
-  duration_days: number;
-
-  /**
    * Type of GPU to use in the cluster
    */
   gpu_type: 'H100_SXM' | 'H200_SXM' | 'RTX_6000_PCI' | 'L40_PCIE' | 'B200_SXM' | 'H100_SXM_INF';
@@ -225,6 +207,11 @@ export interface ClusterCreateParams {
   region: 'us-central-8' | 'us-central-4';
 
   cluster_type?: 'KUBERNETES' | 'SLURM';
+
+  /**
+   * Duration in days to keep the cluster running.
+   */
+  duration_days?: number;
 
   shared_volume?: ClusterCreateParams.SharedVolume;
 
@@ -258,8 +245,6 @@ Clusters.Storage = Storage;
 export declare namespace Clusters {
   export {
     type Cluster as Cluster,
-    type ClusterCreateResponse as ClusterCreateResponse,
-    type ClusterUpdateResponse as ClusterUpdateResponse,
     type ClusterListResponse as ClusterListResponse,
     type ClusterDeleteResponse as ClusterDeleteResponse,
     type ClusterListRegionsResponse as ClusterListRegionsResponse,
@@ -270,7 +255,6 @@ export declare namespace Clusters {
   export {
     Storage as Storage,
     type ClusterStorage as ClusterStorage,
-    type StorageCreateResponse as StorageCreateResponse,
     type StorageListResponse as StorageListResponse,
     type StorageDeleteResponse as StorageDeleteResponse,
     type StorageCreateParams as StorageCreateParams,

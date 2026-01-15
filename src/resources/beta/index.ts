@@ -4,8 +4,6 @@ export { Beta } from './beta';
 export {
   Clusters,
   type Cluster,
-  type ClusterCreateResponse,
-  type ClusterUpdateResponse,
   type ClusterListResponse,
   type ClusterDeleteResponse,
   type ClusterListRegionsResponse,
