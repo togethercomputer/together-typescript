@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.36.1 (2026-01-21)
+
+Full Changelog: [v0.36.0...v0.36.1](https://github.com/togethercomputer/together-typescript/compare/v0.36.0...v0.36.1)
+
+### Chores
+
+* Add code samples and descriptions to instant cluster apis ([59d91d1](https://github.com/togethercomputer/together-typescript/commit/59d91d14b3e9fc7e7f0d47965a8663c70542652a))
+* **internal:** update `actions/checkout` version ([e025354](https://github.com/togethercomputer/together-typescript/commit/e025354b9fc3767cdde8c4f5c110c5084017fea3))
+* **internal:** upgrade babel, qs, js-yaml ([0942043](https://github.com/togethercomputer/together-typescript/commit/0942043bf28e52143998e1f7473d2d3b7759618c))
+* Mark disable_prompt_cache as deprecated for endpoint creation ([9bbee16](https://github.com/togethercomputer/together-typescript/commit/9bbee1649679f4a00cf614a4e25417bb39154bf7))
+* Update cluster apis to reflect their new response shape ([b6049ec](https://github.com/togethercomputer/together-typescript/commit/b6049ec78e0e15a8e51354470a35a5c790f78934))
+
 ## 0.36.0 (2026-01-09)
 
 Full Changelog: [v0.35.1...v0.36.0](https://github.com/togethercomputer/together-typescript/compare/v0.35.1...v0.36.0)
