@@ -262,7 +262,7 @@ export interface EndpointCreateParams {
   availability_zone?: string;
 
   /**
-   * Whether to disable the prompt cache for this endpoint
+   * @deprecated This parameter is deprecated and no longer has any effect.
    */
   disable_prompt_cache?: boolean;
 
