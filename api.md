@@ -1,5 +1,57 @@
 # Beta
 
+## Jig
+
+Types:
+
+- <code><a href="./src/resources/beta/jig/jig.ts">JigRetrieveResponse</a></code>
+- <code><a href="./src/resources/beta/jig/jig.ts">JigUpdateResponse</a></code>
+- <code><a href="./src/resources/beta/jig/jig.ts">JigDeployResponse</a></code>
+- <code><a href="./src/resources/beta/jig/jig.ts">JigDestroyResponse</a></code>
+
+Methods:
+
+- <code title="get /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">retrieve</a>(id) -> JigRetrieveResponse</code>
+- <code title="patch /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">update</a>(id, { ...params }) -> JigUpdateResponse</code>
+- <code title="post /deployments">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">deploy</a>({ ...params }) -> JigDeployResponse</code>
+- <code title="delete /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">destroy</a>(id) -> unknown</code>
+
+### Volumes
+
+Types:
+
+- <code><a href="./src/resources/beta/jig/volumes.ts">VolumeCreateResponse</a></code>
+- <code><a href="./src/resources/beta/jig/volumes.ts">VolumeRetrieveResponse</a></code>
+- <code><a href="./src/resources/beta/jig/volumes.ts">VolumeUpdateResponse</a></code>
+- <code><a href="./src/resources/beta/jig/volumes.ts">VolumeListResponse</a></code>
+- <code><a href="./src/resources/beta/jig/volumes.ts">VolumeDeleteResponse</a></code>
+
+Methods:
+
+- <code title="post /storage/volumes">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">create</a>({ ...params }) -> VolumeCreateResponse</code>
+- <code title="get /storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">retrieve</a>(id) -> VolumeRetrieveResponse</code>
+- <code title="patch /storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">update</a>(id, { ...params }) -> VolumeUpdateResponse</code>
+- <code title="get /storage/volumes">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">list</a>() -> VolumeListResponse</code>
+- <code title="delete /storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">delete</a>(id) -> unknown</code>
+
+### Secrets
+
+Types:
+
+- <code><a href="./src/resources/beta/jig/secrets.ts">SecretCreateResponse</a></code>
+- <code><a href="./src/resources/beta/jig/secrets.ts">SecretRetrieveResponse</a></code>
+- <code><a href="./src/resources/beta/jig/secrets.ts">SecretUpdateResponse</a></code>
+- <code><a href="./src/resources/beta/jig/secrets.ts">SecretListResponse</a></code>
+- <code><a href="./src/resources/beta/jig/secrets.ts">SecretDeleteResponse</a></code>
+
+Methods:
+
+- <code title="post /secrets">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">create</a>({ ...params }) -> SecretCreateResponse</code>
+- <code title="get /secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">retrieve</a>(id) -> SecretRetrieveResponse</code>
+- <code title="patch /secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">update</a>(id, { ...params }) -> SecretUpdateResponse</code>
+- <code title="get /secrets">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">list</a>() -> SecretListResponse</code>
+- <code title="delete /secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">delete</a>(id) -> unknown</code>
+
 ## Clusters
 
 Types:
