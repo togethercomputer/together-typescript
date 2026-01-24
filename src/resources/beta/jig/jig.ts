@@ -46,6 +46,13 @@ export class Jig extends APIResource {
   }
 
   /**
+   * Get a list of all deployments in your project
+   */
+  list(options?: RequestOptions): APIPromise<JigListResponse> {
+    return this._client.get('/deployments', options);
+  }
+
+  /**
    * Create a new deployment with specified configuration
    */
   deploy(body: JigDeployParams, options?: RequestOptions): APIPromise<JigDeployResponse> {
@@ -676,6 +683,328 @@ export namespace JigUpdateResponse {
   }
 }
 
+export interface JigListResponse {
+  /**
+   * Data is the array of deployment items
+   */
+  data?: Array<JigListResponse.Data>;
+
+  /**
+   * Object is the type identifier for this response (always "list")
+   */
+  object?: string;
+}
+
+export namespace JigListResponse {
+  export interface Data {
+    /**
+     * ID is the unique identifier of the deployment
+     */
+    id?: string;
+
+    /**
+     * Args are the arguments passed to the container's command
+     */
+    args?: Array<string>;
+
+    /**
+     * Autoscaling contains autoscaling configuration parameters for this deployment
+     */
+    autoscaling?: { [key: string]: string };
+
+    /**
+     * Command is the entrypoint command run in the container
+     */
+    command?: Array<string>;
+
+    /**
+     * CPU is the amount of CPU resource allocated to each replica in cores (fractional
+     * value is allowed)
+     */
+    cpu?: number;
+
+    /**
+     * CreatedAt is the ISO8601 timestamp when this deployment was created
+     */
+    created_at?: string;
+
+    /**
+     * Description provides a human-readable explanation of the deployment's purpose or
+     * content
+     */
+    description?: string;
+
+    /**
+     * DesiredReplicas is the number of replicas that the orchestrator is targeting
+     */
+    desired_replicas?: number;
+
+    /**
+     * EnvironmentVariables is a list of environment variables set in the container
+     */
+    environment_variables?: Array<Data.EnvironmentVariable>;
+
+    /**
+     * GPUCount is the number of GPUs allocated to each replica in this deployment
+     */
+    gpu_count?: number;
+
+    /**
+     * GPUType specifies the type of GPU requested (if any) for this deployment
+     */
+    gpu_type?: 'h100-80gb' | ' a100-80gb';
+
+    /**
+     * HealthCheckPath is the HTTP path used for health checks of the application
+     */
+    health_check_path?: string;
+
+    /**
+     * Image specifies the container image used for this deployment
+     */
+    image?: string;
+
+    /**
+     * MaxReplicas is the maximum number of replicas to run for this deployment
+     */
+    max_replicas?: number;
+
+    /**
+     * Memory is the amount of memory allocated to each replica in GiB (fractional
+     * value is allowed)
+     */
+    memory?: number;
+
+    /**
+     * MinReplicas is the minimum number of replicas to run for this deployment
+     */
+    min_replicas?: number;
+
+    /**
+     * Name is the name of the deployment
+     */
+    name?: string;
+
+    /**
+     * Object is the type identifier for this response (always "deployment")
+     */
+    object?: string;
+
+    /**
+     * Port is the container port that the deployment exposes
+     */
+    port?: number;
+
+    /**
+     * ReadyReplicas is the current number of replicas that are in the Ready state
+     */
+    ready_replicas?: number;
+
+    /**
+     * ReplicaEvents is a mapping of replica names or IDs to their status events
+     */
+    replica_events?: { [key: string]: Data.ReplicaEvents };
+
+    /**
+     * Status represents the overall status of the deployment (e.g., Updating, Scaling,
+     * Ready, Failed)
+     */
+    status?: 'Updating' | 'Scaling' | 'Ready' | 'Failed';
+
+    /**
+     * Storage is the amount of storage (in MB or units as defined by the platform)
+     * allocated to each replica
+     */
+    storage?: number;
+
+    /**
+     * UpdatedAt is the ISO8601 timestamp when this deployment was last updated
+     */
+    updated_at?: string;
+
+    /**
+     * Volumes is a list of volume mounts for this deployment
+     */
+    volumes?: Array<Data.Volume>;
+  }
+
+  export namespace Data {
+    export interface EnvironmentVariable {
+      /**
+       * Name is the environment variable name (e.g., "DATABASE_URL"). Must start with a
+       * letter or underscore, followed by letters, numbers, or underscores
+       */
+      name: string;
+
+      /**
+       * Value is the plain text value for the environment variable. Use this for
+       * non-sensitive values. Either Value or ValueFromSecret must be set, but not both
+       */
+      value?: string;
+
+      /**
+       * ValueFromSecret references a secret by name or ID to use as the value. Use this
+       * for sensitive values like API keys or passwords. Either Value or ValueFromSecret
+       * must be set, but not both
+       */
+      value_from_secret?: string;
+    }
+
+    export interface ReplicaEvents {
+      /**
+       * ContainerStatus provides detailed status information about the container within
+       * this replica
+       */
+      container_status?: ReplicaEvents.ContainerStatus;
+
+      /**
+       * Events is a list of Kubernetes events related to this replica for
+       * troubleshooting
+       */
+      events?: Array<ReplicaEvents.Event>;
+
+      /**
+       * ReplicaCompletedAt is the timestamp when the replica finished execution
+       */
+      replica_completed_at?: string;
+
+      /**
+       * ReplicaMarkedForTerminationAt is the timestamp when the replica was marked for
+       * termination
+       */
+      replica_marked_for_termination_at?: string;
+
+      /**
+       * ReplicaReadySince is the timestamp when the replica became ready to serve
+       * traffic
+       */
+      replica_ready_since?: string;
+
+      /**
+       * ReplicaRunningSince is the timestamp when the replica entered the running state
+       */
+      replica_running_since?: string;
+
+      /**
+       * ReplicaStartedAt is the timestamp when the replica was created
+       */
+      replica_started_at?: string;
+
+      /**
+       * ReplicaStatus is the current status of the replica (e.g., "Running", "Pending",
+       * "Failed")
+       */
+      replica_status?: string;
+
+      /**
+       * ReplicaStatusMessage provides a human-readable message explaining the replica's
+       * status
+       */
+      replica_status_message?: string;
+
+      /**
+       * ReplicaStatusReason provides a brief machine-readable reason for the replica's
+       * status
+       */
+      replica_status_reason?: string;
+
+      /**
+       * ScheduledOnCluster identifies which cluster this replica is scheduled on
+       */
+      scheduled_on_cluster?: string;
+    }
+
+    export namespace ReplicaEvents {
+      /**
+       * ContainerStatus provides detailed status information about the container within
+       * this replica
+       */
+      export interface ContainerStatus {
+        /**
+         * FinishedAt is the timestamp when the container finished execution (if
+         * terminated)
+         */
+        finishedAt?: string;
+
+        /**
+         * Message provides a human-readable message with details about the container's
+         * status
+         */
+        message?: string;
+
+        /**
+         * Name is the name of the container
+         */
+        name?: string;
+
+        /**
+         * Reason provides a brief machine-readable reason for the container's current
+         * status
+         */
+        reason?: string;
+
+        /**
+         * StartedAt is the timestamp when the container started execution
+         */
+        startedAt?: string;
+
+        /**
+         * Status is the current state of the container (e.g., "Running", "Terminated",
+         * "Waiting")
+         */
+        status?: string;
+      }
+
+      export interface Event {
+        /**
+         * Action is the action taken or reported by this event
+         */
+        action?: string;
+
+        /**
+         * Count is the number of times this event has occurred
+         */
+        count?: number;
+
+        /**
+         * FirstSeen is the timestamp when this event was first observed
+         */
+        first_seen?: string;
+
+        /**
+         * LastSeen is the timestamp when this event was last observed
+         */
+        last_seen?: string;
+
+        /**
+         * Message is a human-readable description of the event
+         */
+        message?: string;
+
+        /**
+         * Reason is a brief machine-readable reason for this event (e.g., "Pulling",
+         * "Started", "Failed")
+         */
+        reason?: string;
+      }
+    }
+
+    export interface Volume {
+      /**
+       * MountPath is the path in the container where the volume will be mounted (e.g.,
+       * "/data")
+       */
+      mount_path: string;
+
+      /**
+       * Name is the name of the volume to mount. Must reference an existing volume by
+       * name or ID
+       */
+      name: string;
+    }
+  }
+}
+
 export interface JigDeployResponse {
   /**
    * ID is the unique identifier of the deployment
@@ -1278,6 +1607,7 @@ export declare namespace Jig {
   export {
     type JigRetrieveResponse as JigRetrieveResponse,
     type JigUpdateResponse as JigUpdateResponse,
+    type JigListResponse as JigListResponse,
     type JigDeployResponse as JigDeployResponse,
     type JigDestroyResponse as JigDestroyResponse,
     type JigUpdateParams as JigUpdateParams,

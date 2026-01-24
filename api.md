@@ -6,6 +6,7 @@ Types:
 
 - <code><a href="./src/resources/beta/jig/jig.ts">JigRetrieveResponse</a></code>
 - <code><a href="./src/resources/beta/jig/jig.ts">JigUpdateResponse</a></code>
+- <code><a href="./src/resources/beta/jig/jig.ts">JigListResponse</a></code>
 - <code><a href="./src/resources/beta/jig/jig.ts">JigDeployResponse</a></code>
 - <code><a href="./src/resources/beta/jig/jig.ts">JigDestroyResponse</a></code>
 
@@ -13,6 +14,7 @@ Methods:
 
 - <code title="get /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">retrieve</a>(id) -> JigRetrieveResponse</code>
 - <code title="patch /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">update</a>(id, { ...params }) -> JigUpdateResponse</code>
+- <code title="get /deployments">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">list</a>() -> JigListResponse</code>
 - <code title="post /deployments">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">deploy</a>({ ...params }) -> JigDeployResponse</code>
 - <code title="delete /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">destroy</a>(id) -> unknown</code>
 
