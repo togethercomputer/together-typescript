@@ -30,6 +30,17 @@ describe('resource jig', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('list', async () => {
+    const responsePromise = client.beta.jig.list();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
   test('deploy: only required params', async () => {
     const responsePromise = client.beta.jig.deploy({
       gpu_type: 'h100-80gb',

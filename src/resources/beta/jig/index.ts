@@ -4,6 +4,7 @@ export {
   Jig,
   type JigRetrieveResponse,
   type JigUpdateResponse,
+  type JigListResponse,
   type JigDeployResponse,
   type JigDestroyResponse,
   type JigUpdateParams,
