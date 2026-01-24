@@ -10,3 +10,12 @@ export {
   type ClusterCreateParams,
   type ClusterUpdateParams,
 } from './clusters/index';
+export {
+  Jig,
+  type JigRetrieveResponse,
+  type JigUpdateResponse,
+  type JigDeployResponse,
+  type JigDestroyResponse,
+  type JigUpdateParams,
+  type JigDeployParams,
+} from './jig/index';
