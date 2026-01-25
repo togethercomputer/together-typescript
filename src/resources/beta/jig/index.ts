@@ -2,19 +2,17 @@
 
 export {
   Jig,
-  type JigRetrieveResponse,
-  type JigUpdateResponse,
+  type Deployment,
   type JigListResponse,
-  type JigDeployResponse,
   type JigDestroyResponse,
+  type JigRetrieveLogsResponse,
   type JigUpdateParams,
   type JigDeployParams,
+  type JigRetrieveLogsParams,
 } from './jig';
 export {
   Secrets,
-  type SecretCreateResponse,
-  type SecretRetrieveResponse,
-  type SecretUpdateResponse,
+  type Secret,
   type SecretListResponse,
   type SecretDeleteResponse,
   type SecretCreateParams,

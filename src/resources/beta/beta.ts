@@ -13,14 +13,14 @@ import {
 } from './clusters/clusters';
 import * as JigAPI from './jig/jig';
 import {
+  Deployment,
   Jig,
   JigDeployParams,
-  JigDeployResponse,
   JigDestroyResponse,
   JigListResponse,
-  JigRetrieveResponse,
+  JigRetrieveLogsParams,
+  JigRetrieveLogsResponse,
   JigUpdateParams,
-  JigUpdateResponse,
 } from './jig/jig';
 
 export class Beta extends APIResource {
@@ -34,13 +34,13 @@ Beta.Clusters = Clusters;
 export declare namespace Beta {
   export {
     Jig as Jig,
-    type JigRetrieveResponse as JigRetrieveResponse,
-    type JigUpdateResponse as JigUpdateResponse,
+    type Deployment as Deployment,
     type JigListResponse as JigListResponse,
-    type JigDeployResponse as JigDeployResponse,
     type JigDestroyResponse as JigDestroyResponse,
+    type JigRetrieveLogsResponse as JigRetrieveLogsResponse,
     type JigUpdateParams as JigUpdateParams,
     type JigDeployParams as JigDeployParams,
+    type JigRetrieveLogsParams as JigRetrieveLogsParams,
   };
 
   export {
