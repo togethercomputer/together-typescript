@@ -14,12 +14,12 @@ import {
 import * as JigAPI from './jig/jig';
 import {
   Deployment,
+  DeploymentLogs,
   Jig,
   JigDeployParams,
   JigDestroyResponse,
   JigListResponse,
   JigRetrieveLogsParams,
-  JigRetrieveLogsResponse,
   JigUpdateParams,
 } from './jig/jig';
 
@@ -35,9 +35,9 @@ export declare namespace Beta {
   export {
     Jig as Jig,
     type Deployment as Deployment,
+    type DeploymentLogs as DeploymentLogs,
     type JigListResponse as JigListResponse,
     type JigDestroyResponse as JigDestroyResponse,
-    type JigRetrieveLogsResponse as JigRetrieveLogsResponse,
     type JigUpdateParams as JigUpdateParams,
     type JigDeployParams as JigDeployParams,
     type JigRetrieveLogsParams as JigRetrieveLogsParams,

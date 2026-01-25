@@ -5,9 +5,9 @@
 Types:
 
 - <code><a href="./src/resources/beta/jig/jig.ts">Deployment</a></code>
+- <code><a href="./src/resources/beta/jig/jig.ts">DeploymentLogs</a></code>
 - <code><a href="./src/resources/beta/jig/jig.ts">JigListResponse</a></code>
 - <code><a href="./src/resources/beta/jig/jig.ts">JigDestroyResponse</a></code>
-- <code><a href="./src/resources/beta/jig/jig.ts">JigRetrieveLogsResponse</a></code>
 
 Methods:
 
@@ -16,23 +16,21 @@ Methods:
 - <code title="get /deployments">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">list</a>() -> JigListResponse</code>
 - <code title="post /deployments">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">deploy</a>({ ...params }) -> Deployment</code>
 - <code title="delete /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">destroy</a>(id) -> unknown</code>
-- <code title="get /deployments/{id}/logs">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">retrieveLogs</a>(id, { ...params }) -> JigRetrieveLogsResponse</code>
+- <code title="get /deployments/{id}/logs">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">retrieveLogs</a>(id, { ...params }) -> DeploymentLogs</code>
 
 ### Volumes
 
 Types:
 
-- <code><a href="./src/resources/beta/jig/volumes.ts">VolumeCreateResponse</a></code>
-- <code><a href="./src/resources/beta/jig/volumes.ts">VolumeRetrieveResponse</a></code>
-- <code><a href="./src/resources/beta/jig/volumes.ts">VolumeUpdateResponse</a></code>
+- <code><a href="./src/resources/beta/jig/volumes.ts">Volume</a></code>
 - <code><a href="./src/resources/beta/jig/volumes.ts">VolumeListResponse</a></code>
 - <code><a href="./src/resources/beta/jig/volumes.ts">VolumeDeleteResponse</a></code>
 
 Methods:
 
-- <code title="post /storage/volumes">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">create</a>({ ...params }) -> VolumeCreateResponse</code>
-- <code title="get /storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">retrieve</a>(id) -> VolumeRetrieveResponse</code>
-- <code title="patch /storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">update</a>(id, { ...params }) -> VolumeUpdateResponse</code>
+- <code title="post /storage/volumes">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">create</a>({ ...params }) -> Volume</code>
+- <code title="get /storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">retrieve</a>(id) -> Volume</code>
+- <code title="patch /storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">update</a>(id, { ...params }) -> Volume</code>
 - <code title="get /storage/volumes">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">list</a>() -> VolumeListResponse</code>
 - <code title="delete /storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">delete</a>(id) -> unknown</code>
 
