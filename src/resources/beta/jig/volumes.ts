@@ -9,21 +9,21 @@ export class Volumes extends APIResource {
   /**
    * Create a new volume to preload files in deployments
    */
-  create(body: VolumeCreateParams, options?: RequestOptions): APIPromise<VolumeCreateResponse> {
+  create(body: VolumeCreateParams, options?: RequestOptions): APIPromise<Volume> {
     return this._client.post('/storage/volumes', { body, ...options });
   }
 
   /**
    * Retrieve details of a specific volume by its ID or name
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<VolumeRetrieveResponse> {
+  retrieve(id: string, options?: RequestOptions): APIPromise<Volume> {
     return this._client.get(path`/storage/volumes/${id}`, options);
   }
 
   /**
    * Update an existing volume's configuration or contents
    */
-  update(id: string, body: VolumeUpdateParams, options?: RequestOptions): APIPromise<VolumeUpdateResponse> {
+  update(id: string, body: VolumeUpdateParams, options?: RequestOptions): APIPromise<Volume> {
     return this._client.patch(path`/storage/volumes/${id}`, { body, ...options });
   }
 
@@ -42,7 +42,7 @@ export class Volumes extends APIResource {
   }
 }
 
-export interface VolumeCreateResponse {
+export interface Volume {
   /**
    * ID is the unique identifier for this volume
    */
@@ -51,7 +51,7 @@ export interface VolumeCreateResponse {
   /**
    * Content specifies the content that will be preloaded to this volume
    */
-  content?: VolumeCreateResponse.Content;
+  content?: Volume.Content;
 
   /**
    * CreatedAt is the ISO8601 timestamp when this volume was created
@@ -79,119 +79,7 @@ export interface VolumeCreateResponse {
   updated_at?: string;
 }
 
-export namespace VolumeCreateResponse {
-  /**
-   * Content specifies the content that will be preloaded to this volume
-   */
-  export interface Content {
-    /**
-     * SourcePrefix is the file path prefix for the content to be preloaded into the
-     * volume
-     */
-    source_prefix?: string;
-
-    /**
-     * Type is the content type (currently only "files" is supported which allows
-     * preloading files uploaded via Files API into the volume)
-     */
-    type?: 'files';
-  }
-}
-
-export interface VolumeRetrieveResponse {
-  /**
-   * ID is the unique identifier for this volume
-   */
-  id?: string;
-
-  /**
-   * Content specifies the content that will be preloaded to this volume
-   */
-  content?: VolumeRetrieveResponse.Content;
-
-  /**
-   * CreatedAt is the ISO8601 timestamp when this volume was created
-   */
-  created_at?: string;
-
-  /**
-   * Name is the name of the volume
-   */
-  name?: string;
-
-  /**
-   * Object is the type identifier for this response (always "volume")
-   */
-  object?: string;
-
-  /**
-   * Type is the volume type (e.g., "readOnly")
-   */
-  type?: 'readOnly';
-
-  /**
-   * UpdatedAt is the ISO8601 timestamp when this volume was last updated
-   */
-  updated_at?: string;
-}
-
-export namespace VolumeRetrieveResponse {
-  /**
-   * Content specifies the content that will be preloaded to this volume
-   */
-  export interface Content {
-    /**
-     * SourcePrefix is the file path prefix for the content to be preloaded into the
-     * volume
-     */
-    source_prefix?: string;
-
-    /**
-     * Type is the content type (currently only "files" is supported which allows
-     * preloading files uploaded via Files API into the volume)
-     */
-    type?: 'files';
-  }
-}
-
-export interface VolumeUpdateResponse {
-  /**
-   * ID is the unique identifier for this volume
-   */
-  id?: string;
-
-  /**
-   * Content specifies the content that will be preloaded to this volume
-   */
-  content?: VolumeUpdateResponse.Content;
-
-  /**
-   * CreatedAt is the ISO8601 timestamp when this volume was created
-   */
-  created_at?: string;
-
-  /**
-   * Name is the name of the volume
-   */
-  name?: string;
-
-  /**
-   * Object is the type identifier for this response (always "volume")
-   */
-  object?: string;
-
-  /**
-   * Type is the volume type (e.g., "readOnly")
-   */
-  type?: 'readOnly';
-
-  /**
-   * UpdatedAt is the ISO8601 timestamp when this volume was last updated
-   */
-  updated_at?: string;
-}
-
-export namespace VolumeUpdateResponse {
+export namespace Volume {
   /**
    * Content specifies the content that will be preloaded to this volume
    */
@@ -214,70 +102,12 @@ export interface VolumeListResponse {
   /**
    * Data is the array of volume items
    */
-  data?: Array<VolumeListResponse.Data>;
+  data?: Array<Volume>;
 
   /**
    * Object is the type identifier for this response (always "list")
    */
   object?: string;
-}
-
-export namespace VolumeListResponse {
-  export interface Data {
-    /**
-     * ID is the unique identifier for this volume
-     */
-    id?: string;
-
-    /**
-     * Content specifies the content that will be preloaded to this volume
-     */
-    content?: Data.Content;
-
-    /**
-     * CreatedAt is the ISO8601 timestamp when this volume was created
-     */
-    created_at?: string;
-
-    /**
-     * Name is the name of the volume
-     */
-    name?: string;
-
-    /**
-     * Object is the type identifier for this response (always "volume")
-     */
-    object?: string;
-
-    /**
-     * Type is the volume type (e.g., "readOnly")
-     */
-    type?: 'readOnly';
-
-    /**
-     * UpdatedAt is the ISO8601 timestamp when this volume was last updated
-     */
-    updated_at?: string;
-  }
-
-  export namespace Data {
-    /**
-     * Content specifies the content that will be preloaded to this volume
-     */
-    export interface Content {
-      /**
-       * SourcePrefix is the file path prefix for the content to be preloaded into the
-       * volume
-       */
-      source_prefix?: string;
-
-      /**
-       * Type is the content type (currently only "files" is supported which allows
-       * preloading files uploaded via Files API into the volume)
-       */
-      type?: 'files';
-    }
-  }
 }
 
 export type VolumeDeleteResponse = unknown;
@@ -356,9 +186,7 @@ export namespace VolumeUpdateParams {
 
 export declare namespace Volumes {
   export {
-    type VolumeCreateResponse as VolumeCreateResponse,
-    type VolumeRetrieveResponse as VolumeRetrieveResponse,
-    type VolumeUpdateResponse as VolumeUpdateResponse,
+    type Volume as Volume,
     type VolumeListResponse as VolumeListResponse,
     type VolumeDeleteResponse as VolumeDeleteResponse,
     type VolumeCreateParams as VolumeCreateParams,

@@ -3,9 +3,9 @@
 export {
   Jig,
   type Deployment,
+  type DeploymentLogs,
   type JigListResponse,
   type JigDestroyResponse,
-  type JigRetrieveLogsResponse,
   type JigUpdateParams,
   type JigDeployParams,
   type JigRetrieveLogsParams,
@@ -20,9 +20,7 @@ export {
 } from './secrets';
 export {
   Volumes,
-  type VolumeCreateResponse,
-  type VolumeRetrieveResponse,
-  type VolumeUpdateResponse,
+  type Volume,
   type VolumeListResponse,
   type VolumeDeleteResponse,
   type VolumeCreateParams,
