@@ -12,13 +12,11 @@ import {
 } from './secrets';
 import * as VolumesAPI from './volumes';
 import {
+  Volume as VolumesAPIVolume,
   VolumeCreateParams,
-  VolumeCreateResponse,
   VolumeDeleteResponse,
   VolumeListResponse,
-  VolumeRetrieveResponse,
   VolumeUpdateParams,
-  VolumeUpdateResponse,
   Volumes,
 } from './volumes';
 import { APIPromise } from '../../../core/api-promise';
@@ -72,7 +70,7 @@ export class Jig extends APIResource {
     id: string,
     query: JigRetrieveLogsParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<JigRetrieveLogsResponse> {
+  ): APIPromise<DeploymentLogs> {
     return this._client.get(path`/deployments/${id}/logs`, { query, ...options });
   }
 }
@@ -385,6 +383,10 @@ export namespace Deployment {
   }
 }
 
+export interface DeploymentLogs {
+  lines?: Array<string>;
+}
+
 export interface JigListResponse {
   /**
    * Data is the array of deployment items
@@ -398,10 +400,6 @@ export interface JigListResponse {
 }
 
 export type JigDestroyResponse = unknown;
-
-export interface JigRetrieveLogsResponse {
-  lines?: Array<string>;
-}
 
 export interface JigUpdateParams {
   /**
@@ -706,9 +704,9 @@ Jig.Secrets = Secrets;
 export declare namespace Jig {
   export {
     type Deployment as Deployment,
+    type DeploymentLogs as DeploymentLogs,
     type JigListResponse as JigListResponse,
     type JigDestroyResponse as JigDestroyResponse,
-    type JigRetrieveLogsResponse as JigRetrieveLogsResponse,
     type JigUpdateParams as JigUpdateParams,
     type JigDeployParams as JigDeployParams,
     type JigRetrieveLogsParams as JigRetrieveLogsParams,
@@ -716,9 +714,7 @@ export declare namespace Jig {
 
   export {
     Volumes as Volumes,
-    type VolumeCreateResponse as VolumeCreateResponse,
-    type VolumeRetrieveResponse as VolumeRetrieveResponse,
-    type VolumeUpdateResponse as VolumeUpdateResponse,
+    type VolumesAPIVolume as Volume,
     type VolumeListResponse as VolumeListResponse,
     type VolumeDeleteResponse as VolumeDeleteResponse,
     type VolumeCreateParams as VolumeCreateParams,

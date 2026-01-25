@@ -13,9 +13,9 @@ export {
 export {
   Jig,
   type Deployment,
+  type DeploymentLogs,
   type JigListResponse,
   type JigDestroyResponse,
-  type JigRetrieveLogsResponse,
   type JigUpdateParams,
   type JigDeployParams,
   type JigRetrieveLogsParams,
