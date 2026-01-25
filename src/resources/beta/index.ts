@@ -12,11 +12,11 @@ export {
 } from './clusters/index';
 export {
   Jig,
-  type JigRetrieveResponse,
-  type JigUpdateResponse,
+  type Deployment,
   type JigListResponse,
-  type JigDeployResponse,
   type JigDestroyResponse,
+  type JigRetrieveLogsResponse,
   type JigUpdateParams,
   type JigDeployParams,
+  type JigRetrieveLogsParams,
 } from './jig/index';
