@@ -4,19 +4,19 @@
 
 Types:
 
-- <code><a href="./src/resources/beta/jig/jig.ts">JigRetrieveResponse</a></code>
-- <code><a href="./src/resources/beta/jig/jig.ts">JigUpdateResponse</a></code>
+- <code><a href="./src/resources/beta/jig/jig.ts">Deployment</a></code>
 - <code><a href="./src/resources/beta/jig/jig.ts">JigListResponse</a></code>
-- <code><a href="./src/resources/beta/jig/jig.ts">JigDeployResponse</a></code>
 - <code><a href="./src/resources/beta/jig/jig.ts">JigDestroyResponse</a></code>
+- <code><a href="./src/resources/beta/jig/jig.ts">JigRetrieveLogsResponse</a></code>
 
 Methods:
 
-- <code title="get /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">retrieve</a>(id) -> JigRetrieveResponse</code>
-- <code title="patch /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">update</a>(id, { ...params }) -> JigUpdateResponse</code>
+- <code title="get /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">retrieve</a>(id) -> Deployment</code>
+- <code title="patch /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">update</a>(id, { ...params }) -> Deployment</code>
 - <code title="get /deployments">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">list</a>() -> JigListResponse</code>
-- <code title="post /deployments">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">deploy</a>({ ...params }) -> JigDeployResponse</code>
+- <code title="post /deployments">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">deploy</a>({ ...params }) -> Deployment</code>
 - <code title="delete /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">destroy</a>(id) -> unknown</code>
+- <code title="get /deployments/{id}/logs">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">retrieveLogs</a>(id, { ...params }) -> JigRetrieveLogsResponse</code>
 
 ### Volumes
 
@@ -40,17 +40,15 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/beta/jig/secrets.ts">SecretCreateResponse</a></code>
-- <code><a href="./src/resources/beta/jig/secrets.ts">SecretRetrieveResponse</a></code>
-- <code><a href="./src/resources/beta/jig/secrets.ts">SecretUpdateResponse</a></code>
+- <code><a href="./src/resources/beta/jig/secrets.ts">Secret</a></code>
 - <code><a href="./src/resources/beta/jig/secrets.ts">SecretListResponse</a></code>
 - <code><a href="./src/resources/beta/jig/secrets.ts">SecretDeleteResponse</a></code>
 
 Methods:
 
-- <code title="post /secrets">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">create</a>({ ...params }) -> SecretCreateResponse</code>
-- <code title="get /secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">retrieve</a>(id) -> SecretRetrieveResponse</code>
-- <code title="patch /secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">update</a>(id, { ...params }) -> SecretUpdateResponse</code>
+- <code title="post /secrets">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">create</a>({ ...params }) -> Secret</code>
+- <code title="get /secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">retrieve</a>(id) -> Secret</code>
+- <code title="patch /secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">update</a>(id, { ...params }) -> Secret</code>
 - <code title="get /secrets">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">list</a>() -> SecretListResponse</code>
 - <code title="delete /secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">delete</a>(id) -> unknown</code>
 

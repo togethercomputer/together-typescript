@@ -9,21 +9,21 @@ export class Secrets extends APIResource {
   /**
    * Create a new secret to store sensitive configuration values
    */
-  create(body: SecretCreateParams, options?: RequestOptions): APIPromise<SecretCreateResponse> {
+  create(body: SecretCreateParams, options?: RequestOptions): APIPromise<Secret> {
     return this._client.post('/secrets', { body, ...options });
   }
 
   /**
    * Retrieve details of a specific secret by its ID or name
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<SecretRetrieveResponse> {
+  retrieve(id: string, options?: RequestOptions): APIPromise<Secret> {
     return this._client.get(path`/secrets/${id}`, options);
   }
 
   /**
    * Update an existing secret's value or metadata
    */
-  update(id: string, body: SecretUpdateParams, options?: RequestOptions): APIPromise<SecretUpdateResponse> {
+  update(id: string, body: SecretUpdateParams, options?: RequestOptions): APIPromise<Secret> {
     return this._client.patch(path`/secrets/${id}`, { body, ...options });
   }
 
@@ -42,91 +42,7 @@ export class Secrets extends APIResource {
   }
 }
 
-export interface SecretCreateResponse {
-  /**
-   * ID is the unique identifier for this secret
-   */
-  id?: string;
-
-  /**
-   * CreatedAt is the ISO8601 timestamp when this secret was created
-   */
-  created_at?: string;
-
-  /**
-   * CreatedBy is the identifier of the user who created this secret
-   */
-  created_by?: string;
-
-  /**
-   * Description is a human-readable description of the secret's purpose
-   */
-  description?: string;
-
-  /**
-   * LastUpdatedBy is the identifier of the user who last updated this secret
-   */
-  last_updated_by?: string;
-
-  /**
-   * Name is the name/key of the secret
-   */
-  name?: string;
-
-  /**
-   * Object is the type identifier for this response (always "secret")
-   */
-  object?: string;
-
-  /**
-   * UpdatedAt is the ISO8601 timestamp when this secret was last updated
-   */
-  updated_at?: string;
-}
-
-export interface SecretRetrieveResponse {
-  /**
-   * ID is the unique identifier for this secret
-   */
-  id?: string;
-
-  /**
-   * CreatedAt is the ISO8601 timestamp when this secret was created
-   */
-  created_at?: string;
-
-  /**
-   * CreatedBy is the identifier of the user who created this secret
-   */
-  created_by?: string;
-
-  /**
-   * Description is a human-readable description of the secret's purpose
-   */
-  description?: string;
-
-  /**
-   * LastUpdatedBy is the identifier of the user who last updated this secret
-   */
-  last_updated_by?: string;
-
-  /**
-   * Name is the name/key of the secret
-   */
-  name?: string;
-
-  /**
-   * Object is the type identifier for this response (always "secret")
-   */
-  object?: string;
-
-  /**
-   * UpdatedAt is the ISO8601 timestamp when this secret was last updated
-   */
-  updated_at?: string;
-}
-
-export interface SecretUpdateResponse {
+export interface Secret {
   /**
    * ID is the unique identifier for this secret
    */
@@ -172,56 +88,12 @@ export interface SecretListResponse {
   /**
    * Data is the array of secret items
    */
-  data?: Array<SecretListResponse.Data>;
+  data?: Array<Secret>;
 
   /**
    * Object is the type identifier for this response (always "list")
    */
   object?: string;
-}
-
-export namespace SecretListResponse {
-  export interface Data {
-    /**
-     * ID is the unique identifier for this secret
-     */
-    id?: string;
-
-    /**
-     * CreatedAt is the ISO8601 timestamp when this secret was created
-     */
-    created_at?: string;
-
-    /**
-     * CreatedBy is the identifier of the user who created this secret
-     */
-    created_by?: string;
-
-    /**
-     * Description is a human-readable description of the secret's purpose
-     */
-    description?: string;
-
-    /**
-     * LastUpdatedBy is the identifier of the user who last updated this secret
-     */
-    last_updated_by?: string;
-
-    /**
-     * Name is the name/key of the secret
-     */
-    name?: string;
-
-    /**
-     * Object is the type identifier for this response (always "secret")
-     */
-    object?: string;
-
-    /**
-     * UpdatedAt is the ISO8601 timestamp when this secret was last updated
-     */
-    updated_at?: string;
-  }
 }
 
 export type SecretDeleteResponse = unknown;
@@ -282,9 +154,7 @@ export interface SecretUpdateParams {
 
 export declare namespace Secrets {
   export {
-    type SecretCreateResponse as SecretCreateResponse,
-    type SecretRetrieveResponse as SecretRetrieveResponse,
-    type SecretUpdateResponse as SecretUpdateResponse,
+    type Secret as Secret,
     type SecretListResponse as SecretListResponse,
     type SecretDeleteResponse as SecretDeleteResponse,
     type SecretCreateParams as SecretCreateParams,
