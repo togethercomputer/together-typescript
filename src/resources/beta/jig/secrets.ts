@@ -10,35 +10,35 @@ export class Secrets extends APIResource {
    * Create a new secret to store sensitive configuration values
    */
   create(body: SecretCreateParams, options?: RequestOptions): APIPromise<Secret> {
-    return this._client.post('/secrets', { body, ...options });
+    return this._client.post('/deployments/secrets', { body, ...options });
   }
 
   /**
    * Retrieve details of a specific secret by its ID or name
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<Secret> {
-    return this._client.get(path`/secrets/${id}`, options);
+    return this._client.get(path`/deployments/secrets/${id}`, options);
   }
 
   /**
    * Update an existing secret's value or metadata
    */
   update(id: string, body: SecretUpdateParams, options?: RequestOptions): APIPromise<Secret> {
-    return this._client.patch(path`/secrets/${id}`, { body, ...options });
+    return this._client.patch(path`/deployments/secrets/${id}`, { body, ...options });
   }
 
   /**
    * Retrieve all secrets in your project
    */
   list(options?: RequestOptions): APIPromise<SecretListResponse> {
-    return this._client.get('/secrets', options);
+    return this._client.get('/deployments/secrets', options);
   }
 
   /**
    * Delete an existing secret
    */
   delete(id: string, options?: RequestOptions): APIPromise<unknown> {
-    return this._client.delete(path`/secrets/${id}`, options);
+    return this._client.delete(path`/deployments/secrets/${id}`, options);
   }
 }
 
