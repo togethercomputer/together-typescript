@@ -28,11 +28,11 @@ Types:
 
 Methods:
 
-- <code title="post /storage/volumes">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">create</a>({ ...params }) -> Volume</code>
-- <code title="get /storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">retrieve</a>(id) -> Volume</code>
-- <code title="patch /storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">update</a>(id, { ...params }) -> Volume</code>
-- <code title="get /storage/volumes">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">list</a>() -> VolumeListResponse</code>
-- <code title="delete /storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">delete</a>(id) -> unknown</code>
+- <code title="post /deployments/storage/volumes">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">create</a>({ ...params }) -> Volume</code>
+- <code title="get /deployments/storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">retrieve</a>(id) -> Volume</code>
+- <code title="patch /deployments/storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">update</a>(id, { ...params }) -> Volume</code>
+- <code title="get /deployments/storage/volumes">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">list</a>() -> VolumeListResponse</code>
+- <code title="delete /deployments/storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">delete</a>(id) -> unknown</code>
 
 ### Secrets
 
@@ -44,11 +44,11 @@ Types:
 
 Methods:
 
-- <code title="post /secrets">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">create</a>({ ...params }) -> Secret</code>
-- <code title="get /secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">retrieve</a>(id) -> Secret</code>
-- <code title="patch /secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">update</a>(id, { ...params }) -> Secret</code>
-- <code title="get /secrets">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">list</a>() -> SecretListResponse</code>
-- <code title="delete /secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">delete</a>(id) -> unknown</code>
+- <code title="post /deployments/secrets">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">create</a>({ ...params }) -> Secret</code>
+- <code title="get /deployments/secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">retrieve</a>(id) -> Secret</code>
+- <code title="patch /deployments/secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">update</a>(id, { ...params }) -> Secret</code>
+- <code title="get /deployments/secrets">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">list</a>() -> SecretListResponse</code>
+- <code title="delete /deployments/secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">delete</a>(id) -> unknown</code>
 
 ## Clusters
 
