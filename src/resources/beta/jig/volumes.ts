@@ -10,35 +10,35 @@ export class Volumes extends APIResource {
    * Create a new volume to preload files in deployments
    */
   create(body: VolumeCreateParams, options?: RequestOptions): APIPromise<Volume> {
-    return this._client.post('/storage/volumes', { body, ...options });
+    return this._client.post('/deployments/storage/volumes', { body, ...options });
   }
 
   /**
    * Retrieve details of a specific volume by its ID or name
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<Volume> {
-    return this._client.get(path`/storage/volumes/${id}`, options);
+    return this._client.get(path`/deployments/storage/volumes/${id}`, options);
   }
 
   /**
    * Update an existing volume's configuration or contents
    */
   update(id: string, body: VolumeUpdateParams, options?: RequestOptions): APIPromise<Volume> {
-    return this._client.patch(path`/storage/volumes/${id}`, { body, ...options });
+    return this._client.patch(path`/deployments/storage/volumes/${id}`, { body, ...options });
   }
 
   /**
    * Retrieve all volumes in your project
    */
   list(options?: RequestOptions): APIPromise<VolumeListResponse> {
-    return this._client.get('/storage/volumes', options);
+    return this._client.get('/deployments/storage/volumes', options);
   }
 
   /**
    * Delete an existing volume
    */
   delete(id: string, options?: RequestOptions): APIPromise<unknown> {
-    return this._client.delete(path`/storage/volumes/${id}`, options);
+    return this._client.delete(path`/deployments/storage/volumes/${id}`, options);
   }
 }
 
