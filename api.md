@@ -358,3 +358,19 @@ Methods:
 - <code title="get /evaluation/{id}">client.evals.<a href="./src/resources/evals.ts">retrieve</a>(id) -> EvaluationJob</code>
 - <code title="get /evaluation">client.evals.<a href="./src/resources/evals.ts">list</a>({ ...params }) -> EvalListResponse</code>
 - <code title="get /evaluation/{id}/status">client.evals.<a href="./src/resources/evals.ts">status</a>(id) -> EvalStatusResponse</code>
+
+# Queue
+
+Types:
+
+- <code><a href="./src/resources/queue.ts">QueueCancelResponse</a></code>
+- <code><a href="./src/resources/queue.ts">QueueGetMetricsResponse</a></code>
+- <code><a href="./src/resources/queue.ts">QueueGetStatusResponse</a></code>
+- <code><a href="./src/resources/queue.ts">QueueSubmitResponse</a></code>
+
+Methods:
+
+- <code title="post /queue/cancel">client.queue.<a href="./src/resources/queue.ts">cancel</a>({ ...params }) -> QueueCancelResponse</code>
+- <code title="get /queue/metrics">client.queue.<a href="./src/resources/queue.ts">getMetrics</a>({ ...params }) -> QueueGetMetricsResponse</code>
+- <code title="get /queue/status">client.queue.<a href="./src/resources/queue.ts">getStatus</a>({ ...params }) -> QueueGetStatusResponse</code>
+- <code title="post /queue/submit">client.queue.<a href="./src/resources/queue.ts">submit</a>({ ...params }) -> QueueSubmitResponse</code>
