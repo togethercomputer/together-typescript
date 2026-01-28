@@ -6,10 +6,10 @@ import {
   Queue,
   QueueCancelParams,
   QueueCancelResponse,
-  QueueGetMetricsParams,
-  QueueGetMetricsResponse,
-  QueueGetStatusParams,
-  QueueGetStatusResponse,
+  QueueMetricsParams,
+  QueueMetricsResponse,
+  QueueRetrieveParams,
+  QueueRetrieveResponse,
   QueueSubmitParams,
   QueueSubmitResponse,
 } from './queue';
@@ -728,13 +728,13 @@ export declare namespace Jig {
 
   export {
     Queue as Queue,
+    type QueueRetrieveResponse as QueueRetrieveResponse,
     type QueueCancelResponse as QueueCancelResponse,
-    type QueueGetMetricsResponse as QueueGetMetricsResponse,
-    type QueueGetStatusResponse as QueueGetStatusResponse,
+    type QueueMetricsResponse as QueueMetricsResponse,
     type QueueSubmitResponse as QueueSubmitResponse,
+    type QueueRetrieveParams as QueueRetrieveParams,
     type QueueCancelParams as QueueCancelParams,
-    type QueueGetMetricsParams as QueueGetMetricsParams,
-    type QueueGetStatusParams as QueueGetStatusParams,
+    type QueueMetricsParams as QueueMetricsParams,
     type QueueSubmitParams as QueueSubmitParams,
   };
 

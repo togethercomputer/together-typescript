@@ -12,13 +12,13 @@ export {
 } from './jig';
 export {
   Queue,
+  type QueueRetrieveResponse,
   type QueueCancelResponse,
-  type QueueGetMetricsResponse,
-  type QueueGetStatusResponse,
+  type QueueMetricsResponse,
   type QueueSubmitResponse,
+  type QueueRetrieveParams,
   type QueueCancelParams,
-  type QueueGetMetricsParams,
-  type QueueGetStatusParams,
+  type QueueMetricsParams,
   type QueueSubmitParams,
 } from './queue';
 export {
