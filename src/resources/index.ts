@@ -89,5 +89,16 @@ export {
   type ModelListParams,
   type ModelUploadParams,
 } from './models';
+export {
+  Queue,
+  type QueueCancelResponse,
+  type QueueGetMetricsResponse,
+  type QueueGetStatusResponse,
+  type QueueSubmitResponse,
+  type QueueCancelParams,
+  type QueueGetMetricsParams,
+  type QueueGetStatusParams,
+  type QueueSubmitParams,
+} from './queue';
 export { Rerank, type RerankCreateResponse, type RerankCreateParams } from './rerank';
 export { Videos, type VideoJob, type VideoCreateParams } from './videos';

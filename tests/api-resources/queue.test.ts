@@ -1,0 +1,78 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import Together from 'together-ai';
+
+const client = new Together({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
+
+describe('resource queue', () => {
+  test('cancel: only required params', async () => {
+    const responsePromise = client.queue.cancel({ model: 'model', request_id: 'request_id' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('cancel: required and optional params', async () => {
+    const response = await client.queue.cancel({ model: 'model', request_id: 'request_id' });
+  });
+
+  test('getMetrics: only required params', async () => {
+    const responsePromise = client.queue.getMetrics({ model: 'model' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('getMetrics: required and optional params', async () => {
+    const response = await client.queue.getMetrics({ model: 'model' });
+  });
+
+  test('getStatus: only required params', async () => {
+    const responsePromise = client.queue.getStatus({ model: 'model', request_id: 'request_id' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('getStatus: required and optional params', async () => {
+    const response = await client.queue.getStatus({ model: 'model', request_id: 'request_id' });
+  });
+
+  test('submit: only required params', async () => {
+    const responsePromise = client.queue.submit({
+      model: 'model',
+      payload: { foo: 'bar' },
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('submit: required and optional params', async () => {
+    const response = await client.queue.submit({
+      model: 'model',
+      payload: { foo: 'bar' },
+      info: { foo: 'bar' },
+      priority: 0,
+    });
+  });
+});
