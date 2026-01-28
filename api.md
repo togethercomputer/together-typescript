@@ -22,16 +22,16 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/beta/jig/queue.ts">QueueRetrieveResponse</a></code>
 - <code><a href="./src/resources/beta/jig/queue.ts">QueueCancelResponse</a></code>
-- <code><a href="./src/resources/beta/jig/queue.ts">QueueGetMetricsResponse</a></code>
-- <code><a href="./src/resources/beta/jig/queue.ts">QueueGetStatusResponse</a></code>
+- <code><a href="./src/resources/beta/jig/queue.ts">QueueMetricsResponse</a></code>
 - <code><a href="./src/resources/beta/jig/queue.ts">QueueSubmitResponse</a></code>
 
 Methods:
 
+- <code title="get /queue/status">client.beta.jig.queue.<a href="./src/resources/beta/jig/queue.ts">retrieve</a>({ ...params }) -> QueueRetrieveResponse</code>
 - <code title="post /queue/cancel">client.beta.jig.queue.<a href="./src/resources/beta/jig/queue.ts">cancel</a>({ ...params }) -> QueueCancelResponse</code>
-- <code title="get /queue/metrics">client.beta.jig.queue.<a href="./src/resources/beta/jig/queue.ts">getMetrics</a>({ ...params }) -> QueueGetMetricsResponse</code>
-- <code title="get /queue/status">client.beta.jig.queue.<a href="./src/resources/beta/jig/queue.ts">getStatus</a>({ ...params }) -> QueueGetStatusResponse</code>
+- <code title="get /queue/metrics">client.beta.jig.queue.<a href="./src/resources/beta/jig/queue.ts">metrics</a>({ ...params }) -> QueueMetricsResponse</code>
 - <code title="post /queue/submit">client.beta.jig.queue.<a href="./src/resources/beta/jig/queue.ts">submit</a>({ ...params }) -> QueueSubmitResponse</code>
 
 ### Volumes
