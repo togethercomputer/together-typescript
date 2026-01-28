@@ -9,7 +9,7 @@ const client = new Together({
 
 describe('resource queue', () => {
   test('cancel: only required params', async () => {
-    const responsePromise = client.queue.cancel({ model: 'model', request_id: 'request_id' });
+    const responsePromise = client.beta.jig.queue.cancel({ model: 'model', request_id: 'request_id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,11 +20,11 @@ describe('resource queue', () => {
   });
 
   test('cancel: required and optional params', async () => {
-    const response = await client.queue.cancel({ model: 'model', request_id: 'request_id' });
+    const response = await client.beta.jig.queue.cancel({ model: 'model', request_id: 'request_id' });
   });
 
   test('getMetrics: only required params', async () => {
-    const responsePromise = client.queue.getMetrics({ model: 'model' });
+    const responsePromise = client.beta.jig.queue.getMetrics({ model: 'model' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -35,11 +35,11 @@ describe('resource queue', () => {
   });
 
   test('getMetrics: required and optional params', async () => {
-    const response = await client.queue.getMetrics({ model: 'model' });
+    const response = await client.beta.jig.queue.getMetrics({ model: 'model' });
   });
 
   test('getStatus: only required params', async () => {
-    const responsePromise = client.queue.getStatus({ model: 'model', request_id: 'request_id' });
+    const responsePromise = client.beta.jig.queue.getStatus({ model: 'model', request_id: 'request_id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -50,11 +50,11 @@ describe('resource queue', () => {
   });
 
   test('getStatus: required and optional params', async () => {
-    const response = await client.queue.getStatus({ model: 'model', request_id: 'request_id' });
+    const response = await client.beta.jig.queue.getStatus({ model: 'model', request_id: 'request_id' });
   });
 
   test('submit: only required params', async () => {
-    const responsePromise = client.queue.submit({
+    const responsePromise = client.beta.jig.queue.submit({
       model: 'model',
       payload: { foo: 'bar' },
     });
@@ -68,7 +68,7 @@ describe('resource queue', () => {
   });
 
   test('submit: required and optional params', async () => {
-    const response = await client.queue.submit({
+    const response = await client.beta.jig.queue.submit({
       model: 'model',
       payload: { foo: 'bar' },
       info: { foo: 'bar' },

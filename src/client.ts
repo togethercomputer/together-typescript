@@ -82,17 +82,6 @@ import {
 } from './resources/fine-tuning';
 import { Hardware, HardwareListParams, HardwareListResponse } from './resources/hardware';
 import { ImageDataB64, ImageDataURL, ImageFile, ImageGenerateParams, Images } from './resources/images';
-import {
-  Queue,
-  QueueCancelParams,
-  QueueCancelResponse,
-  QueueGetMetricsParams,
-  QueueGetMetricsResponse,
-  QueueGetStatusParams,
-  QueueGetStatusResponse,
-  QueueSubmitParams,
-  QueueSubmitResponse,
-} from './resources/queue';
 import { Rerank, RerankCreateParams, RerankCreateResponse } from './resources/rerank';
 import { VideoCreateParams, VideoJob, Videos } from './resources/videos';
 import { Audio, AudioFile, AudioSpeechStreamChunk } from './resources/audio/audio';
@@ -824,7 +813,6 @@ export class Together {
   rerank: API.Rerank = new API.Rerank(this);
   batches: API.Batches = new API.Batches(this);
   evals: API.Evals = new API.Evals(this);
-  queue: API.Queue = new API.Queue(this);
 }
 
 Together.Beta = Beta;
@@ -843,7 +831,6 @@ Together.Hardware = Hardware;
 Together.Rerank = Rerank;
 Together.Batches = Batches;
 Together.Evals = Evals;
-Together.Queue = Queue;
 
 export declare namespace Together {
   export type RequestOptions = Opts.RequestOptions;
@@ -968,17 +955,5 @@ export declare namespace Together {
     type EvalStatusResponse as EvalStatusResponse,
     type EvalCreateParams as EvalCreateParams,
     type EvalListParams as EvalListParams,
-  };
-
-  export {
-    Queue as Queue,
-    type QueueCancelResponse as QueueCancelResponse,
-    type QueueGetMetricsResponse as QueueGetMetricsResponse,
-    type QueueGetStatusResponse as QueueGetStatusResponse,
-    type QueueSubmitResponse as QueueSubmitResponse,
-    type QueueCancelParams as QueueCancelParams,
-    type QueueGetMetricsParams as QueueGetMetricsParams,
-    type QueueGetStatusParams as QueueGetStatusParams,
-    type QueueSubmitParams as QueueSubmitParams,
   };
 }

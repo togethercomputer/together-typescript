@@ -11,6 +11,17 @@ export {
   type JigRetrieveLogsParams,
 } from './jig';
 export {
+  Queue,
+  type QueueCancelResponse,
+  type QueueGetMetricsResponse,
+  type QueueGetStatusResponse,
+  type QueueSubmitResponse,
+  type QueueCancelParams,
+  type QueueGetMetricsParams,
+  type QueueGetStatusParams,
+  type QueueSubmitParams,
+} from './queue';
+export {
   Secrets,
   type Secret,
   type SecretListResponse,
