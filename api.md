@@ -261,26 +261,24 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/models.ts">ModelObject</a></code>
-- <code><a href="./src/resources/models.ts">ModelListResponse</a></code>
-- <code><a href="./src/resources/models.ts">ModelUploadResponse</a></code>
+- <code><a href="./src/resources/models/models.ts">ModelObject</a></code>
+- <code><a href="./src/resources/models/models.ts">ModelListResponse</a></code>
+- <code><a href="./src/resources/models/models.ts">ModelUploadResponse</a></code>
 
 Methods:
 
-- <code title="get /models">client.models.<a href="./src/resources/models.ts">list</a>({ ...params }) -> ModelListResponse</code>
-- <code title="post /models">client.models.<a href="./src/resources/models.ts">upload</a>({ ...params }) -> ModelUploadResponse</code>
+- <code title="get /models">client.models.<a href="./src/resources/models/models.ts">list</a>({ ...params }) -> ModelListResponse</code>
+- <code title="post /models">client.models.<a href="./src/resources/models/models.ts">upload</a>({ ...params }) -> ModelUploadResponse</code>
 
-# Jobs
+## Uploads
 
 Types:
 
-- <code><a href="./src/resources/jobs.ts">JobRetrieveResponse</a></code>
-- <code><a href="./src/resources/jobs.ts">JobListResponse</a></code>
+- <code><a href="./src/resources/models/uploads.ts">UploadStatusResponse</a></code>
 
 Methods:
 
-- <code title="get /jobs/{jobId}">client.jobs.<a href="./src/resources/jobs.ts">retrieve</a>(jobID) -> JobRetrieveResponse</code>
-- <code title="get /jobs">client.jobs.<a href="./src/resources/jobs.ts">list</a>() -> JobListResponse</code>
+- <code title="get /jobs/{jobId}">client.models.uploads.<a href="./src/resources/models/uploads.ts">status</a>(jobID) -> UploadStatusResponse</code>
 
 # Endpoints
 

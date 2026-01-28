@@ -80,7 +80,6 @@ export {
   type ImageFile,
   type ImageGenerateParams,
 } from './images';
-export { Jobs, type JobRetrieveResponse, type JobListResponse } from './jobs';
 export {
   Models,
   type ModelObject,
@@ -88,7 +87,7 @@ export {
   type ModelUploadResponse,
   type ModelListParams,
   type ModelUploadParams,
-} from './models';
+} from './models/models';
 export {
   Queue,
   type QueueCancelResponse,

@@ -82,15 +82,6 @@ import {
 } from './resources/fine-tuning';
 import { Hardware, HardwareListParams, HardwareListResponse } from './resources/hardware';
 import { ImageDataB64, ImageDataURL, ImageFile, ImageGenerateParams, Images } from './resources/images';
-import { JobListResponse, JobRetrieveResponse, Jobs } from './resources/jobs';
-import {
-  ModelListParams,
-  ModelListResponse,
-  ModelObject,
-  ModelUploadParams,
-  ModelUploadResponse,
-  Models,
-} from './resources/models';
 import {
   Queue,
   QueueCancelParams,
@@ -112,6 +103,14 @@ import {
   CodeInterpreterExecuteParams,
   ExecuteResponse,
 } from './resources/code-interpreter/code-interpreter';
+import {
+  ModelListParams,
+  ModelListResponse,
+  ModelObject,
+  ModelUploadParams,
+  ModelUploadResponse,
+  Models,
+} from './resources/models/models';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -820,7 +819,6 @@ export class Together {
   videos: API.Videos = new API.Videos(this);
   audio: API.Audio = new API.Audio(this);
   models: API.Models = new API.Models(this);
-  jobs: API.Jobs = new API.Jobs(this);
   endpoints: API.Endpoints = new API.Endpoints(this);
   hardware: API.Hardware = new API.Hardware(this);
   rerank: API.Rerank = new API.Rerank(this);
@@ -840,7 +838,6 @@ Together.Images = Images;
 Together.Videos = Videos;
 Together.Audio = Audio;
 Together.Models = Models;
-Together.Jobs = Jobs;
 Together.Endpoints = Endpoints;
 Together.Hardware = Hardware;
 Together.Rerank = Rerank;
@@ -930,12 +927,6 @@ export declare namespace Together {
     type ModelUploadResponse as ModelUploadResponse,
     type ModelListParams as ModelListParams,
     type ModelUploadParams as ModelUploadParams,
-  };
-
-  export {
-    Jobs as Jobs,
-    type JobRetrieveResponse as JobRetrieveResponse,
-    type JobListResponse as JobListResponse,
   };
 
   export {

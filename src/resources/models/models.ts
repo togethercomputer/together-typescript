@@ -1,0 +1,157 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import { APIResource } from '../../core/resource';
+import * as UploadsAPI from './uploads';
+import { UploadStatusResponse, Uploads } from './uploads';
+import { APIPromise } from '../../core/api-promise';
+import { RequestOptions } from '../../internal/request-options';
+
+export class Models extends APIResource {
+  uploads: UploadsAPI.Uploads = new UploadsAPI.Uploads(this._client);
+
+  /**
+   * Lists all of Together's open-source models
+   *
+   * @example
+   * ```ts
+   * const modelObjects = await client.models.list();
+   * ```
+   */
+  list(
+    query: ModelListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ModelListResponse> {
+    return this._client.get('/models', { query, ...options });
+  }
+
+  /**
+   * Upload a custom model or adapter from Hugging Face or S3
+   *
+   * @example
+   * ```ts
+   * const response = await client.models.upload({
+   *   model_name: 'Qwen2.5-72B-Instruct',
+   *   model_source: 'unsloth/Qwen2.5-72B-Instruct',
+   * });
+   * ```
+   */
+  upload(body: ModelUploadParams, options?: RequestOptions): APIPromise<ModelUploadResponse> {
+    return this._client.post('/models', { body, ...options });
+  }
+}
+
+export interface ModelObject {
+  id: string;
+
+  created: number;
+
+  object: string;
+
+  type: 'chat' | 'language' | 'code' | 'image' | 'embedding' | 'moderation' | 'rerank';
+
+  context_length?: number;
+
+  display_name?: string;
+
+  license?: string;
+
+  link?: string;
+
+  organization?: string;
+
+  pricing?: ModelObject.Pricing;
+}
+
+export namespace ModelObject {
+  export interface Pricing {
+    base: number;
+
+    finetune: number;
+
+    hourly: number;
+
+    input: number;
+
+    output: number;
+  }
+}
+
+export type ModelListResponse = Array<ModelObject>;
+
+export interface ModelUploadResponse {
+  data: ModelUploadResponse.Data;
+
+  message: string;
+}
+
+export namespace ModelUploadResponse {
+  export interface Data {
+    job_id: string;
+
+    model_id: string;
+
+    model_name: string;
+
+    model_source: string;
+  }
+}
+
+export interface ModelListParams {
+  /**
+   * Filter models to only return dedicated models
+   */
+  dedicated?: boolean;
+}
+
+export interface ModelUploadParams {
+  /**
+   * The name to give to your uploaded model
+   */
+  model_name: string;
+
+  /**
+   * The source location of the model (Hugging Face repo or S3 path)
+   */
+  model_source: string;
+
+  /**
+   * The base model to use for an adapter if setting it to run against a serverless
+   * pool. Only used for model_type `adapter`.
+   */
+  base_model?: string;
+
+  /**
+   * A description of your model
+   */
+  description?: string;
+
+  /**
+   * Hugging Face token (if uploading from Hugging Face)
+   */
+  hf_token?: string;
+
+  /**
+   * The lora pool to use for an adapter if setting it to run against, say, a
+   * dedicated pool. Only used for model_type `adapter`.
+   */
+  lora_model?: string;
+
+  /**
+   * Whether the model is a full model or an adapter
+   */
+  model_type?: 'model' | 'adapter';
+}
+
+Models.Uploads = Uploads;
+
+export declare namespace Models {
+  export {
+    type ModelObject as ModelObject,
+    type ModelListResponse as ModelListResponse,
+    type ModelUploadResponse as ModelUploadResponse,
+    type ModelListParams as ModelListParams,
+    type ModelUploadParams as ModelUploadParams,
+  };
+
+  export { Uploads as Uploads, type UploadStatusResponse as UploadStatusResponse };
+}
