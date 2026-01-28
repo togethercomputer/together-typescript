@@ -6,6 +6,13 @@ import { RequestOptions } from '../../../internal/request-options';
 
 export class Queue extends APIResource {
   /**
+   * Check the status of a job using request_id and model query parameters.
+   */
+  retrieve(query: QueueRetrieveParams, options?: RequestOptions): APIPromise<QueueRetrieveResponse> {
+    return this._client.get('/queue/status', { query, ...options });
+  }
+
+  /**
    * Cancel a pending or running job. Returns the job status after the cancellation
    * attempt.
    */
@@ -16,15 +23,8 @@ export class Queue extends APIResource {
   /**
    * Get the current queue statistics including pending and running job counts.
    */
-  getMetrics(query: QueueGetMetricsParams, options?: RequestOptions): APIPromise<QueueGetMetricsResponse> {
+  metrics(query: QueueMetricsParams, options?: RequestOptions): APIPromise<QueueMetricsResponse> {
     return this._client.get('/queue/metrics', { query, ...options });
-  }
-
-  /**
-   * Check the status of a job using request_id and model query parameters.
-   */
-  getStatus(query: QueueGetStatusParams, options?: RequestOptions): APIPromise<QueueGetStatusResponse> {
-    return this._client.get('/queue/status', { query, ...options });
   }
 
   /**
@@ -36,13 +36,7 @@ export class Queue extends APIResource {
   }
 }
 
-export interface QueueCancelResponse {
-  status?: string;
-}
-
-export type QueueGetMetricsResponse = { [key: string]: unknown };
-
-export interface QueueGetStatusResponse {
+export interface QueueRetrieveResponse {
   claimed_at?: string;
 
   created_at?: string;
@@ -74,6 +68,12 @@ export interface QueueGetStatusResponse {
   warnings?: Array<string>;
 }
 
+export interface QueueCancelResponse {
+  status?: string;
+}
+
+export type QueueMetricsResponse = { [key: string]: unknown };
+
 export interface QueueSubmitResponse {
   error?: QueueSubmitResponse.Error;
 
@@ -92,20 +92,7 @@ export namespace QueueSubmitResponse {
   }
 }
 
-export interface QueueCancelParams {
-  model: string;
-
-  request_id: string;
-}
-
-export interface QueueGetMetricsParams {
-  /**
-   * Model name to get metrics for
-   */
-  model: string;
-}
-
-export interface QueueGetStatusParams {
+export interface QueueRetrieveParams {
   /**
    * Model name
    */
@@ -115,6 +102,19 @@ export interface QueueGetStatusParams {
    * Request ID
    */
   request_id: string;
+}
+
+export interface QueueCancelParams {
+  model: string;
+
+  request_id: string;
+}
+
+export interface QueueMetricsParams {
+  /**
+   * Model name to get metrics for
+   */
+  model: string;
 }
 
 export interface QueueSubmitParams {
@@ -132,13 +132,13 @@ export interface QueueSubmitParams {
 
 export declare namespace Queue {
   export {
+    type QueueRetrieveResponse as QueueRetrieveResponse,
     type QueueCancelResponse as QueueCancelResponse,
-    type QueueGetMetricsResponse as QueueGetMetricsResponse,
-    type QueueGetStatusResponse as QueueGetStatusResponse,
+    type QueueMetricsResponse as QueueMetricsResponse,
     type QueueSubmitResponse as QueueSubmitResponse,
+    type QueueRetrieveParams as QueueRetrieveParams,
     type QueueCancelParams as QueueCancelParams,
-    type QueueGetMetricsParams as QueueGetMetricsParams,
-    type QueueGetStatusParams as QueueGetStatusParams,
+    type QueueMetricsParams as QueueMetricsParams,
     type QueueSubmitParams as QueueSubmitParams,
   };
 }
