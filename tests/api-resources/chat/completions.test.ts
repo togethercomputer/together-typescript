@@ -44,6 +44,7 @@ describe('resource completions', () => {
       min_p: 0,
       n: 1,
       presence_penalty: 0,
+      reasoning: { enabled: true },
       reasoning_effort: 'medium',
       repetition_penalty: 0,
       response_format: { type: 'text' },
