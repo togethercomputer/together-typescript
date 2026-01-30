@@ -296,6 +296,8 @@ export interface CompletionCreateParamsBase {
    */
   presence_penalty?: number;
 
+  reasoning?: CompletionCreateParams.Reasoning;
+
   /**
    * Controls the level of reasoning effort the model should apply when generating
    * responses. Higher values may result in more thoughtful and detailed responses
@@ -506,6 +508,14 @@ export namespace CompletionCreateParams {
 
   export interface Name {
     name: string;
+  }
+
+  export interface Reasoning {
+    /**
+     * For models that support toggling reasoning functionality, this object can be
+     * used to control that functionality.
+     */
+    enabled?: boolean;
   }
 
   /**
