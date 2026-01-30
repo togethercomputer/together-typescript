@@ -20,3 +20,14 @@ export {
   type JigDeployParams,
   type JigRetrieveLogsParams,
 } from './jig/index';
+export {
+  Queue,
+  type QueueRetrieveResponse,
+  type QueueCancelResponse,
+  type QueueMetricsResponse,
+  type QueueSubmitResponse,
+  type QueueRetrieveParams,
+  type QueueCancelParams,
+  type QueueMetricsParams,
+  type QueueSubmitParams,
+} from './queue';
