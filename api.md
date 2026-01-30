@@ -18,22 +18,6 @@ Methods:
 - <code title="delete /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">destroy</a>(id) -> unknown</code>
 - <code title="get /deployments/{id}/logs">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">retrieveLogs</a>(id, { ...params }) -> DeploymentLogs</code>
 
-### Queue
-
-Types:
-
-- <code><a href="./src/resources/beta/jig/queue.ts">QueueRetrieveResponse</a></code>
-- <code><a href="./src/resources/beta/jig/queue.ts">QueueCancelResponse</a></code>
-- <code><a href="./src/resources/beta/jig/queue.ts">QueueMetricsResponse</a></code>
-- <code><a href="./src/resources/beta/jig/queue.ts">QueueSubmitResponse</a></code>
-
-Methods:
-
-- <code title="get /queue/status">client.beta.jig.queue.<a href="./src/resources/beta/jig/queue.ts">retrieve</a>({ ...params }) -> QueueRetrieveResponse</code>
-- <code title="post /queue/cancel">client.beta.jig.queue.<a href="./src/resources/beta/jig/queue.ts">cancel</a>({ ...params }) -> QueueCancelResponse</code>
-- <code title="get /queue/metrics">client.beta.jig.queue.<a href="./src/resources/beta/jig/queue.ts">metrics</a>({ ...params }) -> QueueMetricsResponse</code>
-- <code title="post /queue/submit">client.beta.jig.queue.<a href="./src/resources/beta/jig/queue.ts">submit</a>({ ...params }) -> QueueSubmitResponse</code>
-
 ### Volumes
 
 Types:
@@ -65,6 +49,22 @@ Methods:
 - <code title="patch /deployments/secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">update</a>(id, { ...params }) -> Secret</code>
 - <code title="get /deployments/secrets">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">list</a>() -> SecretListResponse</code>
 - <code title="delete /deployments/secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">delete</a>(id) -> unknown</code>
+
+## Queue
+
+Types:
+
+- <code><a href="./src/resources/beta/queue.ts">QueueRetrieveResponse</a></code>
+- <code><a href="./src/resources/beta/queue.ts">QueueCancelResponse</a></code>
+- <code><a href="./src/resources/beta/queue.ts">QueueMetricsResponse</a></code>
+- <code><a href="./src/resources/beta/queue.ts">QueueSubmitResponse</a></code>
+
+Methods:
+
+- <code title="get /queue/status">client.beta.queue.<a href="./src/resources/beta/queue.ts">retrieve</a>({ ...params }) -> QueueRetrieveResponse</code>
+- <code title="post /queue/cancel">client.beta.queue.<a href="./src/resources/beta/queue.ts">cancel</a>({ ...params }) -> QueueCancelResponse</code>
+- <code title="get /queue/metrics">client.beta.queue.<a href="./src/resources/beta/queue.ts">metrics</a>({ ...params }) -> QueueMetricsResponse</code>
+- <code title="post /queue/submit">client.beta.queue.<a href="./src/resources/beta/queue.ts">submit</a>({ ...params }) -> QueueSubmitResponse</code>
 
 ## Clusters
 

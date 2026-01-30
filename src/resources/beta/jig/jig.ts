@@ -1,18 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
-import * as QueueAPI from './queue';
-import {
-  Queue,
-  QueueCancelParams,
-  QueueCancelResponse,
-  QueueMetricsParams,
-  QueueMetricsResponse,
-  QueueRetrieveParams,
-  QueueRetrieveResponse,
-  QueueSubmitParams,
-  QueueSubmitResponse,
-} from './queue';
 import * as SecretsAPI from './secrets';
 import {
   Secret,
@@ -36,7 +24,6 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class Jig extends APIResource {
-  queue: QueueAPI.Queue = new QueueAPI.Queue(this._client);
   volumes: VolumesAPI.Volumes = new VolumesAPI.Volumes(this._client);
   secrets: SecretsAPI.Secrets = new SecretsAPI.Secrets(this._client);
 
@@ -711,7 +698,6 @@ export interface JigRetrieveLogsParams {
   replica_id?: string;
 }
 
-Jig.Queue = Queue;
 Jig.Volumes = Volumes;
 Jig.Secrets = Secrets;
 
@@ -724,18 +710,6 @@ export declare namespace Jig {
     type JigUpdateParams as JigUpdateParams,
     type JigDeployParams as JigDeployParams,
     type JigRetrieveLogsParams as JigRetrieveLogsParams,
-  };
-
-  export {
-    Queue as Queue,
-    type QueueRetrieveResponse as QueueRetrieveResponse,
-    type QueueCancelResponse as QueueCancelResponse,
-    type QueueMetricsResponse as QueueMetricsResponse,
-    type QueueSubmitResponse as QueueSubmitResponse,
-    type QueueRetrieveParams as QueueRetrieveParams,
-    type QueueCancelParams as QueueCancelParams,
-    type QueueMetricsParams as QueueMetricsParams,
-    type QueueSubmitParams as QueueSubmitParams,
   };
 
   export {
