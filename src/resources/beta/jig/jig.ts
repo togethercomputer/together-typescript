@@ -76,8 +76,7 @@ export class Jig extends APIResource {
   }
 
   /**
-   * Retrieve logs from a deployment, optionally filtered by replica ID. Use
-   * follow=true to stream logs in real-time.
+   * Retrieve logs from a deployment, optionally filtered by replica ID.
    */
   retrieveLogs(
     id: string,
@@ -559,7 +558,7 @@ export interface JigDeployParams {
   /**
    * GPUType specifies the GPU hardware to use (e.g., "h100-80gb").
    */
-  gpu_type: 'h100-80gb' | ' a100-80gb';
+  gpu_type: 'h100-80gb' | 'a100-80gb';
 
   /**
    * Image is the container image to deploy from registry.together.ai.
@@ -700,11 +699,6 @@ export namespace JigDeployParams {
 }
 
 export interface JigRetrieveLogsParams {
-  /**
-   * Stream logs in real-time (ndjson format)
-   */
-  follow?: boolean;
-
   /**
    * Replica ID to filter logs
    */
