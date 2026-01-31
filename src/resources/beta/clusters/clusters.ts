@@ -25,42 +25,42 @@ export class Clusters extends APIResource {
    * management.
    */
   create(body: ClusterCreateParams, options?: RequestOptions): APIPromise<Cluster> {
-    return this._client.post('/clusters', { body, ...options });
+    return this._client.post('/compute/clusters', { body, ...options });
   }
 
   /**
    * Retrieve information about a specific GPU cluster.
    */
   retrieve(clusterID: string, options?: RequestOptions): APIPromise<Cluster> {
-    return this._client.get(path`/clusters/${clusterID}`, options);
+    return this._client.get(path`/compute/clusters/${clusterID}`, options);
   }
 
   /**
    * Update the configuration of an existing GPU cluster.
    */
   update(clusterID: string, body: ClusterUpdateParams, options?: RequestOptions): APIPromise<Cluster> {
-    return this._client.put(path`/clusters/${clusterID}`, { body, ...options });
+    return this._client.put(path`/compute/clusters/${clusterID}`, { body, ...options });
   }
 
   /**
    * List all GPU clusters.
    */
   list(options?: RequestOptions): APIPromise<ClusterListResponse> {
-    return this._client.get('/clusters', options);
+    return this._client.get('/compute/clusters', options);
   }
 
   /**
    * Delete a GPU cluster by cluster ID.
    */
   delete(clusterID: string, options?: RequestOptions): APIPromise<ClusterDeleteResponse> {
-    return this._client.delete(path`/clusters/${clusterID}`, options);
+    return this._client.delete(path`/compute/clusters/${clusterID}`, options);
   }
 
   /**
    * List regions and corresponding supported driver versions
    */
   listRegions(options?: RequestOptions): APIPromise<ClusterListRegionsResponse> {
-    return this._client.get('/clusters/regions', options);
+    return this._client.get('/compute/regions', options);
   }
 }
 
