@@ -312,6 +312,7 @@ Types:
 - <code><a href="./src/resources/endpoints.ts">DedicatedEndpoint</a></code>
 - <code><a href="./src/resources/endpoints.ts">EndpointListResponse</a></code>
 - <code><a href="./src/resources/endpoints.ts">EndpointListAvzonesResponse</a></code>
+- <code><a href="./src/resources/endpoints.ts">EndpointListHardwareResponse</a></code>
 
 Methods:
 
@@ -321,16 +322,7 @@ Methods:
 - <code title="get /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">list</a>({ ...params }) -> EndpointListResponse</code>
 - <code title="delete /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">delete</a>(endpointID) -> void</code>
 - <code title="get /clusters/availability-zones">client.endpoints.<a href="./src/resources/endpoints.ts">listAvzones</a>() -> EndpointListAvzonesResponse</code>
-
-# Hardware
-
-Types:
-
-- <code><a href="./src/resources/hardware.ts">HardwareListResponse</a></code>
-
-Methods:
-
-- <code title="get /hardware">client.hardware.<a href="./src/resources/hardware.ts">list</a>({ ...params }) -> HardwareListResponse</code>
+- <code title="get /hardware">client.endpoints.<a href="./src/resources/endpoints.ts">listHardware</a>({ ...params }) -> EndpointListHardwareResponse</code>
 
 # Rerank
 

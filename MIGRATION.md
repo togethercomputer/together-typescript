@@ -71,7 +71,7 @@ This affects the following methods:
 - `client.fineTuning.delete()`
 - `client.models.list()`
 - `client.endpoints.list()`
-- `client.hardware.list()`
+- `client.endpoints.listHardware()`
 - `client.evals.list()`
 
 ### Removed `httpAgent` in favor of `fetchOptions`
