@@ -110,11 +110,7 @@ describe('resource jig', () => {
   test('retrieveLogs: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.beta.jig.retrieveLogs(
-        'id',
-        { follow: true, replica_id: 'replica_id' },
-        { path: '/_stainless_unknown_path' },
-      ),
+      client.beta.jig.retrieveLogs('id', { replica_id: 'replica_id' }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Together.NotFoundError);
   });
 });
