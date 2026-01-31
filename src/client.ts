@@ -40,6 +40,8 @@ import {
   DedicatedEndpoint,
   EndpointCreateParams,
   EndpointListAvzonesResponse,
+  EndpointListHardwareParams,
+  EndpointListHardwareResponse,
   EndpointListParams,
   EndpointListResponse,
   EndpointUpdateParams,
@@ -80,7 +82,6 @@ import {
   FinetuneEventType,
   FinetuneResponse,
 } from './resources/fine-tuning';
-import { Hardware, HardwareListParams, HardwareListResponse } from './resources/hardware';
 import { ImageDataB64, ImageDataURL, ImageFile, ImageGenerateParams, Images } from './resources/images';
 import { Rerank, RerankCreateParams, RerankCreateResponse } from './resources/rerank';
 import { VideoCreateParams, VideoJob, Videos } from './resources/videos';
@@ -810,7 +811,6 @@ export class Together {
   audio: API.Audio = new API.Audio(this);
   models: API.Models = new API.Models(this);
   endpoints: API.Endpoints = new API.Endpoints(this);
-  hardware: API.Hardware = new API.Hardware(this);
   rerank: API.Rerank = new API.Rerank(this);
   batches: API.Batches = new API.Batches(this);
   evals: API.Evals = new API.Evals(this);
@@ -828,7 +828,6 @@ Together.Videos = Videos;
 Together.Audio = Audio;
 Together.Models = Models;
 Together.Endpoints = Endpoints;
-Together.Hardware = Hardware;
 Together.Rerank = Rerank;
 Together.Batches = Batches;
 Together.Evals = Evals;
@@ -923,15 +922,11 @@ export declare namespace Together {
     type DedicatedEndpoint as DedicatedEndpoint,
     type EndpointListResponse as EndpointListResponse,
     type EndpointListAvzonesResponse as EndpointListAvzonesResponse,
+    type EndpointListHardwareResponse as EndpointListHardwareResponse,
     type EndpointCreateParams as EndpointCreateParams,
     type EndpointUpdateParams as EndpointUpdateParams,
     type EndpointListParams as EndpointListParams,
-  };
-
-  export {
-    Hardware as Hardware,
-    type HardwareListResponse as HardwareListResponse,
-    type HardwareListParams as HardwareListParams,
+    type EndpointListHardwareParams as EndpointListHardwareParams,
   };
 
   export {

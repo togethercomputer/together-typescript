@@ -33,9 +33,11 @@ export {
   type DedicatedEndpoint,
   type EndpointListResponse,
   type EndpointListAvzonesResponse,
+  type EndpointListHardwareResponse,
   type EndpointCreateParams,
   type EndpointUpdateParams,
   type EndpointListParams,
+  type EndpointListHardwareParams,
 } from './endpoints';
 export {
   Evals,
@@ -72,7 +74,6 @@ export {
   type FineTuningContentParams,
   type FineTuningEstimatePriceParams,
 } from './fine-tuning';
-export { Hardware, type HardwareListResponse, type HardwareListParams } from './hardware';
 export {
   Images,
   type ImageDataB64,
