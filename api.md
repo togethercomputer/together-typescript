@@ -18,6 +18,22 @@ Methods:
 - <code title="delete /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">destroy</a>(id) -> unknown</code>
 - <code title="get /deployments/{id}/logs">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">retrieveLogs</a>(id, { ...params }) -> DeploymentLogs</code>
 
+### Queue
+
+Types:
+
+- <code><a href="./src/resources/beta/jig/queue.ts">QueueRetrieveResponse</a></code>
+- <code><a href="./src/resources/beta/jig/queue.ts">QueueCancelResponse</a></code>
+- <code><a href="./src/resources/beta/jig/queue.ts">QueueMetricsResponse</a></code>
+- <code><a href="./src/resources/beta/jig/queue.ts">QueueSubmitResponse</a></code>
+
+Methods:
+
+- <code title="get /queue/status">client.beta.jig.queue.<a href="./src/resources/beta/jig/queue.ts">retrieve</a>({ ...params }) -> QueueRetrieveResponse</code>
+- <code title="post /queue/cancel">client.beta.jig.queue.<a href="./src/resources/beta/jig/queue.ts">cancel</a>({ ...params }) -> QueueCancelResponse</code>
+- <code title="get /queue/metrics">client.beta.jig.queue.<a href="./src/resources/beta/jig/queue.ts">metrics</a>({ ...params }) -> QueueMetricsResponse</code>
+- <code title="post /queue/submit">client.beta.jig.queue.<a href="./src/resources/beta/jig/queue.ts">submit</a>({ ...params }) -> QueueSubmitResponse</code>
+
 ### Volumes
 
 Types:
@@ -50,22 +66,6 @@ Methods:
 - <code title="get /deployments/secrets">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">list</a>() -> SecretListResponse</code>
 - <code title="delete /deployments/secrets/{id}">client.beta.jig.secrets.<a href="./src/resources/beta/jig/secrets.ts">delete</a>(id) -> unknown</code>
 
-## Queue
-
-Types:
-
-- <code><a href="./src/resources/beta/queue.ts">QueueRetrieveResponse</a></code>
-- <code><a href="./src/resources/beta/queue.ts">QueueCancelResponse</a></code>
-- <code><a href="./src/resources/beta/queue.ts">QueueMetricsResponse</a></code>
-- <code><a href="./src/resources/beta/queue.ts">QueueSubmitResponse</a></code>
-
-Methods:
-
-- <code title="get /queue/status">client.beta.queue.<a href="./src/resources/beta/queue.ts">retrieve</a>({ ...params }) -> QueueRetrieveResponse</code>
-- <code title="post /queue/cancel">client.beta.queue.<a href="./src/resources/beta/queue.ts">cancel</a>({ ...params }) -> QueueCancelResponse</code>
-- <code title="get /queue/metrics">client.beta.queue.<a href="./src/resources/beta/queue.ts">metrics</a>({ ...params }) -> QueueMetricsResponse</code>
-- <code title="post /queue/submit">client.beta.queue.<a href="./src/resources/beta/queue.ts">submit</a>({ ...params }) -> QueueSubmitResponse</code>
-
 ## Clusters
 
 Types:
@@ -77,12 +77,12 @@ Types:
 
 Methods:
 
-- <code title="post /clusters">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">create</a>({ ...params }) -> Cluster</code>
-- <code title="get /clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">retrieve</a>(clusterID) -> Cluster</code>
-- <code title="put /clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">update</a>(clusterID, { ...params }) -> Cluster</code>
-- <code title="get /clusters">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">list</a>() -> ClusterListResponse</code>
-- <code title="delete /clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">delete</a>(clusterID) -> ClusterDeleteResponse</code>
-- <code title="get /clusters/regions">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">listRegions</a>() -> ClusterListRegionsResponse</code>
+- <code title="post /compute/clusters">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">create</a>({ ...params }) -> Cluster</code>
+- <code title="get /compute/clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">retrieve</a>(clusterID) -> Cluster</code>
+- <code title="put /compute/clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">update</a>(clusterID, { ...params }) -> Cluster</code>
+- <code title="get /compute/clusters">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">list</a>() -> ClusterListResponse</code>
+- <code title="delete /compute/clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">delete</a>(clusterID) -> ClusterDeleteResponse</code>
+- <code title="get /compute/regions">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">listRegions</a>() -> ClusterListRegionsResponse</code>
 
 ### Storage
 
@@ -94,11 +94,11 @@ Types:
 
 Methods:
 
-- <code title="post /clusters/storages">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">create</a>({ ...params }) -> ClusterStorage</code>
-- <code title="get /clusters/storages/{volume_id}">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">retrieve</a>(volumeID) -> ClusterStorage</code>
-- <code title="put /clusters/storages">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">update</a>({ ...params }) -> ClusterStorage</code>
-- <code title="get /clusters/storages">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">list</a>() -> StorageListResponse</code>
-- <code title="delete /clusters/storages/{volume_id}">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">delete</a>(volumeID) -> StorageDeleteResponse</code>
+- <code title="post /compute/clusters/storage/volumes">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">create</a>({ ...params }) -> ClusterStorage</code>
+- <code title="get /compute/clusters/storage/volumes/{volume_id}">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">retrieve</a>(volumeID) -> ClusterStorage</code>
+- <code title="put /compute/clusters/storage/volumes">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">update</a>({ ...params }) -> ClusterStorage</code>
+- <code title="get /compute/clusters/storage/volumes">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">list</a>() -> StorageListResponse</code>
+- <code title="delete /compute/clusters/storage/volumes/{volume_id}">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">delete</a>(volumeID) -> StorageDeleteResponse</code>
 
 # Chat
 

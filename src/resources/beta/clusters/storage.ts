@@ -14,28 +14,28 @@ export class Storage extends APIResource {
    * performance for shared storage.
    */
   create(body: StorageCreateParams, options?: RequestOptions): APIPromise<ClusterStorage> {
-    return this._client.post('/clusters/storages', { body, ...options });
+    return this._client.post('/compute/clusters/storage/volumes', { body, ...options });
   }
 
   /**
    * Retrieve information about a specific shared volume.
    */
   retrieve(volumeID: string, options?: RequestOptions): APIPromise<ClusterStorage> {
-    return this._client.get(path`/clusters/storages/${volumeID}`, options);
+    return this._client.get(path`/compute/clusters/storage/volumes/${volumeID}`, options);
   }
 
   /**
    * Update the configuration of an existing shared volume.
    */
   update(body: StorageUpdateParams, options?: RequestOptions): APIPromise<ClusterStorage> {
-    return this._client.put('/clusters/storages', { body, ...options });
+    return this._client.put('/compute/clusters/storage/volumes', { body, ...options });
   }
 
   /**
    * List all shared volumes.
    */
   list(options?: RequestOptions): APIPromise<StorageListResponse> {
-    return this._client.get('/clusters/storages', options);
+    return this._client.get('/compute/clusters/storage/volumes', options);
   }
 
   /**
@@ -43,7 +43,7 @@ export class Storage extends APIResource {
    * deleting will fail.
    */
   delete(volumeID: string, options?: RequestOptions): APIPromise<StorageDeleteResponse> {
-    return this._client.delete(path`/clusters/storages/${volumeID}`, options);
+    return this._client.delete(path`/compute/clusters/storage/volumes/${volumeID}`, options);
   }
 }
 
