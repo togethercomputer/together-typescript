@@ -364,3 +364,23 @@ Methods:
 - <code title="get /evaluation/{id}">client.evals.<a href="./src/resources/evals.ts">retrieve</a>(id) -> EvaluationJob</code>
 - <code title="get /evaluation">client.evals.<a href="./src/resources/evals.ts">list</a>({ ...params }) -> EvalListResponse</code>
 - <code title="get /evaluation/{id}/status">client.evals.<a href="./src/resources/evals.ts">status</a>(id) -> EvalStatusResponse</code>
+
+# Rl
+
+## TrainingSessions
+
+Methods:
+
+- <code title="post /rl/training-sessions">client.rl.trainingSessions.<a href="./src/resources/rl/training-sessions/training-sessions.ts">create</a>({ ...params }) -> void</code>
+- <code title="get /rl/training-sessions/{session_id}">client.rl.trainingSessions.<a href="./src/resources/rl/training-sessions/training-sessions.ts">retrieve</a>(sessionID) -> void</code>
+- <code title="get /rl/training-sessions">client.rl.trainingSessions.<a href="./src/resources/rl/training-sessions/training-sessions.ts">list</a>({ ...params }) -> void</code>
+- <code title="post /rl/training-sessions/{session_id}:forward-backward">client.rl.trainingSessions.<a href="./src/resources/rl/training-sessions/training-sessions.ts">forwardBackward</a>(sessionID, { ...params }) -> void</code>
+- <code title="post /rl/training-sessions/{session_id}:optim-step">client.rl.trainingSessions.<a href="./src/resources/rl/training-sessions/training-sessions.ts">optimStep</a>(sessionID, { ...params }) -> void</code>
+- <code title="post /rl/training-sessions/{session_id}:stop">client.rl.trainingSessions.<a href="./src/resources/rl/training-sessions/training-sessions.ts">stop</a>(sessionID) -> void</code>
+
+### Operations
+
+Methods:
+
+- <code title="get /rl/training-sessions/{session_id}/operations/forward-backward/{operation_id}">client.rl.trainingSessions.operations.<a href="./src/resources/rl/training-sessions/operations.ts">retrieveForwardBackward</a>(operationID, { ...params }) -> void</code>
+- <code title="get /rl/training-sessions/{session_id}/operations/optim-step/{operation_id}">client.rl.trainingSessions.operations.<a href="./src/resources/rl/training-sessions/operations.ts">retrieveOptimStep</a>(operationID, { ...params }) -> void</code>
