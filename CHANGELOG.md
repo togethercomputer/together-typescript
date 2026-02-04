@@ -1,5 +1,44 @@
 # Changelog
 
+## 0.37.0 (2026-02-04)
+
+Full Changelog: [v0.36.1...v0.37.0](https://github.com/togethercomputer/together-typescript/compare/v0.36.1...v0.37.0)
+
+### Features
+
+* Add chat completion support for reasoning.enabled ([d4f4bd4](https://github.com/togethercomputer/together-typescript/commit/d4f4bd4f158f46f3bcf9af79d9c2d2026595d310))
+* **api:** Add API for listing deployments ([67ea446](https://github.com/togethercomputer/together-typescript/commit/67ea4463bfeadabde510059c556b7ea777c53c70))
+* **api:** Add beta sdks for jig features ([e402a3b](https://github.com/togethercomputer/together-typescript/commit/e402a3bb439073eb9fcde474b8690ad037696770))
+* **api:** Move jobs apis to nest under model uploads per their use case ([412673c](https://github.com/togethercomputer/together-typescript/commit/412673c4036744a5936c40daa2146182f7e2ce09))
+* **api:** Move queue out of jig namespace ([c95c7e1](https://github.com/togethercomputer/together-typescript/commit/c95c7e1ff57106fd9ebb269865fd62cca0bd7fa6))
+* **api:** Update Jig types and add retrieve_logs api to jig ([c7d03d5](https://github.com/togethercomputer/together-typescript/commit/c7d03d5462b5d8b9cffb578f647b18ddcaf02525))
+* ENG-82904 - chore: update ReplicaEvent schema ([b12bb38](https://github.com/togethercomputer/together-typescript/commit/b12bb3833451b23c56e21500fd262286420b5aa6))
+* internal: Add code samples to deployments features ([cf33c3c](https://github.com/togethercomputer/together-typescript/commit/cf33c3c8d1a1a4eb3370bb4fbee87e8784d7d9fc))
+* internal: Update to new cluster api routing ([f0ee67d](https://github.com/togethercomputer/together-typescript/commit/f0ee67d9b151d647d0f8c4a0a5f4a4bd074902fe))
+* move byoc features under /deployments route ([c528ef0](https://github.com/togethercomputer/together-typescript/commit/c528ef0de75a47f291df7eaf05107792453dc5c0))
+
+
+### Bug Fixes
+
+* **client:** avoid memory leak with abort signals ([b59ae98](https://github.com/togethercomputer/together-typescript/commit/b59ae98871ae8b12e542f453980a1ff053cad924))
+
+
+### Chores
+
+* **api:** Improve type names for jig volumes and logs ([8bbdbe1](https://github.com/togethercomputer/together-typescript/commit/8bbdbe14410b8d6bbd1d346480352e672293c799))
+* **api:** move hardware listing feature under endpoints resource. ([6b67d13](https://github.com/togethercomputer/together-typescript/commit/6b67d13c1fa85921ccd2ba425be0b25d2916361b))
+* **api:** Move Queue SDK methods into Jig namespace ([3032bf5](https://github.com/togethercomputer/together-typescript/commit/3032bf565a2102b3579e469f5345853da1b04dea))
+* **api:** Rename jig queue apis ([aa7d049](https://github.com/togethercomputer/together-typescript/commit/aa7d049e8986828f8347e71c2071548eade965e3))
+* **ci:** upgrade `actions/github-script` ([5b00d49](https://github.com/togethercomputer/together-typescript/commit/5b00d49efca2af35bd853e81edd6d78c147f4228))
+* cleanup ([4e09417](https://github.com/togethercomputer/together-typescript/commit/4e09417a586eb1891a18672167e77068fd6d96d5))
+* **client:** do not parse responses with empty content-length ([4a36f58](https://github.com/togethercomputer/together-typescript/commit/4a36f5830103ebdfe90e4aff14a54bb2d5843176))
+* **client:** restructure abort controller binding ([59bbe0a](https://github.com/togethercomputer/together-typescript/commit/59bbe0ab3604323b91d6e4a1996ce27b75211083))
+
+
+### Documentation
+
+* **axle-queue:** added axle-queue endpoints ([42c307c](https://github.com/togethercomputer/together-typescript/commit/42c307cc513eea8e93820a2c60d7cce856162673))
+
 ## 0.36.1 (2026-01-21)
 
 Full Changelog: [v0.36.0...v0.36.1](https://github.com/togethercomputer/together-typescript/compare/v0.36.0...v0.36.1)
