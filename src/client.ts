@@ -101,6 +101,7 @@ import {
   ModelUploadResponse,
   Models,
 } from './resources/models/models';
+import { Rl } from './resources/rl/rl';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -814,6 +815,7 @@ export class Together {
   rerank: API.Rerank = new API.Rerank(this);
   batches: API.Batches = new API.Batches(this);
   evals: API.Evals = new API.Evals(this);
+  rl: API.Rl = new API.Rl(this);
 }
 
 Together.Beta = Beta;
@@ -831,6 +833,7 @@ Together.Endpoints = Endpoints;
 Together.Rerank = Rerank;
 Together.Batches = Batches;
 Together.Evals = Evals;
+Together.Rl = Rl;
 
 export declare namespace Together {
   export type RequestOptions = Opts.RequestOptions;
@@ -952,4 +955,6 @@ export declare namespace Together {
     type EvalCreateParams as EvalCreateParams,
     type EvalListParams as EvalListParams,
   };
+
+  export { Rl as Rl };
 }
