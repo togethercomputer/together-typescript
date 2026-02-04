@@ -243,27 +243,9 @@ export namespace Deployment {
 
   export interface ReplicaEvents {
     /**
-     * ContainerStatus provides detailed status information about the container within
-     * this replica
+     * Image is the container image used for this replica
      */
-    container_status?: ReplicaEvents.ContainerStatus;
-
-    /**
-     * Events is a list of Kubernetes events related to this replica for
-     * troubleshooting
-     */
-    events?: Array<ReplicaEvents.Event>;
-
-    /**
-     * ReplicaCompletedAt is the timestamp when the replica finished execution
-     */
-    replica_completed_at?: string;
-
-    /**
-     * ReplicaMarkedForTerminationAt is the timestamp when the replica was marked for
-     * termination
-     */
-    replica_marked_for_termination_at?: string;
+    image?: string;
 
     /**
      * ReplicaReadySince is the timestamp when the replica became ready to serve
@@ -272,18 +254,8 @@ export namespace Deployment {
     replica_ready_since?: string;
 
     /**
-     * ReplicaRunningSince is the timestamp when the replica entered the running state
-     */
-    replica_running_since?: string;
-
-    /**
-     * ReplicaStartedAt is the timestamp when the replica was created
-     */
-    replica_started_at?: string;
-
-    /**
-     * ReplicaStatus is the current status of the replica (e.g., "Running", "Pending",
-     * "Failed")
+     * ReplicaStatus is the current status of the replica (e.g., "Running", "Waiting",
+     * "Terminated")
      */
     replica_status?: string;
 
@@ -300,84 +272,25 @@ export namespace Deployment {
     replica_status_reason?: string;
 
     /**
-     * ScheduledOnCluster identifies which cluster this replica is scheduled on
+     * RevisionID is the deployment revision ID associated with this replica
      */
-    scheduled_on_cluster?: string;
-  }
+    revision_id?: string;
 
-  export namespace ReplicaEvents {
     /**
-     * ContainerStatus provides detailed status information about the container within
-     * this replica
+     * VolumePreloadCompletedAt is the timestamp when the volume preload completed
      */
-    export interface ContainerStatus {
-      /**
-       * FinishedAt is the timestamp when the container finished execution (if
-       * terminated)
-       */
-      finishedAt?: string;
+    volume_preload_completed_at?: string;
 
-      /**
-       * Message provides a human-readable message with details about the container's
-       * status
-       */
-      message?: string;
+    /**
+     * VolumePreloadStartedAt is the timestamp when the volume preload started
+     */
+    volume_preload_started_at?: string;
 
-      /**
-       * Name is the name of the container
-       */
-      name?: string;
-
-      /**
-       * Reason provides a brief machine-readable reason for the container's current
-       * status
-       */
-      reason?: string;
-
-      /**
-       * StartedAt is the timestamp when the container started execution
-       */
-      startedAt?: string;
-
-      /**
-       * Status is the current state of the container (e.g., "Running", "Terminated",
-       * "Waiting")
-       */
-      status?: string;
-    }
-
-    export interface Event {
-      /**
-       * Action is the action taken or reported by this event
-       */
-      action?: string;
-
-      /**
-       * Count is the number of times this event has occurred
-       */
-      count?: number;
-
-      /**
-       * FirstSeen is the timestamp when this event was first observed
-       */
-      first_seen?: string;
-
-      /**
-       * LastSeen is the timestamp when this event was last observed
-       */
-      last_seen?: string;
-
-      /**
-       * Message is a human-readable description of the event
-       */
-      message?: string;
-
-      /**
-       * Reason is a brief machine-readable reason for this event (e.g., "Pulling",
-       * "Started", "Failed")
-       */
-      reason?: string;
-    }
+    /**
+     * VolumePreloadStatus is the status of the volume preload (e.g., "InProgress",
+     * "Completed", "Failed")
+     */
+    volume_preload_status?: string;
   }
 
   export interface Volume {
