@@ -9,7 +9,8 @@ import { RequestOptions } from '../../internal/request-options';
 
 export class Completions extends APIResource {
   /**
-   * Query a chat model.
+   * Generate a model response for a given chat conversation. Supports single queries
+   * and multi-turn conversations with system, user, and assistant messages.
    *
    * @example
    * ```ts
