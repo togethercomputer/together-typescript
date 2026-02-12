@@ -9,7 +9,8 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Completions extends APIResource {
   /**
-   * Query a language, code, or image model.
+   * Generate text completions for a given prompt using a language, code, or image
+   * model.
    *
    * @example
    * ```ts
