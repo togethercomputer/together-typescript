@@ -15,7 +15,7 @@ describe('resource clusters', () => {
       driver_version: 'CUDA_12_5_555',
       gpu_type: 'H100_SXM',
       num_gpus: 0,
-      region: 'us-central-8',
+      region: 'region',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -33,7 +33,7 @@ describe('resource clusters', () => {
       driver_version: 'CUDA_12_5_555',
       gpu_type: 'H100_SXM',
       num_gpus: 0,
-      region: 'us-central-8',
+      region: 'region',
       cluster_type: 'KUBERNETES',
       duration_days: 0,
       shared_volume: {

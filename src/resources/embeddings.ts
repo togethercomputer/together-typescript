@@ -28,6 +28,9 @@ export interface Embedding {
 
   model: string;
 
+  /**
+   * The object type, which is always `list`.
+   */
   object: 'list';
 }
 
@@ -37,6 +40,9 @@ export namespace Embedding {
 
     index: number;
 
+    /**
+     * The object type, which is always `embedding`.
+     */
     object: 'embedding';
   }
 }

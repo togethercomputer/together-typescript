@@ -48,12 +48,24 @@ export class Storage extends APIResource {
 }
 
 export interface ClusterStorage {
+  /**
+   * Size of the volume in whole tebibytes (TiB).
+   */
   size_tib: number;
 
+  /**
+   * Deployment status of the volume.
+   */
   status: 'available' | 'bound' | 'provisioning';
 
+  /**
+   * ID of the volume.
+   */
   volume_id: string;
 
+  /**
+   * Provided name of the volume.
+   */
   volume_name: string;
 }
 
@@ -76,12 +88,21 @@ export interface StorageCreateParams {
    */
   size_tib: number;
 
+  /**
+   * Customizable name of the volume to create.
+   */
   volume_name: string;
 }
 
 export interface StorageUpdateParams {
+  /**
+   * Size of the volume in whole tebibytes (TiB).
+   */
   size_tib?: number;
 
+  /**
+   * ID of the volume to update.
+   */
   volume_id?: string;
 }
 

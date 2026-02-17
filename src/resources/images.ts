@@ -51,6 +51,9 @@ export interface ImageFile {
 
   model: string;
 
+  /**
+   * The object type, which is always `list`.
+   */
   object: 'list';
 }
 

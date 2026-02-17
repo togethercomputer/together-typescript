@@ -64,9 +64,9 @@ export interface Volume {
   name?: string;
 
   /**
-   * Object is the type identifier for this response (always "volume")
+   * The object type, which is always `volume`.
    */
-  object?: string;
+  object?: 'volume';
 
   /**
    * Type is the volume type (e.g., "readOnly")
@@ -105,9 +105,9 @@ export interface VolumeListResponse {
   data?: Array<Volume>;
 
   /**
-   * Object is the type identifier for this response (always "list")
+   * The object type, which is always `list`.
    */
-  object?: string;
+  object?: 'list';
 }
 
 export type VolumeDeleteResponse = unknown;

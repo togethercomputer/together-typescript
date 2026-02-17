@@ -36,7 +36,7 @@ export interface RerankCreateResponse {
   model: string;
 
   /**
-   * Object type
+   * The object type, which is always `rerank`.
    */
   object: 'rerank';
 

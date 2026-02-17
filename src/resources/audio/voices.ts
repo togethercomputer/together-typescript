@@ -30,8 +30,14 @@ export namespace VoiceListResponse {
    * Represents a model with its available voices.
    */
   export interface Data {
+    /**
+     * Model name.
+     */
     model: string;
 
+    /**
+     * List of available voices for the model.
+     */
     voices: Array<Data.Voice>;
   }
 
@@ -39,6 +45,9 @@ export namespace VoiceListResponse {
     export interface Voice {
       id: string;
 
+      /**
+       * Voice name to be used for audio inference.
+       */
       name: string;
     }
   }

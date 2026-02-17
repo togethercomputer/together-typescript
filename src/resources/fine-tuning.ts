@@ -157,6 +157,9 @@ export interface FinetuneEvent {
 
   model_path: string;
 
+  /**
+   * The object type, which is always `fine-tune-event`.
+   */
   object: 'fine-tune-event';
 
   param_count: number;
@@ -1439,6 +1442,9 @@ export namespace FineTuningCreateParams {
 }
 
 export interface FineTuningDeleteParams {
+  /**
+   * Deprecated and unused parameter.
+   */
   force?: boolean;
 }
 

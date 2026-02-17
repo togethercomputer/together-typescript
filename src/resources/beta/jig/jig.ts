@@ -177,9 +177,9 @@ export interface Deployment {
   name?: string;
 
   /**
-   * Object is the type identifier for this response (always "deployment")
+   * The object type, which is always `deployment`.
    */
-  object?: string;
+  object?: 'deployment';
 
   /**
    * Port is the container port that the deployment exposes
@@ -319,9 +319,9 @@ export interface JigListResponse {
   data?: Array<Deployment>;
 
   /**
-   * Object is the type identifier for this response (always "list")
+   * The object type, which is always `list`.
    */
-  object?: string;
+  object?: 'list';
 }
 
 export type JigDestroyResponse = unknown;

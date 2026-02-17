@@ -177,7 +177,7 @@ export interface DedicatedEndpoint {
   name: string;
 
   /**
-   * The type of object
+   * The object type, which is always `endpoint`.
    */
   object: 'endpoint';
 
@@ -200,6 +200,9 @@ export interface DedicatedEndpoint {
 export interface EndpointListResponse {
   data: Array<EndpointListResponse.Data>;
 
+  /**
+   * The object type, which is always `list`.
+   */
   object: 'list';
 }
 
@@ -229,7 +232,7 @@ export namespace EndpointListResponse {
     name: string;
 
     /**
-     * The type of object
+     * The object type, which is always `endpoint`.
      */
     object: 'endpoint';
 
@@ -260,6 +263,9 @@ export interface EndpointListAvzonesResponse {
 export interface EndpointListHardwareResponse {
   data: Array<EndpointListHardwareResponse.Data>;
 
+  /**
+   * The object type, which is always `list`.
+   */
   object: 'list';
 }
 
@@ -273,6 +279,9 @@ export namespace EndpointListHardwareResponse {
      */
     id: string;
 
+    /**
+     * The object type, which is always `hardware`.
+     */
     object: 'hardware';
 
     /**

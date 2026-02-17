@@ -51,7 +51,6 @@ export {
 export {
   Files,
   type FileList,
-  type FileObject,
   type FilePurpose,
   type FileResponse,
   type FileType,

@@ -738,15 +738,15 @@ export namespace EvalCreateParams {
 }
 
 export interface EvalListParams {
+  /**
+   * Limit the number of results
+   */
   limit?: number;
 
-  status?: string;
-
   /**
-   * Admin users can specify a user ID to filter jobs. Pass empty string to get all
-   * jobs.
+   * Filter evaluation jobs by status
    */
-  userId?: string;
+  status?: string;
 }
 
 export declare namespace Evals {

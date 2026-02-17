@@ -54,6 +54,9 @@ export interface ChatCompletion {
 
   model: string;
 
+  /**
+   * The object type, which is always `chat.completion`.
+   */
   object: 'chat.completion';
 
   usage?: ChatCompletionUsage | null;
@@ -117,6 +120,9 @@ export interface ChatCompletionChunk {
 
   model: string;
 
+  /**
+   * The object type, which is always `chat.completion.chunk`.
+   */
   object: 'chat.completion.chunk';
 
   system_fingerprint?: string;
@@ -329,6 +335,9 @@ export interface CompletionCreateParamsBase {
     | 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo'
     | (string & {});
 
+  /**
+   * Additional configuration to pass to model engine.
+   */
   chat_template_kwargs?: unknown;
 
   compliance?: 'hipaa';
@@ -388,6 +397,10 @@ export interface CompletionCreateParamsBase {
    */
   presence_penalty?: number;
 
+  /**
+   * For models that support toggling reasoning functionality, this object can be
+   * used to control that functionality.
+   */
   reasoning?: CompletionCreateParams.Reasoning;
 
   /**
@@ -602,11 +615,11 @@ export namespace CompletionCreateParams {
     name: string;
   }
 
+  /**
+   * For models that support toggling reasoning functionality, this object can be
+   * used to control that functionality.
+   */
   export interface Reasoning {
-    /**
-     * For models that support toggling reasoning functionality, this object can be
-     * used to control that functionality.
-     */
     enabled?: boolean;
   }
 
