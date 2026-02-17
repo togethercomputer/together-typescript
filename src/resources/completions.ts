@@ -49,6 +49,9 @@ export interface Completion {
 
   model: string;
 
+  /**
+   * The object type, which is always `text.completion`.
+   */
   object: 'text.completion';
 
   usage: ChatCompletionsAPI.ChatCompletionUsage | null;
@@ -87,6 +90,9 @@ export interface CompletionChunk {
 
   created?: number;
 
+  /**
+   * The object type, which is always `completion.chunk`.
+   */
   object?: 'completion.chunk';
 
   seed?: number;

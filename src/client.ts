@@ -56,15 +56,7 @@ import {
   Evals,
   EvaluationJob,
 } from './resources/evals';
-import {
-  FileDeleteResponse,
-  FileList,
-  FileObject,
-  FilePurpose,
-  FileResponse,
-  FileType,
-  Files,
-} from './resources/files';
+import { FileDeleteResponse, FileList, FilePurpose, FileResponse, FileType, Files } from './resources/files';
 import {
   FineTuning,
   FineTuningCancelResponse,
@@ -866,7 +858,6 @@ export declare namespace Together {
   export {
     Files as Files,
     type FileList as FileList,
-    type FileObject as FileObject,
     type FilePurpose as FilePurpose,
     type FileResponse as FileResponse,
     type FileType as FileType,

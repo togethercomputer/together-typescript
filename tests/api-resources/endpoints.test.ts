@@ -120,7 +120,10 @@ describe('resource endpoints', () => {
   test('listHardware: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.endpoints.listHardware({ model: 'model' }, { path: '/_stainless_unknown_path' }),
+      client.endpoints.listHardware(
+        { model: 'meta-llama/Llama-3-70b-chat-hf' },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(Together.NotFoundError);
   });
 });

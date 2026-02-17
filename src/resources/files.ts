@@ -8,7 +8,7 @@ import { path } from '../internal/utils/path';
 
 export class Files extends APIResource {
   /**
-   * List the metadata for a single uploaded data file.
+   * Retrieve the metadata for a single uploaded data file.
    *
    * @example
    * ```ts
@@ -67,16 +67,6 @@ export interface FileList {
   data: Array<FileResponse>;
 }
 
-export interface FileObject {
-  id?: string;
-
-  filename?: string;
-
-  object?: string;
-
-  size?: number;
-}
-
 /**
  * The purpose of the file
  */
@@ -89,28 +79,52 @@ export type FilePurpose =
   | 'batch-generated'
   | 'batch-api';
 
+/**
+ * Structured information describing a file uploaded to Together.
+ */
 export interface FileResponse {
+  /**
+   * ID of the file.
+   */
   id: string;
 
+  /**
+   * The number of bytes in the file.
+   */
   bytes: number;
 
+  /**
+   * The timestamp when the file was created.
+   */
   created_at: number;
 
+  /**
+   * The name of the file as it was uploaded.
+   */
   filename: string;
 
   /**
-   * The type of the file
+   * The type of the file such as `jsonl`, `csv`, or `parquet`.
    */
   FileType: FileType;
 
+  /**
+   * The number of lines in the file.
+   */
   LineCount: number;
 
-  object: string;
+  /**
+   * The object type, which is always `file`.
+   */
+  object: 'file';
 
+  /**
+   * Whether the file has been parsed and analyzed for correctness for fine-tuning.
+   */
   Processed: boolean;
 
   /**
-   * The purpose of the file
+   * The purpose of the file as it was uploaded.
    */
   purpose: FilePurpose;
 }
@@ -129,7 +143,6 @@ export interface FileDeleteResponse {
 export declare namespace Files {
   export {
     type FileList as FileList,
-    type FileObject as FileObject,
     type FilePurpose as FilePurpose,
     type FileResponse as FileResponse,
     type FileType as FileType,

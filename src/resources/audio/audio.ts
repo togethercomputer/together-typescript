@@ -43,6 +43,9 @@ export interface AudioSpeechStreamChunk {
 
   model: string;
 
+  /**
+   * The object type, which is always `audio.tts.chunk`.
+   */
   object: 'audio.tts.chunk';
 }
 
