@@ -118,11 +118,6 @@ export interface FileResponse {
   FileType: FileType;
 
   /**
-   * The number of lines in the file.
-   */
-  LineCount: number;
-
-  /**
    * The object type, which is always `file`.
    */
   object: 'file';
