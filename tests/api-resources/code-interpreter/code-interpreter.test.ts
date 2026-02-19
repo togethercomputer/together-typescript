@@ -8,7 +8,7 @@ const client = new Together({
 });
 
 describe('resource codeInterpreter', () => {
-  // Prism doesn't support callbacks yet
+  // Mock server doesn't support callbacks yet
   test.skip('execute: only required params', async () => {
     const responsePromise = client.codeInterpreter.execute({
       code: "print('Hello, world!')",
@@ -23,7 +23,7 @@ describe('resource codeInterpreter', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism doesn't support callbacks yet
+  // Mock server doesn't support callbacks yet
   test.skip('execute: required and optional params', async () => {
     const response = await client.codeInterpreter.execute({
       code: "print('Hello, world!')",
