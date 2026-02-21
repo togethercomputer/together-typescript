@@ -8,7 +8,8 @@ const client = new Together({
 });
 
 describe('resource speech', () => {
-  test('create: required and optional params', async () => {
+  // Mock server doesn't support application/octet-stream responses
+  test.skip('create: required and optional params', async () => {
     const response = await client.audio.speech.create({
       input: 'input',
       model: 'canopylabs/orpheus-3b-0.1-ft',
