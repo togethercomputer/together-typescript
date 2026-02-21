@@ -104,7 +104,8 @@ describe('resource fineTuning', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('content: required and optional params', async () => {
+  // Mock server doesn't support application/octet-stream responses
+  test.skip('content: required and optional params', async () => {
     const response = await client.fineTuning.content({
       ft_id: 'ft_id',
       checkpoint: 'merged',
