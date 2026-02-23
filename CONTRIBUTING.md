@@ -60,7 +60,7 @@ $ yarn link together-ai
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global together-ai
+$ pnpm link --global together-ai
 ```
 
 ## Running tests
