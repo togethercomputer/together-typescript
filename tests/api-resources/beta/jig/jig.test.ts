@@ -81,7 +81,13 @@ describe('resource jig', () => {
       port: 0,
       storage: 0,
       termination_grace_period_seconds: 0,
-      volumes: [{ mount_path: 'mount_path', name: 'name' }],
+      volumes: [
+        {
+          mount_path: 'mount_path',
+          name: 'name',
+          version: 0,
+        },
+      ],
     });
   });
 

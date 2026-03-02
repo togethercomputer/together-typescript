@@ -305,6 +305,12 @@ export namespace Deployment {
      * name or ID
      */
     name: string;
+
+    /**
+     * Version is the volume version to mount. On create, defaults to the latest
+     * version. On update, defaults to the currently mounted version.
+     */
+    version?: number;
   }
 }
 
@@ -464,6 +470,12 @@ export namespace JigUpdateParams {
      * name or ID
      */
     name: string;
+
+    /**
+     * Version is the volume version to mount. On create, defaults to the latest
+     * version. On update, defaults to the currently mounted version.
+     */
+    version?: number;
   }
 }
 
@@ -608,6 +620,12 @@ export namespace JigDeployParams {
      * name or ID
      */
     name: string;
+
+    /**
+     * Version is the volume version to mount. On create, defaults to the latest
+     * version. On update, defaults to the currently mounted version.
+     */
+    version?: number;
   }
 }
 
