@@ -59,6 +59,13 @@ export interface ChatCompletion {
    */
   object: 'chat.completion';
 
+  /**
+   * When `echo` is true, the prompt is included in the response. Additionally, when
+   * `logprobs` is also provided, log probability information is provided on the
+   * prompt.
+   */
+  prompt: Array<ChatCompletion.Prompt>;
+
   usage?: ChatCompletionUsage | null;
 
   warnings?: Array<ChatCompletionWarning>;
@@ -77,6 +84,11 @@ export namespace ChatCompletion {
     seed?: number;
 
     text?: string;
+
+    /**
+     * Top log probabilities for the tokens.
+     */
+    top_logprobs?: { [key: string]: number };
   }
 
   export interface Warning {
@@ -108,6 +120,12 @@ export namespace ChatCompletionAssistantMessageParam {
     arguments: string;
 
     name: string;
+  }
+
+  export interface Prompt {
+    logprobs?: CompletionsAPI.LogProbs;
+
+    text?: string;
   }
 }
 
@@ -143,6 +161,11 @@ export namespace ChatCompletionChunk {
     logprobs?: number | null;
 
     seed?: number | null;
+
+    /**
+     * Top log probabilities for the tokens.
+     */
+    top_logprobs?: { [key: string]: number };
   }
 
   export namespace Choice {

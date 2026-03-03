@@ -54,9 +54,14 @@ export interface Completion {
    */
   object: 'text.completion';
 
-  usage: ChatCompletionsAPI.ChatCompletionUsage | null;
+  /**
+   * When `echo` is true, the prompt is included in the response. Additionally, when
+   * `logprobs` is also provided, log probability information is provided on the
+   * prompt.
+   */
+  prompt: Array<Completion.Prompt>;
 
-  prompt?: Array<Completion.Prompt>;
+  usage: ChatCompletionsAPI.ChatCompletionUsage | null;
 }
 
 export namespace Completion {
@@ -163,6 +168,11 @@ export interface LogProbs {
    * List of token strings
    */
   tokens?: Array<string | null>;
+
+  /**
+   * Top log probabilities for the tokens.
+   */
+  top_logprobs?: { [key: string]: number };
 }
 
 export interface ToolChoice {
