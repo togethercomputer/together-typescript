@@ -1320,6 +1320,10 @@ export interface FineTuningCreateParams {
    */
   training_method?: FineTuningCreateParams.TrainingMethodSft | FineTuningCreateParams.TrainingMethodDpo;
 
+  /**
+   * The training type to use. If not provided, the job will default to LoRA training
+   * type.
+   */
   training_type?: FineTuningCreateParams.FullTrainingType | FineTuningCreateParams.LoRaTrainingType;
 
   /**
