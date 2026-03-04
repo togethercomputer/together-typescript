@@ -1514,6 +1514,10 @@ export interface FineTuningEstimatePriceParams {
     | FineTuningEstimatePriceParams.TrainingMethodSft
     | FineTuningEstimatePriceParams.TrainingMethodDpo;
 
+  /**
+   * The training type to use. If not provided, the job will default to LoRA training
+   * type.
+   */
   training_type?:
     | FineTuningEstimatePriceParams.FullTrainingType
     | FineTuningEstimatePriceParams.LoRaTrainingType;
