@@ -1342,6 +1342,11 @@ export interface FineTuningCreateParams {
   wandb_base_url?: string;
 
   /**
+   * The Weights & Biases entity for your run.
+   */
+  wandb_entity?: string;
+
+  /**
    * The Weights & Biases name for your run.
    */
   wandb_name?: string;
