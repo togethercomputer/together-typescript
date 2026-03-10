@@ -99,9 +99,13 @@ export interface Deployment {
   args?: Array<string>;
 
   /**
-   * Autoscaling contains autoscaling configuration parameters for this deployment
+   * Autoscaling contains autoscaling configuration parameters for this deployment.
+   * Omitted when autoscaling is disabled (nil)
    */
-  autoscaling?: { [key: string]: string };
+  autoscaling?:
+    | Deployment.HTTPAutoscalingConfig
+    | Deployment.QueueAutoscalingConfig
+    | Deployment.CustomMetricAutoscalingConfig;
 
   /**
    * Command is the entrypoint command run in the container
@@ -220,6 +224,69 @@ export interface Deployment {
 }
 
 export namespace Deployment {
+  /**
+   * Autoscaling config for HTTPTotalRequests and HTTPAvgRequestDuration metrics
+   */
+  export interface HTTPAutoscalingConfig {
+    /**
+     * Metric must be HTTPTotalRequests or HTTPAvgRequestDuration
+     */
+    metric?: 'HTTPTotalRequests' | 'HTTPAvgRequestDuration';
+
+    /**
+     * Target is the threshold value. Default: 100 for HTTPTotalRequests, 500 (ms) for
+     * HTTPAvgRequestDuration
+     */
+    target?: number;
+
+    /**
+     * TimeIntervalMinutes is the rate window in minutes. Default: 10
+     */
+    time_interval_minutes?: number;
+  }
+
+  /**
+   * Autoscaling config for QueueBacklogPerWorker metric
+   */
+  export interface QueueAutoscalingConfig {
+    /**
+     * Metric must be QueueBacklogPerWorker
+     */
+    metric?: 'QueueBacklogPerWorker';
+
+    /**
+     * Model overrides the model name for queue status lookup. Defaults to the
+     * deployment app name
+     */
+    model?: string;
+
+    /**
+     * Target is the threshold value. Default: 1.01
+     */
+    target?: number;
+  }
+
+  /**
+   * Autoscaling config for CustomMetric metric
+   */
+  export interface CustomMetricAutoscalingConfig {
+    /**
+     * CustomMetricName is the Prometheus metric name. Required. Must match
+     * [a-zA-Z\_:][a-zA-Z0-9_:]\*
+     */
+    custom_metric_name?: string;
+
+    /**
+     * Metric must be CustomMetric
+     */
+    metric?: 'CustomMetric';
+
+    /**
+     * Target is the threshold value. Default: 500
+     */
+    target?: number;
+  }
+
   export interface EnvironmentVariable {
     /**
      * Name is the environment variable name (e.g., "DATABASE_URL"). Must start with a
@@ -340,10 +407,13 @@ export interface JigUpdateParams {
   args?: Array<string>;
 
   /**
-   * Autoscaling configuration as key-value pairs. Example: {"metric":
-   * "QueueBacklogPerWorker", "target": "10"} to scale based on queue backlog
+   * Autoscaling configuration for the deployment. Omit or set to null to disable
+   * autoscaling
    */
-  autoscaling?: { [key: string]: string };
+  autoscaling?:
+    | JigUpdateParams.HTTPAutoscalingConfig
+    | JigUpdateParams.QueueAutoscalingConfig
+    | JigUpdateParams.CustomMetricAutoscalingConfig;
 
   /**
    * Command overrides the container's ENTRYPOINT. Provide as an array (e.g.,
@@ -437,6 +507,69 @@ export interface JigUpdateParams {
 }
 
 export namespace JigUpdateParams {
+  /**
+   * Autoscaling config for HTTPTotalRequests and HTTPAvgRequestDuration metrics
+   */
+  export interface HTTPAutoscalingConfig {
+    /**
+     * Metric must be HTTPTotalRequests or HTTPAvgRequestDuration
+     */
+    metric?: 'HTTPTotalRequests' | 'HTTPAvgRequestDuration';
+
+    /**
+     * Target is the threshold value. Default: 100 for HTTPTotalRequests, 500 (ms) for
+     * HTTPAvgRequestDuration
+     */
+    target?: number;
+
+    /**
+     * TimeIntervalMinutes is the rate window in minutes. Default: 10
+     */
+    time_interval_minutes?: number;
+  }
+
+  /**
+   * Autoscaling config for QueueBacklogPerWorker metric
+   */
+  export interface QueueAutoscalingConfig {
+    /**
+     * Metric must be QueueBacklogPerWorker
+     */
+    metric?: 'QueueBacklogPerWorker';
+
+    /**
+     * Model overrides the model name for queue status lookup. Defaults to the
+     * deployment app name
+     */
+    model?: string;
+
+    /**
+     * Target is the threshold value. Default: 1.01
+     */
+    target?: number;
+  }
+
+  /**
+   * Autoscaling config for CustomMetric metric
+   */
+  export interface CustomMetricAutoscalingConfig {
+    /**
+     * CustomMetricName is the Prometheus metric name. Required. Must match
+     * [a-zA-Z\_:][a-zA-Z0-9_:]\*
+     */
+    custom_metric_name?: string;
+
+    /**
+     * Metric must be CustomMetric
+     */
+    metric?: 'CustomMetric';
+
+    /**
+     * Target is the threshold value. Default: 500
+     */
+    target?: number;
+  }
+
   export interface EnvironmentVariable {
     /**
      * Name is the environment variable name (e.g., "DATABASE_URL"). Must start with a
@@ -503,10 +636,14 @@ export interface JigDeployParams {
   args?: Array<string>;
 
   /**
-   * Autoscaling configuration as key-value pairs. Example: {"metric":
-   * "QueueBacklogPerWorker", "target": "10"} to scale based on queue backlog
+   * Autoscaling configuration. Example: {"metric": "QueueBacklogPerWorker",
+   * "target": 1.01} to scale based on queue backlog. Omit or set to null to disable
+   * autoscaling
    */
-  autoscaling?: { [key: string]: string };
+  autoscaling?:
+    | JigDeployParams.HTTPAutoscalingConfig
+    | JigDeployParams.QueueAutoscalingConfig
+    | JigDeployParams.CustomMetricAutoscalingConfig;
 
   /**
    * Command overrides the container's ENTRYPOINT. Provide as an array (e.g.,
@@ -587,6 +724,69 @@ export interface JigDeployParams {
 }
 
 export namespace JigDeployParams {
+  /**
+   * Autoscaling config for HTTPTotalRequests and HTTPAvgRequestDuration metrics
+   */
+  export interface HTTPAutoscalingConfig {
+    /**
+     * Metric must be HTTPTotalRequests or HTTPAvgRequestDuration
+     */
+    metric?: 'HTTPTotalRequests' | 'HTTPAvgRequestDuration';
+
+    /**
+     * Target is the threshold value. Default: 100 for HTTPTotalRequests, 500 (ms) for
+     * HTTPAvgRequestDuration
+     */
+    target?: number;
+
+    /**
+     * TimeIntervalMinutes is the rate window in minutes. Default: 10
+     */
+    time_interval_minutes?: number;
+  }
+
+  /**
+   * Autoscaling config for QueueBacklogPerWorker metric
+   */
+  export interface QueueAutoscalingConfig {
+    /**
+     * Metric must be QueueBacklogPerWorker
+     */
+    metric?: 'QueueBacklogPerWorker';
+
+    /**
+     * Model overrides the model name for queue status lookup. Defaults to the
+     * deployment app name
+     */
+    model?: string;
+
+    /**
+     * Target is the threshold value. Default: 1.01
+     */
+    target?: number;
+  }
+
+  /**
+   * Autoscaling config for CustomMetric metric
+   */
+  export interface CustomMetricAutoscalingConfig {
+    /**
+     * CustomMetricName is the Prometheus metric name. Required. Must match
+     * [a-zA-Z\_:][a-zA-Z0-9_:]\*
+     */
+    custom_metric_name?: string;
+
+    /**
+     * Metric must be CustomMetric
+     */
+    metric?: 'CustomMetric';
+
+    /**
+     * Target is the threshold value. Default: 500
+     */
+    target?: number;
+  }
+
   export interface EnvironmentVariable {
     /**
      * Name is the environment variable name (e.g., "DATABASE_URL"). Must start with a
