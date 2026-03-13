@@ -17,7 +17,7 @@ export class Completions extends APIResource {
    * const chatCompletion = await client.chat.completions.create(
    *   {
    *     messages: [{ content: 'content', role: 'system' }],
-   *     model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
+   *     model: 'Qwen/Qwen3.5-9B',
    *   },
    * );
    * ```
@@ -262,9 +262,9 @@ export interface CompletionCreateParamsBase {
   model:
     | 'Qwen/Qwen2.5-72B-Instruct-Turbo'
     | 'Qwen/Qwen2.5-7B-Instruct-Turbo'
+    | 'Qwen/Qwen3.5-9B'
     | 'meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo'
     | 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo'
-    | 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo'
     | (string & {});
 
   /**
