@@ -15,7 +15,7 @@ export class Evals extends APIResource {
    *   parameters: {
    *     input_data_file_path: 'file-1234-aefd',
    *     judge: {
-   *       model: 'meta-llama/Llama-3-70B-Instruct-Turbo',
+   *       model: 'Qwen/Qwen3.5-9B',
    *       model_source: 'serverless',
    *       system_template:
    *         'Imagine you are a helpful assistant',

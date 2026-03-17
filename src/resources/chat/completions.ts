@@ -17,7 +17,7 @@ export class Completions extends APIResource {
    * const chatCompletion = await client.chat.completions.create(
    *   {
    *     messages: [{ content: 'content', role: 'system' }],
-   *     model: 'Qwen/Qwen3.5-9B',
+   *     model: 'model',
    *   },
    * );
    * ```
@@ -259,13 +259,7 @@ export interface CompletionCreateParamsBase {
    *
    * [See all of Together AI's chat models](https://docs.together.ai/docs/serverless-models#chat-models)
    */
-  model:
-    | 'Qwen/Qwen2.5-72B-Instruct-Turbo'
-    | 'Qwen/Qwen2.5-7B-Instruct-Turbo'
-    | 'Qwen/Qwen3.5-9B'
-    | 'meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo'
-    | 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo'
-    | (string & {});
+  model: string;
 
   /**
    * Additional configuration to pass to model engine.

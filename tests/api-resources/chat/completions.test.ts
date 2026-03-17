@@ -11,7 +11,7 @@ describe('resource completions', () => {
   test('create: only required params', async () => {
     const responsePromise = client.chat.completions.create({
       messages: [{ content: 'content', role: 'system' }],
-      model: 'Qwen/Qwen3.5-9B',
+      model: 'model',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -31,7 +31,7 @@ describe('resource completions', () => {
           name: 'name',
         },
       ],
-      model: 'Qwen/Qwen3.5-9B',
+      model: 'model',
       chat_template_kwargs: {},
       compliance: 'hipaa',
       context_length_exceeded_behavior: 'truncate',

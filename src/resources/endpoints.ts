@@ -17,7 +17,7 @@ export class Endpoints extends APIResource {
    * const dedicatedEndpoint = await client.endpoints.create({
    *   autoscaling: { max_replicas: 5, min_replicas: 2 },
    *   hardware: '1x_nvidia_a100_80gb_sxm',
-   *   model: 'meta-llama/Llama-3-8b-chat-hf',
+   *   model: 'deepseek-ai/DeepSeek-R1',
    * });
    * ```
    */
@@ -446,6 +446,7 @@ export interface EndpointListHardwareParams {
   /**
    * Filter hardware configurations by model compatibility. When provided, the
    * response includes availability status for each compatible configuration.
+   * [See all of Together AI's dedicated models](https://docs.together.ai/docs/dedicated-models)
    */
   model?: string;
 }
