@@ -35,12 +35,7 @@ export declare namespace Chat {
     type ChatCompletion as ChatCompletion,
     type ChatCompletionAssistantMessageParam as ChatCompletionAssistantMessageParam,
     type ChatCompletionChunk as ChatCompletionChunk,
-    type ChatCompletionFunctionMessageParam as ChatCompletionFunctionMessageParam,
-    type ChatCompletionMessage as ChatCompletionMessage,
-    type ChatCompletionMessageParam as ChatCompletionMessageParam,
-    type ChatCompletionSystemMessageParam as ChatCompletionSystemMessageParam,
-    type ChatCompletionTool as ChatCompletionTool,
-    type ChatCompletionToolMessageParam as ChatCompletionToolMessageParam,
+
     type ChatCompletionStructuredMessageImageURL as ChatCompletionStructuredMessageImageURL,
     type ChatCompletionStructuredMessageText as ChatCompletionStructuredMessageText,
     type ChatCompletionStructuredMessageVideoURL as ChatCompletionStructuredMessageVideoURL,

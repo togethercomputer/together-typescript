@@ -283,6 +283,7 @@ export class ChatCompletionStream
 function finalizeChatCompletion(snapshot: ChatCompletionSnapshot): ChatCompletion {
   const { id, choices, created, model, system_fingerprint, ...rest } = snapshot;
   return {
+    prompt: [],
     ...rest,
     id,
     choices: choices.map(

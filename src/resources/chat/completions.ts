@@ -64,7 +64,7 @@ export interface ChatCompletion {
    * `logprobs` is also provided, log probability information is provided on the
    * prompt.
    */
-  prompt: Array<ChatCompletion.Prompt>;
+  prompt: ChatCompletionPrompt;
 
   usage?: ChatCompletionUsage | null;
 
@@ -120,12 +120,6 @@ export namespace ChatCompletionAssistantMessageParam {
     arguments: string;
 
     name: string;
-  }
-
-  export interface Prompt {
-    logprobs?: CompletionsAPI.LogProbs;
-
-    text?: string;
   }
 }
 
@@ -199,80 +193,14 @@ export namespace ChatCompletionChunk {
   }
 }
 
-/**
- * @deprecated
- */
-export interface ChatCompletionFunctionMessageParam {
-  content: string;
+export type ChatCompletionPrompt = Array<ChatCompletionPrompt.ChatCompletionPromptItem>;
 
-  name: string;
+export namespace ChatCompletionPrompt {
+  export interface ChatCompletionPromptItem {
+    logprobs?: CompletionsAPI.LogProbs;
 
-  role: 'function';
-}
-
-export interface ChatCompletionMessage {
-  content: string | null;
-
-  role: 'assistant';
-
-  /**
-   * @deprecated
-   */
-  function_call?: ChatCompletionMessage.FunctionCall;
-
-  tool_calls?: Array<CompletionsAPI.ToolChoice>;
-}
-
-export namespace ChatCompletionMessage {
-  /**
-   * @deprecated
-   */
-  export interface FunctionCall {
-    arguments: string;
-
-    name: string;
+    text?: string;
   }
-}
-
-export type ChatCompletionMessageParam =
-  | ChatCompletionSystemMessageParam
-  | ChatCompletionUserMessageParam
-  | ChatCompletionAssistantMessageParam
-  | ChatCompletionToolMessageParam
-  | ChatCompletionFunctionMessageParam;
-
-export interface ChatCompletionSystemMessageParam {
-  content: string;
-
-  role: 'system';
-
-  name?: string;
-}
-
-export interface ChatCompletionTool {
-  function: ChatCompletionTool.Function;
-
-  type: 'function';
-}
-
-export namespace ChatCompletionTool {
-  export interface Function {
-    name: string;
-
-    description?: string;
-
-    parameters?: Record<string, unknown>;
-  }
-}
-
-export interface ChatCompletionToolMessageParam {
-  content?: string;
-
-  required?: unknown;
-
-  role?: 'tool';
-
-  tool_call_id?: string;
 }
 
 export interface ChatCompletionStructuredMessageImageURL {
@@ -739,12 +667,7 @@ export declare namespace Completions {
     type ChatCompletion as ChatCompletion,
     type ChatCompletionAssistantMessageParam as ChatCompletionAssistantMessageParam,
     type ChatCompletionChunk as ChatCompletionChunk,
-    type ChatCompletionFunctionMessageParam as ChatCompletionFunctionMessageParam,
-    type ChatCompletionMessage as ChatCompletionMessage,
-    type ChatCompletionMessageParam as ChatCompletionMessageParam,
-    type ChatCompletionSystemMessageParam as ChatCompletionSystemMessageParam,
-    type ChatCompletionTool as ChatCompletionTool,
-    type ChatCompletionToolMessageParam as ChatCompletionToolMessageParam,
+
     type ChatCompletionStructuredMessageImageURL as ChatCompletionStructuredMessageImageURL,
     type ChatCompletionStructuredMessageText as ChatCompletionStructuredMessageText,
     type ChatCompletionStructuredMessageVideoURL as ChatCompletionStructuredMessageVideoURL,

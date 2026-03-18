@@ -13,6 +13,7 @@ export {
   Completions,
   type ChatCompletion,
   type ChatCompletionChunk,
+  type ChatCompletionPrompt,
   type ChatCompletionStructuredMessageImageURL,
   type ChatCompletionStructuredMessageText,
   type ChatCompletionStructuredMessageVideoURL,
