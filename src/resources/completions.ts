@@ -59,7 +59,7 @@ export interface Completion {
    * `logprobs` is also provided, log probability information is provided on the
    * prompt.
    */
-  prompt: Array<Completion.Prompt>;
+  prompt: ChatCompletionsAPI.ChatCompletionPrompt;
 
   usage: ChatCompletionsAPI.ChatCompletionUsage | null;
 }
@@ -71,12 +71,6 @@ export namespace Completion {
     logprobs?: CompletionsAPI.LogProbs;
 
     seed?: number;
-
-    text?: string;
-  }
-
-  export interface Prompt {
-    logprobs?: CompletionsAPI.LogProbs;
 
     text?: string;
   }

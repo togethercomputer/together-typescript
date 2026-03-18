@@ -60,7 +60,7 @@ export interface ChatCompletion {
    * `logprobs` is also provided, log probability information is provided on the
    * prompt.
    */
-  prompt: Array<ChatCompletion.Prompt>;
+  prompt: ChatCompletionPrompt;
 
   usage?: ChatCompletionUsage | null;
 
@@ -113,12 +113,6 @@ export namespace ChatCompletion {
         name: string;
       }
     }
-  }
-
-  export interface Prompt {
-    logprobs?: CompletionsAPI.LogProbs;
-
-    text?: string;
   }
 }
 
@@ -189,6 +183,16 @@ export namespace ChatCompletionChunk {
         name: string;
       }
     }
+  }
+}
+
+export type ChatCompletionPrompt = Array<ChatCompletionPrompt.ChatCompletionPromptItem>;
+
+export namespace ChatCompletionPrompt {
+  export interface ChatCompletionPromptItem {
+    logprobs?: CompletionsAPI.LogProbs;
+
+    text?: string;
   }
 }
 
@@ -647,6 +651,7 @@ export declare namespace Completions {
   export {
     type ChatCompletion as ChatCompletion,
     type ChatCompletionChunk as ChatCompletionChunk,
+    type ChatCompletionPrompt as ChatCompletionPrompt,
     type ChatCompletionStructuredMessageImageURL as ChatCompletionStructuredMessageImageURL,
     type ChatCompletionStructuredMessageText as ChatCompletionStructuredMessageText,
     type ChatCompletionStructuredMessageVideoURL as ChatCompletionStructuredMessageVideoURL,
