@@ -45,7 +45,10 @@ export interface ModelObject {
 
   created: number;
 
-  object: string;
+  /**
+   * The object type, which is always `model`.
+   */
+  object: 'model';
 
   type: 'chat' | 'language' | 'code' | 'image' | 'embedding' | 'moderation' | 'rerank';
 

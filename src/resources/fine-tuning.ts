@@ -157,6 +157,9 @@ export interface FinetuneEvent {
 
   model_path: string;
 
+  /**
+   * The object type, which is always `fine-tune-event`.
+   */
   object: 'fine-tune-event';
 
   param_count: number;
@@ -1317,7 +1320,11 @@ export interface FineTuningCreateParams {
    */
   training_method?: FineTuningCreateParams.TrainingMethodSft | FineTuningCreateParams.TrainingMethodDpo;
 
-  training_type?: FineTuningCreateParams.FullTrainingType | FineTuningCreateParams.LoRaTrainingType;
+  /**
+   * The training type to use. If not provided, the job will default to LoRA training
+   * type.
+   */
+  training_type?: FineTuningCreateParams.FullTrainingType | FineTuningCreateParams.LoRaTrainingType | null;
 
   /**
    * File-ID of a validation file uploaded to the Together API
@@ -1333,6 +1340,11 @@ export interface FineTuningCreateParams {
    * The base URL of a dedicated Weights & Biases instance.
    */
   wandb_base_url?: string;
+
+  /**
+   * The Weights & Biases entity for your run.
+   */
+  wandb_entity?: string;
 
   /**
    * The Weights & Biases name for your run.
@@ -1439,6 +1451,9 @@ export namespace FineTuningCreateParams {
 }
 
 export interface FineTuningDeleteParams {
+  /**
+   * Deprecated and unused parameter.
+   */
   force?: boolean;
 }
 
@@ -1499,9 +1514,14 @@ export interface FineTuningEstimatePriceParams {
     | FineTuningEstimatePriceParams.TrainingMethodSft
     | FineTuningEstimatePriceParams.TrainingMethodDpo;
 
+  /**
+   * The training type to use. If not provided, the job will default to LoRA training
+   * type.
+   */
   training_type?:
     | FineTuningEstimatePriceParams.FullTrainingType
-    | FineTuningEstimatePriceParams.LoRaTrainingType;
+    | FineTuningEstimatePriceParams.LoRaTrainingType
+    | null;
 
   /**
    * File-ID of a validation file uploaded to the Together API

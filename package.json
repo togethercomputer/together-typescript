@@ -1,6 +1,6 @@
 {
   "name": "together-ai",
-  "version": "0.37.0",
+  "version": "0.38.0",
   "description": "The official TypeScript library for the Together API",
   "author": "Together <dev-feedback@TogetherAI.com>",
   "types": "dist/index.d.ts",
@@ -53,6 +53,17 @@
   },
   "bin": {
     "together-ai": "bin/cli"
+  },
+  "overrides": {
+    "minimatch": "^9.0.5"
+  },
+  "pnpm": {
+    "overrides": {
+      "minimatch": "^9.0.5"
+    }
+  },
+  "resolutions": {
+    "minimatch": "^9.0.5"
   },
   "exports": {
     ".": {

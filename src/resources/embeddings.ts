@@ -6,7 +6,8 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Embeddings extends APIResource {
   /**
-   * Query an embedding model for a given string of text.
+   * Generate vector embeddings for one or more text inputs. Returns numerical arrays
+   * representing semantic meaning, useful for search, classification, and retrieval.
    *
    * @example
    * ```ts
@@ -27,6 +28,9 @@ export interface Embedding {
 
   model: string;
 
+  /**
+   * The object type, which is always `list`.
+   */
   object: 'list';
 }
 
@@ -36,6 +40,9 @@ export namespace Embedding {
 
     index: number;
 
+    /**
+     * The object type, which is always `embedding`.
+     */
     object: 'embedding';
   }
 }

@@ -62,7 +62,11 @@ describe('resource jig', () => {
       image: 'image',
       name: 'x',
       args: ['string'],
-      autoscaling: { foo: 'string' },
+      autoscaling: {
+        metric: 'HTTPTotalRequests',
+        target: 100,
+        time_interval_minutes: 10,
+      },
       command: ['string'],
       cpu: 0.1,
       description: 'description',
@@ -81,7 +85,13 @@ describe('resource jig', () => {
       port: 0,
       storage: 0,
       termination_grace_period_seconds: 0,
-      volumes: [{ mount_path: 'mount_path', name: 'name' }],
+      volumes: [
+        {
+          mount_path: 'mount_path',
+          name: 'name',
+          version: 0,
+        },
+      ],
     });
   });
 

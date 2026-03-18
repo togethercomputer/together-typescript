@@ -12,7 +12,7 @@ describe('resource endpoints', () => {
     const responsePromise = client.endpoints.create({
       autoscaling: { max_replicas: 5, min_replicas: 2 },
       hardware: '1x_nvidia_a100_80gb_sxm',
-      model: 'meta-llama/Llama-3-8b-chat-hf',
+      model: 'deepseek-ai/DeepSeek-R1',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -27,7 +27,7 @@ describe('resource endpoints', () => {
     const response = await client.endpoints.create({
       autoscaling: { max_replicas: 5, min_replicas: 2 },
       hardware: '1x_nvidia_a100_80gb_sxm',
-      model: 'meta-llama/Llama-3-8b-chat-hf',
+      model: 'deepseek-ai/DeepSeek-R1',
       availability_zone: 'availability_zone',
       disable_prompt_cache: true,
       disable_speculative_decoding: true,
@@ -120,7 +120,10 @@ describe('resource endpoints', () => {
   test('listHardware: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.endpoints.listHardware({ model: 'model' }, { path: '/_stainless_unknown_path' }),
+      client.endpoints.listHardware(
+        { model: 'deepseek-ai/DeepSeek-R1' },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(Together.NotFoundError);
   });
 });

@@ -46,6 +46,7 @@ describe('resource fineTuning', () => {
       validation_file: 'validation_file',
       wandb_api_key: 'wandb_api_key',
       wandb_base_url: 'wandb_base_url',
+      wandb_entity: 'wandb_entity',
       wandb_name: 'wandb_name',
       wandb_project_name: 'wandb_project_name',
       warmup_ratio: 0,
@@ -104,7 +105,8 @@ describe('resource fineTuning', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('content: required and optional params', async () => {
+  // Mock server doesn't support application/octet-stream responses
+  test.skip('content: required and optional params', async () => {
     const response = await client.fineTuning.content({
       ft_id: 'ft_id',
       checkpoint: 'merged',

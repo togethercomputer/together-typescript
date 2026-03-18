@@ -7,7 +7,8 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Rerank extends APIResource {
   /**
-   * Query a reranker model
+   * Rerank a list of documents by relevance to a query. Returns a relevance score
+   * and ordering index for each document.
    *
    * @example
    * ```ts
@@ -35,7 +36,7 @@ export interface RerankCreateResponse {
   model: string;
 
   /**
-   * Object type
+   * The object type, which is always `rerank`.
    */
   object: 'rerank';
 

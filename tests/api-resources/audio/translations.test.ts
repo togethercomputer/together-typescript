@@ -10,7 +10,7 @@ const client = new Together({
 describe('resource translations', () => {
   test('create: only required params', async () => {
     const responsePromise = client.audio.translations.create({
-      file: await toFile(Buffer.from('# my file contents'), 'README.md'),
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -23,7 +23,7 @@ describe('resource translations', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.audio.translations.create({
-      file: await toFile(Buffer.from('# my file contents'), 'README.md'),
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
       language: 'en',
       model: 'openai/whisper-large-v3',
       prompt: 'prompt',

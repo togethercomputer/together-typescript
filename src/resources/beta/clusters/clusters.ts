@@ -69,6 +69,9 @@ export interface Cluster {
 
   cluster_name: string;
 
+  /**
+   * Type of cluster.
+   */
   cluster_type: 'KUBERNETES' | 'SLURM';
 
   control_plane_nodes: Array<Cluster.ControlPlaneNode>;
@@ -166,17 +169,29 @@ export interface ClusterListRegionsResponse {
 
 export namespace ClusterListRegionsResponse {
   export interface Region {
-    id: string;
-
-    availability_zones: Array<string>;
-
+    /**
+     * List of supported identifiable driver versions available in the region.
+     */
     driver_versions: Array<string>;
 
+    /**
+     * Identifiable name of the region.
+     */
     name: string;
+
+    /**
+     * List of supported identifiable gpus available in the region.
+     */
+    supported_instance_types?: Array<string>;
   }
 }
 
 export interface ClusterCreateParams {
+  /**
+   * RESERVED billing types allow you to specify the duration of the cluster
+   * reservation via the duration_days field. ON_DEMAND billing types will give you
+   * ownership of the cluster until you delete it.
+   */
   billing_type: 'RESERVED' | 'ON_DEMAND';
 
   /**
@@ -201,11 +216,14 @@ export interface ClusterCreateParams {
   num_gpus: number;
 
   /**
-   * Region to create the GPU cluster in. Valid values are us-central-8 and
-   * us-central-4.
+   * Region to create the GPU cluster in. Usable regions can be found from
+   * `client.clusters.list_regions()`
    */
-  region: 'us-central-8' | 'us-central-4';
+  region: string;
 
+  /**
+   * Type of cluster to create.
+   */
   cluster_type?: 'KUBERNETES' | 'SLURM';
 
   /**
@@ -213,12 +231,21 @@ export interface ClusterCreateParams {
    */
   duration_days?: number;
 
+  /**
+   * Inline configuration to create a shared volume with the cluster creation.
+   */
   shared_volume?: ClusterCreateParams.SharedVolume;
 
+  /**
+   * ID of an existing volume to use with the cluster creation.
+   */
   volume_id?: string;
 }
 
 export namespace ClusterCreateParams {
+  /**
+   * Inline configuration to create a shared volume with the cluster creation.
+   */
   export interface SharedVolume {
     /**
      * Region name. Usable regions can be found from `client.clusters.list_regions()`
@@ -230,13 +257,23 @@ export namespace ClusterCreateParams {
      */
     size_tib: number;
 
+    /**
+     * Customizable name of the volume to create.
+     */
     volume_name: string;
   }
 }
 
 export interface ClusterUpdateParams {
+  /**
+   * Type of cluster to update.
+   */
   cluster_type?: 'KUBERNETES' | 'SLURM';
 
+  /**
+   * Number of GPUs to allocate in the cluster. This must be multiple of 8. For
+   * example, 8, 16 or 24
+   */
   num_gpus?: number;
 }
 

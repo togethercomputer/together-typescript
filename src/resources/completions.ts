@@ -9,7 +9,8 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Completions extends APIResource {
   /**
-   * Query a language, code, or image model.
+   * Generate text completions for a given prompt using a language, code, or image
+   * model.
    *
    * @example
    * ```ts
@@ -48,11 +49,19 @@ export interface Completion {
 
   model: string;
 
+  /**
+   * The object type, which is always `text.completion`.
+   */
   object: 'text.completion';
 
-  usage: ChatCompletionsAPI.ChatCompletionUsage | null;
+  /**
+   * When `echo` is true, the prompt is included in the response. Additionally, when
+   * `logprobs` is also provided, log probability information is provided on the
+   * prompt.
+   */
+  prompt: ChatCompletionsAPI.ChatCompletionPrompt;
 
-  prompt?: Array<Completion.Prompt>;
+  usage: ChatCompletionsAPI.ChatCompletionUsage | null;
 }
 
 export namespace Completion {
@@ -62,12 +71,6 @@ export namespace Completion {
     logprobs?: CompletionsAPI.LogProbs;
 
     seed?: number;
-
-    text?: string;
-  }
-
-  export interface Prompt {
-    logprobs?: CompletionsAPI.LogProbs;
 
     text?: string;
   }
@@ -86,6 +89,9 @@ export interface CompletionChunk {
 
   created?: number;
 
+  /**
+   * The object type, which is always `completion.chunk`.
+   */
   object?: 'completion.chunk';
 
   seed?: number;
@@ -156,6 +162,11 @@ export interface LogProbs {
    * List of token strings
    */
   tokens?: Array<string | null>;
+
+  /**
+   * Top log probabilities for the tokens.
+   */
+  top_logprobs?: { [key: string]: number };
 }
 
 export interface ToolChoice {

@@ -15,7 +15,7 @@ export class Evals extends APIResource {
    *   parameters: {
    *     input_data_file_path: 'file-1234-aefd',
    *     judge: {
-   *       model: 'meta-llama/Llama-3-70B-Instruct-Turbo',
+   *       model: 'Qwen/Qwen3.5-9B',
    *       model_source: 'serverless',
    *       system_template:
    *         'Imagine you are a helpful assistant',
@@ -738,15 +738,15 @@ export namespace EvalCreateParams {
 }
 
 export interface EvalListParams {
+  /**
+   * Limit the number of results
+   */
   limit?: number;
 
-  status?: string;
-
   /**
-   * Admin users can specify a user ID to filter jobs. Pass empty string to get all
-   * jobs.
+   * Filter evaluation jobs by status
    */
-  userId?: string;
+  status?: string;
 }
 
 export declare namespace Evals {

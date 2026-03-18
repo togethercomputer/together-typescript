@@ -109,6 +109,7 @@ Types:
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletion</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionAssistantMessageParam</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionChunk</a></code>
+- <code><a href="./src/resources/chat/completions.ts">ChatCompletionPrompt</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionFunctionMessageParam</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionMessage</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionMessageParam</a></code>
@@ -154,7 +155,6 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/files.ts">FileList</a></code>
-- <code><a href="./src/resources/files.ts">FileObject</a></code>
 - <code><a href="./src/resources/files.ts">FilePurpose</a></code>
 - <code><a href="./src/resources/files.ts">FileResponse</a></code>
 - <code><a href="./src/resources/files.ts">FileType</a></code>

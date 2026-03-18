@@ -11,7 +11,7 @@ describe('resource completions', () => {
   test('create: only required params', async () => {
     const responsePromise = client.chat.completions.create({
       messages: [{ content: 'content', role: 'system' }],
-      model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
+      model: 'model',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -31,7 +31,7 @@ describe('resource completions', () => {
           name: 'name',
         },
       ],
-      model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
+      model: 'model',
       chat_template_kwargs: {},
       compliance: 'hipaa',
       context_length_exceeded_behavior: 'truncate',

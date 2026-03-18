@@ -74,9 +74,9 @@ export interface Secret {
   name?: string;
 
   /**
-   * Object is the type identifier for this response (always "secret")
+   * The object type, which is always `secret`.
    */
-  object?: string;
+  object?: 'secret';
 
   /**
    * UpdatedAt is the ISO8601 timestamp when this secret was last updated
@@ -91,9 +91,9 @@ export interface SecretListResponse {
   data?: Array<Secret>;
 
   /**
-   * Object is the type identifier for this response (always "list")
+   * The object type, which is always `list`.
    */
-  object?: string;
+  object?: 'list';
 }
 
 export type SecretDeleteResponse = unknown;

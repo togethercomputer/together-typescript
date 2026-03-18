@@ -13,7 +13,7 @@ describe('resource evals', () => {
       parameters: {
         input_data_file_path: 'file-1234-aefd',
         judge: {
-          model: 'meta-llama/Llama-3-70B-Instruct-Turbo',
+          model: 'Qwen/Qwen3.5-9B',
           model_source: 'serverless',
           system_template: 'Imagine you are a helpful assistant',
         },
@@ -36,7 +36,7 @@ describe('resource evals', () => {
       parameters: {
         input_data_file_path: 'file-1234-aefd',
         judge: {
-          model: 'meta-llama/Llama-3-70B-Instruct-Turbo',
+          model: 'Qwen/Qwen3.5-9B',
           model_source: 'serverless',
           system_template: 'Imagine you are a helpful assistant',
           external_api_token: 'external_api_token',
@@ -75,14 +75,7 @@ describe('resource evals', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.evals.list(
-        {
-          limit: 0,
-          status: 'status',
-          userId: 'userId',
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
+      client.evals.list({ limit: 0, status: 'status' }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Together.NotFoundError);
   });
 

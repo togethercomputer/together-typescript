@@ -48,15 +48,23 @@ export interface Volume {
    */
   id?: string;
 
-  /**
-   * Content specifies the content that will be preloaded to this volume
-   */
   content?: Volume.Content;
 
   /**
    * CreatedAt is the ISO8601 timestamp when this volume was created
    */
   created_at?: string;
+
+  /**
+   * CurrentVersion is the current version number of this volume
+   */
+  current_version?: number;
+
+  /**
+   * MountedBy is the list of deployment IDs currently mounting current volume
+   * version
+   */
+  mounted_by?: Array<string>;
 
   /**
    * Name is the name of the volume
@@ -68,22 +76,28 @@ export interface Volume {
    */
   object?: string;
 
-  /**
-   * Type is the volume type (e.g., "readOnly")
-   */
   type?: 'readOnly';
 
   /**
    * UpdatedAt is the ISO8601 timestamp when this volume was last updated
    */
   updated_at?: string;
+
+  /**
+   * VersionHistory contains previous versions of this volume, keyed by version
+   * number
+   */
+  version_history?: { [key: string]: Volume.VersionHistory };
 }
 
 export namespace Volume {
-  /**
-   * Content specifies the content that will be preloaded to this volume
-   */
   export interface Content {
+    /**
+     * Files is the list of files that will be preloaded into the volume, if the volume
+     * content type is "files"
+     */
+    files?: Array<Content.File>;
+
     /**
      * SourcePrefix is the file path prefix for the content to be preloaded into the
      * volume
@@ -96,6 +110,55 @@ export namespace Volume {
      */
     type?: 'files';
   }
+
+  export namespace Content {
+    export interface File {
+      /**
+       * LastModified is the timestamp when the file was last modified
+       */
+      last_modified?: string;
+
+      /**
+       * Name is the filename including extension (e.g., "model_weights.bin")
+       */
+      name?: string;
+
+      /**
+       * Size is the file size in bytes
+       */
+      size?: number;
+    }
+  }
+
+  export interface VersionHistory {
+    /**
+     * Content specifies the new content that will be preloaded to this volume
+     */
+    content?: VersionHistory.Content;
+
+    mounted_by?: Array<string>;
+
+    version?: number;
+  }
+
+  export namespace VersionHistory {
+    /**
+     * Content specifies the new content that will be preloaded to this volume
+     */
+    export interface Content {
+      /**
+       * SourcePrefix is the file path prefix for the content to be preloaded into the
+       * volume
+       */
+      source_prefix?: string;
+
+      /**
+       * Type is the content type (currently only "files" is supported which allows
+       * preloading files uploaded via Files API into the volume)
+       */
+      type?: 'files';
+    }
+  }
 }
 
 export interface VolumeListResponse {
@@ -105,16 +168,16 @@ export interface VolumeListResponse {
   data?: Array<Volume>;
 
   /**
-   * Object is the type identifier for this response (always "list")
+   * The object type, which is always `list`.
    */
-  object?: string;
+  object?: 'list';
 }
 
 export type VolumeDeleteResponse = unknown;
 
 export interface VolumeCreateParams {
   /**
-   * Content specifies the content configuration for this volume
+   * Content specifies the new content that will be preloaded to this volume
    */
   content: VolumeCreateParams.Content;
 
@@ -131,7 +194,7 @@ export interface VolumeCreateParams {
 
 export namespace VolumeCreateParams {
   /**
-   * Content specifies the content configuration for this volume
+   * Content specifies the new content that will be preloaded to this volume
    */
   export interface Content {
     /**
