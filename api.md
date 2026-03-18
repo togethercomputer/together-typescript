@@ -109,9 +109,6 @@ Types:
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletion</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionAssistantMessageParam</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionChunk</a></code>
-- <code><a href="./src/resources/chat/completions.ts">ChatCompletionFunctionMessageParam</a></code>
-- <code><a href="./src/resources/chat/completions.ts">ChatCompletionMessage</a></code>
-- <code><a href="./src/resources/chat/completions.ts">ChatCompletionMessageParam</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionPrompt</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionFunctionMessageParam</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionMessage</a></code>
@@ -122,9 +119,6 @@ Types:
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionStructuredMessageImageURL</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionStructuredMessageText</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionStructuredMessageVideoURL</a></code>
-- <code><a href="./src/resources/chat/completions.ts">ChatCompletionSystemMessageParam</a></code>
-- <code><a href="./src/resources/chat/completions.ts">ChatCompletionTool</a></code>
-- <code><a href="./src/resources/chat/completions.ts">ChatCompletionToolMessageParam</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionUsage</a></code>
 - <code><a href="./src/resources/chat/completions.ts">ChatCompletionWarning</a></code>
 
