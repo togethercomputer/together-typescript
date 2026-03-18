@@ -494,6 +494,7 @@ export abstract class AbstractChatCompletionRunner<
         {
           ...restParams,
           function_call,
+          // @ts-ignore
           functions,
           // @ts-ignore
           messages: [...this.messages],
