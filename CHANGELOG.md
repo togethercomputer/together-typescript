@@ -1,5 +1,54 @@
 # Changelog
 
+## 0.38.0 (2026-03-18)
+
+Full Changelog: [v0.37.0...v0.38.0](https://github.com/togethercomputer/together-typescript/compare/v0.37.0...v0.38.0)
+
+### Features
+
+* Add FT models supported and limits ([eb83352](https://github.com/togethercomputer/together-typescript/commit/eb83352895441dd6c7b14815bc56fa703bb21cb5))
+* Add typing for completion responses related to logprobs ([7be3686](https://github.com/togethercomputer/together-typescript/commit/7be368608be937b1d212c285b4cfd7e3650c4213))
+* Add wandb_entity argument to OpenAPI definition ([71e55a9](https://github.com/togethercomputer/together-typescript/commit/71e55a9852f68f467f210f858ef509888db9abed))
+* Another try ([d59291f](https://github.com/togethercomputer/together-typescript/commit/d59291f9f6a185443214c1da6c333400b5c9a997))
+* **api:** manual updates ([9fe1286](https://github.com/togethercomputer/together-typescript/commit/9fe1286feb663510d56245890237e0b618836be4))
+* **api:** manual updates ([eb817bf](https://github.com/togethercomputer/together-typescript/commit/eb817bfbe1034925f5cf6f590fd6b9bc4f5fce51))
+* **api:** manual updates ([206ba6d](https://github.com/togethercomputer/together-typescript/commit/206ba6dcc63ec4f638e99b71a65b34d4b4ba7b3c))
+* Change TrainingType default to null ([cb4bdcb](https://github.com/togethercomputer/together-typescript/commit/cb4bdcb2cf4ed3d22d3b0e50135af1b8c80d6218))
+* update deployments schemas to include volume versions ([1d3a34e](https://github.com/togethercomputer/together-typescript/commit/1d3a34efef57808b89b16ab39791f53380163385))
+* Update descriptions for endpoints ([e7a8aaf](https://github.com/togethercomputer/together-typescript/commit/e7a8aafed811633b2a1c2c19df41fb43fd48ae89))
+* Update llama 3.1 8b w/ qwen 3.5 9b ([5bd7444](https://github.com/togethercomputer/together-typescript/commit/5bd744484f4c626865c71e7046078077b2ea5c8f))
+* Update training type for price estimation too ([52c3b77](https://github.com/togethercomputer/together-typescript/commit/52c3b77ff92751cbd788820ec20b195f040d9d16))
+
+
+### Bug Fixes
+
+* **client:** avoid removing abort listener too early ([1376258](https://github.com/togethercomputer/together-typescript/commit/137625849136205dc82f3b2493c96709365933ba))
+* **client:** preserve URL params already embedded in path ([940974d](https://github.com/togethercomputer/together-typescript/commit/940974d0043587773a3e294c7744ace2008201d9))
+* **docs/contributing:** correct pnpm link command ([eab2b6e](https://github.com/togethercomputer/together-typescript/commit/eab2b6e70c14fd53c4913fdaa0d2c51cc42a3e3b))
+* fix request delays for retrying to be more respectful of high requested delays ([11669ff](https://github.com/togethercomputer/together-typescript/commit/11669ff27aa05901764cfb300dc33927da4002c7))
+* fixed autoscaling configs in deployments api ([4dac51b](https://github.com/togethercomputer/together-typescript/commit/4dac51ba4914f36a26c93f418ffdfa8e12cbf678))
+* **internal:** skip tests that depend on mock server ([be7e0e7](https://github.com/togethercomputer/together-typescript/commit/be7e0e717e129fcdca13570d5967d61d8107240f))
+* **types:** change model to string in chat completions ([91a8c77](https://github.com/togethercomputer/together-typescript/commit/91a8c775d68930dd539bcce1b059274ae8f91863))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([603c86c](https://github.com/togethercomputer/together-typescript/commit/603c86c65a947e54c0998d5c10c1d4f6489f7f96))
+* configure new SDK language ([b6f30b6](https://github.com/togethercomputer/together-typescript/commit/b6f30b6587c51483d7aace93a19350d4acb22061))
+* Fix broken lint ([#213](https://github.com/togethercomputer/together-typescript/issues/213)) ([2463a75](https://github.com/togethercomputer/together-typescript/commit/2463a75429bc924bec67a7cf6eb0ef6a8b5fa87b))
+* Fix various docstrings ([af4c47f](https://github.com/togethercomputer/together-typescript/commit/af4c47fab26f6ad7599866d2facd2075dfb7f7d7))
+* **internal/client:** fix form-urlencoded requests ([d73f69f](https://github.com/togethercomputer/together-typescript/commit/d73f69fb0a280ad9d2c1f15da25d3695ff9c55c7))
+* **internal:** avoid type checking errors with ts-reset ([70ad44b](https://github.com/togethercomputer/together-typescript/commit/70ad44b46220b19de3a0def616593e2382bda8dd))
+* **internal:** move stringifyQuery implementation to internal function ([54dc83f](https://github.com/togethercomputer/together-typescript/commit/54dc83f02b0df002689776dd098bffbb06299934))
+* **internal:** tweak CI branches ([e8d66c5](https://github.com/togethercomputer/together-typescript/commit/e8d66c54b571a1ca83473b00368c25e9d45a537e))
+* **internal:** update dependencies to address dependabot vulnerabilities ([e442dfd](https://github.com/togethercomputer/together-typescript/commit/e442dfd169a1809ea915f60d38ec80b2e22e86b9))
+* Remove broken field LineCount from FileResponse ([a0c187e](https://github.com/togethercomputer/together-typescript/commit/a0c187e9ae89232655f4e29e82ed08778fa70294))
+* Revert adding mcp code. Code additions were unexpected. ([bb39360](https://github.com/togethercomputer/together-typescript/commit/bb39360b1f1815afa03cd59aec365c76f6fa6bf0))
+* **test:** do not count install time for mock server timeout ([4f232bf](https://github.com/togethercomputer/together-typescript/commit/4f232bf81907963b78e8bd94b19dbcfa25929954))
+* Update descriptions for jig queue methods and properties ([7fdfcca](https://github.com/togethercomputer/together-typescript/commit/7fdfcca72618b3ea51d38ac01f91e6a08ad0863e))
+* update mock server docs ([ac14bf7](https://github.com/togethercomputer/together-typescript/commit/ac14bf741e8980c297b657f886d8ea0a88c15dcc))
+* update placeholder string ([e481cda](https://github.com/togethercomputer/together-typescript/commit/e481cda9fffbd1ed5ec89a8f9e61258fefef2ac5))
+
 ## 0.37.0 (2026-02-04)
 
 Full Changelog: [v0.36.1...v0.37.0](https://github.com/togethercomputer/together-typescript/compare/v0.36.1...v0.37.0)
