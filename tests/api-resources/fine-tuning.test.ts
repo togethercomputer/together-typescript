@@ -39,6 +39,7 @@ describe('resource fineTuning', () => {
       n_checkpoints: 0,
       n_epochs: 0,
       n_evals: 0,
+      random_seed: 0,
       suffix: 'suffix',
       train_on_inputs: true,
       training_method: { method: 'sft', train_on_inputs: true },
