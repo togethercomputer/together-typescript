@@ -8,8 +8,7 @@ const client = new Together({
 });
 
 describe('resource codeInterpreter', () => {
-  // Mock server doesn't support callbacks yet
-  test.skip('execute: only required params', async () => {
+  test('execute: only required params', async () => {
     const responsePromise = client.codeInterpreter.execute({
       code: "print('Hello, world!')",
       language: 'python',
@@ -23,8 +22,7 @@ describe('resource codeInterpreter', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server doesn't support callbacks yet
-  test.skip('execute: required and optional params', async () => {
+  test('execute: required and optional params', async () => {
     const response = await client.codeInterpreter.execute({
       code: "print('Hello, world!')",
       language: 'python',

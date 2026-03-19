@@ -8,8 +8,7 @@ const client = new Together({
 });
 
 describe('resource sessions', () => {
-  // Mock server doesn't support callbacks yet
-  test.skip('list', async () => {
+  test('list', async () => {
     const responsePromise = client.codeInterpreter.sessions.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
