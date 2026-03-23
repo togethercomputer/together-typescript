@@ -80,10 +80,10 @@ describe('resource jig', () => {
       gpu_count: 0,
       health_check_path: 'health_check_path',
       max_replicas: 0,
-      memory: 0.1,
+      memory: 1000,
       min_replicas: 0,
-      port: 0,
-      storage: 0,
+      port: 1,
+      storage: 400,
       termination_grace_period_seconds: 0,
       volumes: [
         {
