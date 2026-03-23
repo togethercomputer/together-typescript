@@ -407,8 +407,7 @@ export interface JigUpdateParams {
   args?: Array<string>;
 
   /**
-   * Autoscaling configuration for the deployment. Omit or set to null to disable
-   * autoscaling
+   * Autoscaling configuration for the deployment. Set to {} to disable autoscaling
    */
   autoscaling?:
     | JigUpdateParams.HTTPAutoscalingConfig
@@ -446,7 +445,7 @@ export interface JigUpdateParams {
   /**
    * GPUType specifies the GPU hardware to use (e.g., "h100-80gb")
    */
-  gpu_type?: 'h100-80gb' | ' a100-80gb';
+  gpu_type?: 'h100-80gb';
 
   /**
    * HealthCheckPath is the HTTP path for health checks (e.g., "/health"). Set to
@@ -616,7 +615,7 @@ export interface JigDeployParams {
   /**
    * GPUType specifies the GPU hardware to use (e.g., "h100-80gb").
    */
-  gpu_type: 'h100-80gb' | 'a100-80gb';
+  gpu_type: 'h100-80gb';
 
   /**
    * Image is the container image to deploy from registry.together.ai.
