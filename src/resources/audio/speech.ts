@@ -73,7 +73,7 @@ export interface SpeechCreateParamsBase {
    *
    * You can view the voices supported for each model using the /v1/voices endpoint
    * sending the model name as the query parameter.
-   * [View all supported voices here](https://docs.together.ai/docs/text-to-speech#voices-available).
+   * [View all supported voices here](https://docs.together.ai/docs/text-to-speech#supported-voices).
    */
   voice: string;
 
