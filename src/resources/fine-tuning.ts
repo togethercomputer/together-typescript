@@ -489,6 +489,11 @@ export interface FineTuningCreateResponse {
   owner_address?: string;
 
   /**
+   * Whether sequence packing is being used for training.
+   */
+  packing?: boolean;
+
+  /**
    * Progress information for the fine-tuning job
    */
   progress?: FineTuningCreateResponse.Progress;
@@ -754,6 +759,11 @@ export namespace FineTuningListResponse {
      * Owner address information
      */
     owner_address?: string;
+
+    /**
+     * Whether sequence packing is being used for training.
+     */
+    packing?: boolean;
 
     /**
      * Progress information for the fine-tuning job
@@ -1024,6 +1034,11 @@ export interface FineTuningCancelResponse {
    * Owner address information
    */
   owner_address?: string;
+
+  /**
+   * Whether sequence packing is being used for training.
+   */
+  packing?: boolean;
 
   /**
    * Progress information for the fine-tuning job
@@ -1320,6 +1335,11 @@ export interface FineTuningCreateParams {
    * Number of evaluations to be run on a given validation set during training
    */
   n_evals?: number;
+
+  /**
+   * Whether to use sequence packing for training.
+   */
+  packing?: boolean;
 
   /**
    * Random seed for reproducible training. When set, the same seed produces the same
