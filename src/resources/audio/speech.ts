@@ -78,6 +78,13 @@ export interface SpeechCreateParamsBase {
   voice: string;
 
   /**
+   * Bitrate of the MP3 audio output in bits per second. Only applicable when
+   * response_format is mp3. Higher values produce better audio quality at larger
+   * file sizes. Default is 128000. Currently supported on Cartesia models.
+   */
+  bit_rate?: 32000 | 64000 | 96000 | 128000 | 192000;
+
+  /**
    * Language of input text.
    */
   language?:
