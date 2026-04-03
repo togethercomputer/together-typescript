@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.39.0 (2026-04-03)
+
+Full Changelog: [v0.38.0...v0.39.0](https://github.com/togethercomputer/together-typescript/compare/v0.38.0...v0.39.0)
+
+### Features
+
+* Add support for video model media params ([b0ebf44](https://github.com/togethercomputer/together-typescript/commit/b0ebf44fe4ffe879f80abfdb803a32ec64eaff23))
+* **api:** add bit_rate parameter to speech create method ([e4203ae](https://github.com/togethercomputer/together-typescript/commit/e4203ae8bbef1b23c8b1a8f39247d0440178ea82))
+* **api:** add packing parameter to fine-tuning create method ([94e6c1c](https://github.com/togethercomputer/together-typescript/commit/94e6c1c52ce4b5c760e335bff70889b6d7962cb9))
+* **api:** add random_seed parameter and response field to fine-tuning ([2f40023](https://github.com/togethercomputer/together-typescript/commit/2f400236ab41038581829638ac1315e929cd623e))
+* **api:** manual updates ([f0ff289](https://github.com/togethercomputer/together-typescript/commit/f0ff2890876606fc780cd83791acda95f18201aa))
+* **rl:** update openapi spec to reflect new changes ([b372b11](https://github.com/togethercomputer/together-typescript/commit/b372b117e7a678a22a6ccc03239082f611ba8594))
+
+
+### Bug Fixes
+
+* **types:** remove a100-80gb from gpu_type enum in jig update/deploy params ([1097c64](https://github.com/togethercomputer/together-typescript/commit/1097c64ce4dff6dc312b9835ff7bb5f536421a50))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([9e031ae](https://github.com/togethercomputer/together-typescript/commit/9e031ae4bc2815ac9a5402ea7da65b796d74f520))
+* **internal:** regenerate SDK with no functional changes ([4d58317](https://github.com/togethercomputer/together-typescript/commit/4d583178541972c70e128c4f51b610cd980776d1))
+* **internal:** update gitignore ([fdb619f](https://github.com/togethercomputer/together-typescript/commit/fdb619f755a5b5fb1ce08f52801aa2d38f1a071b))
+* **internal:** update multipart form array serialization ([1a26197](https://github.com/togethercomputer/together-typescript/commit/1a261970883fa38c7a3d8fabe46a884d5b8e3a30))
+* **tests:** bump steady to v0.19.4 ([2ce12b0](https://github.com/togethercomputer/together-typescript/commit/2ce12b038eb235e6fc8278db6d2479c4ad50933a))
+* **tests:** bump steady to v0.19.5 ([cec082d](https://github.com/togethercomputer/together-typescript/commit/cec082ded645b8de080b313f0689e33a0a923d6e))
+* **tests:** bump steady to v0.19.6 ([48b6d4f](https://github.com/togethercomputer/together-typescript/commit/48b6d4f68f5edbaef932bc3b549640ee135cfe9f))
+* **tests:** bump steady to v0.19.7 ([0baddc9](https://github.com/togethercomputer/together-typescript/commit/0baddc97c42842e0570f698cc6cec051d5b74ea3))
+* **tests:** bump steady to v0.20.1 ([467edb6](https://github.com/togethercomputer/together-typescript/commit/467edb6cb8f12d83f6ab129b4764edb5468f3581))
+* **tests:** bump steady to v0.20.2 ([780f6b3](https://github.com/togethercomputer/together-typescript/commit/780f6b3846c988419ad2d8c93252782af2c52e87))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([d9c83f4](https://github.com/togethercomputer/together-typescript/commit/d9c83f4a2dd35b32af8727ad10778547cdf7caa8))
+
 ## 0.38.0 (2026-03-18)
 
 Full Changelog: [v0.37.0...v0.38.0](https://github.com/togethercomputer/together-typescript/compare/v0.37.0...v0.38.0)
