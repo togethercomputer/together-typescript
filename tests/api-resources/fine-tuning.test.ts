@@ -39,6 +39,8 @@ describe('resource fineTuning', () => {
       n_checkpoints: 0,
       n_epochs: 0,
       n_evals: 0,
+      packing: true,
+      random_seed: 0,
       suffix: 'suffix',
       train_on_inputs: true,
       training_method: { method: 'sft', train_on_inputs: true },
@@ -105,8 +107,7 @@ describe('resource fineTuning', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server doesn't support application/octet-stream responses
-  test.skip('content: required and optional params', async () => {
+  test('content: required and optional params', async () => {
     const response = await client.fineTuning.content({
       ft_id: 'ft_id',
       checkpoint: 'merged',

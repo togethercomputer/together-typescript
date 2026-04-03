@@ -489,9 +489,20 @@ export interface FineTuningCreateResponse {
   owner_address?: string;
 
   /**
+   * Whether sequence packing is being used for training.
+   */
+  packing?: boolean;
+
+  /**
    * Progress information for the fine-tuning job
    */
   progress?: FineTuningCreateResponse.Progress;
+
+  /**
+   * Random seed used for training. Integer when set; null if not stored (e.g. legacy
+   * jobs) or no explicit seed was recorded.
+   */
+  random_seed?: number | null;
 
   /**
    * Start timestamp of the current stage of the fine-tune job
@@ -750,9 +761,20 @@ export namespace FineTuningListResponse {
     owner_address?: string;
 
     /**
+     * Whether sequence packing is being used for training.
+     */
+    packing?: boolean;
+
+    /**
      * Progress information for the fine-tuning job
      */
     progress?: Data.Progress;
+
+    /**
+     * Random seed used for training. Integer when set; null if not stored (e.g. legacy
+     * jobs) or no explicit seed was recorded.
+     */
+    random_seed?: number | null;
 
     /**
      * Start timestamp of the current stage of the fine-tune job
@@ -1014,9 +1036,20 @@ export interface FineTuningCancelResponse {
   owner_address?: string;
 
   /**
+   * Whether sequence packing is being used for training.
+   */
+  packing?: boolean;
+
+  /**
    * Progress information for the fine-tuning job
    */
   progress?: FineTuningCancelResponse.Progress;
+
+  /**
+   * Random seed used for training. Integer when set; null if not stored (e.g. legacy
+   * jobs) or no explicit seed was recorded.
+   */
+  random_seed?: number | null;
 
   /**
    * Start timestamp of the current stage of the fine-tune job
@@ -1302,6 +1335,18 @@ export interface FineTuningCreateParams {
    * Number of evaluations to be run on a given validation set during training
    */
   n_evals?: number;
+
+  /**
+   * Whether to use sequence packing for training.
+   */
+  packing?: boolean;
+
+  /**
+   * Random seed for reproducible training. When set, the same seed produces the same
+   * run (e.g. data shuffle, init). If omitted or null, the server applies its
+   * default seed (e.g. 42).
+   */
+  random_seed?: number | null;
 
   /**
    * Suffix that will be added to your fine-tuned model name
