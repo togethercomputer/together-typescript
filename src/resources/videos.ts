@@ -131,9 +131,15 @@ export interface VideoCreateParams {
   fps?: number;
 
   /**
-   * Array of images to guide video generation, similar to keyframes.
+   * @deprecated Deprecated: use media.frame_images instead. Array of images to guide
+   * video generation, similar to keyframes.
    */
   frame_images?: Array<VideoCreateParams.FrameImage>;
+
+  /**
+   * Whether to generate audio for the video.
+   */
+  generate_audio?: boolean;
 
   /**
    * Controls how closely the video generation follows your prompt. Higher values
@@ -145,6 +151,12 @@ export interface VideoCreateParams {
   guidance_scale?: number;
 
   height?: number;
+
+  /**
+   * Media inputs for video generation. The accepted fields depend on the model type
+   * (e.g. i2v, r2v, t2v, videoedit).
+   */
+  media?: VideoCreateParams.Media;
 
   /**
    * Similar to prompt, but specifies what to avoid instead of what to include
@@ -167,11 +179,21 @@ export interface VideoCreateParams {
   prompt?: string;
 
   /**
-   * Unlike frame_images which constrain specific timeline positions, reference
-   * images guide the general appearance that should appear consistently across the
-   * video.
+   * Aspect ratio of the video.
+   */
+  ratio?: string;
+
+  /**
+   * @deprecated Deprecated: use media.reference_images instead. Unlike frame_images
+   * which constrain specific timeline positions, reference images guide the general
+   * appearance that should appear consistently across the video.
    */
   reference_images?: Array<string>;
+
+  /**
+   * Video resolution.
+   */
+  resolution?: string;
 
   /**
    * Clip duration in seconds.
@@ -211,6 +233,92 @@ export namespace VideoCreateParams {
      * - If size is larger, frames are first, last and evenly spaced between.
      */
     frame?: number | 'first' | 'last';
+  }
+
+  /**
+   * Media inputs for video generation. The accepted fields depend on the model type
+   * (e.g. i2v, r2v, t2v, videoedit).
+   */
+  export interface Media {
+    /**
+     * Array of audio inputs.
+     */
+    audio_inputs?: Array<Media.AudioInput>;
+
+    /**
+     * Array of images to guide video generation at specific timeline positions.
+     */
+    frame_images?: Array<Media.FrameImage>;
+
+    /**
+     * Array of video clips to use as starting clips.
+     */
+    frame_videos?: Array<Media.FrameVideo>;
+
+    /**
+     * Array of image URLs that guide the general appearance across the video.
+     */
+    reference_images?: Array<string>;
+
+    /**
+     * Array of reference videos.
+     */
+    reference_videos?: Array<Media.ReferenceVideo>;
+
+    /**
+     * Source video to edit.
+     */
+    source_video?: Media.SourceVideo;
+  }
+
+  export namespace Media {
+    export interface AudioInput {
+      /**
+       * URL of the audio.
+       */
+      audio: string;
+    }
+
+    export interface FrameImage {
+      /**
+       * URL path to hosted image that is used for a frame
+       */
+      input_image: string;
+
+      /**
+       * Optional param to specify where to insert the frame. If this is omitted, the
+       * following heuristics are applied:
+       *
+       * - frame_images size is one, frame is first.
+       * - If size is two, frames are first and last.
+       * - If size is larger, frames are first, last and evenly spaced between.
+       */
+      frame?: number | 'first' | 'last';
+    }
+
+    export interface FrameVideo {
+      /**
+       * URL of the video.
+       */
+      video: string;
+    }
+
+    export interface ReferenceVideo {
+      /**
+       * URL of the video.
+       */
+      video: string;
+    }
+
+    /**
+     * Source video to edit.
+     */
+    export interface SourceVideo {
+      /**
+       * URL of the video.
+       */
+      video: string;
+    }
   }
 }
 
