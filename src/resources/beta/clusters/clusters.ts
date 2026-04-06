@@ -170,9 +170,10 @@ export interface ClusterListRegionsResponse {
 export namespace ClusterListRegionsResponse {
   export interface Region {
     /**
-     * List of supported identifiable driver versions available in the region.
+     * List of supported identifiable cuda/nvidia driver versions pairs available in
+     * the region.
      */
-    driver_versions: Array<string>;
+    driver_versions: Array<Region.DriverVersion>;
 
     /**
      * Identifiable name of the region.
@@ -182,7 +183,25 @@ export namespace ClusterListRegionsResponse {
     /**
      * List of supported identifiable gpus available in the region.
      */
-    supported_instance_types?: Array<string>;
+    supported_instance_types: Array<string>;
+  }
+
+  export namespace Region {
+    /**
+     * CUDA/NVIDIA driver versions pair available in the region to use in the create
+     * cluster request.
+     */
+    export interface DriverVersion {
+      /**
+       * CUDA driver version.
+       */
+      cuda_driver_version: string;
+
+      /**
+       * NVIDIA driver version.
+       */
+      nvidia_driver_version: string;
+    }
   }
 }
 
