@@ -241,9 +241,10 @@ export namespace VideoCreateParams {
    */
   export interface Media {
     /**
-     * Array of audio inputs.
+     * Array of audio inputs. Each element accepts a URL string or an object with an
+     * "audio" key.
      */
-    audio_inputs?: Array<Media.AudioInput>;
+    audio_inputs?: Array<string | Media.AudioRef>;
 
     /**
      * Array of images to guide video generation at specific timeline positions.
@@ -266,13 +267,13 @@ export namespace VideoCreateParams {
     reference_videos?: Array<Media.ReferenceVideo>;
 
     /**
-     * Source video to edit.
+     * Source video to edit. Accepts a URL string or an object with a "video" key.
      */
-    source_video?: Media.SourceVideo;
+    source_video?: string | Media.VideoRef;
   }
 
   export namespace Media {
-    export interface AudioInput {
+    export interface AudioRef {
       /**
        * URL of the audio.
        */
@@ -310,10 +311,7 @@ export namespace VideoCreateParams {
       video: string;
     }
 
-    /**
-     * Source video to edit.
-     */
-    export interface SourceVideo {
+    export interface VideoRef {
       /**
        * URL of the video.
        */
