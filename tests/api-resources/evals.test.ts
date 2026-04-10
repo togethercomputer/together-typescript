@@ -41,6 +41,7 @@ describe('resource evals', () => {
           system_template: 'Imagine you are a helpful assistant',
           external_api_token: 'external_api_token',
           external_base_url: 'external_base_url',
+          num_workers: 5,
         },
         labels: ['yes', 'no'],
         pass_labels: ['yes'],
