@@ -23,13 +23,13 @@ describe('resource videos', () => {
     const response = await client.videos.create({
       model: 'model',
       fps: 0,
-      frame_images: [{ input_image: 'input_image', frame: 0 }],
+      frame_images: [{ input_image: 'input_image', frame: 'first' }],
       generate_audio: true,
       guidance_scale: 0,
       height: 0,
       media: {
         audio_inputs: ['string'],
-        frame_images: [{ input_image: 'input_image', frame: 0 }],
+        frame_images: [{ input_image: 'input_image', frame: 'first' }],
         frame_videos: [{ video: 'video' }],
         reference_images: ['string'],
         reference_videos: [{ video: 'video' }],
