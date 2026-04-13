@@ -76,9 +76,7 @@ export interface Cluster {
 
   control_plane_nodes: Array<Cluster.ControlPlaneNode>;
 
-  driver_version: 'CUDA_12_5_555' | 'CUDA_12_6_560' | 'CUDA_12_6_565' | 'CUDA_12_8_570';
-
-  duration_hours: number;
+  cuda_version: string;
 
   gpu_type: 'H100_SXM' | 'H200_SXM' | 'RTX_6000_PCI' | 'L40_PCIE' | 'B200_SXM' | 'H100_SXM_INF';
 
@@ -87,6 +85,8 @@ export interface Cluster {
   kube_config: string;
 
   num_gpus: number;
+
+  nvidia_driver_version: string;
 
   region: string;
 
@@ -107,6 +107,20 @@ export interface Cluster {
     | 'Deleting';
 
   volumes: Array<Cluster.Volume>;
+
+  capacity_pool_id?: string;
+
+  created_at?: string;
+
+  duration_hours?: number;
+
+  install_traefik?: boolean;
+
+  reservation_end_time?: string;
+
+  reservation_start_time?: string;
+
+  slurm_shm_size_gib?: number;
 }
 
 export namespace Cluster {
@@ -142,6 +156,8 @@ export namespace Cluster {
     num_gpus: number;
 
     status: string;
+
+    instance_id?: string;
   }
 
   export interface Volume {
@@ -211,7 +227,7 @@ export interface ClusterCreateParams {
    * reservation via the duration_days field. ON_DEMAND billing types will give you
    * ownership of the cluster until you delete it.
    */
-  billing_type: 'RESERVED' | 'ON_DEMAND';
+  billing_type: 'RESERVED' | 'ON_DEMAND' | 'SCHEDULED_CAPACITY';
 
   /**
    * Name of the GPU cluster.
@@ -219,9 +235,9 @@ export interface ClusterCreateParams {
   cluster_name: string;
 
   /**
-   * NVIDIA driver version to use in the cluster.
+   * CUDA version for this cluster. For example, 12.5
    */
-  driver_version: 'CUDA_12_5_555' | 'CUDA_12_6_560' | 'CUDA_12_6_565' | 'CUDA_12_8_570';
+  cuda_version: string;
 
   /**
    * Type of GPU to use in the cluster
@@ -235,10 +251,34 @@ export interface ClusterCreateParams {
   num_gpus: number;
 
   /**
+   * Nvidia driver version for this cluster. For example, 550. Only some combination
+   * of cuda_version and nvidia_driver_version are supported.
+   */
+  nvidia_driver_version: string;
+
+  /**
    * Region to create the GPU cluster in. Usable regions can be found from
    * `client.clusters.list_regions()`
    */
   region: string;
+
+  /**
+   * Maximum number of GPUs to which the cluster can be auto-scaled up. This field is
+   * required if auto_scaled is true.
+   */
+  auto_scale_max_gpus?: number;
+
+  /**
+   * Whether GPU cluster should be auto-scaled based on the workload. By default, it
+   * is not auto-scaled.
+   */
+  auto_scaled?: boolean;
+
+  /**
+   * ID of the capacity pool to use for the cluster. This field is optional and only
+   * applicable if the cluster is created from a capacity pool.
+   */
+  capacity_pool_id?: string;
 
   /**
    * Type of cluster to create.
@@ -251,9 +291,45 @@ export interface ClusterCreateParams {
   duration_days?: number;
 
   /**
+   * Whether automated GPU node failover should be enabled for this cluster. By
+   * default, it is disabled.
+   */
+  gpu_node_failover_enabled?: boolean;
+
+  /**
+   * Whether to install Traefik ingress controller in the cluster. This field is only
+   * applicable for Kubernetes clusters and is false by default.
+   */
+  install_traefik?: boolean;
+
+  /**
+   * Reservation end time of the cluster. This field is required for SCHEDULED
+   * billing to specify the reservation end time for the cluster.
+   */
+  reservation_end_time?: string;
+
+  /**
+   * Reservation start time of the cluster. This field is required for SCHEDULED
+   * billing to specify the reservation start time for the cluster. If not provided,
+   * the cluster will be provisioned immediately.
+   */
+  reservation_start_time?: string;
+
+  /**
    * Inline configuration to create a shared volume with the cluster creation.
    */
   shared_volume?: ClusterCreateParams.SharedVolume;
+
+  /**
+   * Custom Slurm image for Slurm clusters.
+   */
+  slurm_image?: string;
+
+  /**
+   * Shared memory size in GiB for Slurm cluster. This field is required if
+   * cluster_type is SLURM.
+   */
+  slurm_shm_size_gib?: number;
 
   /**
    * ID of an existing volume to use with the cluster creation.
@@ -294,6 +370,12 @@ export interface ClusterUpdateParams {
    * example, 8, 16 or 24
    */
   num_gpus?: number;
+
+  /**
+   * Timestamp at which the cluster should be decommissioned. Only accepted for
+   * prepaid clusters.
+   */
+  reservation_end_time?: string;
 }
 
 Clusters.Storage = Storage;
