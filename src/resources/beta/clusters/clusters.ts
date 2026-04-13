@@ -211,7 +211,7 @@ export namespace ClusterListRegionsResponse {
       /**
        * CUDA driver version.
        */
-      cuda_driver_version: string;
+      cuda_version: string;
 
       /**
        * NVIDIA driver version.
