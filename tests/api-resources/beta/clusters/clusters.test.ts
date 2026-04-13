@@ -12,9 +12,10 @@ describe('resource clusters', () => {
     const responsePromise = client.beta.clusters.create({
       billing_type: 'RESERVED',
       cluster_name: 'cluster_name',
-      driver_version: 'CUDA_12_5_555',
+      cuda_version: 'cuda_version',
       gpu_type: 'H100_SXM',
       num_gpus: 0,
+      nvidia_driver_version: 'nvidia_driver_version',
       region: 'region',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -30,17 +31,27 @@ describe('resource clusters', () => {
     const response = await client.beta.clusters.create({
       billing_type: 'RESERVED',
       cluster_name: 'cluster_name',
-      driver_version: 'CUDA_12_5_555',
+      cuda_version: 'cuda_version',
       gpu_type: 'H100_SXM',
       num_gpus: 0,
+      nvidia_driver_version: 'nvidia_driver_version',
       region: 'region',
+      auto_scale_max_gpus: 0,
+      auto_scaled: true,
+      capacity_pool_id: 'capacity_pool_id',
       cluster_type: 'KUBERNETES',
       duration_days: 0,
+      gpu_node_failover_enabled: true,
+      install_traefik: true,
+      reservation_end_time: '2019-12-27T18:11:19.117Z',
+      reservation_start_time: '2019-12-27T18:11:19.117Z',
       shared_volume: {
         region: 'region',
         size_tib: 0,
         volume_name: 'volume_name',
       },
+      slurm_image: 'slurm_image',
+      slurm_shm_size_gib: 0,
       volume_id: 'volume_id',
     });
   });
