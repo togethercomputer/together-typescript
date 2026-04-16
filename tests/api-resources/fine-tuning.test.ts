@@ -35,6 +35,7 @@ describe('resource fineTuning', () => {
         lr_scheduler_args: { min_lr_ratio: 0 },
       },
       max_grad_norm: 0,
+      max_seq_length: 0,
       multimodal_params: { train_vision: true },
       n_checkpoints: 0,
       n_epochs: 0,
