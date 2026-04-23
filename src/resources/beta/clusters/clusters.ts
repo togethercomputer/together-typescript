@@ -225,7 +225,9 @@ export interface ClusterCreateParams {
   /**
    * RESERVED billing types allow you to specify the duration of the cluster
    * reservation via the duration_days field. ON_DEMAND billing types will give you
-   * ownership of the cluster until you delete it.
+   * ownership of the cluster until you delete it. SCHEDULED_CAPACITY billing types
+   * allow you to reserve capacity for a scheduled time window. You must specify the
+   * reservation_start_time and reservation_end_time with this request.
    */
   billing_type: 'RESERVED' | 'ON_DEMAND' | 'SCHEDULED_CAPACITY';
 
