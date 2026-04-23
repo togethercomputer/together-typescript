@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.40.0 (2026-04-23)
+
+Full Changelog: [v0.39.0...v0.40.0](https://github.com/togethercomputer/together-typescript/compare/v0.39.0...v0.40.0)
+
+### Features
+
+* **api:** accept string URLs for audio_inputs and source_video in videos ([9313762](https://github.com/togethercomputer/together-typescript/commit/93137622f3c3fe9158c5692a69a7a191aee27d45))
+* **api:** add cuda/nvidia driver fields, auto-scaling, OIDC, scheduled capacity to clusters ([881242f](https://github.com/togethercomputer/together-typescript/commit/881242f30f5436353c4c977d4a205df35aedb9d1))
+* **api:** add h100-40gb-mig and b200-192gb gpu_type options to jig resource ([dcadaf2](https://github.com/togethercomputer/together-typescript/commit/dcadaf20bdcd7a2d238a16e4ba7c807536e3dfab))
+* **api:** add max_seq_length parameter to fine-tuning ([2dd78f9](https://github.com/togethercomputer/together-typescript/commit/2dd78f9636d4a43d15a5fd1b180194d20684cca0))
+* **api:** add num_workers parameter to evals model/judge requests ([c61a7c1](https://github.com/togethercomputer/together-typescript/commit/c61a7c1cc7eafa0913d853e993992961cc38ebaf))
+
+
+### Bug Fixes
+
+* **types:** rename cuda_driver_version to cuda_version in clusters ([e83d0c4](https://github.com/togethercomputer/together-typescript/commit/e83d0c40631b352675cc6bc1149e86cfd9dbbcdd))
+* **types:** update driver_versions structure, require supported_instance_types in cluster regions ([d1caf1c](https://github.com/togethercomputer/together-typescript/commit/d1caf1cb6f030a67980ec7c5569fcf521745f191))
+
+
+### Chores
+
+* **internal:** codegen related update ([f9b079e](https://github.com/togethercomputer/together-typescript/commit/f9b079e57f54ed0f4e0d4671d298efef8543874d))
+* **internal:** codegen related update ([4ba1386](https://github.com/togethercomputer/together-typescript/commit/4ba1386fb9a20d7cd2a33c07c5e2fbb42e80d9fe))
+* **internal:** more robust bootstrap script ([5c001e2](https://github.com/togethercomputer/together-typescript/commit/5c001e23c5b364f21daf5d31e0111e9e15f40885))
+* **tests:** bump steady to v0.22.1 ([3d2bf61](https://github.com/togethercomputer/together-typescript/commit/3d2bf615258e63639612b29b0c544dc8c7c88b10))
+
+
+### Documentation
+
+* **api:** expand billing_type documentation in cluster creation ([f74418e](https://github.com/togethercomputer/together-typescript/commit/f74418e05cab6a9540d2482ffbecdec9fe0272c4))
+* improve examples ([bdf968a](https://github.com/togethercomputer/together-typescript/commit/bdf968a7f48622f0865040dd8f9b81d029ce8e3e))
+
 ## 0.39.0 (2026-04-03)
 
 Full Changelog: [v0.38.0...v0.39.0](https://github.com/togethercomputer/together-typescript/compare/v0.38.0...v0.39.0)
