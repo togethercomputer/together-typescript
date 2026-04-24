@@ -2,35 +2,11 @@
 
 import { APIResource } from '../../../core/resource';
 import * as QueueAPI from './queue';
-import {
-  Queue,
-  QueueCancelParams,
-  QueueCancelResponse,
-  QueueMetricsParams,
-  QueueMetricsResponse,
-  QueueRetrieveParams,
-  QueueRetrieveResponse,
-  QueueSubmitParams,
-  QueueSubmitResponse,
-} from './queue';
+import { Queue, QueueCancelParams, QueueCancelResponse, QueueMetricsParams, QueueMetricsResponse, QueueRetrieveParams, QueueRetrieveResponse, QueueSubmitParams, QueueSubmitResponse } from './queue';
 import * as SecretsAPI from './secrets';
-import {
-  Secret,
-  SecretCreateParams,
-  SecretDeleteResponse,
-  SecretListResponse,
-  SecretUpdateParams,
-  Secrets,
-} from './secrets';
+import { Secret, SecretCreateParams, SecretDeleteResponse, SecretListResponse, SecretUpdateParams, Secrets } from './secrets';
 import * as VolumesAPI from './volumes';
-import {
-  Volume as VolumesAPIVolume,
-  VolumeCreateParams,
-  VolumeDeleteResponse,
-  VolumeListResponse,
-  VolumeUpdateParams,
-  Volumes,
-} from './volumes';
+import { Volume as VolumesAPIVolume, VolumeCreateParams, VolumeDeleteResponse, VolumeListResponse, VolumeUpdateParams, Volumes } from './volumes';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
@@ -78,11 +54,7 @@ export class Jig extends APIResource {
   /**
    * Retrieve logs from a deployment, optionally filtered by replica ID.
    */
-  retrieveLogs(
-    id: string,
-    query: JigRetrieveLogsParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<DeploymentLogs> {
+  retrieveLogs(id: string, query: JigRetrieveLogsParams | null | undefined = {}, options?: RequestOptions): APIPromise<DeploymentLogs> {
     return this._client.get(path`/deployments/${id}/logs`, { query, ...options });
   }
 }
@@ -102,10 +74,7 @@ export interface Deployment {
    * Autoscaling contains autoscaling configuration parameters for this deployment.
    * Omitted when autoscaling is disabled (nil)
    */
-  autoscaling?:
-    | Deployment.HTTPAutoscalingConfig
-    | Deployment.QueueAutoscalingConfig
-    | Deployment.CustomMetricAutoscalingConfig;
+  autoscaling?: Deployment.HTTPAutoscalingConfig | Deployment.QueueAutoscalingConfig | Deployment.CustomMetricAutoscalingConfig;
 
   /**
    * Command is the entrypoint command run in the container
@@ -397,7 +366,7 @@ export interface JigListResponse {
   object?: 'list';
 }
 
-export type JigDestroyResponse = unknown;
+export type JigDestroyResponse = unknown
 
 export interface JigUpdateParams {
   /**
@@ -409,10 +378,7 @@ export interface JigUpdateParams {
   /**
    * Autoscaling configuration for the deployment. Set to {} to disable autoscaling
    */
-  autoscaling?:
-    | JigUpdateParams.HTTPAutoscalingConfig
-    | JigUpdateParams.QueueAutoscalingConfig
-    | JigUpdateParams.CustomMetricAutoscalingConfig;
+  autoscaling?: JigUpdateParams.HTTPAutoscalingConfig | JigUpdateParams.QueueAutoscalingConfig | JigUpdateParams.CustomMetricAutoscalingConfig;
 
   /**
    * Command overrides the container's ENTRYPOINT. Provide as an array (e.g.,
@@ -639,10 +605,7 @@ export interface JigDeployParams {
    * "target": 1.01} to scale based on queue backlog. Omit or set to null to disable
    * autoscaling
    */
-  autoscaling?:
-    | JigDeployParams.HTTPAutoscalingConfig
-    | JigDeployParams.QueueAutoscalingConfig
-    | JigDeployParams.CustomMetricAutoscalingConfig;
+  autoscaling?: JigDeployParams.HTTPAutoscalingConfig | JigDeployParams.QueueAutoscalingConfig | JigDeployParams.CustomMetricAutoscalingConfig;
 
   /**
    * Command overrides the container's ENTRYPOINT. Provide as an array (e.g.,
@@ -847,7 +810,7 @@ export declare namespace Jig {
     type JigDestroyResponse as JigDestroyResponse,
     type JigUpdateParams as JigUpdateParams,
     type JigDeployParams as JigDeployParams,
-    type JigRetrieveLogsParams as JigRetrieveLogsParams,
+    type JigRetrieveLogsParams as JigRetrieveLogsParams
   };
 
   export {
@@ -859,7 +822,7 @@ export declare namespace Jig {
     type QueueRetrieveParams as QueueRetrieveParams,
     type QueueCancelParams as QueueCancelParams,
     type QueueMetricsParams as QueueMetricsParams,
-    type QueueSubmitParams as QueueSubmitParams,
+    type QueueSubmitParams as QueueSubmitParams
   };
 
   export {
@@ -868,7 +831,7 @@ export declare namespace Jig {
     type VolumeListResponse as VolumeListResponse,
     type VolumeDeleteResponse as VolumeDeleteResponse,
     type VolumeCreateParams as VolumeCreateParams,
-    type VolumeUpdateParams as VolumeUpdateParams,
+    type VolumeUpdateParams as VolumeUpdateParams
   };
 
   export {
@@ -877,6 +840,6 @@ export declare namespace Jig {
     type SecretListResponse as SecretListResponse,
     type SecretDeleteResponse as SecretDeleteResponse,
     type SecretCreateParams as SecretCreateParams,
-    type SecretUpdateParams as SecretUpdateParams,
+    type SecretUpdateParams as SecretUpdateParams
   };
 }

@@ -23,22 +23,11 @@ export class Completions extends APIResource {
    * );
    * ```
    */
-  create(body: CompletionCreateParamsNonStreaming, options?: RequestOptions): APIPromise<ChatCompletion>;
-  create(
-    body: CompletionCreateParamsStreaming,
-    options?: RequestOptions,
-  ): APIPromise<Stream<ChatCompletionChunk>>;
-  create(
-    body: CompletionCreateParamsBase,
-    options?: RequestOptions,
-  ): APIPromise<Stream<ChatCompletionChunk> | ChatCompletion>;
-  create(
-    body: CompletionCreateParams,
-    options?: RequestOptions,
-  ): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletionChunk>> {
-    return this._client.post('/chat/completions', { body, ...options, stream: body.stream ?? false }) as
-      | APIPromise<ChatCompletion>
-      | APIPromise<Stream<ChatCompletionChunk>>;
+  create(body: CompletionCreateParamsNonStreaming, options?: RequestOptions): APIPromise<ChatCompletion>
+  create(body: CompletionCreateParamsStreaming, options?: RequestOptions): APIPromise<Stream<ChatCompletionChunk>>
+  create(body: CompletionCreateParamsBase, options?: RequestOptions): APIPromise<Stream<ChatCompletionChunk> | ChatCompletion>
+  create(body: CompletionCreateParams, options?: RequestOptions): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletionChunk>> {
+    return this._client.post('/chat/completions', { body, ...options, stream: body.stream ?? false }) as APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletionChunk>>;
   }
   stream(body: ChatCompletionStreamParams, options?: RequestOptions): ChatCompletionStream {
     return ChatCompletionStream.createChatCompletion(this._client.chat.completions, body, options);
@@ -243,15 +232,7 @@ export namespace ChatCompletionMessageParam {
      * The content of the message, which can either be a simple string or a structured
      * format.
      */
-    content:
-      | string
-      | Array<
-          | ChatCompletionsAPI.ChatCompletionStructuredMessageText
-          | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
-          | ChatCompletionsAPI.ChatCompletionStructuredMessageVideoURL
-          | ChatCompletionUserMessageParam.Audio
-          | ChatCompletionUserMessageParam.InputAudio
-        >;
+    content: string | Array<ChatCompletionsAPI.ChatCompletionStructuredMessageText | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL | ChatCompletionsAPI.ChatCompletionStructuredMessageVideoURL | ChatCompletionUserMessageParam.Audio | ChatCompletionUserMessageParam.InputAudio>;
 
     role: 'user';
 
@@ -322,7 +303,7 @@ export namespace ChatCompletionMessageParam {
   }
 }
 
-export type ChatCompletionPrompt = Array<ChatCompletionPrompt.ChatCompletionPromptItem>;
+export type ChatCompletionPrompt = Array<ChatCompletionPrompt.ChatCompletionPromptItem>
 
 export namespace ChatCompletionPrompt {
   export interface ChatCompletionPromptItem {
@@ -422,7 +403,7 @@ export interface ChatCompletionWarning {
   message: string;
 }
 
-export type CompletionCreateParams = CompletionCreateParamsNonStreaming | CompletionCreateParamsStreaming;
+export type CompletionCreateParams = CompletionCreateParamsNonStreaming | CompletionCreateParamsStreaming
 
 export interface CompletionCreateParamsBase {
   /**
@@ -529,10 +510,7 @@ export interface CompletionCreateParamsBase {
    * ensures the message the model generates is valid JSON. Using `json_schema` is
    * preferred for models that support it.
    */
-  response_format?:
-    | CompletionCreateParams.Text
-    | CompletionCreateParams.JsonSchema
-    | CompletionCreateParams.JsonObject;
+  response_format?: CompletionCreateParams.Text | CompletionCreateParams.JsonSchema | CompletionCreateParams.JsonObject;
 
   /**
    * The name of the moderation model used to validate tokens. Choose from the
@@ -685,8 +663,8 @@ export namespace CompletionCreateParams {
     type: 'json_object';
   }
 
-  export type CompletionCreateParamsNonStreaming = ChatCompletionsAPI.CompletionCreateParamsNonStreaming;
-  export type CompletionCreateParamsStreaming = ChatCompletionsAPI.CompletionCreateParamsStreaming;
+  export type CompletionCreateParamsNonStreaming = ChatCompletionsAPI.CompletionCreateParamsNonStreaming
+  export type CompletionCreateParamsStreaming = ChatCompletionsAPI.CompletionCreateParamsStreaming
 }
 
 export interface CompletionCreateParamsNonStreaming extends CompletionCreateParamsBase {
@@ -726,6 +704,6 @@ export declare namespace Completions {
     type ChatCompletionWarning as ChatCompletionWarning,
     type CompletionCreateParams as CompletionCreateParams,
     type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
-    type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming,
+    type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming
   };
 }

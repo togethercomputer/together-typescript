@@ -3,12 +3,7 @@
 import { APIResource } from '../../core/resource';
 import * as AudioAPI from './audio';
 import * as SpeechAPI from './speech';
-import {
-  Speech,
-  SpeechCreateParams,
-  SpeechCreateParamsNonStreaming,
-  SpeechCreateParamsStreaming,
-} from './speech';
+import { Speech, SpeechCreateParams, SpeechCreateParamsNonStreaming, SpeechCreateParamsStreaming } from './speech';
 import * as TranscriptionsAPI from './transcriptions';
 import { TranscriptionCreateParams, TranscriptionCreateResponse, Transcriptions } from './transcriptions';
 import * as TranslationsAPI from './translations';
@@ -23,7 +18,7 @@ export class Audio extends APIResource {
   translations: TranslationsAPI.Translations = new TranslationsAPI.Translations(this._client);
 }
 
-export type AudioFile = AudioFile.AudioSpeechStreamEvent | AudioFile.StreamSentinel;
+export type AudioFile = AudioFile.AudioSpeechStreamEvent | AudioFile.StreamSentinel
 
 export namespace AudioFile {
   export interface AudioSpeechStreamEvent {
@@ -55,26 +50,32 @@ Audio.Transcriptions = Transcriptions;
 Audio.Translations = Translations;
 
 export declare namespace Audio {
-  export { type AudioFile as AudioFile, type AudioSpeechStreamChunk as AudioSpeechStreamChunk };
+  export {
+    type AudioFile as AudioFile,
+    type AudioSpeechStreamChunk as AudioSpeechStreamChunk
+  };
 
   export {
     Speech as Speech,
     type SpeechCreateParams as SpeechCreateParams,
     type SpeechCreateParamsNonStreaming as SpeechCreateParamsNonStreaming,
-    type SpeechCreateParamsStreaming as SpeechCreateParamsStreaming,
+    type SpeechCreateParamsStreaming as SpeechCreateParamsStreaming
   };
 
-  export { Voices as Voices, type VoiceListResponse as VoiceListResponse };
+  export {
+    Voices as Voices,
+    type VoiceListResponse as VoiceListResponse
+  };
 
   export {
     Transcriptions as Transcriptions,
     type TranscriptionCreateResponse as TranscriptionCreateResponse,
-    type TranscriptionCreateParams as TranscriptionCreateParams,
+    type TranscriptionCreateParams as TranscriptionCreateParams
   };
 
   export {
     Translations as Translations,
     type TranslationCreateResponse as TranslationCreateResponse,
-    type TranslationCreateParams as TranslationCreateParams,
+    type TranslationCreateParams as TranslationCreateParams
   };
 }

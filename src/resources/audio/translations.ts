@@ -18,16 +18,11 @@ export class Translations extends APIResource {
    * ```
    */
   create(body: TranslationCreateParams, options?: RequestOptions): APIPromise<TranslationCreateResponse> {
-    return this._client.post(
-      '/audio/translations',
-      multipartFormRequestOptions({ body, ...options }, this._client),
-    );
+    return this._client.post('/audio/translations', multipartFormRequestOptions({ body, ...options }, this._client));
   }
 }
 
-export type TranslationCreateResponse =
-  | TranslationCreateResponse.AudioTranslationJsonResponse
-  | TranslationCreateResponse.AudioTranslationVerboseJsonResponse;
+export type TranslationCreateResponse = TranslationCreateResponse.AudioTranslationJsonResponse | TranslationCreateResponse.AudioTranslationVerboseJsonResponse
 
 export namespace TranslationCreateResponse {
   export interface AudioTranslationJsonResponse {
@@ -160,6 +155,6 @@ export interface TranslationCreateParams {
 export declare namespace Translations {
   export {
     type TranslationCreateResponse as TranslationCreateResponse,
-    type TranslationCreateParams as TranslationCreateParams,
+    type TranslationCreateParams as TranslationCreateParams
   };
 }

@@ -112,6 +112,6 @@ export declare namespace Storage {
     type StorageListResponse as StorageListResponse,
     type StorageDeleteResponse as StorageDeleteResponse,
     type StorageCreateParams as StorageCreateParams,
-    type StorageUpdateParams as StorageUpdateParams,
+    type StorageUpdateParams as StorageUpdateParams
   };
 }
