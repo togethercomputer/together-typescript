@@ -173,7 +173,7 @@ export interface VolumeListResponse {
   object?: 'list';
 }
 
-export type VolumeDeleteResponse = unknown;
+export type VolumeDeleteResponse = unknown
 
 export interface VolumeCreateParams {
   /**
@@ -253,6 +253,6 @@ export declare namespace Volumes {
     type VolumeListResponse as VolumeListResponse,
     type VolumeDeleteResponse as VolumeDeleteResponse,
     type VolumeCreateParams as VolumeCreateParams,
-    type VolumeUpdateParams as VolumeUpdateParams,
+    type VolumeUpdateParams as VolumeUpdateParams
   };
 }

@@ -17,10 +17,7 @@ export class Models extends APIResource {
    * const modelObjects = await client.models.list();
    * ```
    */
-  list(
-    query: ModelListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<ModelListResponse> {
+  list(query: ModelListParams | null | undefined = {}, options?: RequestOptions): APIPromise<ModelListResponse> {
     return this._client.get('/models', { query, ...options });
   }
 
@@ -79,7 +76,7 @@ export namespace ModelObject {
   }
 }
 
-export type ModelListResponse = Array<ModelObject>;
+export type ModelListResponse = Array<ModelObject>
 
 export interface ModelUploadResponse {
   data: ModelUploadResponse.Data;
@@ -153,8 +150,11 @@ export declare namespace Models {
     type ModelListResponse as ModelListResponse,
     type ModelUploadResponse as ModelUploadResponse,
     type ModelListParams as ModelListParams,
-    type ModelUploadParams as ModelUploadParams,
+    type ModelUploadParams as ModelUploadParams
   };
 
-  export { Uploads as Uploads, type UploadStatusResponse as UploadStatusResponse };
+  export {
+    Uploads as Uploads,
+    type UploadStatusResponse as UploadStatusResponse
+  };
 }

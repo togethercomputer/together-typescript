@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Chat } from './chat';
+export { Chat } from './chat';;
 export {
   ChatCompletionAssistantMessageParam,
   ChatCompletionFunctionMessageParam,
@@ -10,16 +10,4 @@ export {
   ChatCompletionTool,
   ChatCompletionToolMessageParam,
   ChatCompletionUserMessageParam,
-  Completions,
-  type ChatCompletion,
-  type ChatCompletionChunk,
-  type ChatCompletionPrompt,
-  type ChatCompletionStructuredMessageImageURL,
-  type ChatCompletionStructuredMessageText,
-  type ChatCompletionStructuredMessageVideoURL,
-  type ChatCompletionUsage,
-  type ChatCompletionWarning,
-  type CompletionCreateParams,
-  type CompletionCreateParamsNonStreaming,
-  type CompletionCreateParamsStreaming,
-} from './completions';
+  Completions, type ChatCompletion, type ChatCompletionChunk, type ChatCompletionPrompt, type ChatCompletionStructuredMessageImageURL, type ChatCompletionStructuredMessageText, type ChatCompletionStructuredMessageVideoURL, type ChatCompletionUsage, type ChatCompletionWarning, type CompletionCreateParams, type CompletionCreateParamsNonStreaming, type CompletionCreateParamsStreaming } from './completions';;

@@ -51,11 +51,7 @@ export class Endpoints extends APIResource {
    * );
    * ```
    */
-  update(
-    endpointID: string,
-    body: EndpointUpdateParams,
-    options?: RequestOptions,
-  ): APIPromise<DedicatedEndpoint> {
+  update(endpointID: string, body: EndpointUpdateParams, options?: RequestOptions): APIPromise<DedicatedEndpoint> {
     return this._client.patch(path`/endpoints/${endpointID}`, { body, ...options });
   }
 
@@ -68,10 +64,7 @@ export class Endpoints extends APIResource {
    * const endpoints = await client.endpoints.list();
    * ```
    */
-  list(
-    query: EndpointListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<EndpointListResponse> {
+  list(query: EndpointListParams | null | undefined = {}, options?: RequestOptions): APIPromise<EndpointListResponse> {
     return this._client.get('/endpoints', { query, ...options });
   }
 
@@ -86,10 +79,7 @@ export class Endpoints extends APIResource {
    * ```
    */
   delete(endpointID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/endpoints/${endpointID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.delete(path`/endpoints/${endpointID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -114,10 +104,7 @@ export class Endpoints extends APIResource {
    * const response = await client.endpoints.listHardware();
    * ```
    */
-  listHardware(
-    query: EndpointListHardwareParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<EndpointListHardwareResponse> {
+  listHardware(query: EndpointListHardwareParams | null | undefined = {}, options?: RequestOptions): APIPromise<EndpointListHardwareResponse> {
     return this._client.get('/hardware', { query, ...options });
   }
 }
@@ -461,6 +448,6 @@ export declare namespace Endpoints {
     type EndpointCreateParams as EndpointCreateParams,
     type EndpointUpdateParams as EndpointUpdateParams,
     type EndpointListParams as EndpointListParams,
-    type EndpointListHardwareParams as EndpointListHardwareParams,
+    type EndpointListHardwareParams as EndpointListHardwareParams
   };
 }

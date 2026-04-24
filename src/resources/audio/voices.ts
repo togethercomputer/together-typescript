@@ -54,5 +54,7 @@ export namespace VoiceListResponse {
 }
 
 export declare namespace Voices {
-  export { type VoiceListResponse as VoiceListResponse };
+  export {
+    type VoiceListResponse as VoiceListResponse
+  };
 }

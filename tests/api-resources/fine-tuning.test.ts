@@ -2,10 +2,7 @@
 
 import Together from 'together-ai';
 
-const client = new Together({
-  apiKey: 'My API Key',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new Together({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
 describe('resource fineTuning', () => {
   test('create: only required params', async () => {
@@ -21,40 +18,40 @@ describe('resource fineTuning', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.fineTuning.create({
-      model: 'model',
-      training_file: 'training_file',
-      batch_size: 'max',
-      from_checkpoint: 'from_checkpoint',
-      from_hf_model: 'from_hf_model',
-      hf_api_token: 'hf_api_token',
-      hf_model_revision: 'hf_model_revision',
-      hf_output_repo_name: 'hf_output_repo_name',
-      learning_rate: 0,
-      lr_scheduler: {
-        lr_scheduler_type: 'linear',
-        lr_scheduler_args: { min_lr_ratio: 0 },
-      },
-      max_grad_norm: 0,
-      max_seq_length: 0,
-      multimodal_params: { train_vision: true },
-      n_checkpoints: 0,
-      n_epochs: 0,
-      n_evals: 0,
-      packing: true,
-      random_seed: 0,
-      suffix: 'suffix',
-      train_on_inputs: 'auto',
-      training_method: { method: 'sft', train_on_inputs: 'auto' },
-      training_type: { type: 'Full' },
-      validation_file: 'validation_file',
-      wandb_api_key: 'wandb_api_key',
-      wandb_base_url: 'wandb_base_url',
-      wandb_entity: 'wandb_entity',
-      wandb_name: 'wandb_name',
-      wandb_project_name: 'wandb_project_name',
-      warmup_ratio: 0,
-      weight_decay: 0,
-    });
+    model: 'model',
+    training_file: 'training_file',
+    batch_size: 'max',
+    from_checkpoint: 'from_checkpoint',
+    from_hf_model: 'from_hf_model',
+    hf_api_token: 'hf_api_token',
+    hf_model_revision: 'hf_model_revision',
+    hf_output_repo_name: 'hf_output_repo_name',
+    learning_rate: 0,
+    lr_scheduler: {
+    lr_scheduler_type: 'linear',
+    lr_scheduler_args: { min_lr_ratio: 0 },
+  },
+    max_grad_norm: 0,
+    max_seq_length: 0,
+    multimodal_params: { train_vision: true },
+    n_checkpoints: 0,
+    n_epochs: 0,
+    n_evals: 0,
+    packing: true,
+    random_seed: 0,
+    suffix: 'suffix',
+    train_on_inputs: 'auto',
+    training_method: { method: 'sft', train_on_inputs: 'auto' },
+    training_type: { type: 'Full' },
+    validation_file: 'validation_file',
+    wandb_api_key: 'wandb_api_key',
+    wandb_base_url: 'wandb_base_url',
+    wandb_entity: 'wandb_entity',
+    wandb_name: 'wandb_name',
+    wandb_project_name: 'wandb_project_name',
+    warmup_ratio: 0,
+    weight_decay: 0,
+  });
   });
 
   test('retrieve', async () => {
@@ -92,9 +89,9 @@ describe('resource fineTuning', () => {
 
   test('delete: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.fineTuning.delete('id', { force: true }, { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Together.NotFoundError);
+    await expect(client.fineTuning.delete('id', { force: true }, { path: '/_stainless_unknown_path' }))
+      .rejects
+      .toThrow(Together.NotFoundError);
   });
 
   test('cancel', async () => {
@@ -110,10 +107,10 @@ describe('resource fineTuning', () => {
 
   test('content: required and optional params', async () => {
     const response = await client.fineTuning.content({
-      ft_id: 'ft_id',
-      checkpoint: 'merged',
-      checkpoint_step: 0,
-    });
+    ft_id: 'ft_id',
+    checkpoint: 'merged',
+    checkpoint_step: 0,
+  });
   });
 
   test('estimatePrice: only required params', async () => {
@@ -129,15 +126,15 @@ describe('resource fineTuning', () => {
 
   test('estimatePrice: required and optional params', async () => {
     const response = await client.fineTuning.estimatePrice({
-      training_file: 'training_file',
-      from_checkpoint: 'from_checkpoint',
-      model: 'model',
-      n_epochs: 0,
-      n_evals: 0,
-      training_method: { method: 'sft', train_on_inputs: 'auto' },
-      training_type: { type: 'Full' },
-      validation_file: 'validation_file',
-    });
+    training_file: 'training_file',
+    from_checkpoint: 'from_checkpoint',
+    model: 'model',
+    n_epochs: 0,
+    n_evals: 0,
+    training_method: { method: 'sft', train_on_inputs: 'auto' },
+    training_type: { type: 'Full' },
+    validation_file: 'validation_file',
+  });
   });
 
   test('listCheckpoints', async () => {
