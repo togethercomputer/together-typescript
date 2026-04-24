@@ -51,10 +51,7 @@ export class Evals extends APIResource {
    * const evaluationJobs = await client.evals.list();
    * ```
    */
-  list(
-    query: EvalListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<EvalListResponse> {
+  list(query: EvalListParams | null | undefined = {}, options?: RequestOptions): APIPromise<EvalListResponse> {
     return this._client.get('/evaluation', { query, ...options });
   }
 
@@ -90,12 +87,7 @@ export interface EvaluationJob {
   /**
    * Results of the evaluation (when completed)
    */
-  results?:
-    | EvaluationJob.EvaluationClassifyResults
-    | EvaluationJob.EvaluationScoreResults
-    | EvaluationJob.EvaluationCompareResults
-    | EvaluationJob.Error
-    | null;
+  results?: EvaluationJob.EvaluationClassifyResults | EvaluationJob.EvaluationScoreResults | EvaluationJob.EvaluationCompareResults | EvaluationJob.Error | null;
 
   /**
    * Current status of the job
@@ -266,16 +258,13 @@ export interface EvalCreateResponse {
   workflow_id?: string;
 }
 
-export type EvalListResponse = Array<EvaluationJob>;
+export type EvalListResponse = Array<EvaluationJob>
 
 export interface EvalStatusResponse {
   /**
    * The results of the evaluation job
    */
-  results?:
-    | EvalStatusResponse.EvaluationClassifyResults
-    | EvalStatusResponse.EvaluationScoreResults
-    | EvalStatusResponse.EvaluationCompareResults;
+  results?: EvalStatusResponse.EvaluationClassifyResults | EvalStatusResponse.EvaluationScoreResults | EvalStatusResponse.EvaluationCompareResults;
 
   /**
    * The status of the evaluation job
@@ -397,10 +386,7 @@ export interface EvalCreateParams {
   /**
    * Type-specific parameters for the evaluation
    */
-  parameters:
-    | EvalCreateParams.EvaluationClassifyParameters
-    | EvalCreateParams.EvaluationScoreParameters
-    | EvalCreateParams.EvaluationCompareParameters;
+  parameters: EvalCreateParams.EvaluationClassifyParameters | EvalCreateParams.EvaluationScoreParameters | EvalCreateParams.EvaluationCompareParameters;
 
   /**
    * The type of evaluation to perform
@@ -805,6 +791,6 @@ export declare namespace Evals {
     type EvalListResponse as EvalListResponse,
     type EvalStatusResponse as EvalStatusResponse,
     type EvalCreateParams as EvalCreateParams,
-    type EvalListParams as EvalListParams,
+    type EvalListParams as EvalListParams
   };
 }

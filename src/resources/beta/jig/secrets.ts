@@ -96,7 +96,7 @@ export interface SecretListResponse {
   object?: 'list';
 }
 
-export type SecretDeleteResponse = unknown;
+export type SecretDeleteResponse = unknown
 
 export interface SecretCreateParams {
   /**
@@ -158,6 +158,6 @@ export declare namespace Secrets {
     type SecretListResponse as SecretListResponse,
     type SecretDeleteResponse as SecretDeleteResponse,
     type SecretCreateParams as SecretCreateParams,
-    type SecretUpdateParams as SecretUpdateParams,
+    type SecretUpdateParams as SecretUpdateParams
   };
 }

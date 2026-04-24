@@ -2,26 +2,9 @@
 
 import { APIResource } from '../../core/resource';
 import * as ClustersAPI from './clusters/clusters';
-import {
-  Cluster,
-  ClusterCreateParams,
-  ClusterDeleteResponse,
-  ClusterListRegionsResponse,
-  ClusterListResponse,
-  ClusterUpdateParams,
-  Clusters,
-} from './clusters/clusters';
+import { Cluster, ClusterCreateParams, ClusterDeleteResponse, ClusterListRegionsResponse, ClusterListResponse, ClusterUpdateParams, Clusters } from './clusters/clusters';
 import * as JigAPI from './jig/jig';
-import {
-  Deployment,
-  DeploymentLogs,
-  Jig,
-  JigDeployParams,
-  JigDestroyResponse,
-  JigListResponse,
-  JigRetrieveLogsParams,
-  JigUpdateParams,
-} from './jig/jig';
+import { Deployment, DeploymentLogs, Jig, JigDeployParams, JigDestroyResponse, JigListResponse, JigRetrieveLogsParams, JigUpdateParams } from './jig/jig';
 
 export class Beta extends APIResource {
   jig: JigAPI.Jig = new JigAPI.Jig(this._client);
@@ -40,7 +23,7 @@ export declare namespace Beta {
     type JigDestroyResponse as JigDestroyResponse,
     type JigUpdateParams as JigUpdateParams,
     type JigDeployParams as JigDeployParams,
-    type JigRetrieveLogsParams as JigRetrieveLogsParams,
+    type JigRetrieveLogsParams as JigRetrieveLogsParams
   };
 
   export {
@@ -50,6 +33,6 @@ export declare namespace Beta {
     type ClusterDeleteResponse as ClusterDeleteResponse,
     type ClusterListRegionsResponse as ClusterListRegionsResponse,
     type ClusterCreateParams as ClusterCreateParams,
-    type ClusterUpdateParams as ClusterUpdateParams,
+    type ClusterUpdateParams as ClusterUpdateParams
   };
 }

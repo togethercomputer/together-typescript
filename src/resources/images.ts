@@ -56,11 +56,7 @@ export interface ImageGenerateParams {
    *
    * [See all of Together AI's image models](https://docs.together.ai/docs/serverless-models#image-models)
    */
-  model:
-    | 'black-forest-labs/FLUX.1-schnell-Free'
-    | 'black-forest-labs/FLUX.1-schnell'
-    | 'black-forest-labs/FLUX.1.1-pro'
-    | (string & {});
+  model: 'black-forest-labs/FLUX.1-schnell-Free' | 'black-forest-labs/FLUX.1-schnell' | 'black-forest-labs/FLUX.1.1-pro' | (string & {});
 
   /**
    * A description of the desired images. Maximum length varies by model.
@@ -159,6 +155,6 @@ export declare namespace Images {
     type ImageDataB64 as ImageDataB64,
     type ImageDataURL as ImageDataURL,
     type ImageFile as ImageFile,
-    type ImageGenerateParams as ImageGenerateParams,
+    type ImageGenerateParams as ImageGenerateParams
   };
 }

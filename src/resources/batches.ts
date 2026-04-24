@@ -110,7 +110,7 @@ export interface BatchCreateResponse {
   warning?: string;
 }
 
-export type BatchListResponse = Array<BatchJob>;
+export type BatchListResponse = Array<BatchJob>
 
 export interface BatchCreateParams {
   /**
@@ -144,6 +144,6 @@ export declare namespace Batches {
     type BatchJob as BatchJob,
     type BatchCreateResponse as BatchCreateResponse,
     type BatchListResponse as BatchListResponse,
-    type BatchCreateParams as BatchCreateParams,
+    type BatchCreateParams as BatchCreateParams
   };
 }

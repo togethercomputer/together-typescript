@@ -17,94 +17,26 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
-import {
-  BatchCreateParams,
-  BatchCreateResponse,
-  BatchJob,
-  BatchListResponse,
-  Batches,
-} from './resources/batches';
-import {
-  Completion,
-  CompletionChunk,
-  CompletionCreateParams,
-  CompletionCreateParamsNonStreaming,
-  CompletionCreateParamsStreaming,
-  Completions,
-  LogProbs,
-  ToolChoice,
-  Tools,
-} from './resources/completions';
+import { BatchCreateParams, BatchCreateResponse, BatchJob, BatchListResponse, Batches } from './resources/batches';
+import { Completion, CompletionChunk, CompletionCreateParams, CompletionCreateParamsNonStreaming, CompletionCreateParamsStreaming, Completions, LogProbs, ToolChoice, Tools } from './resources/completions';
 import { Embedding, EmbeddingCreateParams, Embeddings } from './resources/embeddings';
-import {
-  Autoscaling,
-  DedicatedEndpoint,
-  EndpointCreateParams,
-  EndpointListAvzonesResponse,
-  EndpointListHardwareParams,
-  EndpointListHardwareResponse,
-  EndpointListParams,
-  EndpointListResponse,
-  EndpointUpdateParams,
-  Endpoints,
-} from './resources/endpoints';
-import {
-  EvalCreateParams,
-  EvalCreateResponse,
-  EvalListParams,
-  EvalListResponse,
-  EvalStatusResponse,
-  Evals,
-  EvaluationJob,
-} from './resources/evals';
+import { Autoscaling, DedicatedEndpoint, EndpointCreateParams, EndpointListAvzonesResponse, EndpointListHardwareParams, EndpointListHardwareResponse, EndpointListParams, EndpointListResponse, EndpointUpdateParams, Endpoints } from './resources/endpoints';
+import { EvalCreateParams, EvalCreateResponse, EvalListParams, EvalListResponse, EvalStatusResponse, Evals, EvaluationJob } from './resources/evals';
 import { FileDeleteResponse, FileList, FilePurpose, FileResponse, FileType, Files } from './resources/files';
-import {
-  FineTuning,
-  FineTuningCancelResponse,
-  FineTuningContentParams,
-  FineTuningCreateParams,
-  FineTuningCreateResponse,
-  FineTuningDeleteParams,
-  FineTuningDeleteResponse,
-  FineTuningEstimatePriceParams,
-  FineTuningEstimatePriceResponse,
-  FineTuningListCheckpointsResponse,
-  FineTuningListEventsResponse,
-  FineTuningListResponse,
-  FinetuneEvent,
-  FinetuneEventType,
-  FinetuneResponse,
-} from './resources/fine-tuning';
+import { FineTuning, FineTuningCancelResponse, FineTuningContentParams, FineTuningCreateParams, FineTuningCreateResponse, FineTuningDeleteParams, FineTuningDeleteResponse, FineTuningEstimatePriceParams, FineTuningEstimatePriceResponse, FineTuningListCheckpointsResponse, FineTuningListEventsResponse, FineTuningListResponse, FinetuneEvent, FinetuneEventType, FinetuneResponse } from './resources/fine-tuning';
 import { ImageDataB64, ImageDataURL, ImageFile, ImageGenerateParams, Images } from './resources/images';
 import { Rerank, RerankCreateParams, RerankCreateResponse } from './resources/rerank';
 import { VideoCreateParams, VideoJob, Videos } from './resources/videos';
 import { Audio, AudioFile, AudioSpeechStreamChunk } from './resources/audio/audio';
 import { Beta } from './resources/beta/beta';
 import { Chat } from './resources/chat/chat';
-import {
-  CodeInterpreter,
-  CodeInterpreterExecuteParams,
-  ExecuteResponse,
-} from './resources/code-interpreter/code-interpreter';
-import {
-  ModelListParams,
-  ModelListResponse,
-  ModelObject,
-  ModelUploadParams,
-  ModelUploadResponse,
-  Models,
-} from './resources/models/models';
+import { CodeInterpreter, CodeInterpreterExecuteParams, ExecuteResponse } from './resources/code-interpreter/code-interpreter';
+import { ModelListParams, ModelListResponse, ModelObject, ModelUploadParams, ModelUploadResponse, Models } from './resources/models/models';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
 import { readEnv } from './internal/utils/env';
-import {
-  type LogLevel,
-  type Logger,
-  formatRequestDetails,
-  loggerFor,
-  parseLogLevel,
-} from './internal/utils/log';
+import { type LogLevel, type Logger, formatRequestDetails, loggerFor, parseLogLevel } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
 
 export interface ClientOptions {
@@ -183,7 +115,7 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Together API.
+ * API Client for interfacing with the Together API. 
  */
 export class Together {
   apiKey: string;
@@ -219,7 +151,7 @@ export class Together {
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
       throw new Errors.TogetherError(
-        "The TOGETHER_API_KEY environment variable is missing or empty; either provide it, or instantiate the Together client with an apiKey option, like new Together({ apiKey: 'My API Key' }).",
+        'The TOGETHER_API_KEY environment variable is missing or empty; either provide it, or instantiate the Together client with an apiKey option, like new Together({ apiKey: \'My API Key\' }).'
       );
     }
 
@@ -235,10 +167,7 @@ export class Together {
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
-    this.logLevel =
-      parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('TOGETHER_LOG'), "process.env['TOGETHER_LOG']", this) ??
-      defaultLogLevel;
+    this.logLevel = parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ?? parseLogLevel(readEnv('TOGETHER_LOG'), 'process.env[\'TOGETHER_LOG\']', this) ?? defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
     this.fetch = options.fetch ?? Shims.getDefaultFetch();
@@ -263,7 +192,7 @@ export class Together {
       fetch: this.fetch,
       fetchOptions: this.fetchOptions,
       apiKey: this.apiKey,
-      ...options,
+      ...options
     });
     return client;
   }
@@ -276,7 +205,7 @@ export class Together {
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
-    return this._options.defaultQuery;
+    return this._options.defaultQuery
   }
 
   protected validateHeaders({ values, nulls }: NullableHeaders) {
@@ -311,11 +240,7 @@ export class Together {
     return Errors.APIError.generate(status, error, message, headers);
   }
 
-  buildURL(
-    path: string,
-    query: Record<string, unknown> | null | undefined,
-    defaultBaseURL?: string | undefined,
-  ): string {
+  buildURL(path: string, query: Record<string, unknown> | null | undefined, defaultBaseURL?: string | undefined): string {
     const baseURL = (!this.#baseURLOverridden() && defaultBaseURL) || this.baseURL;
     const url =
       isAbsoluteURL(path) ?
@@ -403,9 +328,7 @@ export class Together {
 
     await this.prepareOptions(options);
 
-    const { req, url, timeout } = await this.buildRequest(options, {
-      retryCount: maxRetries - retriesRemaining,
-    });
+    const { req, url, timeout } = await this.buildRequest(options, { retryCount: maxRetries - retriesRemaining });
 
     await this.prepareRequest(req, { url, options });
 
@@ -414,16 +337,7 @@ export class Together {
     const retryLogStr = retryOfRequestLogID === undefined ? '' : `, retryOf: ${retryOfRequestLogID}`;
     const startTime = Date.now();
 
-    loggerFor(this).debug(
-      `[${requestLogID}] sending request`,
-      formatRequestDetails({
-        retryOfRequestLogID,
-        method: options.method,
-        url,
-        options,
-        headers: req.headers,
-      }),
-    );
+    loggerFor(this).debug(`[${requestLogID}] sending request`, formatRequestDetails({ retryOfRequestLogID, method: options.method, url, options, headers: req.headers }));
 
     if (options.signal?.aborted) {
       throw new Errors.APIUserAbortError();
@@ -442,45 +356,21 @@ export class Together {
       // deno throws "TypeError: error sending request for url (https://example/): client error (Connect): tcp connect error: Operation timed out (os error 60): Operation timed out (os error 60)"
       // undici throws "TypeError: fetch failed" with cause "ConnectTimeoutError: Connect Timeout Error (attempted address: example:443, timeout: 1ms)"
       // others do not provide enough information to distinguish timeouts from other connection errors
-      const isTimeout =
-        isAbortError(response) ||
-        /timed? ?out/i.test(String(response) + ('cause' in response ? String(response.cause) : ''));
+      const isTimeout = isAbortError(response) || /timed? ?out/i.test(String(response) + ('cause' in response ? String(response.cause) : ''))
       if (retriesRemaining) {
-        loggerFor(this).info(
-          `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - ${retryMessage}`,
-        );
-        loggerFor(this).debug(
-          `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (${retryMessage})`,
-          formatRequestDetails({
-            retryOfRequestLogID,
-            url,
-            durationMs: headersTime - startTime,
-            message: response.message,
-          }),
-        );
+        loggerFor(this).info(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - ${retryMessage}`)
+        loggerFor(this).debug(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url, durationMs: headersTime - startTime, message: response.message }));
         return this.retryRequest(options, retriesRemaining, retryOfRequestLogID ?? requestLogID);
       }
-      loggerFor(this).info(
-        `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - error; no more retries left`,
-      );
-      loggerFor(this).debug(
-        `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (error; no more retries left)`,
-        formatRequestDetails({
-          retryOfRequestLogID,
-          url,
-          durationMs: headersTime - startTime,
-          message: response.message,
-        }),
-      );
+      loggerFor(this).info(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - error; no more retries left`)
+      loggerFor(this).debug(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (error; no more retries left)`, formatRequestDetails({ retryOfRequestLogID, url, durationMs: headersTime - startTime, message: response.message }));
       if (isTimeout) {
         throw new Errors.APIConnectionTimeoutError();
       }
       throw new Errors.APIConnectionError({ cause: response });
     }
 
-    const responseInfo = `[${requestLogID}${retryLogStr}] ${req.method} ${url} ${
-      response.ok ? 'succeeded' : 'failed'
-    } with status ${response.status} in ${headersTime - startTime}ms`;
+    const responseInfo = `[${requestLogID}${retryLogStr}] ${req.method} ${url} ${response.ok ? 'succeeded' : 'failed'} with status ${response.status} in ${headersTime - startTime}ms`;
 
     if (!response.ok) {
       const shouldRetry = await this.shouldRetry(response);
@@ -489,60 +379,27 @@ export class Together {
 
         // We don't need the body of this response.
         await Shims.CancelReadableStream(response.body);
-        loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
-        loggerFor(this).debug(
-          `[${requestLogID}] response error (${retryMessage})`,
-          formatRequestDetails({
-            retryOfRequestLogID,
-            url: response.url,
-            status: response.status,
-            headers: response.headers,
-            durationMs: headersTime - startTime,
-          }),
-        );
-        return this.retryRequest(
-          options,
-          retriesRemaining,
-          retryOfRequestLogID ?? requestLogID,
-          response.headers,
-        );
+        loggerFor(this).info(`${responseInfo} - ${retryMessage}`)
+        loggerFor(this).debug(`[${requestLogID}] response error (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, durationMs: headersTime - startTime }));
+        return this.retryRequest(options, retriesRemaining, retryOfRequestLogID ?? requestLogID, response.headers);
       }
 
       const retryMessage = shouldRetry ? `error; no more retries left` : `error; not retryable`;
 
-      loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
+      loggerFor(this).info(`${responseInfo} - ${retryMessage}`)
 
       const errText = await response.text().catch((err: any) => castToError(err).message);
       const errJSON = safeJSON(errText) as any;
       const errMessage = errJSON ? undefined : errText;
 
-      loggerFor(this).debug(
-        `[${requestLogID}] response error (${retryMessage})`,
-        formatRequestDetails({
-          retryOfRequestLogID,
-          url: response.url,
-          status: response.status,
-          headers: response.headers,
-          message: errMessage,
-          durationMs: Date.now() - startTime,
-        }),
-      );
+      loggerFor(this).debug(`[${requestLogID}] response error (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, message: errMessage, durationMs: Date.now() - startTime }));
 
       const err = this.makeStatusError(response.status, errJSON, errMessage, response.headers);
       throw err;
     }
 
-    loggerFor(this).info(responseInfo);
-    loggerFor(this).debug(
-      `[${requestLogID}] response start`,
-      formatRequestDetails({
-        retryOfRequestLogID,
-        url: response.url,
-        status: response.status,
-        headers: response.headers,
-        durationMs: headersTime - startTime,
-      }),
-    );
+    loggerFor(this).info(responseInfo)
+    loggerFor(this).debug(`[${requestLogID}] response start`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, durationMs: headersTime - startTime }));
 
     return { response, options, controller, requestLogID, retryOfRequestLogID, startTime };
   }
@@ -559,9 +416,7 @@ export class Together {
 
     const timeout = setTimeout(abort, ms);
 
-    const isReadableBody =
-      ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) ||
-      (typeof options.body === 'object' && options.body !== null && Symbol.asyncIterator in options.body);
+    const isReadableBody = ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) || (typeof options.body === "object" && options.body !== null && Symbol.asyncIterator in options.body);
 
     const fetchOptions: RequestInit = {
       signal: controller.signal as any,
@@ -576,6 +431,7 @@ export class Together {
     }
 
     try {
+
       // use undefined this binding; fetch errors if bound to something else in browser/cloudflare
       return await this.fetch.call(undefined, url, fetchOptions);
     } finally {
@@ -676,12 +532,11 @@ export class Together {
     const req: FinalizedRequestInit = {
       method,
       headers: reqHeaders,
-      ...(options.signal && { signal: options.signal }),
-      ...((globalThis as any).ReadableStream &&
-        body instanceof (globalThis as any).ReadableStream && { duplex: 'half' }),
+      ...(options.signal && { signal: options.signal}),
+      ...((globalThis as any).ReadableStream && body instanceof (globalThis as any).ReadableStream && { duplex: "half" }),
       ...(body && { body }),
-      ...((this.fetchOptions as any) ?? {}),
-      ...((options.fetchOptions as any) ?? {}),
+      ...(this.fetchOptions as any ?? {}),
+      ...(options.fetchOptions as any ?? {}),
     };
 
     return { req, url, timeout: options.timeout };
@@ -706,17 +561,15 @@ export class Together {
 
     const headers = buildHeaders([
       idempotencyHeaders,
-      {
-        Accept: 'application/json',
-        'User-Agent': this.getUserAgent(),
-        'X-Stainless-Retry-Count': String(retryCount),
-        ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
-        ...getPlatformHeaders(),
-      },
+      {Accept: 'application/json',
+      'User-Agent': this.getUserAgent(),
+      'X-Stainless-Retry-Count': String(retryCount),
+      ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
+      ...getPlatformHeaders()},
       await this.authHeaders(options),
       this._options.defaultHeaders,
       bodyHeaders,
-      options.headers,
+      options.headers
     ]);
 
     this.validateHeaders(headers);
@@ -743,9 +596,11 @@ export class Together {
       ArrayBuffer.isView(body) ||
       body instanceof ArrayBuffer ||
       body instanceof DataView ||
-      (typeof body === 'string' &&
+      (
+        typeof body === 'string' &&
         // Preserve legacy string encoding behavior for now
-        headers.values.has('content-type')) ||
+        headers.values.has('content-type')
+      ) ||
       // `Blob` is superset of `File`
       ((globalThis as any).Blob && body instanceof (globalThis as any).Blob) ||
       // `FormData` -> `multipart/form-data`
@@ -776,7 +631,7 @@ export class Together {
   }
 
   static Together = this;
-  static DEFAULT_TIMEOUT = 60000; // 1 minute
+  static DEFAULT_TIMEOUT = 60000 // 1 minute
 
   static TogetherError = Errors.TogetherError;
   static APIError = Errors.APIError;
@@ -828,122 +683,130 @@ Together.Batches = Batches;
 Together.Evals = Evals;
 
 export declare namespace Together {
-  export type RequestOptions = Opts.RequestOptions;
+      export type RequestOptions = Opts.RequestOptions;
 
-  export { Beta as Beta };
+      export {
+  Beta as Beta
+};
 
-  export { Chat as Chat };
+export {
+  Chat as Chat
+};
 
-  export {
-    Completions as Completions,
-    type Completion as Completion,
-    type CompletionChunk as CompletionChunk,
-    type LogProbs as LogProbs,
-    type ToolChoice as ToolChoice,
-    type Tools as Tools,
-    type CompletionCreateParams as CompletionCreateParams,
-    type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
-    type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming,
-  };
+export {
+  Completions as Completions,
+  type Completion as Completion,
+  type CompletionChunk as CompletionChunk,
+  type LogProbs as LogProbs,
+  type ToolChoice as ToolChoice,
+  type Tools as Tools,
+  type CompletionCreateParams as CompletionCreateParams,
+  type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
+  type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming
+};
 
-  export {
-    Embeddings as Embeddings,
-    type Embedding as Embedding,
-    type EmbeddingCreateParams as EmbeddingCreateParams,
-  };
+export {
+  Embeddings as Embeddings,
+  type Embedding as Embedding,
+  type EmbeddingCreateParams as EmbeddingCreateParams
+};
 
-  export {
-    Files as Files,
-    type FileList as FileList,
-    type FilePurpose as FilePurpose,
-    type FileResponse as FileResponse,
-    type FileType as FileType,
-    type FileDeleteResponse as FileDeleteResponse,
-  };
+export {
+  Files as Files,
+  type FileList as FileList,
+  type FilePurpose as FilePurpose,
+  type FileResponse as FileResponse,
+  type FileType as FileType,
+  type FileDeleteResponse as FileDeleteResponse
+};
 
-  export {
-    FineTuning as FineTuning,
-    type FinetuneEvent as FinetuneEvent,
-    type FinetuneEventType as FinetuneEventType,
-    type FinetuneResponse as FinetuneResponse,
-    type FineTuningCreateResponse as FineTuningCreateResponse,
-    type FineTuningListResponse as FineTuningListResponse,
-    type FineTuningDeleteResponse as FineTuningDeleteResponse,
-    type FineTuningCancelResponse as FineTuningCancelResponse,
-    type FineTuningEstimatePriceResponse as FineTuningEstimatePriceResponse,
-    type FineTuningListCheckpointsResponse as FineTuningListCheckpointsResponse,
-    type FineTuningListEventsResponse as FineTuningListEventsResponse,
-    type FineTuningCreateParams as FineTuningCreateParams,
-    type FineTuningDeleteParams as FineTuningDeleteParams,
-    type FineTuningContentParams as FineTuningContentParams,
-    type FineTuningEstimatePriceParams as FineTuningEstimatePriceParams,
-  };
+export {
+  FineTuning as FineTuning,
+  type FinetuneEvent as FinetuneEvent,
+  type FinetuneEventType as FinetuneEventType,
+  type FinetuneResponse as FinetuneResponse,
+  type FineTuningCreateResponse as FineTuningCreateResponse,
+  type FineTuningListResponse as FineTuningListResponse,
+  type FineTuningDeleteResponse as FineTuningDeleteResponse,
+  type FineTuningCancelResponse as FineTuningCancelResponse,
+  type FineTuningEstimatePriceResponse as FineTuningEstimatePriceResponse,
+  type FineTuningListCheckpointsResponse as FineTuningListCheckpointsResponse,
+  type FineTuningListEventsResponse as FineTuningListEventsResponse,
+  type FineTuningCreateParams as FineTuningCreateParams,
+  type FineTuningDeleteParams as FineTuningDeleteParams,
+  type FineTuningContentParams as FineTuningContentParams,
+  type FineTuningEstimatePriceParams as FineTuningEstimatePriceParams
+};
 
-  export {
-    CodeInterpreter as CodeInterpreter,
-    type ExecuteResponse as ExecuteResponse,
-    type CodeInterpreterExecuteParams as CodeInterpreterExecuteParams,
-  };
+export {
+  CodeInterpreter as CodeInterpreter,
+  type ExecuteResponse as ExecuteResponse,
+  type CodeInterpreterExecuteParams as CodeInterpreterExecuteParams
+};
 
-  export {
-    Images as Images,
-    type ImageDataB64 as ImageDataB64,
-    type ImageDataURL as ImageDataURL,
-    type ImageFile as ImageFile,
-    type ImageGenerateParams as ImageGenerateParams,
-  };
+export {
+  Images as Images,
+  type ImageDataB64 as ImageDataB64,
+  type ImageDataURL as ImageDataURL,
+  type ImageFile as ImageFile,
+  type ImageGenerateParams as ImageGenerateParams
+};
 
-  export { Videos as Videos, type VideoJob as VideoJob, type VideoCreateParams as VideoCreateParams };
+export {
+  Videos as Videos,
+  type VideoJob as VideoJob,
+  type VideoCreateParams as VideoCreateParams
+};
 
-  export {
-    Audio as Audio,
-    type AudioFile as AudioFile,
-    type AudioSpeechStreamChunk as AudioSpeechStreamChunk,
-  };
+export {
+  Audio as Audio,
+  type AudioFile as AudioFile,
+  type AudioSpeechStreamChunk as AudioSpeechStreamChunk
+};
 
-  export {
-    Models as Models,
-    type ModelObject as ModelObject,
-    type ModelListResponse as ModelListResponse,
-    type ModelUploadResponse as ModelUploadResponse,
-    type ModelListParams as ModelListParams,
-    type ModelUploadParams as ModelUploadParams,
-  };
+export {
+  Models as Models,
+  type ModelObject as ModelObject,
+  type ModelListResponse as ModelListResponse,
+  type ModelUploadResponse as ModelUploadResponse,
+  type ModelListParams as ModelListParams,
+  type ModelUploadParams as ModelUploadParams
+};
 
-  export {
-    Endpoints as Endpoints,
-    type Autoscaling as Autoscaling,
-    type DedicatedEndpoint as DedicatedEndpoint,
-    type EndpointListResponse as EndpointListResponse,
-    type EndpointListAvzonesResponse as EndpointListAvzonesResponse,
-    type EndpointListHardwareResponse as EndpointListHardwareResponse,
-    type EndpointCreateParams as EndpointCreateParams,
-    type EndpointUpdateParams as EndpointUpdateParams,
-    type EndpointListParams as EndpointListParams,
-    type EndpointListHardwareParams as EndpointListHardwareParams,
-  };
+export {
+  Endpoints as Endpoints,
+  type Autoscaling as Autoscaling,
+  type DedicatedEndpoint as DedicatedEndpoint,
+  type EndpointListResponse as EndpointListResponse,
+  type EndpointListAvzonesResponse as EndpointListAvzonesResponse,
+  type EndpointListHardwareResponse as EndpointListHardwareResponse,
+  type EndpointCreateParams as EndpointCreateParams,
+  type EndpointUpdateParams as EndpointUpdateParams,
+  type EndpointListParams as EndpointListParams,
+  type EndpointListHardwareParams as EndpointListHardwareParams
+};
 
-  export {
-    Rerank as Rerank,
-    type RerankCreateResponse as RerankCreateResponse,
-    type RerankCreateParams as RerankCreateParams,
-  };
+export {
+  Rerank as Rerank,
+  type RerankCreateResponse as RerankCreateResponse,
+  type RerankCreateParams as RerankCreateParams
+};
 
-  export {
-    Batches as Batches,
-    type BatchJob as BatchJob,
-    type BatchCreateResponse as BatchCreateResponse,
-    type BatchListResponse as BatchListResponse,
-    type BatchCreateParams as BatchCreateParams,
-  };
+export {
+  Batches as Batches,
+  type BatchJob as BatchJob,
+  type BatchCreateResponse as BatchCreateResponse,
+  type BatchListResponse as BatchListResponse,
+  type BatchCreateParams as BatchCreateParams
+};
 
-  export {
-    Evals as Evals,
-    type EvaluationJob as EvaluationJob,
-    type EvalCreateResponse as EvalCreateResponse,
-    type EvalListResponse as EvalListResponse,
-    type EvalStatusResponse as EvalStatusResponse,
-    type EvalCreateParams as EvalCreateParams,
-    type EvalListParams as EvalListParams,
-  };
-}
+export {
+  Evals as Evals,
+  type EvaluationJob as EvaluationJob,
+  type EvalCreateResponse as EvalCreateResponse,
+  type EvalListResponse as EvalListResponse,
+  type EvalStatusResponse as EvalStatusResponse,
+  type EvalCreateParams as EvalCreateParams,
+  type EvalListParams as EvalListParams
+};
+    }

@@ -19,16 +19,11 @@ export class Transcriptions extends APIResource {
    * ```
    */
   create(body: TranscriptionCreateParams, options?: RequestOptions): APIPromise<TranscriptionCreateResponse> {
-    return this._client.post(
-      '/audio/transcriptions',
-      multipartFormRequestOptions({ body, ...options }, this._client),
-    );
+    return this._client.post('/audio/transcriptions', multipartFormRequestOptions({ body, ...options }, this._client));
   }
 }
 
-export type TranscriptionCreateResponse =
-  | TranscriptionCreateResponse.AudioTranscriptionJsonResponse
-  | TranscriptionCreateResponse.AudioTranscriptionVerboseJsonResponse;
+export type TranscriptionCreateResponse = TranscriptionCreateResponse.AudioTranscriptionJsonResponse | TranscriptionCreateResponse.AudioTranscriptionVerboseJsonResponse
 
 export namespace TranscriptionCreateResponse {
   export interface AudioTranscriptionJsonResponse {
@@ -248,6 +243,6 @@ export interface TranscriptionCreateParams {
 export declare namespace Transcriptions {
   export {
     type TranscriptionCreateResponse as TranscriptionCreateResponse,
-    type TranscriptionCreateParams as TranscriptionCreateParams,
+    type TranscriptionCreateParams as TranscriptionCreateParams
   };
 }
