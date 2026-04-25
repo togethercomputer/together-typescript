@@ -59,6 +59,12 @@ export interface SpeechCreateParamsBase {
    * You can view the voices supported for each model using the /v1/voices endpoint
    * sending the model name as the query parameter.
    * [View all supported voices here](https://docs.together.ai/docs/text-to-speech#supported-voices).
+   *
+   * `hexgrad/Kokoro-82M` additionally supports voice mixing, where two or more
+   * voices are combined into a single blended voice by joining their names with `+`
+   * (e.g. `af_bella+af_heart`). Optional per-voice weights can be provided in
+   * parentheses (e.g. `af_bella(2)+af_heart(1)`). Other models require a single
+   * voice name.
    */
   voice: string;
 
