@@ -29,7 +29,10 @@ export class Videos extends APIResource {
    * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<VideoJob> {
-    return this._client.get(path`/videos/${id}`, { defaultBaseURL: 'https://api.together.xyz/v2', ...options });
+    return this._client.get(path`/videos/${id}`, {
+      defaultBaseURL: 'https://api.together.xyz/v2',
+      ...options,
+    });
   }
 }
 
@@ -318,8 +321,5 @@ export namespace VideoCreateParams {
 }
 
 export declare namespace Videos {
-  export {
-    type VideoJob as VideoJob,
-    type VideoCreateParams as VideoCreateParams
-  };
+  export { type VideoJob as VideoJob, type VideoCreateParams as VideoCreateParams };
 }

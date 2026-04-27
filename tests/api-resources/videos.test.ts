@@ -2,7 +2,10 @@
 
 import Together from 'together-ai';
 
-const client = new Together({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Together({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 describe('resource videos', () => {
   test('create: only required params', async () => {
@@ -18,32 +21,32 @@ describe('resource videos', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.videos.create({
-    model: 'model',
-    fps: 0,
-    frame_images: [{ input_image: 'input_image', frame: 'first' }],
-    generate_audio: true,
-    guidance_scale: 0,
-    height: 0,
-    media: {
-    audio_inputs: ['string'],
-    frame_images: [{ input_image: 'input_image', frame: 'first' }],
-    frame_videos: [{ video: 'video' }],
-    reference_images: ['string'],
-    reference_videos: [{ video: 'video' }],
-    source_video: 'string',
-  },
-    negative_prompt: 'negative_prompt',
-    output_format: 'MP4',
-    output_quality: 0,
-    prompt: 'x',
-    ratio: 'ratio',
-    reference_images: ['string'],
-    resolution: 'resolution',
-    seconds: 'seconds',
-    seed: 0,
-    steps: 10,
-    width: 0,
-  });
+      model: 'model',
+      fps: 0,
+      frame_images: [{ input_image: 'input_image', frame: 'first' }],
+      generate_audio: true,
+      guidance_scale: 0,
+      height: 0,
+      media: {
+        audio_inputs: ['string'],
+        frame_images: [{ input_image: 'input_image', frame: 'first' }],
+        frame_videos: [{ video: 'video' }],
+        reference_images: ['string'],
+        reference_videos: [{ video: 'video' }],
+        source_video: 'string',
+      },
+      negative_prompt: 'negative_prompt',
+      output_format: 'MP4',
+      output_quality: 0,
+      prompt: 'x',
+      ratio: 'ratio',
+      reference_images: ['string'],
+      resolution: 'resolution',
+      seconds: 'seconds',
+      seed: 0,
+      steps: 10,
+      width: 0,
+    });
   });
 
   test('retrieve', async () => {

@@ -102,8 +102,5 @@ export interface RerankCreateParams {
 }
 
 export declare namespace Rerank {
-  export {
-    type RerankCreateResponse as RerankCreateResponse,
-    type RerankCreateParams as RerankCreateParams
-  };
+  export { type RerankCreateResponse as RerankCreateResponse, type RerankCreateParams as RerankCreateParams };
 }

@@ -24,15 +24,30 @@ export class Speech extends APIResource {
    * console.log(content);
    * ```
    */
-  create(body: SpeechCreateParamsNonStreaming, options?: RequestOptions): APIPromise<Response>
-  create(body: SpeechCreateParamsStreaming, options?: RequestOptions): APIPromise<Stream<AudioAPI.AudioSpeechStreamChunk>>
-  create(body: SpeechCreateParamsBase, options?: RequestOptions): APIPromise<Stream<AudioAPI.AudioSpeechStreamChunk> | Response>
-  create(body: SpeechCreateParams, options?: RequestOptions): APIPromise<Response> | APIPromise<Stream<AudioAPI.AudioSpeechStreamChunk>> {
-    return this._client.post('/audio/speech', { body, ...options, headers: buildHeaders([{Accept: 'application/octet-stream'}, options?.headers]), stream: body.stream ?? false, __binaryResponse: true }) as APIPromise<Response> | APIPromise<Stream<AudioAPI.AudioSpeechStreamChunk>>;
+  create(body: SpeechCreateParamsNonStreaming, options?: RequestOptions): APIPromise<Response>;
+  create(
+    body: SpeechCreateParamsStreaming,
+    options?: RequestOptions,
+  ): APIPromise<Stream<AudioAPI.AudioSpeechStreamChunk>>;
+  create(
+    body: SpeechCreateParamsBase,
+    options?: RequestOptions,
+  ): APIPromise<Stream<AudioAPI.AudioSpeechStreamChunk> | Response>;
+  create(
+    body: SpeechCreateParams,
+    options?: RequestOptions,
+  ): APIPromise<Response> | APIPromise<Stream<AudioAPI.AudioSpeechStreamChunk>> {
+    return this._client.post('/audio/speech', {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: 'application/octet-stream' }, options?.headers]),
+      stream: body.stream ?? false,
+      __binaryResponse: true,
+    }) as APIPromise<Response> | APIPromise<Stream<AudioAPI.AudioSpeechStreamChunk>>;
   }
 }
 
-export type SpeechCreateParams = SpeechCreateParamsNonStreaming | SpeechCreateParamsStreaming
+export type SpeechCreateParams = SpeechCreateParamsNonStreaming | SpeechCreateParamsStreaming;
 
 export interface SpeechCreateParamsBase {
   /**
@@ -78,7 +93,22 @@ export interface SpeechCreateParamsBase {
   /**
    * Language of input text.
    */
-  language?: 'en' | 'de' | 'fr' | 'es' | 'hi' | 'it' | 'ja' | 'ko' | 'nl' | 'pl' | 'pt' | 'ru' | 'sv' | 'tr' | 'zh';
+  language?:
+    | 'en'
+    | 'de'
+    | 'fr'
+    | 'es'
+    | 'hi'
+    | 'it'
+    | 'ja'
+    | 'ko'
+    | 'nl'
+    | 'pl'
+    | 'pt'
+    | 'ru'
+    | 'sv'
+    | 'tr'
+    | 'zh';
 
   /**
    * Audio encoding of response. Only applicable when response_format is raw or pcm.
@@ -109,8 +139,8 @@ export interface SpeechCreateParamsBase {
 }
 
 export namespace SpeechCreateParams {
-  export type SpeechCreateParamsNonStreaming = SpeechAPI.SpeechCreateParamsNonStreaming
-  export type SpeechCreateParamsStreaming = SpeechAPI.SpeechCreateParamsStreaming
+  export type SpeechCreateParamsNonStreaming = SpeechAPI.SpeechCreateParamsNonStreaming;
+  export type SpeechCreateParamsStreaming = SpeechAPI.SpeechCreateParamsStreaming;
 }
 
 export interface SpeechCreateParamsNonStreaming extends SpeechCreateParamsBase {
@@ -135,6 +165,6 @@ export declare namespace Speech {
   export {
     type SpeechCreateParams as SpeechCreateParams,
     type SpeechCreateParamsNonStreaming as SpeechCreateParamsNonStreaming,
-    type SpeechCreateParamsStreaming as SpeechCreateParamsStreaming
+    type SpeechCreateParamsStreaming as SpeechCreateParamsStreaming,
   };
 }

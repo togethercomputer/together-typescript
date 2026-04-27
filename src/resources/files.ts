@@ -56,7 +56,11 @@ export class Files extends APIResource {
    * ```
    */
   content(id: string, options?: RequestOptions): APIPromise<Response> {
-    return this._client.get(path`/files/${id}/content`, { ...options, headers: buildHeaders([{Accept: 'application/binary'}, options?.headers]), __binaryResponse: true });
+    return this._client.get(path`/files/${id}/content`, {
+      ...options,
+      headers: buildHeaders([{ Accept: 'application/binary' }, options?.headers]),
+      __binaryResponse: true,
+    });
   }
 
   /**
@@ -75,7 +79,14 @@ export interface FileList {
 /**
  * The purpose of the file
  */
-export type FilePurpose = 'fine-tune' | 'eval' | 'eval-sample' | 'eval-output' | 'eval-summary' | 'batch-generated' | 'batch-api'
+export type FilePurpose =
+  | 'fine-tune'
+  | 'eval'
+  | 'eval-sample'
+  | 'eval-output'
+  | 'eval-summary'
+  | 'batch-generated'
+  | 'batch-api';
 
 /**
  * Structured information describing a file uploaded to Together.
@@ -125,7 +136,7 @@ export interface FileResponse {
 /**
  * The type of the file
  */
-export type FileType = 'csv' | 'jsonl' | 'parquet'
+export type FileType = 'csv' | 'jsonl' | 'parquet';
 
 export interface FileDeleteResponse {
   id?: string;
@@ -139,6 +150,6 @@ export declare namespace Files {
     type FilePurpose as FilePurpose,
     type FileResponse as FileResponse,
     type FileType as FileType,
-    type FileDeleteResponse as FileDeleteResponse
+    type FileDeleteResponse as FileDeleteResponse,
   };
 }

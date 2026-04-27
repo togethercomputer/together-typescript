@@ -35,7 +35,7 @@ export class CodeInterpreter extends APIResource {
  * `errors` will be null. If unsuccessful, `data` will be null and `errors` will
  * contain the errors.
  */
-export type ExecuteResponse = ExecuteResponse.SuccessfulExecution | ExecuteResponse.FailedExecution
+export type ExecuteResponse = ExecuteResponse.SuccessfulExecution | ExecuteResponse.FailedExecution;
 
 export namespace ExecuteResponse {
   export interface SuccessfulExecution {
@@ -170,11 +170,8 @@ CodeInterpreter.Sessions = Sessions;
 export declare namespace CodeInterpreter {
   export {
     type ExecuteResponse as ExecuteResponse,
-    type CodeInterpreterExecuteParams as CodeInterpreterExecuteParams
+    type CodeInterpreterExecuteParams as CodeInterpreterExecuteParams,
   };
 
-  export {
-    Sessions as Sessions,
-    type SessionListResponse as SessionListResponse
-  };
+  export { Sessions as Sessions, type SessionListResponse as SessionListResponse };
 }

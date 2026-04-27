@@ -232,6 +232,6 @@ export declare namespace Queue {
     type QueueRetrieveParams as QueueRetrieveParams,
     type QueueCancelParams as QueueCancelParams,
     type QueueMetricsParams as QueueMetricsParams,
-    type QueueSubmitParams as QueueSubmitParams
+    type QueueSubmitParams as QueueSubmitParams,
   };
 }

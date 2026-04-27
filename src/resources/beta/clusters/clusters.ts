@@ -2,7 +2,14 @@
 
 import { APIResource } from '../../../core/resource';
 import * as StorageAPI from './storage';
-import { ClusterStorage, Storage, StorageCreateParams, StorageDeleteResponse, StorageListResponse, StorageUpdateParams } from './storage';
+import {
+  ClusterStorage,
+  Storage,
+  StorageCreateParams,
+  StorageDeleteResponse,
+  StorageListResponse,
+  StorageUpdateParams,
+} from './storage';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
@@ -86,7 +93,18 @@ export interface Cluster {
   /**
    * Current status of the GPU cluster.
    */
-  status: 'WaitingForControlPlaneNodes' | 'WaitingForDataPlaneNodes' | 'WaitingForSubnet' | 'WaitingForSharedVolume' | 'InstallingDrivers' | 'RunningAcceptanceTests' | 'Paused' | 'OnDemandComputePaused' | 'Ready' | 'Degraded' | 'Deleting';
+  status:
+    | 'WaitingForControlPlaneNodes'
+    | 'WaitingForDataPlaneNodes'
+    | 'WaitingForSubnet'
+    | 'WaitingForSharedVolume'
+    | 'InstallingDrivers'
+    | 'RunningAcceptanceTests'
+    | 'Paused'
+    | 'OnDemandComputePaused'
+    | 'Ready'
+    | 'Degraded'
+    | 'Deleting';
 
   volumes: Array<Cluster.Volume>;
 
@@ -371,7 +389,7 @@ export declare namespace Clusters {
     type ClusterDeleteResponse as ClusterDeleteResponse,
     type ClusterListRegionsResponse as ClusterListRegionsResponse,
     type ClusterCreateParams as ClusterCreateParams,
-    type ClusterUpdateParams as ClusterUpdateParams
+    type ClusterUpdateParams as ClusterUpdateParams,
   };
 
   export {
@@ -380,6 +398,6 @@ export declare namespace Clusters {
     type StorageListResponse as StorageListResponse,
     type StorageDeleteResponse as StorageDeleteResponse,
     type StorageCreateParams as StorageCreateParams,
-    type StorageUpdateParams as StorageUpdateParams
+    type StorageUpdateParams as StorageUpdateParams,
   };
 }

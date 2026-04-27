@@ -58,8 +58,12 @@ export class FineTuning extends APIResource {
    * const fineTuning = await client.fineTuning.delete('id');
    * ```
    */
-  delete(id: string, params: FineTuningDeleteParams | null | undefined = {}, options?: RequestOptions): APIPromise<FineTuningDeleteResponse> {
-    const { force } = params ?? {}
+  delete(
+    id: string,
+    params: FineTuningDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<FineTuningDeleteResponse> {
+    const { force } = params ?? {};
     return this._client.delete(path`/fine-tunes/${id}`, { query: { force }, ...options });
   }
 
@@ -90,7 +94,12 @@ export class FineTuning extends APIResource {
    * ```
    */
   content(query: FineTuningContentParams, options?: RequestOptions): APIPromise<Response> {
-    return this._client.get('/finetune/download', { query, ...options, headers: buildHeaders([{Accept: 'application/octet-stream'}, options?.headers]), __binaryResponse: true });
+    return this._client.get('/finetune/download', {
+      query,
+      ...options,
+      headers: buildHeaders([{ Accept: 'application/octet-stream' }, options?.headers]),
+      __binaryResponse: true,
+    });
   }
 
   /**
@@ -103,7 +112,10 @@ export class FineTuning extends APIResource {
    * });
    * ```
    */
-  estimatePrice(body: FineTuningEstimatePriceParams, options?: RequestOptions): APIPromise<FineTuningEstimatePriceResponse> {
+  estimatePrice(
+    body: FineTuningEstimatePriceParams,
+    options?: RequestOptions,
+  ): APIPromise<FineTuningEstimatePriceResponse> {
     return this._client.post('/fine-tunes/estimate-price', { body, ...options });
   }
 
@@ -167,12 +179,46 @@ export interface FinetuneEvent {
   level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
 }
 
-export type FinetuneEventType = 'job_pending' | 'job_start' | 'job_stopped' | 'model_downloading' | 'model_download_complete' | 'training_data_downloading' | 'training_data_download_complete' | 'validation_data_downloading' | 'validation_data_download_complete' | 'wandb_init' | 'training_start' | 'checkpoint_save' | 'billing_limit' | 'epoch_complete' | 'training_complete' | 'model_compressing' | 'model_compression_complete' | 'model_uploading' | 'model_upload_complete' | 'job_complete' | 'job_error' | 'cancel_requested' | 'job_restarted' | 'refund' | 'warning'
+export type FinetuneEventType =
+  | 'job_pending'
+  | 'job_start'
+  | 'job_stopped'
+  | 'model_downloading'
+  | 'model_download_complete'
+  | 'training_data_downloading'
+  | 'training_data_download_complete'
+  | 'validation_data_downloading'
+  | 'validation_data_download_complete'
+  | 'wandb_init'
+  | 'training_start'
+  | 'checkpoint_save'
+  | 'billing_limit'
+  | 'epoch_complete'
+  | 'training_complete'
+  | 'model_compressing'
+  | 'model_compression_complete'
+  | 'model_uploading'
+  | 'model_upload_complete'
+  | 'job_complete'
+  | 'job_error'
+  | 'cancel_requested'
+  | 'job_restarted'
+  | 'refund'
+  | 'warning';
 
 export interface FinetuneResponse {
   id: string;
 
-  status: 'pending' | 'queued' | 'running' | 'compressing' | 'uploading' | 'cancel_requested' | 'cancelled' | 'error' | 'completed';
+  status:
+    | 'pending'
+    | 'queued'
+    | 'running'
+    | 'compressing'
+    | 'uploading'
+    | 'cancel_requested'
+    | 'cancelled'
+    | 'error'
+    | 'completed';
 
   batch_size?: number | 'max';
 
@@ -359,7 +405,16 @@ export interface FineTuningCreateResponse {
    */
   created_at: string;
 
-  status: 'pending' | 'queued' | 'running' | 'compressing' | 'uploading' | 'cancel_requested' | 'cancelled' | 'error' | 'completed';
+  status:
+    | 'pending'
+    | 'queued'
+    | 'running'
+    | 'compressing'
+    | 'uploading'
+    | 'cancel_requested'
+    | 'cancelled'
+    | 'error'
+    | 'completed';
 
   /**
    * Last update timestamp of the fine-tune job
@@ -627,7 +682,16 @@ export namespace FineTuningListResponse {
      */
     created_at: string;
 
-    status: 'pending' | 'queued' | 'running' | 'compressing' | 'uploading' | 'cancel_requested' | 'cancelled' | 'error' | 'completed';
+    status:
+      | 'pending'
+      | 'queued'
+      | 'running'
+      | 'compressing'
+      | 'uploading'
+      | 'cancel_requested'
+      | 'cancelled'
+      | 'error'
+      | 'completed';
 
     /**
      * Last update timestamp of the fine-tune job
@@ -898,7 +962,16 @@ export interface FineTuningCancelResponse {
    */
   created_at: string;
 
-  status: 'pending' | 'queued' | 'running' | 'compressing' | 'uploading' | 'cancel_requested' | 'cancelled' | 'error' | 'completed';
+  status:
+    | 'pending'
+    | 'queued'
+    | 'running'
+    | 'compressing'
+    | 'uploading'
+    | 'cancel_requested'
+    | 'cancelled'
+    | 'error'
+    | 'completed';
 
   /**
    * Last update timestamp of the fine-tune job
@@ -1502,13 +1575,18 @@ export interface FineTuningEstimatePriceParams {
    * The training method to use. 'sft' for Supervised Fine-Tuning or 'dpo' for Direct
    * Preference Optimization.
    */
-  training_method?: FineTuningEstimatePriceParams.TrainingMethodSft | FineTuningEstimatePriceParams.TrainingMethodDpo;
+  training_method?:
+    | FineTuningEstimatePriceParams.TrainingMethodSft
+    | FineTuningEstimatePriceParams.TrainingMethodDpo;
 
   /**
    * The training type to use. If not provided, the job will default to LoRA training
    * type.
    */
-  training_type?: FineTuningEstimatePriceParams.FullTrainingType | FineTuningEstimatePriceParams.LoRaTrainingType | null;
+  training_type?:
+    | FineTuningEstimatePriceParams.FullTrainingType
+    | FineTuningEstimatePriceParams.LoRaTrainingType
+    | null;
 
   /**
    * File-ID of a validation file uploaded to the Together API
@@ -1573,6 +1651,6 @@ export declare namespace FineTuning {
     type FineTuningCreateParams as FineTuningCreateParams,
     type FineTuningDeleteParams as FineTuningDeleteParams,
     type FineTuningContentParams as FineTuningContentParams,
-    type FineTuningEstimatePriceParams as FineTuningEstimatePriceParams
+    type FineTuningEstimatePriceParams as FineTuningEstimatePriceParams,
   };
 }
