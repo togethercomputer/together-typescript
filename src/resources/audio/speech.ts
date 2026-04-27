@@ -81,7 +81,9 @@ export interface SpeechCreateParamsBase {
   language?: 'en' | 'de' | 'fr' | 'es' | 'hi' | 'it' | 'ja' | 'ko' | 'nl' | 'pl' | 'pt' | 'ru' | 'sv' | 'tr' | 'zh';
 
   /**
-   * Audio encoding of response
+   * Audio encoding of response. Only applicable when response_format is raw or pcm.
+   * Cartesia models respect this parameter and support all values. Orpheus, Kokoro,
+   * and Minimax models always return pcm_s16le regardless of this setting.
    */
   response_encoding?: 'pcm_f32le' | 'pcm_s16le' | 'pcm_mulaw' | 'pcm_alaw';
 
@@ -92,9 +94,9 @@ export interface SpeechCreateParamsBase {
   response_format?: 'mp3' | 'wav' | 'raw';
 
   /**
-   * Sampling rate to use for the output audio. The default sampling rate for
-   * canopylabs/orpheus-3b-0.1-ft and hexgrad/Kokoro-82M is 24000 and for
-   * cartesia/sonic is 44100.
+   * Sampling rate in Hz for the output audio. Cartesia and Minimax models respect
+   * this parameter. Orpheus and Kokoro models always output at 24000 Hz regardless
+   * of this setting.
    */
   sample_rate?: number;
 
