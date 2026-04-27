@@ -56,7 +56,5 @@ export namespace UploadStatusResponse {
 }
 
 export declare namespace Uploads {
-  export {
-    type UploadStatusResponse as UploadStatusResponse
-  };
+  export { type UploadStatusResponse as UploadStatusResponse };
 }

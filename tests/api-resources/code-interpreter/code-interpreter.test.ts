@@ -2,11 +2,17 @@
 
 import Together from 'together-ai';
 
-const client = new Together({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Together({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 describe('resource codeInterpreter', () => {
   test('execute: only required params', async () => {
-    const responsePromise = client.codeInterpreter.execute({ code: 'print(\'Hello, world!\')', language: 'python' });
+    const responsePromise = client.codeInterpreter.execute({
+      code: "print('Hello, world!')",
+      language: 'python',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -18,14 +24,16 @@ describe('resource codeInterpreter', () => {
 
   test('execute: required and optional params', async () => {
     const response = await client.codeInterpreter.execute({
-    code: 'print(\'Hello, world!\')',
-    language: 'python',
-    files: [{
-    content: 'content',
-    encoding: 'string',
-    name: 'name',
-  }],
-    session_id: 'ses_abcDEF123',
-  });
+      code: "print('Hello, world!')",
+      language: 'python',
+      files: [
+        {
+          content: 'content',
+          encoding: 'string',
+          name: 'name',
+        },
+      ],
+      session_id: 'ses_abcDEF123',
+    });
   });
 });

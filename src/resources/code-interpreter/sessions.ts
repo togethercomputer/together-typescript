@@ -49,7 +49,5 @@ export namespace SessionListResponse {
 }
 
 export declare namespace Sessions {
-  export {
-    type SessionListResponse as SessionListResponse
-  };
+  export { type SessionListResponse as SessionListResponse };
 }

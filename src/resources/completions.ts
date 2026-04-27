@@ -21,11 +21,22 @@ export class Completions extends APIResource {
    * });
    * ```
    */
-  create(body: CompletionCreateParamsNonStreaming, options?: RequestOptions): APIPromise<Completion>
-  create(body: CompletionCreateParamsStreaming, options?: RequestOptions): APIPromise<Stream<CompletionChunk>>
-  create(body: CompletionCreateParamsBase, options?: RequestOptions): APIPromise<Stream<CompletionChunk> | Completion>
-  create(body: CompletionCreateParams, options?: RequestOptions): APIPromise<Completion> | APIPromise<Stream<CompletionChunk>> {
-    return this._client.post('/completions', { body, ...options, stream: body.stream ?? false }) as APIPromise<Completion> | APIPromise<Stream<CompletionChunk>>;
+  create(body: CompletionCreateParamsNonStreaming, options?: RequestOptions): APIPromise<Completion>;
+  create(
+    body: CompletionCreateParamsStreaming,
+    options?: RequestOptions,
+  ): APIPromise<Stream<CompletionChunk>>;
+  create(
+    body: CompletionCreateParamsBase,
+    options?: RequestOptions,
+  ): APIPromise<Stream<CompletionChunk> | Completion>;
+  create(
+    body: CompletionCreateParams,
+    options?: RequestOptions,
+  ): APIPromise<Completion> | APIPromise<Stream<CompletionChunk>> {
+    return this._client.post('/completions', { body, ...options, stream: body.stream ?? false }) as
+      | APIPromise<Completion>
+      | APIPromise<Stream<CompletionChunk>>;
   }
 }
 
@@ -195,7 +206,7 @@ export namespace Tools {
   }
 }
 
-export type CompletionCreateParams = CompletionCreateParamsNonStreaming | CompletionCreateParamsStreaming
+export type CompletionCreateParams = CompletionCreateParamsNonStreaming | CompletionCreateParamsStreaming;
 
 export interface CompletionCreateParamsBase {
   /**
@@ -203,7 +214,12 @@ export interface CompletionCreateParamsBase {
    *
    * [See all of Together AI's chat models](https://docs.together.ai/docs/serverless-models#chat-models)
    */
-  model: 'meta-llama/Llama-2-70b-hf' | 'mistralai/Mistral-7B-v0.1' | 'mistralai/Mixtral-8x7B-v0.1' | 'Meta-Llama/Llama-Guard-7b' | (string & {});
+  model:
+    | 'meta-llama/Llama-2-70b-hf'
+    | 'mistralai/Mistral-7B-v0.1'
+    | 'mistralai/Mixtral-8x7B-v0.1'
+    | 'Meta-Llama/Llama-Guard-7b'
+    | (string & {});
 
   /**
    * A string providing context for the model to complete.
@@ -315,8 +331,8 @@ export interface CompletionCreateParamsBase {
 }
 
 export namespace CompletionCreateParams {
-  export type CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming
-  export type CompletionCreateParamsStreaming = CompletionsAPI.CompletionCreateParamsStreaming
+  export type CompletionCreateParamsNonStreaming = CompletionsAPI.CompletionCreateParamsNonStreaming;
+  export type CompletionCreateParamsStreaming = CompletionsAPI.CompletionCreateParamsStreaming;
 }
 
 export interface CompletionCreateParamsNonStreaming extends CompletionCreateParamsBase {
@@ -346,6 +362,6 @@ export declare namespace Completions {
     type Tools as Tools,
     type CompletionCreateParams as CompletionCreateParams,
     type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
-    type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming
+    type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming,
   };
 }

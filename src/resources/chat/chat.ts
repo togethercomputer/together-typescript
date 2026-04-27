@@ -2,7 +2,20 @@
 
 import { APIResource } from '../../core/resource';
 import * as CompletionsAPI from './completions';
-import { ChatCompletion, ChatCompletionChunk, ChatCompletionPrompt, ChatCompletionStructuredMessageImageURL, ChatCompletionStructuredMessageText, ChatCompletionStructuredMessageVideoURL, ChatCompletionUsage, ChatCompletionWarning, CompletionCreateParams, CompletionCreateParamsNonStreaming, CompletionCreateParamsStreaming, Completions } from './completions';
+import {
+  ChatCompletion,
+  ChatCompletionChunk,
+  ChatCompletionPrompt,
+  ChatCompletionStructuredMessageImageURL,
+  ChatCompletionStructuredMessageText,
+  ChatCompletionStructuredMessageVideoURL,
+  ChatCompletionUsage,
+  ChatCompletionWarning,
+  CompletionCreateParams,
+  CompletionCreateParamsNonStreaming,
+  CompletionCreateParamsStreaming,
+  Completions,
+} from './completions';
 
 export class Chat extends APIResource {
   completions: CompletionsAPI.Completions = new CompletionsAPI.Completions(this._client);
@@ -23,6 +36,6 @@ export declare namespace Chat {
     type ChatCompletionWarning as ChatCompletionWarning,
     type CompletionCreateParams as CompletionCreateParams,
     type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
-    type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming
+    type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming,
   };
 }
