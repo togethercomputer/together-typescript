@@ -322,13 +322,13 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['TOGETHER_BASE_URL'] = ''; // empty
       const client = new Together({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('https://api.together.xyz/v1');
+      expect(client.baseURL).toEqual('https://api.together.ai/v1');
     });
 
     test('blank env variable', () => {
       process.env['TOGETHER_BASE_URL'] = '  '; // blank
       const client = new Together({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('https://api.together.xyz/v1');
+      expect(client.baseURL).toEqual('https://api.together.ai/v1');
     });
 
     test('in request options', () => {
