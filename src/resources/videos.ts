@@ -17,7 +17,7 @@ export class Videos extends APIResource {
    * ```
    */
   create(body: VideoCreateParams, options?: RequestOptions): APIPromise<VideoJob> {
-    return this._client.post('/videos', { body, defaultBaseURL: 'https://api.together.xyz/v2', ...options });
+    return this._client.post('/videos', { body, defaultBaseURL: 'https://api.together.ai/v2', ...options });
   }
 
   /**
@@ -30,7 +30,7 @@ export class Videos extends APIResource {
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<VideoJob> {
     return this._client.get(path`/videos/${id}`, {
-      defaultBaseURL: 'https://api.together.xyz/v2',
+      defaultBaseURL: 'https://api.together.ai/v2',
       ...options,
     });
   }
