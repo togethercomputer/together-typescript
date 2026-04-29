@@ -76,6 +76,8 @@ export namespace ModelObject {
     input: number;
 
     output: number;
+
+    cached_input?: number;
   }
 }
 
