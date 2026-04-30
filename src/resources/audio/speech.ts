@@ -91,24 +91,11 @@ export interface SpeechCreateParamsBase {
   bit_rate?: 32000 | 64000 | 96000 | 128000 | 192000;
 
   /**
-   * Language of input text.
+   * Language or locale of input text. Accepts ISO 639-1 language codes (e.g., `en`,
+   * `fr`, `es`, `zh`) as well as locale codes for region-specific variants. Locale
+   * codes must be lowercase (e.g., `zh-hk` for Cantonese, not `zh-HK`).
    */
-  language?:
-    | 'en'
-    | 'de'
-    | 'fr'
-    | 'es'
-    | 'hi'
-    | 'it'
-    | 'ja'
-    | 'ko'
-    | 'nl'
-    | 'pl'
-    | 'pt'
-    | 'ru'
-    | 'sv'
-    | 'tr'
-    | 'zh';
+  language?: string;
 
   /**
    * Audio encoding of response. Only applicable when response_format is raw or pcm.
