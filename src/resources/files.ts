@@ -70,14 +70,7 @@ export interface FileList {
 /**
  * The purpose of the file
  */
-export type FilePurpose =
-  | 'fine-tune'
-  | 'eval'
-  | 'eval-sample'
-  | 'eval-output'
-  | 'eval-summary'
-  | 'batch-generated'
-  | 'batch-api';
+export type FilePurpose = 'fine-tune' | 'eval' | 'batch-api';
 
 /**
  * Structured information describing a file uploaded to Together.
