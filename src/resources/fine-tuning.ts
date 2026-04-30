@@ -462,7 +462,8 @@ export interface FineTuningCreateResponse {
   max_grad_norm?: number;
 
   /**
-   * Maximum sequence length to use for training.
+   * Maximum sequence length to use for training. If not specified, the maximum
+   * allowed for the model and training method will be used.
    */
   max_seq_length?: number;
 
@@ -739,7 +740,8 @@ export namespace FineTuningListResponse {
     max_grad_norm?: number;
 
     /**
-     * Maximum sequence length to use for training.
+     * Maximum sequence length to use for training. If not specified, the maximum
+     * allowed for the model and training method will be used.
      */
     max_seq_length?: number;
 
@@ -1019,7 +1021,8 @@ export interface FineTuningCancelResponse {
   max_grad_norm?: number;
 
   /**
-   * Maximum sequence length to use for training.
+   * Maximum sequence length to use for training. If not specified, the maximum
+   * allowed for the model and training method will be used.
    */
   max_seq_length?: number;
 
