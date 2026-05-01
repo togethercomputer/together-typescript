@@ -91,6 +91,11 @@ export interface SpeechCreateParamsBase {
   bit_rate?: 32000 | 64000 | 96000 | 128000 | 192000;
 
   /**
+   * Additional model-specific parameters that fine-tune speech generation behavior.
+   */
+  extra_params?: SpeechCreateParams.ExtraParams;
+
+  /**
    * Language or locale of input text. Accepts ISO 639-1 language codes (e.g., `en`,
    * `fr`, `es`, `zh`) as well as locale codes for region-specific variants. Locale
    * codes must be lowercase (e.g., `zh-hk` for Cantonese).
@@ -126,6 +131,18 @@ export interface SpeechCreateParamsBase {
 }
 
 export namespace SpeechCreateParams {
+  /**
+   * Additional model-specific parameters that fine-tune speech generation behavior.
+   */
+  export interface ExtraParams {
+    /**
+     * A list of pronunciation rules for specific characters or symbols. Each entry
+     * uses the format `"<source>/<replacement>"` (e.g., `["omg/oh my god"]`) to
+     * override how the model pronounces matching tokens.
+     */
+    pronunciation_dict?: Array<string>;
+  }
+
   export type SpeechCreateParamsNonStreaming = SpeechAPI.SpeechCreateParamsNonStreaming;
   export type SpeechCreateParamsStreaming = SpeechAPI.SpeechCreateParamsStreaming;
 }
