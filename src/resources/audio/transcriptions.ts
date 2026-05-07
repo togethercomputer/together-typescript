@@ -55,11 +55,6 @@ export namespace TranscriptionCreateResponse {
     segments: Array<AudioTranscriptionVerboseJsonResponse.Segment>;
 
     /**
-     * The task performed
-     */
-    task: 'transcribe' | 'translate';
-
-    /**
      * The transcribed text
      */
     text: string;
