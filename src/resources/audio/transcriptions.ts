@@ -181,7 +181,7 @@ export namespace TranscriptionCreateResponse {
 export interface TranscriptionCreateParams {
   /**
    * Audio file upload or public HTTP/HTTPS URL. Supported formats .wav, .mp3, .m4a,
-   * .webm, .flac.
+   * .webm, .flac, .ogg, .opus, .aac.
    */
   file: Uploadable | string;
 
