@@ -461,11 +461,23 @@ export namespace EvalCreateParams {
       external_base_url?: string;
 
       /**
+       * Maximum number of tokens the judge model can generate. Defaults to 32768.
+       * Increase for reasoning models (e.g. Gemini, o-series) that consume output token
+       * budget for chain-of-thought.
+       */
+      max_tokens?: number;
+
+      /**
        * Number of concurrent workers for inference requests. Overrides the default
        * concurrency for this model. Useful for tuning throughput when using proxy
        * endpoints (e.g. OpenRouter) or rate-limited external APIs.
        */
       num_workers?: number;
+
+      /**
+       * Sampling temperature for the judge model. Defaults to 0.05.
+       */
+      temperature?: number;
     }
 
     export interface EvaluationModelRequest {
@@ -575,11 +587,23 @@ export namespace EvalCreateParams {
       external_base_url?: string;
 
       /**
+       * Maximum number of tokens the judge model can generate. Defaults to 32768.
+       * Increase for reasoning models (e.g. Gemini, o-series) that consume output token
+       * budget for chain-of-thought.
+       */
+      max_tokens?: number;
+
+      /**
        * Number of concurrent workers for inference requests. Overrides the default
        * concurrency for this model. Useful for tuning throughput when using proxy
        * endpoints (e.g. OpenRouter) or rate-limited external APIs.
        */
       num_workers?: number;
+
+      /**
+       * Sampling temperature for the judge model. Defaults to 0.05.
+       */
+      temperature?: number;
     }
 
     export interface EvaluationModelRequest {
@@ -679,11 +703,23 @@ export namespace EvalCreateParams {
       external_base_url?: string;
 
       /**
+       * Maximum number of tokens the judge model can generate. Defaults to 32768.
+       * Increase for reasoning models (e.g. Gemini, o-series) that consume output token
+       * budget for chain-of-thought.
+       */
+      max_tokens?: number;
+
+      /**
        * Number of concurrent workers for inference requests. Overrides the default
        * concurrency for this model. Useful for tuning throughput when using proxy
        * endpoints (e.g. OpenRouter) or rate-limited external APIs.
        */
       num_workers?: number;
+
+      /**
+       * Sampling temperature for the judge model. Defaults to 0.05.
+       */
+      temperature?: number;
     }
 
     export interface EvaluationModelRequest {
