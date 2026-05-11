@@ -1,5 +1,56 @@
 # Changelog
 
+## 0.40.0 (2026-05-11)
+
+Full Changelog: [v0.39.0...v0.40.0](https://github.com/togethercomputer/together-typescript/compare/v0.39.0...v0.40.0)
+
+### Features
+
+* add the pronunciation dict ([4f60c77](https://github.com/togethercomputer/together-typescript/commit/4f60c77da4808fbf857f1a22e187547278b7c4c1))
+* **api:** accept string URLs for audio_inputs and source_video in videos ([9313762](https://github.com/togethercomputer/together-typescript/commit/93137622f3c3fe9158c5692a69a7a191aee27d45))
+* **api:** add cached_input field to model pricing ([497b932](https://github.com/togethercomputer/together-typescript/commit/497b932026e6c65f4a264fc4e5e1dfd831032579))
+* **api:** add cuda/nvidia driver fields, auto-scaling, OIDC, scheduled capacity to clusters ([881242f](https://github.com/togethercomputer/together-typescript/commit/881242f30f5436353c4c977d4a205df35aedb9d1))
+* **api:** add h100-40gb-mig and b200-192gb gpu_type options to jig resource ([dcadaf2](https://github.com/togethercomputer/together-typescript/commit/dcadaf20bdcd7a2d238a16e4ba7c807536e3dfab))
+* **api:** add max_seq_length parameter to fine-tuning ([2dd78f9](https://github.com/togethercomputer/together-typescript/commit/2dd78f9636d4a43d15a5fd1b180194d20684cca0))
+* **api:** add max_tokens and temperature params to evals judge model config ([5471896](https://github.com/togethercomputer/together-typescript/commit/547189693e886c994dd529a6880d0240ee5182a4))
+* **api:** add num_workers parameter to evals model/judge requests ([c61a7c1](https://github.com/togethercomputer/together-typescript/commit/c61a7c1cc7eafa0913d853e993992961cc38ebaf))
+* **api:** remove task field from audio transcriptions/translations responses ([8125896](https://github.com/togethercomputer/together-typescript/commit/8125896244391f0867318d8286b8c8a11314f0d1))
+* **api:** Update server url to .ai ([b642c6c](https://github.com/togethercomputer/together-typescript/commit/b642c6c217159ab59ae81f6d460c7453a6ce46cb))
+* ENG-87042: clarify TTS language parameter supports lowercase locales ([914349f](https://github.com/togethercomputer/together-typescript/commit/914349fb5fdba41707c46179446d7724db6968a2))
+* ENG-87042: document language on TTS WebSocket and simplify locale note ([bb4b3f4](https://github.com/togethercomputer/together-typescript/commit/bb4b3f47696f7e910784f149079c429be7d42868))
+* MOSH-2181: Add default note on max-seq-length ([9fce848](https://github.com/togethercomputer/together-typescript/commit/9fce8486314721a39d7638293a66cd6b111203d6))
+* support setting headers via env ([e649d67](https://github.com/togethercomputer/together-typescript/commit/e649d676ab2f001df69e39fbe6c284cf667ada82))
+
+
+### Bug Fixes
+
+* **client:** update videos base URL to api.together.ai ([fcf6e84](https://github.com/togethercomputer/together-typescript/commit/fcf6e84eb1e0bc4c98ca9ee5a849e8fd3a258ac6))
+* **types:** remove enum values from FilePurpose ([0f538e0](https://github.com/togethercomputer/together-typescript/commit/0f538e02a6ce8baf18d4be7986b5fb17f41cf6db))
+* **types:** rename cuda_driver_version to cuda_version in clusters ([e83d0c4](https://github.com/togethercomputer/together-typescript/commit/e83d0c40631b352675cc6bc1149e86cfd9dbbcdd))
+* **types:** update driver_versions structure, require supported_instance_types in cluster regions ([d1caf1c](https://github.com/togethercomputer/together-typescript/commit/d1caf1cb6f030a67980ec7c5569fcf521745f191))
+
+
+### Chores
+
+* **format:** run eslint and prettier separately ([0fcf0fe](https://github.com/togethercomputer/together-typescript/commit/0fcf0fefe070f4c010368471e2eb958944b838ec))
+* **formatter:** run prettier and eslint separately ([fabef51](https://github.com/togethercomputer/together-typescript/commit/fabef517511102f1bf6364a8e725b8557f28b9f0))
+* **internal:** codegen related update ([6271f5e](https://github.com/togethercomputer/together-typescript/commit/6271f5e7e2fe423942db3801c222ec57d8a57072))
+* **internal:** codegen related update ([f9b079e](https://github.com/togethercomputer/together-typescript/commit/f9b079e57f54ed0f4e0d4671d298efef8543874d))
+* **internal:** codegen related update ([4ba1386](https://github.com/togethercomputer/together-typescript/commit/4ba1386fb9a20d7cd2a33c07c5e2fbb42e80d9fe))
+* **internal:** more robust bootstrap script ([5c001e2](https://github.com/togethercomputer/together-typescript/commit/5c001e23c5b364f21daf5d31e0111e9e15f40885))
+* redact api-key headers in debug logs ([dff31c6](https://github.com/togethercomputer/together-typescript/commit/dff31c65a928e570b88cfb0dde643ff88a4613b4))
+* **tests:** bump steady to v0.22.1 ([3d2bf61](https://github.com/togethercomputer/together-typescript/commit/3d2bf615258e63639612b29b0c544dc8c7c88b10))
+
+
+### Documentation
+
+* **api:** document voice mixing support for speech voice parameter ([12e01c6](https://github.com/togethercomputer/together-typescript/commit/12e01c6cea18264e1df01e72d47a68e485b929f0))
+* **api:** expand billing_type documentation in cluster creation ([f74418e](https://github.com/togethercomputer/together-typescript/commit/f74418e05cab6a9540d2482ffbecdec9fe0272c4))
+* **api:** update prompt parameter description in audio transcriptions/translations ([00c887c](https://github.com/togethercomputer/together-typescript/commit/00c887ce32a1e7da52cccc714b9d53bed3695e82))
+* **api:** update response_encoding and sample_rate descriptions in speech ([44d908d](https://github.com/togethercomputer/together-typescript/commit/44d908dbd32b5a5bc2d51aa1de3043811dce2df6))
+* **api:** update supported file formats in audio transcriptions/translations ([824c080](https://github.com/togethercomputer/together-typescript/commit/824c0808784f6aa143c39621f0f017bf046edb0f))
+* improve examples ([bdf968a](https://github.com/togethercomputer/together-typescript/commit/bdf968a7f48622f0865040dd8f9b81d029ce8e3e))
+
 ## 0.39.0 (2026-04-03)
 
 Full Changelog: [v0.38.0...v0.39.0](https://github.com/togethercomputer/together-typescript/compare/v0.38.0...v0.39.0)
