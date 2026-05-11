@@ -114,9 +114,15 @@ export type BatchListResponse = Array<BatchJob>;
 
 export interface BatchCreateParams {
   /**
-   * The endpoint to use for batch processing
+   * The endpoint to use for batch processing. Each line of the uploaded input file
+   * is dispatched against this endpoint.
+   *
+   * - `/v1/chat/completions` — chat completion batches
+   * - `/v1/audio/transcriptions` — audio transcription batches (e.g.
+   *   `openai/whisper-large-v3`)
+   * - `/v1/audio/translations` — audio translation batches
    */
-  endpoint: string;
+  endpoint: '/v1/chat/completions' | '/v1/audio/transcriptions' | '/v1/audio/translations';
 
   /**
    * ID of the uploaded input file containing batch requests
