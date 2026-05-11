@@ -26,6 +26,7 @@ describe('resource fineTuning', () => {
       batch_size: 'max',
       from_checkpoint: 'from_checkpoint',
       from_hf_model: 'from_hf_model',
+      gradient_accumulation_steps: 0,
       hf_api_token: 'hf_api_token',
       hf_model_revision: 'hf_model_revision',
       hf_output_repo_name: 'hf_output_repo_name',

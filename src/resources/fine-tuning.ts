@@ -1303,6 +1303,14 @@ export interface FineTuningCreateParams {
   from_hf_model?: string;
 
   /**
+   * Number of steps to accumulate gradients before performing a weight update.
+   * Effectively increases the batch size without requiring more memory. For example,
+   * with batch_size=4 and gradient_accumulation_steps=8, the effective batch size
+   * is 32.
+   */
+  gradient_accumulation_steps?: number;
+
+  /**
    * The API token for the Hugging Face Hub.
    */
   hf_api_token?: string;
@@ -1372,7 +1380,8 @@ export interface FineTuningCreateParams {
   random_seed?: number | null;
 
   /**
-   * Suffix that will be added to your fine-tuned model name
+   * Suffix that will be added to your fine-tuned model name. Must be at most 64
+   * characters long.
    */
   suffix?: string;
 
