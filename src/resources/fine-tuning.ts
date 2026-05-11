@@ -353,8 +353,8 @@ export namespace FinetuneResponse {
     method: 'sft';
 
     /**
-     * Whether to mask the user messages in conversational data or prompts in
-     * instruction data.
+     * Whether to mask user messages in conversational data or prompts in instruction
+     * data.
      */
     train_on_inputs: boolean | 'auto';
   }
@@ -462,8 +462,8 @@ export interface FineTuningCreateResponse {
   max_grad_norm?: number;
 
   /**
-   * Maximum sequence length to use for training. If not specified, the maximum
-   * allowed for the model and training method will be used.
+   * Maximum sequence length to use for training. If not specified, uses the maximum
+   * allowed for the model and training method.
    */
   max_seq_length?: number;
 
@@ -546,7 +546,7 @@ export interface FineTuningCreateResponse {
   training_type?: FineTuningCreateResponse.FullTrainingType | FineTuningCreateResponse.LoRaTrainingType;
 
   /**
-   * Identifier for the user who created the job
+   * Identifier for who created the job.
    */
   user_id?: string;
 
@@ -626,8 +626,8 @@ export namespace FineTuningCreateResponse {
     method: 'sft';
 
     /**
-     * Whether to mask the user messages in conversational data or prompts in
-     * instruction data.
+     * Whether to mask user messages in conversational data or prompts in instruction
+     * data.
      */
     train_on_inputs: boolean | 'auto';
   }
@@ -740,8 +740,8 @@ export namespace FineTuningListResponse {
     max_grad_norm?: number;
 
     /**
-     * Maximum sequence length to use for training. If not specified, the maximum
-     * allowed for the model and training method will be used.
+     * Maximum sequence length to use for training. If not specified, uses the maximum
+     * allowed for the model and training method.
      */
     max_seq_length?: number;
 
@@ -824,7 +824,7 @@ export namespace FineTuningListResponse {
     training_type?: Data.FullTrainingType | Data.LoRaTrainingType;
 
     /**
-     * Identifier for the user who created the job
+     * Identifier for who created the job.
      */
     user_id?: string;
 
@@ -904,8 +904,8 @@ export namespace FineTuningListResponse {
       method: 'sft';
 
       /**
-       * Whether to mask the user messages in conversational data or prompts in
-       * instruction data.
+       * Whether to mask user messages in conversational data or prompts in instruction
+       * data.
        */
       train_on_inputs: boolean | 'auto';
     }
@@ -1021,8 +1021,8 @@ export interface FineTuningCancelResponse {
   max_grad_norm?: number;
 
   /**
-   * Maximum sequence length to use for training. If not specified, the maximum
-   * allowed for the model and training method will be used.
+   * Maximum sequence length to use for training. If not specified, uses the maximum
+   * allowed for the model and training method.
    */
   max_seq_length?: number;
 
@@ -1105,7 +1105,7 @@ export interface FineTuningCancelResponse {
   training_type?: FineTuningCancelResponse.FullTrainingType | FineTuningCancelResponse.LoRaTrainingType;
 
   /**
-   * Identifier for the user who created the job
+   * Identifier for who created the job.
    */
   user_id?: string;
 
@@ -1185,8 +1185,8 @@ export namespace FineTuningCancelResponse {
     method: 'sft';
 
     /**
-     * Whether to mask the user messages in conversational data or prompts in
-     * instruction data.
+     * Whether to mask user messages in conversational data or prompts in instruction
+     * data.
      */
     train_on_inputs: boolean | 'auto';
   }
@@ -1224,7 +1224,7 @@ export namespace FineTuningCancelResponse {
 
 export interface FineTuningEstimatePriceResponse {
   /**
-   * Whether the user is allowed to proceed with the fine-tuning job
+   * Whether you are allowed to proceed with the fine-tuning job.
    */
   allowed_to_proceed?: boolean;
 
@@ -1244,7 +1244,7 @@ export interface FineTuningEstimatePriceResponse {
   estimated_train_token_count?: number;
 
   /**
-   * The user's credit limit in dollars
+   * Your credit limit in dollars.
    */
   user_limit?: number;
 }
@@ -1290,8 +1290,8 @@ export interface FineTuningCreateParams {
   /**
    * The checkpoint identifier to continue training from a previous fine-tuning job.
    * Format is `{$JOB_ID}` or `{$OUTPUT_MODEL_NAME}` or `{$JOB_ID}:{$STEP}` or
-   * `{$OUTPUT_MODEL_NAME}:{$STEP}`. The step value is optional; without it, the
-   * final checkpoint will be used.
+   * `{$OUTPUT_MODEL_NAME}:{$STEP}`. The step value is optional; without it, uses the
+   * final checkpoint.
    */
   from_checkpoint?: string;
 
@@ -1381,14 +1381,13 @@ export interface FineTuningCreateParams {
   random_seed?: number | null;
 
   /**
-   * Suffix that will be added to your fine-tuned model name. Must be at most 64
-   * characters long.
+   * Suffix to add to your fine-tuned model name. Must be at most 64 characters long.
    */
   suffix?: string;
 
   /**
-   * @deprecated Whether to mask the user messages in conversational data or prompts
-   * in instruction data.
+   * @deprecated Whether to mask user messages in conversational data or prompts in
+   * instruction data.
    */
   train_on_inputs?: boolean | 'auto';
 
@@ -1399,8 +1398,7 @@ export interface FineTuningCreateParams {
   training_method?: FineTuningCreateParams.TrainingMethodSft | FineTuningCreateParams.TrainingMethodDpo;
 
   /**
-   * The training type to use. If not provided, the job will default to LoRA training
-   * type.
+   * The training type to use. Defaults to LoRA if not provided.
    */
   training_type?: FineTuningCreateParams.FullTrainingType | FineTuningCreateParams.LoRaTrainingType | null;
 
@@ -1430,8 +1428,8 @@ export interface FineTuningCreateParams {
   wandb_name?: string;
 
   /**
-   * The Weights & Biases project for your run. If not specified, will use `together`
-   * as the project name.
+   * The Weights & Biases project for your run. If not specified, uses `together` as
+   * the project name.
    */
   wandb_project_name?: string;
 
@@ -1491,8 +1489,8 @@ export namespace FineTuningCreateParams {
     method: 'sft';
 
     /**
-     * Whether to mask the user messages in conversational data or prompts in
-     * instruction data.
+     * Whether to mask user messages in conversational data or prompts in instruction
+     * data.
      */
     train_on_inputs: boolean | 'auto';
   }
@@ -1563,8 +1561,8 @@ export interface FineTuningEstimatePriceParams {
   /**
    * The checkpoint identifier to continue training from a previous fine-tuning job.
    * Format is `{$JOB_ID}` or `{$OUTPUT_MODEL_NAME}` or `{$JOB_ID}:{$STEP}` or
-   * `{$OUTPUT_MODEL_NAME}:{$STEP}`. The step value is optional; without it, the
-   * final checkpoint will be used.
+   * `{$OUTPUT_MODEL_NAME}:{$STEP}`. The step value is optional; without it, uses the
+   * final checkpoint.
    */
   from_checkpoint?: string;
 
@@ -1593,8 +1591,7 @@ export interface FineTuningEstimatePriceParams {
     | FineTuningEstimatePriceParams.TrainingMethodDpo;
 
   /**
-   * The training type to use. If not provided, the job will default to LoRA training
-   * type.
+   * The training type to use. Defaults to LoRA if not provided.
    */
   training_type?:
     | FineTuningEstimatePriceParams.FullTrainingType
@@ -1612,8 +1609,8 @@ export namespace FineTuningEstimatePriceParams {
     method: 'sft';
 
     /**
-     * Whether to mask the user messages in conversational data or prompts in
-     * instruction data.
+     * Whether to mask user messages in conversational data or prompts in instruction
+     * data.
      */
     train_on_inputs: boolean | 'auto';
   }

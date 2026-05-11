@@ -313,7 +313,7 @@ export interface ClusterCreateParams {
   /**
    * Reservation start time of the cluster. This field is required for SCHEDULED
    * billing to specify the reservation start time for the cluster. If not provided,
-   * the cluster will be provisioned immediately.
+   * the cluster provisions immediately.
    */
   reservation_start_time?: string;
 

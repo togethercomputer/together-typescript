@@ -362,8 +362,7 @@ export namespace Deployment {
 
   export interface Volume {
     /**
-     * MountPath is the path in the container where the volume will be mounted (e.g.,
-     * "/data")
+     * MountPath is the path in the container where the volume mounts (e.g., "/data").
      */
     mount_path: string;
 
@@ -433,7 +432,7 @@ export interface JigUpdateParams {
 
   /**
    * EnvironmentVariables is a list of environment variables to set in the container.
-   * This will replace all existing environment variables
+   * Replaces all existing environment variables.
    */
   environment_variables?: Array<JigUpdateParams.EnvironmentVariable>;
 
@@ -499,8 +498,8 @@ export interface JigUpdateParams {
   termination_grace_period_seconds?: number;
 
   /**
-   * Volumes is a list of volume mounts to attach to the container. This will replace
-   * all existing volumes
+   * Volumes is a list of volume mounts to attach to the container. Replaces all
+   * existing volumes.
    */
   volumes?: Array<JigUpdateParams.Volume>;
 }
@@ -592,8 +591,7 @@ export namespace JigUpdateParams {
 
   export interface Volume {
     /**
-     * MountPath is the path in the container where the volume will be mounted (e.g.,
-     * "/data")
+     * MountPath is the path in the container where the volume mounts (e.g., "/data").
      */
     mount_path: string;
 
@@ -675,13 +673,13 @@ export interface JigDeployParams {
 
   /**
    * HealthCheckPath is the HTTP path for health checks (e.g., "/health"). If set,
-   * the platform will check this endpoint to determine container health
+   * the platform checks this endpoint to determine container health.
    */
   health_check_path?: string;
 
   /**
-   * MaxReplicas is the maximum number of container instances that can be scaled up
-   * to. If not set, will be set to MinReplicas
+   * MaxReplicas is the maximum number of container instances. Defaults to
+   * MinReplicas if not set.
    */
   max_replicas?: number;
 
@@ -809,8 +807,7 @@ export namespace JigDeployParams {
 
   export interface Volume {
     /**
-     * MountPath is the path in the container where the volume will be mounted (e.g.,
-     * "/data")
+     * MountPath is the path in the container where the volume mounts (e.g., "/data").
      */
     mount_path: string;
 
