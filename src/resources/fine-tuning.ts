@@ -462,6 +462,12 @@ export interface FineTuningCreateResponse {
   max_grad_norm?: number;
 
   /**
+   * Maximum sequence length to use for training. If not specified, the maximum
+   * allowed for the model and training method will be used.
+   */
+  max_seq_length?: number;
+
+  /**
    * Base model used for fine-tuning
    */
   model?: string;
@@ -732,6 +738,12 @@ export namespace FineTuningListResponse {
      * Maximum gradient norm for clipping
      */
     max_grad_norm?: number;
+
+    /**
+     * Maximum sequence length to use for training. If not specified, the maximum
+     * allowed for the model and training method will be used.
+     */
+    max_seq_length?: number;
 
     /**
      * Base model used for fine-tuning
@@ -1007,6 +1019,12 @@ export interface FineTuningCancelResponse {
    * Maximum gradient norm for clipping
    */
   max_grad_norm?: number;
+
+  /**
+   * Maximum sequence length to use for training. If not specified, the maximum
+   * allowed for the model and training method will be used.
+   */
+  max_seq_length?: number;
 
   /**
    * Base model used for fine-tuning
@@ -1317,6 +1335,11 @@ export interface FineTuningCreateParams {
    * Max gradient norm to be used for gradient clipping. Set to 0 to disable.
    */
   max_grad_norm?: number;
+
+  /**
+   * Maximum sequence length to use for training.
+   */
+  max_seq_length?: number;
 
   multimodal_params?: FineTuningCreateParams.MultimodalParams;
 

@@ -54,11 +54,6 @@ export namespace TranslationCreateResponse {
     segments: Array<AudioTranslationVerboseJsonResponse.Segment>;
 
     /**
-     * The task performed
-     */
-    task: 'transcribe' | 'translate';
-
-    /**
      * The translated text
      */
     text: string;
@@ -119,7 +114,7 @@ export namespace TranslationCreateResponse {
 export interface TranslationCreateParams {
   /**
    * Audio file upload or public HTTP/HTTPS URL. Supported formats .wav, .mp3, .m4a,
-   * .webm, .flac.
+   * .webm, .flac, .ogg, .opus, .aac.
    */
   file: Uploadable | string;
 
@@ -135,7 +130,10 @@ export interface TranslationCreateParams {
   model?: 'openai/whisper-large-v3';
 
   /**
-   * Optional text to bias decoding.
+   * Optional text to bias decoding. Supported only on Whisper-family models (e.g.
+   * `openai/whisper-large-v3`). Other STT models (e.g.
+   * `nvidia/parakeet-tdt-0.6b-v3`) accept the field for API compatibility but ignore
+   * it.
    */
   prompt?: string;
 

@@ -14,6 +14,7 @@ describe('resource speech', () => {
       model: 'canopylabs/orpheus-3b-0.1-ft',
       voice: 'voice',
       bit_rate: 32000,
+      extra_params: { pronunciation_dict: ['omg/oh my god'] },
       language: 'en',
       response_encoding: 'pcm_f32le',
       response_format: 'mp3',
