@@ -11,10 +11,10 @@ export class CodeInterpreter extends APIResource {
 
   /**
    * Executes the given code snippet and returns the output. Without a session_id, a
-   * new session will be created to run the code. If you do pass in a valid
-   * session_id, the code will be run in that session. This is useful for running
-   * multiple code snippets in the same environment, because dependencies and similar
-   * things are persisted between calls to the same session.
+   * new session is created to run the code. If you pass a valid session_id, the code
+   * runs in that session. This is useful for running multiple code snippets in the
+   * same environment, because dependencies and similar things are persisted between
+   * calls to the same session.
    *
    * @example
    * ```ts
@@ -32,8 +32,8 @@ export class CodeInterpreter extends APIResource {
 
 /**
  * The result of the execution. If successful, `data` contains the result and
- * `errors` will be null. If unsuccessful, `data` will be null and `errors` will
- * contain the errors.
+ * `errors` is null. If unsuccessful, `data` is null and `errors` contains the
+ * errors.
  */
 export type ExecuteResponse = ExecuteResponse.SuccessfulExecution | ExecuteResponse.FailedExecution;
 
@@ -133,20 +133,19 @@ export interface CodeInterpreterExecuteParams {
   code: string;
 
   /**
-   * Programming language for the code to execute. Currently only supports Python,
-   * but more will be added.
+   * Programming language for the code to execute. Currently only supports Python.
    */
   language: 'python';
 
   /**
-   * Files to upload to the session. If present, files will be uploaded before
-   * executing the given code.
+   * Files to upload to the session. If present, files are uploaded before executing
+   * the given code.
    */
   files?: Array<CodeInterpreterExecuteParams.File>;
 
   /**
-   * Identifier of the current session. Used to make follow-up calls. Requests will
-   * return an error if the session does not belong to the caller or has expired.
+   * Identifier of the current session. Used to make follow-up calls. Returns an
+   * error if the session does not belong to the caller or has expired.
    */
   session_id?: string;
 }

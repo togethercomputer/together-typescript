@@ -273,16 +273,16 @@ export interface CompletionCreateParamsBase {
   compliance?: 'hipaa';
 
   /**
-   * Defined the behavior of the API when max_tokens exceed the maximum context
-   * length of the model. When set to 'error', API will return 400 with appropriate
-   * error message. When set to 'truncate', override the max_tokens with maximum
-   * context length of the model.
+   * Defines the behavior of the API when max_tokens exceed the maximum context
+   * length of the model. When set to 'error', the API returns 400 with an
+   * appropriate error message. When set to 'truncate', overrides max_tokens with the
+   * maximum context length of the model.
    */
   context_length_exceeded_behavior?: 'truncate' | 'error';
 
   /**
-   * If true, the response will contain the prompt. Can be used with `logprobs` to
-   * return prompt logprobs.
+   * If true, the response contains the prompt. Can be used with `logprobs` to return
+   * prompt logprobs.
    */
   echo?: boolean;
 
@@ -301,7 +301,7 @@ export interface CompletionCreateParamsBase {
 
   /**
    * An integer between 0 and 20 of the top k tokens to return log probabilities for
-   * at each generation step, instead of just the sampled token. Log probabilities
+   * at each generation step, instead of only the sampled token. Log probabilities
    * help assess model confidence in token predictions.
    */
   logprobs?: number;
@@ -375,9 +375,8 @@ export interface CompletionCreateParamsBase {
   seed?: number;
 
   /**
-   * A list of string sequences that will truncate (stop) inference text output. For
-   * example, "</s>" will stop generation as soon as the model generates the given
-   * token.
+   * A list of string sequences that truncate (stop) inference text output. For
+   * example, "</s>" stops generation as soon as the model generates the given token.
    */
   stop?: Array<string>;
 

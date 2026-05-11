@@ -8,9 +8,9 @@ import { path } from '../internal/utils/path';
 
 export class Endpoints extends APIResource {
   /**
-   * Creates a new dedicated endpoint for serving models. The endpoint will
-   * automatically start after creation. You can deploy any supported model on
-   * hardware configurations that meet the model's requirements.
+   * Creates a new dedicated endpoint for serving models. The endpoint starts
+   * automatically after creation. You can deploy any supported model on hardware
+   * configurations that meet the model's requirements.
    *
    * @example
    * ```ts
@@ -390,9 +390,8 @@ export interface EndpointCreateParams {
   display_name?: string;
 
   /**
-   * The number of minutes of inactivity after which the endpoint will be
-   * automatically stopped. Set to null, omit or set to 0 to disable automatic
-   * timeout.
+   * The number of minutes of inactivity after which the endpoint stops
+   * automatically. Set to null, omit, or set to 0 to disable automatic timeout.
    */
   inactive_timeout?: number | null;
 
@@ -414,8 +413,8 @@ export interface EndpointUpdateParams {
   display_name?: string;
 
   /**
-   * The number of minutes of inactivity after which the endpoint will be
-   * automatically stopped. Set to 0 to disable automatic timeout.
+   * The number of minutes of inactivity after which the endpoint stops
+   * automatically. Set to 0 to disable automatic timeout.
    */
   inactive_timeout?: number | null;
 

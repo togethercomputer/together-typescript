@@ -54,7 +54,7 @@ export interface Secret {
   created_at?: string;
 
   /**
-   * CreatedBy is the identifier of the user who created this secret
+   * CreatedBy is the identifier of who created this secret.
    */
   created_by?: string;
 
@@ -64,7 +64,7 @@ export interface Secret {
   description?: string;
 
   /**
-   * LastUpdatedBy is the identifier of the user who last updated this secret
+   * LastUpdatedBy is the identifier of who last updated this secret.
    */
   last_updated_by?: string;
 
@@ -108,7 +108,7 @@ export interface SecretCreateParams {
 
   /**
    * Value is the sensitive data to store securely (e.g., API keys, passwords,
-   * tokens). This value will be encrypted at rest
+   * tokens). Encrypted at rest.
    */
   value: string;
 
@@ -146,8 +146,8 @@ export interface SecretUpdateParams {
   project_id?: string;
 
   /**
-   * Value is the new sensitive data to store securely. Updating this will replace
-   * the existing secret value
+   * Value is the new sensitive data to store securely. Updating this replaces the
+   * existing secret value.
    */
   value?: string;
 }

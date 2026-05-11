@@ -93,8 +93,8 @@ export interface Volume {
 export namespace Volume {
   export interface Content {
     /**
-     * Files is the list of files that will be preloaded into the volume, if the volume
-     * content type is "files"
+     * Files is the list of files to preload into the volume, if the volume content
+     * type is "files".
      */
     files?: Array<Content.File>;
 
@@ -132,7 +132,7 @@ export namespace Volume {
 
   export interface VersionHistory {
     /**
-     * Content specifies the new content that will be preloaded to this volume
+     * Content specifies the new content to preload to this volume.
      */
     content?: VersionHistory.Content;
 
@@ -143,7 +143,7 @@ export namespace Volume {
 
   export namespace VersionHistory {
     /**
-     * Content specifies the new content that will be preloaded to this volume
+     * Content specifies the new content to preload to this volume.
      */
     export interface Content {
       /**
@@ -177,7 +177,7 @@ export type VolumeDeleteResponse = unknown;
 
 export interface VolumeCreateParams {
   /**
-   * Content specifies the new content that will be preloaded to this volume
+   * Content specifies the new content to preload to this volume.
    */
   content: VolumeCreateParams.Content;
 
@@ -194,7 +194,7 @@ export interface VolumeCreateParams {
 
 export namespace VolumeCreateParams {
   /**
-   * Content specifies the new content that will be preloaded to this volume
+   * Content specifies the new content to preload to this volume.
    */
   export interface Content {
     /**
@@ -213,7 +213,7 @@ export namespace VolumeCreateParams {
 
 export interface VolumeUpdateParams {
   /**
-   * Content specifies the new content that will be preloaded to this volume
+   * Content specifies the new content to preload to this volume.
    */
   content?: VolumeUpdateParams.Content;
 
@@ -230,7 +230,7 @@ export interface VolumeUpdateParams {
 
 export namespace VolumeUpdateParams {
   /**
-   * Content specifies the new content that will be preloaded to this volume
+   * Content specifies the new content to preload to this volume.
    */
   export interface Content {
     /**
