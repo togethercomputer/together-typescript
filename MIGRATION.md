@@ -69,6 +69,7 @@ This affects the following methods:
 
 - `client.beta.jig.retrieveLogs()`
 - `client.fineTuning.delete()`
+- `client.fineTuning.listMetrics()`
 - `client.models.list()`
 - `client.endpoints.list()`
 - `client.endpoints.listHardware()`

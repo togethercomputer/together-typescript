@@ -174,6 +174,7 @@ Types:
 - <code><a href="./src/resources/fine-tuning.ts">FineTuningEstimatePriceResponse</a></code>
 - <code><a href="./src/resources/fine-tuning.ts">FineTuningListCheckpointsResponse</a></code>
 - <code><a href="./src/resources/fine-tuning.ts">FineTuningListEventsResponse</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FineTuningListMetricsResponse</a></code>
 
 Methods:
 
@@ -186,6 +187,7 @@ Methods:
 - <code title="post /fine-tunes/estimate-price">client.fineTuning.<a href="./src/resources/fine-tuning.ts">estimatePrice</a>({ ...params }) -> FineTuningEstimatePriceResponse</code>
 - <code title="get /fine-tunes/{id}/checkpoints">client.fineTuning.<a href="./src/resources/fine-tuning.ts">listCheckpoints</a>(id) -> FineTuningListCheckpointsResponse</code>
 - <code title="get /fine-tunes/{id}/events">client.fineTuning.<a href="./src/resources/fine-tuning.ts">listEvents</a>(id) -> FineTuningListEventsResponse</code>
+- <code title="get /fine-tunes/{id}/metrics">client.fineTuning.<a href="./src/resources/fine-tuning.ts">listMetrics</a>(id, { ...params }) -> FineTuningListMetricsResponse</code>
 
 # CodeInterpreter
 
