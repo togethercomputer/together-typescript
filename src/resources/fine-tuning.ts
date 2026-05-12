@@ -144,23 +144,6 @@ export class FineTuning extends APIResource {
   listEvents(id: string, options?: RequestOptions): APIPromise<FineTuningListEventsResponse> {
     return this._client.get(path`/fine-tunes/${id}/events`, options);
   }
-
-  /**
-   * Retrieves recorded training metrics for a fine-tuning job in chronological
-   * order. All query parameters are optional: omit them to retrieve all metrics.
-   *
-   * @example
-   * ```ts
-   * const response = await client.fineTuning.listMetrics('id');
-   * ```
-   */
-  listMetrics(
-    id: string,
-    query: FineTuningListMetricsParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<FineTuningListMetricsResponse> {
-    return this._client.get(path`/fine-tunes/${id}/metrics`, { query, ...options });
-  }
 }
 
 export interface FinetuneEvent {
@@ -1286,10 +1269,6 @@ export interface FineTuningListEventsResponse {
   data: Array<FinetuneEvent>;
 }
 
-export interface FineTuningListMetricsResponse {
-  metrics?: Array<{ [key: string]: number }>;
-}
-
 export interface FineTuningCreateParams {
   /**
    * Name of the base model to run fine-tune job on
@@ -1667,33 +1646,6 @@ export namespace FineTuningEstimatePriceParams {
   }
 }
 
-export interface FineTuningListMetricsParams {
-  /**
-   * Return only metrics with global_step >= this value.
-   */
-  global_step_from?: number;
-
-  /**
-   * Return only metrics with global_step <= this value.
-   */
-  global_step_to?: number;
-
-  /**
-   * Return only metrics logged at or after this ISO-8601 timestamp.
-   */
-  logged_at_from?: string;
-
-  /**
-   * Return only metrics logged at or before this ISO-8601 timestamp.
-   */
-  logged_at_to?: string;
-
-  /**
-   * Number of (uniformly sampled) train metrics to return.
-   */
-  resolution?: number;
-}
-
 export declare namespace FineTuning {
   export {
     type FinetuneEvent as FinetuneEvent,
@@ -1706,11 +1658,9 @@ export declare namespace FineTuning {
     type FineTuningEstimatePriceResponse as FineTuningEstimatePriceResponse,
     type FineTuningListCheckpointsResponse as FineTuningListCheckpointsResponse,
     type FineTuningListEventsResponse as FineTuningListEventsResponse,
-    type FineTuningListMetricsResponse as FineTuningListMetricsResponse,
     type FineTuningCreateParams as FineTuningCreateParams,
     type FineTuningDeleteParams as FineTuningDeleteParams,
     type FineTuningContentParams as FineTuningContentParams,
     type FineTuningEstimatePriceParams as FineTuningEstimatePriceParams,
-    type FineTuningListMetricsParams as FineTuningListMetricsParams,
   };
 }

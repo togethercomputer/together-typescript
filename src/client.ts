@@ -70,8 +70,6 @@ import {
   FineTuningEstimatePriceResponse,
   FineTuningListCheckpointsResponse,
   FineTuningListEventsResponse,
-  FineTuningListMetricsParams,
-  FineTuningListMetricsResponse,
   FineTuningListResponse,
   FinetuneEvent,
   FinetuneEventType,
@@ -887,12 +885,10 @@ export declare namespace Together {
     type FineTuningEstimatePriceResponse as FineTuningEstimatePriceResponse,
     type FineTuningListCheckpointsResponse as FineTuningListCheckpointsResponse,
     type FineTuningListEventsResponse as FineTuningListEventsResponse,
-    type FineTuningListMetricsResponse as FineTuningListMetricsResponse,
     type FineTuningCreateParams as FineTuningCreateParams,
     type FineTuningDeleteParams as FineTuningDeleteParams,
     type FineTuningContentParams as FineTuningContentParams,
     type FineTuningEstimatePriceParams as FineTuningEstimatePriceParams,
-    type FineTuningListMetricsParams as FineTuningListMetricsParams,
   };
 
   export {
