@@ -68,12 +68,10 @@ export {
   type FineTuningEstimatePriceResponse,
   type FineTuningListCheckpointsResponse,
   type FineTuningListEventsResponse,
-  type FineTuningListMetricsResponse,
   type FineTuningCreateParams,
   type FineTuningDeleteParams,
   type FineTuningContentParams,
   type FineTuningEstimatePriceParams,
-  type FineTuningListMetricsParams,
 } from './fine-tuning';
 export {
   Images,
