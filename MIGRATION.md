@@ -68,6 +68,8 @@ client.example.list(undefined, { headers: { ... } });
 This affects the following methods:
 
 - `client.beta.jig.retrieveLogs()`
+- `client.beta.clusters.list()`
+- `client.beta.clusters.storage.list()`
 - `client.fineTuning.delete()`
 - `client.fineTuning.listMetrics()`
 - `client.models.list()`

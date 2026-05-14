@@ -34,8 +34,11 @@ export class Storage extends APIResource {
   /**
    * List all shared volumes.
    */
-  list(options?: RequestOptions): APIPromise<StorageListResponse> {
-    return this._client.get('/compute/clusters/storage/volumes', options);
+  list(
+    query: StorageListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<StorageListResponse> {
+    return this._client.get('/compute/clusters/storage/volumes', { query, ...options });
   }
 
   /**
@@ -48,24 +51,12 @@ export class Storage extends APIResource {
 }
 
 export interface ClusterStorage {
-  /**
-   * Size of the volume in whole tebibytes (TiB).
-   */
   size_tib: number;
 
-  /**
-   * Deployment status of the volume.
-   */
-  status: 'available' | 'bound' | 'provisioning';
+  status: string;
 
-  /**
-   * ID of the volume.
-   */
   volume_id: string;
 
-  /**
-   * Provided name of the volume.
-   */
   volume_name: string;
 }
 
@@ -78,9 +69,6 @@ export interface StorageDeleteResponse {
 }
 
 export interface StorageCreateParams {
-  /**
-   * Region name. Usable regions can be found from `client.clusters.list_regions()`
-   */
   region: string;
 
   /**
@@ -88,22 +76,27 @@ export interface StorageCreateParams {
    */
   size_tib: number;
 
-  /**
-   * Customizable name of the volume to create.
-   */
   volume_name: string;
+
+  /**
+   * When true, the shared volume is not deleted when the cluster is decommissioned.
+   */
+  is_lifecycle_independent?: boolean;
 }
 
 export interface StorageUpdateParams {
-  /**
-   * Size of the volume in whole tebibytes (TiB).
-   */
-  size_tib?: number;
+  size_tib: number;
 
+  volume_id: string;
+}
+
+export interface StorageListParams {
   /**
-   * ID of the volume to update.
+   * Optional UMS project ID to filter volumes by. When set, only volumes belonging
+   * to this project are returned. The caller must be a member of the project;
+   * otherwise the result set will be empty.
    */
-  volume_id?: string;
+  project_id?: string;
 }
 
 export declare namespace Storage {
@@ -113,5 +106,6 @@ export declare namespace Storage {
     type StorageDeleteResponse as StorageDeleteResponse,
     type StorageCreateParams as StorageCreateParams,
     type StorageUpdateParams as StorageUpdateParams,
+    type StorageListParams as StorageListParams,
   };
 }
