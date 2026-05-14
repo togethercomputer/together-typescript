@@ -80,7 +80,7 @@ Methods:
 - <code title="post /compute/clusters">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">create</a>({ ...params }) -> Cluster</code>
 - <code title="get /compute/clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">retrieve</a>(clusterID) -> Cluster</code>
 - <code title="put /compute/clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">update</a>(clusterID, { ...params }) -> Cluster</code>
-- <code title="get /compute/clusters">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">list</a>() -> ClusterListResponse</code>
+- <code title="get /compute/clusters">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">list</a>({ ...params }) -> ClusterListResponse</code>
 - <code title="delete /compute/clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">delete</a>(clusterID) -> ClusterDeleteResponse</code>
 - <code title="get /compute/regions">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">listRegions</a>() -> ClusterListRegionsResponse</code>
 
@@ -97,7 +97,7 @@ Methods:
 - <code title="post /compute/clusters/storage/volumes">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">create</a>({ ...params }) -> ClusterStorage</code>
 - <code title="get /compute/clusters/storage/volumes/{volume_id}">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">retrieve</a>(volumeID) -> ClusterStorage</code>
 - <code title="put /compute/clusters/storage/volumes">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">update</a>({ ...params }) -> ClusterStorage</code>
-- <code title="get /compute/clusters/storage/volumes">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">list</a>() -> StorageListResponse</code>
+- <code title="get /compute/clusters/storage/volumes">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">list</a>({ ...params }) -> StorageListResponse</code>
 - <code title="delete /compute/clusters/storage/volumes/{volume_id}">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">delete</a>(volumeID) -> StorageDeleteResponse</code>
 
 # Chat

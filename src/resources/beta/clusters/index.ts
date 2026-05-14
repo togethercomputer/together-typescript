@@ -8,6 +8,7 @@ export {
   type ClusterListRegionsResponse,
   type ClusterCreateParams,
   type ClusterUpdateParams,
+  type ClusterListParams,
 } from './clusters';
 export {
   Storage,
@@ -16,4 +17,5 @@ export {
   type StorageDeleteResponse,
   type StorageCreateParams,
   type StorageUpdateParams,
+  type StorageListParams,
 } from './storage';
