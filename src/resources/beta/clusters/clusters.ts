@@ -13,6 +13,8 @@ import {
   RemediationListResponse,
   RemediationRejectParams,
   RemediationRejectResponse,
+  RemediationRetrieveParams,
+  RemediationRetrieveResponse,
   Remediations,
 } from './remediations';
 import * as StorageAPI from './storage';
@@ -1218,11 +1220,13 @@ export declare namespace Clusters {
   export {
     Remediations as Remediations,
     type RemediationCreateResponse as RemediationCreateResponse,
+    type RemediationRetrieveResponse as RemediationRetrieveResponse,
     type RemediationListResponse as RemediationListResponse,
     type RemediationApproveResponse as RemediationApproveResponse,
     type RemediationCancelResponse as RemediationCancelResponse,
     type RemediationRejectResponse as RemediationRejectResponse,
     type RemediationCreateParams as RemediationCreateParams,
+    type RemediationRetrieveParams as RemediationRetrieveParams,
     type RemediationListParams as RemediationListParams,
     type RemediationApproveParams as RemediationApproveParams,
     type RemediationCancelParams as RemediationCancelParams,

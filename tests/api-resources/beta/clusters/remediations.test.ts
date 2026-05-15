@@ -31,6 +31,27 @@ describe('resource remediations', () => {
     });
   });
 
+  test('retrieve: only required params', async () => {
+    const responsePromise = client.beta.clusters.remediations.retrieve('remediation_id', {
+      cluster_id: 'cluster_id',
+      instance_id: 'instance_id',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieve: required and optional params', async () => {
+    const response = await client.beta.clusters.remediations.retrieve('remediation_id', {
+      cluster_id: 'cluster_id',
+      instance_id: 'instance_id',
+    });
+  });
+
   test('list: only required params', async () => {
     const responsePromise = client.beta.clusters.remediations.list('instance_id', {
       cluster_id: 'cluster_id',

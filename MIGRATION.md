@@ -55,6 +55,7 @@ client.parents.children.retrieve('c_456', { parent_id: 'p_123' });
 This affects the following methods:
 
 - `client.beta.clusters.remediations.create()`
+- `client.beta.clusters.remediations.retrieve()`
 - `client.beta.clusters.remediations.list()`
 - `client.beta.clusters.remediations.approve()`
 - `client.beta.clusters.remediations.cancel()`
