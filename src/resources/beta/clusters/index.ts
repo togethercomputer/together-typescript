@@ -13,11 +13,13 @@ export {
 export {
   Remediations,
   type RemediationCreateResponse,
+  type RemediationRetrieveResponse,
   type RemediationListResponse,
   type RemediationApproveResponse,
   type RemediationCancelResponse,
   type RemediationRejectResponse,
   type RemediationCreateParams,
+  type RemediationRetrieveParams,
   type RemediationListParams,
   type RemediationApproveParams,
   type RemediationCancelParams,
