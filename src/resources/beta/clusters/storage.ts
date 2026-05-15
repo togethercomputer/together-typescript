@@ -51,6 +51,9 @@ export class Storage extends APIResource {
 }
 
 export interface ClusterStorage {
+  /**
+   * Size of the volume in TiB.
+   */
   size_tib: number;
 
   /**
@@ -66,8 +69,14 @@ export interface ClusterStorage {
     | 'access_revoked'
     | 'unknown';
 
+  /**
+   * ID of the volume.
+   */
   volume_id: string;
 
+  /**
+   * User provided name of the volume.
+   */
   volume_name: string;
 }
 
@@ -80,6 +89,9 @@ export interface StorageDeleteResponse {
 }
 
 export interface StorageCreateParams {
+  /**
+   * Region name. Usable regions can be found from `clusters.list_regions()`
+   */
   region: string;
 
   /**
@@ -87,6 +99,9 @@ export interface StorageCreateParams {
    */
   size_tib: number;
 
+  /**
+   * User provided name of the volume.
+   */
   volume_name: string;
 
   /**
@@ -96,8 +111,14 @@ export interface StorageCreateParams {
 }
 
 export interface StorageUpdateParams {
+  /**
+   * ID of the volume.
+   */
   volume_id: string;
 
+  /**
+   * Size of the volume in TiB.
+   */
   size_tib?: number;
 }
 

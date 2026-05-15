@@ -458,12 +458,24 @@ export namespace Cluster {
   }
 
   export interface Volume {
+    /**
+     * Size of the volume in TiB.
+     */
     size_tib: number;
 
+    /**
+     * Current status of the volume.
+     */
     status: string;
 
+    /**
+     * ID of the volume.
+     */
     volume_id: string;
 
+    /**
+     * User provided name of the volume.
+     */
     volume_name: string;
   }
 
@@ -999,6 +1011,9 @@ export namespace ClusterCreateParams {
    * Inline configuration to create a shared volume with the cluster creation.
    */
   export interface SharedVolume {
+    /**
+     * Region name. Usable regions can be found from `clusters.list_regions()`
+     */
     region: string;
 
     /**
@@ -1006,6 +1021,9 @@ export namespace ClusterCreateParams {
      */
     size_tib: number;
 
+    /**
+     * User provided name of the volume.
+     */
     volume_name: string;
 
     /**
