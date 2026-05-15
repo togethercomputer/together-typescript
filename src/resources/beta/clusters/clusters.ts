@@ -1,6 +1,20 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
+import * as RemediationsAPI from './remediations';
+import {
+  RemediationApproveParams,
+  RemediationApproveResponse,
+  RemediationCancelParams,
+  RemediationCancelResponse,
+  RemediationCreateParams,
+  RemediationCreateResponse,
+  RemediationListParams,
+  RemediationListResponse,
+  RemediationRejectParams,
+  RemediationRejectResponse,
+  Remediations,
+} from './remediations';
 import * as StorageAPI from './storage';
 import {
   ClusterStorage,
@@ -16,6 +30,7 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class Clusters extends APIResource {
+  remediations: RemediationsAPI.Remediations = new RemediationsAPI.Remediations(this._client);
   storage: StorageAPI.Storage = new StorageAPI.Storage(this._client);
 
   /**
@@ -1186,6 +1201,7 @@ export interface ClusterListParams {
   project_id?: string;
 }
 
+Clusters.Remediations = Remediations;
 Clusters.Storage = Storage;
 
 export declare namespace Clusters {
@@ -1197,6 +1213,20 @@ export declare namespace Clusters {
     type ClusterCreateParams as ClusterCreateParams,
     type ClusterUpdateParams as ClusterUpdateParams,
     type ClusterListParams as ClusterListParams,
+  };
+
+  export {
+    Remediations as Remediations,
+    type RemediationCreateResponse as RemediationCreateResponse,
+    type RemediationListResponse as RemediationListResponse,
+    type RemediationApproveResponse as RemediationApproveResponse,
+    type RemediationCancelResponse as RemediationCancelResponse,
+    type RemediationRejectResponse as RemediationRejectResponse,
+    type RemediationCreateParams as RemediationCreateParams,
+    type RemediationListParams as RemediationListParams,
+    type RemediationApproveParams as RemediationApproveParams,
+    type RemediationCancelParams as RemediationCancelParams,
+    type RemediationRejectParams as RemediationRejectParams,
   };
 
   export {
