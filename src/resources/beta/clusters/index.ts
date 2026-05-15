@@ -12,12 +12,8 @@ export {
 } from './clusters';
 export {
   Remediations,
-  type RemediationCreateResponse,
-  type RemediationRetrieveResponse,
+  type Remediation,
   type RemediationListResponse,
-  type RemediationApproveResponse,
-  type RemediationCancelResponse,
-  type RemediationRejectResponse,
   type RemediationCreateParams,
   type RemediationRetrieveParams,
   type RemediationListParams,

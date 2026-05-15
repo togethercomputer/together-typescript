@@ -88,21 +88,17 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/beta/clusters/remediations.ts">RemediationCreateResponse</a></code>
-- <code><a href="./src/resources/beta/clusters/remediations.ts">RemediationRetrieveResponse</a></code>
+- <code><a href="./src/resources/beta/clusters/remediations.ts">Remediation</a></code>
 - <code><a href="./src/resources/beta/clusters/remediations.ts">RemediationListResponse</a></code>
-- <code><a href="./src/resources/beta/clusters/remediations.ts">RemediationApproveResponse</a></code>
-- <code><a href="./src/resources/beta/clusters/remediations.ts">RemediationCancelResponse</a></code>
-- <code><a href="./src/resources/beta/clusters/remediations.ts">RemediationRejectResponse</a></code>
 
 Methods:
 
-- <code title="post /compute/clusters/{cluster_id}/instances/{instance_id}/remediations">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">create</a>(instanceID, { ...params }) -> RemediationCreateResponse</code>
-- <code title="get /compute/clusters/{cluster_id}/instances/{instance_id}/remediations/{remediation_id}">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">retrieve</a>(remediationID, { ...params }) -> RemediationRetrieveResponse</code>
+- <code title="post /compute/clusters/{cluster_id}/instances/{instance_id}/remediations">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">create</a>(instanceID, { ...params }) -> Remediation</code>
+- <code title="get /compute/clusters/{cluster_id}/instances/{instance_id}/remediations/{remediation_id}">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">retrieve</a>(remediationID, { ...params }) -> Remediation</code>
 - <code title="get /compute/clusters/{cluster_id}/instances/{instance_id}/remediations">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">list</a>(instanceID, { ...params }) -> RemediationListResponse</code>
-- <code title="post /compute/clusters/{cluster_id}/instances/{instance_id}/remediations/{remediation_id}/approve">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">approve</a>(remediationID, { ...params }) -> RemediationApproveResponse</code>
-- <code title="post /compute/clusters/{cluster_id}/instances/{instance_id}/remediations/{remediation_id}/cancel">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">cancel</a>(remediationID, { ...params }) -> RemediationCancelResponse</code>
-- <code title="post /compute/clusters/{cluster_id}/instances/{instance_id}/remediations/{remediation_id}/reject">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">reject</a>(remediationID, { ...params }) -> RemediationRejectResponse</code>
+- <code title="post /compute/clusters/{cluster_id}/instances/{instance_id}/remediations/{remediation_id}/approve">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">approve</a>(remediationID, { ...params }) -> Remediation</code>
+- <code title="post /compute/clusters/{cluster_id}/instances/{instance_id}/remediations/{remediation_id}/cancel">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">cancel</a>(remediationID, { ...params }) -> Remediation</code>
+- <code title="post /compute/clusters/{cluster_id}/instances/{instance_id}/remediations/{remediation_id}/reject">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">reject</a>(remediationID, { ...params }) -> Remediation</code>
 
 ### Storage
 
