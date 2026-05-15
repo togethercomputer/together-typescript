@@ -53,7 +53,18 @@ export class Storage extends APIResource {
 export interface ClusterStorage {
   size_tib: number;
 
-  status: string;
+  /**
+   * Current status of the shared volume.
+   */
+  status:
+    | 'scheduled'
+    | 'available'
+    | 'bound'
+    | 'provisioning'
+    | 'deleting'
+    | 'failed'
+    | 'access_revoked'
+    | 'unknown';
 
   volume_id: string;
 
