@@ -28,6 +28,7 @@ import {
   VolumeCreateParams,
   VolumeDeleteResponse,
   VolumeListResponse,
+  VolumeRetrieveParams,
   VolumeUpdateParams,
   Volumes,
 } from './volumes';
@@ -204,13 +205,19 @@ export interface Deployment {
    * Status represents the overall status of the deployment (e.g., Updating, Scaling,
    * Ready, Failed)
    */
-  status?: 'Updating' | 'Scaling' | 'Ready' | 'Failed';
+  status?: 'Updating' | 'Scaling' | 'Ready' | 'Failed' | 'ScaledToZero';
 
   /**
    * Storage is the amount of storage (in MB or units as defined by the platform)
    * allocated to each replica
    */
   storage?: number;
+
+  /**
+   * TerminationGracePeriodSeconds is the time in seconds to wait for graceful
+   * shutdown before forcefully terminating the replica
+   */
+  termination_grace_period_seconds?: number;
 
   /**
    * UpdatedAt is the ISO8601 timestamp when this deployment was last updated
@@ -830,6 +837,17 @@ export interface JigRetrieveLogsParams {
    * Replica ID to filter logs
    */
   replica_id?: string;
+
+  /**
+   * Deployment revision (UUID) to filter logs
+   */
+  revision?: string;
+
+  /**
+   * Deployment image version (tag or last 4 characters of image digest) to filter
+   * logs
+   */
+  version?: string;
 }
 
 Jig.Queue = Queue;
@@ -865,6 +883,7 @@ export declare namespace Jig {
     type VolumeListResponse as VolumeListResponse,
     type VolumeDeleteResponse as VolumeDeleteResponse,
     type VolumeCreateParams as VolumeCreateParams,
+    type VolumeRetrieveParams as VolumeRetrieveParams,
     type VolumeUpdateParams as VolumeUpdateParams,
   };
 

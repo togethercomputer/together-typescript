@@ -11,7 +11,7 @@ describe('resource volumes', () => {
   test('create: only required params', async () => {
     const responsePromise = client.beta.jig.volumes.create({
       content: {},
-      name: 'name',
+      name: 'x',
       type: 'readOnly',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -26,7 +26,7 @@ describe('resource volumes', () => {
   test('create: required and optional params', async () => {
     const response = await client.beta.jig.volumes.create({
       content: { source_prefix: 'models/', type: 'files' },
-      name: 'name',
+      name: 'x',
       type: 'readOnly',
     });
   });
@@ -40,6 +40,13 @@ describe('resource volumes', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieve: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.beta.jig.volumes.retrieve('id', { version: 0 }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Together.NotFoundError);
   });
 
   test('update', async () => {
