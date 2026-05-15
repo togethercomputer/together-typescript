@@ -147,7 +147,7 @@ export interface Deployment {
   /**
    * GPUType specifies the type of GPU requested (if any) for this deployment
    */
-  gpu_type?: 'h100-80gb' | 'h100-40gb-mig' | 'b200-192gb';
+  gpu_type?: 'h100-80gb' | 'h100-40gb-mig' | 'h200-140gb' | 'b200-192gb';
 
   /**
    * HealthCheckPath is the HTTP path used for health checks of the application
@@ -444,7 +444,7 @@ export interface JigUpdateParams {
   /**
    * GPUType specifies the GPU hardware to use (e.g., "h100-80gb")
    */
-  gpu_type?: 'h100-80gb' | 'h100-40gb-mig' | 'b200-192gb';
+  gpu_type?: 'h100-80gb' | 'h100-40gb-mig' | 'h200-140gb' | 'b200-192gb';
 
   /**
    * HealthCheckPath is the HTTP path for health checks (e.g., "/health"). Set to
@@ -613,7 +613,7 @@ export interface JigDeployParams {
   /**
    * GPUType specifies the GPU hardware to use (e.g., "h100-80gb").
    */
-  gpu_type: 'h100-80gb' | 'h100-40gb-mig' | 'b200-192gb';
+  gpu_type: 'h100-80gb' | 'h100-40gb-mig' | 'h200-140gb' | 'b200-192gb';
 
   /**
    * Image is the container image to deploy from registry.together.ai.
