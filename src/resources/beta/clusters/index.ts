@@ -11,6 +11,19 @@ export {
   type ClusterListParams,
 } from './clusters';
 export {
+  Remediations,
+  type RemediationCreateResponse,
+  type RemediationListResponse,
+  type RemediationApproveResponse,
+  type RemediationCancelResponse,
+  type RemediationRejectResponse,
+  type RemediationCreateParams,
+  type RemediationListParams,
+  type RemediationApproveParams,
+  type RemediationCancelParams,
+  type RemediationRejectParams,
+} from './remediations';
+export {
   Storage,
   type ClusterStorage,
   type StorageListResponse,
