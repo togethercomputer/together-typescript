@@ -44,7 +44,7 @@ describe('resource storage', () => {
   });
 
   test('update: only required params', async () => {
-    const responsePromise = client.beta.clusters.storage.update({ size_tib: 0, volume_id: 'volume_id' });
+    const responsePromise = client.beta.clusters.storage.update({ volume_id: 'volume_id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -55,7 +55,7 @@ describe('resource storage', () => {
   });
 
   test('update: required and optional params', async () => {
-    const response = await client.beta.clusters.storage.update({ size_tib: 0, volume_id: 'volume_id' });
+    const response = await client.beta.clusters.storage.update({ volume_id: 'volume_id', size_tib: 0 });
   });
 
   test('list', async () => {

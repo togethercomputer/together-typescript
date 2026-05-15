@@ -96,9 +96,9 @@ export interface StorageCreateParams {
 }
 
 export interface StorageUpdateParams {
-  size_tib: number;
-
   volume_id: string;
+
+  size_tib?: number;
 }
 
 export interface StorageListParams {

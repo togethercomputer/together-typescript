@@ -655,11 +655,6 @@ export interface ClusterCreateParams {
   cuda_version: string;
 
   /**
-   * Duration in days to keep the cluster running.
-   */
-  duration_days: number;
-
-  /**
    * Type of GPU to use in the cluster
    */
   gpu_type: 'H100_SXM' | 'H200_SXM' | 'RTX_6000_PCI' | 'L40_PCIE' | 'B200_SXM' | 'H100_SXM_INF';
@@ -724,6 +719,11 @@ export interface ClusterCreateParams {
    * Type of cluster to create.
    */
   cluster_type?: 'KUBERNETES' | 'SLURM';
+
+  /**
+   * Duration in days to keep the cluster running.
+   */
+  duration_days?: number;
 
   /**
    * Whether automated GPU node failover should be enabled for this cluster. By
