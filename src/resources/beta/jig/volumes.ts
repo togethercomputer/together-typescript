@@ -16,8 +16,12 @@ export class Volumes extends APIResource {
   /**
    * Retrieve details of a specific volume by its ID or name
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<Volume> {
-    return this._client.get(path`/deployments/storage/volumes/${id}`, options);
+  retrieve(
+    id: string,
+    query: VolumeRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Volume> {
+    return this._client.get(path`/deployments/storage/volumes/${id}`, { query, ...options });
   }
 
   /**
@@ -211,6 +215,13 @@ export namespace VolumeCreateParams {
   }
 }
 
+export interface VolumeRetrieveParams {
+  /**
+   * Volume version to describe (defaults to current version)
+   */
+  version?: number;
+}
+
 export interface VolumeUpdateParams {
   /**
    * Content specifies the new content to preload to this volume.
@@ -253,6 +264,7 @@ export declare namespace Volumes {
     type VolumeListResponse as VolumeListResponse,
     type VolumeDeleteResponse as VolumeDeleteResponse,
     type VolumeCreateParams as VolumeCreateParams,
+    type VolumeRetrieveParams as VolumeRetrieveParams,
     type VolumeUpdateParams as VolumeUpdateParams,
   };
 }
