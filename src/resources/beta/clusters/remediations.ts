@@ -20,7 +20,7 @@ export class Remediations extends APIResource {
     instanceID: string,
     params: RemediationCreateParams,
     options?: RequestOptions,
-  ): APIPromise<RemediationCreateResponse> {
+  ): APIPromise<Remediation> {
     const { cluster_id, remediation_id, ...body } = params;
     return this._client.post(path`/compute/clusters/${cluster_id}/instances/${instanceID}/remediations`, {
       query: { remediation_id },
@@ -37,7 +37,7 @@ export class Remediations extends APIResource {
     remediationID: string,
     params: RemediationRetrieveParams,
     options?: RequestOptions,
-  ): APIPromise<RemediationRetrieveResponse> {
+  ): APIPromise<Remediation> {
     const { cluster_id, instance_id } = params;
     return this._client.get(
       path`/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}`,
@@ -73,7 +73,7 @@ export class Remediations extends APIResource {
     remediationID: string,
     params: RemediationApproveParams,
     options?: RequestOptions,
-  ): APIPromise<RemediationApproveResponse> {
+  ): APIPromise<Remediation> {
     const { cluster_id, instance_id, ...body } = params;
     return this._client.post(
       path`/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}/approve`,
@@ -90,7 +90,7 @@ export class Remediations extends APIResource {
     remediationID: string,
     params: RemediationCancelParams,
     options?: RequestOptions,
-  ): APIPromise<RemediationCancelResponse> {
+  ): APIPromise<Remediation> {
     const { cluster_id, instance_id } = params;
     return this._client.post(
       path`/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}/cancel`,
@@ -110,7 +110,7 @@ export class Remediations extends APIResource {
     remediationID: string,
     params: RemediationRejectParams,
     options?: RequestOptions,
-  ): APIPromise<RemediationRejectResponse> {
+  ): APIPromise<Remediation> {
     const { cluster_id, instance_id, ...body } = params;
     return this._client.post(
       path`/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}/reject`,
@@ -124,118 +124,7 @@ export class Remediations extends APIResource {
  * can have multiple remediations over time (e.g., failed attempts followed by
  * retries).
  */
-export interface RemediationCreateResponse {
-  id: string;
-
-  cluster_id: string;
-
-  instance_id: string;
-
-  /**
-   * Remediation mode specifies how the remediation should be performed.
-   *
-   * - `REMEDIATION_MODE_VM_ONLY`: Deletes the VM and provisions a new one on any
-   *   available host.
-   * - `REMEDIATION_MODE_HOST_AWARE`: Cordons the host, deletes the VM, and
-   *   provisions a new one on a different host.
-   */
-  mode:
-    | 'REMEDIATION_MODE_VM_ONLY'
-    | 'REMEDIATION_MODE_HOST_AWARE'
-    | 'REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT'
-    | 'REMEDIATION_MODE_REBOOT_VM';
-
-  /**
-   * RemediationState represents the lifecycle state of a remediation.
-   *
-   * - `PENDING_APPROVAL`: Awaiting approval before processing can begin.
-   * - `PENDING`: Approved and queued for processing.
-   * - `RUNNING`: Actively being processed.
-   * - `SUCCEEDED`: Successfully completed.
-   * - `FAILED`: Failed with an error.
-   * - `CANCELLED`: Cancelled by user or system.
-   * - `AUTO_RESOLVED`: The underlying issue was automatically resolved before
-   *   processing.
-   */
-  state: 'PENDING_APPROVAL' | 'PENDING' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED' | 'AUTO_RESOLVED';
-
-  /**
-   * RemediationTrigger specifies how the remediation was triggered.
-   *
-   * - `REMEDIATION_TRIGGER_MANUAL`: A user-initiated remediation (either via web UI
-   *   or API call).
-   * - `REMEDIATION_TRIGGER_AUTOMATED`: A system-initiated remediation that requires
-   *   approval.
-   */
-  trigger: 'REMEDIATION_TRIGGER_MANUAL' | 'REMEDIATION_TRIGGER_AUTOMATED';
-
-  /**
-   * Active health check run ID (UUID) that triggered this remediation.
-   */
-  active_health_check_run_id?: string;
-
-  /**
-   * When the remediation was created.
-   */
-  create_time?: string;
-
-  /**
-   * When the remediation completed.
-   */
-  end_time?: string;
-
-  /**
-   * Error message if the remediation failed.
-   */
-  error_message?: string;
-
-  /**
-   * Passive health check event ID that triggered this remediation.
-   */
-  passive_health_check_event_id?: string;
-
-  /**
-   * User-provided reason for the remediation.
-   */
-  reason?: string;
-
-  /**
-   * Who requested the remediation.
-   */
-  requested_by?: string;
-
-  /**
-   * Review comment.
-   */
-  review_comment?: string;
-
-  /**
-   * When the remediation was reviewed.
-   */
-  review_time?: string;
-
-  /**
-   * Who reviewed the remediation.
-   */
-  reviewed_by?: string;
-
-  /**
-   * When processing started.
-   */
-  start_time?: string;
-
-  /**
-   * When the remediation was last updated.
-   */
-  update_time?: string;
-}
-
-/**
- * Remediation represents a node remediation request for an instance. An instance
- * can have multiple remediations over time (e.g., failed attempts followed by
- * retries).
- */
-export interface RemediationRetrieveResponse {
+export interface Remediation {
   id: string;
 
   cluster_id: string;
@@ -358,460 +247,7 @@ export interface RemediationListResponse {
   /**
    * The list of remediations.
    */
-  remediations: Array<RemediationListResponse.Remediation>;
-}
-
-export namespace RemediationListResponse {
-  /**
-   * Remediation represents a node remediation request for an instance. An instance
-   * can have multiple remediations over time (e.g., failed attempts followed by
-   * retries).
-   */
-  export interface Remediation {
-    id: string;
-
-    cluster_id: string;
-
-    instance_id: string;
-
-    /**
-     * Remediation mode specifies how the remediation should be performed.
-     *
-     * - `REMEDIATION_MODE_VM_ONLY`: Deletes the VM and provisions a new one on any
-     *   available host.
-     * - `REMEDIATION_MODE_HOST_AWARE`: Cordons the host, deletes the VM, and
-     *   provisions a new one on a different host.
-     */
-    mode:
-      | 'REMEDIATION_MODE_VM_ONLY'
-      | 'REMEDIATION_MODE_HOST_AWARE'
-      | 'REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT'
-      | 'REMEDIATION_MODE_REBOOT_VM';
-
-    /**
-     * RemediationState represents the lifecycle state of a remediation.
-     *
-     * - `PENDING_APPROVAL`: Awaiting approval before processing can begin.
-     * - `PENDING`: Approved and queued for processing.
-     * - `RUNNING`: Actively being processed.
-     * - `SUCCEEDED`: Successfully completed.
-     * - `FAILED`: Failed with an error.
-     * - `CANCELLED`: Cancelled by user or system.
-     * - `AUTO_RESOLVED`: The underlying issue was automatically resolved before
-     *   processing.
-     */
-    state:
-      | 'PENDING_APPROVAL'
-      | 'PENDING'
-      | 'RUNNING'
-      | 'SUCCEEDED'
-      | 'FAILED'
-      | 'CANCELLED'
-      | 'AUTO_RESOLVED';
-
-    /**
-     * RemediationTrigger specifies how the remediation was triggered.
-     *
-     * - `REMEDIATION_TRIGGER_MANUAL`: A user-initiated remediation (either via web UI
-     *   or API call).
-     * - `REMEDIATION_TRIGGER_AUTOMATED`: A system-initiated remediation that requires
-     *   approval.
-     */
-    trigger: 'REMEDIATION_TRIGGER_MANUAL' | 'REMEDIATION_TRIGGER_AUTOMATED';
-
-    /**
-     * Active health check run ID (UUID) that triggered this remediation.
-     */
-    active_health_check_run_id?: string;
-
-    /**
-     * When the remediation was created.
-     */
-    create_time?: string;
-
-    /**
-     * When the remediation completed.
-     */
-    end_time?: string;
-
-    /**
-     * Error message if the remediation failed.
-     */
-    error_message?: string;
-
-    /**
-     * Passive health check event ID that triggered this remediation.
-     */
-    passive_health_check_event_id?: string;
-
-    /**
-     * User-provided reason for the remediation.
-     */
-    reason?: string;
-
-    /**
-     * Who requested the remediation.
-     */
-    requested_by?: string;
-
-    /**
-     * Review comment.
-     */
-    review_comment?: string;
-
-    /**
-     * When the remediation was reviewed.
-     */
-    review_time?: string;
-
-    /**
-     * Who reviewed the remediation.
-     */
-    reviewed_by?: string;
-
-    /**
-     * When processing started.
-     */
-    start_time?: string;
-
-    /**
-     * When the remediation was last updated.
-     */
-    update_time?: string;
-  }
-}
-
-/**
- * Remediation represents a node remediation request for an instance. An instance
- * can have multiple remediations over time (e.g., failed attempts followed by
- * retries).
- */
-export interface RemediationApproveResponse {
-  id: string;
-
-  cluster_id: string;
-
-  instance_id: string;
-
-  /**
-   * Remediation mode specifies how the remediation should be performed.
-   *
-   * - `REMEDIATION_MODE_VM_ONLY`: Deletes the VM and provisions a new one on any
-   *   available host.
-   * - `REMEDIATION_MODE_HOST_AWARE`: Cordons the host, deletes the VM, and
-   *   provisions a new one on a different host.
-   */
-  mode:
-    | 'REMEDIATION_MODE_VM_ONLY'
-    | 'REMEDIATION_MODE_HOST_AWARE'
-    | 'REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT'
-    | 'REMEDIATION_MODE_REBOOT_VM';
-
-  /**
-   * RemediationState represents the lifecycle state of a remediation.
-   *
-   * - `PENDING_APPROVAL`: Awaiting approval before processing can begin.
-   * - `PENDING`: Approved and queued for processing.
-   * - `RUNNING`: Actively being processed.
-   * - `SUCCEEDED`: Successfully completed.
-   * - `FAILED`: Failed with an error.
-   * - `CANCELLED`: Cancelled by user or system.
-   * - `AUTO_RESOLVED`: The underlying issue was automatically resolved before
-   *   processing.
-   */
-  state: 'PENDING_APPROVAL' | 'PENDING' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED' | 'AUTO_RESOLVED';
-
-  /**
-   * RemediationTrigger specifies how the remediation was triggered.
-   *
-   * - `REMEDIATION_TRIGGER_MANUAL`: A user-initiated remediation (either via web UI
-   *   or API call).
-   * - `REMEDIATION_TRIGGER_AUTOMATED`: A system-initiated remediation that requires
-   *   approval.
-   */
-  trigger: 'REMEDIATION_TRIGGER_MANUAL' | 'REMEDIATION_TRIGGER_AUTOMATED';
-
-  /**
-   * Active health check run ID (UUID) that triggered this remediation.
-   */
-  active_health_check_run_id?: string;
-
-  /**
-   * When the remediation was created.
-   */
-  create_time?: string;
-
-  /**
-   * When the remediation completed.
-   */
-  end_time?: string;
-
-  /**
-   * Error message if the remediation failed.
-   */
-  error_message?: string;
-
-  /**
-   * Passive health check event ID that triggered this remediation.
-   */
-  passive_health_check_event_id?: string;
-
-  /**
-   * User-provided reason for the remediation.
-   */
-  reason?: string;
-
-  /**
-   * Who requested the remediation.
-   */
-  requested_by?: string;
-
-  /**
-   * Review comment.
-   */
-  review_comment?: string;
-
-  /**
-   * When the remediation was reviewed.
-   */
-  review_time?: string;
-
-  /**
-   * Who reviewed the remediation.
-   */
-  reviewed_by?: string;
-
-  /**
-   * When processing started.
-   */
-  start_time?: string;
-
-  /**
-   * When the remediation was last updated.
-   */
-  update_time?: string;
-}
-
-/**
- * Remediation represents a node remediation request for an instance. An instance
- * can have multiple remediations over time (e.g., failed attempts followed by
- * retries).
- */
-export interface RemediationCancelResponse {
-  id: string;
-
-  cluster_id: string;
-
-  instance_id: string;
-
-  /**
-   * Remediation mode specifies how the remediation should be performed.
-   *
-   * - `REMEDIATION_MODE_VM_ONLY`: Deletes the VM and provisions a new one on any
-   *   available host.
-   * - `REMEDIATION_MODE_HOST_AWARE`: Cordons the host, deletes the VM, and
-   *   provisions a new one on a different host.
-   */
-  mode:
-    | 'REMEDIATION_MODE_VM_ONLY'
-    | 'REMEDIATION_MODE_HOST_AWARE'
-    | 'REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT'
-    | 'REMEDIATION_MODE_REBOOT_VM';
-
-  /**
-   * RemediationState represents the lifecycle state of a remediation.
-   *
-   * - `PENDING_APPROVAL`: Awaiting approval before processing can begin.
-   * - `PENDING`: Approved and queued for processing.
-   * - `RUNNING`: Actively being processed.
-   * - `SUCCEEDED`: Successfully completed.
-   * - `FAILED`: Failed with an error.
-   * - `CANCELLED`: Cancelled by user or system.
-   * - `AUTO_RESOLVED`: The underlying issue was automatically resolved before
-   *   processing.
-   */
-  state: 'PENDING_APPROVAL' | 'PENDING' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED' | 'AUTO_RESOLVED';
-
-  /**
-   * RemediationTrigger specifies how the remediation was triggered.
-   *
-   * - `REMEDIATION_TRIGGER_MANUAL`: A user-initiated remediation (either via web UI
-   *   or API call).
-   * - `REMEDIATION_TRIGGER_AUTOMATED`: A system-initiated remediation that requires
-   *   approval.
-   */
-  trigger: 'REMEDIATION_TRIGGER_MANUAL' | 'REMEDIATION_TRIGGER_AUTOMATED';
-
-  /**
-   * Active health check run ID (UUID) that triggered this remediation.
-   */
-  active_health_check_run_id?: string;
-
-  /**
-   * When the remediation was created.
-   */
-  create_time?: string;
-
-  /**
-   * When the remediation completed.
-   */
-  end_time?: string;
-
-  /**
-   * Error message if the remediation failed.
-   */
-  error_message?: string;
-
-  /**
-   * Passive health check event ID that triggered this remediation.
-   */
-  passive_health_check_event_id?: string;
-
-  /**
-   * User-provided reason for the remediation.
-   */
-  reason?: string;
-
-  /**
-   * Who requested the remediation.
-   */
-  requested_by?: string;
-
-  /**
-   * Review comment.
-   */
-  review_comment?: string;
-
-  /**
-   * When the remediation was reviewed.
-   */
-  review_time?: string;
-
-  /**
-   * Who reviewed the remediation.
-   */
-  reviewed_by?: string;
-
-  /**
-   * When processing started.
-   */
-  start_time?: string;
-
-  /**
-   * When the remediation was last updated.
-   */
-  update_time?: string;
-}
-
-/**
- * Remediation represents a node remediation request for an instance. An instance
- * can have multiple remediations over time (e.g., failed attempts followed by
- * retries).
- */
-export interface RemediationRejectResponse {
-  id: string;
-
-  cluster_id: string;
-
-  instance_id: string;
-
-  /**
-   * Remediation mode specifies how the remediation should be performed.
-   *
-   * - `REMEDIATION_MODE_VM_ONLY`: Deletes the VM and provisions a new one on any
-   *   available host.
-   * - `REMEDIATION_MODE_HOST_AWARE`: Cordons the host, deletes the VM, and
-   *   provisions a new one on a different host.
-   */
-  mode:
-    | 'REMEDIATION_MODE_VM_ONLY'
-    | 'REMEDIATION_MODE_HOST_AWARE'
-    | 'REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT'
-    | 'REMEDIATION_MODE_REBOOT_VM';
-
-  /**
-   * RemediationState represents the lifecycle state of a remediation.
-   *
-   * - `PENDING_APPROVAL`: Awaiting approval before processing can begin.
-   * - `PENDING`: Approved and queued for processing.
-   * - `RUNNING`: Actively being processed.
-   * - `SUCCEEDED`: Successfully completed.
-   * - `FAILED`: Failed with an error.
-   * - `CANCELLED`: Cancelled by user or system.
-   * - `AUTO_RESOLVED`: The underlying issue was automatically resolved before
-   *   processing.
-   */
-  state: 'PENDING_APPROVAL' | 'PENDING' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED' | 'AUTO_RESOLVED';
-
-  /**
-   * RemediationTrigger specifies how the remediation was triggered.
-   *
-   * - `REMEDIATION_TRIGGER_MANUAL`: A user-initiated remediation (either via web UI
-   *   or API call).
-   * - `REMEDIATION_TRIGGER_AUTOMATED`: A system-initiated remediation that requires
-   *   approval.
-   */
-  trigger: 'REMEDIATION_TRIGGER_MANUAL' | 'REMEDIATION_TRIGGER_AUTOMATED';
-
-  /**
-   * Active health check run ID (UUID) that triggered this remediation.
-   */
-  active_health_check_run_id?: string;
-
-  /**
-   * When the remediation was created.
-   */
-  create_time?: string;
-
-  /**
-   * When the remediation completed.
-   */
-  end_time?: string;
-
-  /**
-   * Error message if the remediation failed.
-   */
-  error_message?: string;
-
-  /**
-   * Passive health check event ID that triggered this remediation.
-   */
-  passive_health_check_event_id?: string;
-
-  /**
-   * User-provided reason for the remediation.
-   */
-  reason?: string;
-
-  /**
-   * Who requested the remediation.
-   */
-  requested_by?: string;
-
-  /**
-   * Review comment.
-   */
-  review_comment?: string;
-
-  /**
-   * When the remediation was reviewed.
-   */
-  review_time?: string;
-
-  /**
-   * Who reviewed the remediation.
-   */
-  reviewed_by?: string;
-
-  /**
-   * When processing started.
-   */
-  start_time?: string;
-
-  /**
-   * When the remediation was last updated.
-   */
-  update_time?: string;
+  remediations: Array<Remediation>;
 }
 
 export interface RemediationCreateParams {
@@ -948,12 +384,8 @@ export interface RemediationRejectParams {
 
 export declare namespace Remediations {
   export {
-    type RemediationCreateResponse as RemediationCreateResponse,
-    type RemediationRetrieveResponse as RemediationRetrieveResponse,
+    type Remediation as Remediation,
     type RemediationListResponse as RemediationListResponse,
-    type RemediationApproveResponse as RemediationApproveResponse,
-    type RemediationCancelResponse as RemediationCancelResponse,
-    type RemediationRejectResponse as RemediationRejectResponse,
     type RemediationCreateParams as RemediationCreateParams,
     type RemediationRetrieveParams as RemediationRetrieveParams,
     type RemediationListParams as RemediationListParams,
