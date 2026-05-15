@@ -10,7 +10,8 @@ export class Models extends APIResource {
   uploads: UploadsAPI.Uploads = new UploadsAPI.Uploads(this._client);
 
   /**
-   * Lists all of Together's open-source models
+   * Lists all of Together's open-source models and metadata including pricing, chat
+   * template, and context.
    *
    * @example
    * ```ts

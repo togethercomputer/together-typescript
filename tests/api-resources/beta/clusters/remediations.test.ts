@@ -73,7 +73,6 @@ describe('resource remediations', () => {
       page_size: 0,
       page_token: 'page_token',
       state: ['PENDING_APPROVAL'],
-      trigger: 'REMEDIATION_TRIGGER_MANUAL',
     });
   });
 

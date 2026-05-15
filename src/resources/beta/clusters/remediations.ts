@@ -9,13 +9,12 @@ export class Remediations extends APIResource {
   /**
    * Creates a new remediation for an instance.
    *
-   * If mode is unspecified, it defaults to VM_ONLY. If trigger is unspecified, it
-   * defaults to MANUAL.
+   * Remediations created via the API goes directly to PENDING state.
    *
-   * For MANUAL triggers: The remediation goes directly to PENDING state.
-   *
-   * For AUTOMATED triggers: The remediation is created with PENDING_APPROVAL state.
-   * The caller must then use ApproveRemediation to start the remediation process.
+   * Our system may trigger automated remediations that require approval. These
+   * remediations are created with PENDING_APPROVAL state. The user must call
+   * /approve to start the actual remediation process. These operations can also be
+   * rejected by calling /reject.
    */
   create(
     instanceID: string,
@@ -47,8 +46,7 @@ export class Remediations extends APIResource {
   }
 
   /**
-   * Lists remediations for an instance or cluster. Use instances/- as wildcard to
-   * list all remediations in a cluster.
+   * Lists remediations for an instance or cluster.
    */
   list(
     instanceID: string,
@@ -818,7 +816,7 @@ export interface RemediationRejectResponse {
 
 export interface RemediationCreateParams {
   /**
-   * Path param: The cluster ID.
+   * Path param
    */
   cluster_id: string;
 
@@ -837,7 +835,7 @@ export interface RemediationCreateParams {
     | 'REMEDIATION_MODE_REBOOT_VM';
 
   /**
-   * Query param: Optional. Client-specified ID for idempotency.
+   * Query param: Client-specified ID for idempotency.
    */
   remediation_id?: string;
 
@@ -848,26 +846,20 @@ export interface RemediationCreateParams {
 }
 
 export interface RemediationRetrieveParams {
-  /**
-   * The cluster ID.
-   */
   cluster_id: string;
 
-  /**
-   * The instance ID.
-   */
   instance_id: string;
 }
 
 export interface RemediationListParams {
   /**
-   * Path param: The cluster ID.
+   * Path param
    */
   cluster_id: string;
 
   /**
-   * Query param: Optional. Filter by remediation mode. Returns only remediations
-   * matching the specified mode.
+   * Query param: Filter by remediation mode. Returns only remediations matching the
+   * specified mode.
    */
   mode?:
     | 'REMEDIATION_MODE_VM_ONLY'
@@ -876,43 +868,46 @@ export interface RemediationListParams {
     | 'REMEDIATION_MODE_REBOOT_VM';
 
   /**
-   * Query param: Optional. Order by expression.
+   * Query param: Order by expression.
    */
   order_by?: string;
 
   /**
-   * Query param: Optional. Maximum results to return.
+   * Query param: Maximum results to return.
    */
   page_size?: number;
 
   /**
-   * Query param: Optional. Pagination token from previous request.
+   * Query param: Pagination token from previous request.
    */
   page_token?: string;
 
   /**
-   * Query param: Optional. Filter by state(s). Returns remediations matching any of
-   * the specified states.
+   * Query param: Filter by state(s). Returns remediations matching any of the
+   * specified states.
+   *
+   * - `PENDING_APPROVAL`: Awaiting approval before processing can begin.
+   * - `PENDING`: Approved and queued for processing.
+   * - `RUNNING`: Actively being processed.
+   * - `SUCCEEDED`: Successfully completed.
+   * - `FAILED`: Failed with an error.
+   * - `CANCELLED`: Cancelled by user or system.
+   * - `AUTO_RESOLVED`: The underlying issue was automatically resolved before
+   *   processing.
    */
   state?: Array<
     'PENDING_APPROVAL' | 'PENDING' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED' | 'AUTO_RESOLVED'
   >;
-
-  /**
-   * Query param: Optional. Filter by trigger type. Returns only remediations
-   * matching the specified trigger.
-   */
-  trigger?: 'REMEDIATION_TRIGGER_MANUAL' | 'REMEDIATION_TRIGGER_AUTOMATED';
 }
 
 export interface RemediationApproveParams {
   /**
-   * Path param: The cluster ID.
+   * Path param
    */
   cluster_id: string;
 
   /**
-   * Path param: The instance ID.
+   * Path param
    */
   instance_id: string;
 
@@ -936,12 +931,12 @@ export interface RemediationCancelParams {
 
 export interface RemediationRejectParams {
   /**
-   * Path param: The cluster ID.
+   * Path param
    */
   cluster_id: string;
 
   /**
-   * Path param: The instance ID.
+   * Path param
    */
   instance_id: string;
 
