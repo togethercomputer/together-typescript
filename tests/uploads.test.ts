@@ -1,7 +1,6 @@
 import fs from 'fs';
 import type { ResponseLike } from 'together-ai/internal/to-file';
 import { toFile } from 'together-ai/core/uploads';
-import { File } from 'node:buffer';
 
 class MyClass {
   name: string = 'foo';
