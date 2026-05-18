@@ -43,6 +43,11 @@ export class Jig extends APIResource {
 
   /**
    * Retrieve details of a specific deployment by its ID or name
+   *
+   * @example
+   * ```ts
+   * const deployment = await client.beta.jig.retrieve('id');
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<Deployment> {
     return this._client.get(path`/deployments/${id}`, options);
@@ -50,6 +55,11 @@ export class Jig extends APIResource {
 
   /**
    * Update an existing deployment configuration
+   *
+   * @example
+   * ```ts
+   * const deployment = await client.beta.jig.update('id');
+   * ```
    */
   update(id: string, body: JigUpdateParams, options?: RequestOptions): APIPromise<Deployment> {
     return this._client.patch(path`/deployments/${id}`, { body, ...options });
@@ -57,6 +67,11 @@ export class Jig extends APIResource {
 
   /**
    * Get a list of all deployments in your project
+   *
+   * @example
+   * ```ts
+   * const jigs = await client.beta.jig.list();
+   * ```
    */
   list(options?: RequestOptions): APIPromise<JigListResponse> {
     return this._client.get('/deployments', options);
@@ -64,6 +79,15 @@ export class Jig extends APIResource {
 
   /**
    * Create a new deployment with specified configuration
+   *
+   * @example
+   * ```ts
+   * const deployment = await client.beta.jig.deploy({
+   *   gpu_type: 'h100-80gb',
+   *   image: 'image',
+   *   name: 'x',
+   * });
+   * ```
    */
   deploy(body: JigDeployParams, options?: RequestOptions): APIPromise<Deployment> {
     return this._client.post('/deployments', { body, ...options });
@@ -71,6 +95,11 @@ export class Jig extends APIResource {
 
   /**
    * Delete an existing deployment
+   *
+   * @example
+   * ```ts
+   * const response = await client.beta.jig.destroy('id');
+   * ```
    */
   destroy(id: string, options?: RequestOptions): APIPromise<unknown> {
     return this._client.delete(path`/deployments/${id}`, options);
@@ -78,6 +107,13 @@ export class Jig extends APIResource {
 
   /**
    * Retrieve logs from a deployment, optionally filtered by replica ID.
+   *
+   * @example
+   * ```ts
+   * const deploymentLogs = await client.beta.jig.retrieveLogs(
+   *   'id',
+   * );
+   * ```
    */
   retrieveLogs(
     id: string,

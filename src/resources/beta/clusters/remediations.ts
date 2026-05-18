@@ -15,6 +15,18 @@ export class Remediations extends APIResource {
    * remediations are created with PENDING_APPROVAL state. The user must call
    * /approve to start the actual remediation process. These operations can also be
    * rejected by calling /reject.
+   *
+   * @example
+   * ```ts
+   * const remediation =
+   *   await client.beta.clusters.remediations.create(
+   *     'instance_id',
+   *     {
+   *       cluster_id: 'cluster_id',
+   *       mode: 'REMEDIATION_MODE_VM_ONLY',
+   *     },
+   *   );
+   * ```
    */
   create(
     instanceID: string,
@@ -32,6 +44,18 @@ export class Remediations extends APIResource {
   /**
    * Retrieve the status of a specific remdiation on a specific instance in a
    * specific cluster.
+   *
+   * @example
+   * ```ts
+   * const remediation =
+   *   await client.beta.clusters.remediations.retrieve(
+   *     'remediation_id',
+   *     {
+   *       cluster_id: 'cluster_id',
+   *       instance_id: 'instance_id',
+   *     },
+   *   );
+   * ```
    */
   retrieve(
     remediationID: string,
@@ -47,6 +71,15 @@ export class Remediations extends APIResource {
 
   /**
    * Lists remediations for an instance or cluster.
+   *
+   * @example
+   * ```ts
+   * const remediations =
+   *   await client.beta.clusters.remediations.list(
+   *     'instance_id',
+   *     { cluster_id: 'cluster_id' },
+   *   );
+   * ```
    */
   list(
     instanceID: string,
@@ -68,6 +101,18 @@ export class Remediations extends APIResource {
    * On APPROVE: state changes to PENDING and the remediation process begins. The
    * reviewed_by, review_time, and review_comment fields are populated on the
    * remediation after approval.
+   *
+   * @example
+   * ```ts
+   * const remediation =
+   *   await client.beta.clusters.remediations.approve(
+   *     'remediation_id',
+   *     {
+   *       cluster_id: 'cluster_id',
+   *       instance_id: 'instance_id',
+   *     },
+   *   );
+   * ```
    */
   approve(
     remediationID: string,
@@ -85,6 +130,18 @@ export class Remediations extends APIResource {
    * Cancels a pending remediation.
    *
    * Only remediations in PENDING_APPROVAL or PENDING state can be cancelled.
+   *
+   * @example
+   * ```ts
+   * const remediation =
+   *   await client.beta.clusters.remediations.cancel(
+   *     'remediation_id',
+   *     {
+   *       cluster_id: 'cluster_id',
+   *       instance_id: 'instance_id',
+   *     },
+   *   );
+   * ```
    */
   cancel(
     remediationID: string,
@@ -105,6 +162,18 @@ export class Remediations extends APIResource {
    *
    * On REJECT: state changes to CANCELLED. The reviewed_by, review_time, and
    * review_comment fields are populated on the remediation after rejection.
+   *
+   * @example
+   * ```ts
+   * const remediation =
+   *   await client.beta.clusters.remediations.reject(
+   *     'remediation_id',
+   *     {
+   *       cluster_id: 'cluster_id',
+   *       instance_id: 'instance_id',
+   *     },
+   *   );
+   * ```
    */
   reject(
     remediationID: string,

@@ -12,6 +12,16 @@ export class Storage extends APIResource {
    * at cluster creation time, and resize as your data grows. All shared storage is
    * backed by multi-NIC bare metal paths, ensuring high-throughput and low-latency
    * performance for shared storage.
+   *
+   * @example
+   * ```ts
+   * const clusterStorage =
+   *   await client.beta.clusters.storage.create({
+   *     region: 'region',
+   *     size_tib: 0,
+   *     volume_name: 'volume_name',
+   *   });
+   * ```
    */
   create(body: StorageCreateParams, options?: RequestOptions): APIPromise<ClusterStorage> {
     return this._client.post('/compute/clusters/storage/volumes', { body, ...options });
@@ -19,6 +29,12 @@ export class Storage extends APIResource {
 
   /**
    * Retrieve information about a specific shared volume.
+   *
+   * @example
+   * ```ts
+   * const clusterStorage =
+   *   await client.beta.clusters.storage.retrieve('volume_id');
+   * ```
    */
   retrieve(volumeID: string, options?: RequestOptions): APIPromise<ClusterStorage> {
     return this._client.get(path`/compute/clusters/storage/volumes/${volumeID}`, options);
@@ -26,6 +42,14 @@ export class Storage extends APIResource {
 
   /**
    * Update the configuration of an existing shared volume.
+   *
+   * @example
+   * ```ts
+   * const clusterStorage =
+   *   await client.beta.clusters.storage.update({
+   *     volume_id: 'volume_id',
+   *   });
+   * ```
    */
   update(body: StorageUpdateParams, options?: RequestOptions): APIPromise<ClusterStorage> {
     return this._client.put('/compute/clusters/storage/volumes', { body, ...options });
@@ -33,6 +57,11 @@ export class Storage extends APIResource {
 
   /**
    * List all shared volumes.
+   *
+   * @example
+   * ```ts
+   * const storages = await client.beta.clusters.storage.list();
+   * ```
    */
   list(
     query: StorageListParams | null | undefined = {},
@@ -44,6 +73,13 @@ export class Storage extends APIResource {
   /**
    * Delete a shared volume. Note that if this volume is attached to a cluster,
    * deleting will fail.
+   *
+   * @example
+   * ```ts
+   * const storage = await client.beta.clusters.storage.delete(
+   *   'volume_id',
+   * );
+   * ```
    */
   delete(volumeID: string, options?: RequestOptions): APIPromise<StorageDeleteResponse> {
     return this._client.delete(path`/compute/clusters/storage/volumes/${volumeID}`, options);
