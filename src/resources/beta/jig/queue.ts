@@ -8,6 +8,14 @@ export class Queue extends APIResource {
   /**
    * Poll the current status of a previously submitted job. Provide the request_id
    * and model as query parameters.
+   *
+   * @example
+   * ```ts
+   * const queue = await client.beta.jig.queue.retrieve({
+   *   model: 'model',
+   *   request_id: 'request_id',
+   * });
+   * ```
    */
   retrieve(query: QueueRetrieveParams, options?: RequestOptions): APIPromise<QueueRetrieveResponse> {
     return this._client.get('/queue/status', { query, ...options });
@@ -17,6 +25,14 @@ export class Queue extends APIResource {
    * Cancel a pending job. Only jobs in pending status can be canceled. Running jobs
    * cannot be stopped. Returns the job status after the attempt. If the job is not
    * pending, returns 409 with the current status unchanged.
+   *
+   * @example
+   * ```ts
+   * const response = await client.beta.jig.queue.cancel({
+   *   model: 'model',
+   *   request_id: 'request_id',
+   * });
+   * ```
    */
   cancel(body: QueueCancelParams, options?: RequestOptions): APIPromise<QueueCancelResponse> {
     return this._client.post('/queue/cancel', { body, ...options });
@@ -25,6 +41,13 @@ export class Queue extends APIResource {
   /**
    * Get the current queue statistics for a model, including pending and running job
    * counts.
+   *
+   * @example
+   * ```ts
+   * const response = await client.beta.jig.queue.metrics({
+   *   model: 'model',
+   * });
+   * ```
    */
   metrics(query: QueueMetricsParams, options?: RequestOptions): APIPromise<QueueMetricsResponse> {
     return this._client.get('/queue/metrics', { query, ...options });
@@ -34,12 +57,23 @@ export class Queue extends APIResource {
    * Submit a new job to the queue for asynchronous processing. Jobs are processed in
    * strict priority order (higher priority first, FIFO within the same priority).
    * Returns a request ID that can be used to poll status or cancel the job.
+   *
+   * @example
+   * ```ts
+   * const response = await client.beta.jig.queue.submit({
+   *   model: 'my-queue-model',
+   *   payload: { foo: 'bar' },
+   * });
+   * ```
    */
   submit(body: QueueSubmitParams, options?: RequestOptions): APIPromise<QueueSubmitResponse> {
     return this._client.post('/queue/submit', { body, ...options });
   }
 }
 
+/**
+ * Current status and metadata for a queued job.
+ */
 export interface QueueRetrieveResponse {
   /**
    * Model identifier the job was submitted to
@@ -109,6 +143,9 @@ export interface QueueRetrieveResponse {
   warnings?: Array<string>;
 }
 
+/**
+ * Status returned after a cancel attempt.
+ */
 export interface QueueCancelResponse {
   /**
    * Job status after the cancel attempt. Only pending jobs can be canceled. If the
@@ -117,6 +154,9 @@ export interface QueueCancelResponse {
   status: 'canceled' | 'running' | 'done' | 'failed';
 }
 
+/**
+ * Queue job counts for a model.
+ */
 export interface QueueMetricsResponse {
   /**
    * Number of jobs currently being processed
@@ -134,37 +174,14 @@ export interface QueueMetricsResponse {
   total_jobs: number;
 }
 
+/**
+ * Response returned after queueing a job.
+ */
 export interface QueueSubmitResponse {
-  error?: QueueSubmitResponse.Error;
-
   /**
    * Unique identifier for the submitted job. Use this to poll status or cancel.
    */
-  requestId?: string;
-}
-
-export namespace QueueSubmitResponse {
-  export interface Error {
-    /**
-     * Machine-readable error code
-     */
-    code?: string;
-
-    /**
-     * Human-readable error message
-     */
-    message?: string;
-
-    /**
-     * The parameter that caused the error, if applicable
-     */
-    param?: string;
-
-    /**
-     * Error category (e.g. "invalid_request_error", "not_found_error")
-     */
-    type?: string;
-  }
+  requestId: string;
 }
 
 export interface QueueRetrieveParams {
@@ -211,8 +228,8 @@ export interface QueueSubmitParams {
   payload: { [key: string]: unknown };
 
   /**
-   * Arbitrary JSON metadata stored with the job and returned in status responses.
-   * The model and system may add or update keys during processing.
+   * Arbitrary JSON metadata stored with the job. Returned in status responses, where
+   * the model and system may have added or modified keys (e.g. progress).
    */
   info?: { [key: string]: unknown };
 

@@ -8,6 +8,14 @@ import { path } from '../../../internal/utils/path';
 export class Secrets extends APIResource {
   /**
    * Create a new secret to store sensitive configuration values
+   *
+   * @example
+   * ```ts
+   * const secret = await client.beta.jig.secrets.create({
+   *   name: 'x',
+   *   value: 'x',
+   * });
+   * ```
    */
   create(body: SecretCreateParams, options?: RequestOptions): APIPromise<Secret> {
     return this._client.post('/deployments/secrets', { body, ...options });
@@ -15,6 +23,11 @@ export class Secrets extends APIResource {
 
   /**
    * Retrieve details of a specific secret by its ID or name
+   *
+   * @example
+   * ```ts
+   * const secret = await client.beta.jig.secrets.retrieve('id');
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<Secret> {
     return this._client.get(path`/deployments/secrets/${id}`, options);
@@ -22,6 +35,11 @@ export class Secrets extends APIResource {
 
   /**
    * Update an existing secret's value or metadata
+   *
+   * @example
+   * ```ts
+   * const secret = await client.beta.jig.secrets.update('id');
+   * ```
    */
   update(id: string, body: SecretUpdateParams, options?: RequestOptions): APIPromise<Secret> {
     return this._client.patch(path`/deployments/secrets/${id}`, { body, ...options });
@@ -29,6 +47,11 @@ export class Secrets extends APIResource {
 
   /**
    * Retrieve all secrets in your project
+   *
+   * @example
+   * ```ts
+   * const secrets = await client.beta.jig.secrets.list();
+   * ```
    */
   list(options?: RequestOptions): APIPromise<SecretListResponse> {
     return this._client.get('/deployments/secrets', options);
@@ -36,6 +59,11 @@ export class Secrets extends APIResource {
 
   /**
    * Delete an existing secret
+   *
+   * @example
+   * ```ts
+   * const secret = await client.beta.jig.secrets.delete('id');
+   * ```
    */
   delete(id: string, options?: RequestOptions): APIPromise<unknown> {
     return this._client.delete(path`/deployments/secrets/${id}`, options);

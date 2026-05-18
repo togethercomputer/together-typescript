@@ -37,6 +37,19 @@ export class Clusters extends APIResource {
    * DC-local storage, Kubernetes and Slurm cluster flavors, a REST API, and
    * Terraform support, you can run workloads flexibly without complex infrastructure
    * management.
+   *
+   * @example
+   * ```ts
+   * const cluster = await client.beta.clusters.create({
+   *   billing_type: 'RESERVED',
+   *   cluster_name: 'cluster_name',
+   *   cuda_version: 'cuda_version',
+   *   gpu_type: 'H100_SXM',
+   *   num_gpus: 0,
+   *   nvidia_driver_version: 'nvidia_driver_version',
+   *   region: 'region',
+   * });
+   * ```
    */
   create(body: ClusterCreateParams, options?: RequestOptions): APIPromise<Cluster> {
     return this._client.post('/compute/clusters', { body, ...options });
@@ -44,6 +57,13 @@ export class Clusters extends APIResource {
 
   /**
    * Retrieve information about a specific GPU cluster.
+   *
+   * @example
+   * ```ts
+   * const cluster = await client.beta.clusters.retrieve(
+   *   'cluster_id',
+   * );
+   * ```
    */
   retrieve(clusterID: string, options?: RequestOptions): APIPromise<Cluster> {
     return this._client.get(path`/compute/clusters/${clusterID}`, options);
@@ -51,6 +71,13 @@ export class Clusters extends APIResource {
 
   /**
    * Update the configuration of an existing GPU cluster.
+   *
+   * @example
+   * ```ts
+   * const cluster = await client.beta.clusters.update(
+   *   'cluster_id',
+   * );
+   * ```
    */
   update(clusterID: string, body: ClusterUpdateParams, options?: RequestOptions): APIPromise<Cluster> {
     return this._client.put(path`/compute/clusters/${clusterID}`, { body, ...options });
@@ -58,6 +85,11 @@ export class Clusters extends APIResource {
 
   /**
    * List all GPU clusters.
+   *
+   * @example
+   * ```ts
+   * const clusters = await client.beta.clusters.list();
+   * ```
    */
   list(
     query: ClusterListParams | null | undefined = {},
@@ -68,6 +100,13 @@ export class Clusters extends APIResource {
 
   /**
    * Delete a GPU cluster by cluster ID.
+   *
+   * @example
+   * ```ts
+   * const cluster = await client.beta.clusters.delete(
+   *   'cluster_id',
+   * );
+   * ```
    */
   delete(clusterID: string, options?: RequestOptions): APIPromise<ClusterDeleteResponse> {
     return this._client.delete(path`/compute/clusters/${clusterID}`, options);
@@ -75,6 +114,11 @@ export class Clusters extends APIResource {
 
   /**
    * List regions and corresponding supported driver versions
+   *
+   * @example
+   * ```ts
+   * const response = await client.beta.clusters.listRegions();
+   * ```
    */
   listRegions(options?: RequestOptions): APIPromise<ClusterListRegionsResponse> {
     return this._client.get('/compute/regions', options);

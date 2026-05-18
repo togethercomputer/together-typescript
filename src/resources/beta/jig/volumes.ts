@@ -8,6 +8,15 @@ import { path } from '../../../internal/utils/path';
 export class Volumes extends APIResource {
   /**
    * Create a new volume to preload files in deployments
+   *
+   * @example
+   * ```ts
+   * const volume = await client.beta.jig.volumes.create({
+   *   content: {},
+   *   name: 'x',
+   *   type: 'readOnly',
+   * });
+   * ```
    */
   create(body: VolumeCreateParams, options?: RequestOptions): APIPromise<Volume> {
     return this._client.post('/deployments/storage/volumes', { body, ...options });
@@ -15,6 +24,11 @@ export class Volumes extends APIResource {
 
   /**
    * Retrieve details of a specific volume by its ID or name
+   *
+   * @example
+   * ```ts
+   * const volume = await client.beta.jig.volumes.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -26,6 +40,11 @@ export class Volumes extends APIResource {
 
   /**
    * Update an existing volume's configuration or contents
+   *
+   * @example
+   * ```ts
+   * const volume = await client.beta.jig.volumes.update('id');
+   * ```
    */
   update(id: string, body: VolumeUpdateParams, options?: RequestOptions): APIPromise<Volume> {
     return this._client.patch(path`/deployments/storage/volumes/${id}`, { body, ...options });
@@ -33,6 +52,11 @@ export class Volumes extends APIResource {
 
   /**
    * Retrieve all volumes in your project
+   *
+   * @example
+   * ```ts
+   * const volumes = await client.beta.jig.volumes.list();
+   * ```
    */
   list(options?: RequestOptions): APIPromise<VolumeListResponse> {
     return this._client.get('/deployments/storage/volumes', options);
@@ -40,6 +64,11 @@ export class Volumes extends APIResource {
 
   /**
    * Delete an existing volume
+   *
+   * @example
+   * ```ts
+   * const volume = await client.beta.jig.volumes.delete('id');
+   * ```
    */
   delete(id: string, options?: RequestOptions): APIPromise<unknown> {
     return this._client.delete(path`/deployments/storage/volumes/${id}`, options);
