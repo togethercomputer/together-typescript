@@ -1,5 +1,49 @@
 # Changelog
 
+## 0.41.0 (2026-05-20)
+
+Full Changelog: [v0.40.0...v0.41.0](https://github.com/togethercomputer/together-typescript/compare/v0.40.0...v0.41.0)
+
+### Features
+
+* **api:** add disable_position_bias_correction, remove num_samples from evals ([9b84610](https://github.com/togethercomputer/together-typescript/commit/9b846104ae9cb157c424b0cca7cf490e38bf4a5d))
+* **api:** add h200-140gb GPU type option to jig resource ([84855a3](https://github.com/togethercomputer/together-typescript/commit/84855a355af582d28477a3771b96d966e2ac427d))
+* **api:** add instance_name field to Remediation model ([dcbecdf](https://github.com/togethercomputer/together-typescript/commit/dcbecdf7dee2080d9df6b1bc5dfba1635835b69e))
+* **api:** Add node remediation APIs to clusters sdks ([a70223c](https://github.com/togethercomputer/together-typescript/commit/a70223c5f31720ab6aef7a9e0d0c9ef2229ebedb))
+* **api:** add params to list methods, update clusters/storage types ([e2d6e64](https://github.com/togethercomputer/together-typescript/commit/e2d6e640ed1c5201e4f1b679dae8da9d1ec99619))
+* **api:** add storage file/multipart operations, logs method, rename response types ([09b71bc](https://github.com/togethercomputer/together-typescript/commit/09b71bc93c96f1e83d525c4f5bf222169af62044))
+* **api:** add trigger param, update mode to array in remediations list ([5975b85](https://github.com/togethercomputer/together-typescript/commit/5975b8530ab0719fcf896c491d8c1f3efc883a82))
+* **api:** Integrate fine_tuning.list_metrics from stainless ([08c66e8](https://github.com/togethercomputer/together-typescript/commit/08c66e8043be75831ffa0dbbffd1c174563204f6))
+* **api:** manual updates ([d1782a2](https://github.com/togethercomputer/together-typescript/commit/d1782a2791b23ca07f1b1e5db8ae5de4f8c8f294))
+* **api:** manual updates ([0090346](https://github.com/togethercomputer/together-typescript/commit/009034659e0e986fb5355df4f67336efd586b3d7))
+* **api:** remove node_name field from ClusterNode ([43a6806](https://github.com/togethercomputer/together-typescript/commit/43a6806fc6eb76c952bcc3b225e0c54f33674f54))
+
+
+### Bug Fixes
+
+* **api:** remove trigger parameter from remediations list method ([72b7cb8](https://github.com/togethercomputer/together-typescript/commit/72b7cb899ef411e8ec19e2a8d38852b057184f4d))
+* **types:** change status to enum in cluster storage ([cf4f87b](https://github.com/togethercomputer/together-typescript/commit/cf4f87b4bdef72daf7228159cccefccbf3bfe4e8))
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([06d9a67](https://github.com/togethercomputer/together-typescript/commit/06d9a67b24273d69622381d7ea9b11660a4c350d))
+* **types:** make duration_days and size_tib optional in clusters ([733450c](https://github.com/togethercomputer/together-typescript/commit/733450c79034609b749ce7a8a9255dc63dd031c1))
+* **types:** remove error field, make requestId required in queue QueueSubmitResponse ([88adf97](https://github.com/togethercomputer/together-typescript/commit/88adf97945ffb851fb7248c586dc40e46f9c7ff1))
+* **types:** restrict endpoint to specific values in batches create ([c65be59](https://github.com/togethercomputer/together-typescript/commit/c65be590b14e2da807110160e6d87f07b7c5ff55))
+
+
+### Chores
+
+* temp deletion ([a89bc6a](https://github.com/togethercomputer/together-typescript/commit/a89bc6a4ad3973bdd5c69f72d9b2c0e54fcb9c0d))
+* temp undeletion ([ad924d9](https://github.com/togethercomputer/together-typescript/commit/ad924d976a9d1e79119db8aef2ae7667033e6ea6))
+* **tests:** remove redundant File import ([fac1032](https://github.com/togethercomputer/together-typescript/commit/fac1032d9ae4720162e16df09dbed9865b8b4494))
+
+
+### Documentation
+
+* **api:** add field documentation to clusters and storage ([4623a4b](https://github.com/togethercomputer/together-typescript/commit/4623a4be3ce06321b63c3240623ffe7d0f184373))
+* **api:** clarify max_seq_length parameter documentation in fine-tuning ([adc6bbf](https://github.com/togethercomputer/together-typescript/commit/adc6bbf87b396fe14898c92ae4ddad941b78ad37))
+* **api:** clarify suffix parameter max length in fine-tuning ([1dd29f9](https://github.com/togethercomputer/together-typescript/commit/1dd29f9f54e659b3f39b9f8b0e20f53eb6623216))
+* **api:** improve docstring clarity and grammar across resources ([3fff4b6](https://github.com/togethercomputer/together-typescript/commit/3fff4b65ebf0a6e409a1325f4b0c39ccb453526a))
+* **api:** update gradient_accumulation_steps description in fine-tuning ([5dfdd3f](https://github.com/togethercomputer/together-typescript/commit/5dfdd3fec16bbdeabbcf774d1e2866a7f7fd7fd1))
+
 ## 0.40.0 (2026-05-11)
 
 Full Changelog: [v0.39.0...v0.40.0](https://github.com/togethercomputer/together-typescript/compare/v0.39.0...v0.40.0)
