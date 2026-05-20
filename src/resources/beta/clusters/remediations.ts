@@ -259,6 +259,11 @@ export interface Remediation {
   error_message?: string;
 
   /**
+   * Display name of the targeted instance.
+   */
+  instance_name?: string;
+
+  /**
    * Passive health check event ID that triggered this remediation.
    */
   passive_health_check_event_id?: string;
