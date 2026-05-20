@@ -1324,10 +1324,8 @@ export interface FineTuningCreateParams {
   from_hf_model?: string;
 
   /**
-   * Number of steps to accumulate gradients before performing a weight update.
-   * Effectively increases the batch size without requiring more memory. For example,
-   * with batch_size=4 and gradient_accumulation_steps=8, the effective batch size
-   * is 32.
+   * Number of steps to accumulate gradients before performing a weight update. If
+   * omitted or set to 0, the model default is used.
    */
   gradient_accumulation_steps?: number;
 
