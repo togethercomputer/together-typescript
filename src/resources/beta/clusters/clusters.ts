@@ -277,8 +277,6 @@ export namespace Cluster {
 
     node_id: string;
 
-    node_name: string;
-
     num_cpu_cores: number;
 
     /**
@@ -319,8 +317,6 @@ export namespace Cluster {
     networks: Array<string>;
 
     node_id: string;
-
-    node_name: string;
 
     num_cpu_cores: number;
 
