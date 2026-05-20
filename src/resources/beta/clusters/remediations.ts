@@ -363,14 +363,15 @@ export interface RemediationListParams {
   cluster_id: string;
 
   /**
-   * Query param: Filter by remediation mode. Returns only remediations matching the
-   * specified mode.
+   * Query param: Filter by remediation mode(s). Returns remediations matching any of
+   * the specified modes.
    */
-  mode?:
+  mode?: Array<
     | 'REMEDIATION_MODE_VM_ONLY'
     | 'REMEDIATION_MODE_HOST_AWARE'
     | 'REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT'
-    | 'REMEDIATION_MODE_REBOOT_VM';
+    | 'REMEDIATION_MODE_REBOOT_VM'
+  >;
 
   /**
    * Query param: Order by expression.
@@ -403,6 +404,12 @@ export interface RemediationListParams {
   state?: Array<
     'PENDING_APPROVAL' | 'PENDING' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED' | 'AUTO_RESOLVED'
   >;
+
+  /**
+   * Query param: Filter by trigger type(s). Returns remediations matching any of the
+   * specified triggers.
+   */
+  trigger?: Array<'REMEDIATION_TRIGGER_MANUAL' | 'REMEDIATION_TRIGGER_AUTOMATED'>;
 }
 
 export interface RemediationApproveParams {
