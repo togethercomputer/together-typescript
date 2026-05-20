@@ -45,7 +45,7 @@ Types:
 Methods:
 
 - <code title="post /deployments/storage/volumes">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">create</a>({ ...params }) -> Volume</code>
-- <code title="get /deployments/storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">retrieve</a>(id) -> Volume</code>
+- <code title="get /deployments/storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">retrieve</a>(id, { ...params }) -> Volume</code>
 - <code title="patch /deployments/storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">update</a>(id, { ...params }) -> Volume</code>
 - <code title="get /deployments/storage/volumes">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">list</a>() -> VolumeListResponse</code>
 - <code title="delete /deployments/storage/volumes/{id}">client.beta.jig.volumes.<a href="./src/resources/beta/jig/volumes.ts">delete</a>(id) -> unknown</code>
@@ -80,9 +80,25 @@ Methods:
 - <code title="post /compute/clusters">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">create</a>({ ...params }) -> Cluster</code>
 - <code title="get /compute/clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">retrieve</a>(clusterID) -> Cluster</code>
 - <code title="put /compute/clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">update</a>(clusterID, { ...params }) -> Cluster</code>
-- <code title="get /compute/clusters">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">list</a>() -> ClusterListResponse</code>
+- <code title="get /compute/clusters">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">list</a>({ ...params }) -> ClusterListResponse</code>
 - <code title="delete /compute/clusters/{cluster_id}">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">delete</a>(clusterID) -> ClusterDeleteResponse</code>
 - <code title="get /compute/regions">client.beta.clusters.<a href="./src/resources/beta/clusters/clusters.ts">listRegions</a>() -> ClusterListRegionsResponse</code>
+
+### Remediations
+
+Types:
+
+- <code><a href="./src/resources/beta/clusters/remediations.ts">Remediation</a></code>
+- <code><a href="./src/resources/beta/clusters/remediations.ts">RemediationListResponse</a></code>
+
+Methods:
+
+- <code title="post /compute/clusters/{cluster_id}/instances/{instance_id}/remediations">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">create</a>(instanceID, { ...params }) -> Remediation</code>
+- <code title="get /compute/clusters/{cluster_id}/instances/{instance_id}/remediations/{remediation_id}">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">retrieve</a>(remediationID, { ...params }) -> Remediation</code>
+- <code title="get /compute/clusters/{cluster_id}/instances/{instance_id}/remediations">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">list</a>(instanceID, { ...params }) -> RemediationListResponse</code>
+- <code title="post /compute/clusters/{cluster_id}/instances/{instance_id}/remediations/{remediation_id}/approve">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">approve</a>(remediationID, { ...params }) -> Remediation</code>
+- <code title="post /compute/clusters/{cluster_id}/instances/{instance_id}/remediations/{remediation_id}/cancel">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">cancel</a>(remediationID, { ...params }) -> Remediation</code>
+- <code title="post /compute/clusters/{cluster_id}/instances/{instance_id}/remediations/{remediation_id}/reject">client.beta.clusters.remediations.<a href="./src/resources/beta/clusters/remediations.ts">reject</a>(remediationID, { ...params }) -> Remediation</code>
 
 ### Storage
 
@@ -97,7 +113,7 @@ Methods:
 - <code title="post /compute/clusters/storage/volumes">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">create</a>({ ...params }) -> ClusterStorage</code>
 - <code title="get /compute/clusters/storage/volumes/{volume_id}">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">retrieve</a>(volumeID) -> ClusterStorage</code>
 - <code title="put /compute/clusters/storage/volumes">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">update</a>({ ...params }) -> ClusterStorage</code>
-- <code title="get /compute/clusters/storage/volumes">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">list</a>() -> StorageListResponse</code>
+- <code title="get /compute/clusters/storage/volumes">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">list</a>({ ...params }) -> StorageListResponse</code>
 - <code title="delete /compute/clusters/storage/volumes/{volume_id}">client.beta.clusters.storage.<a href="./src/resources/beta/clusters/storage.ts">delete</a>(volumeID) -> StorageDeleteResponse</code>
 
 # Chat
@@ -182,6 +198,7 @@ Types:
 - <code><a href="./src/resources/fine-tuning.ts">FineTuningEstimatePriceResponse</a></code>
 - <code><a href="./src/resources/fine-tuning.ts">FineTuningListCheckpointsResponse</a></code>
 - <code><a href="./src/resources/fine-tuning.ts">FineTuningListEventsResponse</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FineTuningListMetricsResponse</a></code>
 
 Methods:
 
@@ -194,6 +211,7 @@ Methods:
 - <code title="post /fine-tunes/estimate-price">client.fineTuning.<a href="./src/resources/fine-tuning.ts">estimatePrice</a>({ ...params }) -> FineTuningEstimatePriceResponse</code>
 - <code title="get /fine-tunes/{id}/checkpoints">client.fineTuning.<a href="./src/resources/fine-tuning.ts">listCheckpoints</a>(id) -> FineTuningListCheckpointsResponse</code>
 - <code title="get /fine-tunes/{id}/events">client.fineTuning.<a href="./src/resources/fine-tuning.ts">listEvents</a>(id) -> FineTuningListEventsResponse</code>
+- <code title="get /fine-tunes/{id}/metrics">client.fineTuning.<a href="./src/resources/fine-tuning.ts">listMetrics</a>(id, { ...params }) -> FineTuningListMetricsResponse</code>
 
 # CodeInterpreter
 

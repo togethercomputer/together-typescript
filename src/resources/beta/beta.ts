@@ -6,6 +6,7 @@ import {
   Cluster,
   ClusterCreateParams,
   ClusterDeleteResponse,
+  ClusterListParams,
   ClusterListRegionsResponse,
   ClusterListResponse,
   ClusterUpdateParams,
@@ -51,5 +52,6 @@ export declare namespace Beta {
     type ClusterListRegionsResponse as ClusterListRegionsResponse,
     type ClusterCreateParams as ClusterCreateParams,
     type ClusterUpdateParams as ClusterUpdateParams,
+    type ClusterListParams as ClusterListParams,
   };
 }

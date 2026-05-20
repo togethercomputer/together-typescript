@@ -26,6 +26,7 @@ describe('resource fineTuning', () => {
       batch_size: 'max',
       from_checkpoint: 'from_checkpoint',
       from_hf_model: 'from_hf_model',
+      gradient_accumulation_steps: 0,
       hf_api_token: 'hf_api_token',
       hf_model_revision: 'hf_model_revision',
       hf_output_repo_name: 'hf_output_repo_name',
@@ -160,5 +161,33 @@ describe('resource fineTuning', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listMetrics', async () => {
+    const responsePromise = client.fineTuning.listMetrics('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listMetrics: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.fineTuning.listMetrics(
+        'id',
+        {
+          global_step_from: 0,
+          global_step_to: 0,
+          logged_at_from: '2019-12-27T18:11:19.117Z',
+          logged_at_to: '2019-12-27T18:11:19.117Z',
+          resolution: 0,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Together.NotFoundError);
   });
 });

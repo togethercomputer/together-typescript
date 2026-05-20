@@ -1,4 +1,4 @@
-configured_endpoints: 75
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/togetherai/togetherai-e218fafc0c9b31bd98647d1e2de6decc55f8a7f9719b3b565f94939c2ebcf0df.yml
-openapi_spec_hash: 026cc585ef61f52d4d6c4b60b969e323
-config_hash: 6c214c91fad5ead4849be777fd9e8108
+configured_endpoints: 82
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/togetherai/togetherai-ce108a2095d36552bb556506de04475674f512a13bc5aa099e9750993405be14.yml
+openapi_spec_hash: 4763dd426dd805306bbb38a314158cd3
+config_hash: b35d5968fb07cce1c1be735f874898b1

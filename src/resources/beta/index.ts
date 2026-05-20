@@ -9,6 +9,7 @@ export {
   type ClusterListRegionsResponse,
   type ClusterCreateParams,
   type ClusterUpdateParams,
+  type ClusterListParams,
 } from './clusters/index';
 export {
   Jig,

@@ -35,5 +35,6 @@ export {
   type VolumeListResponse,
   type VolumeDeleteResponse,
   type VolumeCreateParams,
+  type VolumeRetrieveParams,
   type VolumeUpdateParams,
 } from './volumes';

@@ -8,7 +8,19 @@ export {
   type ClusterListRegionsResponse,
   type ClusterCreateParams,
   type ClusterUpdateParams,
+  type ClusterListParams,
 } from './clusters';
+export {
+  Remediations,
+  type Remediation,
+  type RemediationListResponse,
+  type RemediationCreateParams,
+  type RemediationRetrieveParams,
+  type RemediationListParams,
+  type RemediationApproveParams,
+  type RemediationCancelParams,
+  type RemediationRejectParams,
+} from './remediations';
 export {
   Storage,
   type ClusterStorage,
@@ -16,4 +28,5 @@ export {
   type StorageDeleteResponse,
   type StorageCreateParams,
   type StorageUpdateParams,
+  type StorageListParams,
 } from './storage';

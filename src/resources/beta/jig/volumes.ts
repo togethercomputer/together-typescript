@@ -8,6 +8,15 @@ import { path } from '../../../internal/utils/path';
 export class Volumes extends APIResource {
   /**
    * Create a new volume to preload files in deployments
+   *
+   * @example
+   * ```ts
+   * const volume = await client.beta.jig.volumes.create({
+   *   content: {},
+   *   name: 'x',
+   *   type: 'readOnly',
+   * });
+   * ```
    */
   create(body: VolumeCreateParams, options?: RequestOptions): APIPromise<Volume> {
     return this._client.post('/deployments/storage/volumes', { body, ...options });
@@ -15,13 +24,27 @@ export class Volumes extends APIResource {
 
   /**
    * Retrieve details of a specific volume by its ID or name
+   *
+   * @example
+   * ```ts
+   * const volume = await client.beta.jig.volumes.retrieve('id');
+   * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<Volume> {
-    return this._client.get(path`/deployments/storage/volumes/${id}`, options);
+  retrieve(
+    id: string,
+    query: VolumeRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Volume> {
+    return this._client.get(path`/deployments/storage/volumes/${id}`, { query, ...options });
   }
 
   /**
    * Update an existing volume's configuration or contents
+   *
+   * @example
+   * ```ts
+   * const volume = await client.beta.jig.volumes.update('id');
+   * ```
    */
   update(id: string, body: VolumeUpdateParams, options?: RequestOptions): APIPromise<Volume> {
     return this._client.patch(path`/deployments/storage/volumes/${id}`, { body, ...options });
@@ -29,6 +52,11 @@ export class Volumes extends APIResource {
 
   /**
    * Retrieve all volumes in your project
+   *
+   * @example
+   * ```ts
+   * const volumes = await client.beta.jig.volumes.list();
+   * ```
    */
   list(options?: RequestOptions): APIPromise<VolumeListResponse> {
     return this._client.get('/deployments/storage/volumes', options);
@@ -36,6 +64,11 @@ export class Volumes extends APIResource {
 
   /**
    * Delete an existing volume
+   *
+   * @example
+   * ```ts
+   * const volume = await client.beta.jig.volumes.delete('id');
+   * ```
    */
   delete(id: string, options?: RequestOptions): APIPromise<unknown> {
     return this._client.delete(path`/deployments/storage/volumes/${id}`, options);
@@ -93,8 +126,8 @@ export interface Volume {
 export namespace Volume {
   export interface Content {
     /**
-     * Files is the list of files that will be preloaded into the volume, if the volume
-     * content type is "files"
+     * Files is the list of files to preload into the volume, if the volume content
+     * type is "files".
      */
     files?: Array<Content.File>;
 
@@ -132,7 +165,7 @@ export namespace Volume {
 
   export interface VersionHistory {
     /**
-     * Content specifies the new content that will be preloaded to this volume
+     * Content specifies the new content to preload to this volume.
      */
     content?: VersionHistory.Content;
 
@@ -143,7 +176,7 @@ export namespace Volume {
 
   export namespace VersionHistory {
     /**
-     * Content specifies the new content that will be preloaded to this volume
+     * Content specifies the new content to preload to this volume.
      */
     export interface Content {
       /**
@@ -177,7 +210,7 @@ export type VolumeDeleteResponse = unknown;
 
 export interface VolumeCreateParams {
   /**
-   * Content specifies the new content that will be preloaded to this volume
+   * Content specifies the new content to preload to this volume.
    */
   content: VolumeCreateParams.Content;
 
@@ -194,7 +227,7 @@ export interface VolumeCreateParams {
 
 export namespace VolumeCreateParams {
   /**
-   * Content specifies the new content that will be preloaded to this volume
+   * Content specifies the new content to preload to this volume.
    */
   export interface Content {
     /**
@@ -211,9 +244,16 @@ export namespace VolumeCreateParams {
   }
 }
 
+export interface VolumeRetrieveParams {
+  /**
+   * Volume version to describe (defaults to current version)
+   */
+  version?: number;
+}
+
 export interface VolumeUpdateParams {
   /**
-   * Content specifies the new content that will be preloaded to this volume
+   * Content specifies the new content to preload to this volume.
    */
   content?: VolumeUpdateParams.Content;
 
@@ -230,7 +270,7 @@ export interface VolumeUpdateParams {
 
 export namespace VolumeUpdateParams {
   /**
-   * Content specifies the new content that will be preloaded to this volume
+   * Content specifies the new content to preload to this volume.
    */
   export interface Content {
     /**
@@ -253,6 +293,7 @@ export declare namespace Volumes {
     type VolumeListResponse as VolumeListResponse,
     type VolumeDeleteResponse as VolumeDeleteResponse,
     type VolumeCreateParams as VolumeCreateParams,
+    type VolumeRetrieveParams as VolumeRetrieveParams,
     type VolumeUpdateParams as VolumeUpdateParams,
   };
 }

@@ -197,37 +197,37 @@ export namespace EvaluationJob {
 
   export interface EvaluationCompareResults {
     /**
-     * Number of times model A won
+     * Number of samples where model A was judged the winner
      */
     A_wins?: number;
 
     /**
-     * Number of times model B won
+     * Number of samples where model B was judged the winner
      */
     B_wins?: number;
 
     /**
-     * Number of failed generations.
+     * Number of generation failures across model A and model B.
      */
     generation_fail_count?: number | null;
 
     /**
-     * Number of failed judge generations
+     * Number of judge inference failures. In the default two-pass mode
+     * (disable_position_bias_correction=false) this is the combined failure count from
+     * both the original-order and flipped-order judge passes.
      */
     judge_fail_count?: number | null;
 
     /**
-     * Total number of samples compared
-     */
-    num_samples?: number;
-
-    /**
-     * Data File ID
+     * File ID of the detailed output file. Each row contains the original input fields
+     * plus judge outputs. In two-pass mode the file includes both original-order and
+     * flipped-order judge fields; in single-pass mode
+     * (disable_position_bias_correction=true) only original-order fields are present.
      */
     result_file_id?: string;
 
     /**
-     * Number of ties
+     * Number of samples that resulted in a tie
      */
     Ties?: number;
   }
@@ -357,37 +357,37 @@ export namespace EvalStatusResponse {
 
   export interface EvaluationCompareResults {
     /**
-     * Number of times model A won
+     * Number of samples where model A was judged the winner
      */
     A_wins?: number;
 
     /**
-     * Number of times model B won
+     * Number of samples where model B was judged the winner
      */
     B_wins?: number;
 
     /**
-     * Number of failed generations.
+     * Number of generation failures across model A and model B.
      */
     generation_fail_count?: number | null;
 
     /**
-     * Number of failed judge generations
+     * Number of judge inference failures. In the default two-pass mode
+     * (disable_position_bias_correction=false) this is the combined failure count from
+     * both the original-order and flipped-order judge passes.
      */
     judge_fail_count?: number | null;
 
     /**
-     * Total number of samples compared
-     */
-    num_samples?: number;
-
-    /**
-     * Data File ID
+     * File ID of the detailed output file. Each row contains the original input fields
+     * plus judge outputs. In two-pass mode the file includes both original-order and
+     * flipped-order judge fields; in single-pass mode
+     * (disable_position_bias_correction=true) only original-order fields are present.
      */
     result_file_id?: string;
 
     /**
-     * Number of ties
+     * Number of samples that resulted in a tie
      */
     Ties?: number;
   }
@@ -428,7 +428,7 @@ export namespace EvalCreateParams {
     pass_labels: Array<string>;
 
     /**
-     * Field name in the input data
+     * Column name in the input dataset containing pre-generated responses
      */
     model_to_evaluate?: string | EvaluationClassifyParameters.EvaluationModelRequest;
   }
@@ -441,7 +441,15 @@ export namespace EvalCreateParams {
       model: string;
 
       /**
-       * Source of the judge model.
+       * Source of the judge model inference: - `serverless`: Together's shared
+       * serverless inference API. Default concurrency: 25 workers. - `dedicated`: A
+       * Together dedicated deployment endpoint. Default concurrency: 5 workers (minimum
+       * enforced even if num_workers is set lower).
+       *
+       * - `external`: An external inference API (e.g. OpenAI, Anthropic, Google,
+       *   OpenRouter). Requires `external_api_token` and `external_base_url`. Default
+       *   concurrency: 2 workers for first-party APIs, 20 for proxy/aggregator
+       *   endpoints.
        */
       model_source: 'serverless' | 'dedicated' | 'external';
 
@@ -451,43 +459,46 @@ export namespace EvalCreateParams {
       system_template: string;
 
       /**
-       * Bearer/API token for external judge models.
+       * Bearer/API token for the external judge model provider. Required when
+       * model_source is 'external'.
        */
       external_api_token?: string;
 
       /**
-       * Base URL for external judge models. Must be OpenAI-compatible base URL.
+       * Base URL of the external inference API for the judge. Must be OpenAI-compatible.
+       * Required when model_source is 'external'.
        */
       external_base_url?: string;
 
       /**
-       * Maximum number of tokens the judge model can generate. Defaults to 32768.
-       * Increase for reasoning models (e.g. Gemini, o-series) that consume output token
-       * budget for chain-of-thought.
+       * Maximum number of tokens the judge model may generate. Defaults to 32768 if
+       * omitted. Set higher for reasoning judges (e.g. o-series, Gemini) that spend
+       * tokens on internal chain-of-thought before emitting the verdict JSON.
        */
       max_tokens?: number;
 
       /**
-       * Number of concurrent workers for inference requests. Overrides the default
-       * concurrency for this model. Useful for tuning throughput when using proxy
-       * endpoints (e.g. OpenRouter) or rate-limited external APIs.
+       * Number of concurrent inference workers for the judge. Overrides the
+       * source-specific default (serverless: 25, dedicated: 5, external: 2–20). For
+       * dedicated endpoints the value is clamped to a minimum of 5 regardless of what is
+       * set here.
        */
       num_workers?: number;
 
       /**
-       * Sampling temperature for the judge model. Defaults to 0.05.
+       * Sampling temperature for the judge model. Defaults to 0.05 if omitted.
        */
       temperature?: number;
     }
 
     export interface EvaluationModelRequest {
       /**
-       * Input prompt template
+       * User message template. Supports Jinja2 variables referencing dataset columns.
        */
       input_template: string;
 
       /**
-       * Maximum number of tokens to generate
+       * Maximum number of tokens to generate.
        */
       max_tokens: number;
 
@@ -497,34 +508,45 @@ export namespace EvalCreateParams {
       model: string;
 
       /**
-       * Source of the model.
+       * Source of the model inference: - `serverless`: Together's shared serverless
+       * inference API. Default concurrency: 25 workers. - `dedicated`: A Together
+       * dedicated deployment endpoint. Default concurrency: 5 workers (minimum enforced
+       * even if num_workers is set lower). Authentication uses the requesting user's
+       * Together API token automatically.
+       *
+       * - `external`: An external inference API (e.g. OpenAI, Anthropic, Google,
+       *   OpenRouter). Requires `external_api_token` and `external_base_url`. Default
+       *   concurrency: 2 workers for first-party APIs (OpenAI, Anthropic, Google), 20
+       *   for proxy/aggregator endpoints.
        */
       model_source: 'serverless' | 'dedicated' | 'external';
 
       /**
-       * System prompt template
+       * System prompt template. Supports Jinja2 variables referencing dataset columns.
        */
       system_template: string;
 
       /**
-       * Sampling temperature
+       * Sampling temperature for generation.
        */
       temperature: number;
 
       /**
-       * Bearer/API token for external models.
+       * Bearer/API token for the external model provider. Required when model_source is
+       * 'external'.
        */
       external_api_token?: string;
 
       /**
-       * Base URL for external models. Must be OpenAI-compatible base URL
+       * Base URL of the external inference API. Must be OpenAI-compatible. Required when
+       * model_source is 'external'.
        */
       external_base_url?: string;
 
       /**
-       * Number of concurrent workers for inference requests. Overrides the default
-       * concurrency for this model. Useful for tuning throughput when using proxy
-       * endpoints (e.g. OpenRouter) or rate-limited external APIs.
+       * Number of concurrent inference workers. Overrides the source-specific default
+       * (serverless: 25, dedicated: 5, external: 2–20). For dedicated endpoints the
+       * value is clamped to a minimum of 5 regardless of what is set here.
        */
       num_workers?: number;
     }
@@ -554,7 +576,7 @@ export namespace EvalCreateParams {
     pass_threshold: number;
 
     /**
-     * Field name in the input data
+     * Column name in the input dataset containing pre-generated responses
      */
     model_to_evaluate?: string | EvaluationScoreParameters.EvaluationModelRequest;
   }
@@ -567,7 +589,15 @@ export namespace EvalCreateParams {
       model: string;
 
       /**
-       * Source of the judge model.
+       * Source of the judge model inference: - `serverless`: Together's shared
+       * serverless inference API. Default concurrency: 25 workers. - `dedicated`: A
+       * Together dedicated deployment endpoint. Default concurrency: 5 workers (minimum
+       * enforced even if num_workers is set lower).
+       *
+       * - `external`: An external inference API (e.g. OpenAI, Anthropic, Google,
+       *   OpenRouter). Requires `external_api_token` and `external_base_url`. Default
+       *   concurrency: 2 workers for first-party APIs, 20 for proxy/aggregator
+       *   endpoints.
        */
       model_source: 'serverless' | 'dedicated' | 'external';
 
@@ -577,43 +607,46 @@ export namespace EvalCreateParams {
       system_template: string;
 
       /**
-       * Bearer/API token for external judge models.
+       * Bearer/API token for the external judge model provider. Required when
+       * model_source is 'external'.
        */
       external_api_token?: string;
 
       /**
-       * Base URL for external judge models. Must be OpenAI-compatible base URL.
+       * Base URL of the external inference API for the judge. Must be OpenAI-compatible.
+       * Required when model_source is 'external'.
        */
       external_base_url?: string;
 
       /**
-       * Maximum number of tokens the judge model can generate. Defaults to 32768.
-       * Increase for reasoning models (e.g. Gemini, o-series) that consume output token
-       * budget for chain-of-thought.
+       * Maximum number of tokens the judge model may generate. Defaults to 32768 if
+       * omitted. Set higher for reasoning judges (e.g. o-series, Gemini) that spend
+       * tokens on internal chain-of-thought before emitting the verdict JSON.
        */
       max_tokens?: number;
 
       /**
-       * Number of concurrent workers for inference requests. Overrides the default
-       * concurrency for this model. Useful for tuning throughput when using proxy
-       * endpoints (e.g. OpenRouter) or rate-limited external APIs.
+       * Number of concurrent inference workers for the judge. Overrides the
+       * source-specific default (serverless: 25, dedicated: 5, external: 2–20). For
+       * dedicated endpoints the value is clamped to a minimum of 5 regardless of what is
+       * set here.
        */
       num_workers?: number;
 
       /**
-       * Sampling temperature for the judge model. Defaults to 0.05.
+       * Sampling temperature for the judge model. Defaults to 0.05 if omitted.
        */
       temperature?: number;
     }
 
     export interface EvaluationModelRequest {
       /**
-       * Input prompt template
+       * User message template. Supports Jinja2 variables referencing dataset columns.
        */
       input_template: string;
 
       /**
-       * Maximum number of tokens to generate
+       * Maximum number of tokens to generate.
        */
       max_tokens: number;
 
@@ -623,34 +656,45 @@ export namespace EvalCreateParams {
       model: string;
 
       /**
-       * Source of the model.
+       * Source of the model inference: - `serverless`: Together's shared serverless
+       * inference API. Default concurrency: 25 workers. - `dedicated`: A Together
+       * dedicated deployment endpoint. Default concurrency: 5 workers (minimum enforced
+       * even if num_workers is set lower). Authentication uses the requesting user's
+       * Together API token automatically.
+       *
+       * - `external`: An external inference API (e.g. OpenAI, Anthropic, Google,
+       *   OpenRouter). Requires `external_api_token` and `external_base_url`. Default
+       *   concurrency: 2 workers for first-party APIs (OpenAI, Anthropic, Google), 20
+       *   for proxy/aggregator endpoints.
        */
       model_source: 'serverless' | 'dedicated' | 'external';
 
       /**
-       * System prompt template
+       * System prompt template. Supports Jinja2 variables referencing dataset columns.
        */
       system_template: string;
 
       /**
-       * Sampling temperature
+       * Sampling temperature for generation.
        */
       temperature: number;
 
       /**
-       * Bearer/API token for external models.
+       * Bearer/API token for the external model provider. Required when model_source is
+       * 'external'.
        */
       external_api_token?: string;
 
       /**
-       * Base URL for external models. Must be OpenAI-compatible base URL
+       * Base URL of the external inference API. Must be OpenAI-compatible. Required when
+       * model_source is 'external'.
        */
       external_base_url?: string;
 
       /**
-       * Number of concurrent workers for inference requests. Overrides the default
-       * concurrency for this model. Useful for tuning throughput when using proxy
-       * endpoints (e.g. OpenRouter) or rate-limited external APIs.
+       * Number of concurrent inference workers. Overrides the source-specific default
+       * (serverless: 25, dedicated: 5, external: 2–20). For dedicated endpoints the
+       * value is clamped to a minimum of 5 regardless of what is set here.
        */
       num_workers?: number;
     }
@@ -658,21 +702,37 @@ export namespace EvalCreateParams {
 
   export interface EvaluationCompareParameters {
     /**
-     * Data file name
+     * Data file ID
      */
     input_data_file_path: string;
 
     judge: EvaluationCompareParameters.Judge;
 
     /**
-     * Field name in the input data
+     * When false (default), the judge runs twice per sample: once with model A's
+     * response first (original order) and once with model B's response first (flipped
+     * order). The two verdicts are reconciled to cancel out position bias. When true,
+     * only the original-order pass is run, halving judge cost and latency at the
+     * expense of position-bias correction. The result file will not contain
+     * flipped-order judge fields when this is true.
      */
-    model_a?: string | EvaluationCompareParameters.EvaluationModelRequest;
+    disable_position_bias_correction?: boolean;
 
     /**
-     * Field name in the input data
+     * Either an EvaluationModelRequest for generation or a string column name from the
+     * dataset (when responses are pre-generated). When both model_a and model_b are
+     * EvaluationModelRequest objects, their inference runs execute in parallel to
+     * reduce total wall-clock time.
      */
-    model_b?: string | EvaluationCompareParameters.EvaluationModelRequest;
+    model_a?: EvaluationCompareParameters.EvaluationModelRequest | string;
+
+    /**
+     * Either an EvaluationModelRequest for generation or a string column name from the
+     * dataset (when responses are pre-generated). When both model_a and model_b are
+     * EvaluationModelRequest objects, their inference runs execute in parallel to
+     * reduce total wall-clock time.
+     */
+    model_b?: EvaluationCompareParameters.EvaluationModelRequest | string;
   }
 
   export namespace EvaluationCompareParameters {
@@ -683,7 +743,15 @@ export namespace EvalCreateParams {
       model: string;
 
       /**
-       * Source of the judge model.
+       * Source of the judge model inference: - `serverless`: Together's shared
+       * serverless inference API. Default concurrency: 25 workers. - `dedicated`: A
+       * Together dedicated deployment endpoint. Default concurrency: 5 workers (minimum
+       * enforced even if num_workers is set lower).
+       *
+       * - `external`: An external inference API (e.g. OpenAI, Anthropic, Google,
+       *   OpenRouter). Requires `external_api_token` and `external_base_url`. Default
+       *   concurrency: 2 workers for first-party APIs, 20 for proxy/aggregator
+       *   endpoints.
        */
       model_source: 'serverless' | 'dedicated' | 'external';
 
@@ -693,43 +761,46 @@ export namespace EvalCreateParams {
       system_template: string;
 
       /**
-       * Bearer/API token for external judge models.
+       * Bearer/API token for the external judge model provider. Required when
+       * model_source is 'external'.
        */
       external_api_token?: string;
 
       /**
-       * Base URL for external judge models. Must be OpenAI-compatible base URL.
+       * Base URL of the external inference API for the judge. Must be OpenAI-compatible.
+       * Required when model_source is 'external'.
        */
       external_base_url?: string;
 
       /**
-       * Maximum number of tokens the judge model can generate. Defaults to 32768.
-       * Increase for reasoning models (e.g. Gemini, o-series) that consume output token
-       * budget for chain-of-thought.
+       * Maximum number of tokens the judge model may generate. Defaults to 32768 if
+       * omitted. Set higher for reasoning judges (e.g. o-series, Gemini) that spend
+       * tokens on internal chain-of-thought before emitting the verdict JSON.
        */
       max_tokens?: number;
 
       /**
-       * Number of concurrent workers for inference requests. Overrides the default
-       * concurrency for this model. Useful for tuning throughput when using proxy
-       * endpoints (e.g. OpenRouter) or rate-limited external APIs.
+       * Number of concurrent inference workers for the judge. Overrides the
+       * source-specific default (serverless: 25, dedicated: 5, external: 2–20). For
+       * dedicated endpoints the value is clamped to a minimum of 5 regardless of what is
+       * set here.
        */
       num_workers?: number;
 
       /**
-       * Sampling temperature for the judge model. Defaults to 0.05.
+       * Sampling temperature for the judge model. Defaults to 0.05 if omitted.
        */
       temperature?: number;
     }
 
     export interface EvaluationModelRequest {
       /**
-       * Input prompt template
+       * User message template. Supports Jinja2 variables referencing dataset columns.
        */
       input_template: string;
 
       /**
-       * Maximum number of tokens to generate
+       * Maximum number of tokens to generate.
        */
       max_tokens: number;
 
@@ -739,46 +810,57 @@ export namespace EvalCreateParams {
       model: string;
 
       /**
-       * Source of the model.
+       * Source of the model inference: - `serverless`: Together's shared serverless
+       * inference API. Default concurrency: 25 workers. - `dedicated`: A Together
+       * dedicated deployment endpoint. Default concurrency: 5 workers (minimum enforced
+       * even if num_workers is set lower). Authentication uses the requesting user's
+       * Together API token automatically.
+       *
+       * - `external`: An external inference API (e.g. OpenAI, Anthropic, Google,
+       *   OpenRouter). Requires `external_api_token` and `external_base_url`. Default
+       *   concurrency: 2 workers for first-party APIs (OpenAI, Anthropic, Google), 20
+       *   for proxy/aggregator endpoints.
        */
       model_source: 'serverless' | 'dedicated' | 'external';
 
       /**
-       * System prompt template
+       * System prompt template. Supports Jinja2 variables referencing dataset columns.
        */
       system_template: string;
 
       /**
-       * Sampling temperature
+       * Sampling temperature for generation.
        */
       temperature: number;
 
       /**
-       * Bearer/API token for external models.
+       * Bearer/API token for the external model provider. Required when model_source is
+       * 'external'.
        */
       external_api_token?: string;
 
       /**
-       * Base URL for external models. Must be OpenAI-compatible base URL
+       * Base URL of the external inference API. Must be OpenAI-compatible. Required when
+       * model_source is 'external'.
        */
       external_base_url?: string;
 
       /**
-       * Number of concurrent workers for inference requests. Overrides the default
-       * concurrency for this model. Useful for tuning throughput when using proxy
-       * endpoints (e.g. OpenRouter) or rate-limited external APIs.
+       * Number of concurrent inference workers. Overrides the source-specific default
+       * (serverless: 25, dedicated: 5, external: 2–20). For dedicated endpoints the
+       * value is clamped to a minimum of 5 regardless of what is set here.
        */
       num_workers?: number;
     }
 
     export interface EvaluationModelRequest {
       /**
-       * Input prompt template
+       * User message template. Supports Jinja2 variables referencing dataset columns.
        */
       input_template: string;
 
       /**
-       * Maximum number of tokens to generate
+       * Maximum number of tokens to generate.
        */
       max_tokens: number;
 
@@ -788,34 +870,45 @@ export namespace EvalCreateParams {
       model: string;
 
       /**
-       * Source of the model.
+       * Source of the model inference: - `serverless`: Together's shared serverless
+       * inference API. Default concurrency: 25 workers. - `dedicated`: A Together
+       * dedicated deployment endpoint. Default concurrency: 5 workers (minimum enforced
+       * even if num_workers is set lower). Authentication uses the requesting user's
+       * Together API token automatically.
+       *
+       * - `external`: An external inference API (e.g. OpenAI, Anthropic, Google,
+       *   OpenRouter). Requires `external_api_token` and `external_base_url`. Default
+       *   concurrency: 2 workers for first-party APIs (OpenAI, Anthropic, Google), 20
+       *   for proxy/aggregator endpoints.
        */
       model_source: 'serverless' | 'dedicated' | 'external';
 
       /**
-       * System prompt template
+       * System prompt template. Supports Jinja2 variables referencing dataset columns.
        */
       system_template: string;
 
       /**
-       * Sampling temperature
+       * Sampling temperature for generation.
        */
       temperature: number;
 
       /**
-       * Bearer/API token for external models.
+       * Bearer/API token for the external model provider. Required when model_source is
+       * 'external'.
        */
       external_api_token?: string;
 
       /**
-       * Base URL for external models. Must be OpenAI-compatible base URL
+       * Base URL of the external inference API. Must be OpenAI-compatible. Required when
+       * model_source is 'external'.
        */
       external_base_url?: string;
 
       /**
-       * Number of concurrent workers for inference requests. Overrides the default
-       * concurrency for this model. Useful for tuning throughput when using proxy
-       * endpoints (e.g. OpenRouter) or rate-limited external APIs.
+       * Number of concurrent inference workers. Overrides the source-specific default
+       * (serverless: 25, dedicated: 5, external: 2–20). For dedicated endpoints the
+       * value is clamped to a minimum of 5 regardless of what is set here.
        */
       num_workers?: number;
     }

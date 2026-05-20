@@ -55,7 +55,7 @@ describe('resource queue', () => {
 
   test('submit: only required params', async () => {
     const responsePromise = client.beta.jig.queue.submit({
-      model: 'model',
+      model: 'my-queue-model',
       payload: { foo: 'bar' },
     });
     const rawResponse = await responsePromise.asResponse();
@@ -69,7 +69,7 @@ describe('resource queue', () => {
 
   test('submit: required and optional params', async () => {
     const response = await client.beta.jig.queue.submit({
-      model: 'model',
+      model: 'my-queue-model',
       payload: { foo: 'bar' },
       info: { foo: 'bar' },
       priority: 0,

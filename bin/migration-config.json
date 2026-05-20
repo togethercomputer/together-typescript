@@ -2,5 +2,240 @@
   "pkg": "together-ai",
   "githubRepo": "https://github.com/togethercomputer/together-typescript",
   "clientClass": "Together",
-  "methods": []
+  "methods": [
+    {
+      "base": "beta.clusters.remediations",
+      "name": "create",
+      "params": [
+        {
+          "type": "param",
+          "key": "instance_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "cluster_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "instance_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "beta.clusters.remediations",
+      "name": "retrieve",
+      "params": [
+        {
+          "type": "param",
+          "key": "remediation_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "cluster_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "instance_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "remediation_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "beta.clusters.remediations",
+      "name": "list",
+      "params": [
+        {
+          "type": "param",
+          "key": "instance_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "cluster_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "instance_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "beta.clusters.remediations",
+      "name": "approve",
+      "params": [
+        {
+          "type": "param",
+          "key": "remediation_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "cluster_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "instance_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "remediation_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "beta.clusters.remediations",
+      "name": "cancel",
+      "params": [
+        {
+          "type": "param",
+          "key": "remediation_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "cluster_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "instance_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "remediation_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "beta.clusters.remediations",
+      "name": "reject",
+      "params": [
+        {
+          "type": "param",
+          "key": "remediation_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "cluster_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "instance_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "remediation_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ]
+    }
+  ]
 }

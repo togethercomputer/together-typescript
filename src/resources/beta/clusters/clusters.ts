@@ -1,12 +1,25 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
+import * as RemediationsAPI from './remediations';
+import {
+  Remediation,
+  RemediationApproveParams,
+  RemediationCancelParams,
+  RemediationCreateParams,
+  RemediationListParams,
+  RemediationListResponse,
+  RemediationRejectParams,
+  RemediationRetrieveParams,
+  Remediations,
+} from './remediations';
 import * as StorageAPI from './storage';
 import {
   ClusterStorage,
   Storage,
   StorageCreateParams,
   StorageDeleteResponse,
+  StorageListParams,
   StorageListResponse,
   StorageUpdateParams,
 } from './storage';
@@ -15,6 +28,7 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class Clusters extends APIResource {
+  remediations: RemediationsAPI.Remediations = new RemediationsAPI.Remediations(this._client);
   storage: StorageAPI.Storage = new StorageAPI.Storage(this._client);
 
   /**
@@ -23,6 +37,19 @@ export class Clusters extends APIResource {
    * DC-local storage, Kubernetes and Slurm cluster flavors, a REST API, and
    * Terraform support, you can run workloads flexibly without complex infrastructure
    * management.
+   *
+   * @example
+   * ```ts
+   * const cluster = await client.beta.clusters.create({
+   *   billing_type: 'RESERVED',
+   *   cluster_name: 'cluster_name',
+   *   cuda_version: 'cuda_version',
+   *   gpu_type: 'H100_SXM',
+   *   num_gpus: 0,
+   *   nvidia_driver_version: 'nvidia_driver_version',
+   *   region: 'region',
+   * });
+   * ```
    */
   create(body: ClusterCreateParams, options?: RequestOptions): APIPromise<Cluster> {
     return this._client.post('/compute/clusters', { body, ...options });
@@ -30,6 +57,13 @@ export class Clusters extends APIResource {
 
   /**
    * Retrieve information about a specific GPU cluster.
+   *
+   * @example
+   * ```ts
+   * const cluster = await client.beta.clusters.retrieve(
+   *   'cluster_id',
+   * );
+   * ```
    */
   retrieve(clusterID: string, options?: RequestOptions): APIPromise<Cluster> {
     return this._client.get(path`/compute/clusters/${clusterID}`, options);
@@ -37,6 +71,13 @@ export class Clusters extends APIResource {
 
   /**
    * Update the configuration of an existing GPU cluster.
+   *
+   * @example
+   * ```ts
+   * const cluster = await client.beta.clusters.update(
+   *   'cluster_id',
+   * );
+   * ```
    */
   update(clusterID: string, body: ClusterUpdateParams, options?: RequestOptions): APIPromise<Cluster> {
     return this._client.put(path`/compute/clusters/${clusterID}`, { body, ...options });
@@ -44,13 +85,28 @@ export class Clusters extends APIResource {
 
   /**
    * List all GPU clusters.
+   *
+   * @example
+   * ```ts
+   * const clusters = await client.beta.clusters.list();
+   * ```
    */
-  list(options?: RequestOptions): APIPromise<ClusterListResponse> {
-    return this._client.get('/compute/clusters', options);
+  list(
+    query: ClusterListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ClusterListResponse> {
+    return this._client.get('/compute/clusters', { query, ...options });
   }
 
   /**
    * Delete a GPU cluster by cluster ID.
+   *
+   * @example
+   * ```ts
+   * const cluster = await client.beta.clusters.delete(
+   *   'cluster_id',
+   * );
+   * ```
    */
   delete(clusterID: string, options?: RequestOptions): APIPromise<ClusterDeleteResponse> {
     return this._client.delete(path`/compute/clusters/${clusterID}`, options);
@@ -58,6 +114,11 @@ export class Clusters extends APIResource {
 
   /**
    * List regions and corresponding supported driver versions
+   *
+   * @example
+   * ```ts
+   * const response = await client.beta.clusters.listRegions();
+   * ```
    */
   listRegions(options?: RequestOptions): APIPromise<ClusterListRegionsResponse> {
     return this._client.get('/compute/regions', options);
@@ -65,6 +126,24 @@ export class Clusters extends APIResource {
 }
 
 export interface Cluster {
+  /**
+   * Enabled add-ons on this cluster. Only add-ons with enabled=true in their config
+   * are returned.
+   */
+  add_ons: Array<Cluster.AddOn>;
+
+  /**
+   * Actual number of preemptible GPUs currently allocated to the cluster. Updated
+   * asynchronously by the fulfillment and reclamation workers; may be less than
+   * desired_preemptible_gpus when capacity is constrained.
+   */
+  allocated_preemptible_gpus: number;
+
+  /**
+   * Billing type for the cluster (RESERVED, ON_DEMAND, or SCHEDULED_CAPACITY).
+   */
+  billing_type: 'RESERVED' | 'ON_DEMAND' | 'SCHEDULED_CAPACITY';
+
   cluster_id: string;
 
   cluster_name: string;
@@ -78,15 +157,33 @@ export interface Cluster {
 
   cuda_version: string;
 
+  /**
+   * Customer's requested number of preemptible GPUs. Set on cluster create or
+   * update; persists until changed.
+   */
+  desired_preemptible_gpus: number;
+
   gpu_type: 'H100_SXM' | 'H200_SXM' | 'RTX_6000_PCI' | 'L40_PCIE' | 'B200_SXM' | 'H100_SXM_INF';
 
   gpu_worker_nodes: Array<Cluster.GPUWorkerNode>;
 
   kube_config: string;
 
+  /**
+   * Number of CPU-only worker nodes in the cluster.
+   */
+  num_cpu_workers: number;
+
   num_gpus: number;
 
   nvidia_driver_version: string;
+
+  /**
+   * Cluster-level phase transition history.
+   */
+  phase_transitions: Array<Cluster.PhaseTransition>;
+
+  project_id: string;
 
   region: string;
 
@@ -110,11 +207,15 @@ export interface Cluster {
 
   capacity_pool_id?: string;
 
+  cluster_config?: Cluster.ClusterConfig;
+
   created_at?: string;
 
   duration_hours?: number;
 
   install_traefik?: boolean;
+
+  oidc_config?: Cluster.OidcConfig;
 
   reservation_end_time?: string;
 
@@ -124,6 +225,49 @@ export interface Cluster {
 }
 
 export namespace Cluster {
+  /**
+   * AddOnInfo is returned in cluster responses and add-on CRUD operations.
+   */
+  export interface AddOn {
+    add_on_type: string;
+
+    config: AddOn.Config;
+
+    name: string;
+
+    state: AddOn.State;
+  }
+
+  export namespace AddOn {
+    export interface Config {
+      dashboard?: Config.Dashboard;
+
+      ingress?: Config.Ingress;
+    }
+
+    export namespace Config {
+      export interface Dashboard {
+        enabled?: boolean;
+      }
+
+      export interface Ingress {
+        enabled?: boolean;
+      }
+    }
+
+    export interface State {
+      dashboard?: State.Dashboard;
+
+      ingress?: State.Ingress;
+    }
+
+    export namespace State {
+      export interface Dashboard {}
+
+      export interface Ingress {}
+    }
+  }
+
   export interface ControlPlaneNode {
     host_name: string;
 
@@ -133,11 +277,36 @@ export namespace Cluster {
 
     node_id: string;
 
-    node_name: string;
-
     num_cpu_cores: number;
 
+    /**
+     * Phase transition history for this control plane node.
+     */
+    phase_transitions: Array<ControlPlaneNode.PhaseTransition>;
+
     status: string;
+  }
+
+  export namespace ControlPlaneNode {
+    export interface PhaseTransition {
+      /**
+       * Node phase.
+       */
+      phase:
+        | 'NODE_PHASE_PENDING'
+        | 'NODE_PHASE_SCHEDULING'
+        | 'NODE_PHASE_BOOTING'
+        | 'NODE_PHASE_BOOTSTRAPPING'
+        | 'NODE_PHASE_RUNNING'
+        | 'NODE_PHASE_SUCCEEDED'
+        | 'NODE_PHASE_FAILED'
+        | 'NODE_PHASE_PAUSED';
+
+      /**
+       * Timestamp when the phase transition occurred.
+       */
+      transition_time: string;
+    }
   }
 
   export interface GPUWorkerNode {
@@ -149,25 +318,216 @@ export namespace Cluster {
 
     node_id: string;
 
-    node_name: string;
-
     num_cpu_cores: number;
 
     num_gpus: number;
 
+    /**
+     * Phase transition history for this GPU worker node.
+     */
+    phase_transitions: Array<GPUWorkerNode.PhaseTransition>;
+
     status: string;
 
     instance_id?: string;
+
+    /**
+     * Remediation represents a node remediation request for an instance. An instance
+     * can have multiple remediations over time (e.g., failed attempts followed by
+     * retries).
+     */
+    latest_remediation?: RemediationsAPI.Remediation;
+
+    slurm_worker_hostname?: string;
+  }
+
+  export namespace GPUWorkerNode {
+    export interface PhaseTransition {
+      /**
+       * Node phase.
+       */
+      phase:
+        | 'NODE_PHASE_PENDING'
+        | 'NODE_PHASE_SCHEDULING'
+        | 'NODE_PHASE_BOOTING'
+        | 'NODE_PHASE_BOOTSTRAPPING'
+        | 'NODE_PHASE_RUNNING'
+        | 'NODE_PHASE_SUCCEEDED'
+        | 'NODE_PHASE_FAILED'
+        | 'NODE_PHASE_PAUSED';
+
+      /**
+       * Timestamp when the phase transition occurred.
+       */
+      transition_time: string;
+    }
+  }
+
+  export interface PhaseTransition {
+    /**
+     * Cluster phase.
+     */
+    phase:
+      | 'CLUSTER_PHASE_QUEUED'
+      | 'CLUSTER_PHASE_SCHEDULED'
+      | 'CLUSTER_PHASE_WAITING_FOR_CONTROL_PLANE_NODES'
+      | 'CLUSTER_PHASE_WAITING_FOR_DATA_PLANE_NODES'
+      | 'CLUSTER_PHASE_WAITING_FOR_SUBNET'
+      | 'CLUSTER_PHASE_WAITING_FOR_SHARED_VOLUME'
+      | 'CLUSTER_PHASE_WAITING_FOR_AUTO_SCALER'
+      | 'CLUSTER_PHASE_INSTALLING_DRIVERS'
+      | 'CLUSTER_PHASE_RUNNING_ACCEPTANCE_TESTS'
+      | 'CLUSTER_PHASE_ACCEPTANCE_TESTS_FAILED'
+      | 'CLUSTER_PHASE_RUNNING_NCCL_TESTS'
+      | 'CLUSTER_PHASE_NCCL_TESTS_FAILED'
+      | 'CLUSTER_PHASE_READY'
+      | 'CLUSTER_PHASE_PAUSED'
+      | 'CLUSTER_PHASE_ON_DEMAND_COMPUTE_PAUSED'
+      | 'CLUSTER_PHASE_DEGRADED'
+      | 'CLUSTER_PHASE_DELETING';
+
+    /**
+     * Timestamp when the phase transition occurred.
+     */
+    transition_time: string;
   }
 
   export interface Volume {
+    /**
+     * Size of the volume in TiB.
+     */
     size_tib: number;
 
+    /**
+     * Current status of the volume.
+     */
     status: string;
 
+    /**
+     * ID of the volume.
+     */
     volume_id: string;
 
+    /**
+     * User provided name of the volume.
+     */
     volume_name: string;
+  }
+
+  export interface ClusterConfig {
+    load_balancer: 'NONE' | 'TRAEFIK' | 'NGINX' | 'ISTIO';
+
+    /**
+     * NVIDIA GPU Operator chart/version for the tenant cluster (e.g. v24.6.2). When
+     * omitted, a service default is applied.
+     */
+    gpu_operator_version?: string;
+
+    ingress?: ClusterConfig.Ingress;
+
+    jumphost_enabled?: boolean;
+
+    kubernetes_dashboard_enabled?: boolean;
+
+    observability?: ClusterConfig.Observability;
+
+    /**
+     * SlurmStartupScripts carries optional Slurm lifecycle scripts (prolog/epilog,
+     * init, extra conf).
+     */
+    slurm_startup_scripts?: ClusterConfig.SlurmStartupScripts;
+  }
+
+  export namespace ClusterConfig {
+    export interface Ingress {
+      enabled?: boolean;
+    }
+
+    export interface Observability {
+      enabled?: boolean;
+    }
+
+    /**
+     * SlurmStartupScripts carries optional Slurm lifecycle scripts (prolog/epilog,
+     * init, extra conf).
+     */
+    export interface SlurmStartupScripts {
+      /**
+       * Slurm controller epilog script.
+       */
+      controller_epilog?: string;
+
+      /**
+       * Slurm controller prolog script.
+       */
+      controller_prolog?: string;
+
+      /**
+       * Additional slurm.conf fragments.
+       */
+      extra_slurm_conf?: string;
+
+      /**
+       * Script run on Slurm login node init.
+       */
+      login_init_script?: string;
+
+      /**
+       * Script run on Slurm nodeset init.
+       */
+      nodeset_init_script?: string;
+
+      /**
+       * Slurm worker node epilog script.
+       */
+      worker_epilog?: string;
+
+      /**
+       * Slurm worker node prolog script.
+       */
+      worker_prolog?: string;
+    }
+  }
+
+  export interface OidcConfig {
+    /**
+     * OIDC client ID for authentication.
+     */
+    client_id: string;
+
+    /**
+     * JWT claim to use for user groups. For example, 'groups'
+     */
+    group_claim: string;
+
+    /**
+     * Prefix to add to the group claim to form the final group name. For example,
+     * 'oidc:'
+     */
+    group_prefix: string;
+
+    /**
+     * OIDC issuer URL for authentication. For example, https://accounts.google.com
+     */
+    issuer_url: string;
+
+    /**
+     * JWT claim to use as the username. For example, 'sub' or 'email'
+     */
+    username_claim: string;
+
+    /**
+     * Prefix to add to the username claim to form the final username. For example,
+     * 'oidc:'
+     */
+    username_prefix: string;
+
+    /**
+     * CA certificate in PEM format to validate the OIDC issuer's TLS certificate. This
+     * field is optional but recommended if the issuer uses a private CA or self-signed
+     * certificate.
+     */
+    ca_cert?: string;
   }
 }
 
@@ -265,14 +625,32 @@ export interface ClusterCreateParams {
   region: string;
 
   /**
+   * AcceptanceTestsParams groups all GPU acceptance test options when enabled is
+   * true.
+   */
+  acceptance_tests_params?: ClusterCreateParams.AcceptanceTestsParams;
+
+  /**
+   * Add-ons to enable on the cluster at creation time.
+   */
+  add_ons?: Array<ClusterCreateParams.AddOn>;
+
+  /**
+   * Whether to enable auto-scaling for the cluster. If true, the cluster will
+   * automatically scale the number of GPU worker nodes between num_gpus and
+   * auto_scale_max_gpus based on the workload.
+   */
+  auto_scale?: boolean;
+
+  /**
    * Maximum number of GPUs to which the cluster can be auto-scaled up. This field is
    * required if auto_scaled is true.
    */
   auto_scale_max_gpus?: number;
 
   /**
-   * Whether GPU cluster should be auto-scaled based on the workload. By default, it
-   * is not auto-scaled.
+   * @deprecated Whether GPU cluster should be auto-scaled based on the workload. By
+   * default, it is not auto-scaled.
    */
   auto_scaled?: boolean;
 
@@ -281,6 +659,8 @@ export interface ClusterCreateParams {
    * applicable if the cluster is created from a capacity pool.
    */
   capacity_pool_id?: string;
+
+  cluster_config?: ClusterCreateParams.ClusterConfig;
 
   /**
    * Type of cluster to create.
@@ -305,6 +685,34 @@ export interface ClusterCreateParams {
   install_traefik?: boolean;
 
   /**
+   * Number of GPUs to allocate from the capacity pool. Must be a multiple of 8 and
+   * not exceed num_gpus.
+   */
+  num_capacity_pool_gpus?: number;
+
+  /**
+   * Number of preemptible GPUs to request alongside on-demand capacity. Must be a
+   * multiple of 8. Preemptible nodes are cheaper but may be reclaimed when on-demand
+   * capacity is needed elsewhere; the system fulfills this asynchronously and
+   * surfaces the actual count in allocated_preemptible_gpus.
+   */
+  num_preemptible_gpus?: number;
+
+  /**
+   * Number of prepaid (PLG) reserved GPUs for this cluster. When omitted for
+   * RESERVED billing on create, the server defaults this to num_gpus.
+   */
+  num_reserved_gpus?: number;
+
+  oidc_config?: ClusterCreateParams.OidcConfig;
+
+  /**
+   * Project ID for the cluster. If not set, the project from the request context is
+   * used.
+   */
+  project_id?: string;
+
+  /**
    * Reservation end time of the cluster. This field is required for SCHEDULED
    * billing to specify the reservation end time for the cluster.
    */
@@ -313,7 +721,7 @@ export interface ClusterCreateParams {
   /**
    * Reservation start time of the cluster. This field is required for SCHEDULED
    * billing to specify the reservation start time for the cluster. If not provided,
-   * the cluster will be provisioned immediately.
+   * the cluster provisions immediately.
    */
   reservation_start_time?: string;
 
@@ -341,11 +749,205 @@ export interface ClusterCreateParams {
 
 export namespace ClusterCreateParams {
   /**
+   * AcceptanceTestsParams groups all GPU acceptance test options when enabled is
+   * true.
+   */
+  export interface AcceptanceTestsParams {
+    /**
+     * DCGM diagnostic depth. SHORT = readiness; MEDIUM = default; LONG = system
+     * validation; EXTENDED = memtest. An omitted value selects MEDIUM when enabled.
+     */
+    dcgm_diag_level?:
+      | 'DCGM_DIAG_LEVEL_SHORT'
+      | 'DCGM_DIAG_LEVEL_MEDIUM'
+      | 'DCGM_DIAG_LEVEL_LONG'
+      | 'DCGM_DIAG_LEVEL_EXTENDED';
+
+    /**
+     * Skip DCGM diagnostics acceptance test.
+     */
+    dcgm_diag_skipped?: boolean;
+
+    /**
+     * Whether to run GPU acceptance tests during cluster bring-up.
+     */
+    enabled?: boolean;
+
+    /**
+     * GPU burn duration in seconds; 0 means use the default when enabled.
+     */
+    gpu_burn_duration?: number;
+
+    /**
+     * Skip GPU burn acceptance test.
+     */
+    gpu_burn_skipped?: boolean;
+
+    /**
+     * Skip NCCL multi-node acceptance test.
+     */
+    nccl_multi_node_skipped?: boolean;
+
+    /**
+     * Skip NCCL single-node acceptance test.
+     */
+    nccl_single_node_skipped?: boolean;
+  }
+
+  export interface AddOn {
+    /**
+     * Type of add-on. Valid values: 'dashboard', 'ingress'.
+     */
+    add_on_type: string;
+
+    /**
+     * Human-readable name for this add-on instance.
+     */
+    name: string;
+
+    config?: AddOn.Config;
+  }
+
+  export namespace AddOn {
+    export interface Config {
+      dashboard?: Config.Dashboard;
+
+      ingress?: Config.Ingress;
+    }
+
+    export namespace Config {
+      export interface Dashboard {
+        enabled?: boolean;
+      }
+
+      export interface Ingress {
+        enabled?: boolean;
+      }
+    }
+  }
+
+  export interface ClusterConfig {
+    load_balancer: 'NONE' | 'TRAEFIK' | 'NGINX' | 'ISTIO';
+
+    /**
+     * NVIDIA GPU Operator chart/version for the tenant cluster (e.g. v24.6.2). When
+     * omitted, a service default is applied.
+     */
+    gpu_operator_version?: string;
+
+    ingress?: ClusterConfig.Ingress;
+
+    jumphost_enabled?: boolean;
+
+    kubernetes_dashboard_enabled?: boolean;
+
+    observability?: ClusterConfig.Observability;
+
+    /**
+     * SlurmStartupScripts carries optional Slurm lifecycle scripts (prolog/epilog,
+     * init, extra conf).
+     */
+    slurm_startup_scripts?: ClusterConfig.SlurmStartupScripts;
+  }
+
+  export namespace ClusterConfig {
+    export interface Ingress {
+      enabled?: boolean;
+    }
+
+    export interface Observability {
+      enabled?: boolean;
+    }
+
+    /**
+     * SlurmStartupScripts carries optional Slurm lifecycle scripts (prolog/epilog,
+     * init, extra conf).
+     */
+    export interface SlurmStartupScripts {
+      /**
+       * Slurm controller epilog script.
+       */
+      controller_epilog?: string;
+
+      /**
+       * Slurm controller prolog script.
+       */
+      controller_prolog?: string;
+
+      /**
+       * Additional slurm.conf fragments.
+       */
+      extra_slurm_conf?: string;
+
+      /**
+       * Script run on Slurm login node init.
+       */
+      login_init_script?: string;
+
+      /**
+       * Script run on Slurm nodeset init.
+       */
+      nodeset_init_script?: string;
+
+      /**
+       * Slurm worker node epilog script.
+       */
+      worker_epilog?: string;
+
+      /**
+       * Slurm worker node prolog script.
+       */
+      worker_prolog?: string;
+    }
+  }
+
+  export interface OidcConfig {
+    /**
+     * OIDC client ID for authentication.
+     */
+    client_id: string;
+
+    /**
+     * JWT claim to use for user groups. For example, 'groups'
+     */
+    group_claim: string;
+
+    /**
+     * Prefix to add to the group claim to form the final group name. For example,
+     * 'oidc:'
+     */
+    group_prefix: string;
+
+    /**
+     * OIDC issuer URL for authentication. For example, https://accounts.google.com
+     */
+    issuer_url: string;
+
+    /**
+     * JWT claim to use as the username. For example, 'sub' or 'email'
+     */
+    username_claim: string;
+
+    /**
+     * Prefix to add to the username claim to form the final username. For example,
+     * 'oidc:'
+     */
+    username_prefix: string;
+
+    /**
+     * CA certificate in PEM format to validate the OIDC issuer's TLS certificate. This
+     * field is optional but recommended if the issuer uses a private CA or self-signed
+     * certificate.
+     */
+    ca_cert?: string;
+  }
+
+  /**
    * Inline configuration to create a shared volume with the cluster creation.
    */
   export interface SharedVolume {
     /**
-     * Region name. Usable regions can be found from `client.clusters.list_regions()`
+     * Region name. Usable regions can be found from `clusters.list_regions()`
      */
     region: string;
 
@@ -355,23 +957,49 @@ export namespace ClusterCreateParams {
     size_tib: number;
 
     /**
-     * Customizable name of the volume to create.
+     * User provided name of the volume.
      */
     volume_name: string;
+
+    /**
+     * When true, the shared volume is not deleted when the cluster is decommissioned.
+     */
+    is_lifecycle_independent?: boolean;
   }
 }
 
 export interface ClusterUpdateParams {
+  /**
+   * Add-ons to update on the cluster. Each entry identifies an existing add-on by
+   * name and provides the new external config to merge.
+   */
+  add_ons?: Array<ClusterUpdateParams.AddOn>;
+
+  cluster_config?: ClusterUpdateParams.ClusterConfig;
+
   /**
    * Type of cluster to update.
    */
   cluster_type?: 'KUBERNETES' | 'SLURM';
 
   /**
-   * Number of GPUs to allocate in the cluster. This must be multiple of 8. For
-   * example, 8, 16 or 24
+   * Target GPU count for the cluster. When omitted, the server keeps the current GPU
+   * count from cluster metadata (use for config-only or decommission-time-only
+   * updates).
    */
   num_gpus?: number;
+
+  /**
+   * Updated desired number of preemptible GPUs for the cluster. When omitted, the
+   * current value is preserved. Must be a multiple of 8.
+   */
+  num_preemptible_gpus?: number;
+
+  /**
+   * Number of reserved GPUs to update to. This field is only applicable for clusters
+   * with RESERVED billing type.
+   */
+  num_reserved_gpus?: number;
 
   /**
    * Timestamp at which the cluster should be decommissioned. Only accepted for
@@ -380,6 +1008,120 @@ export interface ClusterUpdateParams {
   reservation_end_time?: string;
 }
 
+export namespace ClusterUpdateParams {
+  export interface AddOn {
+    /**
+     * Name of the add-on to update. Must match an existing add-on on the cluster.
+     */
+    name: string;
+
+    config?: AddOn.Config;
+  }
+
+  export namespace AddOn {
+    export interface Config {
+      dashboard?: Config.Dashboard;
+
+      ingress?: Config.Ingress;
+    }
+
+    export namespace Config {
+      export interface Dashboard {
+        enabled?: boolean;
+      }
+
+      export interface Ingress {
+        enabled?: boolean;
+      }
+    }
+  }
+
+  export interface ClusterConfig {
+    load_balancer: 'NONE' | 'TRAEFIK' | 'NGINX' | 'ISTIO';
+
+    /**
+     * NVIDIA GPU Operator chart/version for the tenant cluster (e.g. v24.6.2). When
+     * omitted, a service default is applied.
+     */
+    gpu_operator_version?: string;
+
+    ingress?: ClusterConfig.Ingress;
+
+    jumphost_enabled?: boolean;
+
+    kubernetes_dashboard_enabled?: boolean;
+
+    observability?: ClusterConfig.Observability;
+
+    /**
+     * SlurmStartupScripts carries optional Slurm lifecycle scripts (prolog/epilog,
+     * init, extra conf).
+     */
+    slurm_startup_scripts?: ClusterConfig.SlurmStartupScripts;
+  }
+
+  export namespace ClusterConfig {
+    export interface Ingress {
+      enabled?: boolean;
+    }
+
+    export interface Observability {
+      enabled?: boolean;
+    }
+
+    /**
+     * SlurmStartupScripts carries optional Slurm lifecycle scripts (prolog/epilog,
+     * init, extra conf).
+     */
+    export interface SlurmStartupScripts {
+      /**
+       * Slurm controller epilog script.
+       */
+      controller_epilog?: string;
+
+      /**
+       * Slurm controller prolog script.
+       */
+      controller_prolog?: string;
+
+      /**
+       * Additional slurm.conf fragments.
+       */
+      extra_slurm_conf?: string;
+
+      /**
+       * Script run on Slurm login node init.
+       */
+      login_init_script?: string;
+
+      /**
+       * Script run on Slurm nodeset init.
+       */
+      nodeset_init_script?: string;
+
+      /**
+       * Slurm worker node epilog script.
+       */
+      worker_epilog?: string;
+
+      /**
+       * Slurm worker node prolog script.
+       */
+      worker_prolog?: string;
+    }
+  }
+}
+
+export interface ClusterListParams {
+  /**
+   * Optional UMS project ID to filter clusters by. When set, only clusters belonging
+   * to this project are returned. The caller must be a member of the project;
+   * otherwise the result set will be empty.
+   */
+  project_id?: string;
+}
+
+Clusters.Remediations = Remediations;
 Clusters.Storage = Storage;
 
 export declare namespace Clusters {
@@ -390,6 +1132,19 @@ export declare namespace Clusters {
     type ClusterListRegionsResponse as ClusterListRegionsResponse,
     type ClusterCreateParams as ClusterCreateParams,
     type ClusterUpdateParams as ClusterUpdateParams,
+    type ClusterListParams as ClusterListParams,
+  };
+
+  export {
+    Remediations as Remediations,
+    type Remediation as Remediation,
+    type RemediationListResponse as RemediationListResponse,
+    type RemediationCreateParams as RemediationCreateParams,
+    type RemediationRetrieveParams as RemediationRetrieveParams,
+    type RemediationListParams as RemediationListParams,
+    type RemediationApproveParams as RemediationApproveParams,
+    type RemediationCancelParams as RemediationCancelParams,
+    type RemediationRejectParams as RemediationRejectParams,
   };
 
   export {
@@ -399,5 +1154,6 @@ export declare namespace Clusters {
     type StorageDeleteResponse as StorageDeleteResponse,
     type StorageCreateParams as StorageCreateParams,
     type StorageUpdateParams as StorageUpdateParams,
+    type StorageListParams as StorageListParams,
   };
 }
