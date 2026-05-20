@@ -68,11 +68,12 @@ describe('resource remediations', () => {
   test('list: required and optional params', async () => {
     const response = await client.beta.clusters.remediations.list('instance_id', {
       cluster_id: 'cluster_id',
-      mode: 'REMEDIATION_MODE_VM_ONLY',
+      mode: ['REMEDIATION_MODE_VM_ONLY'],
       order_by: 'order_by',
       page_size: 0,
       page_token: 'page_token',
       state: ['PENDING_APPROVAL'],
+      trigger: ['REMEDIATION_TRIGGER_MANUAL'],
     });
   });
 
