@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.41.1 (2026-05-22)
+
+Full Changelog: [v0.41.0...v0.41.1](https://github.com/togethercomputer/together-typescript/compare/v0.41.0...v0.41.1)
+
+### Documentation
+
+* **api:** update file parameter docs in audio transcriptions/translations ([89955d1](https://github.com/togethercomputer/together-typescript/commit/89955d175b16b4c0291f5ba6631f1db979171c68))
+
 ## 0.41.0 (2026-05-20)
 
 Full Changelog: [v0.40.0...v0.41.0](https://github.com/togethercomputer/together-typescript/compare/v0.40.0...v0.41.0)
