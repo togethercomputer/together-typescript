@@ -175,8 +175,10 @@ export namespace TranscriptionCreateResponse {
 
 export interface TranscriptionCreateParams {
   /**
-   * Audio file upload or public HTTP/HTTPS URL. Supported formats .wav, .mp3, .m4a,
-   * .webm, .flac, .ogg, .opus, .aac.
+   * Audio file upload or public HTTP/HTTPS URL. Supported formats: .wav, .mp3, .m4a,
+   * .webm, .flac, .ogg, .opus, .aac. Maximum duration 4 hours; longer audio is
+   * rejected with `audio_too_long`. Binary uploads are additionally capped at 500 MB
+   * (HTTP 413); URL-fetched audio is capped at 1 GB.
    */
   file: Uploadable | string;
 
