@@ -11,7 +11,7 @@ jobs:
   promote:
     runs-on: ubuntu-latest
     env:
-      PRODUCTION_REPO: my-org/my-api-python
+      PRODUCTION_REPO: togethercomputer/together-typescript
       GH_TOKEN: ${{ secrets.PRODUCTION_REPO_TOKEN }}
     steps:
       - name: Check out staging
