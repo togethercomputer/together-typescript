@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.41.2 (2026-05-26)
+
+Full Changelog: [v0.41.1...v0.41.2](https://github.com/togethercomputer/together-typescript/compare/v0.41.1...v0.41.2)
+
 ## 0.41.1 (2026-05-22)
 
 Full Changelog: [v0.41.0...v0.41.1](https://github.com/togethercomputer/together-typescript/compare/v0.41.0...v0.41.1)
