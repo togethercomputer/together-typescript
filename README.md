@@ -77,35 +77,6 @@ const chatCompletion: Together.Chat.ChatCompletion = await client.chat.completio
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
 
-## File uploads
-
-Request parameters that correspond to file uploads can be passed in many different forms:
-
-- `File` (or an object with the same structure)
-- a `fetch` `Response` (or an object with the same structure)
-- an `fs.ReadStream`
-- the return value of our `toFile` helper
-
-```ts
-import fs from 'fs';
-import Together, { toFile } from 'together-ai';
-
-const client = new Together();
-
-// If you have access to Node `fs` we recommend using `fs.createReadStream()`:
-await client.audio.transcriptions.create({ file: fs.createReadStream('/path/to/file') });
-
-// Or if you have the web `File` API you can pass a `File` instance:
-await client.audio.transcriptions.create({ file: new File(['my bytes'], 'file') });
-
-// You can also pass a `fetch` `Response`:
-await client.audio.transcriptions.create({ file: await fetch('https://somesite/file') });
-
-// Finally, if none of the above are convenient, you can use our `toFile` helper:
-await client.audio.transcriptions.create({ file: await toFile(Buffer.from('my bytes'), 'file') });
-await client.audio.transcriptions.create({ file: await toFile(new Uint8Array([0, 1, 2]), 'file') });
-```
-
 ## Handling errors
 
 When the library is unable to connect to the API,
@@ -147,7 +118,7 @@ Error codes are as follows:
 
 Certain errors will be automatically retried 2 times by default, with a short exponential backoff.
 Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,
-429 Rate Limit, and >=500 Internal errors will all be retried by default.
+429 Rate Limit, and >=501 Internal errors will all be retried by default.
 
 You can use the `maxRetries` option to configure or disable this:
 
