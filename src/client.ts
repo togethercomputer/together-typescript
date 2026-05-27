@@ -611,9 +611,8 @@ export class Together {
     // Retry on rate limits.
     if (response.status === 429) return true;
 
-    // Retry internal errors
-    // Except 500. These should be considered actual errors that are unlikely to be fixed by a retry.
-    if (response.status >= 501) return true;
+    // Retry internal errors.
+    if (response.status >= 500) return true;
 
     return false;
   }

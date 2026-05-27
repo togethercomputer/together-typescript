@@ -2,14 +2,6 @@
 
 export { Chat } from './chat';
 export {
-  ChatCompletionAssistantMessageParam,
-  ChatCompletionFunctionMessageParam,
-  ChatCompletionMessage,
-  ChatCompletionMessageParam,
-  ChatCompletionSystemMessageParam,
-  ChatCompletionTool,
-  ChatCompletionToolMessageParam,
-  ChatCompletionUserMessageParam,
   Completions,
   type ChatCompletion,
   type ChatCompletionChunk,
