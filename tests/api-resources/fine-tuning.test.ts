@@ -44,7 +44,7 @@ describe('resource fineTuning', () => {
       packing: true,
       random_seed: 0,
       suffix: 'suffix',
-      // train_on_inputs: 'auto',
+      train_on_inputs: 'auto',
       training_method: { method: 'sft', train_on_inputs: 'auto' },
       training_type: { type: 'Full' },
       validation_file: 'validation_file',

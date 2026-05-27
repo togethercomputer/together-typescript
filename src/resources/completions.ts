@@ -151,17 +151,17 @@ export interface LogProbs {
   /**
    * List of token IDs corresponding to the logprobs
    */
-  token_ids?: Array<number | null>;
+  token_ids?: Array<number>;
 
   /**
    * List of token log probabilities
    */
-  token_logprobs?: Array<number | null>;
+  token_logprobs?: Array<number>;
 
   /**
    * List of token strings
    */
-  tokens?: Array<string | null>;
+  tokens?: Array<string>;
 
   /**
    * Top log probabilities for the tokens.
