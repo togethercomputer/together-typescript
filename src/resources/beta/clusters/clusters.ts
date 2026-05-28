@@ -673,12 +673,6 @@ export interface ClusterCreateParams {
   duration_days?: number;
 
   /**
-   * Whether automated GPU node failover should be enabled for this cluster. By
-   * default, it is disabled.
-   */
-  gpu_node_failover_enabled?: boolean;
-
-  /**
    * Whether to install Traefik ingress controller in the cluster. This field is only
    * applicable for Kubernetes clusters and is false by default.
    */
