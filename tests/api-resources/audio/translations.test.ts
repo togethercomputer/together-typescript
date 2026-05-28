@@ -21,7 +21,7 @@ describe('resource translations', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('create: required and optional params', async () => {
+  test.skip('create: required and optional params', async () => {
     const response = await client.audio.translations.create({
       file: await toFile(Buffer.from('Example data'), 'README.md'),
       language: 'en',

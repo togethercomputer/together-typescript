@@ -16,7 +16,14 @@ export class Images extends APIResource {
    * });
    * ```
    */
-  generate(body: ImageGenerateParams, options?: RequestOptions): APIPromise<ImageFile> {
+  generate<Body extends ImageGenerateParams>(
+    body: Body,
+    options?: RequestOptions,
+  ): APIPromise<
+    Omit<ImageFile, 'data'> & {
+      data: Body['response_format'] extends 'base64' ? ImageDataB64[] : ImageDataURL[];
+    }
+  > {
     return this._client.post('/images/generations', { body, ...options });
   }
 }
