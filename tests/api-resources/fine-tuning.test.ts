@@ -38,7 +38,7 @@ describe('resource fineTuning', () => {
       max_grad_norm: 0,
       max_seq_length: 0,
       multimodal_params: { train_vision: true },
-      n_checkpoints: 0,
+      n_checkpoints: 10,
       n_epochs: 0,
       n_evals: 0,
       packing: true,
