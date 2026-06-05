@@ -116,7 +116,7 @@ export interface FileResponse {
   object: 'file';
 
   /**
-   * Whether the file has been parsed and analyzed for correctness for fine-tuning.
+   * @deprecated Deprecated. Whether file has been fully uploaded.
    */
   Processed: boolean;
 
@@ -124,6 +124,90 @@ export interface FileResponse {
    * The purpose of the file as it was uploaded.
    */
   purpose: FilePurpose;
+
+  /**
+   * Lifecycle state of the file validation pipeline. Files for non-`fine-tune`
+   * purposes skip validation.
+   */
+  processing_status?: 'PENDING' | 'QUEUED' | 'RUNNING' | 'COMPLETED' | 'FAILED' | 'INVALID_FORMAT';
+
+  /**
+   * Report produced by the file validation pipeline. Present once validation has
+   * run; absent on files that bypassed validation (non-`fine-tune` purposes) or have
+   * not yet been validated.
+   */
+  validation_report?: FileResponse.ValidationReport;
+}
+
+export namespace FileResponse {
+  /**
+   * Report produced by the file validation pipeline. Present once validation has
+   * run; absent on files that bypassed validation (non-`fine-tune` purposes) or have
+   * not yet been validated.
+   */
+  export interface ValidationReport {
+    /**
+     * Whether the file passed validation.
+     */
+    valid: boolean;
+
+    /**
+     * Detected dataset format (e.g. `CONVERSATION`, `INSTRUCTION`).
+     */
+    dataset_format?: string;
+
+    /**
+     * Whether the dataset carries per-message weights (only possible for
+     * `CONVERSATION` format).
+     */
+    dataset_has_message_weights?: boolean;
+
+    /**
+     * Whether the dataset contains parallel tool-use messages.
+     */
+    dataset_has_parallel_tool_calls?: boolean;
+
+    /**
+     * Whether the dataset contains reasoning content.
+     */
+    dataset_has_reasoning?: boolean;
+
+    /**
+     * Whether the dataset carries per-sample weights.
+     */
+    dataset_has_sample_weights?: boolean;
+
+    /**
+     * Whether the dataset contains tool-use messages.
+     */
+    dataset_has_tools?: boolean;
+
+    /**
+     * Whether the dataset contains multimodal content.
+     */
+    dataset_is_multimodal?: boolean;
+
+    /**
+     * Human-readable validation error message. Only present when `error_type` is set
+     * (i.e. user-correctable failures).
+     */
+    error?: string;
+
+    /**
+     * Category of validation failure.
+     */
+    error_type?: 'INVALID_FORMAT';
+
+    /**
+     * ID of the file this report describes.
+     */
+    file_id?: string;
+
+    /**
+     * Number of lines (records) in the dataset.
+     */
+    nlines?: number;
+  }
 }
 
 /**
