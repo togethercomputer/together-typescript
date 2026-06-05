@@ -209,19 +209,59 @@ export interface Cluster {
 
   cluster_config?: Cluster.ClusterConfig;
 
+  /**
+   * Whether the control plane is currently ready.
+   */
+  control_plane_ready?: boolean;
+
   created_at?: string;
 
   duration_hours?: number;
 
+  /**
+   * Timestamp when the cluster first reached the Ready phase.
+   */
+  first_ready_at?: string;
+
   install_traefik?: boolean;
 
+  /**
+   * Whether the cluster is managed inside a substrate environment.
+   */
+  is_in_substrate?: boolean;
+
+  /**
+   * ID of the machine cluster backing this GPU cluster.
+   */
+  machine_cluster_id?: string;
+
+  /**
+   * Internal NVIDIA version ID for this cluster's driver and CUDA combination.
+   */
+  nvidia_driver_version_id?: string;
+
   oidc_config?: Cluster.OidcConfig;
+
+  /**
+   * Data-volume image name for GPU worker nodes.
+   */
+  os_image?: string;
 
   reservation_end_time?: string;
 
   reservation_start_time?: string;
 
   slurm_shm_size_gib?: number;
+
+  /**
+   * UMS organization ID associated with this cluster.
+   */
+  ums_org_id?: string;
+
+  /**
+   * UMS project ID associated with this cluster.
+   */
+  ums_project_id?: string;
 }
 
 export namespace Cluster {
@@ -285,6 +325,11 @@ export namespace Cluster {
     phase_transitions: Array<ControlPlaneNode.PhaseTransition>;
 
     status: string;
+
+    /**
+     * Public IPv4 address of the control plane node.
+     */
+    public_ipv4?: string;
   }
 
   export namespace ControlPlaneNode {
@@ -329,6 +374,26 @@ export namespace Cluster {
 
     status: string;
 
+    /**
+     * Whether auto-remediation is enabled for this node's instance.
+     */
+    auto_remediation_enabled?: boolean;
+
+    /**
+     * Ephemeral storage size, such as 1Ti.
+     */
+    ephemeral_storage?: string;
+
+    /**
+     * Number of InfiniBand HCAs.
+     */
+    ib_hca_count?: number;
+
+    /**
+     * InfiniBand HCA type.
+     */
+    ib_hca_type?: string;
+
     instance_id?: string;
 
     /**
@@ -337,6 +402,26 @@ export namespace Cluster {
      * retries).
      */
     latest_remediation?: RemediationsAPI.Remediation;
+
+    /**
+     * Whether this node is marked for deletion by the operator.
+     */
+    marked_for_deletion?: boolean;
+
+    /**
+     * Number of NVSwitches.
+     */
+    nvswitch_count?: number;
+
+    /**
+     * NVSwitch type.
+     */
+    nvswitch_type?: string;
+
+    /**
+     * Public IPv4 address of the GPU worker node.
+     */
+    public_ipv4?: string;
 
     slurm_worker_hostname?: string;
   }
