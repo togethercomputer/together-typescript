@@ -1239,31 +1239,54 @@ export namespace FineTuningCancelResponse {
   }
 }
 
-export interface FineTuningEstimatePriceResponse {
-  /**
-   * Whether you are allowed to proceed with the fine-tuning job.
-   */
-  allowed_to_proceed?: boolean;
+export type FineTuningEstimatePriceResponse =
+  | FineTuningEstimatePriceResponse.AvailableEstimate
+  | FineTuningEstimatePriceResponse.UnavailableEstimate;
 
-  /**
-   * The estimated number of tokens for evaluation
-   */
-  estimated_eval_token_count?: number;
+export namespace FineTuningEstimatePriceResponse {
+  export interface AvailableEstimate {
+    /**
+     * Whether price estimation is available for the requested fine-tune job.
+     */
+    estimation_available: true;
 
-  /**
-   * The price of the fine-tuning job
-   */
-  estimated_total_price?: number;
+    /**
+     * Whether you are allowed to proceed with the fine-tuning job.
+     */
+    allowed_to_proceed?: boolean;
 
-  /**
-   * The estimated number of tokens to be trained
-   */
-  estimated_train_token_count?: number;
+    /**
+     * The estimated number of tokens for evaluation
+     */
+    estimated_eval_token_count?: number;
 
-  /**
-   * Your credit limit in dollars.
-   */
-  user_limit?: number;
+    /**
+     * The price of the fine-tuning job
+     */
+    estimated_total_price?: number;
+
+    /**
+     * The estimated number of tokens to be trained
+     */
+    estimated_train_token_count?: number;
+
+    /**
+     * Your credit limit in dollars.
+     */
+    user_limit?: number;
+  }
+
+  export interface UnavailableEstimate {
+    /**
+     * Whether price estimation is available for the requested fine-tune job.
+     */
+    estimation_available: false;
+
+    /**
+     * Reason price estimation is unavailable for the requested fine-tune job.
+     */
+    unavailable_reason: string;
+  }
 }
 
 export interface FineTuningListCheckpointsResponse {
