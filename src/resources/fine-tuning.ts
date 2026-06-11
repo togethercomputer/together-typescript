@@ -1411,7 +1411,8 @@ export interface FineTuningCreateParams {
   n_evals?: number;
 
   /**
-   * Whether to use sequence packing for training.
+   * Whether to use sequence packing for training. This flag has no effect if the
+   * training data is in Parquet format.
    */
   packing?: boolean;
 
