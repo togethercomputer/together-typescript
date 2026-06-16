@@ -14,7 +14,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Mint STLC app token (scoped to SDK staging repos)
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ secrets.STLC_WORKFLOW_APP_CLIENT_ID }}
+          private-key: ${{ secrets.STLC_WORKFLOW_APP_PRIVATE_KEY }}
+          owner: togethercomputer
+          repositories: together-typescript
+
+      - name: Configure auth for stlc to push code to the release branch
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git config --global user.name  "stlc-workflow-app[bot]"
+          git config --global user.email "287504455+stlc-workflow-app[bot]@users.noreply.github.com"
+          gh auth setup-git
+
       - uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4.4.1
         id: release
         with:
-          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
