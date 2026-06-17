@@ -22,7 +22,6 @@ on:
 permissions:
   contents: write # push the back-sync branch on staging
   pull-requests: write # open/merge the back-sync PR on staging
-  workflows: write
 
 concurrency:
   group: stlc-sync-from-production
@@ -51,18 +50,12 @@ jobs:
           owner: togethercomputer
           repositories: together-typescript
 
-      - name: Configure auth for github
+      - name: Fetch production main
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           git config --global user.name  "stlc-workflow-app[bot]"
           git config --global user.email "287504455+stlc-workflow-app[bot]@users.noreply.github.com"
-          gh auth setup-git
-
-      - name: Fetch production main
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: |
           git remote add production \
             "https://x-access-token:${GH_TOKEN}@github.com/${PRODUCTION_REPO}.git"
           git fetch production main
