@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PRODUCTION_REPO: togethercomputer/together-typescript
-      GH_TOKEN: ${{ secrets.PRODUCTION_REPO_TOKEN }}
     steps:
       - name: Check out staging
         uses: actions/checkout@v6
