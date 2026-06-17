@@ -1,12 +1,16 @@
 {
   "name": "together-ai",
-  "version": "0.41.1",
+  "version": "0.41.2",
   "description": "The official TypeScript library for the Together API",
   "author": "Together <dev-feedback@TogetherAI.com>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",
   "repository": "github:togethercomputer/together-typescript",
+  "homepage": "https://docs.together.ai/",
+  "bugs": {
+    "url": "https://github.com/togethercomputer/together-typescript/issues"
+  },
   "license": "Apache-2.0",
   "packageManager": "yarn@1.22.22",
   "files": [
