@@ -22,6 +22,7 @@ on:
 permissions:
   contents: write # push the back-sync branch on staging
   pull-requests: write # open/merge the back-sync PR on staging
+  workflows: write
 
 concurrency:
   group: stlc-sync-from-production
