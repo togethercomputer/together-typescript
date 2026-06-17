@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PRODUCTION_REPO: togethercomputer/together-typescript
-      GH_TOKEN: ${{ secrets.PRODUCTION_REPO_TOKEN }}
     steps:
       - name: Check out staging
         uses: actions/checkout@v6
@@ -20,7 +19,26 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Mint STLC app token (scoped to SDK staging repos)
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ secrets.STLC_WORKFLOW_APP_CLIENT_ID }}
+          private-key: ${{ secrets.STLC_WORKFLOW_APP_PRIVATE_KEY }}
+          owner: togethercomputer
+          repositories: together-typescript
+
+      - name: Configure auth for github
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git config --global user.name  "stlc-workflow-app[bot]"
+          git config --global user.email "287504455+stlc-workflow-app[bot]@users.noreply.github.com"
+          gh auth setup-git
+
       - name: Fetch production main
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           git remote add production \
             "https://x-access-token:${GH_TOKEN}@github.com/${PRODUCTION_REPO}.git"
@@ -40,11 +58,15 @@ jobs:
 
       - name: Push staging main to the release branch on production
         if: steps.diff.outputs.synced == 'false'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           git push production origin/main:refs/heads/stainless/release --force
 
       - name: Open or update the release PR on production
         if: steps.diff.outputs.synced == 'false'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           EXISTING_PR=$(gh pr list \
             --repo "${PRODUCTION_REPO}" \
