@@ -78,7 +78,6 @@ describe('resource clusters', () => {
       },
       cluster_type: 'KUBERNETES',
       duration_days: 0,
-      gpu_node_failover_enabled: true,
       install_traefik: true,
       num_capacity_pool_gpus: 0,
       num_preemptible_gpus: 0,
