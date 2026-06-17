@@ -326,35 +326,21 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/endpoints/endpoints.ts">Autoscaling</a></code>
-- <code><a href="./src/resources/endpoints/endpoints.ts">DedicatedEndpoint</a></code>
-- <code><a href="./src/resources/endpoints/endpoints.ts">EndpointListResponse</a></code>
-- <code><a href="./src/resources/endpoints/endpoints.ts">EndpointListAvzonesResponse</a></code>
-- <code><a href="./src/resources/endpoints/endpoints.ts">EndpointListHardwareResponse</a></code>
+- <code><a href="./src/resources/endpoints.ts">Autoscaling</a></code>
+- <code><a href="./src/resources/endpoints.ts">DedicatedEndpoint</a></code>
+- <code><a href="./src/resources/endpoints.ts">EndpointListResponse</a></code>
+- <code><a href="./src/resources/endpoints.ts">EndpointListAvzonesResponse</a></code>
+- <code><a href="./src/resources/endpoints.ts">EndpointListHardwareResponse</a></code>
 
 Methods:
 
-- <code title="post /endpoints">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">create</a>({ ...params }) -> DedicatedEndpoint</code>
-- <code title="get /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">retrieve</a>(endpointID) -> DedicatedEndpoint</code>
-- <code title="patch /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">update</a>(endpointID, { ...params }) -> DedicatedEndpoint</code>
-- <code title="get /endpoints">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">list</a>({ ...params }) -> EndpointListResponse</code>
-- <code title="delete /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">delete</a>(endpointID) -> void</code>
-- <code title="get /clusters/availability-zones">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">listAvzones</a>() -> EndpointListAvzonesResponse</code>
-- <code title="get /hardware">client.endpoints.<a href="./src/resources/endpoints/endpoints.ts">listHardware</a>({ ...params }) -> EndpointListHardwareResponse</code>
-
-## Adapters
-
-Types:
-
-- <code><a href="./src/resources/endpoints/adapters.ts">AdapterListResponse</a></code>
-- <code><a href="./src/resources/endpoints/adapters.ts">AdapterAddResponse</a></code>
-- <code><a href="./src/resources/endpoints/adapters.ts">AdapterRemoveResponse</a></code>
-
-Methods:
-
-- <code title="get /endpoints/{endpointId}/adapters">client.endpoints.adapters.<a href="./src/resources/endpoints/adapters.ts">list</a>(endpointID) -> AdapterListResponse</code>
-- <code title="post /endpoints/{endpointId}/adapters">client.endpoints.adapters.<a href="./src/resources/endpoints/adapters.ts">add</a>(endpointID, { ...params }) -> AdapterAddResponse</code>
-- <code title="delete /endpoints/{endpointId}/adapters">client.endpoints.adapters.<a href="./src/resources/endpoints/adapters.ts">remove</a>(endpointID, { ...params }) -> AdapterRemoveResponse</code>
+- <code title="post /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">create</a>({ ...params }) -> DedicatedEndpoint</code>
+- <code title="get /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">retrieve</a>(endpointID) -> DedicatedEndpoint</code>
+- <code title="patch /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">update</a>(endpointID, { ...params }) -> DedicatedEndpoint</code>
+- <code title="get /endpoints">client.endpoints.<a href="./src/resources/endpoints.ts">list</a>({ ...params }) -> EndpointListResponse</code>
+- <code title="delete /endpoints/{endpointId}">client.endpoints.<a href="./src/resources/endpoints.ts">delete</a>(endpointID) -> void</code>
+- <code title="get /clusters/availability-zones">client.endpoints.<a href="./src/resources/endpoints.ts">listAvzones</a>() -> EndpointListAvzonesResponse</code>
+- <code title="get /hardware">client.endpoints.<a href="./src/resources/endpoints.ts">listHardware</a>({ ...params }) -> EndpointListHardwareResponse</code>
 
 # Rerank
 

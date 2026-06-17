@@ -1,25 +1,5 @@
 # Changelog
 
-## [0.41.2](https://github.com/togethercomputer/together-typescript/compare/v0.41.1...v0.41.2) (2026-06-17)
-
-
-### Chores
-
-* Add staging CI syncing ([#3](https://github.com/togethercomputer/together-typescript/issues/3)) ([aa0f6cd](https://github.com/togethercomputer/together-typescript/commit/aa0f6cd7ad27e1db0b2e9a47abd95b882a9a437d))
-* Add stlc promote action ([506f26f](https://github.com/togethercomputer/together-typescript/commit/506f26ff42aa8b782a569bf38ee7d6ffc08fe6ec))
-* Add stlc promote action ([a406a99](https://github.com/togethercomputer/together-typescript/commit/a406a99dae3ab8454eb06f9a483c6fff041bb7fa))
-* Bring back script changes that were lost by code seals ([ad85198](https://github.com/togethercomputer/together-typescript/commit/ad851981a3f4d2b7060f594dc009297cba7c2ca0))
-* fix production repo reference ([3c76ebc](https://github.com/togethercomputer/together-typescript/commit/3c76ebcbbb9788b08ad5e08d4a204441e59aec94))
-* fix production repo reference ([7e51b1a](https://github.com/togethercomputer/together-typescript/commit/7e51b1a1f77d9b53898f457980d279a48185936a))
-* Improve summary docs for remediations ([e72cc01](https://github.com/togethercomputer/together-typescript/commit/e72cc0118b91e74bb1306968fd35f26f7fe0ba1f))
-* integrate production changes to staging repo ([9552ea1](https://github.com/togethercomputer/together-typescript/commit/9552ea155a2c8261ee70172b29b10cef097acfe9))
-* rebuild sync code ([2ce12cb](https://github.com/togethercomputer/together-typescript/commit/2ce12cba1140b2ca9a2af0690fca6a5632bcc7f3))
-* simplify release-please script ([1214db5](https://github.com/togethercomputer/together-typescript/commit/1214db509ce3305ee4f029749b546a0c22830cad))
-* stlc integrate ([76d23e0](https://github.com/togethercomputer/together-typescript/commit/76d23e00bc150e867da20e3cc449eb45a7d42807))
-* sync custom code ([3003122](https://github.com/togethercomputer/together-typescript/commit/300312268e9cfea123d01bc8ae8befd57a2c76a8))
-* sync SDKs via stlc ([ae1bab7](https://github.com/togethercomputer/together-typescript/commit/ae1bab724708692cb2cd86ed960b5a6469f36d20))
-* update scripts to use github app ([ca3c884](https://github.com/togethercomputer/together-typescript/commit/ca3c884604374be2b505afa5837a3c70ea67328b))
-
 ## 0.41.1 (2026-05-22)
 
 Full Changelog: [v0.41.0...v0.41.1](https://github.com/togethercomputer/together-typescript/compare/v0.41.0...v0.41.1)

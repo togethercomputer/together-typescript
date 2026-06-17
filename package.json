@@ -7,10 +7,6 @@
   "main": "dist/index.js",
   "type": "commonjs",
   "repository": "github:togethercomputer/together-typescript",
-  "homepage": "https://docs.together.ai/",
-  "bugs": {
-    "url": "https://github.com/togethercomputer/together-typescript/issues"
-  },
   "license": "Apache-2.0",
   "packageManager": "yarn@1.22.22",
   "files": [

@@ -227,7 +227,7 @@ export namespace EvaluationJob {
     result_file_id?: string;
 
     /**
-     * Number of samples that resulted in a tie score
+     * Number of samples that resulted in a tie
      */
     Ties?: number;
   }
@@ -387,7 +387,7 @@ export namespace EvalStatusResponse {
     result_file_id?: string;
 
     /**
-     * Number of samples that resulted in a tie score
+     * Number of samples that resulted in a tie
      */
     Ties?: number;
   }

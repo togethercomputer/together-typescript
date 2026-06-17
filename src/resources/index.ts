@@ -38,7 +38,7 @@ export {
   type EndpointUpdateParams,
   type EndpointListParams,
   type EndpointListHardwareParams,
-} from './endpoints/endpoints';
+} from './endpoints';
 export {
   Evals,
   type EvaluationJob,
