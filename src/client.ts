@@ -37,18 +37,6 @@ import {
 } from './resources/completions';
 import { Embedding, EmbeddingCreateParams, Embeddings } from './resources/embeddings';
 import {
-  Autoscaling,
-  DedicatedEndpoint,
-  EndpointCreateParams,
-  EndpointListAvzonesResponse,
-  EndpointListHardwareParams,
-  EndpointListHardwareResponse,
-  EndpointListParams,
-  EndpointListResponse,
-  EndpointUpdateParams,
-  Endpoints,
-} from './resources/endpoints';
-import {
   EvalCreateParams,
   EvalCreateResponse,
   EvalListParams,
@@ -88,6 +76,18 @@ import {
   CodeInterpreterExecuteParams,
   ExecuteResponse,
 } from './resources/code-interpreter/code-interpreter';
+import {
+  Autoscaling,
+  DedicatedEndpoint,
+  EndpointCreateParams,
+  EndpointListAvzonesResponse,
+  EndpointListHardwareParams,
+  EndpointListHardwareResponse,
+  EndpointListParams,
+  EndpointListResponse,
+  EndpointUpdateParams,
+  Endpoints,
+} from './resources/endpoints/endpoints';
 import {
   ModelListParams,
   ModelListResponse,
