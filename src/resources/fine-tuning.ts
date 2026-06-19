@@ -193,6 +193,19 @@ export interface FinetuneEvent {
 
   wandb_url: string;
 
+  /**
+   * For early_stopped events, the best validation loss observed. Null if no
+   * improving evaluation was recorded.
+   */
+  early_stopping_best_metric_value?: number | null;
+
+  /**
+   * For early_stopped events, the selected best-checkpoint step when a finite best
+   * metric exists. If early_stopping_best_metric_value is null, this is the halt
+   * step.
+   */
+  early_stopping_best_step?: number | null;
+
   level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
 }
 
@@ -221,7 +234,8 @@ export type FinetuneEventType =
   | 'cancel_requested'
   | 'job_restarted'
   | 'refund'
-  | 'warning';
+  | 'warning'
+  | 'early_stopped';
 
 export interface FinetuneResponse {
   id: string;
@@ -240,6 +254,25 @@ export interface FinetuneResponse {
   batch_size?: number | 'max';
 
   created_at?: string;
+
+  /**
+   * Whether the early-stopping criterion triggered.
+   */
+  early_stopped?: boolean;
+
+  /**
+   * Best validation loss observed, corresponding to early_stopping_best_step. Null
+   * if no improving evaluation was recorded (for example, a non-finite first
+   * evaluation).
+   */
+  early_stopping_best_metric?: number | null;
+
+  /**
+   * Step associated with the selected early-stopping artifact. When
+   * early_stopping_best_metric is null, no finite best metric was recorded; this is
+   * the halt step, not a best-checkpoint step.
+   */
+  early_stopping_best_step?: number;
 
   epochs_completed?: number;
 
@@ -442,6 +475,24 @@ export interface FineTuningCreateResponse {
    * Batch size used for training
    */
   batch_size?: number;
+
+  /**
+   * Whether the early-stopping criterion triggered.
+   */
+  early_stopped?: boolean;
+
+  /**
+   * Best validation loss observed, corresponding to early_stopping_best_step. Null
+   * if no improving evaluation was recorded.
+   */
+  early_stopping_best_metric?: number | null;
+
+  /**
+   * Step associated with the selected early-stopping artifact. When
+   * early_stopping_best_metric is null, no finite best metric was recorded; this is
+   * the halt step, not a best-checkpoint step.
+   */
+  early_stopping_best_step?: number;
 
   /**
    * Events related to this fine-tune job
@@ -720,6 +771,24 @@ export namespace FineTuningListResponse {
      * Batch size used for training
      */
     batch_size?: number;
+
+    /**
+     * Whether the early-stopping criterion triggered.
+     */
+    early_stopped?: boolean;
+
+    /**
+     * Best validation loss observed, corresponding to early_stopping_best_step. Null
+     * if no improving evaluation was recorded.
+     */
+    early_stopping_best_metric?: number | null;
+
+    /**
+     * Step associated with the selected early-stopping artifact. When
+     * early_stopping_best_metric is null, no finite best metric was recorded; this is
+     * the halt step, not a best-checkpoint step.
+     */
+    early_stopping_best_step?: number;
 
     /**
      * Events related to this fine-tune job
@@ -1001,6 +1070,24 @@ export interface FineTuningCancelResponse {
    * Batch size used for training
    */
   batch_size?: number;
+
+  /**
+   * Whether the early-stopping criterion triggered.
+   */
+  early_stopped?: boolean;
+
+  /**
+   * Best validation loss observed, corresponding to early_stopping_best_step. Null
+   * if no improving evaluation was recorded.
+   */
+  early_stopping_best_metric?: number | null;
+
+  /**
+   * Step associated with the selected early-stopping artifact. When
+   * early_stopping_best_metric is null, no finite best metric was recorded; this is
+   * the halt step, not a best-checkpoint step.
+   */
+  early_stopping_best_step?: number;
 
   /**
    * Events related to this fine-tune job
@@ -1330,6 +1417,34 @@ export interface FineTuningCreateParams {
    * packing, so the effective batch size may be different than the value you set.
    */
   batch_size?: number | 'max';
+
+  /**
+   * Whether to stop training early when validation loss stops improving. Requires a
+   * validation_file, and n_evals must be at least early_stopping_patience +
+   * early_stopping_warmup_evals + 1 so a plateau can be detected.
+   */
+  early_stopping_enabled?: boolean;
+
+  /**
+   * Minimum decrease in validation loss for an evaluation to count as an
+   * improvement. Larger values treat small gains as non-improvements, causing
+   * training to stop sooner. Only applies when early_stopping_enabled is true.
+   */
+  early_stopping_min_delta?: number;
+
+  /**
+   * Number of consecutive evaluations with no improvement in validation loss to
+   * allow before stopping. Only applies when early_stopping_enabled is true.
+   */
+  early_stopping_patience?: number;
+
+  /**
+   * Number of initial evaluations excluded from the early-stopping decision. These
+   * still establish the baseline validation loss but do not count toward patience.
+   * Set to 0 to disable warmup; if omitted, defaults to 1. Only applies when
+   * early_stopping_enabled is true.
+   */
+  early_stopping_warmup_evals?: number | null;
 
   /**
    * The checkpoint identifier to continue training from a previous fine-tuning job.
