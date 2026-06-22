@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.41.3](https://github.com/togethercomputer/together-typescript/compare/v0.41.2...v0.41.3) (2026-06-22)
+
+
+### Chores
+
+* Add npm support metadata ([#223](https://github.com/togethercomputer/together-typescript/issues/223)) ([0076c63](https://github.com/togethercomputer/together-typescript/commit/0076c6333a873ba5f0ca8ac44d596d3acd3565d8))
+
 ## [0.41.2](https://github.com/togethercomputer/together-typescript/compare/v0.41.1...v0.41.2) (2026-06-17)
 
 
