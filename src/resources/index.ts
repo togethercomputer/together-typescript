@@ -92,3 +92,4 @@ export {
 } from './models/models';
 export { Rerank, type RerankCreateResponse, type RerankCreateParams } from './rerank';
 export { Videos, type VideoJob, type VideoCreateParams } from './videos';
+export { type WhoamiResponse } from './top-level';

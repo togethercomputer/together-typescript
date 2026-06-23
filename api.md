@@ -1,3 +1,13 @@
+# Together
+
+Types:
+
+- <code><a href="./src/resources/top-level.ts">WhoamiResponse</a></code>
+
+Methods:
+
+- <code title="get /whoami">client.<a href="./src/index.ts">whoami</a>() -> WhoamiResponse</code>
+
 # Beta
 
 ## Jig

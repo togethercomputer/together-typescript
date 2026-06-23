@@ -16,6 +16,8 @@ import { VERSION } from './version';
 import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
+import * as TopLevelAPI from './resources/top-level';
+import { WhoamiResponse } from './resources/top-level';
 import { APIPromise } from './core/api-promise';
 import {
   BatchCreateParams,
@@ -287,6 +289,18 @@ export class Together {
    */
   #baseURLOverridden(): boolean {
     return this.baseURL !== 'https://api.together.ai/v1';
+  }
+
+  /**
+   * Returns identity information about the authenticated API key. Useful for
+   * confirming which project and organization a key is scoped to, and for obtaining
+   * the project slug used to compose the `model` value
+   * (`<project_slug>/<endpoint_slug>`) in dedicated endpoint inference calls.
+   * Requires a Bearer API key in the `Authorization` header. Cookie, session, and
+   * SLS JWT credentials are not accepted.
+   */
+  whoami(options?: RequestOptions): APIPromise<TopLevelAPI.WhoamiResponse> {
+    return this.get('/whoami', options);
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -841,6 +855,8 @@ Together.Evals = Evals;
 
 export declare namespace Together {
   export type RequestOptions = Opts.RequestOptions;
+
+  export { type WhoamiResponse as WhoamiResponse };
 
   export { Beta as Beta };
 
