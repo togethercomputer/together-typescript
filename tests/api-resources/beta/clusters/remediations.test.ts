@@ -96,6 +96,7 @@ describe('resource remediations', () => {
       cluster_id: 'cluster_id',
       instance_id: 'instance_id',
       comment: 'comment',
+      mode: 'REMEDIATION_MODE_VM_ONLY',
     });
   });
 
