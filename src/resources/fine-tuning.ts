@@ -1381,14 +1381,36 @@ export interface FineTuningListCheckpointsResponse {
 }
 
 export namespace FineTuningListCheckpointsResponse {
+  /**
+   * A checkpoint available for a fine-tuning job.
+   */
   export interface Data {
+    /**
+     * Display label for the checkpoint, including the final or intermediate checkpoint
+     * step.
+     */
     checkpoint_type: string;
 
+    /**
+     * Timestamp when the checkpoint was created.
+     */
     created_at: string;
 
+    /**
+     * Storage path for the checkpoint artifact.
+     */
     path: string;
 
+    /**
+     * Step represented by the checkpoint; final checkpoints use the shipped model
+     * step.
+     */
     step: number;
+
+    /**
+     * Canonical artifact selector for checkpoint download requests.
+     */
+    checkpoint?: 'model' | 'adapter';
   }
 }
 

@@ -429,9 +429,27 @@ export interface RemediationApproveParams {
   instance_id: string;
 
   /**
-   * Body param: Comment explaining the action.
+   * Body param: Approval comment explaining the decision.
    */
   comment?: string;
+
+  /**
+   * Body param: Remediation mode to use after approval. When omitted, the
+   * remediation keeps its existing mode.
+   *
+   * - `REMEDIATION_MODE_VM_ONLY`: Deletes the VM and provisions a new one on any
+   *   available host.
+   * - `REMEDIATION_MODE_HOST_AWARE`: Cordons the host, deletes the VM, and
+   *   provisions a new one on a different host.
+   * - `REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT`: Evicts the VM without
+   *   provisioning a replacement.
+   * - `REMEDIATION_MODE_REBOOT_VM`: Reboots the VM in place.
+   */
+  mode?:
+    | 'REMEDIATION_MODE_VM_ONLY'
+    | 'REMEDIATION_MODE_HOST_AWARE'
+    | 'REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT'
+    | 'REMEDIATION_MODE_REBOOT_VM';
 }
 
 export interface RemediationCancelParams {

@@ -216,6 +216,12 @@ export interface Cluster {
 
   created_at?: string;
 
+  /**
+   * GPU worker nodes retained after they left the live data plane. These are
+   * separate from gpu_worker_nodes and must not be counted as live capacity.
+   */
+  deleted_gpu_worker_nodes?: Array<Cluster.DeletedGPUWorkerNode>;
+
   duration_hours?: number;
 
   /**
@@ -234,6 +240,12 @@ export interface Cluster {
    * ID of the machine cluster backing this GPU cluster.
    */
   machine_cluster_id?: string;
+
+  /**
+   * Recent node lifecycle events such as scale-up, scale-down, and preemption.
+   * Combine these with live and deleted node lists to render the cluster timeline.
+   */
+  node_lifecycle_events?: Array<Cluster.NodeLifecycleEvent>;
 
   /**
    * Internal NVIDIA version ID for this cluster's driver and CUDA combination.
@@ -378,6 +390,12 @@ export namespace Cluster {
      * Whether auto-remediation is enabled for this node's instance.
      */
     auto_remediation_enabled?: boolean;
+
+    /**
+     * Timestamp when the node left the live data plane. Only set for
+     * deleted_gpu_worker_nodes.
+     */
+    deleted_at?: string;
 
     /**
      * Ephemeral storage size, such as 1Ti.
@@ -572,6 +590,132 @@ export namespace Cluster {
        */
       worker_prolog?: string;
     }
+  }
+
+  export interface DeletedGPUWorkerNode {
+    host_name: string;
+
+    memory_gib: number;
+
+    networks: Array<string>;
+
+    node_id: string;
+
+    num_cpu_cores: number;
+
+    num_gpus: number;
+
+    /**
+     * Phase transition history for this GPU worker node.
+     */
+    phase_transitions: Array<DeletedGPUWorkerNode.PhaseTransition>;
+
+    status: string;
+
+    /**
+     * Whether auto-remediation is enabled for this node's instance.
+     */
+    auto_remediation_enabled?: boolean;
+
+    /**
+     * Timestamp when the node left the live data plane. Only set for
+     * deleted_gpu_worker_nodes.
+     */
+    deleted_at?: string;
+
+    /**
+     * Ephemeral storage size, such as 1Ti.
+     */
+    ephemeral_storage?: string;
+
+    /**
+     * Number of InfiniBand HCAs.
+     */
+    ib_hca_count?: number;
+
+    /**
+     * InfiniBand HCA type.
+     */
+    ib_hca_type?: string;
+
+    instance_id?: string;
+
+    /**
+     * Remediation represents a node remediation request for an instance. An instance
+     * can have multiple remediations over time (e.g., failed attempts followed by
+     * retries).
+     */
+    latest_remediation?: RemediationsAPI.Remediation;
+
+    /**
+     * Whether this node is marked for deletion by the operator.
+     */
+    marked_for_deletion?: boolean;
+
+    /**
+     * Number of NVSwitches.
+     */
+    nvswitch_count?: number;
+
+    /**
+     * NVSwitch type.
+     */
+    nvswitch_type?: string;
+
+    /**
+     * Public IPv4 address of the GPU worker node.
+     */
+    public_ipv4?: string;
+
+    slurm_worker_hostname?: string;
+  }
+
+  export namespace DeletedGPUWorkerNode {
+    export interface PhaseTransition {
+      /**
+       * Node phase.
+       */
+      phase:
+        | 'NODE_PHASE_PENDING'
+        | 'NODE_PHASE_SCHEDULING'
+        | 'NODE_PHASE_BOOTING'
+        | 'NODE_PHASE_BOOTSTRAPPING'
+        | 'NODE_PHASE_RUNNING'
+        | 'NODE_PHASE_SUCCEEDED'
+        | 'NODE_PHASE_FAILED'
+        | 'NODE_PHASE_PAUSED';
+
+      /**
+       * Timestamp when the phase transition occurred.
+       */
+      transition_time: string;
+    }
+  }
+
+  /**
+   * Node lifecycle event included in a GPU cluster timeline.
+   */
+  export interface NodeLifecycleEvent {
+    /**
+     * Human-readable lifecycle event message.
+     */
+    message: string;
+
+    /**
+     * Tenant node name this lifecycle event applies to.
+     */
+    node_id: string;
+
+    /**
+     * Lifecycle event reason, for example TogetherScaledUp, TogetherScaledDown, or
+     * TogetherPreempted.
+     */
+    reason: string;
+
+    /**
+     * Event timestamp.
+     */
+    timestamp: string;
   }
 
   export interface OidcConfig {
