@@ -1372,7 +1372,12 @@ export namespace FineTuningEstimatePriceResponse {
     /**
      * Reason price estimation is unavailable for the requested fine-tune job.
      */
-    unavailable_reason: string;
+    unavailable_reason:
+      | 'multimodal_dataset'
+      | 'train_file_not_validated'
+      | 'eval_file_not_validated'
+      | 'train_file_invalid'
+      | 'eval_file_invalid';
   }
 }
 
