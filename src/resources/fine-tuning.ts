@@ -164,34 +164,18 @@ export class FineTuning extends APIResource {
 }
 
 export interface FinetuneEvent {
-  checkpoint_path: string;
-
   created_at: string;
 
-  hash: string;
-
   message: string;
-
-  model_path: string;
 
   /**
    * The object type, which is always `fine-tune-event`.
    */
   object: 'fine-tune-event';
 
-  param_count: number;
-
-  step: number;
-
-  token_count: number;
-
-  total_steps: number;
-
-  training_offset: number;
-
   type: FinetuneEventType;
 
-  wandb_url: string;
+  checkpoint_path?: string;
 
   /**
    * For early_stopped events, the best validation loss observed. Null if no
@@ -207,6 +191,18 @@ export interface FinetuneEvent {
   early_stopping_best_step?: number | null;
 
   level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
+
+  model_path?: string;
+
+  param_count?: number;
+
+  step?: number;
+
+  token_count?: number;
+
+  total_steps?: number;
+
+  wandb_url?: string;
 }
 
 export type FinetuneEventType =
@@ -614,11 +610,6 @@ export interface FineTuningCreateResponse {
   training_type?: FineTuningCreateResponse.FullTrainingType | FineTuningCreateResponse.LoRaTrainingType;
 
   /**
-   * Identifier for who created the job.
-   */
-  user_id?: string;
-
-  /**
    * File-ID of the validation file
    */
   validation_file?: string;
@@ -908,11 +899,6 @@ export namespace FineTuningListResponse {
      * Type of training used (full or LoRA)
      */
     training_type?: Data.FullTrainingType | Data.LoRaTrainingType;
-
-    /**
-     * Identifier for who created the job.
-     */
-    user_id?: string;
 
     /**
      * File-ID of the validation file
@@ -1207,11 +1193,6 @@ export interface FineTuningCancelResponse {
    * Type of training used (full or LoRA)
    */
   training_type?: FineTuningCancelResponse.FullTrainingType | FineTuningCancelResponse.LoRaTrainingType;
-
-  /**
-   * Identifier for who created the job.
-   */
-  user_id?: string;
 
   /**
    * File-ID of the validation file
