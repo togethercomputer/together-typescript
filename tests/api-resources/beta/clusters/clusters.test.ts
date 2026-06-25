@@ -44,6 +44,7 @@ describe('resource clusters', () => {
         gpu_burn_skipped: true,
         nccl_multi_node_skipped: true,
         nccl_single_node_skipped: true,
+        storage_skipped: true,
       },
       add_ons: [
         {
@@ -65,6 +66,7 @@ describe('resource clusters', () => {
         ingress: { enabled: true },
         jumphost_enabled: true,
         kubernetes_dashboard_enabled: true,
+        network_operator_version: 'network_operator_version',
         observability: { enabled: true },
         slurm_startup_scripts: {
           controller_epilog: 'controller_epilog',

@@ -170,11 +170,23 @@ export interface Cluster {
   kube_config: string;
 
   /**
+   * Number of GPUs to draw from a capacity pool. A component of the overall
+   * num_gpus, alongside num_reserved_gpus.
+   */
+  num_capacity_pool_gpus: number;
+
+  /**
    * Number of CPU-only worker nodes in the cluster.
    */
   num_cpu_workers: number;
 
   num_gpus: number;
+
+  /**
+   * Number of prepaid reserved GPUs for this cluster. A component of the overall
+   * num_gpus, alongside num_capacity_pool_gpus.
+   */
+  num_reserved_gpus: number;
 
   nvidia_driver_version: string;
 
@@ -531,6 +543,12 @@ export namespace Cluster {
     jumphost_enabled?: boolean;
 
     kubernetes_dashboard_enabled?: boolean;
+
+    /**
+     * NVIDIA Network Operator chart/version for the tenant cluster (e.g. v24.7.0).
+     * When omitted, a service default is applied.
+     */
+    network_operator_version?: string;
 
     observability?: ClusterConfig.Observability;
 
@@ -1015,6 +1033,11 @@ export namespace ClusterCreateParams {
      * Skip NCCL single-node acceptance test.
      */
     nccl_single_node_skipped?: boolean;
+
+    /**
+     * Skip storage-performance acceptance test.
+     */
+    storage_skipped?: boolean;
   }
 
   export interface AddOn {
@@ -1063,6 +1086,12 @@ export namespace ClusterCreateParams {
     jumphost_enabled?: boolean;
 
     kubernetes_dashboard_enabled?: boolean;
+
+    /**
+     * NVIDIA Network Operator chart/version for the tenant cluster (e.g. v24.7.0).
+     * When omitted, a service default is applied.
+     */
+    network_operator_version?: string;
 
     observability?: ClusterConfig.Observability;
 
@@ -1206,6 +1235,13 @@ export interface ClusterUpdateParams {
   cluster_type?: 'KUBERNETES' | 'SLURM';
 
   /**
+   * Number of GPUs to draw from the cluster's capacity pool. Only valid for clusters
+   * created with a capacity_pool_id. Must be a multiple of 8 and not exceed
+   * num_gpus. When omitted, the current value is preserved.
+   */
+  num_capacity_pool_gpus?: number;
+
+  /**
    * Target GPU count for the cluster. When omitted, the server keeps the current GPU
    * count from cluster metadata (use for config-only or decommission-time-only
    * updates).
@@ -1273,6 +1309,12 @@ export namespace ClusterUpdateParams {
     jumphost_enabled?: boolean;
 
     kubernetes_dashboard_enabled?: boolean;
+
+    /**
+     * NVIDIA Network Operator chart/version for the tenant cluster (e.g. v24.7.0).
+     * When omitted, a service default is applied.
+     */
+    network_operator_version?: string;
 
     observability?: ClusterConfig.Observability;
 
