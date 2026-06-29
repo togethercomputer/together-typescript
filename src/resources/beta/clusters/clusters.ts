@@ -295,18 +295,32 @@ export namespace Cluster {
   export interface AddOn {
     add_on_type: string;
 
+    /**
+     * Configuration for a cluster add-on.
+     */
     config: AddOn.Config;
 
     name: string;
 
+    /**
+     * State for a cluster add-on.
+     */
     state: AddOn.State;
   }
 
   export namespace AddOn {
+    /**
+     * Configuration for a cluster add-on.
+     */
     export interface Config {
       dashboard?: Config.Dashboard;
 
       ingress?: Config.Ingress;
+
+      /**
+       * Configuration for the Model Aware TorchPass add-on.
+       */
+      torchpass?: Config.Torchpass;
     }
 
     export namespace Config {
@@ -317,18 +331,41 @@ export namespace Cluster {
       export interface Ingress {
         enabled?: boolean;
       }
+
+      /**
+       * Configuration for the Model Aware TorchPass add-on.
+       */
+      export interface Torchpass {
+        /**
+         * Whether to enable the Model Aware TorchPass add-on.
+         */
+        enabled?: boolean;
+      }
     }
 
+    /**
+     * State for a cluster add-on.
+     */
     export interface State {
       dashboard?: State.Dashboard;
 
       ingress?: State.Ingress;
+
+      /**
+       * State for the Model Aware TorchPass add-on.
+       */
+      torchpass?: State.Torchpass;
     }
 
     export namespace State {
       export interface Dashboard {}
 
       export interface Ingress {}
+
+      /**
+       * State for the Model Aware TorchPass add-on.
+       */
+      export interface Torchpass {}
     }
   }
 
@@ -557,6 +594,12 @@ export namespace Cluster {
      * init, extra conf).
      */
     slurm_startup_scripts?: ClusterConfig.SlurmStartupScripts;
+
+    /**
+     * Whether this cluster uses a per-cluster SSH certificate authority for
+     * OIDC-signed SSH access.
+     */
+    ssh_ca_enabled?: boolean;
   }
 
   export namespace ClusterConfig {
@@ -1042,7 +1085,7 @@ export namespace ClusterCreateParams {
 
   export interface AddOn {
     /**
-     * Type of add-on. Valid values: 'dashboard', 'ingress'.
+     * Type of add-on. Valid values: 'dashboard', 'ingress', 'torchpass'.
      */
     add_on_type: string;
 
@@ -1051,14 +1094,25 @@ export namespace ClusterCreateParams {
      */
     name: string;
 
+    /**
+     * Configuration for a cluster add-on.
+     */
     config?: AddOn.Config;
   }
 
   export namespace AddOn {
+    /**
+     * Configuration for a cluster add-on.
+     */
     export interface Config {
       dashboard?: Config.Dashboard;
 
       ingress?: Config.Ingress;
+
+      /**
+       * Configuration for the Model Aware TorchPass add-on.
+       */
+      torchpass?: Config.Torchpass;
     }
 
     export namespace Config {
@@ -1067,6 +1121,16 @@ export namespace ClusterCreateParams {
       }
 
       export interface Ingress {
+        enabled?: boolean;
+      }
+
+      /**
+       * Configuration for the Model Aware TorchPass add-on.
+       */
+      export interface Torchpass {
+        /**
+         * Whether to enable the Model Aware TorchPass add-on.
+         */
         enabled?: boolean;
       }
     }
@@ -1100,6 +1164,12 @@ export namespace ClusterCreateParams {
      * init, extra conf).
      */
     slurm_startup_scripts?: ClusterConfig.SlurmStartupScripts;
+
+    /**
+     * Whether this cluster uses a per-cluster SSH certificate authority for
+     * OIDC-signed SSH access.
+     */
+    ssh_ca_enabled?: boolean;
   }
 
   export namespace ClusterConfig {
@@ -1274,14 +1344,25 @@ export namespace ClusterUpdateParams {
      */
     name: string;
 
+    /**
+     * Configuration for a cluster add-on.
+     */
     config?: AddOn.Config;
   }
 
   export namespace AddOn {
+    /**
+     * Configuration for a cluster add-on.
+     */
     export interface Config {
       dashboard?: Config.Dashboard;
 
       ingress?: Config.Ingress;
+
+      /**
+       * Configuration for the Model Aware TorchPass add-on.
+       */
+      torchpass?: Config.Torchpass;
     }
 
     export namespace Config {
@@ -1290,6 +1371,16 @@ export namespace ClusterUpdateParams {
       }
 
       export interface Ingress {
+        enabled?: boolean;
+      }
+
+      /**
+       * Configuration for the Model Aware TorchPass add-on.
+       */
+      export interface Torchpass {
+        /**
+         * Whether to enable the Model Aware TorchPass add-on.
+         */
         enabled?: boolean;
       }
     }
@@ -1323,6 +1414,12 @@ export namespace ClusterUpdateParams {
      * init, extra conf).
      */
     slurm_startup_scripts?: ClusterConfig.SlurmStartupScripts;
+
+    /**
+     * Whether this cluster uses a per-cluster SSH certificate authority for
+     * OIDC-signed SSH access.
+     */
+    ssh_ca_enabled?: boolean;
   }
 
   export namespace ClusterConfig {

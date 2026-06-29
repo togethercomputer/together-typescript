@@ -432,6 +432,11 @@ export namespace FinetuneResponse {
 
     lora_dropout?: number;
 
+    /**
+     * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
+     * expert modules (`w_up`, `w_gate`, `w_down`) are supported on compatible models
+     * and cannot be mixed with attention modules.
+     */
     lora_trainable_modules?: string;
   }
 }
@@ -718,6 +723,11 @@ export namespace FineTuningCreateResponse {
 
     lora_dropout?: number;
 
+    /**
+     * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
+     * expert modules (`w_up`, `w_gate`, `w_down`) are supported on compatible models
+     * and cannot be mixed with attention modules.
+     */
     lora_trainable_modules?: string;
   }
 }
@@ -1009,6 +1019,11 @@ export namespace FineTuningListResponse {
 
       lora_dropout?: number;
 
+      /**
+       * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
+       * expert modules (`w_up`, `w_gate`, `w_down`) are supported on compatible models
+       * and cannot be mixed with attention modules.
+       */
       lora_trainable_modules?: string;
     }
   }
@@ -1303,6 +1318,11 @@ export namespace FineTuningCancelResponse {
 
     lora_dropout?: number;
 
+    /**
+     * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
+     * expert modules (`w_up`, `w_gate`, `w_down`) are supported on compatible models
+     * and cannot be mixed with attention modules.
+     */
     lora_trainable_modules?: string;
   }
 }
@@ -1688,6 +1708,11 @@ export namespace FineTuningCreateParams {
 
     lora_dropout?: number;
 
+    /**
+     * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
+     * expert modules (`w_up`, `w_gate`, `w_down`) are supported on compatible models
+     * and cannot be mixed with attention modules.
+     */
     lora_trainable_modules?: string;
   }
 }
@@ -1808,6 +1833,11 @@ export namespace FineTuningEstimatePriceParams {
 
     lora_dropout?: number;
 
+    /**
+     * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
+     * expert modules (`w_up`, `w_gate`, `w_down`) are supported on compatible models
+     * and cannot be mixed with attention modules.
+     */
     lora_trainable_modules?: string;
   }
 }

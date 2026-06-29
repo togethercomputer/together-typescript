@@ -39,6 +39,21 @@ export class Queue extends APIResource {
   }
 
   /**
+   * Cancel all pending jobs for the given model. Running jobs are left untouched.
+   * Returns the number of jobs that were canceled.
+   *
+   * @example
+   * ```ts
+   * const response = await client.beta.jig.queue.clear({
+   *   model: 'model',
+   * });
+   * ```
+   */
+  clear(body: QueueClearParams, options?: RequestOptions): APIPromise<QueueClearResponse> {
+    return this._client.post('/queue/clear', { body, ...options });
+  }
+
+  /**
    * Get the current queue statistics for a model, including pending and running job
    * counts.
    *
@@ -155,6 +170,16 @@ export interface QueueCancelResponse {
 }
 
 /**
+ * Count of pending jobs canceled by the clear operation.
+ */
+export interface QueueClearResponse {
+  /**
+   * Number of pending jobs that were canceled
+   */
+  canceled_count: number;
+}
+
+/**
  * Queue job counts for a model.
  */
 export interface QueueMetricsResponse {
@@ -208,6 +233,13 @@ export interface QueueCancelParams {
   request_id: string;
 }
 
+export interface QueueClearParams {
+  /**
+   * Model identifier whose pending jobs should be canceled
+   */
+  model: string;
+}
+
 export interface QueueMetricsParams {
   /**
    * Model name to get metrics for
@@ -244,10 +276,12 @@ export declare namespace Queue {
   export {
     type QueueRetrieveResponse as QueueRetrieveResponse,
     type QueueCancelResponse as QueueCancelResponse,
+    type QueueClearResponse as QueueClearResponse,
     type QueueMetricsResponse as QueueMetricsResponse,
     type QueueSubmitResponse as QueueSubmitResponse,
     type QueueRetrieveParams as QueueRetrieveParams,
     type QueueCancelParams as QueueCancelParams,
+    type QueueClearParams as QueueClearParams,
     type QueueMetricsParams as QueueMetricsParams,
     type QueueSubmitParams as QueueSubmitParams,
   };

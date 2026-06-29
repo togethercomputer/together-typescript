@@ -53,6 +53,7 @@ describe('resource clusters', () => {
           config: {
             dashboard: { enabled: true },
             ingress: { enabled: true },
+            torchpass: { enabled: true },
           },
         },
       ],
@@ -77,6 +78,7 @@ describe('resource clusters', () => {
           worker_epilog: 'worker_epilog',
           worker_prolog: 'worker_prolog',
         },
+        ssh_ca_enabled: true,
       },
       cluster_type: 'KUBERNETES',
       duration_days: 0,
