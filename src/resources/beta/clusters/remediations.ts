@@ -264,6 +264,12 @@ export interface Remediation {
   instance_name?: string;
 
   /**
+   * Passive health check alerts linked to this remediation, including resolved
+   * alerts.
+   */
+  linked_alerts?: Array<Remediation.LinkedAlert>;
+
+  /**
    * Passive health check event ID that triggered this remediation.
    */
   passive_health_check_event_id?: string;
@@ -302,6 +308,63 @@ export interface Remediation {
    * When the remediation was last updated.
    */
   update_time?: string;
+}
+
+export namespace Remediation {
+  /**
+   * Passive health check alert returned by the health check API.
+   */
+  export interface LinkedAlert {
+    /**
+     * Alertmanager alert name.
+     */
+    alert_name: string;
+
+    /**
+     * Alertmanager annotations as key-value strings.
+     */
+    annotations: { [key: string]: string };
+
+    /**
+     * Cluster UUID the alert was raised against.
+     */
+    cluster_id: string;
+
+    /**
+     * Primary key UUID for the passive health check alert.
+     */
+    passive_health_check_alert_id: string;
+
+    /**
+     * Canonical severity tier for the alert.
+     */
+    severity: 'PHC_SEVERITY_INFO' | 'PHC_SEVERITY_WARNING' | 'PHC_SEVERITY_CRITICAL';
+
+    /**
+     * Time when the underlying alert first fired.
+     */
+    started_at: string;
+
+    /**
+     * VM name extracted from the Alertmanager labels.
+     */
+    target_vm: string;
+
+    /**
+     * Resolved instance UUID. Empty until the alert is joined to an instance.
+     */
+    instance_id?: string;
+
+    /**
+     * Remediation intent UUID attached to this alert, if any.
+     */
+    node_remediation_intent_id?: string;
+
+    /**
+     * Time when the underlying alert resolved. Empty while the alert is firing.
+     */
+    resolved_at?: string;
+  }
 }
 
 /**
