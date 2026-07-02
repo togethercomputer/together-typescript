@@ -14,10 +14,12 @@ export {
   Queue,
   type QueueRetrieveResponse,
   type QueueCancelResponse,
+  type QueueClearResponse,
   type QueueMetricsResponse,
   type QueueSubmitResponse,
   type QueueRetrieveParams,
   type QueueCancelParams,
+  type QueueClearParams,
   type QueueMetricsParams,
   type QueueSubmitParams,
 } from './queue';

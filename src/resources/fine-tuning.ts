@@ -164,34 +164,18 @@ export class FineTuning extends APIResource {
 }
 
 export interface FinetuneEvent {
-  checkpoint_path: string;
-
   created_at: string;
 
-  hash: string;
-
   message: string;
-
-  model_path: string;
 
   /**
    * The object type, which is always `fine-tune-event`.
    */
   object: 'fine-tune-event';
 
-  param_count: number;
-
-  step: number;
-
-  token_count: number;
-
-  total_steps: number;
-
-  training_offset: number;
-
   type: FinetuneEventType;
 
-  wandb_url: string;
+  checkpoint_path?: string;
 
   /**
    * For early_stopped events, the best validation loss observed. Null if no
@@ -207,6 +191,18 @@ export interface FinetuneEvent {
   early_stopping_best_step?: number | null;
 
   level?: 'info' | 'warning' | 'error' | 'legacy_info' | 'legacy_iwarning' | 'legacy_ierror' | null;
+
+  model_path?: string;
+
+  param_count?: number;
+
+  step?: number;
+
+  token_count?: number;
+
+  total_steps?: number;
+
+  wandb_url?: string;
 }
 
 export type FinetuneEventType =
@@ -250,6 +246,11 @@ export interface FinetuneResponse {
     | 'cancelled'
     | 'error'
     | 'completed';
+
+  /**
+   * ID of the user who owns the fine-tune job.
+   */
+  user_id: string;
 
   batch_size?: number | 'max';
 
@@ -436,6 +437,11 @@ export namespace FinetuneResponse {
 
     lora_dropout?: number;
 
+    /**
+     * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
+     * expert modules (`w_up`, `w_gate`, `w_down`) are supported on compatible models
+     * and cannot be mixed with attention modules.
+     */
     lora_trainable_modules?: string;
   }
 }
@@ -470,6 +476,11 @@ export interface FineTuningCreateResponse {
    * Last update timestamp of the fine-tune job
    */
   updated_at: string;
+
+  /**
+   * ID of the user who owns the fine-tune job.
+   */
+  user_id: string;
 
   /**
    * Batch size used for training
@@ -614,11 +625,6 @@ export interface FineTuningCreateResponse {
   training_type?: FineTuningCreateResponse.FullTrainingType | FineTuningCreateResponse.LoRaTrainingType;
 
   /**
-   * Identifier for who created the job.
-   */
-  user_id?: string;
-
-  /**
    * File-ID of the validation file
    */
   validation_file?: string;
@@ -727,6 +733,11 @@ export namespace FineTuningCreateResponse {
 
     lora_dropout?: number;
 
+    /**
+     * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
+     * expert modules (`w_up`, `w_gate`, `w_down`) are supported on compatible models
+     * and cannot be mixed with attention modules.
+     */
     lora_trainable_modules?: string;
   }
 }
@@ -766,6 +777,11 @@ export namespace FineTuningListResponse {
      * Last update timestamp of the fine-tune job
      */
     updated_at: string;
+
+    /**
+     * ID of the user who owns the fine-tune job.
+     */
+    user_id: string;
 
     /**
      * Batch size used for training
@@ -910,11 +926,6 @@ export namespace FineTuningListResponse {
     training_type?: Data.FullTrainingType | Data.LoRaTrainingType;
 
     /**
-     * Identifier for who created the job.
-     */
-    user_id?: string;
-
-    /**
      * File-ID of the validation file
      */
     validation_file?: string;
@@ -1023,6 +1034,11 @@ export namespace FineTuningListResponse {
 
       lora_dropout?: number;
 
+      /**
+       * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
+       * expert modules (`w_up`, `w_gate`, `w_down`) are supported on compatible models
+       * and cannot be mixed with attention modules.
+       */
       lora_trainable_modules?: string;
     }
   }
@@ -1065,6 +1081,11 @@ export interface FineTuningCancelResponse {
    * Last update timestamp of the fine-tune job
    */
   updated_at: string;
+
+  /**
+   * ID of the user who owns the fine-tune job.
+   */
+  user_id: string;
 
   /**
    * Batch size used for training
@@ -1209,11 +1230,6 @@ export interface FineTuningCancelResponse {
   training_type?: FineTuningCancelResponse.FullTrainingType | FineTuningCancelResponse.LoRaTrainingType;
 
   /**
-   * Identifier for who created the job.
-   */
-  user_id?: string;
-
-  /**
    * File-ID of the validation file
    */
   validation_file?: string;
@@ -1322,6 +1338,11 @@ export namespace FineTuningCancelResponse {
 
     lora_dropout?: number;
 
+    /**
+     * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
+     * expert modules (`w_up`, `w_gate`, `w_down`) are supported on compatible models
+     * and cannot be mixed with attention modules.
+     */
     lora_trainable_modules?: string;
   }
 }
@@ -1372,7 +1393,12 @@ export namespace FineTuningEstimatePriceResponse {
     /**
      * Reason price estimation is unavailable for the requested fine-tune job.
      */
-    unavailable_reason: string;
+    unavailable_reason:
+      | 'multimodal_dataset'
+      | 'train_file_not_validated'
+      | 'eval_file_not_validated'
+      | 'train_file_invalid'
+      | 'eval_file_invalid';
   }
 }
 
@@ -1381,14 +1407,36 @@ export interface FineTuningListCheckpointsResponse {
 }
 
 export namespace FineTuningListCheckpointsResponse {
+  /**
+   * A checkpoint available for a fine-tuning job.
+   */
   export interface Data {
+    /**
+     * Display label for the checkpoint, including the final or intermediate checkpoint
+     * step.
+     */
     checkpoint_type: string;
 
+    /**
+     * Timestamp when the checkpoint was created.
+     */
     created_at: string;
 
+    /**
+     * Storage path for the checkpoint artifact.
+     */
     path: string;
 
+    /**
+     * Step represented by the checkpoint; final checkpoints use the shipped model
+     * step.
+     */
     step: number;
+
+    /**
+     * Canonical artifact selector for checkpoint download requests.
+     */
+    checkpoint?: 'model' | 'adapter';
   }
 }
 
@@ -1680,6 +1728,11 @@ export namespace FineTuningCreateParams {
 
     lora_dropout?: number;
 
+    /**
+     * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
+     * expert modules (`w_up`, `w_gate`, `w_down`) are supported on compatible models
+     * and cannot be mixed with attention modules.
+     */
     lora_trainable_modules?: string;
   }
 }
@@ -1704,8 +1757,9 @@ export interface FineTuningContentParams {
   checkpoint?: 'merged' | 'adapter' | 'model_output_path';
 
   /**
-   * Specifies step number for checkpoint to download. Ignores `checkpoint` value if
-   * set.
+   * Specifies the checkpoint step to download from the list checkpoints response. A
+   * final checkpoint step downloads the final model; 0 or omitted downloads the
+   * final model by default. Ignores `checkpoint` value if set.
    */
   checkpoint_step?: number;
 }
@@ -1800,6 +1854,11 @@ export namespace FineTuningEstimatePriceParams {
 
     lora_dropout?: number;
 
+    /**
+     * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
+     * expert modules (`w_up`, `w_gate`, `w_down`) are supported on compatible models
+     * and cannot be mixed with attention modules.
+     */
     lora_trainable_modules?: string;
   }
 }

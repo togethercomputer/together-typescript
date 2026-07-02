@@ -170,11 +170,23 @@ export interface Cluster {
   kube_config: string;
 
   /**
+   * Number of GPUs to draw from a capacity pool. A component of the overall
+   * num_gpus, alongside num_reserved_gpus.
+   */
+  num_capacity_pool_gpus: number;
+
+  /**
    * Number of CPU-only worker nodes in the cluster.
    */
   num_cpu_workers: number;
 
   num_gpus: number;
+
+  /**
+   * Number of prepaid reserved GPUs for this cluster. A component of the overall
+   * num_gpus, alongside num_capacity_pool_gpus.
+   */
+  num_reserved_gpus: number;
 
   nvidia_driver_version: string;
 
@@ -216,6 +228,12 @@ export interface Cluster {
 
   created_at?: string;
 
+  /**
+   * GPU worker nodes retained after they left the live data plane. These are
+   * separate from gpu_worker_nodes and must not be counted as live capacity.
+   */
+  deleted_gpu_worker_nodes?: Array<Cluster.DeletedGPUWorkerNode>;
+
   duration_hours?: number;
 
   /**
@@ -234,6 +252,12 @@ export interface Cluster {
    * ID of the machine cluster backing this GPU cluster.
    */
   machine_cluster_id?: string;
+
+  /**
+   * Recent node lifecycle events such as scale-up, scale-down, and preemption.
+   * Combine these with live and deleted node lists to render the cluster timeline.
+   */
+  node_lifecycle_events?: Array<Cluster.NodeLifecycleEvent>;
 
   /**
    * Internal NVIDIA version ID for this cluster's driver and CUDA combination.
@@ -271,18 +295,32 @@ export namespace Cluster {
   export interface AddOn {
     add_on_type: string;
 
+    /**
+     * Configuration for a cluster add-on.
+     */
     config: AddOn.Config;
 
     name: string;
 
+    /**
+     * State for a cluster add-on.
+     */
     state: AddOn.State;
   }
 
   export namespace AddOn {
+    /**
+     * Configuration for a cluster add-on.
+     */
     export interface Config {
       dashboard?: Config.Dashboard;
 
       ingress?: Config.Ingress;
+
+      /**
+       * Configuration for the Model Aware TorchPass add-on.
+       */
+      torchpass?: Config.Torchpass;
     }
 
     export namespace Config {
@@ -293,18 +331,41 @@ export namespace Cluster {
       export interface Ingress {
         enabled?: boolean;
       }
+
+      /**
+       * Configuration for the Model Aware TorchPass add-on.
+       */
+      export interface Torchpass {
+        /**
+         * Whether to enable the Model Aware TorchPass add-on.
+         */
+        enabled?: boolean;
+      }
     }
 
+    /**
+     * State for a cluster add-on.
+     */
     export interface State {
       dashboard?: State.Dashboard;
 
       ingress?: State.Ingress;
+
+      /**
+       * State for the Model Aware TorchPass add-on.
+       */
+      torchpass?: State.Torchpass;
     }
 
     export namespace State {
       export interface Dashboard {}
 
       export interface Ingress {}
+
+      /**
+       * State for the Model Aware TorchPass add-on.
+       */
+      export interface Torchpass {}
     }
   }
 
@@ -378,6 +439,12 @@ export namespace Cluster {
      * Whether auto-remediation is enabled for this node's instance.
      */
     auto_remediation_enabled?: boolean;
+
+    /**
+     * Timestamp when the node left the live data plane. Only set for
+     * deleted_gpu_worker_nodes.
+     */
+    deleted_at?: string;
 
     /**
      * Ephemeral storage size, such as 1Ti.
@@ -514,6 +581,12 @@ export namespace Cluster {
 
     kubernetes_dashboard_enabled?: boolean;
 
+    /**
+     * NVIDIA Network Operator chart/version for the tenant cluster (e.g. v24.7.0).
+     * When omitted, a service default is applied.
+     */
+    network_operator_version?: string;
+
     observability?: ClusterConfig.Observability;
 
     /**
@@ -521,6 +594,12 @@ export namespace Cluster {
      * init, extra conf).
      */
     slurm_startup_scripts?: ClusterConfig.SlurmStartupScripts;
+
+    /**
+     * Whether this cluster uses a per-cluster SSH certificate authority for
+     * OIDC-signed SSH access.
+     */
+    ssh_ca_enabled?: boolean;
   }
 
   export namespace ClusterConfig {
@@ -572,6 +651,132 @@ export namespace Cluster {
        */
       worker_prolog?: string;
     }
+  }
+
+  export interface DeletedGPUWorkerNode {
+    host_name: string;
+
+    memory_gib: number;
+
+    networks: Array<string>;
+
+    node_id: string;
+
+    num_cpu_cores: number;
+
+    num_gpus: number;
+
+    /**
+     * Phase transition history for this GPU worker node.
+     */
+    phase_transitions: Array<DeletedGPUWorkerNode.PhaseTransition>;
+
+    status: string;
+
+    /**
+     * Whether auto-remediation is enabled for this node's instance.
+     */
+    auto_remediation_enabled?: boolean;
+
+    /**
+     * Timestamp when the node left the live data plane. Only set for
+     * deleted_gpu_worker_nodes.
+     */
+    deleted_at?: string;
+
+    /**
+     * Ephemeral storage size, such as 1Ti.
+     */
+    ephemeral_storage?: string;
+
+    /**
+     * Number of InfiniBand HCAs.
+     */
+    ib_hca_count?: number;
+
+    /**
+     * InfiniBand HCA type.
+     */
+    ib_hca_type?: string;
+
+    instance_id?: string;
+
+    /**
+     * Remediation represents a node remediation request for an instance. An instance
+     * can have multiple remediations over time (e.g., failed attempts followed by
+     * retries).
+     */
+    latest_remediation?: RemediationsAPI.Remediation;
+
+    /**
+     * Whether this node is marked for deletion by the operator.
+     */
+    marked_for_deletion?: boolean;
+
+    /**
+     * Number of NVSwitches.
+     */
+    nvswitch_count?: number;
+
+    /**
+     * NVSwitch type.
+     */
+    nvswitch_type?: string;
+
+    /**
+     * Public IPv4 address of the GPU worker node.
+     */
+    public_ipv4?: string;
+
+    slurm_worker_hostname?: string;
+  }
+
+  export namespace DeletedGPUWorkerNode {
+    export interface PhaseTransition {
+      /**
+       * Node phase.
+       */
+      phase:
+        | 'NODE_PHASE_PENDING'
+        | 'NODE_PHASE_SCHEDULING'
+        | 'NODE_PHASE_BOOTING'
+        | 'NODE_PHASE_BOOTSTRAPPING'
+        | 'NODE_PHASE_RUNNING'
+        | 'NODE_PHASE_SUCCEEDED'
+        | 'NODE_PHASE_FAILED'
+        | 'NODE_PHASE_PAUSED';
+
+      /**
+       * Timestamp when the phase transition occurred.
+       */
+      transition_time: string;
+    }
+  }
+
+  /**
+   * Node lifecycle event included in a GPU cluster timeline.
+   */
+  export interface NodeLifecycleEvent {
+    /**
+     * Human-readable lifecycle event message.
+     */
+    message: string;
+
+    /**
+     * Tenant node name this lifecycle event applies to.
+     */
+    node_id: string;
+
+    /**
+     * Lifecycle event reason, for example TogetherScaledUp, TogetherScaledDown, or
+     * TogetherPreempted.
+     */
+    reason: string;
+
+    /**
+     * Event timestamp.
+     */
+    timestamp: string;
   }
 
   export interface OidcConfig {
@@ -871,11 +1076,16 @@ export namespace ClusterCreateParams {
      * Skip NCCL single-node acceptance test.
      */
     nccl_single_node_skipped?: boolean;
+
+    /**
+     * Skip storage-performance acceptance test.
+     */
+    storage_skipped?: boolean;
   }
 
   export interface AddOn {
     /**
-     * Type of add-on. Valid values: 'dashboard', 'ingress'.
+     * Type of add-on. Valid values: 'dashboard', 'ingress', 'torchpass'.
      */
     add_on_type: string;
 
@@ -884,14 +1094,25 @@ export namespace ClusterCreateParams {
      */
     name: string;
 
+    /**
+     * Configuration for a cluster add-on.
+     */
     config?: AddOn.Config;
   }
 
   export namespace AddOn {
+    /**
+     * Configuration for a cluster add-on.
+     */
     export interface Config {
       dashboard?: Config.Dashboard;
 
       ingress?: Config.Ingress;
+
+      /**
+       * Configuration for the Model Aware TorchPass add-on.
+       */
+      torchpass?: Config.Torchpass;
     }
 
     export namespace Config {
@@ -900,6 +1121,16 @@ export namespace ClusterCreateParams {
       }
 
       export interface Ingress {
+        enabled?: boolean;
+      }
+
+      /**
+       * Configuration for the Model Aware TorchPass add-on.
+       */
+      export interface Torchpass {
+        /**
+         * Whether to enable the Model Aware TorchPass add-on.
+         */
         enabled?: boolean;
       }
     }
@@ -920,6 +1151,12 @@ export namespace ClusterCreateParams {
 
     kubernetes_dashboard_enabled?: boolean;
 
+    /**
+     * NVIDIA Network Operator chart/version for the tenant cluster (e.g. v24.7.0).
+     * When omitted, a service default is applied.
+     */
+    network_operator_version?: string;
+
     observability?: ClusterConfig.Observability;
 
     /**
@@ -927,6 +1164,12 @@ export namespace ClusterCreateParams {
      * init, extra conf).
      */
     slurm_startup_scripts?: ClusterConfig.SlurmStartupScripts;
+
+    /**
+     * Whether this cluster uses a per-cluster SSH certificate authority for
+     * OIDC-signed SSH access.
+     */
+    ssh_ca_enabled?: boolean;
   }
 
   export namespace ClusterConfig {
@@ -1062,6 +1305,13 @@ export interface ClusterUpdateParams {
   cluster_type?: 'KUBERNETES' | 'SLURM';
 
   /**
+   * Number of GPUs to draw from the cluster's capacity pool. Only valid for clusters
+   * created with a capacity_pool_id. Must be a multiple of 8 and not exceed
+   * num_gpus. When omitted, the current value is preserved.
+   */
+  num_capacity_pool_gpus?: number;
+
+  /**
    * Target GPU count for the cluster. When omitted, the server keeps the current GPU
    * count from cluster metadata (use for config-only or decommission-time-only
    * updates).
@@ -1094,14 +1344,25 @@ export namespace ClusterUpdateParams {
      */
     name: string;
 
+    /**
+     * Configuration for a cluster add-on.
+     */
     config?: AddOn.Config;
   }
 
   export namespace AddOn {
+    /**
+     * Configuration for a cluster add-on.
+     */
     export interface Config {
       dashboard?: Config.Dashboard;
 
       ingress?: Config.Ingress;
+
+      /**
+       * Configuration for the Model Aware TorchPass add-on.
+       */
+      torchpass?: Config.Torchpass;
     }
 
     export namespace Config {
@@ -1110,6 +1371,16 @@ export namespace ClusterUpdateParams {
       }
 
       export interface Ingress {
+        enabled?: boolean;
+      }
+
+      /**
+       * Configuration for the Model Aware TorchPass add-on.
+       */
+      export interface Torchpass {
+        /**
+         * Whether to enable the Model Aware TorchPass add-on.
+         */
         enabled?: boolean;
       }
     }
@@ -1130,6 +1401,12 @@ export namespace ClusterUpdateParams {
 
     kubernetes_dashboard_enabled?: boolean;
 
+    /**
+     * NVIDIA Network Operator chart/version for the tenant cluster (e.g. v24.7.0).
+     * When omitted, a service default is applied.
+     */
+    network_operator_version?: string;
+
     observability?: ClusterConfig.Observability;
 
     /**
@@ -1137,6 +1414,12 @@ export namespace ClusterUpdateParams {
      * init, extra conf).
      */
     slurm_startup_scripts?: ClusterConfig.SlurmStartupScripts;
+
+    /**
+     * Whether this cluster uses a per-cluster SSH certificate authority for
+     * OIDC-signed SSH access.
+     */
+    ssh_ca_enabled?: boolean;
   }
 
   export namespace ClusterConfig {
