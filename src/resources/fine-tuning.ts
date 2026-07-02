@@ -247,6 +247,11 @@ export interface FinetuneResponse {
     | 'error'
     | 'completed';
 
+  /**
+   * ID of the user who owns the fine-tune job.
+   */
+  user_id: string;
+
   batch_size?: number | 'max';
 
   created_at?: string;
@@ -471,6 +476,11 @@ export interface FineTuningCreateResponse {
    * Last update timestamp of the fine-tune job
    */
   updated_at: string;
+
+  /**
+   * ID of the user who owns the fine-tune job.
+   */
+  user_id: string;
 
   /**
    * Batch size used for training
@@ -767,6 +777,11 @@ export namespace FineTuningListResponse {
      * Last update timestamp of the fine-tune job
      */
     updated_at: string;
+
+    /**
+     * ID of the user who owns the fine-tune job.
+     */
+    user_id: string;
 
     /**
      * Batch size used for training
@@ -1066,6 +1081,11 @@ export interface FineTuningCancelResponse {
    * Last update timestamp of the fine-tune job
    */
   updated_at: string;
+
+  /**
+   * ID of the user who owns the fine-tune job.
+   */
+  user_id: string;
 
   /**
    * Batch size used for training
