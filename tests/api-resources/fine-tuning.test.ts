@@ -194,4 +194,19 @@ describe('resource fineTuning', () => {
       ),
     ).rejects.toThrow(Together.NotFoundError);
   });
+
+  test('modelLimits: only required params', async () => {
+    const responsePromise = client.fineTuning.modelLimits({ model_name: 'model_name' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('modelLimits: required and optional params', async () => {
+    const response = await client.fineTuning.modelLimits({ model_name: 'model_name' });
+  });
 });
