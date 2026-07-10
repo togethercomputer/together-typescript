@@ -207,12 +207,18 @@ export interface Remediation {
    *   available host.
    * - `REMEDIATION_MODE_HOST_AWARE`: Cordons the host, deletes the VM, and
    *   provisions a new one on a different host.
+   * - `REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT`: Evicts the VM without
+   *   provisioning a replacement.
+   * - `REMEDIATION_MODE_REBOOT_VM`: Reboots the VM in place.
+   * - `REMEDIATION_MODE_HOST_POWER_CYCLE`: Cordons and power-cycles the bare-metal
+   *   host while preserving host and node identity.
    */
   mode:
     | 'REMEDIATION_MODE_VM_ONLY'
     | 'REMEDIATION_MODE_HOST_AWARE'
     | 'REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT'
-    | 'REMEDIATION_MODE_REBOOT_VM';
+    | 'REMEDIATION_MODE_REBOOT_VM'
+    | 'REMEDIATION_MODE_HOST_POWER_CYCLE';
 
   /**
    * RemediationState represents the lifecycle state of a remediation.
@@ -225,8 +231,19 @@ export interface Remediation {
    * - `CANCELLED`: Cancelled by user or system.
    * - `AUTO_RESOLVED`: The underlying issue was automatically resolved before
    *   processing.
+   * - `QUARANTINING`: Cordoning or preparing the host before remediation.
+   * - `QUARANTINED`: Host has been cordoned or isolated for remediation.
    */
-  state: 'PENDING_APPROVAL' | 'PENDING' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED' | 'AUTO_RESOLVED';
+  state:
+    | 'PENDING_APPROVAL'
+    | 'PENDING'
+    | 'RUNNING'
+    | 'SUCCEEDED'
+    | 'FAILED'
+    | 'CANCELLED'
+    | 'AUTO_RESOLVED'
+    | 'QUARANTINING'
+    | 'QUARANTINED';
 
   /**
    * RemediationTrigger specifies how the remediation was triggered.
@@ -400,12 +417,18 @@ export interface RemediationCreateParams {
    *   available host.
    * - `REMEDIATION_MODE_HOST_AWARE`: Cordons the host, deletes the VM, and
    *   provisions a new one on a different host.
+   * - `REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT`: Evicts the VM without
+   *   provisioning a replacement.
+   * - `REMEDIATION_MODE_REBOOT_VM`: Reboots the VM in place.
+   * - `REMEDIATION_MODE_HOST_POWER_CYCLE`: Cordons and power-cycles the bare-metal
+   *   host while preserving host and node identity.
    */
   mode:
     | 'REMEDIATION_MODE_VM_ONLY'
     | 'REMEDIATION_MODE_HOST_AWARE'
     | 'REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT'
-    | 'REMEDIATION_MODE_REBOOT_VM';
+    | 'REMEDIATION_MODE_REBOOT_VM'
+    | 'REMEDIATION_MODE_HOST_POWER_CYCLE';
 
   /**
    * Query param: Client-specified ID for idempotency.
@@ -439,6 +462,7 @@ export interface RemediationListParams {
     | 'REMEDIATION_MODE_HOST_AWARE'
     | 'REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT'
     | 'REMEDIATION_MODE_REBOOT_VM'
+    | 'REMEDIATION_MODE_HOST_POWER_CYCLE'
   >;
 
   /**
@@ -468,9 +492,19 @@ export interface RemediationListParams {
    * - `CANCELLED`: Cancelled by user or system.
    * - `AUTO_RESOLVED`: The underlying issue was automatically resolved before
    *   processing.
+   * - `QUARANTINING`: Cordoning or preparing the host before remediation.
+   * - `QUARANTINED`: Host has been cordoned or isolated for remediation.
    */
   state?: Array<
-    'PENDING_APPROVAL' | 'PENDING' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED' | 'AUTO_RESOLVED'
+    | 'PENDING_APPROVAL'
+    | 'PENDING'
+    | 'RUNNING'
+    | 'SUCCEEDED'
+    | 'FAILED'
+    | 'CANCELLED'
+    | 'AUTO_RESOLVED'
+    | 'QUARANTINING'
+    | 'QUARANTINED'
   >;
 
   /**
@@ -507,12 +541,16 @@ export interface RemediationApproveParams {
    * - `REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT`: Evicts the VM without
    *   provisioning a replacement.
    * - `REMEDIATION_MODE_REBOOT_VM`: Reboots the VM in place.
+   * - `REMEDIATION_MODE_HOST_POWER_CYCLE`: Power-cycles the bare-metal host after
+   *   cordoning it. This mode cannot be set as an approval override; create a host
+   *   power-cycle remediation directly.
    */
   mode?:
     | 'REMEDIATION_MODE_VM_ONLY'
     | 'REMEDIATION_MODE_HOST_AWARE'
     | 'REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT'
-    | 'REMEDIATION_MODE_REBOOT_VM';
+    | 'REMEDIATION_MODE_REBOOT_VM'
+    | 'REMEDIATION_MODE_HOST_POWER_CYCLE';
 }
 
 export interface RemediationCancelParams {

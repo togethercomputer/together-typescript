@@ -144,6 +144,12 @@ export interface StorageCreateParams {
    * When true, the shared volume is not deleted when the cluster is decommissioned.
    */
   is_lifecycle_independent?: boolean;
+
+  /**
+   * Project ID that will own the volume. When omitted, the caller's default project
+   * is used.
+   */
+  project_id?: string;
 }
 
 export interface StorageUpdateParams {

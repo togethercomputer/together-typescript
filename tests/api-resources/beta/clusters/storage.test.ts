@@ -29,6 +29,7 @@ describe('resource storage', () => {
       size_tib: 0,
       volume_name: 'volume_name',
       is_lifecycle_independent: true,
+      project_id: 'project_id',
     });
   });
 

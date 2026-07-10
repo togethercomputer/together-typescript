@@ -103,6 +103,7 @@ describe('resource clusters', () => {
         size_tib: 0,
         volume_name: 'volume_name',
         is_lifecycle_independent: true,
+        project_id: 'project_id',
       },
       slurm_image: 'slurm_image',
       slurm_shm_size_gib: 0,
