@@ -64,9 +64,9 @@ import {
   FineTuningListMetricsResponse,
   FineTuningListResponse,
   FineTuningModelLimitsParams,
-  FineTuningModelLimitsResponse,
   FinetuneEvent,
   FinetuneEventType,
+  FinetuneModelLimits,
   FinetuneResponse,
 } from './resources/fine-tuning';
 import { ImageDataB64, ImageDataURL, ImageFile, ImageGenerateParams, Images } from './resources/images';
@@ -903,6 +903,7 @@ export declare namespace Together {
     FineTuning as FineTuning,
     type FinetuneEvent as FinetuneEvent,
     type FinetuneEventType as FinetuneEventType,
+    type FinetuneModelLimits as FinetuneModelLimits,
     type FinetuneResponse as FinetuneResponse,
     type FineTuningCreateResponse as FineTuningCreateResponse,
     type FineTuningListResponse as FineTuningListResponse,
@@ -912,7 +913,6 @@ export declare namespace Together {
     type FineTuningListCheckpointsResponse as FineTuningListCheckpointsResponse,
     type FineTuningListEventsResponse as FineTuningListEventsResponse,
     type FineTuningListMetricsResponse as FineTuningListMetricsResponse,
-    type FineTuningModelLimitsResponse as FineTuningModelLimitsResponse,
     type FineTuningCreateParams as FineTuningCreateParams,
     type FineTuningDeleteParams as FineTuningDeleteParams,
     type FineTuningContentParams as FineTuningContentParams,

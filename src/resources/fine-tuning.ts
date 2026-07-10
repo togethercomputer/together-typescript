@@ -167,15 +167,13 @@ export class FineTuning extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.fineTuning.modelLimits({
-   *   model_name: 'model_name',
-   * });
+   * const finetuneModelLimits =
+   *   await client.fineTuning.modelLimits({
+   *     model_name: 'model_name',
+   *   });
    * ```
    */
-  modelLimits(
-    query: FineTuningModelLimitsParams,
-    options?: RequestOptions,
-  ): APIPromise<FineTuningModelLimitsResponse> {
+  modelLimits(query: FineTuningModelLimitsParams, options?: RequestOptions): APIPromise<FinetuneModelLimits> {
     return this._client.get('/fine-tunes/models/limits', { query, ...options });
   }
 }
@@ -249,6 +247,152 @@ export type FinetuneEventType =
   | 'refund'
   | 'warning'
   | 'early_stopped';
+
+/**
+ * Model limits for fine-tuning.
+ */
+export interface FinetuneModelLimits {
+  /**
+   * Default gradient accumulation steps used when a fine-tune request omits the
+   * value or sets it to 0.
+   */
+  default_gradient_accumulation_steps: number;
+
+  /**
+   * Limits for LoRA training.
+   */
+  lora_training: FinetuneModelLimits.LoraTraining;
+
+  /**
+   * Maximum learning rate.
+   */
+  max_learning_rate: number;
+
+  /**
+   * Maximum number of checkpoints that can be saved during a fine-tuning job.
+   */
+  max_num_checkpoints: number;
+
+  /**
+   * Maximum number of training epochs.
+   */
+  max_num_epochs: number;
+
+  /**
+   * Maximum number of evaluations.
+   */
+  max_num_evals: number;
+
+  /**
+   * Maximum sequence length supported for DPO training.
+   */
+  max_seq_length_dpo: number;
+
+  /**
+   * Maximum sequence length supported for SFT training.
+   */
+  max_seq_length_sft: number;
+
+  /**
+   * Whether a merged checkpoint (the base model with the trained LoRA adapter fused
+   * in) is produced for LoRA fine-tunes of this model, in addition to the standalone
+   * adapter.
+   */
+  merge_output_lora: boolean;
+
+  /**
+   * Minimum learning rate.
+   */
+  min_learning_rate: number;
+
+  /**
+   * Minimum value allowed for the max_seq_length hyperparameter.
+   */
+  min_max_seq_length: number;
+
+  /**
+   * The name of the model.
+   */
+  model_name: string;
+
+  /**
+   * Whether the model supports full (non-LoRA) fine-tuning. When false, only LoRA
+   * fine-tuning is available and the full_training limits are reported as zero.
+   */
+  supports_full_training: boolean;
+
+  /**
+   * Whether the model supports reasoning.
+   */
+  supports_reasoning: boolean;
+
+  /**
+   * Whether the model supports tool/function calling.
+   */
+  supports_tools: boolean;
+
+  /**
+   * Whether the model supports vision/multimodal inputs.
+   */
+  supports_vision: boolean;
+
+  /**
+   * Limits for full training.
+   */
+  full_training?: FinetuneModelLimits.FullTraining;
+}
+
+export namespace FinetuneModelLimits {
+  /**
+   * Limits for LoRA training.
+   */
+  export interface LoraTraining {
+    /**
+     * Maximum batch size for SFT LoRA training.
+     */
+    max_batch_size: number;
+
+    /**
+     * Maximum batch size for DPO LoRA training.
+     */
+    max_batch_size_dpo: number;
+
+    /**
+     * Maximum LoRA rank.
+     */
+    max_rank: number;
+
+    /**
+     * Minimum batch size for LoRA training.
+     */
+    min_batch_size: number;
+
+    /**
+     * Available target modules for LoRA.
+     */
+    target_modules: Array<string>;
+  }
+
+  /**
+   * Limits for full training.
+   */
+  export interface FullTraining {
+    /**
+     * Maximum batch size for SFT full training.
+     */
+    max_batch_size: number;
+
+    /**
+     * Maximum batch size for DPO full training.
+     */
+    max_batch_size_dpo: number;
+
+    /**
+     * Minimum batch size for full training.
+     */
+    min_batch_size: number;
+  }
+}
 
 export interface FinetuneResponse {
   id: string;
@@ -1465,152 +1609,6 @@ export interface FineTuningListMetricsResponse {
   metrics?: Array<{ [key: string]: number }>;
 }
 
-/**
- * Model limits for fine-tuning.
- */
-export interface FineTuningModelLimitsResponse {
-  /**
-   * Default gradient accumulation steps used when a fine-tune request omits the
-   * value or sets it to 0.
-   */
-  default_gradient_accumulation_steps: number;
-
-  /**
-   * Limits for LoRA training.
-   */
-  lora_training: FineTuningModelLimitsResponse.LoraTraining;
-
-  /**
-   * Maximum learning rate.
-   */
-  max_learning_rate: number;
-
-  /**
-   * Maximum number of checkpoints that can be saved during a fine-tuning job.
-   */
-  max_num_checkpoints: number;
-
-  /**
-   * Maximum number of training epochs.
-   */
-  max_num_epochs: number;
-
-  /**
-   * Maximum number of evaluations.
-   */
-  max_num_evals: number;
-
-  /**
-   * Maximum sequence length supported for DPO training.
-   */
-  max_seq_length_dpo: number;
-
-  /**
-   * Maximum sequence length supported for SFT training.
-   */
-  max_seq_length_sft: number;
-
-  /**
-   * Whether a merged checkpoint (the base model with the trained LoRA adapter fused
-   * in) is produced for LoRA fine-tunes of this model, in addition to the standalone
-   * adapter.
-   */
-  merge_output_lora: boolean;
-
-  /**
-   * Minimum learning rate.
-   */
-  min_learning_rate: number;
-
-  /**
-   * Minimum value allowed for the max_seq_length hyperparameter.
-   */
-  min_max_seq_length: number;
-
-  /**
-   * The name of the model.
-   */
-  model_name: string;
-
-  /**
-   * Whether the model supports full (non-LoRA) fine-tuning. When false, only LoRA
-   * fine-tuning is available and the full_training limits are reported as zero.
-   */
-  supports_full_training: boolean;
-
-  /**
-   * Whether the model supports reasoning.
-   */
-  supports_reasoning: boolean;
-
-  /**
-   * Whether the model supports tool/function calling.
-   */
-  supports_tools: boolean;
-
-  /**
-   * Whether the model supports vision/multimodal inputs.
-   */
-  supports_vision: boolean;
-
-  /**
-   * Limits for full training.
-   */
-  full_training?: FineTuningModelLimitsResponse.FullTraining;
-}
-
-export namespace FineTuningModelLimitsResponse {
-  /**
-   * Limits for LoRA training.
-   */
-  export interface LoraTraining {
-    /**
-     * Maximum batch size for SFT LoRA training.
-     */
-    max_batch_size: number;
-
-    /**
-     * Maximum batch size for DPO LoRA training.
-     */
-    max_batch_size_dpo: number;
-
-    /**
-     * Maximum LoRA rank.
-     */
-    max_rank: number;
-
-    /**
-     * Minimum batch size for LoRA training.
-     */
-    min_batch_size: number;
-
-    /**
-     * Available target modules for LoRA.
-     */
-    target_modules: Array<string>;
-  }
-
-  /**
-   * Limits for full training.
-   */
-  export interface FullTraining {
-    /**
-     * Maximum batch size for SFT full training.
-     */
-    max_batch_size: number;
-
-    /**
-     * Maximum batch size for DPO full training.
-     */
-    max_batch_size_dpo: number;
-
-    /**
-     * Minimum batch size for full training.
-     */
-    min_batch_size: number;
-  }
-}
-
 export interface FineTuningCreateParams {
   /**
    * Name of the base model to run fine-tune job on
@@ -2064,6 +2062,7 @@ export declare namespace FineTuning {
   export {
     type FinetuneEvent as FinetuneEvent,
     type FinetuneEventType as FinetuneEventType,
+    type FinetuneModelLimits as FinetuneModelLimits,
     type FinetuneResponse as FinetuneResponse,
     type FineTuningCreateResponse as FineTuningCreateResponse,
     type FineTuningListResponse as FineTuningListResponse,
@@ -2073,7 +2072,6 @@ export declare namespace FineTuning {
     type FineTuningListCheckpointsResponse as FineTuningListCheckpointsResponse,
     type FineTuningListEventsResponse as FineTuningListEventsResponse,
     type FineTuningListMetricsResponse as FineTuningListMetricsResponse,
-    type FineTuningModelLimitsResponse as FineTuningModelLimitsResponse,
     type FineTuningCreateParams as FineTuningCreateParams,
     type FineTuningDeleteParams as FineTuningDeleteParams,
     type FineTuningContentParams as FineTuningContentParams,
