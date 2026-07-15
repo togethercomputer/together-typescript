@@ -126,6 +126,8 @@ export class Jig extends APIResource {
   }
 }
 
+export type ContainerDeploymentStatus = 'Updating' | 'Scaling' | 'Ready' | 'Failed' | 'ScaledToZero';
+
 export interface Deployment {
   /**
    * ID is the unique identifier of the deployment
@@ -243,7 +245,7 @@ export interface Deployment {
    * Status represents the overall status of the deployment (e.g., Updating, Scaling,
    * Ready, Failed)
    */
-  status?: 'Updating' | 'Scaling' | 'Ready' | 'Failed' | 'ScaledToZero';
+  status?: ContainerDeploymentStatus;
 
   /**
    * Storage is the amount of storage (in MB or units as defined by the platform)
@@ -316,7 +318,7 @@ export namespace Deployment {
    */
   export interface CustomMetricAutoscalingConfig {
     /**
-     * CustomMetricName is the Prometheus metric name. Required. Must match
+     * CustomMetricName is the Prometheus metric name. Must match
      * [a-zA-Z\_:][a-zA-Z0-9_:]\*
      */
     custom_metric_name?: string;
@@ -597,7 +599,7 @@ export namespace JigUpdateParams {
    */
   export interface CustomMetricAutoscalingConfig {
     /**
-     * CustomMetricName is the Prometheus metric name. Required. Must match
+     * CustomMetricName is the Prometheus metric name. Must match
      * [a-zA-Z\_:][a-zA-Z0-9_:]\*
      */
     custom_metric_name?: string;
@@ -813,7 +815,7 @@ export namespace JigDeployParams {
    */
   export interface CustomMetricAutoscalingConfig {
     /**
-     * CustomMetricName is the Prometheus metric name. Required. Must match
+     * CustomMetricName is the Prometheus metric name. Must match
      * [a-zA-Z\_:][a-zA-Z0-9_:]\*
      */
     custom_metric_name?: string;
@@ -894,6 +896,7 @@ Jig.Secrets = Secrets;
 
 export declare namespace Jig {
   export {
+    type ContainerDeploymentStatus as ContainerDeploymentStatus,
     type Deployment as Deployment,
     type DeploymentLogs as DeploymentLogs,
     type JigListResponse as JigListResponse,

@@ -52,14 +52,66 @@ client.parents.children.retrieve('p_123', 'c_456');
 client.parents.children.retrieve('c_456', { parent_id: 'p_123' });
 ```
 
-This affects the following methods:
+<details>
 
+<summary>This affects the following methods</summary>
+
+- `client.beta.endpoints.retrieve()`
+- `client.beta.endpoints.update()`
+- `client.beta.endpoints.delete()`
+- `client.beta.endpoints.analytics()`
+- `client.beta.endpoints.listEvents()`
+- `client.beta.endpoints.placementProfiles.retrieve()`
+- `client.beta.endpoints.abExperiments.create()`
+- `client.beta.endpoints.abExperiments.retrieve()`
+- `client.beta.endpoints.abExperiments.update()`
+- `client.beta.endpoints.abExperiments.list()`
+- `client.beta.endpoints.abExperiments.delete()`
+- `client.beta.endpoints.shadowExperiments.create()`
+- `client.beta.endpoints.shadowExperiments.retrieve()`
+- `client.beta.endpoints.shadowExperiments.update()`
+- `client.beta.endpoints.shadowExperiments.list()`
+- `client.beta.endpoints.shadowExperiments.delete()`
+- `client.beta.endpoints.shadowExperiments.targets.create()`
+- `client.beta.endpoints.shadowExperiments.targets.retrieve()`
+- `client.beta.endpoints.shadowExperiments.targets.update()`
+- `client.beta.endpoints.shadowExperiments.targets.list()`
+- `client.beta.endpoints.shadowExperiments.targets.delete()`
+- `client.beta.endpoints.rollouts.create()`
+- `client.beta.endpoints.rollouts.retrieve()`
+- `client.beta.endpoints.rollouts.list()`
+- `client.beta.endpoints.rollouts.delete()`
+- `client.beta.endpoints.rollouts.abort()`
+- `client.beta.endpoints.rollouts.pause()`
+- `client.beta.endpoints.rollouts.promote()`
+- `client.beta.endpoints.rollouts.resume()`
+- `client.beta.endpoints.rollouts.start()`
+- `client.beta.endpoints.adapters.create()`
+- `client.beta.endpoints.adapters.retrieve()`
+- `client.beta.endpoints.adapters.update()`
+- `client.beta.endpoints.adapters.list()`
+- `client.beta.endpoints.adapters.delete()`
+- `client.beta.endpoints.deployments.create()`
+- `client.beta.endpoints.deployments.retrieve()`
+- `client.beta.endpoints.deployments.update()`
+- `client.beta.endpoints.deployments.list()`
+- `client.beta.endpoints.deployments.delete()`
+- `client.beta.models.retrieve()`
+- `client.beta.models.update()`
+- `client.beta.models.delete()`
+- `client.beta.models.listFiles()`
+- `client.beta.models.listRevisions()`
+- `client.beta.models.remoteUploads.retrieve()`
+- `client.beta.models.remoteUploads.events()`
+- `client.beta.models.configs.retrieve()`
 - `client.beta.clusters.remediations.create()`
 - `client.beta.clusters.remediations.retrieve()`
 - `client.beta.clusters.remediations.list()`
 - `client.beta.clusters.remediations.approve()`
 - `client.beta.clusters.remediations.cancel()`
 - `client.beta.clusters.remediations.reject()`
+
+</details>
 
 ### URI encoded path parameters
 
@@ -88,8 +140,36 @@ client.example.list(undefined, { headers: { ... } });
 + client.example.list({}, { headers: { ... } });
 ```
 
-This affects the following methods:
+<details>
 
+<summary>This affects the following methods</summary>
+
+- `client.beta.endpoints.retrieve()`
+- `client.beta.endpoints.list()`
+- `client.beta.endpoints.delete()`
+- `client.beta.endpoints.analytics()`
+- `client.beta.endpoints.listEvents()`
+- `client.beta.endpoints.listOrgScoped()`
+- `client.beta.endpoints.placementProfiles.retrieve()`
+- `client.beta.endpoints.placementProfiles.list()`
+- `client.beta.endpoints.abExperiments.list()`
+- `client.beta.endpoints.shadowExperiments.list()`
+- `client.beta.endpoints.shadowExperiments.targets.list()`
+- `client.beta.endpoints.rollouts.list()`
+- `client.beta.endpoints.adapters.list()`
+- `client.beta.endpoints.deployments.list()`
+- `client.beta.models.retrieve()`
+- `client.beta.models.list()`
+- `client.beta.models.delete()`
+- `client.beta.models.listFiles()`
+- `client.beta.models.listOrgScoped()`
+- `client.beta.models.listRevisions()`
+- `client.beta.models.listSupported()`
+- `client.beta.models.remoteUploads.retrieve()`
+- `client.beta.models.remoteUploads.list()`
+- `client.beta.models.remoteUploads.events()`
+- `client.beta.models.configs.retrieve()`
+- `client.beta.models.configs.list()`
 - `client.beta.jig.retrieveLogs()`
 - `client.beta.jig.volumes.retrieve()`
 - `client.beta.clusters.list()`
@@ -100,6 +180,8 @@ This affects the following methods:
 - `client.endpoints.list()`
 - `client.endpoints.listHardware()`
 - `client.evals.list()`
+
+</details>
 
 ### Removed `httpAgent` in favor of `fetchOptions`
 
@@ -238,6 +320,43 @@ import Together from 'together-ai';
 ```
 
 The `together-ai/shims` imports have been removed. Your global types must now be [correctly configured](#minimum-types-requirements).
+
+### Pagination changes
+
+The `for await` syntax **is not affected**. This still works as-is:
+
+```ts
+// Automatically fetches more pages as needed.
+for await (const endpoint of client.beta.endpoints.list({ projectId: 'projectId' })) {
+  console.log(endpoint);
+}
+```
+
+The interface for manually paginating through list results has been simplified:
+
+```ts
+// Before
+page.nextPageParams();
+page.nextPageInfo();
+// Required manually handling { url } | { params } type
+
+// After
+page.nextPageRequestOptions();
+```
+
+#### Removed unnecessary classes
+
+Page classes for individual methods are now type aliases:
+
+```ts
+// Before
+export class EndpointsCursorPagination extends CursorPagination<Endpoint> {}
+
+// After
+export type EndpointsCursorPagination = CursorPagination<Endpoint>;
+```
+
+If you were importing these classes at runtime, you'll need to switch to importing the base class or only import them at the type-level.
 
 ### `together-ai/src` directory removed
 

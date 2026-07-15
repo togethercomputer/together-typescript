@@ -10,10 +10,215 @@ Methods:
 
 # Beta
 
+## Endpoints
+
+Types:
+
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">AbMember</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">DeploymentAutoscaling</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">DeploymentPlacementConfig</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">DeploymentStatus</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">Endpoint</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">EndpointDeployment</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">EndpointDeploymentSummary</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">EndpointTrafficSplitEntry</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowAdaptiveKeyBasedSampling</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowAdaptiveUniformSampling</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowEndpointSource</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowKeyBasedSampling</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowSource</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowUniformSampling</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">EndpointDeleteResponse</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">EndpointAnalyticsResponse</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">EndpointListEventsResponse</a></code>
+
+Methods:
+
+- <code title="post /projects/{projectId}/endpoints">client.beta.endpoints.<a href="./src/resources/beta/endpoints/endpoints.ts">create</a>({ ...params }) -> Endpoint</code>
+- <code title="get /projects/{projectId}/endpoints/{id}">client.beta.endpoints.<a href="./src/resources/beta/endpoints/endpoints.ts">retrieve</a>(id, { ...params }) -> Endpoint</code>
+- <code title="patch /projects/{projectId}/endpoints/{id}">client.beta.endpoints.<a href="./src/resources/beta/endpoints/endpoints.ts">update</a>(id, { ...params }) -> Endpoint</code>
+- <code title="get /projects/{projectId}/endpoints">client.beta.endpoints.<a href="./src/resources/beta/endpoints/endpoints.ts">list</a>({ ...params }) -> EndpointsCursorPagination</code>
+- <code title="delete /projects/{projectId}/endpoints/{id}">client.beta.endpoints.<a href="./src/resources/beta/endpoints/endpoints.ts">delete</a>(id, { ...params }) -> EndpointDeleteResponse</code>
+- <code title="get /projects/{projectId}/endpoints/{id}/analytics">client.beta.endpoints.<a href="./src/resources/beta/endpoints/endpoints.ts">analytics</a>(id, { ...params }) -> EndpointAnalyticsResponse</code>
+- <code title="get /projects/{projectId}/endpoints/{id}/events">client.beta.endpoints.<a href="./src/resources/beta/endpoints/endpoints.ts">listEvents</a>(id, { ...params }) -> EndpointListEventsResponsesCursorPagination</code>
+- <code title="get /organizations/{organizationId}/endpoints">client.beta.endpoints.<a href="./src/resources/beta/endpoints/endpoints.ts">listOrgScoped</a>(organizationID, { ...params }) -> EndpointsCursorPagination</code>
+
+### PlacementProfiles
+
+Types:
+
+- <code><a href="./src/resources/beta/endpoints/placement-profiles.ts">PlacementProfile</a></code>
+
+Methods:
+
+- <code title="get /projects/{projectId}/placement-profiles/{id}">client.beta.endpoints.placementProfiles.<a href="./src/resources/beta/endpoints/placement-profiles.ts">retrieve</a>(id, { ...params }) -> PlacementProfile</code>
+- <code title="get /projects/{projectId}/placement-profiles">client.beta.endpoints.placementProfiles.<a href="./src/resources/beta/endpoints/placement-profiles.ts">list</a>({ ...params }) -> PlacementProfilesCursorPagination</code>
+
+### AbExperiments
+
+Types:
+
+- <code><a href="./src/resources/beta/endpoints/ab-experiments.ts">AbExperiment</a></code>
+- <code><a href="./src/resources/beta/endpoints/ab-experiments.ts">AbExperimentDeleteResponse</a></code>
+
+Methods:
+
+- <code title="post /projects/{projectId}/endpoints/{endpointId}/abExperiments">client.beta.endpoints.abExperiments.<a href="./src/resources/beta/endpoints/ab-experiments.ts">create</a>(endpointID, { ...params }) -> AbExperiment</code>
+- <code title="get /projects/{projectId}/endpoints/{endpointId}/abExperiments/{id}">client.beta.endpoints.abExperiments.<a href="./src/resources/beta/endpoints/ab-experiments.ts">retrieve</a>(id, { ...params }) -> AbExperiment</code>
+- <code title="patch /projects/{projectId}/endpoints/{endpointId}/abExperiments/{id}">client.beta.endpoints.abExperiments.<a href="./src/resources/beta/endpoints/ab-experiments.ts">update</a>(id, { ...params }) -> AbExperiment</code>
+- <code title="get /projects/{projectId}/endpoints/{endpointId}/abExperiments">client.beta.endpoints.abExperiments.<a href="./src/resources/beta/endpoints/ab-experiments.ts">list</a>(endpointID, { ...params }) -> AbExperimentsCursorPagination</code>
+- <code title="delete /projects/{projectId}/endpoints/{endpointId}/abExperiments/{id}">client.beta.endpoints.abExperiments.<a href="./src/resources/beta/endpoints/ab-experiments.ts">delete</a>(id, { ...params }) -> AbExperimentDeleteResponse</code>
+
+### ShadowExperiments
+
+Types:
+
+- <code><a href="./src/resources/beta/endpoints/shadow-experiments/shadow-experiments.ts">ShadowExperiment</a></code>
+- <code><a href="./src/resources/beta/endpoints/shadow-experiments/shadow-experiments.ts">ShadowExperimentDeleteResponse</a></code>
+
+Methods:
+
+- <code title="post /projects/{projectId}/endpoints/{endpointId}/shadowExperiments">client.beta.endpoints.shadowExperiments.<a href="./src/resources/beta/endpoints/shadow-experiments/shadow-experiments.ts">create</a>(endpointID, { ...params }) -> ShadowExperiment</code>
+- <code title="get /projects/{projectId}/endpoints/{endpointId}/shadowExperiments/{id}">client.beta.endpoints.shadowExperiments.<a href="./src/resources/beta/endpoints/shadow-experiments/shadow-experiments.ts">retrieve</a>(id, { ...params }) -> ShadowExperiment</code>
+- <code title="patch /projects/{projectId}/endpoints/{endpointId}/shadowExperiments/{id}">client.beta.endpoints.shadowExperiments.<a href="./src/resources/beta/endpoints/shadow-experiments/shadow-experiments.ts">update</a>(id, { ...params }) -> ShadowExperiment</code>
+- <code title="get /projects/{projectId}/endpoints/{endpointId}/shadowExperiments">client.beta.endpoints.shadowExperiments.<a href="./src/resources/beta/endpoints/shadow-experiments/shadow-experiments.ts">list</a>(endpointID, { ...params }) -> ShadowExperimentsCursorPagination</code>
+- <code title="delete /projects/{projectId}/endpoints/{endpointId}/shadowExperiments/{id}">client.beta.endpoints.shadowExperiments.<a href="./src/resources/beta/endpoints/shadow-experiments/shadow-experiments.ts">delete</a>(id, { ...params }) -> ShadowExperimentDeleteResponse</code>
+
+#### Targets
+
+Types:
+
+- <code><a href="./src/resources/beta/endpoints/shadow-experiments/targets.ts">ShadowExperimentTarget</a></code>
+- <code><a href="./src/resources/beta/endpoints/shadow-experiments/targets.ts">TargetDeleteResponse</a></code>
+
+Methods:
+
+- <code title="post /projects/{projectId}/endpoints/{endpointId}/shadowExperiments/{experimentId}/targets">client.beta.endpoints.shadowExperiments.targets.<a href="./src/resources/beta/endpoints/shadow-experiments/targets.ts">create</a>({ ...params }) -> ShadowExperimentTarget</code>
+- <code title="get /projects/{projectId}/endpoints/{endpointId}/shadowExperiments/{experimentId}/targets/{id}">client.beta.endpoints.shadowExperiments.targets.<a href="./src/resources/beta/endpoints/shadow-experiments/targets.ts">retrieve</a>(id, { ...params }) -> ShadowExperimentTarget</code>
+- <code title="patch /projects/{projectId}/endpoints/{endpointId}/shadowExperiments/{experimentId}/targets/{id}">client.beta.endpoints.shadowExperiments.targets.<a href="./src/resources/beta/endpoints/shadow-experiments/targets.ts">update</a>(id, { ...params }) -> ShadowExperimentTarget</code>
+- <code title="get /projects/{projectId}/endpoints/{endpointId}/shadowExperiments/{experimentId}/targets">client.beta.endpoints.shadowExperiments.targets.<a href="./src/resources/beta/endpoints/shadow-experiments/targets.ts">list</a>(endpointID, experimentID, { ...params }) -> ShadowExperimentTargetsCursorPagination</code>
+- <code title="delete /projects/{projectId}/endpoints/{endpointId}/shadowExperiments/{experimentId}/targets/{id}">client.beta.endpoints.shadowExperiments.targets.<a href="./src/resources/beta/endpoints/shadow-experiments/targets.ts">delete</a>(id, { ...params }) -> TargetDeleteResponse</code>
+
+### Rollouts
+
+Types:
+
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">Rollout</a></code>
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">RolloutDeleteResponse</a></code>
+
+Methods:
+
+- <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">create</a>(endpointID, { ...params }) -> Rollout</code>
+- <code title="get /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">retrieve</a>(id, { ...params }) -> Rollout</code>
+- <code title="get /projects/{projectId}/endpoints/{endpointId}/rollouts">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">list</a>(endpointID, { ...params }) -> RolloutsCursorPagination</code>
+- <code title="delete /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">delete</a>(id, { ...params }) -> RolloutDeleteResponse</code>
+- <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/abort">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">abort</a>(id, { ...params }) -> Rollout</code>
+- <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/pause">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">pause</a>(id, { ...params }) -> Rollout</code>
+- <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/promote">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">promote</a>(id, { ...params }) -> Rollout</code>
+- <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/resume">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">resume</a>(id, { ...params }) -> Rollout</code>
+- <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/start">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">start</a>(id, { ...params }) -> Rollout</code>
+
+### Hardware
+
+Types:
+
+- <code><a href="./src/resources/beta/endpoints/hardware.ts">InferenceInstanceType</a></code>
+- <code><a href="./src/resources/beta/endpoints/hardware.ts">HardwareListResponse</a></code>
+
+Methods:
+
+- <code title="get /public/inference-instance-types/{id}">client.beta.endpoints.hardware.<a href="./src/resources/beta/endpoints/hardware.ts">retrieve</a>(id) -> InferenceInstanceType</code>
+- <code title="get /public/inference-instance-types">client.beta.endpoints.hardware.<a href="./src/resources/beta/endpoints/hardware.ts">list</a>() -> HardwareListResponse</code>
+
+### Adapters
+
+Types:
+
+- <code><a href="./src/resources/beta/endpoints/adapters.ts">AdapterCreateResponse</a></code>
+- <code><a href="./src/resources/beta/endpoints/adapters.ts">AdapterRetrieveResponse</a></code>
+- <code><a href="./src/resources/beta/endpoints/adapters.ts">AdapterUpdateResponse</a></code>
+- <code><a href="./src/resources/beta/endpoints/adapters.ts">AdapterListResponse</a></code>
+- <code><a href="./src/resources/beta/endpoints/adapters.ts">AdapterDeleteResponse</a></code>
+
+Methods:
+
+- <code title="post /projects/{projectId}/endpoints/{endpointId}/deployments/{deploymentId}/adapters">client.beta.endpoints.adapters.<a href="./src/resources/beta/endpoints/adapters.ts">create</a>({ ...params }) -> AdapterCreateResponse</code>
+- <code title="get /projects/{projectId}/endpoints/{endpointId}/deployments/{deploymentId}/adapters/{id}">client.beta.endpoints.adapters.<a href="./src/resources/beta/endpoints/adapters.ts">retrieve</a>(id, { ...params }) -> AdapterRetrieveResponse</code>
+- <code title="patch /projects/{projectId}/endpoints/{endpointId}/deployments/{deploymentId}/adapters/{id}">client.beta.endpoints.adapters.<a href="./src/resources/beta/endpoints/adapters.ts">update</a>(id, { ...params }) -> AdapterUpdateResponse</code>
+- <code title="get /projects/{projectId}/endpoints/{endpointId}/deployments/{deploymentId}/adapters">client.beta.endpoints.adapters.<a href="./src/resources/beta/endpoints/adapters.ts">list</a>(endpointID, deploymentID, { ...params }) -> AdapterListResponsesCursorPagination</code>
+- <code title="delete /projects/{projectId}/endpoints/{endpointId}/deployments/{deploymentId}/adapters/{id}">client.beta.endpoints.adapters.<a href="./src/resources/beta/endpoints/adapters.ts">delete</a>(id, { ...params }) -> AdapterDeleteResponse</code>
+
+### Deployments
+
+Types:
+
+- <code><a href="./src/resources/beta/endpoints/deployments.ts">DeploymentDeleteResponse</a></code>
+
+Methods:
+
+- <code title="post /projects/{projectId}/endpoints/{endpointId}/deployments">client.beta.endpoints.deployments.<a href="./src/resources/beta/endpoints/deployments.ts">create</a>(endpointID, { ...params }) -> EndpointDeployment</code>
+- <code title="get /projects/{projectId}/endpoints/{endpointId}/deployments/{id}">client.beta.endpoints.deployments.<a href="./src/resources/beta/endpoints/deployments.ts">retrieve</a>(id, { ...params }) -> EndpointDeployment</code>
+- <code title="patch /projects/{projectId}/endpoints/{endpointId}/deployments/{id}">client.beta.endpoints.deployments.<a href="./src/resources/beta/endpoints/deployments.ts">update</a>(id, { ...params }) -> EndpointDeployment</code>
+- <code title="get /projects/{projectId}/endpoints/{endpointId}/deployments">client.beta.endpoints.deployments.<a href="./src/resources/beta/endpoints/deployments.ts">list</a>(endpointID, { ...params }) -> EndpointDeploymentsCursorPagination</code>
+- <code title="delete /projects/{projectId}/endpoints/{endpointId}/deployments/{id}">client.beta.endpoints.deployments.<a href="./src/resources/beta/endpoints/deployments.ts">delete</a>(id, { ...params }) -> DeploymentDeleteResponse</code>
+
+## Models
+
+Types:
+
+- <code><a href="./src/resources/beta/models/models.ts">Model</a></code>
+- <code><a href="./src/resources/beta/models/models.ts">SupportedModel</a></code>
+- <code><a href="./src/resources/beta/models/models.ts">SupportedModelDeploymentProfile</a></code>
+- <code><a href="./src/resources/beta/models/models.ts">SupportedModelPerformanceBenchmarks</a></code>
+- <code><a href="./src/resources/beta/models/models.ts">ModelDeleteResponse</a></code>
+- <code><a href="./src/resources/beta/models/models.ts">ModelListFilesResponse</a></code>
+- <code><a href="./src/resources/beta/models/models.ts">ModelListRevisionsResponse</a></code>
+
+Methods:
+
+- <code title="post /projects/{projectId}/models">client.beta.models.<a href="./src/resources/beta/models/models.ts">create</a>({ ...params }) -> Model</code>
+- <code title="get /projects/{projectId}/models/{id}">client.beta.models.<a href="./src/resources/beta/models/models.ts">retrieve</a>(id, { ...params }) -> Model</code>
+- <code title="patch /projects/{projectId}/models/{id}">client.beta.models.<a href="./src/resources/beta/models/models.ts">update</a>(id, { ...params }) -> Model</code>
+- <code title="get /projects/{projectId}/models">client.beta.models.<a href="./src/resources/beta/models/models.ts">list</a>({ ...params }) -> ModelsCursorPagination</code>
+- <code title="delete /projects/{projectId}/models/{id}">client.beta.models.<a href="./src/resources/beta/models/models.ts">delete</a>(id, { ...params }) -> ModelDeleteResponse</code>
+- <code title="get /projects/{projectId}/models/{id}/files">client.beta.models.<a href="./src/resources/beta/models/models.ts">listFiles</a>(id, { ...params }) -> ModelListFilesResponse</code>
+- <code title="get /organizations/{organizationId}/models">client.beta.models.<a href="./src/resources/beta/models/models.ts">listOrgScoped</a>(organizationID, { ...params }) -> ModelsCursorPagination</code>
+- <code title="get /projects/{projectId}/models/{id}/revisions">client.beta.models.<a href="./src/resources/beta/models/models.ts">listRevisions</a>(id, { ...params }) -> ModelListRevisionsResponse</code>
+- <code title="get /supported-models">client.beta.models.<a href="./src/resources/beta/models/models.ts">listSupported</a>({ ...params }) -> SupportedModelsCursorPagination</code>
+- <code title="get /supported-models/{id}">client.beta.models.<a href="./src/resources/beta/models/models.ts">retrieveSupported</a>(id) -> SupportedModel</code>
+
+### RemoteUploads
+
+Types:
+
+- <code><a href="./src/resources/beta/models/remote-uploads.ts">RemoteUploadCreateResponse</a></code>
+- <code><a href="./src/resources/beta/models/remote-uploads.ts">RemoteUploadRetrieveResponse</a></code>
+- <code><a href="./src/resources/beta/models/remote-uploads.ts">RemoteUploadListResponse</a></code>
+- <code><a href="./src/resources/beta/models/remote-uploads.ts">RemoteUploadEventsResponse</a></code>
+
+Methods:
+
+- <code title="post /projects/{projectId}/models/uploads">client.beta.models.remoteUploads.<a href="./src/resources/beta/models/remote-uploads.ts">create</a>({ ...params }) -> RemoteUploadCreateResponse</code>
+- <code title="get /projects/{projectId}/models/uploads/{id}">client.beta.models.remoteUploads.<a href="./src/resources/beta/models/remote-uploads.ts">retrieve</a>(id, { ...params }) -> RemoteUploadRetrieveResponse</code>
+- <code title="get /projects/{projectId}/models/uploads">client.beta.models.remoteUploads.<a href="./src/resources/beta/models/remote-uploads.ts">list</a>({ ...params }) -> RemoteUploadListResponsesCursorPagination</code>
+- <code title="get /projects/{projectId}/models/uploads/{id}/events">client.beta.models.remoteUploads.<a href="./src/resources/beta/models/remote-uploads.ts">events</a>(id, { ...params }) -> RemoteUploadEventsResponse</code>
+
+### Configs
+
+Types:
+
+- <code><a href="./src/resources/beta/models/configs.ts">Config</a></code>
+
+Methods:
+
+- <code title="get /projects/{projectId}/configs/{id}">client.beta.models.configs.<a href="./src/resources/beta/models/configs.ts">retrieve</a>(id, { ...params }) -> Config</code>
+- <code title="get /projects/{projectId}/configs">client.beta.models.configs.<a href="./src/resources/beta/models/configs.ts">list</a>({ ...params }) -> ConfigsCursorPagination</code>
+
 ## Jig
 
 Types:
 
+- <code><a href="./src/resources/beta/jig/jig.ts">ContainerDeploymentStatus</a></code>
 - <code><a href="./src/resources/beta/jig/jig.ts">Deployment</a></code>
 - <code><a href="./src/resources/beta/jig/jig.ts">DeploymentLogs</a></code>
 - <code><a href="./src/resources/beta/jig/jig.ts">JigListResponse</a></code>

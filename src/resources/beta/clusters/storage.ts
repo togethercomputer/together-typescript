@@ -170,7 +170,7 @@ export interface StorageListParams {
    * to this project are returned. The caller must be a member of the project;
    * otherwise the result set will be empty.
    */
-  project_id?: string;
+  projectId?: string;
 }
 
 export declare namespace Storage {

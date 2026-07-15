@@ -7,12 +7,12 @@ const client = new Together({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource storage', () => {
+describe('resource remoteUploads', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.beta.clusters.storage.create({
-      region: 'region',
-      size_tib: 0,
-      volume_name: 'volume_name',
+    const responsePromise = client.beta.models.remoteUploads.create({
+      projectId: 'projectId',
+      modelId: 'modelId',
+      remoteUrl: 'remoteUrl',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -24,17 +24,16 @@ describe('resource storage', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.beta.clusters.storage.create({
-      region: 'region',
-      size_tib: 0,
-      volume_name: 'volume_name',
-      is_lifecycle_independent: true,
-      project_id: 'project_id',
+    const response = await client.beta.models.remoteUploads.create({
+      projectId: 'projectId',
+      modelId: 'modelId',
+      remoteUrl: 'remoteUrl',
+      token: 'token',
     });
   });
 
-  test('retrieve', async () => {
-    const responsePromise = client.beta.clusters.storage.retrieve('volume_id');
+  test('retrieve: only required params', async () => {
+    const responsePromise = client.beta.models.remoteUploads.retrieve('id', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -44,8 +43,12 @@ describe('resource storage', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('update: only required params', async () => {
-    const responsePromise = client.beta.clusters.storage.update({ volume_id: 'volume_id' });
+  test('retrieve: required and optional params', async () => {
+    const response = await client.beta.models.remoteUploads.retrieve('id', { projectId: 'projectId' });
+  });
+
+  test('list: only required params', async () => {
+    const responsePromise = client.beta.models.remoteUploads.list({ projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -55,12 +58,16 @@ describe('resource storage', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('update: required and optional params', async () => {
-    const response = await client.beta.clusters.storage.update({ volume_id: 'volume_id', size_tib: 0 });
+  test('list: required and optional params', async () => {
+    const response = await client.beta.models.remoteUploads.list({
+      projectId: 'projectId',
+      after: 'after',
+      limit: 0,
+    });
   });
 
-  test('list', async () => {
-    const responsePromise = client.beta.clusters.storage.list();
+  test('events: only required params', async () => {
+    const responsePromise = client.beta.models.remoteUploads.events('id', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -70,21 +77,11 @@ describe('resource storage', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.beta.clusters.storage.list({ projectId: 'projectId' }, { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Together.NotFoundError);
-  });
-
-  test('delete', async () => {
-    const responsePromise = client.beta.clusters.storage.delete('volume_id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
+  test('events: required and optional params', async () => {
+    const response = await client.beta.models.remoteUploads.events('id', {
+      projectId: 'projectId',
+      after: 'after',
+      limit: 0,
+    });
   });
 });

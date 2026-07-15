@@ -147,7 +147,7 @@ describe('resource clusters', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.beta.clusters.list({ project_id: 'project_id' }, { path: '/_stainless_unknown_path' }),
+      client.beta.clusters.list({ projectId: 'projectId' }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Together.NotFoundError);
   });
 
