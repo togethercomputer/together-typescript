@@ -14,6 +14,8 @@ import * as Opts from './internal/request-options';
 import { stringifyQuery } from './internal/utils/query';
 import { VERSION } from './version';
 import * as Errors from './core/error';
+import * as Pagination from './core/pagination';
+import { AbstractPage, type CursorPaginationParams, CursorPaginationResponse } from './core/pagination';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import * as TopLevelAPI from './resources/top-level';
@@ -115,6 +117,11 @@ import { isEmptyObj } from './internal/utils/values';
 
 export interface ClientOptions {
   /**
+   * Together project ID
+   */
+  projectID?: string | null | undefined;
+
+  /**
    * Defaults to process.env['TOGETHER_API_KEY'].
    */
   apiKey?: string | undefined;
@@ -192,6 +199,7 @@ export interface ClientOptions {
  * API Client for interfacing with the Together API.
  */
 export class Together {
+  projectID: string | null;
   apiKey: string;
 
   baseURL: string;
@@ -209,6 +217,7 @@ export class Together {
   /**
    * API Client for interfacing with the Together API.
    *
+   * @param {string | null | undefined} [opts.projectID=process.env['TOGETHER_PROJECT_ID'] ?? null]
    * @param {string | undefined} [opts.apiKey=process.env['TOGETHER_API_KEY'] ?? undefined]
    * @param {string} [opts.baseURL=process.env['TOGETHER_BASE_URL'] ?? https://api.together.ai/v1] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
@@ -220,6 +229,7 @@ export class Together {
    */
   constructor({
     baseURL = readEnv('TOGETHER_BASE_URL'),
+    projectID = readEnv('TOGETHER_PROJECT_ID') ?? null,
     apiKey = readEnv('TOGETHER_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
@@ -230,6 +240,7 @@ export class Together {
     }
 
     const options: ClientOptions = {
+      projectID,
       apiKey,
       ...opts,
       baseURL: baseURL || `https://api.together.ai/v1`,
@@ -264,6 +275,7 @@ export class Together {
 
     this._options = options;
 
+    this.projectID = projectID;
     this.apiKey = apiKey;
   }
 
@@ -280,6 +292,7 @@ export class Together {
       logLevel: this.logLevel,
       fetch: this.fetch,
       fetchOptions: this.fetchOptions,
+      projectID: this.projectID,
       apiKey: this.apiKey,
       ...options,
     });
@@ -574,6 +587,30 @@ export class Together {
     return { response, options, controller, requestLogID, retryOfRequestLogID, startTime };
   }
 
+  getAPIList<Item, PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>>(
+    path: string,
+    Page: new (...args: any[]) => PageClass,
+    opts?: PromiseOrValue<RequestOptions>,
+  ): Pagination.PagePromise<PageClass, Item> {
+    return this.requestAPIList(
+      Page,
+      opts && 'then' in opts ?
+        opts.then((opts) => ({ method: 'get', path, ...opts }))
+      : { method: 'get', path, ...opts },
+    );
+  }
+
+  requestAPIList<
+    Item = unknown,
+    PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>,
+  >(
+    Page: new (...args: ConstructorParameters<typeof Pagination.AbstractPage>) => PageClass,
+    options: PromiseOrValue<FinalRequestOptions>,
+  ): Pagination.PagePromise<PageClass, Item> {
+    const request = this.makeRequest(options, null, undefined);
+    return new Pagination.PagePromise<PageClass, Item>(this as any as Together, request, Page);
+  }
+
   async fetchWithTimeout(
     url: RequestInfo,
     init: RequestInit | undefined,
@@ -865,6 +902,12 @@ Together.Evals = Evals;
 
 export declare namespace Together {
   export type RequestOptions = Opts.RequestOptions;
+
+  export import CursorPagination = Pagination.CursorPagination;
+  export {
+    type CursorPaginationParams as CursorPaginationParams,
+    type CursorPaginationResponse as CursorPaginationResponse,
+  };
 
   export { type WhoamiResponse as WhoamiResponse };
 

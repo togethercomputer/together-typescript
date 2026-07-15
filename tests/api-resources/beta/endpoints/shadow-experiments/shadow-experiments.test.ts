@@ -7,12 +7,12 @@ const client = new Together({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource storage', () => {
+describe('resource shadowExperiments', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.beta.clusters.storage.create({
-      region: 'region',
-      size_tib: 0,
-      volume_name: 'volume_name',
+    const responsePromise = client.beta.endpoints.shadowExperiments.create('endpointId', {
+      projectId: 'projectId',
+      name: 'name',
+      source: { endpoint: { sampling: { uniform: { rate: 0 } } } },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -24,17 +24,25 @@ describe('resource storage', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.beta.clusters.storage.create({
-      region: 'region',
-      size_tib: 0,
-      volume_name: 'volume_name',
-      is_lifecycle_independent: true,
-      project_id: 'project_id',
+    const response = await client.beta.endpoints.shadowExperiments.create('endpointId', {
+      projectId: 'projectId',
+      name: 'name',
+      source: { endpoint: { sampling: { uniform: { rate: 0 } } } },
+      targets: [
+        {
+          name: 'name',
+          targetDeploymentId: 'targetDeploymentId',
+          description: 'description',
+        },
+      ],
     });
   });
 
-  test('retrieve', async () => {
-    const responsePromise = client.beta.clusters.storage.retrieve('volume_id');
+  test('retrieve: only required params', async () => {
+    const responsePromise = client.beta.endpoints.shadowExperiments.retrieve('id', {
+      projectId: 'projectId',
+      endpointId: 'endpointId',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -44,8 +52,19 @@ describe('resource storage', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('retrieve: required and optional params', async () => {
+    const response = await client.beta.endpoints.shadowExperiments.retrieve('id', {
+      projectId: 'projectId',
+      endpointId: 'endpointId',
+    });
+  });
+
   test('update: only required params', async () => {
-    const responsePromise = client.beta.clusters.storage.update({ volume_id: 'volume_id' });
+    const responsePromise = client.beta.endpoints.shadowExperiments.update('id', {
+      projectId: 'projectId',
+      endpointId: 'endpointId',
+      updateMask: 'updateMask',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -56,11 +75,20 @@ describe('resource storage', () => {
   });
 
   test('update: required and optional params', async () => {
-    const response = await client.beta.clusters.storage.update({ volume_id: 'volume_id', size_tib: 0 });
+    const response = await client.beta.endpoints.shadowExperiments.update('id', {
+      projectId: 'projectId',
+      endpointId: 'endpointId',
+      updateMask: 'updateMask',
+      description: 'description',
+      etag: 'etag',
+      source: { endpoint: { sampling: { uniform: { rate: 0 } } } },
+    });
   });
 
-  test('list', async () => {
-    const responsePromise = client.beta.clusters.storage.list();
+  test('list: only required params', async () => {
+    const responsePromise = client.beta.endpoints.shadowExperiments.list('endpointId', {
+      projectId: 'projectId',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -70,15 +98,20 @@ describe('resource storage', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.beta.clusters.storage.list({ projectId: 'projectId' }, { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Together.NotFoundError);
+  test('list: required and optional params', async () => {
+    const response = await client.beta.endpoints.shadowExperiments.list('endpointId', {
+      projectId: 'projectId',
+      after: 'after',
+      includeTargets: true,
+      limit: 0,
+    });
   });
 
-  test('delete', async () => {
-    const responsePromise = client.beta.clusters.storage.delete('volume_id');
+  test('delete: only required params', async () => {
+    const responsePromise = client.beta.endpoints.shadowExperiments.delete('id', {
+      projectId: 'projectId',
+      endpointId: 'endpointId',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -86,5 +119,13 @@ describe('resource storage', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('delete: required and optional params', async () => {
+    const response = await client.beta.endpoints.shadowExperiments.delete('id', {
+      projectId: 'projectId',
+      endpointId: 'endpointId',
+      etag: 'etag',
+    });
   });
 });

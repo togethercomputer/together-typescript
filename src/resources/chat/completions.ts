@@ -36,9 +36,12 @@ export class Completions extends APIResource {
     body: CompletionCreateParams,
     options?: RequestOptions,
   ): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletionChunk>> {
-    return this._client.post('/chat/completions', { body, ...options, stream: body.stream ?? false }) as
-      | APIPromise<ChatCompletion>
-      | APIPromise<Stream<ChatCompletionChunk>>;
+    return this._client.post('/chat/completions', {
+      body,
+      defaultBaseURL: 'https://api-inference.together.ai/v1',
+      ...options,
+      stream: body.stream ?? false,
+    }) as APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletionChunk>>;
   }
   stream(body: ChatCompletionStreamParams, options?: RequestOptions): ChatCompletionStream {
     return ChatCompletionStream.createChatCompletion(this._client.chat.completions, body, options);

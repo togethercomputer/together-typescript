@@ -32,6 +32,11 @@ export interface WhoamiResponse {
    * inference calls.
    */
   project_slug: string;
+
+  /**
+   * The ID of the authenticated user, if available.
+   */
+  user_id?: string;
 }
 
 export declare namespace TopLevel {

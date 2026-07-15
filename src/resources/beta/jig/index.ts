@@ -2,6 +2,7 @@
 
 export {
   Jig,
+  type ContainerDeploymentStatus,
   type Deployment,
   type DeploymentLogs,
   type JigListResponse,
