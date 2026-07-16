@@ -1,5 +1,35 @@
 # Changelog
 
+## [0.42.0](https://github.com/togethercomputer/together-typescript/compare/v0.41.2...v0.42.0) (2026-07-16)
+
+
+### Features
+
+* add /v1/whoami endpoint to OpenAPI spec ([b77b00c](https://github.com/togethercomputer/together-typescript/commit/b77b00c948d2dfaf3a041b8b0e6d3fde98769e92))
+* expose GPU cluster reserved counts ([e62075b](https://github.com/togethercomputer/together-typescript/commit/e62075baea6fa9f98f36764fe5b0423ed4c6c666))
+* **openapi:** add force stop parameter ([bf20e48](https://github.com/togethercomputer/together-typescript/commit/bf20e487c238b0b6204b62b45fcff93c6ffe8a3c))
+* **openapi:** expose remediation linked alerts ([c1c10d0](https://github.com/togethercomputer/together-typescript/commit/c1c10d0769c7250d59737837ff13533307623ce1))
+* **openapi:** sync passive health check alerts ([162191f](https://github.com/togethercomputer/together-typescript/commit/162191f300654bbb080f68d8a3580be8a6cbd672))
+* **openapi:** sync RL model resources stop API ([042c1f5](https://github.com/togethercomputer/together-typescript/commit/042c1f5eb481d54178d4cfbed5bc9633cc31c46c))
+* **openapi:** sync RL Muon optimizer API ([01a090a](https://github.com/togethercomputer/together-typescript/commit/01a090ad9a2fdcad47b22146cd3f2ed09bd45f28))
+
+
+### Bug Fixes
+
+* **openapi:** remove duplicate supports_full_training key ([5cbd9e9](https://github.com/togethercomputer/together-typescript/commit/5cbd9e9b91ed8b4671fd932bdc03bd4095487385))
+
+
+### Chores
+
+* Add npm support metadata ([#223](https://github.com/togethercomputer/together-typescript/issues/223)) ([0076c63](https://github.com/togethercomputer/together-typescript/commit/0076c6333a873ba5f0ca8ac44d596d3acd3565d8))
+* export finetune model limits type name preoperly ([de2f10e](https://github.com/togethercomputer/together-typescript/commit/de2f10e4d0709a5e196edc2e303edd0d51c2ce35))
+* fix yaml ([ee2b319](https://github.com/togethercomputer/together-typescript/commit/ee2b31944db8e7653122120b090f79f7cf50931f))
+
+
+### Documentation
+
+* **adapters:** align endpoint adapter code samples with the SDK ([6ccddec](https://github.com/togethercomputer/together-typescript/commit/6ccddec09bceaa541f83ea1f3d0fb5edbf3accee))
+
 ## [0.41.2](https://github.com/togethercomputer/together-typescript/compare/v0.41.1...v0.41.2) (2026-06-17)
 
 
