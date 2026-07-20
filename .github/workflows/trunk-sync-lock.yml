@@ -9,9 +9,9 @@ name: Trunk sync lock
 # Never route the back-sync through a PR gated by this check or it deadlocks.
 # First-run: a check counts as "required" only after it reports once, so trigger this workflow once before marking trunk-synced required.
 on:
-  # pull_request:
-  #   branches: [main]
-  #   types: [opened, synchronize, reopened]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
   workflow_run:
     workflows: ['Sync SDK repos']
     types: [completed]
