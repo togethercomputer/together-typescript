@@ -1,8 +1,15 @@
 name: Promote SDKs
 
+# Promote staging to production by fast-forwarding production main up to staging,
+# preserving SHAs so the trunks stay identical and linear (nothing to heal on the
+# next stlc build). If the direct push is blocked (e.g. org ruleset pull_request
+# without stlc-workflow-app as a bypass actor), fall back to force-pushing
+# stainless/release and opening/updating a "Release SDK updates" PR — the old
+# protection-compatible path. Manual dispatch by design: a maintainer promotes
+# the accumulated batch to cut a release; release-please then opens its version
+# PR on production.
 on:
-  push:
-    branches: [main]
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -10,6 +17,10 @@ permissions:
 jobs:
   promote:
     runs-on: ubuntu-latest
+    if: github.repository == 'togethercomputer/together-typescript-staging'
+    # Optional gate: add required reviewers to this environment to approve each
+    # promote. With none it only scopes secrets and adds no gate. Remove if unused.
+    environment: production
     env:
       PRODUCTION_REPO: togethercomputer/together-typescript
     steps:
@@ -26,8 +37,9 @@ jobs:
           client-id: ${{ secrets.STLC_WORKFLOW_APP_CLIENT_ID }}
           private-key: ${{ secrets.STLC_WORKFLOW_APP_PRIVATE_KEY }}
           owner: togethercomputer
-          repositories: together-typescript
-
+          repositories: |
+            together-typescript-staging
+            together-typescript
       - name: Configure auth for github
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
@@ -44,36 +56,49 @@ jobs:
             "https://x-access-token:${GH_TOKEN}@github.com/${PRODUCTION_REPO}.git"
           git fetch production main
 
-      - name: Check if production is already in sync
+      - name: Check whether production already has staging's content
         id: diff
         run: |
-          STAGING_SHA=$(git rev-parse origin/main)
-          PRODUCTION_SHA=$(git rev-parse production/main)
-          if [ "$STAGING_SHA" = "$PRODUCTION_SHA" ]; then
-            echo "Production is already at $STAGING_SHA. Nothing to release."
+          # After a release, production has release-please commits staging lacks, so compare trees.
+          MERGED=$(git -c credential.helper= merge-tree --write-tree production/main origin/main) || MERGED=conflict
+          PRODUCTION_TREE=$(git rev-parse 'production/main^{tree}')
+          if [ "$MERGED" = "$PRODUCTION_TREE" ]; then
+            echo "Production already contains staging's content. Nothing to promote."
             echo "synced=true" >> "$GITHUB_OUTPUT"
           else
             echo "synced=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Push staging main to the release branch on production
+      - name: Promote staging to production (fast-forward, PR fallback)
         if: steps.diff.outputs.synced == 'false'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          git push production origin/main:refs/heads/stainless/release --force
+          set -euo pipefail
+          # Refuse unless production is an ancestor of staging: otherwise the trunks
+          # have forked (production advanced without a back-sync) and FF is unsafe.
+          if ! git -c credential.helper= merge-base --is-ancestor production/main origin/main; then
+            echo "::error title=Promote blocked::production/main is not an ancestor of staging main. Back-sync production into staging first."
+            exit 1
+          fi
 
-      - name: Open or update the release PR on production
-        if: steps.diff.outputs.synced == 'false'
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: |
+          prod_url="https://x-access-token:${GH_TOKEN}@github.com/${PRODUCTION_REPO}.git"
+          if git -c credential.helper= push "$prod_url" origin/main:refs/heads/main; then
+            echo "Fast-forwarded production/main to staging/main."
+            exit 0
+          fi
+
+          # Direct push blocked (ruleset without app bypass). Fall back to the old
+          # stainless/release PR so promote still lands behind required reviews.
+          echo "::warning title=Promote fallback::Direct push to production/main failed — falling back to stainless/release PR. Restore stlc-workflow-app as a bypass actor on the main ruleset to keep SHA-preserving fast-forwards."
+          git -c credential.helper= push production origin/main:refs/heads/stainless/release --force
+
           EXISTING_PR=$(gh pr list \
             --repo "${PRODUCTION_REPO}" \
             --head stainless/release \
             --state open \
             --json number \
-            --jq '.[0].number')
+            --jq '.[0].number // empty')
           if [ -z "${EXISTING_PR}" ]; then
             gh pr create \
               --repo "${PRODUCTION_REPO}" \
@@ -84,3 +109,21 @@ jobs:
           else
             echo "Release PR #${EXISTING_PR} already exists. Force-push has updated it."
           fi
+
+      # Optional alerting workflow.
+      # If we want to add this back in, we need an incoming webhook (Slack/Teams/etc) that the workflow POSTs to when a run fails, so a stalled build or tracking sync pages a human instead of sitting red in the Actions tab.
+      #
+      # - name: Alert on failure
+      #   if: failure()
+      #   env:
+      #     ALERT_WEBHOOK_URL: ${{ secrets.STLC_ALERT_WEBHOOK_URL }}
+      #   run: |
+      #     run_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      #     msg="stlc promote failed in ${{ github.repository }}. A stalled promote or back-sync lets custom-code tracking drift, which later builds refuse on — investigate before the next build. Run: $run_url"
+      #     echo "::error title=stlc workflow failed::$msg"
+      #     { echo "### ⚠️ stlc workflow failed"; echo ""; echo "$msg"; } >> "$GITHUB_STEP_SUMMARY"
+      #     if [ -n "${ALERT_WEBHOOK_URL:-}" ]; then
+      #       curl -sS -X POST -H 'Content-Type: application/json' \
+      #         -d "$(jq -n --arg text "$msg" '{text:$text}')" "$ALERT_WEBHOOK_URL" \
+      #         || echo "::warning::Alert webhook POST failed"
+      #     fi
