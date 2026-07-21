@@ -315,6 +315,11 @@ export namespace Cluster {
     export interface Config {
       dashboard?: Config.Dashboard;
 
+      /**
+       * Configuration for the Headlamp Kubernetes dashboard add-on.
+       */
+      headlamp?: Config.Headlamp;
+
       ingress?: Config.Ingress;
 
       /**
@@ -325,6 +330,16 @@ export namespace Cluster {
 
     export namespace Config {
       export interface Dashboard {
+        enabled?: boolean;
+      }
+
+      /**
+       * Configuration for the Headlamp Kubernetes dashboard add-on.
+       */
+      export interface Headlamp {
+        /**
+         * Whether to enable the Headlamp Kubernetes dashboard add-on.
+         */
         enabled?: boolean;
       }
 
@@ -349,6 +364,11 @@ export namespace Cluster {
     export interface State {
       dashboard?: State.Dashboard;
 
+      /**
+       * State for the Headlamp Kubernetes dashboard add-on.
+       */
+      headlamp?: State.Headlamp;
+
       ingress?: State.Ingress;
 
       /**
@@ -359,6 +379,11 @@ export namespace Cluster {
 
     export namespace State {
       export interface Dashboard {}
+
+      /**
+       * State for the Headlamp Kubernetes dashboard add-on.
+       */
+      export interface Headlamp {}
 
       export interface Ingress {}
 
@@ -1107,6 +1132,11 @@ export namespace ClusterCreateParams {
     export interface Config {
       dashboard?: Config.Dashboard;
 
+      /**
+       * Configuration for the Headlamp Kubernetes dashboard add-on.
+       */
+      headlamp?: Config.Headlamp;
+
       ingress?: Config.Ingress;
 
       /**
@@ -1117,6 +1147,16 @@ export namespace ClusterCreateParams {
 
     export namespace Config {
       export interface Dashboard {
+        enabled?: boolean;
+      }
+
+      /**
+       * Configuration for the Headlamp Kubernetes dashboard add-on.
+       */
+      export interface Headlamp {
+        /**
+         * Whether to enable the Headlamp Kubernetes dashboard add-on.
+         */
         enabled?: boolean;
       }
 
@@ -1363,6 +1403,11 @@ export namespace ClusterUpdateParams {
     export interface Config {
       dashboard?: Config.Dashboard;
 
+      /**
+       * Configuration for the Headlamp Kubernetes dashboard add-on.
+       */
+      headlamp?: Config.Headlamp;
+
       ingress?: Config.Ingress;
 
       /**
@@ -1373,6 +1418,16 @@ export namespace ClusterUpdateParams {
 
     export namespace Config {
       export interface Dashboard {
+        enabled?: boolean;
+      }
+
+      /**
+       * Configuration for the Headlamp Kubernetes dashboard add-on.
+       */
+      export interface Headlamp {
+        /**
+         * Whether to enable the Headlamp Kubernetes dashboard add-on.
+         */
         enabled?: boolean;
       }
 

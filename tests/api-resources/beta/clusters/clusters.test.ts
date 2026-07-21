@@ -52,6 +52,7 @@ describe('resource clusters', () => {
           name: 'name',
           config: {
             dashboard: { enabled: true },
+            headlamp: { enabled: true },
             ingress: { enabled: true },
             torchpass: { enabled: true },
           },
