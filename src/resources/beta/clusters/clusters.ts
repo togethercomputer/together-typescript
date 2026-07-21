@@ -323,6 +323,11 @@ export namespace Cluster {
       ingress?: Config.Ingress;
 
       /**
+       * Configuration for the Slurm Web add-on.
+       */
+      slurm_web?: Config.SlurmWeb;
+
+      /**
        * Configuration for the Model Aware TorchPass add-on.
        */
       torchpass?: Config.Torchpass;
@@ -344,6 +349,16 @@ export namespace Cluster {
       }
 
       export interface Ingress {
+        enabled?: boolean;
+      }
+
+      /**
+       * Configuration for the Slurm Web add-on.
+       */
+      export interface SlurmWeb {
+        /**
+         * Whether to enable the Slurm Web add-on.
+         */
         enabled?: boolean;
       }
 
@@ -372,6 +387,11 @@ export namespace Cluster {
       ingress?: State.Ingress;
 
       /**
+       * State for the Slurm Web add-on.
+       */
+      slurm_web?: State.SlurmWeb;
+
+      /**
        * State for the Model Aware TorchPass add-on.
        */
       torchpass?: State.Torchpass;
@@ -386,6 +406,11 @@ export namespace Cluster {
       export interface Headlamp {}
 
       export interface Ingress {}
+
+      /**
+       * State for the Slurm Web add-on.
+       */
+      export interface SlurmWeb {}
 
       /**
        * State for the Model Aware TorchPass add-on.
@@ -1140,6 +1165,11 @@ export namespace ClusterCreateParams {
       ingress?: Config.Ingress;
 
       /**
+       * Configuration for the Slurm Web add-on.
+       */
+      slurm_web?: Config.SlurmWeb;
+
+      /**
        * Configuration for the Model Aware TorchPass add-on.
        */
       torchpass?: Config.Torchpass;
@@ -1161,6 +1191,16 @@ export namespace ClusterCreateParams {
       }
 
       export interface Ingress {
+        enabled?: boolean;
+      }
+
+      /**
+       * Configuration for the Slurm Web add-on.
+       */
+      export interface SlurmWeb {
+        /**
+         * Whether to enable the Slurm Web add-on.
+         */
         enabled?: boolean;
       }
 
@@ -1411,6 +1451,11 @@ export namespace ClusterUpdateParams {
       ingress?: Config.Ingress;
 
       /**
+       * Configuration for the Slurm Web add-on.
+       */
+      slurm_web?: Config.SlurmWeb;
+
+      /**
        * Configuration for the Model Aware TorchPass add-on.
        */
       torchpass?: Config.Torchpass;
@@ -1432,6 +1477,16 @@ export namespace ClusterUpdateParams {
       }
 
       export interface Ingress {
+        enabled?: boolean;
+      }
+
+      /**
+       * Configuration for the Slurm Web add-on.
+       */
+      export interface SlurmWeb {
+        /**
+         * Whether to enable the Slurm Web add-on.
+         */
         enabled?: boolean;
       }
 

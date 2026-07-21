@@ -54,6 +54,7 @@ describe('resource clusters', () => {
             dashboard: { enabled: true },
             headlamp: { enabled: true },
             ingress: { enabled: true },
+            slurm_web: { enabled: true },
             torchpass: { enabled: true },
           },
         },
