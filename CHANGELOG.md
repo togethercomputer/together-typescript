@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.43.0](https://github.com/togethercomputer/together-typescript/compare/v0.42.0...v0.43.0) (2026-07-21)
+
+
+### Features
+
+* add headlamp add-on to gpu cluster ([a9f2ab0](https://github.com/togethercomputer/together-typescript/commit/a9f2ab006b750a313f13289b17c73d34a0b3cbbf))
+* add Slurm Web addon to gpu cluster ([a06e94d](https://github.com/togethercomputer/together-typescript/commit/a06e94d8149c1af07896616c3bc6363ca3de805a))
+
+
+### Documentation
+
+* expose fine-tune artifact ids ([689b0db](https://github.com/togethercomputer/together-typescript/commit/689b0db50ded48db8ae0a1c8657d8565c971e88a))
+* expose fine-tune artifact ids ([6d40fa4](https://github.com/togethercomputer/together-typescript/commit/6d40fa4286d5d77cf5b32a2deac8624266072595))
+
 ## [0.42.0](https://github.com/togethercomputer/together-typescript/compare/v0.41.2...v0.42.0) (2026-07-16)
 
 
