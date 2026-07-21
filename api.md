@@ -113,6 +113,7 @@ Methods:
 - <code title="get /projects/{projectId}/endpoints/{endpointId}/rollouts">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">list</a>(endpointID, { ...params }) -> RolloutsCursorPagination</code>
 - <code title="delete /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">delete</a>(id, { ...params }) -> RolloutDeleteResponse</code>
 - <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/abort">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">abort</a>(id, { ...params }) -> Rollout</code>
+- <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/cancel">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">cancel</a>(id, { ...params }) -> Rollout</code>
 - <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/pause">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">pause</a>(id, { ...params }) -> Rollout</code>
 - <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/promote">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">promote</a>(id, { ...params }) -> Rollout</code>
 - <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/resume">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">resume</a>(id, { ...params }) -> Rollout</code>

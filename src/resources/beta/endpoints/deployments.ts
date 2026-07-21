@@ -166,8 +166,8 @@ export interface DeploymentCreateParams {
   autoscaling: EndpointsAPI.DeploymentAutoscaling;
 
   /**
-   * Body param: Name for the deployment within its endpoint. Returned as a project-
-   * and endpoint-qualified inference name.
+   * Body param: Name for the deployment within its endpoint. Returned as a
+   * fully-qualified endpoint string.
    */
   name: string;
 
@@ -277,7 +277,7 @@ export interface DeploymentUpdateParams {
   etag?: string;
 
   /**
-   * Body param: Updated inference-addressable deployment name.
+   * Body param: Updated endpoint string.
    */
   name?: string;
 }

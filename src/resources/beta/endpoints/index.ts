@@ -82,6 +82,7 @@ export {
   type RolloutListParams,
   type RolloutDeleteParams,
   type RolloutAbortParams,
+  type RolloutCancelParams,
   type RolloutPauseParams,
   type RolloutPromoteParams,
   type RolloutResumeParams,

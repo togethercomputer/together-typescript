@@ -135,6 +135,30 @@ describe('resource rollouts', () => {
     });
   });
 
+  test('cancel: only required params', async () => {
+    const responsePromise = client.beta.endpoints.rollouts.cancel('id', {
+      projectId: 'projectId',
+      endpointId: 'endpointId',
+      reason: 'reason',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('cancel: required and optional params', async () => {
+    const response = await client.beta.endpoints.rollouts.cancel('id', {
+      projectId: 'projectId',
+      endpointId: 'endpointId',
+      reason: 'reason',
+      etag: 'etag',
+    });
+  });
+
   test('pause: only required params', async () => {
     const responsePromise = client.beta.endpoints.rollouts.pause('id', {
       projectId: 'projectId',

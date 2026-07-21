@@ -132,6 +132,33 @@ export class Rollouts extends APIResource {
   }
 
   /**
+   * Cancels a running, paused, system-paused, or stabilizing rollout by freezing the
+   * current traffic split and leaving both deployments under operator control. The
+   * response is the CANCELLING rollout snapshot; poll GetRollout until it reaches
+   * CANCELED.
+   *
+   * @example
+   * ```ts
+   * const rollout = await client.beta.endpoints.rollouts.cancel(
+   *   'id',
+   *   {
+   *     projectId: 'projectId',
+   *     endpointId: 'endpointId',
+   *     reason: 'reason',
+   *   },
+   * );
+   * ```
+   */
+  cancel(id: string, params: RolloutCancelParams, options?: RequestOptions): APIPromise<Rollout> {
+    const { projectId = this._client.projectID, endpointId, ...body } = params;
+    return this._client.post(path`/projects/${projectId}/endpoints/${endpointId}/rollouts/${id}/cancel`, {
+      body,
+      defaultBaseURL: 'https://api.together.ai/v2',
+      ...options,
+    });
+  }
+
+  /**
    * Pauses a running rollout at its current traffic split and records an optional
    * reason.
    *
@@ -251,7 +278,9 @@ export interface Rollout {
     | 'ROLLOUT_STATE_COMPLETED'
     | 'ROLLOUT_STATE_ABORTED'
     | 'ROLLOUT_STATE_PENDING'
-    | 'ROLLOUT_STATE_SYSTEM_PAUSED';
+    | 'ROLLOUT_STATE_SYSTEM_PAUSED'
+    | 'ROLLOUT_STATE_CANCELLING'
+    | 'ROLLOUT_STATE_CANCELED';
 
   /**
    * Derived runtime progress for a rollout.
@@ -834,6 +863,28 @@ export interface RolloutAbortParams {
   etag?: string;
 }
 
+export interface RolloutCancelParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Path param: Endpoint identifier.
+   */
+  endpointId: string;
+
+  /**
+   * Body param: Required human-readable reason recorded in the rollout audit trail.
+   */
+  reason: string;
+
+  /**
+   * Body param: Optional etag for optimistic concurrency.
+   */
+  etag?: string;
+}
+
 export interface RolloutPauseParams {
   /**
    * Path param: Project identifier.
@@ -913,6 +964,7 @@ export declare namespace Rollouts {
     type RolloutListParams as RolloutListParams,
     type RolloutDeleteParams as RolloutDeleteParams,
     type RolloutAbortParams as RolloutAbortParams,
+    type RolloutCancelParams as RolloutCancelParams,
     type RolloutPauseParams as RolloutPauseParams,
     type RolloutPromoteParams as RolloutPromoteParams,
     type RolloutResumeParams as RolloutResumeParams,

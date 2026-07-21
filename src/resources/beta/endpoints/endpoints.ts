@@ -53,6 +53,7 @@ import * as RolloutsAPI from './rollouts';
 import {
   Rollout,
   RolloutAbortParams,
+  RolloutCancelParams,
   RolloutCreateParams,
   RolloutDeleteParams,
   RolloutDeleteResponse,
@@ -142,7 +143,7 @@ export class Endpoints extends APIResource {
   }
 
   /**
-   * Updates mutable endpoint fields such as its inference name, visibility, or
+   * Updates mutable endpoint fields such as its endpoint string, visibility, or
    * deployment traffic split. Use `updateMask` to select fields explicitly and
    * `etag` in the request body for optimistic concurrency.
    *
@@ -1955,7 +1956,7 @@ export interface EndpointUpdateParams {
   etag?: string;
 
   /**
-   * Body param: Updated inference-addressable endpoint name.
+   * Body param: Updated endpoint string.
    */
   name?: string;
 
@@ -2184,6 +2185,7 @@ export declare namespace Endpoints {
     type RolloutListParams as RolloutListParams,
     type RolloutDeleteParams as RolloutDeleteParams,
     type RolloutAbortParams as RolloutAbortParams,
+    type RolloutCancelParams as RolloutCancelParams,
     type RolloutPauseParams as RolloutPauseParams,
     type RolloutPromoteParams as RolloutPromoteParams,
     type RolloutResumeParams as RolloutResumeParams,
