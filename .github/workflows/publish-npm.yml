@@ -30,3 +30,16 @@ jobs:
           bash ./bin/publish-npm
         env:
           NPM_TOKEN: ${{ secrets.TOGETHER_NPM_TOKEN || secrets.NPM_TOKEN }}
+
+      - name: Invoke post-publish webhook
+        if: ${{ success() }}
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer $WEBHOOK_AUTH" \
+            -H "Content-Type: application/json" \
+            -d "{\"version\": \"$(jq -r .version package.json)\"}" \
+            "$WEBHOOK_URL"
+
+        env:
+          WEBHOOK_URL: ${{ secrets.PUBLISH_WEBHOOK_URL }}
+          WEBHOOK_AUTH: ${{ secrets.PUBLISH_WEBHOOK_AUTH }}
