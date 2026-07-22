@@ -58,6 +58,8 @@ export {
 } from './files';
 export {
   FineTuning,
+  type FineTunePreviewResponse,
+  type FineTunePreviewRow,
   type FinetuneEvent,
   type FinetuneEventType,
   type FinetuneModelLimits,
@@ -76,6 +78,7 @@ export {
   type FineTuningEstimatePriceParams,
   type FineTuningListMetricsParams,
   type FineTuningModelLimitsParams,
+  type FineTuningPreviewParams,
 } from './fine-tuning';
 export {
   Images,

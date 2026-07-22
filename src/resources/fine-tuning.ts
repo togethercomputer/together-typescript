@@ -176,6 +176,93 @@ export class FineTuning extends APIResource {
   modelLimits(query: FineTuningModelLimitsParams, options?: RequestOptions): APIPromise<FinetuneModelLimits> {
     return this._client.get('/fine-tunes/models/limits', { query, ...options });
   }
+
+  /**
+   * Preview how sampled rows from a fine-tuning training file will be tokenized
+   * before packing.
+   *
+   * @example
+   * ```ts
+   * const fineTunePreviewResponse =
+   *   await client.fineTuning.preview({
+   *     model: 'model',
+   *     training_file: 'training_file',
+   *   });
+   * ```
+   */
+  preview(body: FineTuningPreviewParams, options?: RequestOptions): APIPromise<FineTunePreviewResponse> {
+    return this._client.post('/fine-tunes/preview', { body, ...options });
+  }
+}
+
+/**
+ * Tokenized preview for sampled rows from a fine-tuning training file.
+ */
+export interface FineTunePreviewResponse {
+  /**
+   * Detected SFT dataset format for the sampled rows.
+   */
+  dataset_format: 'general' | 'conversation' | 'instruction';
+
+  /**
+   * Maximum sequence length configured for the requested model.
+   */
+  max_seq_length: number;
+
+  /**
+   * Name of the base model used to tokenize the sampled rows.
+   */
+  model: string;
+
+  /**
+   * Tokenized preview rows, in the same order as the sampled training file rows.
+   */
+  rows: Array<FineTunePreviewRow>;
+
+  /**
+   * Whether prompt or user-message tokens contribute to training loss.
+   */
+  train_on_inputs: boolean;
+}
+
+/**
+ * Tokenized representation of one sampled fine-tuning row.
+ */
+export interface FineTunePreviewRow {
+  /**
+   * Token IDs produced for the sampled row.
+   */
+  input_ids: Array<number>;
+
+  /**
+   * Training labels for each token; masked tokens use -100.
+   */
+  labels: Array<number>;
+
+  /**
+   * Total number of tokens in the preview row after truncation.
+   */
+  num_tokens: number;
+
+  /**
+   * Number of tokens in the row that contribute to training loss.
+   */
+  num_trained_tokens: number;
+
+  /**
+   * Raw token strings produced for the sampled row.
+   */
+  tokens: Array<string>;
+
+  /**
+   * Half-open token index ranges that contribute to training loss.
+   */
+  trained_spans: Array<Array<number>>;
+
+  /**
+   * Whether the row was truncated to the model maximum sequence length.
+   */
+  truncated: boolean;
 }
 
 export interface FinetuneEvent {
@@ -2088,8 +2175,39 @@ export interface FineTuningModelLimitsParams {
   model_name: string;
 }
 
+export interface FineTuningPreviewParams {
+  /**
+   * Name of the base model whose tokenizer and chat template will be used.
+   */
+  model: string;
+
+  /**
+   * File-ID of the uploaded JSONL training file to sample for preview.
+   */
+  training_file: string;
+
+  /**
+   * Maximum number of rows from the start of the training file to tokenize.
+   */
+  top_k?: number;
+
+  /**
+   * Whether prompt or user-message tokens should contribute to training loss in the
+   * preview.
+   */
+  train_on_inputs?: boolean;
+
+  /**
+   * Fine-tuning method to preview. Only supervised fine-tuning is currently
+   * supported.
+   */
+  training_method?: 'sft';
+}
+
 export declare namespace FineTuning {
   export {
+    type FineTunePreviewResponse as FineTunePreviewResponse,
+    type FineTunePreviewRow as FineTunePreviewRow,
     type FinetuneEvent as FinetuneEvent,
     type FinetuneEventType as FinetuneEventType,
     type FinetuneModelLimits as FinetuneModelLimits,
@@ -2108,5 +2226,6 @@ export declare namespace FineTuning {
     type FineTuningEstimatePriceParams as FineTuningEstimatePriceParams,
     type FineTuningListMetricsParams as FineTuningListMetricsParams,
     type FineTuningModelLimitsParams as FineTuningModelLimitsParams,
+    type FineTuningPreviewParams as FineTuningPreviewParams,
   };
 }

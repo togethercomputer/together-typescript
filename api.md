@@ -406,6 +406,8 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/fine-tuning.ts">FineTunePreviewResponse</a></code>
+- <code><a href="./src/resources/fine-tuning.ts">FineTunePreviewRow</a></code>
 - <code><a href="./src/resources/fine-tuning.ts">FinetuneEvent</a></code>
 - <code><a href="./src/resources/fine-tuning.ts">FinetuneEventType</a></code>
 - <code><a href="./src/resources/fine-tuning.ts">FinetuneModelLimits</a></code>
@@ -432,6 +434,7 @@ Methods:
 - <code title="get /fine-tunes/{id}/events">client.fineTuning.<a href="./src/resources/fine-tuning.ts">listEvents</a>(id) -> FineTuningListEventsResponse</code>
 - <code title="get /fine-tunes/{id}/metrics">client.fineTuning.<a href="./src/resources/fine-tuning.ts">listMetrics</a>(id, { ...params }) -> FineTuningListMetricsResponse</code>
 - <code title="get /fine-tunes/models/limits">client.fineTuning.<a href="./src/resources/fine-tuning.ts">modelLimits</a>({ ...params }) -> FinetuneModelLimits</code>
+- <code title="post /fine-tunes/preview">client.fineTuning.<a href="./src/resources/fine-tuning.ts">preview</a>({ ...params }) -> FineTunePreviewResponse</code>
 
 # CodeInterpreter
 

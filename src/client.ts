@@ -51,6 +51,8 @@ import {
 } from './resources/evals';
 import { FileDeleteResponse, FileList, FilePurpose, FileResponse, FileType, Files } from './resources/files';
 import {
+  FineTunePreviewResponse,
+  FineTunePreviewRow,
   FineTuning,
   FineTuningCancelResponse,
   FineTuningContentParams,
@@ -66,6 +68,7 @@ import {
   FineTuningListMetricsResponse,
   FineTuningListResponse,
   FineTuningModelLimitsParams,
+  FineTuningPreviewParams,
   FinetuneEvent,
   FinetuneEventType,
   FinetuneModelLimits,
@@ -944,6 +947,8 @@ export declare namespace Together {
 
   export {
     FineTuning as FineTuning,
+    type FineTunePreviewResponse as FineTunePreviewResponse,
+    type FineTunePreviewRow as FineTunePreviewRow,
     type FinetuneEvent as FinetuneEvent,
     type FinetuneEventType as FinetuneEventType,
     type FinetuneModelLimits as FinetuneModelLimits,
@@ -962,6 +967,7 @@ export declare namespace Together {
     type FineTuningEstimatePriceParams as FineTuningEstimatePriceParams,
     type FineTuningListMetricsParams as FineTuningListMetricsParams,
     type FineTuningModelLimitsParams as FineTuningModelLimitsParams,
+    type FineTuningPreviewParams as FineTuningPreviewParams,
   };
 
   export {
