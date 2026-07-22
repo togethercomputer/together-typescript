@@ -717,10 +717,10 @@ export interface EndpointDeploymentSummary {
   createdAt: string;
 
   /**
-   * Hardware configuration selected by the deployment's config, such as its GPU type
-   * and count.
+   * Estimated fraction from 0 to 1 of endpoint traffic currently routed to this
+   * deployment.
    */
-  hardware: string;
+  estimatedEffectiveTrafficShare: number;
 
   /**
    * Resource name of the served model in the form
@@ -765,10 +765,10 @@ export interface EndpointDeploymentSummary {
   desiredReplicas?: number;
 
   /**
-   * Estimated fraction from 0 to 1 of endpoint traffic currently routed to this
-   * deployment.
+   * Hardware configuration selected by the deployment's config, such as its GPU type
+   * and count.
    */
-  estimatedEffectiveTrafficShare?: number;
+  hardware?: string;
 
   /**
    * Number of replicas currently ready to serve requests across all regions.
