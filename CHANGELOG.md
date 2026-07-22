@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.44.0](https://github.com/togethercomputer/together-typescript/compare/v0.43.0...v0.44.0) (2026-07-22)
+
+
+### Features
+
+* add fine-tunes preview endpoint ([052cc2b](https://github.com/togethercomputer/together-typescript/commit/052cc2b8a82805609a55195a818716ace61d7982))
+
 ## [0.43.0](https://github.com/togethercomputer/together-typescript/compare/v0.42.0...v0.43.0) (2026-07-21)
 
 
