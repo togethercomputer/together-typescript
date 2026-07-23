@@ -496,7 +496,7 @@ export interface FinetuneResponse {
     | 'completed';
 
   /**
-   * ID of the user who owns the fine-tune job.
+   * ID of the user who created the fine-tune job.
    */
   user_id: string;
 
@@ -758,7 +758,7 @@ export interface FineTuningCreateResponse {
   updated_at: string;
 
   /**
-   * ID of the user who owns the fine-tune job.
+   * ID of the user who created the fine-tune job.
    */
   user_id: string;
 
@@ -1059,7 +1059,7 @@ export namespace FineTuningListResponse {
     updated_at: string;
 
     /**
-     * ID of the user who owns the fine-tune job.
+     * ID of the user who created the fine-tune job.
      */
     user_id: string;
 
@@ -1363,7 +1363,7 @@ export interface FineTuningCancelResponse {
   updated_at: string;
 
   /**
-   * ID of the user who owns the fine-tune job.
+   * ID of the user who created the fine-tune job.
    */
   user_id: string;
 
