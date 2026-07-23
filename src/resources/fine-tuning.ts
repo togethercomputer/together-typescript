@@ -506,6 +506,12 @@ export interface FinetuneResponse {
   adapter_object_id?: string;
 
   /**
+   * Together model registry name for the final adapter weights on LoRA jobs,
+   * formatted as `<project_slug>/<model_name>-adapter`.
+   */
+  adapter_object_name?: string;
+
+  /**
    * Together model registry revision ID for the final adapter weights on LoRA jobs.
    */
   adapter_object_revision_id?: string;
@@ -559,6 +565,12 @@ export interface FinetuneResponse {
    * Together model registry object ID for the final model weights (e.g. `ml_...`).
    */
   model_object_id?: string;
+
+  /**
+   * Together model registry name for the final model weights, formatted as
+   * `<project_slug>/<model_name>`.
+   */
+  model_object_name?: string;
 
   /**
    * Together model registry revision ID for the final model weights (e.g. `rv_...`).
@@ -1710,6 +1722,12 @@ export namespace FineTuningListCheckpointsResponse {
      * Together model registry object ID for the checkpoint artifact (e.g. `ml_...`).
      */
     object_id?: string;
+
+    /**
+     * Together model registry name for the checkpoint artifact, formatted as
+     * `<project_slug>/<checkpoint_name>`.
+     */
+    object_name?: string;
 
     /**
      * Together model registry revision ID for the checkpoint artifact (e.g. `rv_...`).

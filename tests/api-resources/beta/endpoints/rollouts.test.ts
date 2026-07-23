@@ -155,6 +155,7 @@ describe('resource rollouts', () => {
       projectId: 'projectId',
       endpointId: 'endpointId',
       reason: 'reason',
+      disposition: 'CANCEL_DISPOSITION_FREEZE',
       etag: 'etag',
     });
   });
