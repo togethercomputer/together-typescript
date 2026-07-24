@@ -52,7 +52,6 @@ import {
 import * as RolloutsAPI from './rollouts';
 import {
   Rollout,
-  RolloutAbortParams,
   RolloutCancelParams,
   RolloutCreateParams,
   RolloutDeleteParams,
@@ -2184,7 +2183,6 @@ export declare namespace Endpoints {
     type RolloutRetrieveParams as RolloutRetrieveParams,
     type RolloutListParams as RolloutListParams,
     type RolloutDeleteParams as RolloutDeleteParams,
-    type RolloutAbortParams as RolloutAbortParams,
     type RolloutCancelParams as RolloutCancelParams,
     type RolloutPauseParams as RolloutPauseParams,
     type RolloutPromoteParams as RolloutPromoteParams,

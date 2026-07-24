@@ -111,30 +111,6 @@ describe('resource rollouts', () => {
     });
   });
 
-  test('abort: only required params', async () => {
-    const responsePromise = client.beta.endpoints.rollouts.abort('id', {
-      projectId: 'projectId',
-      endpointId: 'endpointId',
-      reason: 'reason',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('abort: required and optional params', async () => {
-    const response = await client.beta.endpoints.rollouts.abort('id', {
-      projectId: 'projectId',
-      endpointId: 'endpointId',
-      reason: 'reason',
-      etag: 'etag',
-    });
-  });
-
   test('cancel: only required params', async () => {
     const responsePromise = client.beta.endpoints.rollouts.cancel('id', {
       projectId: 'projectId',

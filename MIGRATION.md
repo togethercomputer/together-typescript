@@ -81,7 +81,6 @@ client.parents.children.retrieve('c_456', { parent_id: 'p_123' });
 - `client.beta.endpoints.rollouts.retrieve()`
 - `client.beta.endpoints.rollouts.list()`
 - `client.beta.endpoints.rollouts.delete()`
-- `client.beta.endpoints.rollouts.abort()`
 - `client.beta.endpoints.rollouts.cancel()`
 - `client.beta.endpoints.rollouts.pause()`
 - `client.beta.endpoints.rollouts.promote()`

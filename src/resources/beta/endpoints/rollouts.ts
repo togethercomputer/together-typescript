@@ -107,31 +107,6 @@ export class Rollouts extends APIResource {
   }
 
   /**
-   * Aborts a running or paused rollout, routes traffic back to the source
-   * deployment, and records the required reason in the audit trail.
-   *
-   * @example
-   * ```ts
-   * const rollout = await client.beta.endpoints.rollouts.abort(
-   *   'id',
-   *   {
-   *     projectId: 'projectId',
-   *     endpointId: 'endpointId',
-   *     reason: 'reason',
-   *   },
-   * );
-   * ```
-   */
-  abort(id: string, params: RolloutAbortParams, options?: RequestOptions): APIPromise<Rollout> {
-    const { projectId = this._client.projectID, endpointId, ...body } = params;
-    return this._client.post(path`/projects/${projectId}/endpoints/${endpointId}/rollouts/${id}/abort`, {
-      body,
-      defaultBaseURL: 'https://api.together.ai/v2',
-      ...options,
-    });
-  }
-
-  /**
    * Cancels a running, paused, system-paused, or stabilizing rollout by freezing the
    * current traffic split, or by reverting all traffic to the source deployment when
    * requested. The response is the accepted rollout snapshot; poll GetRollout until
@@ -841,28 +816,6 @@ export interface RolloutDeleteParams {
   etag?: string;
 }
 
-export interface RolloutAbortParams {
-  /**
-   * Path param: Project identifier.
-   */
-  projectId?: string;
-
-  /**
-   * Path param: Endpoint identifier.
-   */
-  endpointId: string;
-
-  /**
-   * Body param: Required human-readable reason recorded in the rollout audit trail.
-   */
-  reason: string;
-
-  /**
-   * Body param: Optional etag for optimistic concurrency.
-   */
-  etag?: string;
-}
-
 export interface RolloutCancelParams {
   /**
    * Path param: Project identifier.
@@ -970,7 +923,6 @@ export declare namespace Rollouts {
     type RolloutRetrieveParams as RolloutRetrieveParams,
     type RolloutListParams as RolloutListParams,
     type RolloutDeleteParams as RolloutDeleteParams,
-    type RolloutAbortParams as RolloutAbortParams,
     type RolloutCancelParams as RolloutCancelParams,
     type RolloutPauseParams as RolloutPauseParams,
     type RolloutPromoteParams as RolloutPromoteParams,
