@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.44.1](https://github.com/togethercomputer/together-typescript/compare/v0.44.0...v0.44.1) (2026-07-24)
+
+
+### Bug Fixes
+
+* **openapi:** remove rollout abort route ([ed81cbe](https://github.com/togethercomputer/together-typescript/commit/ed81cbe6e1d538d54e12795dd7ed5448d3ed2736))
+* Update types for deployment summary to acknowledge optionality on hardware property ([3e49b97](https://github.com/togethercomputer/together-typescript/commit/3e49b97dbbfcf940b7df1a06e3c70b17e4fbfa5e))
+
+
+### Documentation
+
+* **openapi:** clarify fine-tune user id creator ([373b1ed](https://github.com/togethercomputer/together-typescript/commit/373b1edcbb843a7b036e7b790a5f54cab524a421))
+* **openapi:** clarify RL loss mask optionality ([bf0e1ff](https://github.com/togethercomputer/together-typescript/commit/bf0e1ff5858000fb11dcf989dd651081185015d9))
+
 ## [0.44.0](https://github.com/togethercomputer/together-typescript/compare/v0.43.0...v0.44.0) (2026-07-22)
 
 
