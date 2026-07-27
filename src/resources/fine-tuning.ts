@@ -610,6 +610,9 @@ export interface FinetuneResponse {
 
   training_method?: FinetuneResponse.TrainingMethodSft | FinetuneResponse.TrainingMethodDpo;
 
+  /**
+   * LoRA training configuration for a fine-tuning job.
+   */
   training_type?: FinetuneResponse.FullTrainingType | FinetuneResponse.LoRaTrainingType;
 
   trainingfile_numlines?: number;
@@ -708,19 +711,35 @@ export namespace FinetuneResponse {
     type: 'Full';
   }
 
+  /**
+   * LoRA training configuration for a fine-tuning job.
+   */
   export interface LoRaTrainingType {
+    /**
+     * Scaling factor applied to the LoRA adapter weights.
+     */
     lora_alpha: number;
 
+    /**
+     * Rank of the LoRA adapter matrices.
+     */
     lora_r: number;
 
+    /**
+     * Identifies this request as a LoRA fine-tune.
+     */
     type: 'Lora';
 
+    /**
+     * Dropout probability applied to LoRA adapter inputs.
+     */
     lora_dropout?: number;
 
     /**
      * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
      * expert modules (`w_up`, `w_gate`, `w_down`) can be combined with attention
-     * modules on compatible models.
+     * modules on compatible models. Fine-tunes that target any expert module produce
+     * adapter-only output.
      */
     lora_trainable_modules?: string;
   }
@@ -1004,19 +1023,35 @@ export namespace FineTuningCreateResponse {
     type: 'Full';
   }
 
+  /**
+   * LoRA training configuration for a fine-tuning job.
+   */
   export interface LoRaTrainingType {
+    /**
+     * Scaling factor applied to the LoRA adapter weights.
+     */
     lora_alpha: number;
 
+    /**
+     * Rank of the LoRA adapter matrices.
+     */
     lora_r: number;
 
+    /**
+     * Identifies this request as a LoRA fine-tune.
+     */
     type: 'Lora';
 
+    /**
+     * Dropout probability applied to LoRA adapter inputs.
+     */
     lora_dropout?: number;
 
     /**
      * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
      * expert modules (`w_up`, `w_gate`, `w_down`) can be combined with attention
-     * modules on compatible models.
+     * modules on compatible models. Fine-tunes that target any expert module produce
+     * adapter-only output.
      */
     lora_trainable_modules?: string;
   }
@@ -1305,19 +1340,35 @@ export namespace FineTuningListResponse {
       type: 'Full';
     }
 
+    /**
+     * LoRA training configuration for a fine-tuning job.
+     */
     export interface LoRaTrainingType {
+      /**
+       * Scaling factor applied to the LoRA adapter weights.
+       */
       lora_alpha: number;
 
+      /**
+       * Rank of the LoRA adapter matrices.
+       */
       lora_r: number;
 
+      /**
+       * Identifies this request as a LoRA fine-tune.
+       */
       type: 'Lora';
 
+      /**
+       * Dropout probability applied to LoRA adapter inputs.
+       */
       lora_dropout?: number;
 
       /**
        * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
        * expert modules (`w_up`, `w_gate`, `w_down`) can be combined with attention
-       * modules on compatible models.
+       * modules on compatible models. Fine-tunes that target any expert module produce
+       * adapter-only output.
        */
       lora_trainable_modules?: string;
     }
@@ -1609,19 +1660,35 @@ export namespace FineTuningCancelResponse {
     type: 'Full';
   }
 
+  /**
+   * LoRA training configuration for a fine-tuning job.
+   */
   export interface LoRaTrainingType {
+    /**
+     * Scaling factor applied to the LoRA adapter weights.
+     */
     lora_alpha: number;
 
+    /**
+     * Rank of the LoRA adapter matrices.
+     */
     lora_r: number;
 
+    /**
+     * Identifies this request as a LoRA fine-tune.
+     */
     type: 'Lora';
 
+    /**
+     * Dropout probability applied to LoRA adapter inputs.
+     */
     lora_dropout?: number;
 
     /**
      * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
      * expert modules (`w_up`, `w_gate`, `w_down`) can be combined with attention
-     * modules on compatible models.
+     * modules on compatible models. Fine-tunes that target any expert module produce
+     * adapter-only output.
      */
     lora_trainable_modules?: string;
   }
@@ -2015,19 +2082,35 @@ export namespace FineTuningCreateParams {
     type: 'Full';
   }
 
+  /**
+   * LoRA training configuration for a fine-tuning job.
+   */
   export interface LoRaTrainingType {
+    /**
+     * Scaling factor applied to the LoRA adapter weights.
+     */
     lora_alpha: number;
 
+    /**
+     * Rank of the LoRA adapter matrices.
+     */
     lora_r: number;
 
+    /**
+     * Identifies this request as a LoRA fine-tune.
+     */
     type: 'Lora';
 
+    /**
+     * Dropout probability applied to LoRA adapter inputs.
+     */
     lora_dropout?: number;
 
     /**
      * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
      * expert modules (`w_up`, `w_gate`, `w_down`) can be combined with attention
-     * modules on compatible models.
+     * modules on compatible models. Fine-tunes that target any expert module produce
+     * adapter-only output.
      */
     lora_trainable_modules?: string;
   }
@@ -2141,19 +2224,35 @@ export namespace FineTuningEstimatePriceParams {
     type: 'Full';
   }
 
+  /**
+   * LoRA training configuration for a fine-tuning job.
+   */
   export interface LoRaTrainingType {
+    /**
+     * Scaling factor applied to the LoRA adapter weights.
+     */
     lora_alpha: number;
 
+    /**
+     * Rank of the LoRA adapter matrices.
+     */
     lora_r: number;
 
+    /**
+     * Identifies this request as a LoRA fine-tune.
+     */
     type: 'Lora';
 
+    /**
+     * Dropout probability applied to LoRA adapter inputs.
+     */
     lora_dropout?: number;
 
     /**
      * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
      * expert modules (`w_up`, `w_gate`, `w_down`) can be combined with attention
-     * modules on compatible models.
+     * modules on compatible models. Fine-tunes that target any expert module produce
+     * adapter-only output.
      */
     lora_trainable_modules?: string;
   }
