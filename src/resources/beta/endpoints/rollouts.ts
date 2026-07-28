@@ -108,9 +108,9 @@ export class Rollouts extends APIResource {
 
   /**
    * Cancels a running, paused, system-paused, or stabilizing rollout by freezing the
-   * current traffic split, or by reverting all traffic to the source deployment when
-   * requested. The response is the accepted rollout snapshot; poll GetRollout until
-   * it reaches CANCELED for freeze or ABORTED for revert.
+   * current traffic split. Revert is removed and rejected; cancel with freeze, then
+   * run a reverse rollout back to the source. The response is the accepted rollout
+   * snapshot; poll GetRollout until it reaches CANCELED.
    *
    * @example
    * ```ts
@@ -834,8 +834,9 @@ export interface RolloutCancelParams {
 
   /**
    * Body param: Optional cancel behavior. Absent defaults to freeze, which preserves
-   * the current traffic split; revert sends all traffic back to the source
-   * deployment and terminates the rollout.
+   * the current traffic split. Revert is removed and rejected with
+   * FAILED_PRECONDITION; cancel with freeze, then run a reverse rollout back to the
+   * source.
    */
   disposition?: 'CANCEL_DISPOSITION_FREEZE' | 'CANCEL_DISPOSITION_REVERT';
 
