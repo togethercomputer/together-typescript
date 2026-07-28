@@ -214,6 +214,141 @@ Methods:
 - <code title="get /projects/{projectId}/configs/{id}">client.beta.models.configs.<a href="./src/resources/beta/models/configs.ts">retrieve</a>(id, { ...params }) -> Config</code>
 - <code title="get /projects/{projectId}/configs">client.beta.models.configs.<a href="./src/resources/beta/models/configs.ts">list</a>({ ...params }) -> ConfigsCursorPagination</code>
 
+## Rl
+
+### Sessions
+
+Types:
+
+- <code><a href="./src/resources/beta/rl/sessions.ts">InferenceCheckpoint</a></code>
+- <code><a href="./src/resources/beta/rl/sessions.ts">LoraConfig</a></code>
+- <code><a href="./src/resources/beta/rl/sessions.ts">TrainingCheckpoint</a></code>
+- <code><a href="./src/resources/beta/rl/sessions.ts">TrainingSession</a></code>
+- <code><a href="./src/resources/beta/rl/sessions.ts">TrainingSessionError</a></code>
+- <code><a href="./src/resources/beta/rl/sessions.ts">TrainingSessionErrorCode</a></code>
+- <code><a href="./src/resources/beta/rl/sessions.ts">TrainingSessionStatus</a></code>
+- <code><a href="./src/resources/beta/rl/sessions.ts">TrainingSessionsListResponse</a></code>
+
+Methods:
+
+- <code title="post /rl/training-sessions">client.beta.rl.sessions.<a href="./src/resources/beta/rl/sessions.ts">create</a>({ ...params }) -> TrainingSession</code>
+- <code title="get /rl/training-sessions/{session_id}">client.beta.rl.sessions.<a href="./src/resources/beta/rl/sessions.ts">retrieve</a>(sessionID) -> TrainingSession</code>
+- <code title="get /rl/training-sessions">client.beta.rl.sessions.<a href="./src/resources/beta/rl/sessions.ts">list</a>({ ...params }) -> TrainingSessionsListResponse</code>
+- <code title="post /rl/training-sessions/{session_id}/stop">client.beta.rl.sessions.<a href="./src/resources/beta/rl/sessions.ts">stop</a>(sessionID) -> TrainingSession</code>
+
+### Operations
+
+Types:
+
+- <code><a href="./src/resources/beta/rl/operations.ts">AdamwOptimizerParams</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">CispoLossInputs</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">CispoLossParams</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">CrossEntropyLossParams</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">CustomForwardBackwardOperation</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">CustomForwardBackwardResult</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">DType</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">DroLossInputs</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">DroLossParams</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">ForwardBackwardOperation</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">ForwardBackwardResult</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">ForwardOperation</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">ForwardResult</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">GrpoLossAggregationType</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">GrpoLossInputs</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">GrpoLossParams</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">GrpoLossRatioType</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">ImportanceSamplingLossInputs</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">InferenceCheckpointOperation</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">InferenceCheckpointResult</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">LossAdvantages</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">LossConfig</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">LossInputs</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">LossLogprobs</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">LossMask</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">LossTargetTokens</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">LossType</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">ModelInput</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">MuonOptimizerParams</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">OptimStepOperation</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">OptimStepResult</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">PolicyVersionSegment</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">PpoLossInputs</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">PpoLossParams</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">SampleOperation</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">SampleResult</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">SampledSequence</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">SamplingParams</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">StopReason</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">TrainingCheckpointOperation</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">TrainingCheckpointResult</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">TrainingOperationError</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">TrainingOperationErrorCode</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">TrainingOperationStatus</a></code>
+- <code><a href="./src/resources/beta/rl/operations.ts">WeightSyncType</a></code>
+
+Methods:
+
+- <code title="post /rl/training-sessions/{session_id}/operations/inference-checkpoint">client.beta.rl.operations.<a href="./src/resources/beta/rl/operations.ts">createInferenceCheckpoint</a>(sessionID) -> InferenceCheckpointOperation</code>
+- <code title="post /rl/training-sessions/{session_id}/operations/training-checkpoint">client.beta.rl.operations.<a href="./src/resources/beta/rl/operations.ts">createTrainingCheckpoint</a>(sessionID) -> TrainingCheckpointOperation</code>
+- <code title="post /rl/training-sessions/{session_id}/operations/custom-forward-backward">client.beta.rl.operations.<a href="./src/resources/beta/rl/operations.ts">customForwardBackward</a>(sessionID, { ...params }) -> CustomForwardBackwardOperation</code>
+- <code title="post /rl/training-sessions/{session_id}/operations/forward">client.beta.rl.operations.<a href="./src/resources/beta/rl/operations.ts">forward</a>(sessionID, { ...params }) -> ForwardOperation</code>
+- <code title="post /rl/training-sessions/{session_id}/operations/forward-backward">client.beta.rl.operations.<a href="./src/resources/beta/rl/operations.ts">forwardBackward</a>(sessionID, { ...params }) -> ForwardBackwardOperation</code>
+- <code title="post /rl/training-sessions/{session_id}/operations/optim-step">client.beta.rl.operations.<a href="./src/resources/beta/rl/operations.ts">optimStep</a>(sessionID, { ...params }) -> OptimStepOperation</code>
+- <code title="get /rl/training-sessions/{session_id}/operations/custom-forward-backward/{operation_id}">client.beta.rl.operations.<a href="./src/resources/beta/rl/operations.ts">retrieveCustomForwardBackward</a>(operationID, { ...params }) -> CustomForwardBackwardOperation</code>
+- <code title="get /rl/training-sessions/{session_id}/operations/forward/{operation_id}">client.beta.rl.operations.<a href="./src/resources/beta/rl/operations.ts">retrieveForward</a>(operationID, { ...params }) -> ForwardOperation</code>
+- <code title="get /rl/training-sessions/{session_id}/operations/forward-backward/{operation_id}">client.beta.rl.operations.<a href="./src/resources/beta/rl/operations.ts">retrieveForwardBackward</a>(operationID, { ...params }) -> ForwardBackwardOperation</code>
+- <code title="get /rl/training-sessions/{session_id}/operations/inference-checkpoint/{operation_id}">client.beta.rl.operations.<a href="./src/resources/beta/rl/operations.ts">retrieveInferenceCheckpoint</a>(operationID, { ...params }) -> InferenceCheckpointOperation</code>
+- <code title="get /rl/training-sessions/{session_id}/operations/optim-step/{operation_id}">client.beta.rl.operations.<a href="./src/resources/beta/rl/operations.ts">retrieveOptimStep</a>(operationID, { ...params }) -> OptimStepOperation</code>
+- <code title="get /rl/training-sessions/{session_id}/operations/sample/{operation_id}">client.beta.rl.operations.<a href="./src/resources/beta/rl/operations.ts">retrieveSample</a>(operationID, { ...params }) -> SampleOperation</code>
+- <code title="get /rl/training-sessions/{session_id}/operations/training-checkpoint/{operation_id}">client.beta.rl.operations.<a href="./src/resources/beta/rl/operations.ts">retrieveTrainingCheckpoint</a>(operationID, { ...params }) -> TrainingCheckpointOperation</code>
+- <code title="post /rl/training-sessions/{session_id}/operations/sample">client.beta.rl.operations.<a href="./src/resources/beta/rl/operations.ts">sample</a>(sessionID, { ...params }) -> SampleOperation</code>
+
+### Checkpoints
+
+Types:
+
+- <code><a href="./src/resources/beta/rl/checkpoints.ts">CheckpointDownloadResponse</a></code>
+- <code><a href="./src/resources/beta/rl/checkpoints.ts">CheckpointFile</a></code>
+- <code><a href="./src/resources/beta/rl/checkpoints.ts">CheckpointVariant</a></code>
+
+Methods:
+
+- <code title="get /rl/checkpoints/{id}/download">client.beta.rl.checkpoints.<a href="./src/resources/beta/rl/checkpoints.ts">download</a>(id, { ...params }) -> CheckpointDownloadResponse</code>
+
+### ModelResources
+
+Types:
+
+- <code><a href="./src/resources/beta/rl/model-resources.ts">AdamwOptimizerConfig</a></code>
+- <code><a href="./src/resources/beta/rl/model-resources.ts">ModelResources</a></code>
+- <code><a href="./src/resources/beta/rl/model-resources.ts">ModelResourcesError</a></code>
+- <code><a href="./src/resources/beta/rl/model-resources.ts">ModelResourcesErrorCode</a></code>
+- <code><a href="./src/resources/beta/rl/model-resources.ts">ModelResourcesEstimateCostResponse</a></code>
+- <code><a href="./src/resources/beta/rl/model-resources.ts">ModelResourcesListResponse</a></code>
+- <code><a href="./src/resources/beta/rl/model-resources.ts">ModelResourcesStatus</a></code>
+- <code><a href="./src/resources/beta/rl/model-resources.ts">MuonOptimizerConfig</a></code>
+- <code><a href="./src/resources/beta/rl/model-resources.ts">MuonScalingStrategy</a></code>
+- <code><a href="./src/resources/beta/rl/model-resources.ts">OptimizerConfig</a></code>
+
+Methods:
+
+- <code title="post /rl/model-resources">client.beta.rl.modelResources.<a href="./src/resources/beta/rl/model-resources.ts">create</a>({ ...params }) -> ModelResources</code>
+- <code title="get /rl/model-resources/{model_resources_id}">client.beta.rl.modelResources.<a href="./src/resources/beta/rl/model-resources.ts">retrieve</a>(modelResourcesID) -> ModelResources</code>
+- <code title="get /rl/model-resources">client.beta.rl.modelResources.<a href="./src/resources/beta/rl/model-resources.ts">list</a>({ ...params }) -> ModelResourcesListResponse</code>
+- <code title="post /rl/model-resources/estimate-cost">client.beta.rl.modelResources.<a href="./src/resources/beta/rl/model-resources.ts">estimateCost</a>({ ...params }) -> ModelResourcesEstimateCostResponse</code>
+- <code title="post /rl/model-resources/{model_resources_id}/stop">client.beta.rl.modelResources.<a href="./src/resources/beta/rl/model-resources.ts">stop</a>(modelResourcesID, { ...params }) -> ModelResources</code>
+
+### SupportedModels
+
+Types:
+
+- <code><a href="./src/resources/beta/rl/supported-models.ts">RlSupportedModel</a></code>
+- <code><a href="./src/resources/beta/rl/supported-models.ts">RlSupportedModels</a></code>
+
+Methods:
+
+- <code title="get /rl/supported-models">client.beta.rl.supportedModels.<a href="./src/resources/beta/rl/supported-models.ts">get</a>() -> RlSupportedModels</code>
+
 ## Jig
 
 Types:

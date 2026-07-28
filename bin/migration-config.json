@@ -4,6 +4,237 @@
   "clientClass": "Together",
   "methods": [
     {
+      "base": "beta.rl.operations",
+      "name": "retrieveCustomForwardBackward",
+      "params": [
+        {
+          "type": "param",
+          "key": "operation_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "session_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "operation_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "beta.rl.operations",
+      "name": "retrieveForward",
+      "params": [
+        {
+          "type": "param",
+          "key": "operation_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "session_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "operation_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "beta.rl.operations",
+      "name": "retrieveForwardBackward",
+      "params": [
+        {
+          "type": "param",
+          "key": "operation_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "session_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "operation_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "beta.rl.operations",
+      "name": "retrieveInferenceCheckpoint",
+      "params": [
+        {
+          "type": "param",
+          "key": "operation_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "session_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "operation_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "beta.rl.operations",
+      "name": "retrieveOptimStep",
+      "params": [
+        {
+          "type": "param",
+          "key": "operation_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "session_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "operation_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "beta.rl.operations",
+      "name": "retrieveSample",
+      "params": [
+        {
+          "type": "param",
+          "key": "operation_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "session_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "operation_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "beta.rl.operations",
+      "name": "retrieveTrainingCheckpoint",
+      "params": [
+        {
+          "type": "param",
+          "key": "operation_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "session_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "operation_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
       "base": "beta.clusters.remediations",
       "name": "create",
       "params": [
