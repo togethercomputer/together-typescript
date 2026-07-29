@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.44.1](https://github.com/togethercomputer/together-typescript/compare/v0.44.0...v0.44.1) (2026-07-29)
+
+
+### Bug Fixes
+
+* **openapi:** remove rollout abort route ([ed81cbe](https://github.com/togethercomputer/together-typescript/commit/ed81cbe6e1d538d54e12795dd7ed5448d3ed2736))
+* **openapi:** sync RL model input chunk schema ([44ee214](https://github.com/togethercomputer/together-typescript/commit/44ee21414752b5d608fd905c1d4051504020cc98))
+* **openapi:** sync RL prompt logprobs schema ([be900f9](https://github.com/togethercomputer/together-typescript/commit/be900f956bc7837e6e55326a36bc5f7f66a99d77))
+* **openapi:** sync RL sampling contract ([bc0af15](https://github.com/togethercomputer/together-typescript/commit/bc0af15b3f60c50d90c1aa39b5f2724c1dbd1551))
+* **openapi:** sync RL Tinker parameter renames ([8f3968a](https://github.com/togethercomputer/together-typescript/commit/8f3968af488f2799c860698e097fbda1eb9ae467))
+* **rl:** align CISPO/DRO loss schema names with GRPO/PPO (all-caps acronyms) ([34999ae](https://github.com/togethercomputer/together-typescript/commit/34999ae6979fe2df0749cdd41b54cabbf521bb1b))
+* **stlc:** generate cross-entropy loss params type ([91d32d6](https://github.com/togethercomputer/together-typescript/commit/91d32d6ee33be0c6f18692ee8327629ca1b68200))
+* sync RL LoRA training session schema ([9a09bcf](https://github.com/togethercomputer/together-typescript/commit/9a09bcfae20b28f4d7a263c342f2469f2ae5bae4))
+* Update types for deployment summary to acknowledge optionality on hardware property ([3e49b97](https://github.com/togethercomputer/together-typescript/commit/3e49b97dbbfcf940b7df1a06e3c70b17e4fbfa5e))
+
+
+### Documentation
+
+* **openapi:** allow combined LoRA target modules ([6124c0e](https://github.com/togethercomputer/together-typescript/commit/6124c0efaed1297c0e7639bc69b577102835f7dc))
+* **openapi:** clarify fine-tune user id creator ([373b1ed](https://github.com/togethercomputer/together-typescript/commit/373b1edcbb843a7b036e7b790a5f54cab524a421))
+* **openapi:** clarify RL loss mask optionality ([bf0e1ff](https://github.com/togethercomputer/together-typescript/commit/bf0e1ff5858000fb11dcf989dd651081185015d9))
+* sync endpoint events limit ([64da19c](https://github.com/togethercomputer/together-typescript/commit/64da19c1ccbd7560cabcc76b2ef4d75448936890))
+
+
+### Refactors
+
+* generate better code ([a4595e6](https://github.com/togethercomputer/together-typescript/commit/a4595e65f54edaedef3c7dc56d68c5db1610b6c8))
+
 ## [0.44.0](https://github.com/togethercomputer/together-typescript/compare/v0.43.0...v0.44.0) (2026-07-22)
 
 
