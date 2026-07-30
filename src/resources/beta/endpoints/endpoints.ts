@@ -462,9 +462,9 @@ export interface Endpoint {
   deployments: Array<EndpointDeploymentSummary>;
 
   /**
-   * Serving class of the endpoint.
+   * Serving class of the endpoint. Reserved endpoints use reserved capacity.
    */
-  endpointType: 'ENDPOINT_TYPE_DEDICATED' | 'ENDPOINT_TYPE_SERVERLESS';
+  endpointType: 'ENDPOINT_TYPE_DEDICATED' | 'ENDPOINT_TYPE_SERVERLESS' | 'ENDPOINT_TYPE_RESERVED';
 
   /**
    * Opaque version tag for optimistic concurrency control. Supply on update/delete

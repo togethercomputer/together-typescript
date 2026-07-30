@@ -461,7 +461,7 @@ export interface SupportedModel {
   /**
    * Product surfaces where the model is offered.
    */
-  products: Array<'PRODUCT_SERVERLESS' | 'PRODUCT_DEDICATED' | 'PRODUCT_FINE_TUNING'>;
+  products: Array<'PRODUCT_SERVERLESS' | 'PRODUCT_DEDICATED' | 'PRODUCT_FINE_TUNING' | 'PRODUCT_RESERVED'>;
 
   /**
    * Organization or publisher associated with the model.
