@@ -5,16 +5,14 @@
 
 ### Features
 
-* **openapi:** add B300 GPU cluster type ([b6f29ad](https://github.com/togethercomputer/together-typescript/commit/b6f29ad2f9e18bcbdafb7bc328395c7dccdbd53b))
-* **openapi:** add RL prompt cache hit tokens ([e614cf9](https://github.com/togethercomputer/together-typescript/commit/e614cf9ddf6fae957320bea9ea57f2522fe6a32c))
-* **openapi:** sync reserved endpoint enums ([24c45a3](https://github.com/togethercomputer/together-typescript/commit/24c45a3bd2f736b6739687c6249a37d1838bcc17))
-* sync passive health check alert ordering ([867c503](https://github.com/togethercomputer/together-typescript/commit/867c503e4683f63258b65c6522d3d9da1b1c739d))
-* sync rollout pausing OpenAPI spec ([f80831b](https://github.com/togethercomputer/together-typescript/commit/f80831b2a15fc0f4e5985ac3acc934a4f8ea9e5c))
-
+* **clusters** add B300 GPU cluster type ([b6f29ad](https://github.com/togethercomputer/together-typescript/commit/b6f29ad2f9e18bcbdafb7bc328395c7dccdbd53b))
+* **endpoints** sync reserved endpoint enums ([24c45a3](https://github.com/togethercomputer/together-typescript/commit/24c45a3bd2f736b6739687c6249a37d1838bcc17))
+* **clusters** sync passive health check alert ordering ([867c503](https://github.com/togethercomputer/together-typescript/commit/867c503e4683f63258b65c6522d3d9da1b1c739d))
+* **endpoints** sync rollout pausing spec ([f80831b](https://github.com/togethercomputer/together-typescript/commit/f80831b2a15fc0f4e5985ac3acc934a4f8ea9e5c))
 
 ### Documentation
 
-* sync shadow target rollout guard ([28634b4](https://github.com/togethercomputer/together-typescript/commit/28634b469067b4def9716853168cd9e8f1fc9f82))
+* **endpoints** document shadow target rollout guard ([28634b4](https://github.com/togethercomputer/together-typescript/commit/28634b469067b4def9716853168cd9e8f1fc9f82))
 
 ## [0.44.1](https://github.com/togethercomputer/together-typescript/compare/v0.44.0...v0.44.1) (2026-07-29)
 
