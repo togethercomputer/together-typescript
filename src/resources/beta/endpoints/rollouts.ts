@@ -107,10 +107,10 @@ export class Rollouts extends APIResource {
   }
 
   /**
-   * Cancels a running, paused, system-paused, or stabilizing rollout by freezing the
-   * current traffic split. Revert is removed and rejected; cancel with freeze, then
-   * run a reverse rollout back to the source. The response is the accepted rollout
-   * snapshot; poll GetRollout until it reaches CANCELED.
+   * Cancels a running, pausing, paused, system-paused, or stabilizing rollout by
+   * freezing the current traffic split. Revert is removed and rejected; cancel with
+   * freeze, then run a reverse rollout back to the source. The response is the
+   * accepted rollout snapshot; poll GetRollout until it reaches CANCELED.
    *
    * @example
    * ```ts
@@ -134,8 +134,9 @@ export class Rollouts extends APIResource {
   }
 
   /**
-   * Pauses a running rollout at its current traffic split and records an optional
-   * reason.
+   * Requests a running or stabilizing rollout to pause and records an optional
+   * reason. The response returns the PAUSING snapshot; poll GetRollout until state
+   * is PAUSED to confirm the executor has parked.
    *
    * @example
    * ```ts
@@ -177,7 +178,8 @@ export class Rollouts extends APIResource {
   }
 
   /**
-   * Resumes a paused rollout from its current step and traffic split.
+   * Resumes a pausing, paused, or system-paused rollout from its current step and
+   * traffic split.
    *
    * @example
    * ```ts
@@ -255,7 +257,8 @@ export interface Rollout {
     | 'ROLLOUT_STATE_PENDING'
     | 'ROLLOUT_STATE_SYSTEM_PAUSED'
     | 'ROLLOUT_STATE_CANCELLING'
-    | 'ROLLOUT_STATE_CANCELED';
+    | 'ROLLOUT_STATE_CANCELED'
+    | 'ROLLOUT_STATE_PAUSING';
 
   /**
    * Derived runtime progress for a rollout.
