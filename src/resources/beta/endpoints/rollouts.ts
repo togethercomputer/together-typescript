@@ -615,12 +615,6 @@ export interface RolloutCreateParams {
   canary?: RolloutCreateParams.Canary;
 
   /**
-   * Body param: Optional final replica count for the source deployment after
-   * completion.
-   */
-  finalSourceReplicas?: number;
-
-  /**
    * Body param: Optional final replica count for the target deployment after
    * completion.
    */
@@ -636,11 +630,6 @@ export interface RolloutCreateParams {
    * ramp target replicas up while draining source replicas.
    */
   rolling?: RolloutCreateParams.Rolling;
-
-  /**
-   * Body param: Optional policy for the source deployment after completion.
-   */
-  sourceCleanup?: 'SOURCE_CLEANUP_POLICY_DRAIN' | 'SOURCE_CLEANUP_POLICY_KEEP';
 
   /**
    * Body param: Optional per-step soak duration before the metric gate runs.

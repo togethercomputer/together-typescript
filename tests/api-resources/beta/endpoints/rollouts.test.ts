@@ -30,7 +30,6 @@ describe('resource rollouts', () => {
       targetDeploymentId: 'targetDeploymentId',
       blueGreen: {},
       canary: { steps: [{ traffic: 0, replicas: 0 }], stepInterval: '-160513s' },
-      finalSourceReplicas: 0,
       finalTargetReplicas: 0,
       metrics: [
         {
@@ -43,7 +42,6 @@ describe('resource rollouts', () => {
         },
       ],
       rolling: {},
-      sourceCleanup: 'SOURCE_CLEANUP_POLICY_DRAIN',
       stabilizationWindow: '-160513s',
     });
   });

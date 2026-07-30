@@ -180,8 +180,9 @@ export interface ShadowExperimentTarget {
   name: string;
 
   /**
-   * Deployment under the parent endpoint that receives mirrored traffic. Shadow
-   * targets should be excluded from the endpoint's live traffic split.
+   * Deployment under the parent endpoint that receives mirrored traffic. It must not
+   * be a live traffic-split member or the source or target of an active rollout;
+   * traffic-split weight 0 warm-up targets are allowed.
    */
   targetDeploymentId: string;
 
@@ -225,7 +226,8 @@ export interface TargetCreateParams {
 
   /**
    * Body param: Deployment under the parent endpoint that receives mirrored traffic.
-   * Exclude it from the endpoint's live traffic split.
+   * It must not be a live traffic-split member or the source or target of an active
+   * rollout; traffic-split weight 0 warm-up targets are allowed.
    */
   targetDeploymentId: string;
 
@@ -290,8 +292,9 @@ export interface TargetUpdateParams {
   name?: string;
 
   /**
-   * Body param: Replacement deployment under the parent endpoint. Exclude it from
-   * the endpoint's live traffic split.
+   * Body param: Replacement deployment under the parent endpoint. It must not be a
+   * live traffic-split member or the source or target of an active rollout;
+   * traffic-split weight 0 warm-up targets are allowed.
    */
   targetDeploymentId?: string;
 }
