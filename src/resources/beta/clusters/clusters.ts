@@ -163,7 +163,7 @@ export interface Cluster {
    */
   desired_preemptible_gpus: number;
 
-  gpu_type: 'H100_SXM' | 'H200_SXM' | 'RTX_6000_PCI' | 'L40_PCIE' | 'B200_SXM' | 'H100_SXM_INF';
+  gpu_type: 'H100_SXM' | 'H200_SXM' | 'RTX_6000_PCI' | 'L40_PCIE' | 'B200_SXM' | 'H100_SXM_INF' | 'B300_SXM';
 
   gpu_worker_nodes: Array<Cluster.GPUWorkerNode>;
 
@@ -944,7 +944,7 @@ export interface ClusterCreateParams {
   /**
    * Type of GPU to use in the cluster
    */
-  gpu_type: 'H100_SXM' | 'H200_SXM' | 'RTX_6000_PCI' | 'L40_PCIE' | 'B200_SXM' | 'H100_SXM_INF';
+  gpu_type: 'H100_SXM' | 'H200_SXM' | 'RTX_6000_PCI' | 'L40_PCIE' | 'B200_SXM' | 'H100_SXM_INF' | 'B300_SXM';
 
   /**
    * Number of GPUs to allocate in the cluster. This must be multiple of 8. For
