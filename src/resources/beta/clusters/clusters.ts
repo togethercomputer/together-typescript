@@ -43,10 +43,8 @@ export class Clusters extends APIResource {
    * const cluster = await client.beta.clusters.create({
    *   billing_type: 'RESERVED',
    *   cluster_name: 'cluster_name',
-   *   cuda_version: 'cuda_version',
    *   gpu_type: 'H100_SXM',
    *   num_gpus: 0,
-   *   nvidia_driver_version: 'nvidia_driver_version',
    *   region: 'region',
    * });
    * ```
@@ -904,12 +902,11 @@ export namespace ClusterListRegionsResponse {
 
   export namespace Region {
     /**
-     * CUDA/NVIDIA driver versions pair available in the region to use in the create
-     * cluster request.
+     * NVIDIA software configuration available in the region.
      */
     export interface DriverVersion {
       /**
-       * CUDA driver version.
+       * Semantic CUDA version without operating system text.
        */
       cuda_version: string;
 
@@ -917,6 +914,17 @@ export namespace ClusterListRegionsResponse {
        * NVIDIA driver version.
        */
       nvidia_driver_version: string;
+
+      /**
+       * Region-specific NVIDIA catalog ID to send as nvidia_version_id when creating a
+       * cluster.
+       */
+      id?: string;
+
+      /**
+       * Operating system image family for this catalog entry.
+       */
+      os?: string;
     }
   }
 }
@@ -937,11 +945,6 @@ export interface ClusterCreateParams {
   cluster_name: string;
 
   /**
-   * CUDA version for this cluster. For example, 12.5
-   */
-  cuda_version: string;
-
-  /**
    * Type of GPU to use in the cluster
    */
   gpu_type: 'H100_SXM' | 'H200_SXM' | 'RTX_6000_PCI' | 'L40_PCIE' | 'B200_SXM' | 'H100_SXM_INF' | 'B300_SXM';
@@ -951,12 +954,6 @@ export interface ClusterCreateParams {
    * example, 8, 16 or 24
    */
   num_gpus: number;
-
-  /**
-   * Nvidia driver version for this cluster. For example, 550. Only some combination
-   * of cuda_version and nvidia_driver_version are supported.
-   */
-  nvidia_driver_version: string;
 
   /**
    * Region to create the GPU cluster in. Usable regions can be found from
@@ -1008,6 +1005,14 @@ export interface ClusterCreateParams {
   cluster_type?: 'KUBERNETES' | 'SLURM';
 
   /**
+   * Legacy CUDA selector for this cluster. Bare semantic values such as 12.5 select
+   * ubuntu-22.04; existing OS-suffixed values remain accepted for compatibility.
+   * Must be paired with nvidia_driver_version. Prefer nvidia_version_id for new
+   * integrations.
+   */
+  cuda_version?: string;
+
+  /**
    * Duration in days to keep the cluster running.
    */
   duration_days?: number;
@@ -1037,6 +1042,18 @@ export interface ClusterCreateParams {
    * RESERVED billing on create, the server defaults this to num_gpus.
    */
   num_reserved_gpus?: number;
+
+  /**
+   * Legacy NVIDIA driver selector for this cluster. For example, 550. Must be paired
+   * with cuda_version. Prefer nvidia_version_id for new integrations.
+   */
+  nvidia_driver_version?: string;
+
+  /**
+   * Canonical region-specific NVIDIA version ID. If cuda_version and
+   * nvidia_driver_version are also set, they must resolve to the same catalog entry.
+   */
+  nvidia_version_id?: string;
 
   oidc_config?: ClusterCreateParams.OidcConfig;
 

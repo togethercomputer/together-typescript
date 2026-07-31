@@ -12,10 +12,8 @@ describe('resource clusters', () => {
     const responsePromise = client.beta.clusters.create({
       billing_type: 'RESERVED',
       cluster_name: 'cluster_name',
-      cuda_version: 'cuda_version',
       gpu_type: 'H100_SXM',
       num_gpus: 0,
-      nvidia_driver_version: 'nvidia_driver_version',
       region: 'region',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -31,10 +29,8 @@ describe('resource clusters', () => {
     const response = await client.beta.clusters.create({
       billing_type: 'RESERVED',
       cluster_name: 'cluster_name',
-      cuda_version: 'cuda_version',
       gpu_type: 'H100_SXM',
       num_gpus: 0,
-      nvidia_driver_version: 'nvidia_driver_version',
       region: 'region',
       acceptance_tests_params: {
         dcgm_diag_level: 'DCGM_DIAG_LEVEL_SHORT',
@@ -83,11 +79,14 @@ describe('resource clusters', () => {
         ssh_ca_enabled: true,
       },
       cluster_type: 'KUBERNETES',
+      cuda_version: 'cuda_version',
       duration_days: 0,
       install_traefik: true,
       num_capacity_pool_gpus: 0,
       num_preemptible_gpus: 0,
       num_reserved_gpus: 0,
+      nvidia_driver_version: 'nvidia_driver_version',
+      nvidia_version_id: 'nvidia_version_id',
       oidc_config: {
         client_id: 'client_id',
         group_claim: 'group_claim',
