@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.46.0](https://github.com/togethercomputer/together-typescript/compare/v0.45.0...v0.46.0) (2026-08-03)
+
+
+### Features
+
+* **clusters:** Add canonical NVIDIA version selector ([798ee66](https://github.com/togethercomputer/together-typescript/commit/798ee66a0a466393ee8c68326eb0e7a5c4ba3ab4))
+* **endpoints:** Update endpoint active rollout id description ([7608dab](https://github.com/togethercomputer/together-typescript/commit/7608dab1973b62b66c03af07ff5788be0aa7e156))
+* **endpoints:** Update rollout create defaults per server changes ([66ef107](https://github.com/togethercomputer/together-typescript/commit/66ef107c7b4c7152fbe811ce97f5b301c4e707a9))
+* **models:** Add model profile name to supported models api for each deployment profile ([10ef53e](https://github.com/togethercomputer/together-typescript/commit/10ef53ed8b52ac3a9794aca7754f777290c2f0e8))
+
 ## [0.45.0](https://github.com/togethercomputer/together-typescript/compare/v0.44.1...v0.45.0) (2026-07-30)
 
 
