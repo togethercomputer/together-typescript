@@ -9,6 +9,9 @@ name: Promote SDKs
 # the accumulated batch to cut a release; release-please then opens its version
 # PR on production.
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch: {}
 
 permissions:
@@ -18,8 +21,6 @@ jobs:
   promote:
     runs-on: ubuntu-latest
     if: github.repository == 'togethercomputer/together-typescript-staging'
-    # Optional gate: add required reviewers to this environment to approve each
-    # promote. With none it only scopes secrets and adds no gate. Remove if unused.
     environment: production
     env:
       PRODUCTION_REPO: togethercomputer/together-typescript

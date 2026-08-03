@@ -15,6 +15,7 @@ describe('resource clusters', () => {
       gpu_type: 'H100_SXM',
       num_gpus: 0,
       region: 'region',
+      nvidia_version_id: 'nvidia_version_id',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
