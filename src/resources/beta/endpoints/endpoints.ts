@@ -504,7 +504,7 @@ export interface Endpoint {
   visibility: 'VISIBILITY_PRIVATE' | 'VISIBILITY_INTERNAL';
 
   /**
-   * ID of the currently active rollout, or empty if none.
+   * ID of the currently active rollout in an in-flight state, including paused.
    */
   activeRolloutId?: string;
 }
