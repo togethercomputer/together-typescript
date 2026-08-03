@@ -53,6 +53,7 @@ import { FileDeleteResponse, FileList, FilePurpose, FileResponse, FileType, File
 import {
   FineTunePreviewResponse,
   FineTunePreviewRow,
+  FineTuneTokenizedDatasetRetrieveResponse,
   FineTuning,
   FineTuningCancelResponse,
   FineTuningContentParams,
@@ -949,6 +950,7 @@ export declare namespace Together {
     FineTuning as FineTuning,
     type FineTunePreviewResponse as FineTunePreviewResponse,
     type FineTunePreviewRow as FineTunePreviewRow,
+    type FineTuneTokenizedDatasetRetrieveResponse as FineTuneTokenizedDatasetRetrieveResponse,
     type FinetuneEvent as FinetuneEvent,
     type FinetuneEventType as FinetuneEventType,
     type FinetuneModelLimits as FinetuneModelLimits,

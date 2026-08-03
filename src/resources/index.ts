@@ -60,6 +60,7 @@ export {
   FineTuning,
   type FineTunePreviewResponse,
   type FineTunePreviewRow,
+  type FineTuneTokenizedDatasetRetrieveResponse,
   type FinetuneEvent,
   type FinetuneEventType,
   type FinetuneModelLimits,

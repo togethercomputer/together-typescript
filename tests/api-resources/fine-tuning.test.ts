@@ -230,4 +230,15 @@ describe('resource fineTuning', () => {
       training_method: 'sft',
     });
   });
+
+  test('retrieveTokenizedDataset', async () => {
+    const responsePromise = client.fineTuning.retrieveTokenizedDataset('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
 });

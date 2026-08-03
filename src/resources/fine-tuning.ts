@@ -193,6 +193,23 @@ export class FineTuning extends APIResource {
   preview(body: FineTuningPreviewParams, options?: RequestOptions): APIPromise<FineTunePreviewResponse> {
     return this._client.post('/fine-tunes/preview', { body, ...options });
   }
+
+  /**
+   * Get a presigned URL for the tokenized dataset archive generated for a fine-tune
+   * job.
+   *
+   * @example
+   * ```ts
+   * const fineTuneTokenizedDatasetRetrieveResponse =
+   *   await client.fineTuning.retrieveTokenizedDataset('id');
+   * ```
+   */
+  retrieveTokenizedDataset(
+    id: string,
+    options?: RequestOptions,
+  ): APIPromise<FineTuneTokenizedDatasetRetrieveResponse> {
+    return this._client.get(path`/fine-tunes/${id}/download-tokenized-dataset`, options);
+  }
 }
 
 /**
@@ -265,6 +282,36 @@ export interface FineTunePreviewRow {
   truncated: boolean;
 }
 
+/**
+ * Presigned download metadata for a fine-tune tokenized dataset archive.
+ */
+export interface FineTuneTokenizedDatasetRetrieveResponse {
+  /**
+   * MIME type for the tokenized dataset archive.
+   */
+  content_type: string;
+
+  /**
+   * Time when the presigned download URL expires.
+   */
+  expires_at: string;
+
+  /**
+   * Archive filename to use when saving the downloaded tokenized dataset.
+   */
+  filename: string;
+
+  /**
+   * Archive size in bytes.
+   */
+  size: number;
+
+  /**
+   * Presigned URL for downloading the tokenized dataset archive.
+   */
+  url: string;
+}
+
 export interface FinetuneEvent {
   created_at: string;
 
@@ -302,6 +349,11 @@ export interface FinetuneEvent {
 
   token_count?: number;
 
+  /**
+   * Storage path for the tokenized dataset archive associated with this event.
+   */
+  tokenized_dataset_path?: string;
+
   total_steps?: number;
 
   wandb_url?: string;
@@ -333,7 +385,8 @@ export type FinetuneEventType =
   | 'job_restarted'
   | 'refund'
   | 'warning'
-  | 'early_stopped';
+  | 'early_stopped'
+  | 'tokenized_dataset_upload_complete';
 
 /**
  * Model limits for fine-tuning.
@@ -601,6 +654,16 @@ export interface FinetuneResponse {
   started_at?: string;
 
   token_count?: number;
+
+  /**
+   * Storage path for the tokenized dataset archive generated for this fine-tune job.
+   */
+  tokenized_dataset_path?: string;
+
+  /**
+   * Timestamp when the tokenized dataset archive was uploaded.
+   */
+  tokenized_dataset_uploaded_at?: string;
 
   total_price?: number;
 
@@ -2325,6 +2388,7 @@ export declare namespace FineTuning {
   export {
     type FineTunePreviewResponse as FineTunePreviewResponse,
     type FineTunePreviewRow as FineTunePreviewRow,
+    type FineTuneTokenizedDatasetRetrieveResponse as FineTuneTokenizedDatasetRetrieveResponse,
     type FinetuneEvent as FinetuneEvent,
     type FinetuneEventType as FinetuneEventType,
     type FinetuneModelLimits as FinetuneModelLimits,
