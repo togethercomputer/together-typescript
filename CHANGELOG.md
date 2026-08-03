@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.46.0](https://github.com/togethercomputer/together-typescript/compare/v0.45.0...v0.46.0) (2026-08-03)
+
+
+### Features
+
+* add canonical NVIDIA version selector ([798ee66](https://github.com/togethercomputer/together-typescript/commit/798ee66a0a466393ee8c68326eb0e7a5c4ba3ab4))
+
+
+### Bug Fixes
+
+* **openapi:** add RL non-finite loss error code ([eeeeb60](https://github.com/togethercomputer/together-typescript/commit/eeeeb6019b873eb58846dc3943a9fc05df65ee9d))
+
+
+### Documentation
+
+* **openapi:** sync endpoint active rollout docs ([7608dab](https://github.com/togethercomputer/together-typescript/commit/7608dab1973b62b66c03af07ff5788be0aa7e156))
+* **openapi:** sync rollout create defaults ([66ef107](https://github.com/togethercomputer/together-typescript/commit/66ef107c7b4c7152fbe811ce97f5b301c4e707a9))
+* sync supported model profile name ([10ef53e](https://github.com/togethercomputer/together-typescript/commit/10ef53ed8b52ac3a9794aca7754f777290c2f0e8))
+
 ## [0.45.0](https://github.com/togethercomputer/together-typescript/compare/v0.44.1...v0.45.0) (2026-07-30)
 
 
