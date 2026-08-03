@@ -567,6 +567,12 @@ export interface SupportedModelDeploymentProfile {
   model: string;
 
   /**
+   * Fully-qualified deploy model name in the form `{projectSlug}/{modelName}`, such
+   * as `Qwen/Qwen3.5-9B-FP8`; empty when no public model is linked.
+   */
+  modelName: string;
+
+  /**
    * Free-form parallelism spec for the profile, such as TP8, TP4, EP, or PD;
    * supersedes tensor_parallel_size.
    */
