@@ -613,18 +613,26 @@ export interface RolloutCreateParams {
   blueGreen?: RolloutCreateParams.BlueGreen;
 
   /**
-   * Body param: Canary strategy configuration for gradual traffic progression.
+   * Body param: Canary strategy configuration for gradual traffic progression. An
+   * empty config uses the default 5, 25, 50, 100 percent ladder.
    */
   canary?: RolloutCreateParams.Canary;
 
   /**
-   * Body param: Optional final replica count for the target deployment after
-   * completion.
+   * Body param: Optional final replica count for the source deployment. Defaults to
+   * 0, which drains and stops the source.
+   */
+  finalSourceReplicas?: number;
+
+  /**
+   * Body param: Optional target replica count at completion. Must be at least 1 when
+   * set; defaults to the source deployment's replica count at create time.
    */
   finalTargetReplicas?: number;
 
   /**
-   * Body param: Optional metric gates evaluated after each step's soak.
+   * Body param: Optional metric gates evaluated after each step's soak. Canary only;
+   * rejected on rolling and blue-green rollouts.
    */
   metrics?: Array<RolloutCreateParams.Metric>;
 
@@ -633,11 +641,6 @@ export interface RolloutCreateParams {
    * ramp target replicas up while draining source replicas.
    */
   rolling?: RolloutCreateParams.Rolling;
-
-  /**
-   * Body param: Optional per-step soak duration before the metric gate runs.
-   */
-  stabilizationWindow?: string;
 }
 
 export namespace RolloutCreateParams {
@@ -647,19 +650,21 @@ export namespace RolloutCreateParams {
   export interface BlueGreen {}
 
   /**
-   * Canary strategy configuration for gradual traffic progression.
+   * Canary strategy configuration for gradual traffic progression. An empty config
+   * uses the default 5, 25, 50, 100 percent ladder.
    */
   export interface Canary {
     /**
-     * Required progression steps. The final step must send 100 percent traffic to the
-     * target.
-     */
-    steps: Array<Canary.Step>;
-
-    /**
-     * Optional interval between steps. Defaults to 10m if omitted.
+     * Optional positive soak between steps. Defaults to 3m if omitted, and grows to
+     * cover metric rule windows plus ingestion lag.
      */
     stepInterval?: string;
+
+    /**
+     * Optional progression steps. Defaults to 5, 25, 50, 100 percent when empty;
+     * explicit steps must increase and end at 100 percent.
+     */
+    steps?: Array<Canary.Step>;
   }
 
   export namespace Canary {
