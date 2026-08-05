@@ -906,6 +906,12 @@ export namespace ClusterListRegionsResponse {
      */
     export interface DriverVersion {
       /**
+       * Region-specific NVIDIA catalog ID to send as nvidia_version_id when creating a
+       * cluster.
+       */
+      id: string;
+
+      /**
        * Semantic CUDA version without operating system text.
        */
       cuda_version: string;
@@ -916,15 +922,9 @@ export namespace ClusterListRegionsResponse {
       nvidia_driver_version: string;
 
       /**
-       * Region-specific NVIDIA catalog ID to send as nvidia_version_id when creating a
-       * cluster.
-       */
-      id?: string;
-
-      /**
        * Operating system image family for this catalog entry.
        */
-      os?: string;
+      os: string;
     }
   }
 }
