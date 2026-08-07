@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.47.0](https://github.com/togethercomputer/together-typescript/compare/v0.46.0...v0.47.0) (2026-08-07)
+
+
+### Features
+
+* **fine-tuning:** sync tokenized dataset download OpenAPI ([69e0336](https://github.com/togethercomputer/together-typescript/commit/69e033657a840a57b622df4b7150e852d4722d16))
+
+
+### Bug Fixes
+
+* **clusters:** Mark id/os as required properties ([6e38355](https://github.com/togethercomputer/together-typescript/commit/6e383557ff49fd1d4e974764c27e544e72771f93))
+
 ## [0.46.0](https://github.com/togethercomputer/together-typescript/compare/v0.45.0...v0.46.0) (2026-08-03)
 
 
