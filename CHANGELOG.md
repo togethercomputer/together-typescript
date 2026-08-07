@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.47.0](https://github.com/togethercomputer/together-typescript/compare/v0.46.0...v0.47.0) (2026-08-07)
+
+
+### Features
+
+* **fine-tuning:** sync tokenized dataset download OpenAPI ([69e0336](https://github.com/togethercomputer/together-typescript/commit/69e033657a840a57b622df4b7150e852d4722d16))
+* **openapi:** add RL routing replay fields ([9b18548](https://github.com/togethercomputer/together-typescript/commit/9b185482691cd468ba654254ffb94036712b4505))
+* **openapi:** add RL weights sync operation ([846ef67](https://github.com/togethercomputer/together-typescript/commit/846ef67164580e989983cb2436840284805ba198))
+
+
+### Bug Fixes
+
+* **clusters:** Mark id/os as required properties ([6e38355](https://github.com/togethercomputer/together-typescript/commit/6e383557ff49fd1d4e974764c27e544e72771f93))
+* **openapi:** remove RL training sample policy segments ([ce6b5ae](https://github.com/togethercomputer/together-typescript/commit/ce6b5ae4e6ef489346153ed90e86f98909f10f0e))
+
 ## [0.46.0](https://github.com/togethercomputer/together-typescript/compare/v0.45.0...v0.46.0) (2026-08-03)
 
 
