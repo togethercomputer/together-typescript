@@ -34,7 +34,7 @@ describe('resource rollouts', () => {
       finalTargetReplicas: 0,
       metrics: [
         {
-          name: 'name',
+          name: 'inflight_requests',
           stat: 'METRIC_STAT_TYPE_AVG',
           percentile: 0,
           regressionCheck: { direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE', maxRegressionPercent: 0 },

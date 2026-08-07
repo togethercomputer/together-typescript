@@ -688,10 +688,7 @@ export namespace RolloutCreateParams {
    * Metric gate evaluated during a rollout.
    */
   export interface Metric {
-    /**
-     * Required metric name as exported to the observability backend.
-     */
-    name: string;
+    name: 'inflight_requests' | 'router_error_rate' | 'router_latency' | 'serving_latency';
 
     /**
      * Required aggregation used for the metric.
