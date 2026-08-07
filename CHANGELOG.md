@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.47.1](https://github.com/togethercomputer/together-typescript/compare/v0.47.0...v0.47.1) (2026-08-07)
+
+
+### Documentation
+
+* **audio:** correct direct-upload limit to 80 MB in descriptions ([c7c6cc3](https://github.com/togethercomputer/together-typescript/commit/c7c6cc3f10c4c234f2f617597cf124257177b71f))
+
 ## [0.47.0](https://github.com/togethercomputer/together-typescript/compare/v0.46.0...v0.47.0) (2026-08-07)
 
 
