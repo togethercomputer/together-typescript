@@ -12,6 +12,20 @@ jobs:
   publish:
     name: publish
     runs-on: ubuntu-latest
+    environment: release
+    # OIDC trusted publishing: GitHub mints a short-lived OIDC token that pnpm
+    # exchanges with npm for a one-time publish credential. No NPM_TOKEN needed.
+    permissions:
+      id-token: write
+      contents: read
+
+    env:
+      # Provenance is generated automatically when publishing via OIDC; setting
+      # this makes it explicit and fails closed if OIDC ever isn't available.
+      # release-publish.ts also passes --provenance on every publish, and the
+      # "Verify release-tag logic" step fails the release if that flag is
+      # ever removed from the script.
+      NPM_CONFIG_PROVENANCE: 'true'
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -28,8 +42,6 @@ jobs:
       - name: Publish to NPM
         run: |
           bash ./bin/publish-npm
-        env:
-          NPM_TOKEN: ${{ secrets.TOGETHER_NPM_TOKEN || secrets.NPM_TOKEN }}
 
       - name: Invoke post-publish webhook
         if: ${{ success() }}
