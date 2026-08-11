@@ -614,7 +614,9 @@ export interface RolloutCreateParams {
 
   /**
    * Body param: Canary strategy configuration for gradual traffic progression. An
-   * empty config uses the default 5, 25, 50, 100 percent ladder.
+   * empty config uses the default 5, 25, 50, 100 percent ladder; over a frozen
+   * traffic-split pair left by cancel, the default ladder is derived at start from
+   * the pair's current served share so it begins above it.
    */
   canary?: RolloutCreateParams.Canary;
 
@@ -626,7 +628,9 @@ export interface RolloutCreateParams {
 
   /**
    * Body param: Optional target replica count at completion. Must be at least 1 when
-   * set; defaults to the source deployment's replica count at create time.
+   * set; defaults to the source deployment's replica count at create time, or to the
+   * source and target deployments' combined replica count when both already stand in
+   * the endpoint traffic split after a cancel.
    */
   finalTargetReplicas?: number;
 
@@ -651,7 +655,9 @@ export namespace RolloutCreateParams {
 
   /**
    * Canary strategy configuration for gradual traffic progression. An empty config
-   * uses the default 5, 25, 50, 100 percent ladder.
+   * uses the default 5, 25, 50, 100 percent ladder; over a frozen traffic-split pair
+   * left by cancel, the default ladder is derived at start from the pair's current
+   * served share so it begins above it.
    */
   export interface Canary {
     /**
