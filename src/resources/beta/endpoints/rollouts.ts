@@ -176,6 +176,38 @@ export class Rollouts extends APIResource {
   }
 
   /**
+   * Returns the values a create request would pick for any field left unset, plus
+   * the capacity context needed to display them, without creating a rollout.
+   * Responses are display state only and re-validated authoritatively at create and
+   * start; do not copy response values back into a create request.
+   *
+   * @example
+   * ```ts
+   * const rolloutDefaultsPreview =
+   *   await client.beta.endpoints.rollouts.previewDefaults(
+   *     'endpointId',
+   *     {
+   *       projectId: 'projectId',
+   *       sourceDeploymentId: 'sourceDeploymentId',
+   *       targetDeploymentId: 'targetDeploymentId',
+   *     },
+   *   );
+   * ```
+   */
+  previewDefaults(
+    endpointID: string,
+    params: RolloutPreviewDefaultsParams,
+    options?: RequestOptions,
+  ): APIPromise<RolloutDefaultsPreview> {
+    const { projectId = this._client.projectID, ...body } = params;
+    return this._client.post(path`/projects/${projectId}/endpoints/${endpointID}/rollouts/preview-defaults`, {
+      body,
+      defaultBaseURL: 'https://api.together.ai/v2',
+      ...options,
+    });
+  }
+
+  /**
    * Completes a running or paused rollout immediately by sending all live traffic to
    * the target deployment.
    *
@@ -606,6 +638,282 @@ export namespace Rollout {
 }
 
 /**
+ * Completed create-form state — the caller's spec with defaulted values filled in,
+ * the steps the rollout is expected to walk, and the capacity context the defaults
+ * were computed from. Display only.
+ */
+export interface RolloutDefaultsPreview {
+  /**
+   * Source deployment replica count the defaults were computed from. Zero is a real
+   * value.
+   */
+  sourceReplicas: number;
+
+  /**
+   * Strategy, metric gates, timing, and cleanup policy for shifting traffic between
+   * two deployments under one endpoint.
+   */
+  spec: RolloutDefaultsPreview.Spec;
+
+  /**
+   * Target deployment autoscaling maximum replica count. Zero is a real value.
+   */
+  targetMaxReplicas: number;
+
+  /**
+   * Target deployment autoscaling minimum replica count. Zero is a real value.
+   */
+  targetMinReplicas: number;
+
+  /**
+   * Target deployment replica count the defaults were computed from. Zero is a real
+   * value.
+   */
+  targetReplicas: number;
+
+  /**
+   * Non-blocking findings to surface next to the form. An empty list means the shown
+   * values are safe to submit as-is.
+   */
+  warnings: Array<RolloutDefaultsPreview.Warning>;
+
+  /**
+   * Steps the rollout is expected to walk when the caller leaves steps unset.
+   * Display only. Empty when the caller supplied steps or no ladder applies.
+   */
+  estimatedEffectiveSteps?: Array<RolloutDefaultsPreview.EstimatedEffectiveStep>;
+
+  /**
+   * Percentage of the pair's traffic currently reaching the target, the floor the
+   * suggested steps start above. Unset when not a frozen pair or unknown; 0 is a
+   * real measurement.
+   */
+  estimatedSeedPercent?: number;
+
+  /**
+   * True when both deployments still share the endpoint traffic split left by a
+   * cancelled rollout, so the rollout resumes from the current split rather than
+   * from zero.
+   */
+  frozenPair?: boolean;
+}
+
+export namespace RolloutDefaultsPreview {
+  /**
+   * Strategy, metric gates, timing, and cleanup policy for shifting traffic between
+   * two deployments under one endpoint.
+   */
+  export interface Spec {
+    /**
+     * Deployment that traffic shifts away from.
+     */
+    sourceDeploymentId: string;
+
+    /**
+     * Deployment that traffic shifts toward.
+     */
+    targetDeploymentId: string;
+
+    /**
+     * Blue-green strategy configuration for a single cutover to the target deployment.
+     */
+    blueGreen?: Spec.BlueGreen;
+
+    /**
+     * Canary strategy configuration for gradual traffic progression. An empty config
+     * uses the default 5, 25, 50, 100 percent ladder; over a frozen traffic-split pair
+     * left by cancel, the default ladder is derived at start from the pair's current
+     * served share so it begins above it.
+     */
+    canary?: Spec.Canary;
+
+    /**
+     * Optional final replica count for the source deployment. Defaults to 0, which
+     * drains and stops the source.
+     */
+    finalSourceReplicas?: number;
+
+    /**
+     * Optional target replica count at completion. Must be at least 1 when set;
+     * defaults to the source deployment's replica count at create time, or to the
+     * source and target deployments' combined replica count when both already stand in
+     * the endpoint traffic split after a cancel.
+     */
+    finalTargetReplicas?: number;
+
+    /**
+     * Optional metric gates evaluated after each step's soak. Canary only; rejected on
+     * rolling and blue-green rollouts.
+     */
+    metrics?: Array<Spec.Metric>;
+
+    /**
+     * Rolling strategy configuration for capacity-preserving batches that ramp target
+     * replicas up while draining source replicas.
+     */
+    rolling?: Spec.Rolling;
+  }
+
+  export namespace Spec {
+    /**
+     * Blue-green strategy configuration for a single cutover to the target deployment.
+     */
+    export interface BlueGreen {}
+
+    /**
+     * Canary strategy configuration for gradual traffic progression. An empty config
+     * uses the default 5, 25, 50, 100 percent ladder; over a frozen traffic-split pair
+     * left by cancel, the default ladder is derived at start from the pair's current
+     * served share so it begins above it.
+     */
+    export interface Canary {
+      /**
+       * Optional positive soak between steps. Defaults to 3m if omitted, and grows to
+       * cover metric rule windows plus ingestion lag.
+       */
+      stepInterval?: string;
+
+      /**
+       * Optional progression steps. Defaults to 5, 25, 50, 100 percent when empty;
+       * explicit steps must increase and end at 100 percent.
+       */
+      steps?: Array<Canary.Step>;
+    }
+
+    export namespace Canary {
+      /**
+       * One stage of a canary rollout progression.
+       */
+      export interface Step {
+        /**
+         * Required percentage of traffic on the target deployment for this step.
+         */
+        traffic: number;
+
+        /**
+         * Optional explicit target replica count for this step.
+         */
+        replicas?: number;
+      }
+    }
+
+    /**
+     * Metric gate evaluated during a rollout.
+     */
+    export interface Metric {
+      name: 'inflight_requests' | 'router_error_rate' | 'router_latency' | 'serving_latency';
+
+      /**
+       * Required aggregation used for the metric.
+       */
+      stat:
+        | 'METRIC_STAT_TYPE_AVG'
+        | 'METRIC_STAT_TYPE_MIN'
+        | 'METRIC_STAT_TYPE_MAX'
+        | 'METRIC_STAT_TYPE_PERCENTILE';
+
+      /**
+       * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
+       */
+      percentile?: number;
+
+      /**
+       * Regression criteria that fail when the target regresses against the source
+       * beyond a limit.
+       */
+      regressionCheck?: Metric.RegressionCheck;
+
+      /**
+       * Threshold criteria that fail when the target metric violates the configured
+       * bound.
+       */
+      thresholdCheck?: Metric.ThresholdCheck;
+
+      /**
+       * Optional query window for the metric. Defaults to the step soak duration.
+       */
+      window?: string;
+    }
+
+    export namespace Metric {
+      /**
+       * Regression criteria that fail when the target regresses against the source
+       * beyond a limit.
+       */
+      export interface RegressionCheck {
+        /**
+         * Required direction that indicates whether higher or lower metric values are
+         * worse.
+         */
+        direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
+
+        /**
+         * Required maximum allowed regression percentage.
+         */
+        maxRegressionPercent: number;
+      }
+
+      /**
+       * Threshold criteria that fail when the target metric violates the configured
+       * bound.
+       */
+      export interface ThresholdCheck {
+        /**
+         * Required comparison operator applied to the target metric value.
+         */
+        operator:
+          | 'THRESHOLD_OPERATOR_GT'
+          | 'THRESHOLD_OPERATOR_GTE'
+          | 'THRESHOLD_OPERATOR_LT'
+          | 'THRESHOLD_OPERATOR_LTE';
+
+        /**
+         * Required numeric threshold value.
+         */
+        value: number;
+      }
+    }
+
+    /**
+     * Rolling strategy configuration for capacity-preserving batches that ramp target
+     * replicas up while draining source replicas.
+     */
+    export interface Rolling {}
+  }
+
+  /**
+   * A non-blocking finding attached to a rollout defaults preview.
+   */
+  export interface Warning {
+    /**
+     * Machine-readable warning code, such as CREATE_WILL_REJECT or
+     * TARGET_ALREADY_IN_TRAFFIC_SPLIT. Render message for unrecognized codes.
+     */
+    code: string;
+
+    /**
+     * Plain-language description of the finding, safe to show users as-is.
+     */
+    message: string;
+  }
+
+  /**
+   * One stage of a canary rollout progression.
+   */
+  export interface EstimatedEffectiveStep {
+    /**
+     * Required percentage of traffic on the target deployment for this step.
+     */
+    traffic: number;
+
+    /**
+     * Optional explicit target replica count for this step.
+     */
+    replicas?: number;
+  }
+}
+
+/**
  * Empty response returned after a successful delete operation.
  */
 export interface RolloutDeleteResponse {}
@@ -889,6 +1197,190 @@ export interface RolloutPauseParams {
   reason?: string;
 }
 
+export interface RolloutPreviewDefaultsParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Body param: Deployment that traffic shifts away from.
+   */
+  sourceDeploymentId: string;
+
+  /**
+   * Body param: Deployment that traffic shifts toward.
+   */
+  targetDeploymentId: string;
+
+  /**
+   * Body param: Blue-green strategy configuration for a single cutover to the target
+   * deployment.
+   */
+  blueGreen?: RolloutPreviewDefaultsParams.BlueGreen;
+
+  /**
+   * Body param: Canary strategy configuration for gradual traffic progression. An
+   * empty config uses the default 5, 25, 50, 100 percent ladder; over a frozen
+   * traffic-split pair left by cancel, the default ladder is derived at start from
+   * the pair's current served share so it begins above it.
+   */
+  canary?: RolloutPreviewDefaultsParams.Canary;
+
+  /**
+   * Body param: Optional final replica count for the source deployment. Defaults to
+   * 0, which drains and stops the source.
+   */
+  finalSourceReplicas?: number;
+
+  /**
+   * Body param: Optional target replica count at completion. Must be at least 1 when
+   * set; defaults to the source deployment's replica count at create time, or to the
+   * source and target deployments' combined replica count when both already stand in
+   * the endpoint traffic split after a cancel.
+   */
+  finalTargetReplicas?: number;
+
+  /**
+   * Body param: Optional metric gates evaluated after each step's soak. Canary only;
+   * rejected on rolling and blue-green rollouts.
+   */
+  metrics?: Array<RolloutPreviewDefaultsParams.Metric>;
+
+  /**
+   * Body param: Rolling strategy configuration for capacity-preserving batches that
+   * ramp target replicas up while draining source replicas.
+   */
+  rolling?: RolloutPreviewDefaultsParams.Rolling;
+}
+
+export namespace RolloutPreviewDefaultsParams {
+  /**
+   * Blue-green strategy configuration for a single cutover to the target deployment.
+   */
+  export interface BlueGreen {}
+
+  /**
+   * Canary strategy configuration for gradual traffic progression. An empty config
+   * uses the default 5, 25, 50, 100 percent ladder; over a frozen traffic-split pair
+   * left by cancel, the default ladder is derived at start from the pair's current
+   * served share so it begins above it.
+   */
+  export interface Canary {
+    /**
+     * Optional positive soak between steps. Defaults to 3m if omitted, and grows to
+     * cover metric rule windows plus ingestion lag.
+     */
+    stepInterval?: string;
+
+    /**
+     * Optional progression steps. Defaults to 5, 25, 50, 100 percent when empty;
+     * explicit steps must increase and end at 100 percent.
+     */
+    steps?: Array<Canary.Step>;
+  }
+
+  export namespace Canary {
+    /**
+     * One stage of a canary rollout progression.
+     */
+    export interface Step {
+      /**
+       * Required percentage of traffic on the target deployment for this step.
+       */
+      traffic: number;
+
+      /**
+       * Optional explicit target replica count for this step.
+       */
+      replicas?: number;
+    }
+  }
+
+  /**
+   * Metric gate evaluated during a rollout.
+   */
+  export interface Metric {
+    name: 'inflight_requests' | 'router_error_rate' | 'router_latency' | 'serving_latency';
+
+    /**
+     * Required aggregation used for the metric.
+     */
+    stat:
+      | 'METRIC_STAT_TYPE_AVG'
+      | 'METRIC_STAT_TYPE_MIN'
+      | 'METRIC_STAT_TYPE_MAX'
+      | 'METRIC_STAT_TYPE_PERCENTILE';
+
+    /**
+     * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
+     */
+    percentile?: number;
+
+    /**
+     * Regression criteria that fail when the target regresses against the source
+     * beyond a limit.
+     */
+    regressionCheck?: Metric.RegressionCheck;
+
+    /**
+     * Threshold criteria that fail when the target metric violates the configured
+     * bound.
+     */
+    thresholdCheck?: Metric.ThresholdCheck;
+
+    /**
+     * Optional query window for the metric. Defaults to the step soak duration.
+     */
+    window?: string;
+  }
+
+  export namespace Metric {
+    /**
+     * Regression criteria that fail when the target regresses against the source
+     * beyond a limit.
+     */
+    export interface RegressionCheck {
+      /**
+       * Required direction that indicates whether higher or lower metric values are
+       * worse.
+       */
+      direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
+
+      /**
+       * Required maximum allowed regression percentage.
+       */
+      maxRegressionPercent: number;
+    }
+
+    /**
+     * Threshold criteria that fail when the target metric violates the configured
+     * bound.
+     */
+    export interface ThresholdCheck {
+      /**
+       * Required comparison operator applied to the target metric value.
+       */
+      operator:
+        | 'THRESHOLD_OPERATOR_GT'
+        | 'THRESHOLD_OPERATOR_GTE'
+        | 'THRESHOLD_OPERATOR_LT'
+        | 'THRESHOLD_OPERATOR_LTE';
+
+      /**
+       * Required numeric threshold value.
+       */
+      value: number;
+    }
+  }
+
+  /**
+   * Rolling strategy configuration for capacity-preserving batches that ramp target
+   * replicas up while draining source replicas.
+   */
+  export interface Rolling {}
+}
+
 export interface RolloutPromoteParams {
   /**
    * Path param: Project identifier.
@@ -938,6 +1430,7 @@ export interface RolloutStartParams {
 export declare namespace Rollouts {
   export {
     type Rollout as Rollout,
+    type RolloutDefaultsPreview as RolloutDefaultsPreview,
     type RolloutDeleteResponse as RolloutDeleteResponse,
     type RolloutsCursorPagination as RolloutsCursorPagination,
     type RolloutCreateParams as RolloutCreateParams,
@@ -946,6 +1439,7 @@ export declare namespace Rollouts {
     type RolloutDeleteParams as RolloutDeleteParams,
     type RolloutCancelParams as RolloutCancelParams,
     type RolloutPauseParams as RolloutPauseParams,
+    type RolloutPreviewDefaultsParams as RolloutPreviewDefaultsParams,
     type RolloutPromoteParams as RolloutPromoteParams,
     type RolloutResumeParams as RolloutResumeParams,
     type RolloutStartParams as RolloutStartParams,

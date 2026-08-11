@@ -164,6 +164,44 @@ describe('resource rollouts', () => {
     });
   });
 
+  test('previewDefaults: only required params', async () => {
+    const responsePromise = client.beta.endpoints.rollouts.previewDefaults('endpointId', {
+      projectId: 'projectId',
+      sourceDeploymentId: 'sourceDeploymentId',
+      targetDeploymentId: 'targetDeploymentId',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('previewDefaults: required and optional params', async () => {
+    const response = await client.beta.endpoints.rollouts.previewDefaults('endpointId', {
+      projectId: 'projectId',
+      sourceDeploymentId: 'sourceDeploymentId',
+      targetDeploymentId: 'targetDeploymentId',
+      blueGreen: {},
+      canary: { stepInterval: '-160513s', steps: [{ traffic: 0, replicas: 0 }] },
+      finalSourceReplicas: 0,
+      finalTargetReplicas: 0,
+      metrics: [
+        {
+          name: 'inflight_requests',
+          stat: 'METRIC_STAT_TYPE_AVG',
+          percentile: 0,
+          regressionCheck: { direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE', maxRegressionPercent: 0 },
+          thresholdCheck: { operator: 'THRESHOLD_OPERATOR_GT', value: 0 },
+          window: '-160513s',
+        },
+      ],
+      rolling: {},
+    });
+  });
+
   test('promote: only required params', async () => {
     const responsePromise = client.beta.endpoints.rollouts.promote('id', {
       projectId: 'projectId',

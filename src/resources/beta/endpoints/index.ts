@@ -76,6 +76,7 @@ export {
 export {
   Rollouts,
   type Rollout,
+  type RolloutDefaultsPreview,
   type RolloutDeleteResponse,
   type RolloutCreateParams,
   type RolloutRetrieveParams,
@@ -83,6 +84,7 @@ export {
   type RolloutDeleteParams,
   type RolloutCancelParams,
   type RolloutPauseParams,
+  type RolloutPreviewDefaultsParams,
   type RolloutPromoteParams,
   type RolloutResumeParams,
   type RolloutStartParams,

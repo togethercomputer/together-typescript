@@ -104,6 +104,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/beta/endpoints/rollouts.ts">Rollout</a></code>
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">RolloutDefaultsPreview</a></code>
 - <code><a href="./src/resources/beta/endpoints/rollouts.ts">RolloutDeleteResponse</a></code>
 
 Methods:
@@ -114,6 +115,7 @@ Methods:
 - <code title="delete /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">delete</a>(id, { ...params }) -> RolloutDeleteResponse</code>
 - <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/cancel">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">cancel</a>(id, { ...params }) -> Rollout</code>
 - <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/pause">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">pause</a>(id, { ...params }) -> Rollout</code>
+- <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/preview-defaults">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">previewDefaults</a>(endpointID, { ...params }) -> RolloutDefaultsPreview</code>
 - <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/promote">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">promote</a>(id, { ...params }) -> Rollout</code>
 - <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/resume">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">resume</a>(id, { ...params }) -> Rollout</code>
 - <code title="post /projects/{projectId}/endpoints/{endpointId}/rollouts/{id}/start">client.beta.endpoints.rollouts.<a href="./src/resources/beta/endpoints/rollouts.ts">start</a>(id, { ...params }) -> Rollout</code>
