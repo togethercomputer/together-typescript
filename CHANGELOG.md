@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.48.0](https://github.com/togethercomputer/together-typescript/compare/v0.47.1...v0.48.0) (2026-08-11)
+
+
+### Features
+
+* **rollout:** add PreviewRolloutDefaults endpoint ([6e7d24a](https://github.com/togethercomputer/together-typescript/commit/6e7d24ab7ee07aea4dd91479408761b38be1265e))
+
+
+### Bug Fixes
+
+* **openapi:** add request examples for CreateRollout so generated samples are valid ([005f04e](https://github.com/togethercomputer/together-typescript/commit/005f04ea83aa7628637a7423f654ba754aaddaad))
+
+
+### Documentation
+
+* sync rollout OpenAPI defaults ([c8825c2](https://github.com/togethercomputer/together-typescript/commit/c8825c25120c84a5bbd0e7b671fd149b4efc882a))
+
 ## [0.47.1](https://github.com/togethercomputer/together-typescript/compare/v0.47.0...v0.47.1) (2026-08-10)
 
 
