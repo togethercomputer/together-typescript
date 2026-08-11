@@ -17,8 +17,28 @@ export class Rollouts extends APIResource {
    *   'endpointId',
    *   {
    *     projectId: 'projectId',
-   *     sourceDeploymentId: 'sourceDeploymentId',
-   *     targetDeploymentId: 'targetDeploymentId',
+   *     sourceDeploymentId: 'dep_source123',
+   *     targetDeploymentId: 'dep_target456',
+   *     canary: {
+   *       steps: [
+   *         { traffic: 25 },
+   *         { traffic: 50 },
+   *         { traffic: 100 },
+   *       ],
+   *       stepInterval: '300s',
+   *     },
+   *     metrics: [
+   *       {
+   *         name: 'serving_latency',
+   *         stat: 'METRIC_STAT_TYPE_PERCENTILE',
+   *         percentile: 95,
+   *         thresholdCheck: {
+   *           value: 30000,
+   *           operator: 'THRESHOLD_OPERATOR_LT',
+   *         },
+   *         window: '300s',
+   *       },
+   *     ],
    *   },
    * );
    * ```
