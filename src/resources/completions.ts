@@ -129,6 +129,8 @@ export namespace CompletionChunk {
 
       reasoning?: string | null;
 
+      reasoning_content?: string | null;
+
       token_id?: number;
 
       tool_calls?: Array<CompletionsAPI.ToolChoice>;

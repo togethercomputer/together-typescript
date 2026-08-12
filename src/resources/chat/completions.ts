@@ -107,6 +107,8 @@ export interface ChatCompletionAssistantMessageParam {
    */
   function_call?: ChatCompletionAssistantMessageParam.FunctionCall;
 
+  reasoning_content?: string | null;
+
   name?: string;
 
   tool_calls?: Array<CompletionsAPI.ToolChoice>;
@@ -174,6 +176,8 @@ export namespace ChatCompletionChunk {
       function_call?: Delta.FunctionCall | null;
 
       reasoning?: string | null;
+
+      reasoning_content?: string | null;
 
       token_id?: number;
 
