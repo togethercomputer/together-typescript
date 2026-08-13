@@ -384,6 +384,12 @@ export namespace Rollout {
     condition?: Status.Condition;
 
     /**
+     * Informational conditions that describe the rollout's current state. Omitted when
+     * empty; clients should treat an absent key as an empty list.
+     */
+    conditions?: Array<Status.Condition>;
+
+    /**
      * Timestamp of the most recent progress update.
      */
     updatedAt?: string;
@@ -547,6 +553,132 @@ export namespace Rollout {
        * Timestamp when the condition was observed.
        */
       observedAt?: string;
+
+      /**
+       * Informational condition type. `CapacityLimited` means the current step advanced
+       * partially because full capacity was not placeable.
+       */
+      type?: 'CapacityLimited';
+    }
+
+    export namespace Condition {
+      /**
+       * Observed metric value enriched with its rollout rule and verdict.
+       */
+      export interface Metric {
+        /**
+         * Evaluation form used by the metric rule.
+         */
+        check?: 'METRIC_CHECK_TYPE_THRESHOLD' | 'METRIC_CHECK_TYPE_REGRESSION';
+
+        /**
+         * Direction that indicates whether higher or lower values are worse.
+         */
+        direction?: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
+
+        /**
+         * Regression percentage limit used when check is METRIC_CHECK_TYPE_REGRESSION.
+         */
+        maxRegressionPercent?: number;
+
+        /**
+         * Metric name as exported to the observability backend.
+         */
+        name?: string;
+
+        /**
+         * Threshold comparison operator.
+         */
+        operator?:
+          | 'THRESHOLD_OPERATOR_GT'
+          | 'THRESHOLD_OPERATOR_GTE'
+          | 'THRESHOLD_OPERATOR_LT'
+          | 'THRESHOLD_OPERATOR_LTE';
+
+        /**
+         * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
+         */
+        percentile?: number;
+
+        /**
+         * Observed source baseline. Set only for regression checks; a 0 reading serializes
+         * explicitly.
+         */
+        sourceValue?: number;
+
+        /**
+         * Aggregation used for the metric.
+         */
+        stat?:
+          | 'METRIC_STAT_TYPE_AVG'
+          | 'METRIC_STAT_TYPE_MIN'
+          | 'METRIC_STAT_TYPE_MAX'
+          | 'METRIC_STAT_TYPE_PERCENTILE';
+
+        /**
+         * Observed target value. A 0 reading serializes explicitly.
+         */
+        targetValue?: number;
+
+        /**
+         * Threshold criteria used when check is METRIC_CHECK_TYPE_THRESHOLD.
+         */
+        threshold?: number;
+
+        /**
+         * Result of evaluating this metric at the gate.
+         */
+        verdict?: 'METRIC_VERDICT_PASS' | 'METRIC_VERDICT_BREACHED' | 'METRIC_VERDICT_UNAVAILABLE';
+      }
+    }
+
+    /**
+     * Structured reason a rollout stopped progressing.
+     */
+    export interface Condition {
+      /**
+       * Step index where the condition arose. Step 0 serializes explicitly.
+       */
+      atStep?: number;
+
+      /**
+       * Category that classifies why the rollout stopped.
+       */
+      category?:
+        | 'ROLLOUT_FAILURE_CATEGORY_METRIC_REGRESSION'
+        | 'ROLLOUT_FAILURE_CATEGORY_METRICS_UNAVAILABLE'
+        | 'ROLLOUT_FAILURE_CATEGORY_TARGET_NOT_READY'
+        | 'ROLLOUT_FAILURE_CATEGORY_SOURCE_NOT_DRAINED'
+        | 'ROLLOUT_FAILURE_CATEGORY_HEALTH_REGRESSION'
+        | 'ROLLOUT_FAILURE_CATEGORY_CAPACITY_EXHAUSTED'
+        | 'ROLLOUT_FAILURE_CATEGORY_ROUTING_ERROR'
+        | 'ROLLOUT_FAILURE_CATEGORY_DEPENDENCY_OUTAGE'
+        | 'ROLLOUT_FAILURE_CATEGORY_ABORTED_BY_OPERATOR'
+        | 'ROLLOUT_FAILURE_CATEGORY_INTERNAL'
+        | 'ROLLOUT_FAILURE_CATEGORY_POLICY_INFEASIBLE'
+        | 'ROLLOUT_FAILURE_CATEGORY_UNDER_SERVED'
+        | 'ROLLOUT_FAILURE_CATEGORY_ENTITLEMENT_LAPSED';
+
+      /**
+       * Human-readable explanation for the condition.
+       */
+      message?: string;
+
+      /**
+       * Metrics observed at the failing gate, enriched with their criteria.
+       */
+      metrics?: Array<Condition.Metric>;
+
+      /**
+       * Timestamp when the condition was observed.
+       */
+      observedAt?: string;
+
+      /**
+       * Informational condition type. `CapacityLimited` means the current step advanced
+       * partially because full capacity was not placeable.
+       */
+      type?: 'CapacityLimited';
     }
 
     export namespace Condition {
