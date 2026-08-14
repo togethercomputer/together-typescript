@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.49.0](https://github.com/togethercomputer/together-typescript/compare/v0.48.0...v0.49.0) (2026-08-14)
+
+
+### Features
+
+* sync rollout partial capacity status ([bd3d67c](https://github.com/togethercomputer/together-typescript/commit/bd3d67c0e0d000625134a876b975ce735180df2c))
+
 ## [0.48.0](https://github.com/togethercomputer/together-typescript/compare/v0.47.1...v0.48.0) (2026-08-11)
 
 
