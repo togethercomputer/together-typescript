@@ -5,7 +5,6 @@
 
 ### Features
 
-* **openapi:** add RL LoRA train_unembed ([9bbdf95](https://github.com/togethercomputer/together-typescript/commit/9bbdf952f45f265b4c8116c3f37462e5d89f025b))
 * sync rollout partial capacity status ([bd3d67c](https://github.com/togethercomputer/together-typescript/commit/bd3d67c0e0d000625134a876b975ce735180df2c))
 
 ## [0.48.0](https://github.com/togethercomputer/together-typescript/compare/v0.47.1...v0.48.0) (2026-08-11)
