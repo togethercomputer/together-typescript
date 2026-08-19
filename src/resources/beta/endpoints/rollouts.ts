@@ -866,10 +866,12 @@ export namespace RolloutDefaultsPreview {
     finalSourceReplicas?: number;
 
     /**
-     * Optional target replica count at completion. Must be at least 1 when set;
+     * Optional target replica floor at completion. Must be at least 1 when set;
      * defaults to the source deployment's replica count at create time, or to the
      * source and target deployments' combined replica count when both already stand in
-     * the endpoint traffic split after a cancel.
+     * the endpoint traffic split after a cancel. If this exceeds the target
+     * autoscaling max, the rollout raises that max once when first needed unless an
+     * operator changes max mid-run; the raised ceiling remains after completion.
      */
     finalTargetReplicas?: number;
 
@@ -1018,8 +1020,9 @@ export namespace RolloutDefaultsPreview {
    */
   export interface Warning {
     /**
-     * Machine-readable warning code, such as CREATE_WILL_REJECT or
-     * TARGET_ALREADY_IN_TRAFFIC_SPLIT. Render message for unrecognized codes.
+     * Machine-readable warning code, such as CREATE_WILL_REJECT,
+     * TARGET_ALREADY_IN_TRAFFIC_SPLIT, or ROLLOUT_WILL_RAISE_TARGET_MAX. Render
+     * message for unrecognized codes.
      */
     code: string;
 
@@ -1087,10 +1090,12 @@ export interface RolloutCreateParams {
   finalSourceReplicas?: number;
 
   /**
-   * Body param: Optional target replica count at completion. Must be at least 1 when
+   * Body param: Optional target replica floor at completion. Must be at least 1 when
    * set; defaults to the source deployment's replica count at create time, or to the
    * source and target deployments' combined replica count when both already stand in
-   * the endpoint traffic split after a cancel.
+   * the endpoint traffic split after a cancel. If this exceeds the target
+   * autoscaling max, the rollout raises that max once when first needed unless an
+   * operator changes max mid-run; the raised ceiling remains after completion.
    */
   finalTargetReplicas?: number;
 
@@ -1366,10 +1371,12 @@ export interface RolloutPreviewDefaultsParams {
   finalSourceReplicas?: number;
 
   /**
-   * Body param: Optional target replica count at completion. Must be at least 1 when
+   * Body param: Optional target replica floor at completion. Must be at least 1 when
    * set; defaults to the source deployment's replica count at create time, or to the
    * source and target deployments' combined replica count when both already stand in
-   * the endpoint traffic split after a cancel.
+   * the endpoint traffic split after a cancel. If this exceeds the target
+   * autoscaling max, the rollout raises that max once when first needed unless an
+   * operator changes max mid-run; the raised ceiling remains after completion.
    */
   finalTargetReplicas?: number;
 
