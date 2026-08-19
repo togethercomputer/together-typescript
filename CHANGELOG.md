@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.50.0](https://github.com/togethercomputer/together-typescript/compare/v0.49.0...v0.50.0) (2026-08-19)
+
+
+### Features
+
+* expose RL checkpoint registry ids in OpenAPI ([3848149](https://github.com/togethercomputer/together-typescript/commit/384814994a4c89a26bd9611c51791149dd7179fa))
+
+
+### Documentation
+
+* sync rollout autoscaling preview docs ([5d7f323](https://github.com/togethercomputer/together-typescript/commit/5d7f323d5a9dbc4d2b2342f5330b1c1dceacdb63))
+
 ## [0.49.0](https://github.com/togethercomputer/together-typescript/compare/v0.48.0...v0.49.0) (2026-08-14)
 
 
