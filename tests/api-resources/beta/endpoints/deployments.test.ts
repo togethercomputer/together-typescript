@@ -34,7 +34,7 @@ describe('resource deployments', () => {
         scaleUpWindow: '-160513s',
         scalingMetrics: [
           {
-            name: 'name',
+            name: 'cache_hit_rate',
             target: 0,
             type: 'METRIC_TARGET_TYPE_VALUE',
             percentile: 'percentile',
@@ -101,7 +101,7 @@ describe('resource deployments', () => {
         scaleUpWindow: '-160513s',
         scalingMetrics: [
           {
-            name: 'name',
+            name: 'cache_hit_rate',
             target: 0,
             type: 'METRIC_TARGET_TYPE_VALUE',
             percentile: 'percentile',
