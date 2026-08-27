@@ -6,13 +6,7 @@
 ### Features
 
 * **endpoints:** List enum values for endpoint scaling metric values ([fe03ec2](https://github.com/togethercomputer/together-typescript/commit/fe03ec2170d75e8a5ecd675903193f11c93cc395))
-* expose RL checkpoint registry ids in OpenAPI ([3848149](https://github.com/togethercomputer/together-typescript/commit/384814994a4c89a26bd9611c51791149dd7179fa))
 
-
-### Documentation
-
-* **openapi:** sync rollout landing floor descriptions ([c8e1948](https://github.com/togethercomputer/together-typescript/commit/c8e1948d0e9bc1f31db139f4a97775868938f98b))
-* sync rollout autoscaling preview docs ([5d7f323](https://github.com/togethercomputer/together-typescript/commit/5d7f323d5a9dbc4d2b2342f5330b1c1dceacdb63))
 
 ## [0.49.0](https://github.com/togethercomputer/together-typescript/compare/v0.48.0...v0.49.0) (2026-08-14)
 
