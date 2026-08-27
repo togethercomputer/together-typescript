@@ -41,7 +41,7 @@ describe('resource rollouts', () => {
       finalTargetReplicas: 0,
       metrics: [
         {
-          name: 'serving_latency',
+          name: 'router_latency',
           stat: 'METRIC_STAT_TYPE_PERCENTILE',
           percentile: 95,
           regressionCheck: { direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE', maxRegressionPercent: 0 },

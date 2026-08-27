@@ -29,7 +29,7 @@ export class Rollouts extends APIResource {
    *     },
    *     metrics: [
    *       {
-   *         name: 'serving_latency',
+   *         name: 'router_latency',
    *         stat: 'METRIC_STAT_TYPE_PERCENTILE',
    *         percentile: 95,
    *         thresholdCheck: {
@@ -128,9 +128,10 @@ export class Rollouts extends APIResource {
 
   /**
    * Cancels a running, pausing, paused, system-paused, or stabilizing rollout by
-   * freezing the current traffic split. Revert is removed and rejected; cancel with
-   * freeze, then run a reverse rollout back to the source. The response is the
-   * accepted rollout snapshot; poll GetRollout until it reaches CANCELED.
+   * freezing the current traffic split into standing weights. Revert is removed and
+   * rejected; after canceling, start another canary rollout in either direction or
+   * rebalance the traffic split. The response is the accepted rollout snapshot; poll
+   * GetRollout until it reaches CANCELED.
    *
    * @example
    * ```ts
@@ -823,9 +824,9 @@ export interface RolloutDefaultsPreview {
   estimatedSeedPercent?: number;
 
   /**
-   * True when both deployments still share the endpoint traffic split left by a
-   * cancelled rollout, so the rollout resumes from the current split rather than
-   * from zero.
+   * True when both deployments stand in the endpoint traffic split, so the rollout
+   * resumes from the current split rather than from zero. See warnings for standing
+   * split shapes that StartRollout will still reject.
    */
   frozenPair?: boolean;
 }
@@ -871,7 +872,10 @@ export namespace RolloutDefaultsPreview {
      * source and target deployments' combined replica count when both already stand in
      * the endpoint traffic split after a cancel. If this exceeds the target
      * autoscaling max, the rollout raises that max once when first needed unless an
-     * operator changes max mid-run; the raised ceiling remains after completion.
+     * operator changes max mid-run; the raised ceiling remains after completion. If
+     * the target's autoscaling min, or the source min inherited by a target that
+     * starts stopped, is higher, completion holds that higher floor and
+     * PreviewRolloutDefaults reports FINAL_BELOW_INHERITED_MIN.
      */
     finalTargetReplicas?: number;
 
@@ -935,7 +939,10 @@ export namespace RolloutDefaultsPreview {
      * Metric gate evaluated during a rollout.
      */
     export interface Metric {
-      name: 'inflight_requests' | 'router_error_rate' | 'router_latency' | 'serving_latency';
+      /**
+       * Required catalogue key for the metric to gate on. `serving_latency` is retired.
+       */
+      name: 'inflight_requests' | 'router_error_rate' | 'router_latency';
 
       /**
        * Required aggregation used for the metric.
@@ -1020,9 +1027,9 @@ export namespace RolloutDefaultsPreview {
    */
   export interface Warning {
     /**
-     * Machine-readable warning code, such as CREATE_WILL_REJECT,
-     * TARGET_ALREADY_IN_TRAFFIC_SPLIT, or ROLLOUT_WILL_RAISE_TARGET_MAX. Render
-     * message for unrecognized codes.
+     * Machine-readable warning code, such as START_WILL_REJECT,
+     * ROLLOUT_WILL_RAISE_TARGET_MAX, or FINAL_BELOW_INHERITED_MIN. Render message for
+     * unrecognized codes.
      */
     code: string;
 
@@ -1095,7 +1102,10 @@ export interface RolloutCreateParams {
    * source and target deployments' combined replica count when both already stand in
    * the endpoint traffic split after a cancel. If this exceeds the target
    * autoscaling max, the rollout raises that max once when first needed unless an
-   * operator changes max mid-run; the raised ceiling remains after completion.
+   * operator changes max mid-run; the raised ceiling remains after completion. If
+   * the target's autoscaling min, or the source min inherited by a target that
+   * starts stopped, is higher, completion holds that higher floor and
+   * PreviewRolloutDefaults reports FINAL_BELOW_INHERITED_MIN.
    */
   finalTargetReplicas?: number;
 
@@ -1159,7 +1169,10 @@ export namespace RolloutCreateParams {
    * Metric gate evaluated during a rollout.
    */
   export interface Metric {
-    name: 'inflight_requests' | 'router_error_rate' | 'router_latency' | 'serving_latency';
+    /**
+     * Required catalogue key for the metric to gate on. `serving_latency` is retired.
+     */
+    name: 'inflight_requests' | 'router_error_rate' | 'router_latency';
 
     /**
      * Required aggregation used for the metric.
@@ -1376,7 +1389,10 @@ export interface RolloutPreviewDefaultsParams {
    * source and target deployments' combined replica count when both already stand in
    * the endpoint traffic split after a cancel. If this exceeds the target
    * autoscaling max, the rollout raises that max once when first needed unless an
-   * operator changes max mid-run; the raised ceiling remains after completion.
+   * operator changes max mid-run; the raised ceiling remains after completion. If
+   * the target's autoscaling min, or the source min inherited by a target that
+   * starts stopped, is higher, completion holds that higher floor and
+   * PreviewRolloutDefaults reports FINAL_BELOW_INHERITED_MIN.
    */
   finalTargetReplicas?: number;
 
@@ -1440,7 +1456,10 @@ export namespace RolloutPreviewDefaultsParams {
    * Metric gate evaluated during a rollout.
    */
   export interface Metric {
-    name: 'inflight_requests' | 'router_error_rate' | 'router_latency' | 'serving_latency';
+    /**
+     * Required catalogue key for the metric to gate on. `serving_latency` is retired.
+     */
+    name: 'inflight_requests' | 'router_error_rate' | 'router_latency';
 
     /**
      * Required aggregation used for the metric.

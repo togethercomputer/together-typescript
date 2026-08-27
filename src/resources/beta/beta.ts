@@ -77,20 +77,26 @@ import {
   SupportedModelPerformanceBenchmarks,
   SupportedModelsCursorPagination,
 } from './models/models';
+import * as OrganizationAPI from './organization/organization';
+import { Organization } from './organization/organization';
 
 export class Beta extends APIResource {
+  organization: OrganizationAPI.Organization = new OrganizationAPI.Organization(this._client);
   endpoints: EndpointsAPI.Endpoints = new EndpointsAPI.Endpoints(this._client);
   models: ModelsAPI.Models = new ModelsAPI.Models(this._client);
   jig: JigAPI.Jig = new JigAPI.Jig(this._client);
   clusters: ClustersAPI.Clusters = new ClustersAPI.Clusters(this._client);
 }
 
+Beta.Organization = Organization;
 Beta.Endpoints = Endpoints;
 Beta.Models = Models;
 Beta.Jig = Jig;
 Beta.Clusters = Clusters;
 
 export declare namespace Beta {
+  export { Organization as Organization };
+
   export {
     Endpoints as Endpoints,
     type AbMember as AbMember,

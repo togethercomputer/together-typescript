@@ -338,7 +338,12 @@ export namespace Remediation {
     alert_name: string;
 
     /**
-     * Alertmanager annotations as key-value strings.
+     * Typed content parsed from passive health check alert annotations.
+     */
+    annotation: LinkedAlert.Annotation;
+
+    /**
+     * Legacy Alertmanager annotations as key-value strings.
      */
     annotations: { [key: string]: string };
 
@@ -381,6 +386,82 @@ export namespace Remediation {
      * Time when the underlying alert resolved. Empty while the alert is firing.
      */
     resolved_at?: string;
+  }
+
+  export namespace LinkedAlert {
+    /**
+     * Typed content parsed from passive health check alert annotations.
+     */
+    export interface Annotation {
+      /**
+       * Static explanation for the alert.
+       */
+      description: string;
+
+      /**
+       * Per-firing summary line parsed from the evidence annotation.
+       */
+      summary_line: string;
+
+      /**
+       * Alert title from the Alertmanager summary annotation.
+       */
+      title: string;
+
+      /**
+       * Details for a Slurm node unavailable passive health check alert.
+       */
+      slurm_node_unavailable?: Annotation.SlurmNodeUnavailable;
+
+      /**
+       * Details for a DmesgXidError passive health check alert.
+       */
+      xid?: Annotation.Xid;
+    }
+
+    export namespace Annotation {
+      /**
+       * Details for a Slurm node unavailable passive health check alert.
+       */
+      export interface SlurmNodeUnavailable {
+        /**
+         * Drain reason reported for the unavailable Slurm node.
+         */
+        reason: string;
+      }
+
+      /**
+       * Details for a DmesgXidError passive health check alert.
+       */
+      export interface Xid {
+        /**
+         * Xid events observed during the alert window.
+         */
+        events: Array<Xid.Event>;
+      }
+
+      export namespace Xid {
+        /**
+         * One NVIDIA Xid code observed during the alert window.
+         */
+        export interface Event {
+          /**
+           * Number of times this Xid code appeared in the alert window.
+           */
+          count: number;
+
+          /**
+           * Driver mnemonic for the Xid code when metadata is available.
+           */
+          mnemonic: string;
+
+          /**
+           * NVIDIA Xid code, such as `79`.
+           */
+          xid_code: string;
+        }
+      }
+    }
   }
 }
 

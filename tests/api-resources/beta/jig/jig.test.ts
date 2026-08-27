@@ -45,7 +45,7 @@ describe('resource jig', () => {
     const responsePromise = client.beta.jig.deploy({
       gpu_type: 'h100-80gb',
       image: 'image',
-      name: 'x',
+      name: 'xxxx',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -60,7 +60,7 @@ describe('resource jig', () => {
     const response = await client.beta.jig.deploy({
       gpu_type: 'h100-80gb',
       image: 'image',
-      name: 'x',
+      name: 'xxxx',
       args: ['string'],
       autoscaling: {
         metric: 'HTTPTotalRequests',

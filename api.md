@@ -10,6 +10,16 @@ Methods:
 
 # Beta
 
+## Organization
+
+### Usage
+
+Types:
+
+- <code><a href="./src/resources/beta/organization/usage.ts">BillingUsageLineItem</a></code>
+- <code><a href="./src/resources/beta/organization/usage.ts">BillingUsageReport</a></code>
+- <code><a href="./src/resources/beta/organization/usage.ts">BillingUsageWindow</a></code>
+
 ## Endpoints
 
 Types:

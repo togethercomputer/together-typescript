@@ -74,3 +74,4 @@ export {
   type ModelsCursorPagination,
   type SupportedModelsCursorPagination,
 } from './models/index';
+export { Organization } from './organization/index';

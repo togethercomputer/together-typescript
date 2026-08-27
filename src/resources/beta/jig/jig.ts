@@ -87,7 +87,7 @@ export class Jig extends APIResource {
    * const deployment = await client.beta.jig.deploy({
    *   gpu_type: 'h100-80gb',
    *   image: 'image',
-   *   name: 'x',
+   *   name: 'xxxx',
    * });
    * ```
    */
@@ -668,8 +668,9 @@ export interface JigDeployParams {
   image: string;
 
   /**
-   * Name is the unique identifier for your deployment. Must contain only
-   * alphanumeric characters, underscores, or hyphens (1-100 characters)
+   * Name is the unique identifier for your deployment. Must contain lowercase
+   * letters, numbers, or hyphens, start with a lowercase letter or number, and be
+   * 4-63 characters. It cannot be changed.
    */
   name: string;
 
