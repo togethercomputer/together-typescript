@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.50.0](https://github.com/togethercomputer/together-typescript/compare/v0.49.0...v0.50.0) (2026-08-27)
+
+
+### Features
+
+* **endpoints:** List enum values for endpoint scaling metric values ([fe03ec2](https://github.com/togethercomputer/together-typescript/commit/fe03ec2170d75e8a5ecd675903193f11c93cc395))
+
+
 ## [0.49.0](https://github.com/togethercomputer/together-typescript/compare/v0.48.0...v0.49.0) (2026-08-14)
 
 
