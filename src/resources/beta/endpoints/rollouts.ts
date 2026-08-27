@@ -274,7 +274,8 @@ export class Rollouts extends APIResource {
 export type RolloutsCursorPagination = CursorPagination<Rollout>;
 
 /**
- * Public view of a rollout resource and its embedded runtime status.
+ * Public view of a rollout resource, including progress, platform failure detail,
+ * and operator pause metadata.
  */
 export interface Rollout {
   /**
@@ -873,9 +874,11 @@ export namespace RolloutDefaultsPreview {
      * the endpoint traffic split after a cancel. If this exceeds the target
      * autoscaling max, the rollout raises that max once when first needed unless an
      * operator changes max mid-run; the raised ceiling remains after completion. If
-     * the target's autoscaling min, or the source min inherited by a target that
-     * starts stopped, is higher, completion holds that higher floor and
-     * PreviewRolloutDefaults reports FINAL_BELOW_INHERITED_MIN.
+     * the target's own autoscaling min is higher, that floor stays in force for the
+     * rollout and completion holds it. If a target starts stopped and inherits a
+     * higher source min, the rollout scales to that inherited floor after traffic
+     * shifts and the source drains, before completion. PreviewRolloutDefaults reports
+     * either case as FINAL_BELOW_INHERITED_MIN.
      */
     finalTargetReplicas?: number;
 
@@ -1103,9 +1106,11 @@ export interface RolloutCreateParams {
    * the endpoint traffic split after a cancel. If this exceeds the target
    * autoscaling max, the rollout raises that max once when first needed unless an
    * operator changes max mid-run; the raised ceiling remains after completion. If
-   * the target's autoscaling min, or the source min inherited by a target that
-   * starts stopped, is higher, completion holds that higher floor and
-   * PreviewRolloutDefaults reports FINAL_BELOW_INHERITED_MIN.
+   * the target's own autoscaling min is higher, that floor stays in force for the
+   * rollout and completion holds it. If a target starts stopped and inherits a
+   * higher source min, the rollout scales to that inherited floor after traffic
+   * shifts and the source drains, before completion. PreviewRolloutDefaults reports
+   * either case as FINAL_BELOW_INHERITED_MIN.
    */
   finalTargetReplicas?: number;
 
@@ -1390,9 +1395,11 @@ export interface RolloutPreviewDefaultsParams {
    * the endpoint traffic split after a cancel. If this exceeds the target
    * autoscaling max, the rollout raises that max once when first needed unless an
    * operator changes max mid-run; the raised ceiling remains after completion. If
-   * the target's autoscaling min, or the source min inherited by a target that
-   * starts stopped, is higher, completion holds that higher floor and
-   * PreviewRolloutDefaults reports FINAL_BELOW_INHERITED_MIN.
+   * the target's own autoscaling min is higher, that floor stays in force for the
+   * rollout and completion holds it. If a target starts stopped and inherits a
+   * higher source min, the rollout scales to that inherited floor after traffic
+   * shifts and the source drains, before completion. PreviewRolloutDefaults reports
+   * either case as FINAL_BELOW_INHERITED_MIN.
    */
   finalTargetReplicas?: number;
 
