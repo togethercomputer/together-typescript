@@ -274,8 +274,8 @@ export class Rollouts extends APIResource {
 export type RolloutsCursorPagination = CursorPagination<Rollout>;
 
 /**
- * Public view of a rollout resource, including progress, platform failure detail,
- * and operator pause metadata.
+ * Public view of a rollout resource, including runtime progress and any pause or
+ * abort reason.
  */
 export interface Rollout {
   /**
@@ -873,12 +873,11 @@ export namespace RolloutDefaultsPreview {
      * source and target deployments' combined replica count when both already stand in
      * the endpoint traffic split after a cancel. If this exceeds the target
      * autoscaling max, the rollout raises that max once when first needed unless an
-     * operator changes max mid-run; the raised ceiling remains after completion. If
-     * the target's own autoscaling min is higher, that floor stays in force for the
-     * rollout and completion holds it. If a target starts stopped and inherits a
-     * higher source min, the rollout scales to that inherited floor after traffic
-     * shifts and the source drains, before completion. PreviewRolloutDefaults reports
-     * either case as FINAL_BELOW_INHERITED_MIN.
+     * operator changes max mid-run; the raised ceiling remains after completion. A
+     * pre-existing target whose own autoscaling min is higher keeps that floor,
+     * reported as FINAL_BELOW_INHERITED_MIN. A target that starts stopped lands
+     * exactly at this value; if the source min was higher, PreviewRolloutDefaults
+     * reports FINAL_BELOW_SOURCE_MIN.
      */
     finalTargetReplicas?: number;
 
@@ -1031,8 +1030,8 @@ export namespace RolloutDefaultsPreview {
   export interface Warning {
     /**
      * Machine-readable warning code, such as START_WILL_REJECT,
-     * ROLLOUT_WILL_RAISE_TARGET_MAX, or FINAL_BELOW_INHERITED_MIN. Render message for
-     * unrecognized codes.
+     * ROLLOUT_WILL_RAISE_TARGET_MAX, FINAL_BELOW_INHERITED_MIN, or
+     * FINAL_BELOW_SOURCE_MIN. Render message for unrecognized codes.
      */
     code: string;
 
@@ -1105,12 +1104,11 @@ export interface RolloutCreateParams {
    * source and target deployments' combined replica count when both already stand in
    * the endpoint traffic split after a cancel. If this exceeds the target
    * autoscaling max, the rollout raises that max once when first needed unless an
-   * operator changes max mid-run; the raised ceiling remains after completion. If
-   * the target's own autoscaling min is higher, that floor stays in force for the
-   * rollout and completion holds it. If a target starts stopped and inherits a
-   * higher source min, the rollout scales to that inherited floor after traffic
-   * shifts and the source drains, before completion. PreviewRolloutDefaults reports
-   * either case as FINAL_BELOW_INHERITED_MIN.
+   * operator changes max mid-run; the raised ceiling remains after completion. A
+   * pre-existing target whose own autoscaling min is higher keeps that floor,
+   * reported as FINAL_BELOW_INHERITED_MIN. A target that starts stopped lands
+   * exactly at this value; if the source min was higher, PreviewRolloutDefaults
+   * reports FINAL_BELOW_SOURCE_MIN.
    */
   finalTargetReplicas?: number;
 
@@ -1394,12 +1392,11 @@ export interface RolloutPreviewDefaultsParams {
    * source and target deployments' combined replica count when both already stand in
    * the endpoint traffic split after a cancel. If this exceeds the target
    * autoscaling max, the rollout raises that max once when first needed unless an
-   * operator changes max mid-run; the raised ceiling remains after completion. If
-   * the target's own autoscaling min is higher, that floor stays in force for the
-   * rollout and completion holds it. If a target starts stopped and inherits a
-   * higher source min, the rollout scales to that inherited floor after traffic
-   * shifts and the source drains, before completion. PreviewRolloutDefaults reports
-   * either case as FINAL_BELOW_INHERITED_MIN.
+   * operator changes max mid-run; the raised ceiling remains after completion. A
+   * pre-existing target whose own autoscaling min is higher keeps that floor,
+   * reported as FINAL_BELOW_INHERITED_MIN. A target that starts stopped lands
+   * exactly at this value; if the source min was higher, PreviewRolloutDefaults
+   * reports FINAL_BELOW_SOURCE_MIN.
    */
   finalTargetReplicas?: number;
 
