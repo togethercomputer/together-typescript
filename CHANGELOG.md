@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.51.0](https://github.com/togethercomputer/together-typescript/compare/v0.50.0...v0.51.0) (2026-09-02)
+
+
+### Features
+
+* expose RL GPU configurations in OpenAPI ([0f85a76](https://github.com/togethercomputer/together-typescript/commit/0f85a76c357c2ecd9ac7b28d0c469270009ee961))
+* expose RL session policy state ([36a0bd7](https://github.com/togethercomputer/together-typescript/commit/36a0bd78b929ae0d5543fcb48505f8abf6d5a0ca))
+* **rl:** add forward-backward loss function outputs ([86a3730](https://github.com/togethercomputer/together-typescript/commit/86a3730b46de2a4e0ef8951c5c9d1e5007abc29e))
+
 ## [0.50.0](https://github.com/togethercomputer/together-typescript/compare/v0.49.0...v0.50.0) (2026-08-27)
 
 
