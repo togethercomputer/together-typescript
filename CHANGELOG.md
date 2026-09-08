@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.51.0](https://github.com/togethercomputer/together-typescript/compare/v0.50.0...v0.51.0) (2026-09-08)
+
+
+### Features
+
+* **rollouts:** Add new step states enum values ([41f00f5](https://github.com/togethercomputer/together-typescript/commit/41f00f59a1fe2ab08fb79f5c09d6bdf83b1c483f))
+
+
+### Documentation
+
+* **rollouts:** Update description for landing ceiling ([7a64eb0](https://github.com/togethercomputer/together-typescript/commit/7a64eb0a9c99bb172d70e12e2cc4a53367602e32))
+* **rollouts:** Update descriptions for metric gates ([0f68ffd](https://github.com/togethercomputer/together-typescript/commit/0f68ffdb85e33c07d338b7334a95e0f9d34d0f1d))
+
 ## [0.50.0](https://github.com/togethercomputer/together-typescript/compare/v0.49.0...v0.50.0) (2026-08-27)
 
 
