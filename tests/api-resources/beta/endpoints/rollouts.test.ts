@@ -42,9 +42,9 @@ describe('resource rollouts', () => {
       metrics: [
         {
           name: 'router_latency',
-          stat: 'METRIC_STAT_TYPE_PERCENTILE',
           percentile: 95,
           regressionCheck: { direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE', maxRegressionPercent: 0 },
+          stat: 'METRIC_STAT_TYPE_PERCENTILE',
           thresholdCheck: { operator: 'THRESHOLD_OPERATOR_LT', value: 30000 },
           window: '300s',
         },
@@ -191,9 +191,9 @@ describe('resource rollouts', () => {
       metrics: [
         {
           name: 'inflight_requests',
-          stat: 'METRIC_STAT_TYPE_AVG',
           percentile: 0,
           regressionCheck: { direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE', maxRegressionPercent: 0 },
+          stat: 'METRIC_STAT_TYPE_AVG',
           thresholdCheck: { operator: 'THRESHOLD_OPERATOR_GT', value: 0 },
           window: '-160513s',
         },

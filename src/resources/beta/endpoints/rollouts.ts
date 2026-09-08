@@ -413,7 +413,9 @@ export namespace Rollout {
       failureReason?: string;
 
       /**
-       * Metric gate results for this step.
+       * Metric gate results for this step, enriched with criteria and verdict.
+       * Unmeasured rules appear as synthesized rows with verdict
+       * METRIC_VERDICT_UNAVAILABLE and no measured values.
        */
       metrics?: Array<Step.Metric>;
 
@@ -445,7 +447,9 @@ export namespace Rollout {
 
     export namespace Step {
       /**
-       * Observed metric value enriched with its rollout rule and verdict.
+       * Observed metric result enriched with rollout rule criteria and verdict.
+       * Unmeasured rules are synthesized with verdict METRIC_VERDICT_UNAVAILABLE and no
+       * source or target value.
        */
       export interface Metric {
         /**
@@ -483,8 +487,8 @@ export namespace Rollout {
         percentile?: number;
 
         /**
-         * Observed source baseline. Set only for regression checks; a 0 reading serializes
-         * explicitly.
+         * Observed source baseline. Set only for regression checks with a recorded
+         * observation; a 0 reading serializes explicitly.
          */
         sourceValue?: number;
 
@@ -498,7 +502,8 @@ export namespace Rollout {
           | 'METRIC_STAT_TYPE_PERCENTILE';
 
         /**
-         * Observed target value. A 0 reading serializes explicitly.
+         * Observed target value. Set when the gate recorded an observation; absent on
+         * synthesized unavailable results. A 0 reading serializes explicitly.
          */
         targetValue?: number;
 
@@ -547,7 +552,9 @@ export namespace Rollout {
       message?: string;
 
       /**
-       * Metrics observed at the failing gate, enriched with their criteria.
+       * Metrics observed at the failing gate, enriched with their criteria. Unmeasured
+       * rules appear as synthesized rows with verdict METRIC_VERDICT_UNAVAILABLE and no
+       * measured values.
        */
       metrics?: Array<Condition.Metric>;
 
@@ -565,7 +572,9 @@ export namespace Rollout {
 
     export namespace Condition {
       /**
-       * Observed metric value enriched with its rollout rule and verdict.
+       * Observed metric result enriched with rollout rule criteria and verdict.
+       * Unmeasured rules are synthesized with verdict METRIC_VERDICT_UNAVAILABLE and no
+       * source or target value.
        */
       export interface Metric {
         /**
@@ -603,8 +612,8 @@ export namespace Rollout {
         percentile?: number;
 
         /**
-         * Observed source baseline. Set only for regression checks; a 0 reading serializes
-         * explicitly.
+         * Observed source baseline. Set only for regression checks with a recorded
+         * observation; a 0 reading serializes explicitly.
          */
         sourceValue?: number;
 
@@ -618,7 +627,8 @@ export namespace Rollout {
           | 'METRIC_STAT_TYPE_PERCENTILE';
 
         /**
-         * Observed target value. A 0 reading serializes explicitly.
+         * Observed target value. Set when the gate recorded an observation; absent on
+         * synthesized unavailable results. A 0 reading serializes explicitly.
          */
         targetValue?: number;
 
@@ -667,7 +677,9 @@ export namespace Rollout {
       message?: string;
 
       /**
-       * Metrics observed at the failing gate, enriched with their criteria.
+       * Metrics observed at the failing gate, enriched with their criteria. Unmeasured
+       * rules appear as synthesized rows with verdict METRIC_VERDICT_UNAVAILABLE and no
+       * measured values.
        */
       metrics?: Array<Condition.Metric>;
 
@@ -685,7 +697,9 @@ export namespace Rollout {
 
     export namespace Condition {
       /**
-       * Observed metric value enriched with its rollout rule and verdict.
+       * Observed metric result enriched with rollout rule criteria and verdict.
+       * Unmeasured rules are synthesized with verdict METRIC_VERDICT_UNAVAILABLE and no
+       * source or target value.
        */
       export interface Metric {
         /**
@@ -723,8 +737,8 @@ export namespace Rollout {
         percentile?: number;
 
         /**
-         * Observed source baseline. Set only for regression checks; a 0 reading serializes
-         * explicitly.
+         * Observed source baseline. Set only for regression checks with a recorded
+         * observation; a 0 reading serializes explicitly.
          */
         sourceValue?: number;
 
@@ -738,7 +752,8 @@ export namespace Rollout {
           | 'METRIC_STAT_TYPE_PERCENTILE';
 
         /**
-         * Observed target value. A 0 reading serializes explicitly.
+         * Observed target value. Set when the gate recorded an observation; absent on
+         * synthesized unavailable results. A 0 reading serializes explicitly.
          */
         targetValue?: number;
 
@@ -871,13 +886,16 @@ export namespace RolloutDefaultsPreview {
      * Optional target replica floor at completion. Must be at least 1 when set;
      * defaults to the source deployment's replica count at create time, or to the
      * source and target deployments' combined replica count when both already stand in
-     * the endpoint traffic split after a cancel. If this exceeds the target
-     * autoscaling max, the rollout raises that max once when first needed unless an
-     * operator changes max mid-run; the raised ceiling remains after completion. A
-     * pre-existing target whose own autoscaling min is higher keeps that floor,
-     * reported as FINAL_BELOW_INHERITED_MIN. A target that starts stopped lands
-     * exactly at this value; if the source min was higher, PreviewRolloutDefaults
-     * reports FINAL_BELOW_SOURCE_MIN.
+     * the endpoint traffic split after a cancel. The completed target's autoscaling
+     * max lands at the landing ceiling, max(this value, the source max, the target's
+     * own max); the rollout may lift the target max at first wake, at the first step
+     * that needs it, or at completion unless an operator changes max mid-run. The
+     * lifted ceiling remains after completion, and PreviewRolloutDefaults reports a
+     * coming lift as ROLLOUT_WILL_RAISE_TARGET_MAX. A pre-existing target whose own
+     * autoscaling min is higher keeps that floor, reported as
+     * FINAL_BELOW_INHERITED_MIN. A target that starts stopped lands exactly at this
+     * value; if the source min was higher, PreviewRolloutDefaults reports
+     * FINAL_BELOW_SOURCE_MIN.
      */
     finalTargetReplicas?: number;
 
@@ -947,15 +965,6 @@ export namespace RolloutDefaultsPreview {
       name: 'inflight_requests' | 'router_error_rate' | 'router_latency';
 
       /**
-       * Required aggregation used for the metric.
-       */
-      stat:
-        | 'METRIC_STAT_TYPE_AVG'
-        | 'METRIC_STAT_TYPE_MIN'
-        | 'METRIC_STAT_TYPE_MAX'
-        | 'METRIC_STAT_TYPE_PERCENTILE';
-
-      /**
        * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
        */
       percentile?: number;
@@ -965,6 +974,17 @@ export namespace RolloutDefaultsPreview {
        * beyond a limit.
        */
       regressionCheck?: Metric.RegressionCheck;
+
+      /**
+       * Aggregation used for the metric. Optional for router_error_rate and
+       * inflight_requests; omitted values default to METRIC_STAT_TYPE_AVG. Required for
+       * router_latency, where AVG or PERCENTILE may be used.
+       */
+      stat?:
+        | 'METRIC_STAT_TYPE_AVG'
+        | 'METRIC_STAT_TYPE_MIN'
+        | 'METRIC_STAT_TYPE_MAX'
+        | 'METRIC_STAT_TYPE_PERCENTILE';
 
       /**
        * Threshold criteria that fail when the target metric violates the configured
@@ -1107,13 +1127,16 @@ export interface RolloutCreateParams {
    * Body param: Optional target replica floor at completion. Must be at least 1 when
    * set; defaults to the source deployment's replica count at create time, or to the
    * source and target deployments' combined replica count when both already stand in
-   * the endpoint traffic split after a cancel. If this exceeds the target
-   * autoscaling max, the rollout raises that max once when first needed unless an
-   * operator changes max mid-run; the raised ceiling remains after completion. A
-   * pre-existing target whose own autoscaling min is higher keeps that floor,
-   * reported as FINAL_BELOW_INHERITED_MIN. A target that starts stopped lands
-   * exactly at this value; if the source min was higher, PreviewRolloutDefaults
-   * reports FINAL_BELOW_SOURCE_MIN.
+   * the endpoint traffic split after a cancel. The completed target's autoscaling
+   * max lands at the landing ceiling, max(this value, the source max, the target's
+   * own max); the rollout may lift the target max at first wake, at the first step
+   * that needs it, or at completion unless an operator changes max mid-run. The
+   * lifted ceiling remains after completion, and PreviewRolloutDefaults reports a
+   * coming lift as ROLLOUT_WILL_RAISE_TARGET_MAX. A pre-existing target whose own
+   * autoscaling min is higher keeps that floor, reported as
+   * FINAL_BELOW_INHERITED_MIN. A target that starts stopped lands exactly at this
+   * value; if the source min was higher, PreviewRolloutDefaults reports
+   * FINAL_BELOW_SOURCE_MIN.
    */
   finalTargetReplicas?: number;
 
@@ -1183,15 +1206,6 @@ export namespace RolloutCreateParams {
     name: 'inflight_requests' | 'router_error_rate' | 'router_latency';
 
     /**
-     * Required aggregation used for the metric.
-     */
-    stat:
-      | 'METRIC_STAT_TYPE_AVG'
-      | 'METRIC_STAT_TYPE_MIN'
-      | 'METRIC_STAT_TYPE_MAX'
-      | 'METRIC_STAT_TYPE_PERCENTILE';
-
-    /**
      * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
      */
     percentile?: number;
@@ -1201,6 +1215,17 @@ export namespace RolloutCreateParams {
      * beyond a limit.
      */
     regressionCheck?: Metric.RegressionCheck;
+
+    /**
+     * Aggregation used for the metric. Optional for router_error_rate and
+     * inflight_requests; omitted values default to METRIC_STAT_TYPE_AVG. Required for
+     * router_latency, where AVG or PERCENTILE may be used.
+     */
+    stat?:
+      | 'METRIC_STAT_TYPE_AVG'
+      | 'METRIC_STAT_TYPE_MIN'
+      | 'METRIC_STAT_TYPE_MAX'
+      | 'METRIC_STAT_TYPE_PERCENTILE';
 
     /**
      * Threshold criteria that fail when the target metric violates the configured
@@ -1400,13 +1425,16 @@ export interface RolloutPreviewDefaultsParams {
    * Body param: Optional target replica floor at completion. Must be at least 1 when
    * set; defaults to the source deployment's replica count at create time, or to the
    * source and target deployments' combined replica count when both already stand in
-   * the endpoint traffic split after a cancel. If this exceeds the target
-   * autoscaling max, the rollout raises that max once when first needed unless an
-   * operator changes max mid-run; the raised ceiling remains after completion. A
-   * pre-existing target whose own autoscaling min is higher keeps that floor,
-   * reported as FINAL_BELOW_INHERITED_MIN. A target that starts stopped lands
-   * exactly at this value; if the source min was higher, PreviewRolloutDefaults
-   * reports FINAL_BELOW_SOURCE_MIN.
+   * the endpoint traffic split after a cancel. The completed target's autoscaling
+   * max lands at the landing ceiling, max(this value, the source max, the target's
+   * own max); the rollout may lift the target max at first wake, at the first step
+   * that needs it, or at completion unless an operator changes max mid-run. The
+   * lifted ceiling remains after completion, and PreviewRolloutDefaults reports a
+   * coming lift as ROLLOUT_WILL_RAISE_TARGET_MAX. A pre-existing target whose own
+   * autoscaling min is higher keeps that floor, reported as
+   * FINAL_BELOW_INHERITED_MIN. A target that starts stopped lands exactly at this
+   * value; if the source min was higher, PreviewRolloutDefaults reports
+   * FINAL_BELOW_SOURCE_MIN.
    */
   finalTargetReplicas?: number;
 
@@ -1476,15 +1504,6 @@ export namespace RolloutPreviewDefaultsParams {
     name: 'inflight_requests' | 'router_error_rate' | 'router_latency';
 
     /**
-     * Required aggregation used for the metric.
-     */
-    stat:
-      | 'METRIC_STAT_TYPE_AVG'
-      | 'METRIC_STAT_TYPE_MIN'
-      | 'METRIC_STAT_TYPE_MAX'
-      | 'METRIC_STAT_TYPE_PERCENTILE';
-
-    /**
      * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
      */
     percentile?: number;
@@ -1494,6 +1513,17 @@ export namespace RolloutPreviewDefaultsParams {
      * beyond a limit.
      */
     regressionCheck?: Metric.RegressionCheck;
+
+    /**
+     * Aggregation used for the metric. Optional for router_error_rate and
+     * inflight_requests; omitted values default to METRIC_STAT_TYPE_AVG. Required for
+     * router_latency, where AVG or PERCENTILE may be used.
+     */
+    stat?:
+      | 'METRIC_STAT_TYPE_AVG'
+      | 'METRIC_STAT_TYPE_MIN'
+      | 'METRIC_STAT_TYPE_MAX'
+      | 'METRIC_STAT_TYPE_PERCENTILE';
 
     /**
      * Threshold criteria that fail when the target metric violates the configured

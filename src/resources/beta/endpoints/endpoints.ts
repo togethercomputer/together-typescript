@@ -372,6 +372,7 @@ export namespace DeploymentAutoscaling {
      * Autoscaling metric name from the server allowlist.
      */
     name:
+      | 'active_sessions'
       | 'cache_hit_rate'
       | 'decoding_speed'
       | 'e2e_latency'
