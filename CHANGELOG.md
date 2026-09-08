@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.51.0](https://github.com/togethercomputer/together-typescript/compare/v0.50.0...v0.51.0) (2026-09-08)
+
+
+### Features
+
+* expose RL GPU configurations in OpenAPI ([0f85a76](https://github.com/togethercomputer/together-typescript/commit/0f85a76c357c2ecd9ac7b28d0c469270009ee961))
+* expose RL session policy state ([36a0bd7](https://github.com/togethercomputer/together-typescript/commit/36a0bd78b929ae0d5543fcb48505f8abf6d5a0ca))
+* **rl:** add forward-backward loss function outputs ([86a3730](https://github.com/togethercomputer/together-typescript/commit/86a3730b46de2a4e0ef8951c5c9d1e5007abc29e))
+* sync rollout step states in OpenAPI ([41f00f5](https://github.com/togethercomputer/together-typescript/commit/41f00f59a1fe2ab08fb79f5c09d6bdf83b1c483f))
+
+
+### Documentation
+
+* sync rollout landing ceiling OpenAPI description ([7a64eb0](https://github.com/togethercomputer/together-typescript/commit/7a64eb0a9c99bb172d70e12e2cc4a53367602e32))
+* sync rollout metric gate OpenAPI docs ([0f68ffd](https://github.com/togethercomputer/together-typescript/commit/0f68ffdb85e33c07d338b7334a95e0f9d34d0f1d))
+
 ## [0.50.0](https://github.com/togethercomputer/together-typescript/compare/v0.49.0...v0.50.0) (2026-08-27)
 
 
