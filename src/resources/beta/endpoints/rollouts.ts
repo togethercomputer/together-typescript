@@ -403,12 +403,13 @@ export namespace Rollout {
      */
     export interface Step {
       /**
-       * Timestamp when this step completed.
+       * Timestamp when this step finished, was skipped over, or the rollout ended on it.
+       * Unset while in progress.
        */
       completedAt?: string;
 
       /**
-       * Failure reason when this step failed.
+       * Failure reason set only when this step failed.
        */
       failureReason?: string;
 
@@ -420,18 +421,23 @@ export namespace Rollout {
       metrics?: Array<Step.Metric>;
 
       /**
-       * Timestamp when this step started.
+       * Timestamp when this step's first sub-step ran. Unset for steps no sub-step
+       * reached.
        */
       startedAt?: string;
 
       /**
-       * Execution state of this rollout step.
+       * Outcome of this step. Finished steps are PASSED, the live step mirrors the
+       * rollout state, skipped-over steps are SKIPPED, and unreached steps are PENDING.
        */
       state?:
         | 'ROLLOUT_STEP_STATE_PENDING'
         | 'ROLLOUT_STEP_STATE_RUNNING'
         | 'ROLLOUT_STEP_STATE_PASSED'
-        | 'ROLLOUT_STEP_STATE_FAILED';
+        | 'ROLLOUT_STEP_STATE_FAILED'
+        | 'ROLLOUT_STEP_STATE_PAUSED'
+        | 'ROLLOUT_STEP_STATE_CANCELED'
+        | 'ROLLOUT_STEP_STATE_SKIPPED';
 
       /**
        * Index of this step in the rollout progression. Step 0 serializes explicitly.
