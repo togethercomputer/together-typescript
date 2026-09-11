@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.52.0](https://github.com/togethercomputer/together-typescript/compare/v0.51.0...v0.52.0) (2026-09-11)
+
+
+### Features
+
+* **deployments:** add deployment compliance policy for hipaa requirements ([a7dc28d](https://github.com/togethercomputer/together-typescript/commit/a7dc28d28e955847826b45f3465442a7a592d82f))
+
 ## [0.51.0](https://github.com/togethercomputer/together-typescript/compare/v0.50.0...v0.51.0) (2026-09-08)
 
 
