@@ -3,15 +3,9 @@
 ## [0.52.0](https://github.com/togethercomputer/together-typescript/compare/v0.51.0...v0.52.0) (2026-09-11)
 
 
-### ⚠ BREAKING CHANGES
-
-* **rl:** collapse forward into forward-backward
-
 ### Features
 
-* add rl checkpoint list endpoint ([9fb43d7](https://github.com/togethercomputer/together-typescript/commit/9fb43d7e64185404c7d3f48973f2d00f6838b1bb))
 * **deployments:** add deployment compliance policy for hipaa requirements ([a7dc28d](https://github.com/togethercomputer/together-typescript/commit/a7dc28d28e955847826b45f3465442a7a592d82f))
-* **rl:** collapse forward into forward-backward ([68af9d3](https://github.com/togethercomputer/together-typescript/commit/68af9d3f622b8fa57a16e718c580e17cf9117e19))
 
 ## [0.51.0](https://github.com/togethercomputer/together-typescript/compare/v0.50.0...v0.51.0) (2026-09-08)
 
