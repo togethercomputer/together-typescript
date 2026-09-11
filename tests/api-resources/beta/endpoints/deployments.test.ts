@@ -49,7 +49,13 @@ describe('resource deployments', () => {
       model: 'model',
       modelId: 'modelId',
       modelRevisionId: 'modelRevisionId',
-      placement: { inline: { constraint: 'ENFORCEMENT_REQUIRED', regions: ['string'] } },
+      placement: {
+        inline: {
+          compliancePolicy: { hipaa: true },
+          constraint: 'ENFORCEMENT_REQUIRED',
+          regions: ['string'],
+        },
+      },
     });
   });
 

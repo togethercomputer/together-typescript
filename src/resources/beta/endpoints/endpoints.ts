@@ -407,6 +407,11 @@ export namespace DeploymentAutoscaling {
  */
 export interface DeploymentPlacementConfig {
   /**
+   * Compliance regimes required by a deployment placement policy.
+   */
+  compliancePolicy?: DeploymentPlacementConfig.CompliancePolicy;
+
+  /**
    * How strictly the regions list is enforced.
    */
   constraint?: 'ENFORCEMENT_REQUIRED' | 'ENFORCEMENT_PREFERRED';
@@ -416,6 +421,18 @@ export interface DeploymentPlacementConfig {
    * best-effort replica spreading.
    */
   regions?: Array<string>;
+}
+
+export namespace DeploymentPlacementConfig {
+  /**
+   * Compliance regimes required by a deployment placement policy.
+   */
+  export interface CompliancePolicy {
+    /**
+     * Restrict placement to HIPAA-attested clusters.
+     */
+    hipaa?: boolean;
+  }
 }
 
 /**
