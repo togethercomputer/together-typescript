@@ -453,9 +453,9 @@ export namespace Rollout {
 
     export namespace Step {
       /**
-       * Observed metric result enriched with rollout rule criteria and verdict.
-       * Unmeasured rules are synthesized with verdict METRIC_VERDICT_UNAVAILABLE and no
-       * source or target value.
+       * Observed metric result enriched with rollout rule criteria and the rule's
+       * recorded verdict. Unmeasured rules are synthesized with verdict
+       * METRIC_VERDICT_UNAVAILABLE and no source or target value.
        */
       export interface Metric {
         /**
@@ -467,6 +467,12 @@ export namespace Rollout {
          * Direction that indicates whether higher or lower values are worse.
          */
         direction?: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
+
+        /**
+         * Rule-specific failure text. Set only when verdict is METRIC_VERDICT_BREACHED and
+         * the gate recorded one.
+         */
+        failureReason?: string;
 
         /**
          * Regression percentage limit used when check is METRIC_CHECK_TYPE_REGRESSION.
@@ -519,7 +525,7 @@ export namespace Rollout {
         threshold?: number;
 
         /**
-         * Result of evaluating this metric at the gate.
+         * Rule decision recorded by the metric gate. Absent when no decision was recorded.
          */
         verdict?: 'METRIC_VERDICT_PASS' | 'METRIC_VERDICT_BREACHED' | 'METRIC_VERDICT_UNAVAILABLE';
       }
@@ -578,9 +584,9 @@ export namespace Rollout {
 
     export namespace Condition {
       /**
-       * Observed metric result enriched with rollout rule criteria and verdict.
-       * Unmeasured rules are synthesized with verdict METRIC_VERDICT_UNAVAILABLE and no
-       * source or target value.
+       * Observed metric result enriched with rollout rule criteria and the rule's
+       * recorded verdict. Unmeasured rules are synthesized with verdict
+       * METRIC_VERDICT_UNAVAILABLE and no source or target value.
        */
       export interface Metric {
         /**
@@ -592,6 +598,12 @@ export namespace Rollout {
          * Direction that indicates whether higher or lower values are worse.
          */
         direction?: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
+
+        /**
+         * Rule-specific failure text. Set only when verdict is METRIC_VERDICT_BREACHED and
+         * the gate recorded one.
+         */
+        failureReason?: string;
 
         /**
          * Regression percentage limit used when check is METRIC_CHECK_TYPE_REGRESSION.
@@ -644,7 +656,7 @@ export namespace Rollout {
         threshold?: number;
 
         /**
-         * Result of evaluating this metric at the gate.
+         * Rule decision recorded by the metric gate. Absent when no decision was recorded.
          */
         verdict?: 'METRIC_VERDICT_PASS' | 'METRIC_VERDICT_BREACHED' | 'METRIC_VERDICT_UNAVAILABLE';
       }
@@ -703,9 +715,9 @@ export namespace Rollout {
 
     export namespace Condition {
       /**
-       * Observed metric result enriched with rollout rule criteria and verdict.
-       * Unmeasured rules are synthesized with verdict METRIC_VERDICT_UNAVAILABLE and no
-       * source or target value.
+       * Observed metric result enriched with rollout rule criteria and the rule's
+       * recorded verdict. Unmeasured rules are synthesized with verdict
+       * METRIC_VERDICT_UNAVAILABLE and no source or target value.
        */
       export interface Metric {
         /**
@@ -717,6 +729,12 @@ export namespace Rollout {
          * Direction that indicates whether higher or lower values are worse.
          */
         direction?: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
+
+        /**
+         * Rule-specific failure text. Set only when verdict is METRIC_VERDICT_BREACHED and
+         * the gate recorded one.
+         */
+        failureReason?: string;
 
         /**
          * Regression percentage limit used when check is METRIC_CHECK_TYPE_REGRESSION.
@@ -769,7 +787,7 @@ export namespace Rollout {
         threshold?: number;
 
         /**
-         * Result of evaluating this metric at the gate.
+         * Rule decision recorded by the metric gate. Absent when no decision was recorded.
          */
         verdict?: 'METRIC_VERDICT_PASS' | 'METRIC_VERDICT_BREACHED' | 'METRIC_VERDICT_UNAVAILABLE';
       }
