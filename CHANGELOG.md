@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.52.1](https://github.com/togethercomputer/together-typescript/compare/v0.52.0...v0.52.1) (2026-09-12)
+
+
+### Bug Fixes
+
+* **openapi:** align RL optimizer config names ([447115e](https://github.com/togethercomputer/together-typescript/commit/447115e1c586dd2e3be9f730e965e90df683068d))
+
 ## [0.52.0](https://github.com/togethercomputer/together-typescript/compare/v0.51.0...v0.52.0) (2026-09-11)
 
 
