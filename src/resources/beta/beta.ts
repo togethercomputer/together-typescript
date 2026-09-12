@@ -79,14 +79,11 @@ import {
 } from './models/models';
 import * as OrganizationAPI from './organization/organization';
 import { Organization } from './organization/organization';
-import * as RlAPI from './rl/rl';
-import { Rl } from './rl/rl';
 
 export class Beta extends APIResource {
   organization: OrganizationAPI.Organization = new OrganizationAPI.Organization(this._client);
   endpoints: EndpointsAPI.Endpoints = new EndpointsAPI.Endpoints(this._client);
   models: ModelsAPI.Models = new ModelsAPI.Models(this._client);
-  rl: RlAPI.Rl = new RlAPI.Rl(this._client);
   jig: JigAPI.Jig = new JigAPI.Jig(this._client);
   clusters: ClustersAPI.Clusters = new ClustersAPI.Clusters(this._client);
 }
@@ -94,7 +91,6 @@ export class Beta extends APIResource {
 Beta.Organization = Organization;
 Beta.Endpoints = Endpoints;
 Beta.Models = Models;
-Beta.Rl = Rl;
 Beta.Jig = Jig;
 Beta.Clusters = Clusters;
 
@@ -153,8 +149,6 @@ export declare namespace Beta {
     type ModelListRevisionsParams as ModelListRevisionsParams,
     type ModelListSupportedParams as ModelListSupportedParams,
   };
-
-  export { Rl as Rl };
 
   export {
     Jig as Jig,
