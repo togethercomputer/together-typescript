@@ -1035,11 +1035,11 @@ export namespace RolloutDefaultsPreview {
         direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
 
         /**
-         * Required finite maximum allowed regression percentage, greater than or equal
-         * to 0. A value of 0 is the strictest budget; any regression fails, and
-         * exactly-at-budget passes.
+         * Finite maximum allowed regression percentage, greater than or equal to 0.
+         * Omitting this value is read as 0. A value of 0 is the strictest budget; any
+         * regression fails, and exactly-at-budget passes.
          */
-        maxRegressionPercent: number;
+        maxRegressionPercent?: number;
       }
 
       /**
@@ -1057,12 +1057,16 @@ export namespace RolloutDefaultsPreview {
           | 'THRESHOLD_OPERATOR_LTE';
 
         /**
-         * Required finite threshold value. Interpreted in the metric's unit:
-         * router_error_rate is a ratio in [0, 1], router_latency is milliseconds, and
-         * inflight_requests is a raw count. Thresholds that no achievable value could
-         * pass, or that every achievable value passes, are rejected at create.
+         * Finite threshold value. Interpreted in the metric's unit: router_error_rate is a
+         * ratio in [0, 1], router_latency is milliseconds, and inflight_requests is
+         * in-flight requests per ready replica averaged over the rule window. Thresholds
+         * that no achievable value could pass, or that every achievable value passes, are
+         * rejected at create.
+         *
+         * Omitting this value is read as 0. Set 0 explicitly for the strictest threshold:
+         * nothing at all is tolerated.
          */
-        value: number;
+        value?: number;
       }
     }
 
@@ -1276,11 +1280,11 @@ export namespace RolloutCreateParams {
       direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
 
       /**
-       * Required finite maximum allowed regression percentage, greater than or equal
-       * to 0. A value of 0 is the strictest budget; any regression fails, and
-       * exactly-at-budget passes.
+       * Finite maximum allowed regression percentage, greater than or equal to 0.
+       * Omitting this value is read as 0. A value of 0 is the strictest budget; any
+       * regression fails, and exactly-at-budget passes.
        */
-      maxRegressionPercent: number;
+      maxRegressionPercent?: number;
     }
 
     /**
@@ -1298,12 +1302,16 @@ export namespace RolloutCreateParams {
         | 'THRESHOLD_OPERATOR_LTE';
 
       /**
-       * Required finite threshold value. Interpreted in the metric's unit:
-       * router_error_rate is a ratio in [0, 1], router_latency is milliseconds, and
-       * inflight_requests is a raw count. Thresholds that no achievable value could
-       * pass, or that every achievable value passes, are rejected at create.
+       * Finite threshold value. Interpreted in the metric's unit: router_error_rate is a
+       * ratio in [0, 1], router_latency is milliseconds, and inflight_requests is
+       * in-flight requests per ready replica averaged over the rule window. Thresholds
+       * that no achievable value could pass, or that every achievable value passes, are
+       * rejected at create.
+       *
+       * Omitting this value is read as 0. Set 0 explicitly for the strictest threshold:
+       * nothing at all is tolerated.
        */
-      value: number;
+      value?: number;
     }
   }
 
@@ -1574,11 +1582,11 @@ export namespace RolloutPreviewDefaultsParams {
       direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
 
       /**
-       * Required finite maximum allowed regression percentage, greater than or equal
-       * to 0. A value of 0 is the strictest budget; any regression fails, and
-       * exactly-at-budget passes.
+       * Finite maximum allowed regression percentage, greater than or equal to 0.
+       * Omitting this value is read as 0. A value of 0 is the strictest budget; any
+       * regression fails, and exactly-at-budget passes.
        */
-      maxRegressionPercent: number;
+      maxRegressionPercent?: number;
     }
 
     /**
@@ -1596,12 +1604,16 @@ export namespace RolloutPreviewDefaultsParams {
         | 'THRESHOLD_OPERATOR_LTE';
 
       /**
-       * Required finite threshold value. Interpreted in the metric's unit:
-       * router_error_rate is a ratio in [0, 1], router_latency is milliseconds, and
-       * inflight_requests is a raw count. Thresholds that no achievable value could
-       * pass, or that every achievable value passes, are rejected at create.
+       * Finite threshold value. Interpreted in the metric's unit: router_error_rate is a
+       * ratio in [0, 1], router_latency is milliseconds, and inflight_requests is
+       * in-flight requests per ready replica averaged over the rule window. Thresholds
+       * that no achievable value could pass, or that every achievable value passes, are
+       * rejected at create.
+       *
+       * Omitting this value is read as 0. Set 0 explicitly for the strictest threshold:
+       * nothing at all is tolerated.
        */
-      value: number;
+      value?: number;
     }
   }
 
