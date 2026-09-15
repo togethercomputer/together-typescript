@@ -7,7 +7,7 @@
 
 import { type stat, type readFile } from 'fs/promises';
 import { type createReadStream } from 'fs';
-import { type extname, type resolve } from 'path';
+import { type extname, type resolve, type basename } from 'path';
 import type readline from 'readline';
 import { type isUtf8 } from 'buffer';
 
@@ -15,6 +15,7 @@ let statMethod: typeof stat;
 let resolveMethod: typeof resolve;
 let createReadStreamMethod: typeof createReadStream;
 let extnameMethod: typeof extname;
+let basenameMethod: typeof basename;
 let readlineMethod: typeof readline;
 let isUtf8Method: typeof isUtf8;
 let readFileMethod: typeof readFile;
@@ -22,6 +23,7 @@ try {
   statMethod = require('fs/promises').stat;
   createReadStreamMethod = require('fs').createReadStream;
   extnameMethod = require('path').extname;
+  basenameMethod = require('path').basename;
   readlineMethod = require('readline');
   isUtf8Method = require('buffer').isUtf8;
   resolveMethod = require('path').resolve;
@@ -32,6 +34,7 @@ export {
   statMethod as stat,
   createReadStreamMethod as createReadStream,
   extnameMethod as extname,
+  basenameMethod as basename,
   readlineMethod as readline,
   isUtf8Method as isUtf8,
   resolveMethod as resolve,
