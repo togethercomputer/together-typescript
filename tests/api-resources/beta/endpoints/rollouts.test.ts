@@ -167,8 +167,8 @@ describe('resource rollouts', () => {
   test('previewDefaults: only required params', async () => {
     const responsePromise = client.beta.endpoints.rollouts.previewDefaults('endpointId', {
       projectId: 'projectId',
-      sourceDeploymentId: 'sourceDeploymentId',
-      targetDeploymentId: 'targetDeploymentId',
+      sourceDeploymentId: 'dep_source123',
+      targetDeploymentId: 'dep_target456',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -182,20 +182,27 @@ describe('resource rollouts', () => {
   test('previewDefaults: required and optional params', async () => {
     const response = await client.beta.endpoints.rollouts.previewDefaults('endpointId', {
       projectId: 'projectId',
-      sourceDeploymentId: 'sourceDeploymentId',
-      targetDeploymentId: 'targetDeploymentId',
+      sourceDeploymentId: 'dep_source123',
+      targetDeploymentId: 'dep_target456',
       blueGreen: {},
-      canary: { stepInterval: '-160513s', steps: [{ traffic: 0, replicas: 0 }] },
+      canary: {
+        stepInterval: '300s',
+        steps: [
+          { traffic: 25, replicas: 0 },
+          { traffic: 50, replicas: 0 },
+          { traffic: 100, replicas: 0 },
+        ],
+      },
       finalSourceReplicas: 0,
       finalTargetReplicas: 0,
       metrics: [
         {
           name: 'inflight_requests',
-          percentile: 0,
+          percentile: 95,
           regressionCheck: { direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE', maxRegressionPercent: 0 },
-          stat: 'METRIC_STAT_TYPE_AVG',
-          thresholdCheck: { operator: 'THRESHOLD_OPERATOR_GT', value: 0 },
-          window: '-160513s',
+          stat: 'METRIC_STAT_TYPE_PERCENTILE',
+          thresholdCheck: { operator: 'THRESHOLD_OPERATOR_LT', value: 30000 },
+          window: '300s',
         },
       ],
       rolling: {},

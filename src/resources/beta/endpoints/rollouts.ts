@@ -189,8 +189,28 @@ export class Rollouts extends APIResource {
    *     'endpointId',
    *     {
    *       projectId: 'projectId',
-   *       sourceDeploymentId: 'sourceDeploymentId',
-   *       targetDeploymentId: 'targetDeploymentId',
+   *       sourceDeploymentId: 'dep_source123',
+   *       targetDeploymentId: 'dep_target456',
+   *       canary: {
+   *         steps: [
+   *           { traffic: 25 },
+   *           { traffic: 50 },
+   *           { traffic: 100 },
+   *         ],
+   *         stepInterval: '300s',
+   *       },
+   *       metrics: [
+   *         {
+   *           name: 'serving_latency',
+   *           stat: 'METRIC_STAT_TYPE_PERCENTILE',
+   *           percentile: 95,
+   *           thresholdCheck: {
+   *             value: 30000,
+   *             operator: 'THRESHOLD_OPERATOR_LT',
+   *           },
+   *           window: '300s',
+   *         },
+   *       ],
    *     },
    *   );
    * ```
@@ -305,9 +325,7 @@ export interface Rollout {
     | 'ROLLOUT_STATE_RUNNING'
     | 'ROLLOUT_STATE_PAUSED'
     | 'ROLLOUT_STATE_STABILIZING'
-    | 'ROLLOUT_STATE_ABORTING'
     | 'ROLLOUT_STATE_COMPLETED'
-    | 'ROLLOUT_STATE_ABORTED'
     | 'ROLLOUT_STATE_PENDING'
     | 'ROLLOUT_STATE_SYSTEM_PAUSED'
     | 'ROLLOUT_STATE_CANCELLING'
@@ -507,11 +525,7 @@ export namespace Rollout {
         /**
          * Aggregation used for the metric.
          */
-        stat?:
-          | 'METRIC_STAT_TYPE_AVG'
-          | 'METRIC_STAT_TYPE_MIN'
-          | 'METRIC_STAT_TYPE_MAX'
-          | 'METRIC_STAT_TYPE_PERCENTILE';
+        stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
 
         /**
          * Observed target value. Set when the gate recorded an observation; absent on
@@ -638,11 +652,7 @@ export namespace Rollout {
         /**
          * Aggregation used for the metric.
          */
-        stat?:
-          | 'METRIC_STAT_TYPE_AVG'
-          | 'METRIC_STAT_TYPE_MIN'
-          | 'METRIC_STAT_TYPE_MAX'
-          | 'METRIC_STAT_TYPE_PERCENTILE';
+        stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
 
         /**
          * Observed target value. Set when the gate recorded an observation; absent on
@@ -769,11 +779,7 @@ export namespace Rollout {
         /**
          * Aggregation used for the metric.
          */
-        stat?:
-          | 'METRIC_STAT_TYPE_AVG'
-          | 'METRIC_STAT_TYPE_MIN'
-          | 'METRIC_STAT_TYPE_MAX'
-          | 'METRIC_STAT_TYPE_PERCENTILE';
+        stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
 
         /**
          * Observed target value. Set when the gate recorded an observation; absent on
@@ -1004,11 +1010,7 @@ export namespace RolloutDefaultsPreview {
        * inflight_requests; omitted values default to METRIC_STAT_TYPE_AVG. Required for
        * router_latency, where AVG or PERCENTILE may be used.
        */
-      stat?:
-        | 'METRIC_STAT_TYPE_AVG'
-        | 'METRIC_STAT_TYPE_MIN'
-        | 'METRIC_STAT_TYPE_MAX'
-        | 'METRIC_STAT_TYPE_PERCENTILE';
+      stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
 
       /**
        * Threshold criteria that fail when the target metric violates the configured
@@ -1249,11 +1251,7 @@ export namespace RolloutCreateParams {
      * inflight_requests; omitted values default to METRIC_STAT_TYPE_AVG. Required for
      * router_latency, where AVG or PERCENTILE may be used.
      */
-    stat?:
-      | 'METRIC_STAT_TYPE_AVG'
-      | 'METRIC_STAT_TYPE_MIN'
-      | 'METRIC_STAT_TYPE_MAX'
-      | 'METRIC_STAT_TYPE_PERCENTILE';
+    stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
 
     /**
      * Threshold criteria that fail when the target metric violates the configured
@@ -1551,11 +1549,7 @@ export namespace RolloutPreviewDefaultsParams {
      * inflight_requests; omitted values default to METRIC_STAT_TYPE_AVG. Required for
      * router_latency, where AVG or PERCENTILE may be used.
      */
-    stat?:
-      | 'METRIC_STAT_TYPE_AVG'
-      | 'METRIC_STAT_TYPE_MIN'
-      | 'METRIC_STAT_TYPE_MAX'
-      | 'METRIC_STAT_TYPE_PERCENTILE';
+    stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
 
     /**
      * Threshold criteria that fail when the target metric violates the configured
