@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.53.0](https://github.com/togethercomputer/together-typescript/compare/v0.52.0...v0.53.0) (2026-09-15)
+
+
+### Features
+
+* Add Rollouts SDK code for endpoint deployments management ([7d864db](https://github.com/togethercomputer/together-typescript/commit/7d864dbdc9e51d02c7d06a9f4ef98434ba7e1efa))
+
+
 ## [0.52.0](https://github.com/togethercomputer/together-typescript/compare/v0.51.0...v0.52.0) (2026-09-11)
 
 
