@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.53.0](https://github.com/togethercomputer/together-typescript/compare/v0.52.0...v0.53.0) (2026-09-15)
+
+
+### Features
+
+* Add Rollouts SDK code for endpoint deployments management ([7d864db](https://github.com/togethercomputer/together-typescript/commit/7d864dbdc9e51d02c7d06a9f4ef98434ba7e1efa))
+
+
+### Bug Fixes
+
+* **openapi:** align RL optimizer config names ([447115e](https://github.com/togethercomputer/together-typescript/commit/447115e1c586dd2e3be9f730e965e90df683068d))
+* **openapi:** sync rollout gate optional values ([a81dbdc](https://github.com/togethercomputer/together-typescript/commit/a81dbdccfd4c66d2073e30b1a82b6d769932d08f))
+
 ## [0.52.0](https://github.com/togethercomputer/together-typescript/compare/v0.51.0...v0.52.0) (2026-09-11)
 
 
