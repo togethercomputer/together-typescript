@@ -215,7 +215,7 @@ export interface ShadowExperiment {
   /**
    * Endpoint traffic source returned for a shadow experiment.
    */
-  source: ShadowExperiment.Source;
+  source: EndpointsAPI.ShadowSourceResponse;
 
   /**
    * Derived serving state, active when the experiment has at least one target.
@@ -236,132 +236,6 @@ export interface ShadowExperiment {
    * User defined description.
    */
   description?: string;
-}
-
-export namespace ShadowExperiment {
-  /**
-   * Endpoint traffic source returned for a shadow experiment.
-   */
-  export interface Source {
-    /**
-     * Endpoint-level source returned for a shadow experiment.
-     */
-    endpoint: Source.Endpoint;
-  }
-
-  export namespace Source {
-    /**
-     * Endpoint-level source returned for a shadow experiment.
-     */
-    export interface Endpoint {
-      /**
-       * Sampling strategy returned for endpoint-level shadow traffic.
-       */
-      sampling: Endpoint.Uniform | Endpoint.KeyBased | Endpoint.AdaptiveUniform | Endpoint.AdaptiveKeyBased;
-    }
-
-    export namespace Endpoint {
-      export interface Uniform {
-        /**
-         * Fixed-rate random sampling returned by the API. A zero rate may be omitted by
-         * JSON serialization.
-         */
-        uniform: Uniform.Uniform;
-      }
-
-      export namespace Uniform {
-        /**
-         * Fixed-rate random sampling returned by the API. A zero rate may be omitted by
-         * JSON serialization.
-         */
-        export interface Uniform {
-          /**
-           * Fraction of requests sampled, from 0.0 to 1.0.
-           */
-          rate?: number;
-        }
-      }
-
-      export interface KeyBased {
-        /**
-         * Fixed-rate sticky-key sampling returned by the API. A zero rate may be omitted
-         * by JSON serialization.
-         */
-        keyBased: KeyBased.KeyBased;
-      }
-
-      export namespace KeyBased {
-        /**
-         * Fixed-rate sticky-key sampling returned by the API. A zero rate may be omitted
-         * by JSON serialization.
-         */
-        export interface KeyBased {
-          /**
-           * Request-body field used as the sticky sampling key.
-           */
-          key: string;
-
-          /**
-           * Fraction of distinct key values sampled, from 0.0 to 1.0.
-           */
-          rate?: number;
-        }
-      }
-
-      export interface AdaptiveUniform {
-        /**
-         * Adaptive random sampling returned by the API.
-         */
-        adaptiveUniform: AdaptiveUniform.AdaptiveUniform;
-      }
-
-      export namespace AdaptiveUniform {
-        /**
-         * Adaptive random sampling returned by the API.
-         */
-        export interface AdaptiveUniform {
-          /**
-           * Per-gateway-replica target QPS.
-           */
-          targetQps: number;
-
-          /**
-           * Sliding window for QPS observation when explicitly configured.
-           */
-          window?: string;
-        }
-      }
-
-      export interface AdaptiveKeyBased {
-        /**
-         * Adaptive sticky-key sampling returned by the API.
-         */
-        adaptiveKeyBased: AdaptiveKeyBased.AdaptiveKeyBased;
-      }
-
-      export namespace AdaptiveKeyBased {
-        /**
-         * Adaptive sticky-key sampling returned by the API.
-         */
-        export interface AdaptiveKeyBased {
-          /**
-           * Request-body field used as the sticky sampling key.
-           */
-          key: string;
-
-          /**
-           * Per-gateway-replica target QPS.
-           */
-          targetQps: number;
-
-          /**
-           * Sliding window for QPS observation when explicitly configured.
-           */
-          window?: string;
-        }
-      }
-    }
-  }
 }
 
 /**

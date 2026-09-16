@@ -29,8 +29,38 @@ describe('resource deployments', () => {
       autoscaling: {
         maxReplicas: 0,
         minReplicas: 0,
+        scaleDown: {
+          policies: [
+            {
+              periodSeconds: 60,
+              type: 'SCALING_POLICY_TYPE_PERCENT',
+              value: 25,
+            },
+            {
+              periodSeconds: 60,
+              type: 'SCALING_POLICY_TYPE_PODS',
+              value: 10,
+            },
+          ],
+          selectPolicy: 'SCALING_POLICY_SELECT_MIN',
+        },
         scaleDownWindow: '-160513s',
         scaleToZeroWindow: '-160513s',
+        scaleUp: {
+          policies: [
+            {
+              periodSeconds: 60,
+              type: 'SCALING_POLICY_TYPE_PERCENT',
+              value: 25,
+            },
+            {
+              periodSeconds: 60,
+              type: 'SCALING_POLICY_TYPE_PODS',
+              value: 10,
+            },
+          ],
+          selectPolicy: 'SCALING_POLICY_SELECT_MIN',
+        },
         scaleUpWindow: '-160513s',
         scalingMetrics: [
           {
@@ -102,8 +132,38 @@ describe('resource deployments', () => {
       autoscaling: {
         maxReplicas: 0,
         minReplicas: 0,
+        scaleDown: {
+          policies: [
+            {
+              periodSeconds: 60,
+              type: 'SCALING_POLICY_TYPE_PERCENT',
+              value: 25,
+            },
+            {
+              periodSeconds: 60,
+              type: 'SCALING_POLICY_TYPE_PODS',
+              value: 10,
+            },
+          ],
+          selectPolicy: 'SCALING_POLICY_SELECT_MIN',
+        },
         scaleDownWindow: '-160513s',
         scaleToZeroWindow: '-160513s',
+        scaleUp: {
+          policies: [
+            {
+              periodSeconds: 60,
+              type: 'SCALING_POLICY_TYPE_PERCENT',
+              value: 25,
+            },
+            {
+              periodSeconds: 60,
+              type: 'SCALING_POLICY_TYPE_PODS',
+              value: 10,
+            },
+          ],
+          selectPolicy: 'SCALING_POLICY_SELECT_MIN',
+        },
         scaleUpWindow: '-160513s',
         scalingMetrics: [
           {

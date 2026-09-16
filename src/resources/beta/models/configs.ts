@@ -64,6 +64,56 @@ export class Configs extends APIResource {
 export type ConfigsCursorPagination = CursorPagination<Config>;
 
 /**
+ * Certification result for a model, config, and optional draft-model combination.
+ */
+export interface Certification {
+  /**
+   * Whether the model and config combination passed certification.
+   */
+  certificationType: 'CERTIFICATION_TYPE_CERTIFIED' | 'CERTIFICATION_TYPE_UNCERTIFIED';
+
+  /**
+   * Time when the certification decision was recorded.
+   */
+  certifiedAt: string;
+
+  /**
+   * Service or reviewer that recorded the certification.
+   */
+  certifiedBy: string;
+
+  /**
+   * Resource name of the certified model.
+   */
+  model: string;
+
+  /**
+   * Revision identifier of the certified model.
+   */
+  modelRevisionId: string;
+
+  /**
+   * Product or serving environment for which the combination was evaluated.
+   */
+  target: 'CERTIFICATION_TARGET_DE_SERVERLESS' | 'CERTIFICATION_TARGET_MRE';
+
+  /**
+   * Resource name of the certified draft model.
+   */
+  draftModel?: string;
+
+  /**
+   * Revision identifier of the certified draft model.
+   */
+  draftModelRevisionId?: string;
+
+  /**
+   * Human-readable certification notes or limitations.
+   */
+  notes?: string;
+}
+
+/**
  * Immutable, user-facing configuration revision that defines how a compatible
  * model runs, including engine and hardware selectors.
  */
@@ -76,7 +126,7 @@ export interface Config {
   /**
    * Model, hardware, and runtime combinations certified for this config revision.
    */
-  certifications: Array<Config.Certification>;
+  certifications: Array<Certification>;
 
   /**
    * ID of the project that owns the config revision. Public configs may be owned by
@@ -98,7 +148,7 @@ export interface Config {
   /**
    * Hardware and runtime selectors used to place and configure replicas.
    */
-  selectors: Array<Config.Selector>;
+  selectors: Array<Selector>;
 
   /**
    * Resource name of the draft model, using
@@ -108,71 +158,19 @@ export interface Config {
   draftModel?: string;
 }
 
-export namespace Config {
+/**
+ * Hardware or runtime requirement expressed as a key-value pair.
+ */
+export interface Selector {
   /**
-   * Certification result for a model, config, and optional draft-model combination.
+   * Selector name, such as GPU type, GPU count, or optimization profile.
    */
-  export interface Certification {
-    /**
-     * Whether the model and config combination passed certification.
-     */
-    certificationType: 'CERTIFICATION_TYPE_CERTIFIED' | 'CERTIFICATION_TYPE_UNCERTIFIED';
-
-    /**
-     * Time when the certification decision was recorded.
-     */
-    certifiedAt: string;
-
-    /**
-     * Service or reviewer that recorded the certification.
-     */
-    certifiedBy: string;
-
-    /**
-     * Resource name of the certified model.
-     */
-    model: string;
-
-    /**
-     * Revision identifier of the certified model.
-     */
-    modelRevisionId: string;
-
-    /**
-     * Product or serving environment for which the combination was evaluated.
-     */
-    target: 'CERTIFICATION_TARGET_DE_SERVERLESS' | 'CERTIFICATION_TARGET_MRE';
-
-    /**
-     * Resource name of the certified draft model.
-     */
-    draftModel?: string;
-
-    /**
-     * Revision identifier of the certified draft model.
-     */
-    draftModelRevisionId?: string;
-
-    /**
-     * Human-readable certification notes or limitations.
-     */
-    notes?: string;
-  }
+  key: string;
 
   /**
-   * Hardware or runtime requirement expressed as a key-value pair.
+   * Required value for the selector.
    */
-  export interface Selector {
-    /**
-     * Selector name, such as GPU type, GPU count, or optimization profile.
-     */
-    key: string;
-
-    /**
-     * Required value for the selector.
-     */
-    value: string;
-  }
+  value: string;
 }
 
 export interface ConfigRetrieveParams {
@@ -204,7 +202,9 @@ export interface ConfigListParams extends CursorPaginationParams {
 
 export declare namespace Configs {
   export {
+    type Certification as Certification,
     type Config as Config,
+    type Selector as Selector,
     type ConfigsCursorPagination as ConfigsCursorPagination,
     type ConfigRetrieveParams as ConfigRetrieveParams,
     type ConfigListParams as ConfigListParams,

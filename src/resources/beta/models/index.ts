@@ -2,7 +2,9 @@
 
 export {
   Configs,
+  type Certification,
   type Config,
+  type Selector,
   type ConfigRetrieveParams,
   type ConfigListParams,
   type ConfigsCursorPagination,
@@ -10,6 +12,9 @@ export {
 export {
   Models,
   type Model,
+  type ModelDtypeCount,
+  type ModelParameters,
+  type ModelWeights,
   type SupportedModel,
   type SupportedModelDeploymentProfile,
   type SupportedModelPerformanceBenchmarks,

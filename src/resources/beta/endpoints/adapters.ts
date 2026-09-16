@@ -148,6 +148,88 @@ export class Adapters extends APIResource {
 export type AdapterListResponsesCursorPagination = CursorPagination<AdapterListResponse>;
 
 /**
+ * Controller-reported load state for an adapter on one deployment cluster.
+ */
+export interface DeploymentAdapterStatus {
+  /**
+   * Adapter model identifier for this status row.
+   */
+  adapterModelId: string;
+
+  /**
+   * Cluster reporting this adapter status.
+   */
+  clusterId: string;
+
+  /**
+   * Number of pods that failed to load the adapter.
+   */
+  failedPodCount: number;
+
+  /**
+   * Number of pods with the adapter ready to serve.
+   */
+  readyPodCount: number;
+
+  /**
+   * Current adapter load state in this cluster.
+   */
+  state:
+    | 'ADAPTER_LOAD_STATE_PENDING'
+    | 'ADAPTER_LOAD_STATE_LOADING'
+    | 'ADAPTER_LOAD_STATE_READY'
+    | 'ADAPTER_LOAD_STATE_REMOVING'
+    | 'ADAPTER_LOAD_STATE_FAILED';
+
+  /**
+   * Total pods expected to report adapter load state.
+   */
+  totalPodCount: number;
+
+  /**
+   * Resource name of the adapter model, using
+   * projects/{projectId}/models/{adapterModelId}.
+   */
+  adapterModel?: string;
+
+  /**
+   * Time when the adapter first reached READY in this cluster.
+   */
+  loadedAt?: string;
+
+  /**
+   * Human-readable details about the current adapter state.
+   */
+  message?: string;
+
+  /**
+   * Adapter row etag observed by the controller when it wrote this status.
+   */
+  realizedEtag?: string;
+
+  /**
+   * Resource name of the adapter model revision currently loaded in this cluster,
+   * using projects/{projectId}/models/{adapterModelId}/revisions/{revisionId}.
+   */
+  realizedRevision?: string;
+
+  /**
+   * Adapter revision currently loaded on pods in this cluster.
+   */
+  realizedRevisionId?: string;
+
+  /**
+   * Stable reason code for the current adapter state.
+   */
+  reason?: string;
+
+  /**
+   * Time when this adapter status was last updated.
+   */
+  updatedAt?: string;
+}
+
+/**
  * Adapter attached to a deployment with desired revision and observed load state.
  */
 export interface AdapterCreateResponse {
@@ -169,7 +251,7 @@ export interface AdapterCreateResponse {
   /**
    * Per-cluster adapter load state reported by the controller.
    */
-  perCluster: Array<AdapterCreateResponse.PerCluster>;
+  perCluster: Array<DeploymentAdapterStatus>;
 
   /**
    * Resource name of the adapter model, using
@@ -182,90 +264,6 @@ export interface AdapterCreateResponse {
    * projects/{projectId}/models/{adapterModelId}/revisions/{revisionId}.
    */
   desiredRevision?: string;
-}
-
-export namespace AdapterCreateResponse {
-  /**
-   * Controller-reported load state for an adapter on one deployment cluster.
-   */
-  export interface PerCluster {
-    /**
-     * Adapter model identifier for this status row.
-     */
-    adapterModelId: string;
-
-    /**
-     * Cluster reporting this adapter status.
-     */
-    clusterId: string;
-
-    /**
-     * Number of pods that failed to load the adapter.
-     */
-    failedPodCount: number;
-
-    /**
-     * Number of pods with the adapter ready to serve.
-     */
-    readyPodCount: number;
-
-    /**
-     * Current adapter load state in this cluster.
-     */
-    state:
-      | 'ADAPTER_LOAD_STATE_PENDING'
-      | 'ADAPTER_LOAD_STATE_LOADING'
-      | 'ADAPTER_LOAD_STATE_READY'
-      | 'ADAPTER_LOAD_STATE_REMOVING'
-      | 'ADAPTER_LOAD_STATE_FAILED';
-
-    /**
-     * Total pods expected to report adapter load state.
-     */
-    totalPodCount: number;
-
-    /**
-     * Resource name of the adapter model, using
-     * projects/{projectId}/models/{adapterModelId}.
-     */
-    adapterModel?: string;
-
-    /**
-     * Time when the adapter first reached READY in this cluster.
-     */
-    loadedAt?: string;
-
-    /**
-     * Human-readable details about the current adapter state.
-     */
-    message?: string;
-
-    /**
-     * Adapter row etag observed by the controller when it wrote this status.
-     */
-    realizedEtag?: string;
-
-    /**
-     * Resource name of the adapter model revision currently loaded in this cluster,
-     * using projects/{projectId}/models/{adapterModelId}/revisions/{revisionId}.
-     */
-    realizedRevision?: string;
-
-    /**
-     * Adapter revision currently loaded on pods in this cluster.
-     */
-    realizedRevisionId?: string;
-
-    /**
-     * Stable reason code for the current adapter state.
-     */
-    reason?: string;
-
-    /**
-     * Time when this adapter status was last updated.
-     */
-    updatedAt?: string;
-  }
 }
 
 /**
@@ -290,7 +288,7 @@ export interface AdapterRetrieveResponse {
   /**
    * Per-cluster adapter load state reported by the controller.
    */
-  perCluster: Array<AdapterRetrieveResponse.PerCluster>;
+  perCluster: Array<DeploymentAdapterStatus>;
 
   /**
    * Resource name of the adapter model, using
@@ -303,90 +301,6 @@ export interface AdapterRetrieveResponse {
    * projects/{projectId}/models/{adapterModelId}/revisions/{revisionId}.
    */
   desiredRevision?: string;
-}
-
-export namespace AdapterRetrieveResponse {
-  /**
-   * Controller-reported load state for an adapter on one deployment cluster.
-   */
-  export interface PerCluster {
-    /**
-     * Adapter model identifier for this status row.
-     */
-    adapterModelId: string;
-
-    /**
-     * Cluster reporting this adapter status.
-     */
-    clusterId: string;
-
-    /**
-     * Number of pods that failed to load the adapter.
-     */
-    failedPodCount: number;
-
-    /**
-     * Number of pods with the adapter ready to serve.
-     */
-    readyPodCount: number;
-
-    /**
-     * Current adapter load state in this cluster.
-     */
-    state:
-      | 'ADAPTER_LOAD_STATE_PENDING'
-      | 'ADAPTER_LOAD_STATE_LOADING'
-      | 'ADAPTER_LOAD_STATE_READY'
-      | 'ADAPTER_LOAD_STATE_REMOVING'
-      | 'ADAPTER_LOAD_STATE_FAILED';
-
-    /**
-     * Total pods expected to report adapter load state.
-     */
-    totalPodCount: number;
-
-    /**
-     * Resource name of the adapter model, using
-     * projects/{projectId}/models/{adapterModelId}.
-     */
-    adapterModel?: string;
-
-    /**
-     * Time when the adapter first reached READY in this cluster.
-     */
-    loadedAt?: string;
-
-    /**
-     * Human-readable details about the current adapter state.
-     */
-    message?: string;
-
-    /**
-     * Adapter row etag observed by the controller when it wrote this status.
-     */
-    realizedEtag?: string;
-
-    /**
-     * Resource name of the adapter model revision currently loaded in this cluster,
-     * using projects/{projectId}/models/{adapterModelId}/revisions/{revisionId}.
-     */
-    realizedRevision?: string;
-
-    /**
-     * Adapter revision currently loaded on pods in this cluster.
-     */
-    realizedRevisionId?: string;
-
-    /**
-     * Stable reason code for the current adapter state.
-     */
-    reason?: string;
-
-    /**
-     * Time when this adapter status was last updated.
-     */
-    updatedAt?: string;
-  }
 }
 
 /**
@@ -411,7 +325,7 @@ export interface AdapterUpdateResponse {
   /**
    * Per-cluster adapter load state reported by the controller.
    */
-  perCluster: Array<AdapterUpdateResponse.PerCluster>;
+  perCluster: Array<DeploymentAdapterStatus>;
 
   /**
    * Resource name of the adapter model, using
@@ -424,90 +338,6 @@ export interface AdapterUpdateResponse {
    * projects/{projectId}/models/{adapterModelId}/revisions/{revisionId}.
    */
   desiredRevision?: string;
-}
-
-export namespace AdapterUpdateResponse {
-  /**
-   * Controller-reported load state for an adapter on one deployment cluster.
-   */
-  export interface PerCluster {
-    /**
-     * Adapter model identifier for this status row.
-     */
-    adapterModelId: string;
-
-    /**
-     * Cluster reporting this adapter status.
-     */
-    clusterId: string;
-
-    /**
-     * Number of pods that failed to load the adapter.
-     */
-    failedPodCount: number;
-
-    /**
-     * Number of pods with the adapter ready to serve.
-     */
-    readyPodCount: number;
-
-    /**
-     * Current adapter load state in this cluster.
-     */
-    state:
-      | 'ADAPTER_LOAD_STATE_PENDING'
-      | 'ADAPTER_LOAD_STATE_LOADING'
-      | 'ADAPTER_LOAD_STATE_READY'
-      | 'ADAPTER_LOAD_STATE_REMOVING'
-      | 'ADAPTER_LOAD_STATE_FAILED';
-
-    /**
-     * Total pods expected to report adapter load state.
-     */
-    totalPodCount: number;
-
-    /**
-     * Resource name of the adapter model, using
-     * projects/{projectId}/models/{adapterModelId}.
-     */
-    adapterModel?: string;
-
-    /**
-     * Time when the adapter first reached READY in this cluster.
-     */
-    loadedAt?: string;
-
-    /**
-     * Human-readable details about the current adapter state.
-     */
-    message?: string;
-
-    /**
-     * Adapter row etag observed by the controller when it wrote this status.
-     */
-    realizedEtag?: string;
-
-    /**
-     * Resource name of the adapter model revision currently loaded in this cluster,
-     * using projects/{projectId}/models/{adapterModelId}/revisions/{revisionId}.
-     */
-    realizedRevision?: string;
-
-    /**
-     * Adapter revision currently loaded on pods in this cluster.
-     */
-    realizedRevisionId?: string;
-
-    /**
-     * Stable reason code for the current adapter state.
-     */
-    reason?: string;
-
-    /**
-     * Time when this adapter status was last updated.
-     */
-    updatedAt?: string;
-  }
 }
 
 /**
@@ -532,7 +362,7 @@ export interface AdapterListResponse {
   /**
    * Per-cluster adapter load state reported by the controller.
    */
-  perCluster: Array<AdapterListResponse.PerCluster>;
+  perCluster: Array<DeploymentAdapterStatus>;
 
   /**
    * Resource name of the adapter model, using
@@ -545,90 +375,6 @@ export interface AdapterListResponse {
    * projects/{projectId}/models/{adapterModelId}/revisions/{revisionId}.
    */
   desiredRevision?: string;
-}
-
-export namespace AdapterListResponse {
-  /**
-   * Controller-reported load state for an adapter on one deployment cluster.
-   */
-  export interface PerCluster {
-    /**
-     * Adapter model identifier for this status row.
-     */
-    adapterModelId: string;
-
-    /**
-     * Cluster reporting this adapter status.
-     */
-    clusterId: string;
-
-    /**
-     * Number of pods that failed to load the adapter.
-     */
-    failedPodCount: number;
-
-    /**
-     * Number of pods with the adapter ready to serve.
-     */
-    readyPodCount: number;
-
-    /**
-     * Current adapter load state in this cluster.
-     */
-    state:
-      | 'ADAPTER_LOAD_STATE_PENDING'
-      | 'ADAPTER_LOAD_STATE_LOADING'
-      | 'ADAPTER_LOAD_STATE_READY'
-      | 'ADAPTER_LOAD_STATE_REMOVING'
-      | 'ADAPTER_LOAD_STATE_FAILED';
-
-    /**
-     * Total pods expected to report adapter load state.
-     */
-    totalPodCount: number;
-
-    /**
-     * Resource name of the adapter model, using
-     * projects/{projectId}/models/{adapterModelId}.
-     */
-    adapterModel?: string;
-
-    /**
-     * Time when the adapter first reached READY in this cluster.
-     */
-    loadedAt?: string;
-
-    /**
-     * Human-readable details about the current adapter state.
-     */
-    message?: string;
-
-    /**
-     * Adapter row etag observed by the controller when it wrote this status.
-     */
-    realizedEtag?: string;
-
-    /**
-     * Resource name of the adapter model revision currently loaded in this cluster,
-     * using projects/{projectId}/models/{adapterModelId}/revisions/{revisionId}.
-     */
-    realizedRevision?: string;
-
-    /**
-     * Adapter revision currently loaded on pods in this cluster.
-     */
-    realizedRevisionId?: string;
-
-    /**
-     * Stable reason code for the current adapter state.
-     */
-    reason?: string;
-
-    /**
-     * Time when this adapter status was last updated.
-     */
-    updatedAt?: string;
-  }
 }
 
 /**
@@ -747,6 +493,7 @@ export interface AdapterDeleteParams {
 
 export declare namespace Adapters {
   export {
+    type DeploymentAdapterStatus as DeploymentAdapterStatus,
     type AdapterCreateResponse as AdapterCreateResponse,
     type AdapterRetrieveResponse as AdapterRetrieveResponse,
     type AdapterUpdateResponse as AdapterUpdateResponse,

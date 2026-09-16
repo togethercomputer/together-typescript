@@ -28,6 +28,7 @@ import {
   AdapterUpdateParams,
   AdapterUpdateResponse,
   Adapters,
+  DeploymentAdapterStatus,
 } from './adapters';
 import * as DeploymentsAPI from './deployments';
 import {
@@ -51,8 +52,16 @@ import {
 } from './placement-profiles';
 import * as RolloutsAPI from './rollouts';
 import {
+  BlueGreenConfig,
+  CanaryConfig,
+  MetricResult,
+  MetricRule,
+  PauseInfo,
+  RegressionCheck,
+  RollingConfig,
   Rollout,
   RolloutCancelParams,
+  RolloutCondition,
   RolloutCreateParams,
   RolloutDefaultsPreview,
   RolloutDeleteParams,
@@ -64,8 +73,12 @@ import {
   RolloutResumeParams,
   RolloutRetrieveParams,
   RolloutStartParams,
+  RolloutStatus,
+  RolloutStep,
+  RolloutStepStatus,
   Rollouts,
   RolloutsCursorPagination,
+  ThresholdCheck,
 } from './rollouts';
 import * as ShadowExperimentsAPI from './shadow-experiments/shadow-experiments';
 import {
@@ -340,6 +353,11 @@ export interface DeploymentAutoscaling {
   minReplicas?: number;
 
   /**
+   * Rate limits applied after stabilization and before replica bounds.
+   */
+  scaleDown?: ScalingRules;
+
+  /**
    * Time a lower replica recommendation must remain stable before scaling down.
    * Defaults to `5m`.
    */
@@ -352,6 +370,11 @@ export interface DeploymentAutoscaling {
   scaleToZeroWindow?: string;
 
   /**
+   * Rate limits applied after stabilization and before replica bounds.
+   */
+  scaleUp?: ScalingRules;
+
+  /**
    * Stabilization window before scaling up.
    */
   scaleUpWindow?: string;
@@ -360,46 +383,57 @@ export interface DeploymentAutoscaling {
    * Metrics and targets that drive replica recommendations. When omitted, the
    * platform uses concurrent in-flight requests per replica.
    */
-  scalingMetrics?: Array<DeploymentAutoscaling.ScalingMetric>;
+  scalingMetrics?: Array<ScalingMetric>;
 }
 
-export namespace DeploymentAutoscaling {
+/**
+ * Operational metrics for one deployment under an endpoint.
+ */
+export interface DeploymentMetrics {
   /**
-   * Metric and target used by the autoscaler to recommend a replica count.
+   * ID of the deployment summarized by these metrics.
    */
-  export interface ScalingMetric {
-    /**
-     * Autoscaling metric name from the server allowlist.
-     */
-    name:
-      | 'active_sessions'
-      | 'cache_hit_rate'
-      | 'decoding_speed'
-      | 'e2e_latency'
-      | 'gpu_utilization'
-      | 'inflight_requests'
-      | 'throughput_per_replica'
-      | 'token_utilization'
-      | 'ttft';
+  deploymentId?: string;
 
-    /**
-     * Target interpreted according to `type`. Utilization uses a percentage from 0 to
-     * 100, value uses an absolute measurement, and average value uses a per-replica
-     * measurement.
-     */
-    target: number;
+  /**
+   * ID of the deployment's parent endpoint.
+   */
+  endpointId?: string;
 
-    /**
-     * Whether `target` is an absolute value, a utilization percentage, or a
-     * per-replica average.
-     */
-    type: 'METRIC_TARGET_TYPE_VALUE' | 'METRIC_TARGET_TYPE_UTILIZATION' | 'METRIC_TARGET_TYPE_AVERAGE_VALUE';
+  /**
+   * Error rate and counts by error type.
+   */
+  errorMetrics?: ErrorMetrics;
 
-    /**
-     * Percentile to evaluate for latency-based metrics: `p50`, `p90`, `p95`, or `p99`.
-     */
-    percentile?: string;
-  }
+  /**
+   * Time-to-first-token, end-to-end, and inter-token latency percentiles.
+   */
+  latencyMetrics?: LatencyMetrics;
+
+  /**
+   * Request counts and rates.
+   */
+  requestMetrics?: RequestMetrics;
+
+  /**
+   * Average CPU, GPU, memory, and network utilization.
+   */
+  resourceUtilization?: ResourceUtilization;
+
+  /**
+   * Token, request, and batching throughput.
+   */
+  throughputMetrics?: ThroughputMetrics;
+
+  /**
+   * Closed-open time range covered by the metrics.
+   */
+  timeRange?: MetricsTimeRange;
+
+  /**
+   * Input and output token totals and averages.
+   */
+  tokenMetrics?: TokenMetrics;
 }
 
 /**
@@ -656,7 +690,7 @@ export interface EndpointDeployment {
   /**
    * Runtime information derived from the deployment's configuration.
    */
-  runtimeInfo?: EndpointDeployment.RuntimeInfo;
+  runtimeInfo?: RuntimeInfo;
 
   /**
    * Pinned draft-model resource used for speculative decoding, in the same form as
@@ -695,31 +729,6 @@ export namespace EndpointDeployment {
      * UID of a saved placement profile.
      */
     profile: string;
-  }
-
-  /**
-   * Runtime information derived from the deployment's configuration.
-   */
-  export interface RuntimeInfo {
-    /**
-     * Serving engine, such as `vllm`, `trtllm`, or `sglang`.
-     */
-    engineType?: string;
-
-    /**
-     * Version of the serving engine.
-     */
-    engineVersion?: string;
-
-    /**
-     * Whether the runtime accepts tool and function-calling requests.
-     */
-    functionCallingSupported?: boolean;
-
-    /**
-     * Whether the runtime can constrain generation to a structured output schema.
-     */
-    structuredOutputSupported?: boolean;
   }
 }
 
@@ -828,6 +837,257 @@ export interface EndpointTrafficSplitEntry {
 }
 
 /**
+ * Error rate and aggregate counts by error type. Individual error samples are not
+ * included.
+ */
+export interface ErrorMetrics {
+  /**
+   * Percentage in [0, 100].
+   */
+  errorRate?: number;
+
+  /**
+   * Counts of errors keyed by error type (e.g. HTTP status code or error kind).
+   */
+  errorsByType?: { [key: string]: string };
+}
+
+/**
+ * Time-to-first-token, end-to-end, and inter-token latency percentiles in
+ * milliseconds.
+ */
+export interface LatencyMetrics {
+  /**
+   * 50th-percentile inter-token latency, in milliseconds.
+   */
+  itlP50Ms?: number;
+
+  /**
+   * 90th-percentile inter-token latency, in milliseconds.
+   */
+  itlP90Ms?: number;
+
+  /**
+   * 99th-percentile inter-token latency, in milliseconds.
+   */
+  itlP99Ms?: number;
+
+  /**
+   * 50th-percentile end-to-end request latency, in milliseconds.
+   */
+  latencyP50Ms?: number;
+
+  /**
+   * 90th-percentile end-to-end request latency, in milliseconds.
+   */
+  latencyP90Ms?: number;
+
+  /**
+   * 99th-percentile end-to-end request latency, in milliseconds.
+   */
+  latencyP99Ms?: number;
+
+  /**
+   * 50th-percentile time to first token, in milliseconds.
+   */
+  ttftP50Ms?: number;
+
+  /**
+   * 90th-percentile time to first token, in milliseconds.
+   */
+  ttftP90Ms?: number;
+
+  /**
+   * 99th-percentile time to first token, in milliseconds.
+   */
+  ttftP99Ms?: number;
+}
+
+/**
+ * Closed-open time range used by metrics and analytics responses.
+ */
+export interface MetricsTimeRange {
+  /**
+   * Exclusive end of the time range.
+   */
+  endTime?: string;
+
+  /**
+   * Inclusive start of the time range.
+   */
+  startTime?: string;
+}
+
+/**
+ * Request counts, rate, and status-code distribution over a time range.
+ */
+export interface RequestMetrics {
+  /**
+   * Requests that failed during the time range.
+   */
+  failedRequests?: string;
+
+  /**
+   * Request counts keyed by HTTP status code.
+   */
+  requestsByStatusCode?: { [key: string]: string };
+
+  /**
+   * Average requests per second over the time range.
+   */
+  requestsPerSecond?: number;
+
+  /**
+   * Requests completed successfully during the time range.
+   */
+  successfulRequests?: string;
+
+  /**
+   * Total requests received during the time range.
+   */
+  totalRequests?: string;
+}
+
+/**
+ * Average compute, memory, and network utilization for replicas over a time range.
+ */
+export interface ResourceUtilization {
+  /**
+   * Average CPU utilization across replicas, as a percentage.
+   */
+  cpuUtilization?: number;
+
+  /**
+   * Average GPU memory utilization across replicas, as a percentage.
+   */
+  gpuMemoryUtilization?: number;
+
+  /**
+   * Average GPU compute utilization across replicas, as a percentage.
+   */
+  gpuUtilization?: number;
+
+  /**
+   * Average system memory utilization across replicas, as a percentage.
+   */
+  memoryUtilization?: number;
+
+  /**
+   * Average network throughput across replicas, in megabits per second.
+   */
+  networkBandwidthMbps?: number;
+}
+
+/**
+ * Runtime information derived from the deployment's configuration.
+ */
+export interface RuntimeInfo {
+  /**
+   * Serving engine, such as `vllm`, `trtllm`, or `sglang`.
+   */
+  engineType?: string;
+
+  /**
+   * Version of the serving engine.
+   */
+  engineVersion?: string;
+
+  /**
+   * Whether the runtime accepts tool and function-calling requests.
+   */
+  functionCallingSupported?: boolean;
+
+  /**
+   * Whether the runtime can constrain generation to a structured output schema.
+   */
+  structuredOutputSupported?: boolean;
+}
+
+/**
+ * Metric and target used by the autoscaler to recommend a replica count.
+ */
+export interface ScalingMetric {
+  /**
+   * Autoscaling metric name from the server allowlist.
+   */
+  name:
+    | 'active_sessions'
+    | 'cache_hit_rate'
+    | 'decoding_speed'
+    | 'e2e_latency'
+    | 'gpu_utilization'
+    | 'inflight_requests'
+    | 'throughput_per_replica'
+    | 'token_utilization'
+    | 'ttft';
+
+  /**
+   * Target interpreted according to `type`. Utilization uses a percentage from 0 to
+   * 100, value uses an absolute measurement, and average value uses a per-replica
+   * measurement.
+   */
+  target: number;
+
+  /**
+   * Whether `target` is an absolute value, a utilization percentage, or a
+   * per-replica average.
+   */
+  type: 'METRIC_TARGET_TYPE_VALUE' | 'METRIC_TARGET_TYPE_UTILIZATION' | 'METRIC_TARGET_TYPE_AVERAGE_VALUE';
+
+  /**
+   * Percentile to evaluate for latency-based metrics: `p50`, `p90`, `p95`, or `p99`.
+   */
+  percentile?: string;
+}
+
+/**
+ * Replica rate-limit policy applied over a trailing window.
+ */
+export interface ScalingPolicy {
+  /**
+   * Trailing rate-limit window in seconds, from 1 to 1800.
+   */
+  periodSeconds: number;
+
+  /**
+   * Whether `value` is a replica count or a percentage of the replica count at the
+   * start of the trailing period. Scaling events within that period count against
+   * the allowance; percentages are rounded to whole replicas.
+   */
+  type: 'SCALING_POLICY_TYPE_PODS' | 'SCALING_POLICY_TYPE_PERCENT';
+
+  /**
+   * Positive replica count or percentage used as the rate-limit amount.
+   */
+  value: number;
+}
+
+/**
+ * Rate limits applied after stabilization and before replica bounds.
+ */
+export interface ScalingRules {
+  /**
+   * Non-empty lists replace the existing policies. To clear policies, include
+   * `autoscaling.scaleDown.policies` or `autoscaling.scaleUp.policies` in the update
+   * mask and supply an empty scaling rules object or `policies: []`.
+   */
+  policies?: Array<ScalingPolicy>;
+
+  /**
+   * `SCALING_POLICY_SELECT_MIN` chooses the policy allowing the smallest replica
+   * change; `SCALING_POLICY_SELECT_MAX` chooses the largest. These are caps, not
+   * guaranteed changes. `SCALING_POLICY_SELECT_DISABLED` holds this direction steady
+   * while replica bounds still apply. Omitted preserves the existing selector on
+   * update. When no selector is configured, authored policies use MAX; with no
+   * policies configured, the platform defaults apply. To reset the selector, include
+   * `autoscaling.scaleDown.selectPolicy` or `autoscaling.scaleUp.selectPolicy` in
+   * the update mask and omit `selectPolicy`. Clear both policies and `selectPolicy`
+   * to restore inherited defaults.
+   */
+  selectPolicy?: 'SCALING_POLICY_SELECT_MAX' | 'SCALING_POLICY_SELECT_MIN' | 'SCALING_POLICY_SELECT_DISABLED';
+}
+
+/**
  * Adaptive sticky-key sampling that throttles toward a target QPS.
  */
 export interface ShadowAdaptiveKeyBasedSampling {
@@ -849,6 +1109,26 @@ export interface ShadowAdaptiveKeyBasedSampling {
 }
 
 /**
+ * Adaptive sticky-key sampling returned by the API.
+ */
+export interface ShadowAdaptiveKeyBasedSamplingResponse {
+  /**
+   * Request-body field used as the sticky sampling key.
+   */
+  key: string;
+
+  /**
+   * Per-gateway-replica target QPS.
+   */
+  targetQps: number;
+
+  /**
+   * Sliding window for QPS observation when explicitly configured.
+   */
+  window?: string;
+}
+
+/**
  * Adaptive random sampling that throttles toward a target QPS.
  */
 export interface ShadowAdaptiveUniformSampling {
@@ -860,6 +1140,21 @@ export interface ShadowAdaptiveUniformSampling {
   /**
    * Optional sliding window for QPS observation. Defaults to 60s and must not be
    * negative.
+   */
+  window?: string;
+}
+
+/**
+ * Adaptive random sampling returned by the API.
+ */
+export interface ShadowAdaptiveUniformSamplingResponse {
+  /**
+   * Per-gateway-replica target QPS.
+   */
+  targetQps: number;
+
+  /**
+   * Sliding window for QPS observation when explicitly configured.
    */
   window?: string;
 }
@@ -910,6 +1205,52 @@ export namespace ShadowEndpointSource {
 }
 
 /**
+ * Endpoint-level source returned for a shadow experiment.
+ */
+export interface ShadowEndpointSourceResponse {
+  /**
+   * Sampling strategy returned for endpoint-level shadow traffic.
+   */
+  sampling:
+    | ShadowEndpointSourceResponse.Uniform
+    | ShadowEndpointSourceResponse.KeyBased
+    | ShadowEndpointSourceResponse.AdaptiveUniform
+    | ShadowEndpointSourceResponse.AdaptiveKeyBased;
+}
+
+export namespace ShadowEndpointSourceResponse {
+  export interface Uniform {
+    /**
+     * Fixed-rate random sampling returned by the API. A zero rate may be omitted by
+     * JSON serialization.
+     */
+    uniform: EndpointsAPI.ShadowUniformSamplingResponse;
+  }
+
+  export interface KeyBased {
+    /**
+     * Fixed-rate sticky-key sampling returned by the API. A zero rate may be omitted
+     * by JSON serialization.
+     */
+    keyBased: EndpointsAPI.ShadowKeyBasedSamplingResponse;
+  }
+
+  export interface AdaptiveUniform {
+    /**
+     * Adaptive random sampling returned by the API.
+     */
+    adaptiveUniform: EndpointsAPI.ShadowAdaptiveUniformSamplingResponse;
+  }
+
+  export interface AdaptiveKeyBased {
+    /**
+     * Adaptive sticky-key sampling returned by the API.
+     */
+    adaptiveKeyBased: EndpointsAPI.ShadowAdaptiveKeyBasedSamplingResponse;
+  }
+}
+
+/**
  * Fixed-rate sampling of distinct key values with sticky decisions.
  */
 export interface ShadowKeyBasedSampling {
@@ -925,6 +1266,22 @@ export interface ShadowKeyBasedSampling {
 }
 
 /**
+ * Fixed-rate sticky-key sampling returned by the API. A zero rate may be omitted
+ * by JSON serialization.
+ */
+export interface ShadowKeyBasedSamplingResponse {
+  /**
+   * Request-body field used as the sticky sampling key.
+   */
+  key: string;
+
+  /**
+   * Fraction of distinct key values sampled, from 0.0 to 1.0.
+   */
+  rate?: number;
+}
+
+/**
  * Traffic source for a shadow experiment. The public API supports endpoint sources
  * only.
  */
@@ -936,6 +1293,16 @@ export interface ShadowSource {
 }
 
 /**
+ * Endpoint traffic source returned for a shadow experiment.
+ */
+export interface ShadowSourceResponse {
+  /**
+   * Endpoint-level source returned for a shadow experiment.
+   */
+  endpoint: ShadowEndpointSourceResponse;
+}
+
+/**
  * Fixed-rate random sampling of endpoint requests.
  */
 export interface ShadowUniformSampling {
@@ -943,6 +1310,82 @@ export interface ShadowUniformSampling {
    * Required fraction of requests to sample, from 0.0 to 1.0.
    */
   rate: number;
+}
+
+/**
+ * Fixed-rate random sampling returned by the API. A zero rate may be omitted by
+ * JSON serialization.
+ */
+export interface ShadowUniformSamplingResponse {
+  /**
+   * Fraction of requests sampled, from 0.0 to 1.0.
+   */
+  rate?: number;
+}
+
+/**
+ * Token, request, and batching throughput over a time range.
+ */
+export interface ThroughputMetrics {
+  /**
+   * Average number of batches queued or in flight in the serving engine.
+   */
+  avgBatchDepth?: number;
+
+  /**
+   * Average number of requests processed in each runtime batch.
+   */
+  avgBatchSize?: number;
+
+  /**
+   * Average completed requests per second.
+   */
+  requestsPerSecond?: number;
+
+  /**
+   * Average generated tokens per second.
+   */
+  tokensPerSecond?: number;
+}
+
+/**
+ * Timestamped bucket containing one or more named metric values.
+ */
+export interface TimeSeriesDataPoint {
+  /**
+   * Start time of the metric bucket.
+   */
+  timestamp?: string;
+
+  /**
+   * Metric names mapped to their numeric values for this bucket.
+   */
+  values?: { [key: string]: number };
+}
+
+/**
+ * Aggregate and per-request token usage over a time range.
+ */
+export interface TokenMetrics {
+  /**
+   * Average input tokens per request.
+   */
+  avgInputTokens?: number;
+
+  /**
+   * Average output tokens per request.
+   */
+  avgOutputTokens?: number;
+
+  /**
+   * Total input tokens processed during the time range.
+   */
+  totalInputTokens?: string;
+
+  /**
+   * Total output tokens generated during the time range.
+   */
+  totalOutputTokens?: string;
 }
 
 /**
@@ -974,12 +1417,12 @@ export interface EndpointAnalyticsResponse {
   /**
    * Closed-open time range covered by the analytics.
    */
-  timeRange?: EndpointAnalyticsResponse.TimeRange;
+  timeRange?: MetricsTimeRange;
 
   /**
    * Per-bucket metric samples, included only when `includeTimeSeries` is true.
    */
-  timeSeries?: Array<EndpointAnalyticsResponse.TimeSeries>;
+  timeSeries?: Array<TimeSeriesDataPoint>;
 }
 
 export namespace EndpointAnalyticsResponse {
@@ -1000,291 +1443,17 @@ export namespace EndpointAnalyticsResponse {
     /**
      * Aggregate operational metrics for the deployment.
      */
-    metrics?: DeploymentAnalytics.Metrics;
+    metrics?: EndpointsAPI.DeploymentMetrics;
 
     /**
      * Closed-open time range covered by the analytics.
      */
-    timeRange?: DeploymentAnalytics.TimeRange;
+    timeRange?: EndpointsAPI.MetricsTimeRange;
 
     /**
      * Per-bucket metric samples for the deployment.
      */
-    timeSeries?: Array<DeploymentAnalytics.TimeSeries>;
-  }
-
-  export namespace DeploymentAnalytics {
-    /**
-     * Aggregate operational metrics for the deployment.
-     */
-    export interface Metrics {
-      /**
-       * ID of the deployment summarized by these metrics.
-       */
-      deploymentId?: string;
-
-      /**
-       * ID of the deployment's parent endpoint.
-       */
-      endpointId?: string;
-
-      /**
-       * Error rate and counts by error type.
-       */
-      errorMetrics?: Metrics.ErrorMetrics;
-
-      /**
-       * Time-to-first-token, end-to-end, and inter-token latency percentiles.
-       */
-      latencyMetrics?: Metrics.LatencyMetrics;
-
-      /**
-       * Request counts and rates.
-       */
-      requestMetrics?: Metrics.RequestMetrics;
-
-      /**
-       * Average CPU, GPU, memory, and network utilization.
-       */
-      resourceUtilization?: Metrics.ResourceUtilization;
-
-      /**
-       * Token, request, and batching throughput.
-       */
-      throughputMetrics?: Metrics.ThroughputMetrics;
-
-      /**
-       * Closed-open time range covered by the metrics.
-       */
-      timeRange?: Metrics.TimeRange;
-
-      /**
-       * Input and output token totals and averages.
-       */
-      tokenMetrics?: Metrics.TokenMetrics;
-    }
-
-    export namespace Metrics {
-      /**
-       * Error rate and counts by error type.
-       */
-      export interface ErrorMetrics {
-        /**
-         * Percentage in [0, 100].
-         */
-        errorRate?: number;
-
-        /**
-         * Counts of errors keyed by error type (e.g. HTTP status code or error kind).
-         */
-        errorsByType?: { [key: string]: string };
-      }
-
-      /**
-       * Time-to-first-token, end-to-end, and inter-token latency percentiles.
-       */
-      export interface LatencyMetrics {
-        /**
-         * 50th-percentile inter-token latency, in milliseconds.
-         */
-        itlP50Ms?: number;
-
-        /**
-         * 90th-percentile inter-token latency, in milliseconds.
-         */
-        itlP90Ms?: number;
-
-        /**
-         * 99th-percentile inter-token latency, in milliseconds.
-         */
-        itlP99Ms?: number;
-
-        /**
-         * 50th-percentile end-to-end request latency, in milliseconds.
-         */
-        latencyP50Ms?: number;
-
-        /**
-         * 90th-percentile end-to-end request latency, in milliseconds.
-         */
-        latencyP90Ms?: number;
-
-        /**
-         * 99th-percentile end-to-end request latency, in milliseconds.
-         */
-        latencyP99Ms?: number;
-
-        /**
-         * 50th-percentile time to first token, in milliseconds.
-         */
-        ttftP50Ms?: number;
-
-        /**
-         * 90th-percentile time to first token, in milliseconds.
-         */
-        ttftP90Ms?: number;
-
-        /**
-         * 99th-percentile time to first token, in milliseconds.
-         */
-        ttftP99Ms?: number;
-      }
-
-      /**
-       * Request counts and rates.
-       */
-      export interface RequestMetrics {
-        /**
-         * Requests that failed during the time range.
-         */
-        failedRequests?: string;
-
-        /**
-         * Request counts keyed by HTTP status code.
-         */
-        requestsByStatusCode?: { [key: string]: string };
-
-        /**
-         * Average requests per second over the time range.
-         */
-        requestsPerSecond?: number;
-
-        /**
-         * Requests completed successfully during the time range.
-         */
-        successfulRequests?: string;
-
-        /**
-         * Total requests received during the time range.
-         */
-        totalRequests?: string;
-      }
-
-      /**
-       * Average CPU, GPU, memory, and network utilization.
-       */
-      export interface ResourceUtilization {
-        /**
-         * Average CPU utilization across replicas, as a percentage.
-         */
-        cpuUtilization?: number;
-
-        /**
-         * Average GPU memory utilization across replicas, as a percentage.
-         */
-        gpuMemoryUtilization?: number;
-
-        /**
-         * Average GPU compute utilization across replicas, as a percentage.
-         */
-        gpuUtilization?: number;
-
-        /**
-         * Average system memory utilization across replicas, as a percentage.
-         */
-        memoryUtilization?: number;
-
-        /**
-         * Average network throughput across replicas, in megabits per second.
-         */
-        networkBandwidthMbps?: number;
-      }
-
-      /**
-       * Token, request, and batching throughput.
-       */
-      export interface ThroughputMetrics {
-        /**
-         * Average number of batches queued or in flight in the serving engine.
-         */
-        avgBatchDepth?: number;
-
-        /**
-         * Average number of requests processed in each runtime batch.
-         */
-        avgBatchSize?: number;
-
-        /**
-         * Average completed requests per second.
-         */
-        requestsPerSecond?: number;
-
-        /**
-         * Average generated tokens per second.
-         */
-        tokensPerSecond?: number;
-      }
-
-      /**
-       * Closed-open time range covered by the metrics.
-       */
-      export interface TimeRange {
-        /**
-         * Exclusive end of the time range.
-         */
-        endTime?: string;
-
-        /**
-         * Inclusive start of the time range.
-         */
-        startTime?: string;
-      }
-
-      /**
-       * Input and output token totals and averages.
-       */
-      export interface TokenMetrics {
-        /**
-         * Average input tokens per request.
-         */
-        avgInputTokens?: number;
-
-        /**
-         * Average output tokens per request.
-         */
-        avgOutputTokens?: number;
-
-        /**
-         * Total input tokens processed during the time range.
-         */
-        totalInputTokens?: string;
-
-        /**
-         * Total output tokens generated during the time range.
-         */
-        totalOutputTokens?: string;
-      }
-    }
-
-    /**
-     * Closed-open time range covered by the analytics.
-     */
-    export interface TimeRange {
-      /**
-       * Exclusive end of the time range.
-       */
-      endTime?: string;
-
-      /**
-       * Inclusive start of the time range.
-       */
-      startTime?: string;
-    }
-
-    /**
-     * Timestamped bucket containing one or more named metric values.
-     */
-    export interface TimeSeries {
-      /**
-       * Start time of the metric bucket.
-       */
-      timestamp?: string;
-
-      /**
-       * Metric names mapped to their numeric values for this bucket.
-       */
-      values?: { [key: string]: number };
-    }
+    timeSeries?: Array<EndpointsAPI.TimeSeriesDataPoint>;
   }
 
   /**
@@ -1295,7 +1464,7 @@ export namespace EndpointAnalyticsResponse {
     /**
      * Per-deployment breakdown, if the endpoint has multiple deployments.
      */
-    deploymentMetrics?: Array<Metrics.DeploymentMetric>;
+    deploymentMetrics?: Array<EndpointsAPI.DeploymentMetrics>;
 
     /**
      * The endpoint these metrics describe.
@@ -1305,501 +1474,37 @@ export namespace EndpointAnalyticsResponse {
     /**
      * Error rate and counts by error type.
      */
-    errorMetrics?: Metrics.ErrorMetrics;
+    errorMetrics?: EndpointsAPI.ErrorMetrics;
 
     /**
      * Time-to-first-token, end-to-end, and inter-token latency percentiles.
      */
-    latencyMetrics?: Metrics.LatencyMetrics;
+    latencyMetrics?: EndpointsAPI.LatencyMetrics;
 
     /**
      * Request counts and rates.
      */
-    requestMetrics?: Metrics.RequestMetrics;
+    requestMetrics?: EndpointsAPI.RequestMetrics;
 
     /**
      * Average CPU, GPU, memory, and network utilization.
      */
-    resourceUtilization?: Metrics.ResourceUtilization;
+    resourceUtilization?: EndpointsAPI.ResourceUtilization;
 
     /**
      * Token, request, and batching throughput.
      */
-    throughputMetrics?: Metrics.ThroughputMetrics;
+    throughputMetrics?: EndpointsAPI.ThroughputMetrics;
 
     /**
      * Closed-open time range used by metrics and analytics responses.
      */
-    timeRange?: Metrics.TimeRange;
+    timeRange?: EndpointsAPI.MetricsTimeRange;
 
     /**
      * Input and output token totals and averages.
      */
-    tokenMetrics?: Metrics.TokenMetrics;
-  }
-
-  export namespace Metrics {
-    /**
-     * Operational metrics for one deployment under an endpoint.
-     */
-    export interface DeploymentMetric {
-      /**
-       * ID of the deployment summarized by these metrics.
-       */
-      deploymentId?: string;
-
-      /**
-       * ID of the deployment's parent endpoint.
-       */
-      endpointId?: string;
-
-      /**
-       * Error rate and counts by error type.
-       */
-      errorMetrics?: DeploymentMetric.ErrorMetrics;
-
-      /**
-       * Time-to-first-token, end-to-end, and inter-token latency percentiles.
-       */
-      latencyMetrics?: DeploymentMetric.LatencyMetrics;
-
-      /**
-       * Request counts and rates.
-       */
-      requestMetrics?: DeploymentMetric.RequestMetrics;
-
-      /**
-       * Average CPU, GPU, memory, and network utilization.
-       */
-      resourceUtilization?: DeploymentMetric.ResourceUtilization;
-
-      /**
-       * Token, request, and batching throughput.
-       */
-      throughputMetrics?: DeploymentMetric.ThroughputMetrics;
-
-      /**
-       * Closed-open time range covered by the metrics.
-       */
-      timeRange?: DeploymentMetric.TimeRange;
-
-      /**
-       * Input and output token totals and averages.
-       */
-      tokenMetrics?: DeploymentMetric.TokenMetrics;
-    }
-
-    export namespace DeploymentMetric {
-      /**
-       * Error rate and counts by error type.
-       */
-      export interface ErrorMetrics {
-        /**
-         * Percentage in [0, 100].
-         */
-        errorRate?: number;
-
-        /**
-         * Counts of errors keyed by error type (e.g. HTTP status code or error kind).
-         */
-        errorsByType?: { [key: string]: string };
-      }
-
-      /**
-       * Time-to-first-token, end-to-end, and inter-token latency percentiles.
-       */
-      export interface LatencyMetrics {
-        /**
-         * 50th-percentile inter-token latency, in milliseconds.
-         */
-        itlP50Ms?: number;
-
-        /**
-         * 90th-percentile inter-token latency, in milliseconds.
-         */
-        itlP90Ms?: number;
-
-        /**
-         * 99th-percentile inter-token latency, in milliseconds.
-         */
-        itlP99Ms?: number;
-
-        /**
-         * 50th-percentile end-to-end request latency, in milliseconds.
-         */
-        latencyP50Ms?: number;
-
-        /**
-         * 90th-percentile end-to-end request latency, in milliseconds.
-         */
-        latencyP90Ms?: number;
-
-        /**
-         * 99th-percentile end-to-end request latency, in milliseconds.
-         */
-        latencyP99Ms?: number;
-
-        /**
-         * 50th-percentile time to first token, in milliseconds.
-         */
-        ttftP50Ms?: number;
-
-        /**
-         * 90th-percentile time to first token, in milliseconds.
-         */
-        ttftP90Ms?: number;
-
-        /**
-         * 99th-percentile time to first token, in milliseconds.
-         */
-        ttftP99Ms?: number;
-      }
-
-      /**
-       * Request counts and rates.
-       */
-      export interface RequestMetrics {
-        /**
-         * Requests that failed during the time range.
-         */
-        failedRequests?: string;
-
-        /**
-         * Request counts keyed by HTTP status code.
-         */
-        requestsByStatusCode?: { [key: string]: string };
-
-        /**
-         * Average requests per second over the time range.
-         */
-        requestsPerSecond?: number;
-
-        /**
-         * Requests completed successfully during the time range.
-         */
-        successfulRequests?: string;
-
-        /**
-         * Total requests received during the time range.
-         */
-        totalRequests?: string;
-      }
-
-      /**
-       * Average CPU, GPU, memory, and network utilization.
-       */
-      export interface ResourceUtilization {
-        /**
-         * Average CPU utilization across replicas, as a percentage.
-         */
-        cpuUtilization?: number;
-
-        /**
-         * Average GPU memory utilization across replicas, as a percentage.
-         */
-        gpuMemoryUtilization?: number;
-
-        /**
-         * Average GPU compute utilization across replicas, as a percentage.
-         */
-        gpuUtilization?: number;
-
-        /**
-         * Average system memory utilization across replicas, as a percentage.
-         */
-        memoryUtilization?: number;
-
-        /**
-         * Average network throughput across replicas, in megabits per second.
-         */
-        networkBandwidthMbps?: number;
-      }
-
-      /**
-       * Token, request, and batching throughput.
-       */
-      export interface ThroughputMetrics {
-        /**
-         * Average number of batches queued or in flight in the serving engine.
-         */
-        avgBatchDepth?: number;
-
-        /**
-         * Average number of requests processed in each runtime batch.
-         */
-        avgBatchSize?: number;
-
-        /**
-         * Average completed requests per second.
-         */
-        requestsPerSecond?: number;
-
-        /**
-         * Average generated tokens per second.
-         */
-        tokensPerSecond?: number;
-      }
-
-      /**
-       * Closed-open time range covered by the metrics.
-       */
-      export interface TimeRange {
-        /**
-         * Exclusive end of the time range.
-         */
-        endTime?: string;
-
-        /**
-         * Inclusive start of the time range.
-         */
-        startTime?: string;
-      }
-
-      /**
-       * Input and output token totals and averages.
-       */
-      export interface TokenMetrics {
-        /**
-         * Average input tokens per request.
-         */
-        avgInputTokens?: number;
-
-        /**
-         * Average output tokens per request.
-         */
-        avgOutputTokens?: number;
-
-        /**
-         * Total input tokens processed during the time range.
-         */
-        totalInputTokens?: string;
-
-        /**
-         * Total output tokens generated during the time range.
-         */
-        totalOutputTokens?: string;
-      }
-    }
-
-    /**
-     * Error rate and counts by error type.
-     */
-    export interface ErrorMetrics {
-      /**
-       * Percentage in [0, 100].
-       */
-      errorRate?: number;
-
-      /**
-       * Counts of errors keyed by error type (e.g. HTTP status code or error kind).
-       */
-      errorsByType?: { [key: string]: string };
-    }
-
-    /**
-     * Time-to-first-token, end-to-end, and inter-token latency percentiles.
-     */
-    export interface LatencyMetrics {
-      /**
-       * 50th-percentile inter-token latency, in milliseconds.
-       */
-      itlP50Ms?: number;
-
-      /**
-       * 90th-percentile inter-token latency, in milliseconds.
-       */
-      itlP90Ms?: number;
-
-      /**
-       * 99th-percentile inter-token latency, in milliseconds.
-       */
-      itlP99Ms?: number;
-
-      /**
-       * 50th-percentile end-to-end request latency, in milliseconds.
-       */
-      latencyP50Ms?: number;
-
-      /**
-       * 90th-percentile end-to-end request latency, in milliseconds.
-       */
-      latencyP90Ms?: number;
-
-      /**
-       * 99th-percentile end-to-end request latency, in milliseconds.
-       */
-      latencyP99Ms?: number;
-
-      /**
-       * 50th-percentile time to first token, in milliseconds.
-       */
-      ttftP50Ms?: number;
-
-      /**
-       * 90th-percentile time to first token, in milliseconds.
-       */
-      ttftP90Ms?: number;
-
-      /**
-       * 99th-percentile time to first token, in milliseconds.
-       */
-      ttftP99Ms?: number;
-    }
-
-    /**
-     * Request counts and rates.
-     */
-    export interface RequestMetrics {
-      /**
-       * Requests that failed during the time range.
-       */
-      failedRequests?: string;
-
-      /**
-       * Request counts keyed by HTTP status code.
-       */
-      requestsByStatusCode?: { [key: string]: string };
-
-      /**
-       * Average requests per second over the time range.
-       */
-      requestsPerSecond?: number;
-
-      /**
-       * Requests completed successfully during the time range.
-       */
-      successfulRequests?: string;
-
-      /**
-       * Total requests received during the time range.
-       */
-      totalRequests?: string;
-    }
-
-    /**
-     * Average CPU, GPU, memory, and network utilization.
-     */
-    export interface ResourceUtilization {
-      /**
-       * Average CPU utilization across replicas, as a percentage.
-       */
-      cpuUtilization?: number;
-
-      /**
-       * Average GPU memory utilization across replicas, as a percentage.
-       */
-      gpuMemoryUtilization?: number;
-
-      /**
-       * Average GPU compute utilization across replicas, as a percentage.
-       */
-      gpuUtilization?: number;
-
-      /**
-       * Average system memory utilization across replicas, as a percentage.
-       */
-      memoryUtilization?: number;
-
-      /**
-       * Average network throughput across replicas, in megabits per second.
-       */
-      networkBandwidthMbps?: number;
-    }
-
-    /**
-     * Token, request, and batching throughput.
-     */
-    export interface ThroughputMetrics {
-      /**
-       * Average number of batches queued or in flight in the serving engine.
-       */
-      avgBatchDepth?: number;
-
-      /**
-       * Average number of requests processed in each runtime batch.
-       */
-      avgBatchSize?: number;
-
-      /**
-       * Average completed requests per second.
-       */
-      requestsPerSecond?: number;
-
-      /**
-       * Average generated tokens per second.
-       */
-      tokensPerSecond?: number;
-    }
-
-    /**
-     * Closed-open time range used by metrics and analytics responses.
-     */
-    export interface TimeRange {
-      /**
-       * Exclusive end of the time range.
-       */
-      endTime?: string;
-
-      /**
-       * Inclusive start of the time range.
-       */
-      startTime?: string;
-    }
-
-    /**
-     * Input and output token totals and averages.
-     */
-    export interface TokenMetrics {
-      /**
-       * Average input tokens per request.
-       */
-      avgInputTokens?: number;
-
-      /**
-       * Average output tokens per request.
-       */
-      avgOutputTokens?: number;
-
-      /**
-       * Total input tokens processed during the time range.
-       */
-      totalInputTokens?: string;
-
-      /**
-       * Total output tokens generated during the time range.
-       */
-      totalOutputTokens?: string;
-    }
-  }
-
-  /**
-   * Closed-open time range covered by the analytics.
-   */
-  export interface TimeRange {
-    /**
-     * Exclusive end of the time range.
-     */
-    endTime?: string;
-
-    /**
-     * Inclusive start of the time range.
-     */
-    startTime?: string;
-  }
-
-  /**
-   * Timestamped bucket containing one or more named metric values.
-   */
-  export interface TimeSeries {
-    /**
-     * Start time of the metric bucket.
-     */
-    timestamp?: string;
-
-    /**
-     * Metric names mapped to their numeric values for this bucket.
-     */
-    values?: { [key: string]: number };
+    tokenMetrics?: EndpointsAPI.TokenMetrics;
   }
 }
 
@@ -2142,18 +1847,37 @@ export declare namespace Endpoints {
   export {
     type AbMember as AbMember,
     type DeploymentAutoscaling as DeploymentAutoscaling,
+    type DeploymentMetrics as DeploymentMetrics,
     type DeploymentPlacementConfig as DeploymentPlacementConfig,
     type DeploymentStatus as DeploymentStatus,
     type Endpoint as Endpoint,
     type EndpointDeployment as EndpointDeployment,
     type EndpointDeploymentSummary as EndpointDeploymentSummary,
     type EndpointTrafficSplitEntry as EndpointTrafficSplitEntry,
+    type ErrorMetrics as ErrorMetrics,
+    type LatencyMetrics as LatencyMetrics,
+    type MetricsTimeRange as MetricsTimeRange,
+    type RequestMetrics as RequestMetrics,
+    type ResourceUtilization as ResourceUtilization,
+    type RuntimeInfo as RuntimeInfo,
+    type ScalingMetric as ScalingMetric,
+    type ScalingPolicy as ScalingPolicy,
+    type ScalingRules as ScalingRules,
     type ShadowAdaptiveKeyBasedSampling as ShadowAdaptiveKeyBasedSampling,
+    type ShadowAdaptiveKeyBasedSamplingResponse as ShadowAdaptiveKeyBasedSamplingResponse,
     type ShadowAdaptiveUniformSampling as ShadowAdaptiveUniformSampling,
+    type ShadowAdaptiveUniformSamplingResponse as ShadowAdaptiveUniformSamplingResponse,
     type ShadowEndpointSource as ShadowEndpointSource,
+    type ShadowEndpointSourceResponse as ShadowEndpointSourceResponse,
     type ShadowKeyBasedSampling as ShadowKeyBasedSampling,
+    type ShadowKeyBasedSamplingResponse as ShadowKeyBasedSamplingResponse,
     type ShadowSource as ShadowSource,
+    type ShadowSourceResponse as ShadowSourceResponse,
     type ShadowUniformSampling as ShadowUniformSampling,
+    type ShadowUniformSamplingResponse as ShadowUniformSamplingResponse,
+    type ThroughputMetrics as ThroughputMetrics,
+    type TimeSeriesDataPoint as TimeSeriesDataPoint,
+    type TokenMetrics as TokenMetrics,
     type EndpointDeleteResponse as EndpointDeleteResponse,
     type EndpointAnalyticsResponse as EndpointAnalyticsResponse,
     type EndpointListEventsResponse as EndpointListEventsResponse,
@@ -2203,8 +1927,20 @@ export declare namespace Endpoints {
 
   export {
     Rollouts as Rollouts,
+    type BlueGreenConfig as BlueGreenConfig,
+    type CanaryConfig as CanaryConfig,
+    type MetricResult as MetricResult,
+    type MetricRule as MetricRule,
+    type PauseInfo as PauseInfo,
+    type RegressionCheck as RegressionCheck,
+    type RollingConfig as RollingConfig,
     type Rollout as Rollout,
+    type RolloutCondition as RolloutCondition,
     type RolloutDefaultsPreview as RolloutDefaultsPreview,
+    type RolloutStatus as RolloutStatus,
+    type RolloutStep as RolloutStep,
+    type RolloutStepStatus as RolloutStepStatus,
+    type ThresholdCheck as ThresholdCheck,
     type RolloutDeleteResponse as RolloutDeleteResponse,
     type RolloutsCursorPagination as RolloutsCursorPagination,
     type RolloutCreateParams as RolloutCreateParams,
@@ -2227,6 +1963,7 @@ export declare namespace Endpoints {
 
   export {
     Adapters as Adapters,
+    type DeploymentAdapterStatus as DeploymentAdapterStatus,
     type AdapterCreateResponse as AdapterCreateResponse,
     type AdapterRetrieveResponse as AdapterRetrieveResponse,
     type AdapterUpdateResponse as AdapterUpdateResponse,

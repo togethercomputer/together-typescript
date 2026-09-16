@@ -26,18 +26,37 @@ Types:
 
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">AbMember</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">DeploymentAutoscaling</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">DeploymentMetrics</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">DeploymentPlacementConfig</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">DeploymentStatus</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">Endpoint</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">EndpointDeployment</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">EndpointDeploymentSummary</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">EndpointTrafficSplitEntry</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ErrorMetrics</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">LatencyMetrics</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">MetricsTimeRange</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">RequestMetrics</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ResourceUtilization</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">RuntimeInfo</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ScalingMetric</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ScalingPolicy</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ScalingRules</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowAdaptiveKeyBasedSampling</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowAdaptiveKeyBasedSamplingResponse</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowAdaptiveUniformSampling</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowAdaptiveUniformSamplingResponse</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowEndpointSource</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowEndpointSourceResponse</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowKeyBasedSampling</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowKeyBasedSamplingResponse</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowSource</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowSourceResponse</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowUniformSampling</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ShadowUniformSamplingResponse</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">ThroughputMetrics</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">TimeSeriesDataPoint</a></code>
+- <code><a href="./src/resources/beta/endpoints/endpoints.ts">TokenMetrics</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">EndpointDeleteResponse</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">EndpointAnalyticsResponse</a></code>
 - <code><a href="./src/resources/beta/endpoints/endpoints.ts">EndpointListEventsResponse</a></code>
@@ -113,8 +132,20 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">BlueGreenConfig</a></code>
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">CanaryConfig</a></code>
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">MetricResult</a></code>
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">MetricRule</a></code>
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">PauseInfo</a></code>
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">RegressionCheck</a></code>
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">RollingConfig</a></code>
 - <code><a href="./src/resources/beta/endpoints/rollouts.ts">Rollout</a></code>
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">RolloutCondition</a></code>
 - <code><a href="./src/resources/beta/endpoints/rollouts.ts">RolloutDefaultsPreview</a></code>
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">RolloutStatus</a></code>
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">RolloutStep</a></code>
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">RolloutStepStatus</a></code>
+- <code><a href="./src/resources/beta/endpoints/rollouts.ts">ThresholdCheck</a></code>
 - <code><a href="./src/resources/beta/endpoints/rollouts.ts">RolloutDeleteResponse</a></code>
 
 Methods:
@@ -146,6 +177,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/beta/endpoints/adapters.ts">DeploymentAdapterStatus</a></code>
 - <code><a href="./src/resources/beta/endpoints/adapters.ts">AdapterCreateResponse</a></code>
 - <code><a href="./src/resources/beta/endpoints/adapters.ts">AdapterRetrieveResponse</a></code>
 - <code><a href="./src/resources/beta/endpoints/adapters.ts">AdapterUpdateResponse</a></code>
@@ -179,6 +211,9 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/beta/models/models.ts">Model</a></code>
+- <code><a href="./src/resources/beta/models/models.ts">ModelDtypeCount</a></code>
+- <code><a href="./src/resources/beta/models/models.ts">ModelParameters</a></code>
+- <code><a href="./src/resources/beta/models/models.ts">ModelWeights</a></code>
 - <code><a href="./src/resources/beta/models/models.ts">SupportedModel</a></code>
 - <code><a href="./src/resources/beta/models/models.ts">SupportedModelDeploymentProfile</a></code>
 - <code><a href="./src/resources/beta/models/models.ts">SupportedModelPerformanceBenchmarks</a></code>
@@ -219,7 +254,9 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/beta/models/configs.ts">Certification</a></code>
 - <code><a href="./src/resources/beta/models/configs.ts">Config</a></code>
+- <code><a href="./src/resources/beta/models/configs.ts">Selector</a></code>
 
 Methods:
 

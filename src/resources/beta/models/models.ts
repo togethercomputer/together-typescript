@@ -2,7 +2,15 @@
 
 import { APIResource } from '../../../core/resource';
 import * as ConfigsAPI from './configs';
-import { Config, ConfigListParams, ConfigRetrieveParams, Configs, ConfigsCursorPagination } from './configs';
+import {
+  Certification,
+  Config,
+  ConfigListParams,
+  ConfigRetrieveParams,
+  Configs,
+  ConfigsCursorPagination,
+  Selector,
+} from './configs';
 import * as RemoteUploadsAPI from './remote-uploads';
 import {
   RemoteUploadCreateParams,
@@ -296,7 +304,7 @@ export interface Model {
    * Architecture, size, precision, and speculative-decoding metadata derived from
    * the model files.
    */
-  weights: Model.Weights;
+  weights: ModelWeights;
 
   /**
    * Resource name of the base model, using
@@ -315,79 +323,73 @@ export interface Model {
   description?: string;
 }
 
-export namespace Model {
+/**
+ * Number of model parameters stored in one numerical data type.
+ */
+export interface ModelDtypeCount {
   /**
-   * Architecture, size, precision, and speculative-decoding metadata derived from
-   * the model files.
+   * Number of model parameters stored with this data type.
    */
-  export interface Weights {
-    /**
-     * Model architecture detected from the weight metadata.
-     */
-    architecture?: string;
+  count: string;
 
-    /**
-     * Maximum context length reported by the model metadata.
-     */
-    contextLength?: string;
+  /**
+   * Numerical data type, such as `float16`, `bfloat16`, or `int8`.
+   */
+  dtype: string;
+}
 
-    /**
-     * Draft-model speculator family for draft speculative decoding.
-     */
-    draftSpeculatorType?: 'DRAFT_SPECULATOR_TYPE_EAGLE' | 'DRAFT_SPECULATOR_TYPE_PHOENIX';
+/**
+ * Model parameter count and precision breakdown.
+ */
+export interface ModelParameters {
+  /**
+   * Parameter counts grouped by numerical data type.
+   */
+  byDtype: Array<ModelDtypeCount>;
 
-    /**
-     * Total parameter count and breakdown by numerical data type.
-     */
-    parameters?: Weights.Parameters;
+  /**
+   * Total number of parameters in the model weights.
+   */
+  total: string;
+}
 
-    /**
-     * Speculative decoding mechanism for speculator weights.
-     */
-    speculatorMechanism?:
-      | 'SPECULATOR_MECHANISM_DRAFT'
-      | 'SPECULATOR_MECHANISM_LOOKAHEAD'
-      | 'SPECULATOR_MECHANISM_MTP';
+/**
+ * Architecture, size, precision, and speculative-decoding metadata for model
+ * weights.
+ */
+export interface ModelWeights {
+  /**
+   * Model architecture detected from the weight metadata.
+   */
+  architecture?: string;
 
-    /**
-     * Role of the weights: full model, speculative draft model, or LoRA adapter.
-     */
-    type?: 'WEIGHTS_TYPE_DEFAULT' | 'WEIGHTS_TYPE_SPECULATOR' | 'WEIGHTS_TYPE_ADAPTER';
-  }
+  /**
+   * Maximum context length reported by the model metadata.
+   */
+  contextLength?: string;
 
-  export namespace Weights {
-    /**
-     * Total parameter count and breakdown by numerical data type.
-     */
-    export interface Parameters {
-      /**
-       * Parameter counts grouped by numerical data type.
-       */
-      byDtype: Array<Parameters.ByDtype>;
+  /**
+   * Draft-model speculator family for draft speculative decoding.
+   */
+  draftSpeculatorType?: 'DRAFT_SPECULATOR_TYPE_EAGLE' | 'DRAFT_SPECULATOR_TYPE_PHOENIX';
 
-      /**
-       * Total number of parameters in the model weights.
-       */
-      total: string;
-    }
+  /**
+   * Total parameter count and breakdown by numerical data type.
+   */
+  parameters?: ModelParameters;
 
-    export namespace Parameters {
-      /**
-       * Number of model parameters stored in one numerical data type.
-       */
-      export interface ByDtype {
-        /**
-         * Number of model parameters stored with this data type.
-         */
-        count: string;
+  /**
+   * Speculative decoding mechanism for speculator weights.
+   */
+  speculatorMechanism?:
+    | 'SPECULATOR_MECHANISM_DRAFT'
+    | 'SPECULATOR_MECHANISM_LOOKAHEAD'
+    | 'SPECULATOR_MECHANISM_MTP';
 
-        /**
-         * Numerical data type, such as `float16`, `bfloat16`, or `int8`.
-         */
-        dtype: string;
-      }
-    }
-  }
+  /**
+   * Role of the weights: full model, speculative draft model, or LoRA adapter.
+   */
+  type?: 'WEIGHTS_TYPE_DEFAULT' | 'WEIGHTS_TYPE_SPECULATOR' | 'WEIGHTS_TYPE_ADAPTER';
 }
 
 /**
@@ -892,6 +894,9 @@ Models.Configs = Configs;
 export declare namespace Models {
   export {
     type Model as Model,
+    type ModelDtypeCount as ModelDtypeCount,
+    type ModelParameters as ModelParameters,
+    type ModelWeights as ModelWeights,
     type SupportedModel as SupportedModel,
     type SupportedModelDeploymentProfile as SupportedModelDeploymentProfile,
     type SupportedModelPerformanceBenchmarks as SupportedModelPerformanceBenchmarks,
@@ -926,7 +931,9 @@ export declare namespace Models {
 
   export {
     Configs as Configs,
+    type Certification as Certification,
     type Config as Config,
+    type Selector as Selector,
     type ConfigsCursorPagination as ConfigsCursorPagination,
     type ConfigRetrieveParams as ConfigRetrieveParams,
     type ConfigListParams as ConfigListParams,

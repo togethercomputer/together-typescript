@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
+import * as RolloutsAPI from './rollouts';
 import { APIPromise } from '../../../core/api-promise';
 import { CursorPagination, type CursorPaginationParams, PagePromise } from '../../../core/pagination';
 import { RequestOptions } from '../../../internal/request-options';
@@ -294,6 +295,184 @@ export class Rollouts extends APIResource {
 export type RolloutsCursorPagination = CursorPagination<Rollout>;
 
 /**
+ * Blue-green strategy configuration for a single cutover to the target deployment.
+ */
+export interface BlueGreenConfig {}
+
+/**
+ * Canary strategy configuration for gradual traffic progression. An empty config
+ * uses the default 5, 25, 50, 100 percent ladder; over a frozen traffic-split pair
+ * left by cancel, the default ladder is derived at start from the pair's current
+ * served share so it begins above it.
+ */
+export interface CanaryConfig {
+  /**
+   * Optional positive soak between steps. Defaults to 3m if omitted, and grows to
+   * cover metric rule windows plus ingestion lag.
+   */
+  stepInterval?: string;
+
+  /**
+   * Optional progression steps. Defaults to 5, 25, 50, 100 percent when empty;
+   * explicit steps must increase and end at 100 percent.
+   */
+  steps?: Array<RolloutStep>;
+}
+
+/**
+ * Observed metric result enriched with rollout rule criteria and the rule's
+ * recorded verdict. Unmeasured rules are synthesized with verdict
+ * METRIC_VERDICT_UNAVAILABLE and no source or target value.
+ */
+export interface MetricResult {
+  /**
+   * Evaluation form used by the metric rule.
+   */
+  check?: 'METRIC_CHECK_TYPE_THRESHOLD' | 'METRIC_CHECK_TYPE_REGRESSION';
+
+  /**
+   * Direction that indicates whether higher or lower values are worse.
+   */
+  direction?: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
+
+  /**
+   * Rule-specific failure text. Set only when verdict is METRIC_VERDICT_BREACHED and
+   * the gate recorded one.
+   */
+  failureReason?: string;
+
+  /**
+   * Regression percentage limit used when check is METRIC_CHECK_TYPE_REGRESSION.
+   */
+  maxRegressionPercent?: number;
+
+  /**
+   * Metric name as exported to the observability backend.
+   */
+  name?: string;
+
+  /**
+   * Threshold comparison operator.
+   */
+  operator?:
+    | 'THRESHOLD_OPERATOR_GT'
+    | 'THRESHOLD_OPERATOR_GTE'
+    | 'THRESHOLD_OPERATOR_LT'
+    | 'THRESHOLD_OPERATOR_LTE';
+
+  /**
+   * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
+   */
+  percentile?: number;
+
+  /**
+   * Observed source baseline. Set only for regression checks with a recorded
+   * observation; a 0 reading serializes explicitly.
+   */
+  sourceValue?: number;
+
+  /**
+   * Aggregation used for the metric.
+   */
+  stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
+
+  /**
+   * Observed target value. Set when the gate recorded an observation; absent on
+   * synthesized unavailable results. A 0 reading serializes explicitly.
+   */
+  targetValue?: number;
+
+  /**
+   * Threshold criteria used when check is METRIC_CHECK_TYPE_THRESHOLD.
+   */
+  threshold?: number;
+
+  /**
+   * Rule decision recorded by the metric gate. Absent when no decision was recorded.
+   */
+  verdict?: 'METRIC_VERDICT_PASS' | 'METRIC_VERDICT_BREACHED' | 'METRIC_VERDICT_UNAVAILABLE';
+}
+
+/**
+ * Metric gate evaluated during a rollout.
+ */
+export interface MetricRule {
+  /**
+   * Required catalogue key for the metric to gate on. `serving_latency` is retired.
+   */
+  name: 'inflight_requests' | 'router_error_rate' | 'router_latency';
+
+  /**
+   * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
+   */
+  percentile?: number;
+
+  /**
+   * Regression criteria that fail when the target regresses against the source
+   * beyond a limit.
+   */
+  regressionCheck?: RegressionCheck;
+
+  /**
+   * Aggregation used for the metric. Optional for router_error_rate and
+   * inflight_requests; omitted values default to METRIC_STAT_TYPE_AVG. Required for
+   * router_latency, where AVG or PERCENTILE may be used.
+   */
+  stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
+
+  /**
+   * Threshold criteria that fail when the target metric violates the configured
+   * bound.
+   */
+  thresholdCheck?: ThresholdCheck;
+
+  /**
+   * Optional query window for the metric. Defaults to the step soak duration.
+   */
+  window?: string;
+}
+
+/**
+ * Pause metadata returned while a rollout is paused.
+ */
+export interface PauseInfo {
+  /**
+   * Timestamp when the rollout was paused.
+   */
+  pausedAt: string;
+
+  /**
+   * Human-readable reason recorded when the rollout was paused.
+   */
+  reason?: string;
+}
+
+/**
+ * Regression criteria that fail when the target regresses against the source
+ * beyond a limit.
+ */
+export interface RegressionCheck {
+  /**
+   * Required direction that indicates whether higher or lower metric values are
+   * worse.
+   */
+  direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
+
+  /**
+   * Finite maximum allowed regression percentage, greater than or equal to 0.
+   * Omitting this value is read as 0. A value of 0 is the strictest budget; any
+   * regression fails, and exactly-at-budget passes.
+   */
+  maxRegressionPercent?: number;
+}
+
+/**
+ * Rolling strategy configuration for capacity-preserving batches that ramp target
+ * replicas up while draining source replicas.
+ */
+export interface RollingConfig {}
+
+/**
  * Public view of a rollout resource, including runtime progress and any pause or
  * abort reason.
  */
@@ -335,7 +514,7 @@ export interface Rollout {
   /**
    * Derived runtime progress for a rollout.
    */
-  status: Rollout.Status;
+  status: RolloutStatus;
 
   /**
    * Output only. Rollout strategy selected at creation.
@@ -374,7 +553,7 @@ export interface Rollout {
   /**
    * Pause metadata returned while a rollout is paused.
    */
-  pauseInfo?: Rollout.PauseInfo;
+  pauseInfo?: PauseInfo;
 
   /**
    * Output only. Timestamp when the rollout started running.
@@ -382,438 +561,55 @@ export interface Rollout {
   startedAt?: string;
 }
 
-export namespace Rollout {
+/**
+ * Structured reason a rollout stopped progressing.
+ */
+export interface RolloutCondition {
   /**
-   * Derived runtime progress for a rollout.
+   * Step index where the condition arose. Step 0 serializes explicitly.
    */
-  export interface Status {
-    /**
-     * Per-step rollout execution summaries.
-     */
-    steps: Array<Status.Step>;
-
-    /**
-     * Total number of steps in the rollout progression. Always serializes when status
-     * is present.
-     */
-    totalSteps: number;
-
-    /**
-     * Structured reason a rollout stopped progressing.
-     */
-    condition?: Status.Condition;
-
-    /**
-     * Informational conditions that describe the rollout's current state. Omitted when
-     * empty; clients should treat an absent key as an empty list.
-     */
-    conditions?: Array<Status.Condition>;
-
-    /**
-     * Timestamp of the most recent progress update.
-     */
-    updatedAt?: string;
-  }
-
-  export namespace Status {
-    /**
-     * Collapsed execution state for one rollout step.
-     */
-    export interface Step {
-      /**
-       * Timestamp when this step finished, was skipped over, or the rollout ended on it.
-       * Unset while in progress.
-       */
-      completedAt?: string;
-
-      /**
-       * Failure reason set only when this step failed.
-       */
-      failureReason?: string;
-
-      /**
-       * Metric gate results for this step, enriched with criteria and verdict.
-       * Unmeasured rules appear as synthesized rows with verdict
-       * METRIC_VERDICT_UNAVAILABLE and no measured values.
-       */
-      metrics?: Array<Step.Metric>;
-
-      /**
-       * Timestamp when this step's first sub-step ran. Unset for steps no sub-step
-       * reached.
-       */
-      startedAt?: string;
-
-      /**
-       * Outcome of this step. Finished steps are PASSED, the live step mirrors the
-       * rollout state, skipped-over steps are SKIPPED, and unreached steps are PENDING.
-       */
-      state?:
-        | 'ROLLOUT_STEP_STATE_PENDING'
-        | 'ROLLOUT_STEP_STATE_RUNNING'
-        | 'ROLLOUT_STEP_STATE_PASSED'
-        | 'ROLLOUT_STEP_STATE_FAILED'
-        | 'ROLLOUT_STEP_STATE_PAUSED'
-        | 'ROLLOUT_STEP_STATE_CANCELED'
-        | 'ROLLOUT_STEP_STATE_SKIPPED';
-
-      /**
-       * Index of this step in the rollout progression. Step 0 serializes explicitly.
-       */
-      stepIndex?: number;
-
-      /**
-       * Target traffic percentage configured for this step. Always serializes for
-       * recorded steps.
-       */
-      targetTrafficPercent?: number;
-    }
-
-    export namespace Step {
-      /**
-       * Observed metric result enriched with rollout rule criteria and the rule's
-       * recorded verdict. Unmeasured rules are synthesized with verdict
-       * METRIC_VERDICT_UNAVAILABLE and no source or target value.
-       */
-      export interface Metric {
-        /**
-         * Evaluation form used by the metric rule.
-         */
-        check?: 'METRIC_CHECK_TYPE_THRESHOLD' | 'METRIC_CHECK_TYPE_REGRESSION';
-
-        /**
-         * Direction that indicates whether higher or lower values are worse.
-         */
-        direction?: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
-
-        /**
-         * Rule-specific failure text. Set only when verdict is METRIC_VERDICT_BREACHED and
-         * the gate recorded one.
-         */
-        failureReason?: string;
-
-        /**
-         * Regression percentage limit used when check is METRIC_CHECK_TYPE_REGRESSION.
-         */
-        maxRegressionPercent?: number;
-
-        /**
-         * Metric name as exported to the observability backend.
-         */
-        name?: string;
-
-        /**
-         * Threshold comparison operator.
-         */
-        operator?:
-          | 'THRESHOLD_OPERATOR_GT'
-          | 'THRESHOLD_OPERATOR_GTE'
-          | 'THRESHOLD_OPERATOR_LT'
-          | 'THRESHOLD_OPERATOR_LTE';
-
-        /**
-         * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
-         */
-        percentile?: number;
-
-        /**
-         * Observed source baseline. Set only for regression checks with a recorded
-         * observation; a 0 reading serializes explicitly.
-         */
-        sourceValue?: number;
-
-        /**
-         * Aggregation used for the metric.
-         */
-        stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
-
-        /**
-         * Observed target value. Set when the gate recorded an observation; absent on
-         * synthesized unavailable results. A 0 reading serializes explicitly.
-         */
-        targetValue?: number;
-
-        /**
-         * Threshold criteria used when check is METRIC_CHECK_TYPE_THRESHOLD.
-         */
-        threshold?: number;
-
-        /**
-         * Rule decision recorded by the metric gate. Absent when no decision was recorded.
-         */
-        verdict?: 'METRIC_VERDICT_PASS' | 'METRIC_VERDICT_BREACHED' | 'METRIC_VERDICT_UNAVAILABLE';
-      }
-    }
-
-    /**
-     * Structured reason a rollout stopped progressing.
-     */
-    export interface Condition {
-      /**
-       * Step index where the condition arose. Step 0 serializes explicitly.
-       */
-      atStep?: number;
-
-      /**
-       * Category that classifies why the rollout stopped.
-       */
-      category?:
-        | 'ROLLOUT_FAILURE_CATEGORY_METRIC_REGRESSION'
-        | 'ROLLOUT_FAILURE_CATEGORY_METRICS_UNAVAILABLE'
-        | 'ROLLOUT_FAILURE_CATEGORY_TARGET_NOT_READY'
-        | 'ROLLOUT_FAILURE_CATEGORY_SOURCE_NOT_DRAINED'
-        | 'ROLLOUT_FAILURE_CATEGORY_HEALTH_REGRESSION'
-        | 'ROLLOUT_FAILURE_CATEGORY_CAPACITY_EXHAUSTED'
-        | 'ROLLOUT_FAILURE_CATEGORY_ROUTING_ERROR'
-        | 'ROLLOUT_FAILURE_CATEGORY_DEPENDENCY_OUTAGE'
-        | 'ROLLOUT_FAILURE_CATEGORY_ABORTED_BY_OPERATOR'
-        | 'ROLLOUT_FAILURE_CATEGORY_INTERNAL'
-        | 'ROLLOUT_FAILURE_CATEGORY_POLICY_INFEASIBLE'
-        | 'ROLLOUT_FAILURE_CATEGORY_UNDER_SERVED'
-        | 'ROLLOUT_FAILURE_CATEGORY_ENTITLEMENT_LAPSED';
-
-      /**
-       * Human-readable explanation for the condition.
-       */
-      message?: string;
-
-      /**
-       * Metrics observed at the failing gate, enriched with their criteria. Unmeasured
-       * rules appear as synthesized rows with verdict METRIC_VERDICT_UNAVAILABLE and no
-       * measured values.
-       */
-      metrics?: Array<Condition.Metric>;
-
-      /**
-       * Timestamp when the condition was observed.
-       */
-      observedAt?: string;
-
-      /**
-       * Informational condition type. `CapacityLimited` means the current step advanced
-       * partially because full capacity was not placeable.
-       */
-      type?: 'CapacityLimited';
-    }
-
-    export namespace Condition {
-      /**
-       * Observed metric result enriched with rollout rule criteria and the rule's
-       * recorded verdict. Unmeasured rules are synthesized with verdict
-       * METRIC_VERDICT_UNAVAILABLE and no source or target value.
-       */
-      export interface Metric {
-        /**
-         * Evaluation form used by the metric rule.
-         */
-        check?: 'METRIC_CHECK_TYPE_THRESHOLD' | 'METRIC_CHECK_TYPE_REGRESSION';
-
-        /**
-         * Direction that indicates whether higher or lower values are worse.
-         */
-        direction?: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
-
-        /**
-         * Rule-specific failure text. Set only when verdict is METRIC_VERDICT_BREACHED and
-         * the gate recorded one.
-         */
-        failureReason?: string;
-
-        /**
-         * Regression percentage limit used when check is METRIC_CHECK_TYPE_REGRESSION.
-         */
-        maxRegressionPercent?: number;
-
-        /**
-         * Metric name as exported to the observability backend.
-         */
-        name?: string;
-
-        /**
-         * Threshold comparison operator.
-         */
-        operator?:
-          | 'THRESHOLD_OPERATOR_GT'
-          | 'THRESHOLD_OPERATOR_GTE'
-          | 'THRESHOLD_OPERATOR_LT'
-          | 'THRESHOLD_OPERATOR_LTE';
-
-        /**
-         * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
-         */
-        percentile?: number;
-
-        /**
-         * Observed source baseline. Set only for regression checks with a recorded
-         * observation; a 0 reading serializes explicitly.
-         */
-        sourceValue?: number;
-
-        /**
-         * Aggregation used for the metric.
-         */
-        stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
-
-        /**
-         * Observed target value. Set when the gate recorded an observation; absent on
-         * synthesized unavailable results. A 0 reading serializes explicitly.
-         */
-        targetValue?: number;
-
-        /**
-         * Threshold criteria used when check is METRIC_CHECK_TYPE_THRESHOLD.
-         */
-        threshold?: number;
-
-        /**
-         * Rule decision recorded by the metric gate. Absent when no decision was recorded.
-         */
-        verdict?: 'METRIC_VERDICT_PASS' | 'METRIC_VERDICT_BREACHED' | 'METRIC_VERDICT_UNAVAILABLE';
-      }
-    }
-
-    /**
-     * Structured reason a rollout stopped progressing.
-     */
-    export interface Condition {
-      /**
-       * Step index where the condition arose. Step 0 serializes explicitly.
-       */
-      atStep?: number;
-
-      /**
-       * Category that classifies why the rollout stopped.
-       */
-      category?:
-        | 'ROLLOUT_FAILURE_CATEGORY_METRIC_REGRESSION'
-        | 'ROLLOUT_FAILURE_CATEGORY_METRICS_UNAVAILABLE'
-        | 'ROLLOUT_FAILURE_CATEGORY_TARGET_NOT_READY'
-        | 'ROLLOUT_FAILURE_CATEGORY_SOURCE_NOT_DRAINED'
-        | 'ROLLOUT_FAILURE_CATEGORY_HEALTH_REGRESSION'
-        | 'ROLLOUT_FAILURE_CATEGORY_CAPACITY_EXHAUSTED'
-        | 'ROLLOUT_FAILURE_CATEGORY_ROUTING_ERROR'
-        | 'ROLLOUT_FAILURE_CATEGORY_DEPENDENCY_OUTAGE'
-        | 'ROLLOUT_FAILURE_CATEGORY_ABORTED_BY_OPERATOR'
-        | 'ROLLOUT_FAILURE_CATEGORY_INTERNAL'
-        | 'ROLLOUT_FAILURE_CATEGORY_POLICY_INFEASIBLE'
-        | 'ROLLOUT_FAILURE_CATEGORY_UNDER_SERVED'
-        | 'ROLLOUT_FAILURE_CATEGORY_ENTITLEMENT_LAPSED';
-
-      /**
-       * Human-readable explanation for the condition.
-       */
-      message?: string;
-
-      /**
-       * Metrics observed at the failing gate, enriched with their criteria. Unmeasured
-       * rules appear as synthesized rows with verdict METRIC_VERDICT_UNAVAILABLE and no
-       * measured values.
-       */
-      metrics?: Array<Condition.Metric>;
-
-      /**
-       * Timestamp when the condition was observed.
-       */
-      observedAt?: string;
-
-      /**
-       * Informational condition type. `CapacityLimited` means the current step advanced
-       * partially because full capacity was not placeable.
-       */
-      type?: 'CapacityLimited';
-    }
-
-    export namespace Condition {
-      /**
-       * Observed metric result enriched with rollout rule criteria and the rule's
-       * recorded verdict. Unmeasured rules are synthesized with verdict
-       * METRIC_VERDICT_UNAVAILABLE and no source or target value.
-       */
-      export interface Metric {
-        /**
-         * Evaluation form used by the metric rule.
-         */
-        check?: 'METRIC_CHECK_TYPE_THRESHOLD' | 'METRIC_CHECK_TYPE_REGRESSION';
-
-        /**
-         * Direction that indicates whether higher or lower values are worse.
-         */
-        direction?: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
-
-        /**
-         * Rule-specific failure text. Set only when verdict is METRIC_VERDICT_BREACHED and
-         * the gate recorded one.
-         */
-        failureReason?: string;
-
-        /**
-         * Regression percentage limit used when check is METRIC_CHECK_TYPE_REGRESSION.
-         */
-        maxRegressionPercent?: number;
-
-        /**
-         * Metric name as exported to the observability backend.
-         */
-        name?: string;
-
-        /**
-         * Threshold comparison operator.
-         */
-        operator?:
-          | 'THRESHOLD_OPERATOR_GT'
-          | 'THRESHOLD_OPERATOR_GTE'
-          | 'THRESHOLD_OPERATOR_LT'
-          | 'THRESHOLD_OPERATOR_LTE';
-
-        /**
-         * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
-         */
-        percentile?: number;
-
-        /**
-         * Observed source baseline. Set only for regression checks with a recorded
-         * observation; a 0 reading serializes explicitly.
-         */
-        sourceValue?: number;
-
-        /**
-         * Aggregation used for the metric.
-         */
-        stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
-
-        /**
-         * Observed target value. Set when the gate recorded an observation; absent on
-         * synthesized unavailable results. A 0 reading serializes explicitly.
-         */
-        targetValue?: number;
-
-        /**
-         * Threshold criteria used when check is METRIC_CHECK_TYPE_THRESHOLD.
-         */
-        threshold?: number;
-
-        /**
-         * Rule decision recorded by the metric gate. Absent when no decision was recorded.
-         */
-        verdict?: 'METRIC_VERDICT_PASS' | 'METRIC_VERDICT_BREACHED' | 'METRIC_VERDICT_UNAVAILABLE';
-      }
-    }
-  }
+  atStep?: number;
 
   /**
-   * Pause metadata returned while a rollout is paused.
+   * Category that classifies why the rollout stopped.
    */
-  export interface PauseInfo {
-    /**
-     * Timestamp when the rollout was paused.
-     */
-    pausedAt: string;
+  category?:
+    | 'ROLLOUT_FAILURE_CATEGORY_METRIC_REGRESSION'
+    | 'ROLLOUT_FAILURE_CATEGORY_METRICS_UNAVAILABLE'
+    | 'ROLLOUT_FAILURE_CATEGORY_TARGET_NOT_READY'
+    | 'ROLLOUT_FAILURE_CATEGORY_SOURCE_NOT_DRAINED'
+    | 'ROLLOUT_FAILURE_CATEGORY_HEALTH_REGRESSION'
+    | 'ROLLOUT_FAILURE_CATEGORY_CAPACITY_EXHAUSTED'
+    | 'ROLLOUT_FAILURE_CATEGORY_ROUTING_ERROR'
+    | 'ROLLOUT_FAILURE_CATEGORY_DEPENDENCY_OUTAGE'
+    | 'ROLLOUT_FAILURE_CATEGORY_ABORTED_BY_OPERATOR'
+    | 'ROLLOUT_FAILURE_CATEGORY_INTERNAL'
+    | 'ROLLOUT_FAILURE_CATEGORY_POLICY_INFEASIBLE'
+    | 'ROLLOUT_FAILURE_CATEGORY_UNDER_SERVED'
+    | 'ROLLOUT_FAILURE_CATEGORY_ENTITLEMENT_LAPSED';
 
-    /**
-     * Human-readable reason recorded when the rollout was paused.
-     */
-    reason?: string;
-  }
+  /**
+   * Human-readable explanation for the condition.
+   */
+  message?: string;
+
+  /**
+   * Metrics observed at the failing gate, enriched with their criteria. Unmeasured
+   * rules appear as synthesized rows with verdict METRIC_VERDICT_UNAVAILABLE and no
+   * measured values.
+   */
+  metrics?: Array<MetricResult>;
+
+  /**
+   * Timestamp when the condition was observed.
+   */
+  observedAt?: string;
+
+  /**
+   * Informational condition type. `CapacityLimited` means the current step advanced
+   * partially because full capacity was not placeable.
+   */
+  type?: 'CapacityLimited';
 }
 
 /**
@@ -860,7 +656,7 @@ export interface RolloutDefaultsPreview {
    * Steps the rollout is expected to walk when the caller leaves steps unset.
    * Display only. Empty when the caller supplied steps or no ladder applies.
    */
-  estimatedEffectiveSteps?: Array<RolloutDefaultsPreview.EstimatedEffectiveStep>;
+  estimatedEffectiveSteps?: Array<RolloutStep>;
 
   /**
    * Percentage of the pair's traffic currently reaching the target, the floor the
@@ -896,7 +692,7 @@ export namespace RolloutDefaultsPreview {
     /**
      * Blue-green strategy configuration for a single cutover to the target deployment.
      */
-    blueGreen?: Spec.BlueGreen;
+    blueGreen?: RolloutsAPI.BlueGreenConfig;
 
     /**
      * Canary strategy configuration for gradual traffic progression. An empty config
@@ -904,7 +700,7 @@ export namespace RolloutDefaultsPreview {
      * left by cancel, the default ladder is derived at start from the pair's current
      * served share so it begins above it.
      */
-    canary?: Spec.Canary;
+    canary?: RolloutsAPI.CanaryConfig;
 
     /**
      * Optional final replica count for the source deployment. Defaults to 0, which
@@ -933,150 +729,13 @@ export namespace RolloutDefaultsPreview {
      * Optional metric gates evaluated after each step's soak. Canary only; rejected on
      * rolling and blue-green rollouts.
      */
-    metrics?: Array<Spec.Metric>;
+    metrics?: Array<RolloutsAPI.MetricRule>;
 
     /**
      * Rolling strategy configuration for capacity-preserving batches that ramp target
      * replicas up while draining source replicas.
      */
-    rolling?: Spec.Rolling;
-  }
-
-  export namespace Spec {
-    /**
-     * Blue-green strategy configuration for a single cutover to the target deployment.
-     */
-    export interface BlueGreen {}
-
-    /**
-     * Canary strategy configuration for gradual traffic progression. An empty config
-     * uses the default 5, 25, 50, 100 percent ladder; over a frozen traffic-split pair
-     * left by cancel, the default ladder is derived at start from the pair's current
-     * served share so it begins above it.
-     */
-    export interface Canary {
-      /**
-       * Optional positive soak between steps. Defaults to 3m if omitted, and grows to
-       * cover metric rule windows plus ingestion lag.
-       */
-      stepInterval?: string;
-
-      /**
-       * Optional progression steps. Defaults to 5, 25, 50, 100 percent when empty;
-       * explicit steps must increase and end at 100 percent.
-       */
-      steps?: Array<Canary.Step>;
-    }
-
-    export namespace Canary {
-      /**
-       * One stage of a canary rollout progression.
-       */
-      export interface Step {
-        /**
-         * Required percentage of traffic on the target deployment for this step.
-         */
-        traffic: number;
-
-        /**
-         * Optional explicit target replica count for this step.
-         */
-        replicas?: number;
-      }
-    }
-
-    /**
-     * Metric gate evaluated during a rollout.
-     */
-    export interface Metric {
-      /**
-       * Required catalogue key for the metric to gate on. `serving_latency` is retired.
-       */
-      name: 'inflight_requests' | 'router_error_rate' | 'router_latency';
-
-      /**
-       * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
-       */
-      percentile?: number;
-
-      /**
-       * Regression criteria that fail when the target regresses against the source
-       * beyond a limit.
-       */
-      regressionCheck?: Metric.RegressionCheck;
-
-      /**
-       * Aggregation used for the metric. Optional for router_error_rate and
-       * inflight_requests; omitted values default to METRIC_STAT_TYPE_AVG. Required for
-       * router_latency, where AVG or PERCENTILE may be used.
-       */
-      stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
-
-      /**
-       * Threshold criteria that fail when the target metric violates the configured
-       * bound.
-       */
-      thresholdCheck?: Metric.ThresholdCheck;
-
-      /**
-       * Optional query window for the metric. Defaults to the step soak duration.
-       */
-      window?: string;
-    }
-
-    export namespace Metric {
-      /**
-       * Regression criteria that fail when the target regresses against the source
-       * beyond a limit.
-       */
-      export interface RegressionCheck {
-        /**
-         * Required direction that indicates whether higher or lower metric values are
-         * worse.
-         */
-        direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
-
-        /**
-         * Finite maximum allowed regression percentage, greater than or equal to 0.
-         * Omitting this value is read as 0. A value of 0 is the strictest budget; any
-         * regression fails, and exactly-at-budget passes.
-         */
-        maxRegressionPercent?: number;
-      }
-
-      /**
-       * Threshold criteria that fail when the target metric violates the configured
-       * bound.
-       */
-      export interface ThresholdCheck {
-        /**
-         * Required comparison operator applied to the target metric value.
-         */
-        operator:
-          | 'THRESHOLD_OPERATOR_GT'
-          | 'THRESHOLD_OPERATOR_GTE'
-          | 'THRESHOLD_OPERATOR_LT'
-          | 'THRESHOLD_OPERATOR_LTE';
-
-        /**
-         * Finite threshold value. Interpreted in the metric's unit: router_error_rate is a
-         * ratio in [0, 1], router_latency is milliseconds, and inflight_requests is
-         * in-flight requests per ready replica averaged over the rule window. Thresholds
-         * that no achievable value could pass, or that every achievable value passes, are
-         * rejected at create.
-         *
-         * Omitting this value is read as 0. Set 0 explicitly for the strictest threshold:
-         * nothing at all is tolerated.
-         */
-        value?: number;
-      }
-    }
-
-    /**
-     * Rolling strategy configuration for capacity-preserving batches that ramp target
-     * replicas up while draining source replicas.
-     */
-    export interface Rolling {}
+    rolling?: RolloutsAPI.RollingConfig;
   }
 
   /**
@@ -1095,21 +754,133 @@ export namespace RolloutDefaultsPreview {
      */
     message: string;
   }
+}
+
+/**
+ * Derived runtime progress for a rollout.
+ */
+export interface RolloutStatus {
+  /**
+   * Per-step rollout execution summaries.
+   */
+  steps: Array<RolloutStepStatus>;
 
   /**
-   * One stage of a canary rollout progression.
+   * Total number of steps in the rollout progression. Always serializes when status
+   * is present.
    */
-  export interface EstimatedEffectiveStep {
-    /**
-     * Required percentage of traffic on the target deployment for this step.
-     */
-    traffic: number;
+  totalSteps: number;
 
-    /**
-     * Optional explicit target replica count for this step.
-     */
-    replicas?: number;
-  }
+  /**
+   * Structured reason a rollout stopped progressing.
+   */
+  condition?: RolloutCondition;
+
+  /**
+   * Informational conditions that describe the rollout's current state. Omitted when
+   * empty; clients should treat an absent key as an empty list.
+   */
+  conditions?: Array<RolloutCondition>;
+
+  /**
+   * Timestamp of the most recent progress update.
+   */
+  updatedAt?: string;
+}
+
+/**
+ * One stage of a canary rollout progression.
+ */
+export interface RolloutStep {
+  /**
+   * Required percentage of traffic on the target deployment for this step.
+   */
+  traffic: number;
+
+  /**
+   * Optional explicit target replica count for this step.
+   */
+  replicas?: number;
+}
+
+/**
+ * Collapsed execution state for one rollout step.
+ */
+export interface RolloutStepStatus {
+  /**
+   * Timestamp when this step finished, was skipped over, or the rollout ended on it.
+   * Unset while in progress.
+   */
+  completedAt?: string;
+
+  /**
+   * Failure reason set only when this step failed.
+   */
+  failureReason?: string;
+
+  /**
+   * Metric gate results for this step, enriched with criteria and verdict.
+   * Unmeasured rules appear as synthesized rows with verdict
+   * METRIC_VERDICT_UNAVAILABLE and no measured values.
+   */
+  metrics?: Array<MetricResult>;
+
+  /**
+   * Timestamp when this step's first sub-step ran. Unset for steps no sub-step
+   * reached.
+   */
+  startedAt?: string;
+
+  /**
+   * Outcome of this step. Finished steps are PASSED, the live step mirrors the
+   * rollout state, skipped-over steps are SKIPPED, and unreached steps are PENDING.
+   */
+  state?:
+    | 'ROLLOUT_STEP_STATE_PENDING'
+    | 'ROLLOUT_STEP_STATE_RUNNING'
+    | 'ROLLOUT_STEP_STATE_PASSED'
+    | 'ROLLOUT_STEP_STATE_FAILED'
+    | 'ROLLOUT_STEP_STATE_PAUSED'
+    | 'ROLLOUT_STEP_STATE_CANCELED'
+    | 'ROLLOUT_STEP_STATE_SKIPPED';
+
+  /**
+   * Index of this step in the rollout progression. Step 0 serializes explicitly.
+   */
+  stepIndex?: number;
+
+  /**
+   * Target traffic percentage configured for this step. Always serializes for
+   * recorded steps.
+   */
+  targetTrafficPercent?: number;
+}
+
+/**
+ * Threshold criteria that fail when the target metric violates the configured
+ * bound.
+ */
+export interface ThresholdCheck {
+  /**
+   * Required comparison operator applied to the target metric value.
+   */
+  operator:
+    | 'THRESHOLD_OPERATOR_GT'
+    | 'THRESHOLD_OPERATOR_GTE'
+    | 'THRESHOLD_OPERATOR_LT'
+    | 'THRESHOLD_OPERATOR_LTE';
+
+  /**
+   * Finite threshold value. Interpreted in the metric's unit: router_error_rate is a
+   * ratio in [0, 1], router_latency is milliseconds, and inflight_requests is
+   * in-flight requests per ready replica averaged over the rule window. Thresholds
+   * that no achievable value could pass, or that every achievable value passes, are
+   * rejected at create.
+   *
+   * Omitting this value is read as 0. Set 0 explicitly for the strictest threshold:
+   * nothing at all is tolerated.
+   */
+  value?: number;
 }
 
 /**
@@ -1137,7 +908,7 @@ export interface RolloutCreateParams {
    * Body param: Blue-green strategy configuration for a single cutover to the target
    * deployment.
    */
-  blueGreen?: RolloutCreateParams.BlueGreen;
+  blueGreen?: BlueGreenConfig;
 
   /**
    * Body param: Canary strategy configuration for gradual traffic progression. An
@@ -1145,7 +916,7 @@ export interface RolloutCreateParams {
    * traffic-split pair left by cancel, the default ladder is derived at start from
    * the pair's current served share so it begins above it.
    */
-  canary?: RolloutCreateParams.Canary;
+  canary?: CanaryConfig;
 
   /**
    * Body param: Optional final replica count for the source deployment. Defaults to
@@ -1174,150 +945,13 @@ export interface RolloutCreateParams {
    * Body param: Optional metric gates evaluated after each step's soak. Canary only;
    * rejected on rolling and blue-green rollouts.
    */
-  metrics?: Array<RolloutCreateParams.Metric>;
+  metrics?: Array<MetricRule>;
 
   /**
    * Body param: Rolling strategy configuration for capacity-preserving batches that
    * ramp target replicas up while draining source replicas.
    */
-  rolling?: RolloutCreateParams.Rolling;
-}
-
-export namespace RolloutCreateParams {
-  /**
-   * Blue-green strategy configuration for a single cutover to the target deployment.
-   */
-  export interface BlueGreen {}
-
-  /**
-   * Canary strategy configuration for gradual traffic progression. An empty config
-   * uses the default 5, 25, 50, 100 percent ladder; over a frozen traffic-split pair
-   * left by cancel, the default ladder is derived at start from the pair's current
-   * served share so it begins above it.
-   */
-  export interface Canary {
-    /**
-     * Optional positive soak between steps. Defaults to 3m if omitted, and grows to
-     * cover metric rule windows plus ingestion lag.
-     */
-    stepInterval?: string;
-
-    /**
-     * Optional progression steps. Defaults to 5, 25, 50, 100 percent when empty;
-     * explicit steps must increase and end at 100 percent.
-     */
-    steps?: Array<Canary.Step>;
-  }
-
-  export namespace Canary {
-    /**
-     * One stage of a canary rollout progression.
-     */
-    export interface Step {
-      /**
-       * Required percentage of traffic on the target deployment for this step.
-       */
-      traffic: number;
-
-      /**
-       * Optional explicit target replica count for this step.
-       */
-      replicas?: number;
-    }
-  }
-
-  /**
-   * Metric gate evaluated during a rollout.
-   */
-  export interface Metric {
-    /**
-     * Required catalogue key for the metric to gate on. `serving_latency` is retired.
-     */
-    name: 'inflight_requests' | 'router_error_rate' | 'router_latency';
-
-    /**
-     * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
-     */
-    percentile?: number;
-
-    /**
-     * Regression criteria that fail when the target regresses against the source
-     * beyond a limit.
-     */
-    regressionCheck?: Metric.RegressionCheck;
-
-    /**
-     * Aggregation used for the metric. Optional for router_error_rate and
-     * inflight_requests; omitted values default to METRIC_STAT_TYPE_AVG. Required for
-     * router_latency, where AVG or PERCENTILE may be used.
-     */
-    stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
-
-    /**
-     * Threshold criteria that fail when the target metric violates the configured
-     * bound.
-     */
-    thresholdCheck?: Metric.ThresholdCheck;
-
-    /**
-     * Optional query window for the metric. Defaults to the step soak duration.
-     */
-    window?: string;
-  }
-
-  export namespace Metric {
-    /**
-     * Regression criteria that fail when the target regresses against the source
-     * beyond a limit.
-     */
-    export interface RegressionCheck {
-      /**
-       * Required direction that indicates whether higher or lower metric values are
-       * worse.
-       */
-      direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
-
-      /**
-       * Finite maximum allowed regression percentage, greater than or equal to 0.
-       * Omitting this value is read as 0. A value of 0 is the strictest budget; any
-       * regression fails, and exactly-at-budget passes.
-       */
-      maxRegressionPercent?: number;
-    }
-
-    /**
-     * Threshold criteria that fail when the target metric violates the configured
-     * bound.
-     */
-    export interface ThresholdCheck {
-      /**
-       * Required comparison operator applied to the target metric value.
-       */
-      operator:
-        | 'THRESHOLD_OPERATOR_GT'
-        | 'THRESHOLD_OPERATOR_GTE'
-        | 'THRESHOLD_OPERATOR_LT'
-        | 'THRESHOLD_OPERATOR_LTE';
-
-      /**
-       * Finite threshold value. Interpreted in the metric's unit: router_error_rate is a
-       * ratio in [0, 1], router_latency is milliseconds, and inflight_requests is
-       * in-flight requests per ready replica averaged over the rule window. Thresholds
-       * that no achievable value could pass, or that every achievable value passes, are
-       * rejected at create.
-       *
-       * Omitting this value is read as 0. Set 0 explicitly for the strictest threshold:
-       * nothing at all is tolerated.
-       */
-      value?: number;
-    }
-  }
-
-  /**
-   * Rolling strategy configuration for capacity-preserving batches that ramp target
-   * replicas up while draining source replicas.
-   */
-  export interface Rolling {}
+  rolling?: RollingConfig;
 }
 
 export interface RolloutRetrieveParams {
@@ -1435,7 +1069,7 @@ export interface RolloutPreviewDefaultsParams {
    * Body param: Blue-green strategy configuration for a single cutover to the target
    * deployment.
    */
-  blueGreen?: RolloutPreviewDefaultsParams.BlueGreen;
+  blueGreen?: BlueGreenConfig;
 
   /**
    * Body param: Canary strategy configuration for gradual traffic progression. An
@@ -1443,7 +1077,7 @@ export interface RolloutPreviewDefaultsParams {
    * traffic-split pair left by cancel, the default ladder is derived at start from
    * the pair's current served share so it begins above it.
    */
-  canary?: RolloutPreviewDefaultsParams.Canary;
+  canary?: CanaryConfig;
 
   /**
    * Body param: Optional final replica count for the source deployment. Defaults to
@@ -1472,150 +1106,13 @@ export interface RolloutPreviewDefaultsParams {
    * Body param: Optional metric gates evaluated after each step's soak. Canary only;
    * rejected on rolling and blue-green rollouts.
    */
-  metrics?: Array<RolloutPreviewDefaultsParams.Metric>;
+  metrics?: Array<MetricRule>;
 
   /**
    * Body param: Rolling strategy configuration for capacity-preserving batches that
    * ramp target replicas up while draining source replicas.
    */
-  rolling?: RolloutPreviewDefaultsParams.Rolling;
-}
-
-export namespace RolloutPreviewDefaultsParams {
-  /**
-   * Blue-green strategy configuration for a single cutover to the target deployment.
-   */
-  export interface BlueGreen {}
-
-  /**
-   * Canary strategy configuration for gradual traffic progression. An empty config
-   * uses the default 5, 25, 50, 100 percent ladder; over a frozen traffic-split pair
-   * left by cancel, the default ladder is derived at start from the pair's current
-   * served share so it begins above it.
-   */
-  export interface Canary {
-    /**
-     * Optional positive soak between steps. Defaults to 3m if omitted, and grows to
-     * cover metric rule windows plus ingestion lag.
-     */
-    stepInterval?: string;
-
-    /**
-     * Optional progression steps. Defaults to 5, 25, 50, 100 percent when empty;
-     * explicit steps must increase and end at 100 percent.
-     */
-    steps?: Array<Canary.Step>;
-  }
-
-  export namespace Canary {
-    /**
-     * One stage of a canary rollout progression.
-     */
-    export interface Step {
-      /**
-       * Required percentage of traffic on the target deployment for this step.
-       */
-      traffic: number;
-
-      /**
-       * Optional explicit target replica count for this step.
-       */
-      replicas?: number;
-    }
-  }
-
-  /**
-   * Metric gate evaluated during a rollout.
-   */
-  export interface Metric {
-    /**
-     * Required catalogue key for the metric to gate on. `serving_latency` is retired.
-     */
-    name: 'inflight_requests' | 'router_error_rate' | 'router_latency';
-
-    /**
-     * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
-     */
-    percentile?: number;
-
-    /**
-     * Regression criteria that fail when the target regresses against the source
-     * beyond a limit.
-     */
-    regressionCheck?: Metric.RegressionCheck;
-
-    /**
-     * Aggregation used for the metric. Optional for router_error_rate and
-     * inflight_requests; omitted values default to METRIC_STAT_TYPE_AVG. Required for
-     * router_latency, where AVG or PERCENTILE may be used.
-     */
-    stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
-
-    /**
-     * Threshold criteria that fail when the target metric violates the configured
-     * bound.
-     */
-    thresholdCheck?: Metric.ThresholdCheck;
-
-    /**
-     * Optional query window for the metric. Defaults to the step soak duration.
-     */
-    window?: string;
-  }
-
-  export namespace Metric {
-    /**
-     * Regression criteria that fail when the target regresses against the source
-     * beyond a limit.
-     */
-    export interface RegressionCheck {
-      /**
-       * Required direction that indicates whether higher or lower metric values are
-       * worse.
-       */
-      direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
-
-      /**
-       * Finite maximum allowed regression percentage, greater than or equal to 0.
-       * Omitting this value is read as 0. A value of 0 is the strictest budget; any
-       * regression fails, and exactly-at-budget passes.
-       */
-      maxRegressionPercent?: number;
-    }
-
-    /**
-     * Threshold criteria that fail when the target metric violates the configured
-     * bound.
-     */
-    export interface ThresholdCheck {
-      /**
-       * Required comparison operator applied to the target metric value.
-       */
-      operator:
-        | 'THRESHOLD_OPERATOR_GT'
-        | 'THRESHOLD_OPERATOR_GTE'
-        | 'THRESHOLD_OPERATOR_LT'
-        | 'THRESHOLD_OPERATOR_LTE';
-
-      /**
-       * Finite threshold value. Interpreted in the metric's unit: router_error_rate is a
-       * ratio in [0, 1], router_latency is milliseconds, and inflight_requests is
-       * in-flight requests per ready replica averaged over the rule window. Thresholds
-       * that no achievable value could pass, or that every achievable value passes, are
-       * rejected at create.
-       *
-       * Omitting this value is read as 0. Set 0 explicitly for the strictest threshold:
-       * nothing at all is tolerated.
-       */
-      value?: number;
-    }
-  }
-
-  /**
-   * Rolling strategy configuration for capacity-preserving batches that ramp target
-   * replicas up while draining source replicas.
-   */
-  export interface Rolling {}
+  rolling?: RollingConfig;
 }
 
 export interface RolloutPromoteParams {
@@ -1666,8 +1163,20 @@ export interface RolloutStartParams {
 
 export declare namespace Rollouts {
   export {
+    type BlueGreenConfig as BlueGreenConfig,
+    type CanaryConfig as CanaryConfig,
+    type MetricResult as MetricResult,
+    type MetricRule as MetricRule,
+    type PauseInfo as PauseInfo,
+    type RegressionCheck as RegressionCheck,
+    type RollingConfig as RollingConfig,
     type Rollout as Rollout,
+    type RolloutCondition as RolloutCondition,
     type RolloutDefaultsPreview as RolloutDefaultsPreview,
+    type RolloutStatus as RolloutStatus,
+    type RolloutStep as RolloutStep,
+    type RolloutStepStatus as RolloutStepStatus,
+    type ThresholdCheck as ThresholdCheck,
     type RolloutDeleteResponse as RolloutDeleteResponse,
     type RolloutsCursorPagination as RolloutsCursorPagination,
     type RolloutCreateParams as RolloutCreateParams,
