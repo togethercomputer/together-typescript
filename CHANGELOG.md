@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.54.0](https://github.com/togethercomputer/together-typescript/compare/v0.53.0...v0.54.0) (2026-09-16)
+
+
+### Features
+
+* **deployments:** expose autoscaling policies and reset semantics (MLE-7727) ([29079bc](https://github.com/togethercomputer/together-typescript/commit/29079bc22cc5240fe2288e9a8617514ce4694a4f))
+
 ## [0.53.0](https://github.com/togethercomputer/together-typescript/compare/v0.52.0...v0.53.0) (2026-09-15)
 
 
