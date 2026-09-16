@@ -335,11 +335,12 @@ export abstract class AbstractChatCompletionRunner<
       return this._emit('error', error);
     }
     if (error instanceof Error) {
+      // Note: this local must not be named `TogetherError`, or it shadows the
+      // imported class and `new TogetherError(...)` hits the temporal dead zone.
+      const togetherError: TogetherError = new TogetherError(error.message);
       // @ts-ignore
-      const TogetherError: TogetherError = new TogetherError(error.message);
-      // @ts-ignore
-      TogetherError.cause = error;
-      return this._emit('error', TogetherError);
+      togetherError.cause = error;
+      return this._emit('error', togetherError);
     }
     return this._emit('error', new TogetherError(String(error)));
   };
@@ -605,7 +606,7 @@ export abstract class AbstractChatCompletionRunner<
       if (!message) {
         throw new TogetherError(`missing message in ChatCompletion response`);
       }
-      if (!message.tool_calls) {
+      if (!message.tool_calls?.length) {
         return;
       }
 
