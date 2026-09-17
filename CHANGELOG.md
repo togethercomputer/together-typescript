@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.55.0](https://github.com/togethercomputer/together-typescript/compare/v0.54.0...v0.55.0) (2026-09-17)
+
+
+### Features
+
+* **deployments:** Add inactiveTimeout to deployments ([#644](https://github.com/togethercomputer/together-typescript/issues/644)) ([0d2f428](https://github.com/togethercomputer/together-typescript/commit/0d2f428c6cec4af8e826afd269a3a47771ab7ffb))
+
 ## [0.54.0](https://github.com/togethercomputer/together-typescript/compare/v0.53.0...v0.54.0) (2026-09-16)
 
 
