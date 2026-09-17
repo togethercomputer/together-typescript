@@ -76,6 +76,7 @@ describe('resource deployments', () => {
       config: 'config',
       configId: 'configId',
       enableLora: true,
+      inactiveTimeout: 0,
       model: 'model',
       modelId: 'modelId',
       modelRevisionId: 'modelRevisionId',
@@ -175,6 +176,7 @@ describe('resource deployments', () => {
         ],
       },
       etag: 'etag',
+      inactiveTimeout: 0,
       name: 'name',
     });
   });

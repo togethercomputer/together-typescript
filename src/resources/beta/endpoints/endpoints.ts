@@ -683,6 +683,12 @@ export interface EndpointDeployment {
   estimatedEffectiveTrafficShare?: number;
 
   /**
+   * Minutes without an inference request before the deployment stops automatically.
+   * Omitted or 0 means automatic stopping is disabled.
+   */
+  inactiveTimeout?: number;
+
+  /**
    * Placement controls where a deployment is scheduled.
    */
   placement?: EndpointDeployment.Inline | EndpointDeployment.Profile;

@@ -196,6 +196,12 @@ export interface DeploymentCreateParams {
   enableLora?: boolean;
 
   /**
+   * Body param: Inactive timeout in minutes. Use 0 or omit to disable automatic
+   * stopping; otherwise accepted values are 30 through 1440.
+   */
+  inactiveTimeout?: number;
+
+  /**
    * Body param: Model resource name in the form
    * `projects/{projectId}/models/{modelId}[/revisions/{revisionId}]`. Omit the
    * revision segment to pin the latest revision at creation time.
@@ -275,6 +281,12 @@ export interface DeploymentUpdateParams {
    * longer matches.
    */
   etag?: string;
+
+  /**
+   * Body param: Updated inactive timeout in minutes. Use 0 to disable automatic
+   * stopping; otherwise accepted values are 30 through 1440.
+   */
+  inactiveTimeout?: number;
 
   /**
    * Body param: Updated endpoint string.
