@@ -197,7 +197,7 @@ describe('resource rollouts', () => {
       finalTargetReplicas: 0,
       metrics: [
         {
-          name: 'inflight_requests',
+          name: 'router_latency',
           percentile: 95,
           regressionCheck: { direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE', maxRegressionPercent: 0 },
           stat: 'METRIC_STAT_TYPE_PERCENTILE',

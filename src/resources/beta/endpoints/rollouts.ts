@@ -202,7 +202,7 @@ export class Rollouts extends APIResource {
    *       },
    *       metrics: [
    *         {
-   *           name: 'serving_latency',
+   *           name: 'router_latency',
    *           stat: 'METRIC_STAT_TYPE_PERCENTILE',
    *           percentile: 95,
    *           thresholdCheck: {
