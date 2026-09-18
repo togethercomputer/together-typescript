@@ -520,6 +520,11 @@ export interface SupportedModel {
   outputFormat?: string;
 
   /**
+   * Serverless pricing in USD per one million tokens, if available.
+   */
+  pricing?: SupportedModel.Pricing;
+
+  /**
    * Serverless endpoint name for inference, if available.
    */
   serverlessEndpoint?: string;
@@ -528,6 +533,28 @@ export interface SupportedModel {
    * Searchable catalog tags for the model.
    */
   tags?: Array<string>;
+}
+
+export namespace SupportedModel {
+  /**
+   * Serverless pricing in USD per one million tokens, if available.
+   */
+  export interface Pricing {
+    /**
+     * Price in USD per one million cached input tokens.
+     */
+    cachedInput?: number;
+
+    /**
+     * Price in USD per one million input tokens.
+     */
+    input?: number;
+
+    /**
+     * Price in USD per one million output tokens.
+     */
+    output?: number;
+  }
 }
 
 /**
