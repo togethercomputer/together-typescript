@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.56.0](https://github.com/togethercomputer/together-typescript/compare/v0.55.0...v0.56.0) (2026-09-18)
+
+
+### Features
+
+* **supported-models:** expose serverless pricing ([1c96d54](https://github.com/togethercomputer/together-typescript/commit/1c96d542aebe74fa865125b4d8e8948b53ae97a7))
+
+
+### Bug Fixes
+
+* use valid metric in rollout preview examples ([7f91f8a](https://github.com/togethercomputer/together-typescript/commit/7f91f8a382e7c0d08995b1ae3657248ea0124497))
+
 ## [0.55.0](https://github.com/togethercomputer/together-typescript/compare/v0.54.0...v0.55.0) (2026-09-17)
 
 
