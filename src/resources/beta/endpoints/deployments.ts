@@ -191,11 +191,6 @@ export interface DeploymentCreateParams {
   configId?: string;
 
   /**
-   * Body param: Enables dynamic loading of LoRA adapters on the deployment.
-   */
-  enableLora?: boolean;
-
-  /**
    * Body param: Inactive timeout in minutes. Use 0 or omit to disable automatic
    * stopping; otherwise accepted values are 30 through 1440.
    */

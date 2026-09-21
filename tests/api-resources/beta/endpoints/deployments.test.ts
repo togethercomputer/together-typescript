@@ -75,7 +75,6 @@ describe('resource deployments', () => {
       validateOnly: true,
       config: 'config',
       configId: 'configId',
-      enableLora: true,
       inactiveTimeout: 0,
       model: 'model',
       modelId: 'modelId',

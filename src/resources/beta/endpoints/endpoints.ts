@@ -672,11 +672,6 @@ export interface EndpointDeployment {
   desiredReplicas?: number;
 
   /**
-   * Whether the deployment can dynamically load LoRA adapters.
-   */
-  enableLora?: boolean;
-
-  /**
    * Estimated fraction in [0, 1] of endpoint traffic that reaches this deployment
    * under the current routing configuration. Absent or unrouted deployments are 0.
    */
