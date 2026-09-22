@@ -149,6 +149,13 @@ export interface Deployment {
     | Deployment.CustomMetricAutoscalingConfig;
 
   /**
+   * Controls how replicas above reserved capacity behave. `stable` replicas stay
+   * running after scale-up; `preemptible` replicas may be evicted during capacity
+   * contention.
+   */
+  capacity_type?: 'stable' | 'preemptible';
+
+  /**
    * Command is the entrypoint command run in the container
    */
   command?: Array<string>;
@@ -461,6 +468,13 @@ export interface JigUpdateParams {
     | JigUpdateParams.CustomMetricAutoscalingConfig;
 
   /**
+   * Controls how replicas above reserved capacity behave. `stable` replicas stay
+   * running after scale-up; `preemptible` replicas may be evicted during capacity
+   * contention.
+   */
+  capacity_type?: 'stable' | 'preemptible';
+
+  /**
    * Command overrides the container's ENTRYPOINT. Provide as an array (e.g.,
    * ["/bin/sh", "-c"])
    */
@@ -689,6 +703,13 @@ export interface JigDeployParams {
     | JigDeployParams.HTTPAutoscalingConfig
     | JigDeployParams.QueueAutoscalingConfig
     | JigDeployParams.CustomMetricAutoscalingConfig;
+
+  /**
+   * Controls how replicas above reserved capacity behave. `stable` replicas stay
+   * running after scale-up; `preemptible` replicas may be evicted during capacity
+   * contention.
+   */
+  capacity_type?: 'stable' | 'preemptible';
 
   /**
    * Command overrides the container's ENTRYPOINT. Provide as an array (e.g.,
