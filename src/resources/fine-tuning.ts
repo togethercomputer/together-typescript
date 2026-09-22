@@ -488,6 +488,11 @@ export namespace FinetuneModelLimits {
    */
   export interface LoraTraining {
     /**
+     * Default LoRA rank applied when a fine-tune request omits training_type.
+     */
+    default_rank: number;
+
+    /**
      * Maximum batch size for SFT LoRA training.
      */
     max_batch_size: number;
