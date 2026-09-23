@@ -28,6 +28,7 @@ describe('resource storage', () => {
       region: 'region',
       size_tib: 0,
       volume_name: 'volume_name',
+      instance_cluster_id: 'instance_cluster_id',
       is_lifecycle_independent: true,
       project_id: 'project_id',
     });

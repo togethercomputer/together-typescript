@@ -1381,6 +1381,11 @@ export namespace ClusterCreateParams {
     volume_name: string;
 
     /**
+     * Cluster ID to pin the volume to the same substrate as that GPU cluster.
+     */
+    instance_cluster_id?: string;
+
+    /**
      * When true, the shared volume is not deleted when the cluster is decommissioned.
      */
     is_lifecycle_independent?: boolean;
