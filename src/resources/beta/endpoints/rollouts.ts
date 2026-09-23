@@ -647,8 +647,9 @@ export interface RolloutDefaultsPreview {
   targetReplicas: number;
 
   /**
-   * Non-blocking findings to surface next to the form. An empty list means the shown
-   * values are safe to submit as-is.
+   * Findings to surface next to the form when a later gate will refuse the spec or a
+   * standing guarantee is lost. An empty list means the shown values are safe to
+   * submit as-is; render message for unrecognized codes.
    */
   warnings: Array<RolloutDefaultsPreview.Warning>;
 
@@ -671,6 +672,18 @@ export interface RolloutDefaultsPreview {
    * split shapes that StartRollout will still reject.
    */
   frozenPair?: boolean;
+
+  /**
+   * Expected autoscaling maximum replicas for the completed target; unset while the
+   * final target replicas cannot be resolved.
+   */
+  landingMaxReplicas?: number;
+
+  /**
+   * Expected autoscaling minimum replicas for the completed target; unset while the
+   * final target replicas cannot be resolved.
+   */
+  landingMinReplicas?: number;
 }
 
 export namespace RolloutDefaultsPreview {
@@ -739,13 +752,14 @@ export namespace RolloutDefaultsPreview {
   }
 
   /**
-   * A non-blocking finding attached to a rollout defaults preview.
+   * A non-blocking finding attached to a rollout defaults preview; expected
+   * end-state facts are structured fields on RolloutDefaultsPreview.
    */
   export interface Warning {
     /**
-     * Machine-readable warning code, such as START_WILL_REJECT,
-     * ROLLOUT_WILL_RAISE_TARGET_MAX, FINAL_BELOW_INHERITED_MIN, or
-     * FINAL_BELOW_SOURCE_MIN. Render message for unrecognized codes.
+     * Machine-readable warning code. Current vocabulary is START_WILL_REJECT,
+     * FINAL_BELOW_SOURCE_MIN, and FIRST_STEP_AT_SEED; render message for unrecognized
+     * codes.
      */
     code: string;
 
