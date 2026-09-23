@@ -97,12 +97,61 @@ export namespace InferenceInstanceType {
     name: string;
 
     /**
+     * Compliance regimes certified in this region with best-effort headroom for each
+     * policy. Entries can overlap; read the entry matching the deployment policy
+     * instead of summing entries.
+     */
+    compliance?: Array<Region.Compliance>;
+
+    /**
      * Best-effort estimate of how many additional replicas currently fit in a region.
      */
     headroom?: Region.Headroom;
   }
 
   export namespace Region {
+    /**
+     * Compliance-specific regional availability for one instance type policy.
+     */
+    export interface Compliance {
+      /**
+       * Best-effort estimate of how many additional replicas currently fit in a region.
+       */
+      headroom: Compliance.Headroom;
+
+      /**
+       * Compliance regimes required by a deployment placement policy.
+       */
+      policy: Compliance.Policy;
+    }
+
+    export namespace Compliance {
+      /**
+       * Best-effort estimate of how many additional replicas currently fit in a region.
+       */
+      export interface Headroom {
+        /**
+         * Whether the value is exact or a lower bound.
+         */
+        relation: 'RELATION_EQ' | 'RELATION_GTE';
+
+        /**
+         * Capped count of replicas that currently fit.
+         */
+        value?: number;
+      }
+
+      /**
+       * Compliance regimes required by a deployment placement policy.
+       */
+      export interface Policy {
+        /**
+         * Restrict placement to HIPAA-attested clusters.
+         */
+        hipaa?: boolean;
+      }
+    }
+
     /**
      * Best-effort estimate of how many additional replicas currently fit in a region.
      */
