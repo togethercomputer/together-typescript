@@ -806,8 +806,9 @@ export namespace FinetuneResponse {
     /**
      * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
      * expert modules (`w_up`, `w_gate`, `w_down`) can be combined with attention
-     * modules on compatible models. Fine-tunes that target any expert module produce
-     * adapter-only output.
+     * modules on compatible models. Fine-tuning jobs that target expert modules
+     * produce adapter-only output unless the selected model supports merged expert
+     * LoRA output.
      */
     lora_trainable_modules?: string;
   }
@@ -1118,8 +1119,9 @@ export namespace FineTuningCreateResponse {
     /**
      * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
      * expert modules (`w_up`, `w_gate`, `w_down`) can be combined with attention
-     * modules on compatible models. Fine-tunes that target any expert module produce
-     * adapter-only output.
+     * modules on compatible models. Fine-tuning jobs that target expert modules
+     * produce adapter-only output unless the selected model supports merged expert
+     * LoRA output.
      */
     lora_trainable_modules?: string;
   }
@@ -1435,8 +1437,9 @@ export namespace FineTuningListResponse {
       /**
        * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
        * expert modules (`w_up`, `w_gate`, `w_down`) can be combined with attention
-       * modules on compatible models. Fine-tunes that target any expert module produce
-       * adapter-only output.
+       * modules on compatible models. Fine-tuning jobs that target expert modules
+       * produce adapter-only output unless the selected model supports merged expert
+       * LoRA output.
        */
       lora_trainable_modules?: string;
     }
@@ -1755,8 +1758,9 @@ export namespace FineTuningCancelResponse {
     /**
      * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
      * expert modules (`w_up`, `w_gate`, `w_down`) can be combined with attention
-     * modules on compatible models. Fine-tunes that target any expert module produce
-     * adapter-only output.
+     * modules on compatible models. Fine-tuning jobs that target expert modules
+     * produce adapter-only output unless the selected model supports merged expert
+     * LoRA output.
      */
     lora_trainable_modules?: string;
   }
@@ -2177,8 +2181,9 @@ export namespace FineTuningCreateParams {
     /**
      * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
      * expert modules (`w_up`, `w_gate`, `w_down`) can be combined with attention
-     * modules on compatible models. Fine-tunes that target any expert module produce
-     * adapter-only output.
+     * modules on compatible models. Fine-tuning jobs that target expert modules
+     * produce adapter-only output unless the selected model supports merged expert
+     * LoRA output.
      */
     lora_trainable_modules?: string;
   }
@@ -2319,8 +2324,9 @@ export namespace FineTuningEstimatePriceParams {
     /**
      * Comma-separated LoRA target modules. Use `all-linear` for model defaults; MoE
      * expert modules (`w_up`, `w_gate`, `w_down`) can be combined with attention
-     * modules on compatible models. Fine-tunes that target any expert module produce
-     * adapter-only output.
+     * modules on compatible models. Fine-tuning jobs that target expert modules
+     * produce adapter-only output unless the selected model supports merged expert
+     * LoRA output.
      */
     lora_trainable_modules?: string;
   }
