@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.56.0](https://github.com/togethercomputer/together-typescript/compare/v0.55.0...v0.56.0) (2026-09-25)
+
+
+### Features
+
+* add deployment capacity type ([4a0a274](https://github.com/togethercomputer/together-typescript/commit/4a0a274ee86d3f0c3910697f29b8a47833c28c92))
+* add DPPO loss to RL OpenAPI ([058dc85](https://github.com/togethercomputer/together-typescript/commit/058dc8509278a8ae871641ea8ef8ffff0be5e1d1))
+* **supported-models:** expose serverless pricing ([1c96d54](https://github.com/togethercomputer/together-typescript/commit/1c96d542aebe74fa865125b4d8e8948b53ae97a7))
+* sync rollout preview landing band fields ([6a6a365](https://github.com/togethercomputer/together-typescript/commit/6a6a36590a84ec177258c71457c9e48325c4d1f5))
+* sync shared volume cluster pinning ([d2a5b7c](https://github.com/togethercomputer/together-typescript/commit/d2a5b7c5e3aa829391cb1e277f4c7f98027adf05))
+
+
+### Bug Fixes
+
+* **endpoints:** Drop unsupported `enableLora` parameter from deployment schemas ([7503a96](https://github.com/togethercomputer/together-typescript/commit/7503a966a7e79ef075e8c42da52723d8764d2f19))
+* use valid metric in rollout preview examples ([7f91f8a](https://github.com/togethercomputer/together-typescript/commit/7f91f8a382e7c0d08995b1ae3657248ea0124497))
+
+
+### Documentation
+
+* **openapi:** clarify expert LoRA merge output ([44502b7](https://github.com/togethercomputer/together-typescript/commit/44502b72cdfa80998045a750667d86a2cb5657ce))
+
 ## [0.55.0](https://github.com/togethercomputer/together-typescript/compare/v0.54.0...v0.55.0) (2026-09-17)
 
 
