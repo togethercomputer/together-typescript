@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.57.0](https://github.com/togethercomputer/together-typescript/compare/v0.56.0...v0.57.0) (2026-09-25)
+
+
+### Features
+
+* **rl:** Add SDK methods for the new Reinforcement Learning product ([038f159](https://github.com/togethercomputer/together-typescript/commit/038f15904dbccc5b9fb2d531d476e6b7c19bcf7f))
+
 ## [0.56.0](https://github.com/togethercomputer/together-typescript/compare/v0.55.0...v0.56.0) (2026-09-25)
 
 
