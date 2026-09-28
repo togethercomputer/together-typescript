@@ -224,6 +224,11 @@ export interface Deployment {
   min_replicas?: number;
 
   /**
+   * Model weights mounted into this deployment, including the pinned revisions.
+   */
+  model_mounts?: Array<Deployment.ModelMount>;
+
+  /**
    * Name is the name of the deployment
    */
   name?: string;
@@ -360,6 +365,24 @@ export namespace Deployment {
      * must be set, but not both
      */
     value_from_secret?: string;
+  }
+
+  export interface ModelMount {
+    /**
+     * Model registry identifier (`ml_...`) whose weights are mounted.
+     */
+    model_id: string;
+
+    /**
+     * Container path where model weights are mounted, such as `/models`.
+     */
+    mount_path: string;
+
+    /**
+     * Optional validated revision identifier (`rv_...`) to pin; defaults to the latest
+     * validated revision.
+     */
+    revision_id?: string;
   }
 
   export interface ReplicaEvents {
@@ -535,6 +558,12 @@ export interface JigUpdateParams {
   min_replicas?: number;
 
   /**
+   * Replacement model weights to mount into the deployment. At most one mount is
+   * supported, and it cannot be used with volumes.
+   */
+  model_mounts?: Array<JigUpdateParams.ModelMount>;
+
+  /**
    * Name is the new unique identifier for your deployment. Must contain only
    * alphanumeric characters, underscores, or hyphens (1-100 characters)
    */
@@ -648,6 +677,24 @@ export namespace JigUpdateParams {
      * must be set, but not both
      */
     value_from_secret?: string;
+  }
+
+  export interface ModelMount {
+    /**
+     * Model registry identifier (`ml_...`) whose weights are mounted.
+     */
+    model_id: string;
+
+    /**
+     * Container path where model weights are mounted, such as `/models`.
+     */
+    mount_path: string;
+
+    /**
+     * Optional validated revision identifier (`rv_...`) to pin; defaults to the latest
+     * validated revision.
+     */
+    revision_id?: string;
   }
 
   export interface Volume {
@@ -765,6 +812,12 @@ export interface JigDeployParams {
   min_replicas?: number;
 
   /**
+   * Model weights to preload from Together's model registry into the container. At
+   * most one mount is supported, and it cannot be used with volumes.
+   */
+  model_mounts?: Array<JigDeployParams.ModelMount>;
+
+  /**
    * Port is the container port your application listens on (e.g., 8080 for web
    * servers). Required if your application serves traffic
    */
@@ -872,6 +925,24 @@ export namespace JigDeployParams {
      * must be set, but not both
      */
     value_from_secret?: string;
+  }
+
+  export interface ModelMount {
+    /**
+     * Model registry identifier (`ml_...`) whose weights are mounted.
+     */
+    model_id: string;
+
+    /**
+     * Container path where model weights are mounted, such as `/models`.
+     */
+    mount_path: string;
+
+    /**
+     * Optional validated revision identifier (`rv_...`) to pin; defaults to the latest
+     * validated revision.
+     */
+    revision_id?: string;
   }
 
   export interface Volume {

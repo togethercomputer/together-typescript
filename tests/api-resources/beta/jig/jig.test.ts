@@ -83,6 +83,13 @@ describe('resource jig', () => {
       max_replicas: 0,
       memory: 1000,
       min_replicas: 0,
+      model_mounts: [
+        {
+          model_id: 'ml_CbJNwQC2ZqCU2iFT3mrCh',
+          mount_path: '/models',
+          revision_id: 'rv_8kQ2mN4pL7xR9tV1wY3zA',
+        },
+      ],
       port: 1,
       storage: 400,
       termination_grace_period_seconds: 0,
