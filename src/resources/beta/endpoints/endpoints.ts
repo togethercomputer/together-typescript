@@ -684,6 +684,15 @@ export interface EndpointDeployment {
   inactiveTimeout?: number;
 
   /**
+   * Maximum number of inference requests that may be in flight to a single replica.
+   * If omitted, the platform uses one less than the config's per-replica concurrency
+   * limit to reserve a health-check slot. Values above that maximum are reduced on
+   * create and update; 0 means unlimited when the config limit is 1 or less. Changes
+   * take effect without restarting replicas.
+   */
+  maxConcurrentRequestsPerReplica?: string;
+
+  /**
    * Placement controls where a deployment is scheduled.
    */
   placement?: EndpointDeployment.Inline | EndpointDeployment.Profile;

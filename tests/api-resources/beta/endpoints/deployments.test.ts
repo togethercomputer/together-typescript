@@ -76,6 +76,7 @@ describe('resource deployments', () => {
       config: 'config',
       configId: 'configId',
       inactiveTimeout: 0,
+      maxConcurrentRequestsPerReplica: 'maxConcurrentRequestsPerReplica',
       model: 'model',
       modelId: 'modelId',
       modelRevisionId: 'modelRevisionId',
@@ -176,6 +177,7 @@ describe('resource deployments', () => {
       },
       etag: 'etag',
       inactiveTimeout: 0,
+      maxConcurrentRequestsPerReplica: 'maxConcurrentRequestsPerReplica',
       name: 'name',
     });
   });
