@@ -667,7 +667,9 @@ export interface EndpointDeployment {
   updatedAt: string;
 
   /**
-   * Number of replicas the autoscaler currently wants across all regions.
+   * Number of replicas the autoscaler currently wants across all regions. Not
+   * settable on any request; steer it through `autoscaling.minReplicas` and
+   * `autoscaling.maxReplicas`.
    */
   desiredReplicas?: number;
 
