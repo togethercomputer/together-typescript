@@ -304,7 +304,10 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/beta/jig/volumes.ts">S3Origin</a></code>
 - <code><a href="./src/resources/beta/jig/volumes.ts">Volume</a></code>
+- <code><a href="./src/resources/beta/jig/volumes.ts">VolumeOrigin</a></code>
+- <code><a href="./src/resources/beta/jig/volumes.ts">VolumeStatus</a></code>
 - <code><a href="./src/resources/beta/jig/volumes.ts">VolumeListResponse</a></code>
 - <code><a href="./src/resources/beta/jig/volumes.ts">VolumeDeleteResponse</a></code>
 

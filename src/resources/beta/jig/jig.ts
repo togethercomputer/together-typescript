@@ -26,11 +26,14 @@ import {
 } from './secrets';
 import * as VolumesAPI from './volumes';
 import {
+  S3Origin,
   Volume as VolumesAPIVolume,
   VolumeCreateParams,
   VolumeDeleteResponse,
   VolumeListResponse,
+  VolumeOrigin,
   VolumeRetrieveParams,
+  VolumeStatus,
   VolumeUpdateParams,
   Volumes,
 } from './volumes';
@@ -1015,7 +1018,10 @@ export declare namespace Jig {
 
   export {
     Volumes as Volumes,
+    type S3Origin as S3Origin,
     type VolumesAPIVolume as Volume,
+    type VolumeOrigin as VolumeOrigin,
+    type VolumeStatus as VolumeStatus,
     type VolumeListResponse as VolumeListResponse,
     type VolumeDeleteResponse as VolumeDeleteResponse,
     type VolumeCreateParams as VolumeCreateParams,

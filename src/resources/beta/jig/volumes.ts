@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
+import * as VolumesAPI from './volumes';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
@@ -75,12 +76,30 @@ export class Volumes extends APIResource {
   }
 }
 
+/**
+ * S3 source configuration for volume sync.
+ */
+export interface S3Origin {
+  /**
+   * IAM role ARN Together assumes to read the S3 bucket or prefix.
+   */
+  role_arn: string;
+
+  /**
+   * S3 bucket or prefix to copy into the volume.
+   */
+  uri: string;
+}
+
 export interface Volume {
   /**
    * ID is the unique identifier for this volume
    */
   id?: string;
 
+  /**
+   * Content currently available on a volume version.
+   */
   content?: Volume.Content;
 
   /**
@@ -109,6 +128,16 @@ export interface Volume {
    */
   object?: string;
 
+  /**
+   * Status of the current volume version.
+   */
+  status?: VolumeStatus;
+
+  /**
+   * Message explaining why the current volume version failed, when applicable.
+   */
+  status_message?: string;
+
   type?: 'readOnly';
 
   /**
@@ -124,12 +153,20 @@ export interface Volume {
 }
 
 export namespace Volume {
+  /**
+   * Content currently available on a volume version.
+   */
   export interface Content {
     /**
      * Files is the list of files to preload into the volume, if the volume content
      * type is "files".
      */
     files?: Array<Content.File>;
+
+    /**
+     * External source Together copied into this volume version.
+     */
+    origin?: VolumesAPI.VolumeOrigin;
 
     /**
      * SourcePrefix is the file path prefix for the content to be preloaded into the
@@ -163,25 +200,50 @@ export namespace Volume {
     }
   }
 
+  /**
+   * Metadata for a previous volume version.
+   */
   export interface VersionHistory {
     /**
-     * Content specifies the new content to preload to this volume.
+     * Content configuration used to create this version.
      */
     content?: VersionHistory.Content;
 
+    /**
+     * Deployment IDs currently mounting this version.
+     */
     mounted_by?: Array<string>;
 
+    /**
+     * Status of this volume version.
+     */
+    status?: VolumesAPI.VolumeStatus;
+
+    /**
+     * Message explaining why this volume version failed, when applicable.
+     */
+    status_message?: string;
+
+    /**
+     * Numeric version identifier for this volume content.
+     */
     version?: number;
   }
 
   export namespace VersionHistory {
     /**
-     * Content specifies the new content to preload to this volume.
+     * Content configuration used to create this version.
      */
     export interface Content {
       /**
+       * External source Together copies into a new volume version; mutually exclusive
+       * with source_prefix.
+       */
+      origin?: VolumesAPI.VolumeOrigin;
+
+      /**
        * SourcePrefix is the file path prefix for the content to be preloaded into the
-       * volume
+       * volume. Mutually exclusive with Origin
        */
       source_prefix?: string;
 
@@ -193,6 +255,21 @@ export namespace Volume {
     }
   }
 }
+
+/**
+ * External source Together copies into a new volume version.
+ */
+export interface VolumeOrigin {
+  /**
+   * S3 bucket or prefix source for the volume sync.
+   */
+  s3: S3Origin;
+}
+
+/**
+ * Status of a volume version. Only ready versions can be mounted.
+ */
+export type VolumeStatus = 'ready' | 'pending' | 'syncing' | 'failed';
 
 export interface VolumeListResponse {
   /**
@@ -231,8 +308,14 @@ export namespace VolumeCreateParams {
    */
   export interface Content {
     /**
+     * External source Together copies into a new volume version; mutually exclusive
+     * with source_prefix.
+     */
+    origin?: VolumesAPI.VolumeOrigin;
+
+    /**
      * SourcePrefix is the file path prefix for the content to be preloaded into the
-     * volume
+     * volume. Mutually exclusive with Origin
      */
     source_prefix?: string;
 
@@ -274,8 +357,14 @@ export namespace VolumeUpdateParams {
    */
   export interface Content {
     /**
+     * External source Together copies into a new volume version; mutually exclusive
+     * with source_prefix.
+     */
+    origin?: VolumesAPI.VolumeOrigin;
+
+    /**
      * SourcePrefix is the file path prefix for the content to be preloaded into the
-     * volume
+     * volume. Mutually exclusive with Origin
      */
     source_prefix?: string;
 
@@ -289,7 +378,10 @@ export namespace VolumeUpdateParams {
 
 export declare namespace Volumes {
   export {
+    type S3Origin as S3Origin,
     type Volume as Volume,
+    type VolumeOrigin as VolumeOrigin,
+    type VolumeStatus as VolumeStatus,
     type VolumeListResponse as VolumeListResponse,
     type VolumeDeleteResponse as VolumeDeleteResponse,
     type VolumeCreateParams as VolumeCreateParams,

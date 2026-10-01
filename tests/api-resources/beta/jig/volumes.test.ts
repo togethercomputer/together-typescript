@@ -25,7 +25,16 @@ describe('resource volumes', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.beta.jig.volumes.create({
-      content: { source_prefix: 'models/', type: 'files' },
+      content: {
+        origin: {
+          s3: {
+            role_arn: 'arn:aws:iam::123456789012:role/together-volumes',
+            uri: 's3://my-bucket/models/custom-weights',
+          },
+        },
+        source_prefix: 'models/',
+        type: 'files',
+      },
       name: 'x',
       type: 'readOnly',
     });

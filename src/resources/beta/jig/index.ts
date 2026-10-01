@@ -34,7 +34,10 @@ export {
 } from './secrets';
 export {
   Volumes,
+  type S3Origin,
   type Volume,
+  type VolumeOrigin,
+  type VolumeStatus,
   type VolumeListResponse,
   type VolumeDeleteResponse,
   type VolumeCreateParams,
