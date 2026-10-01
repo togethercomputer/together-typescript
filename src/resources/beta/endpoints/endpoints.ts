@@ -491,6 +491,11 @@ export interface DeploymentStatus {
     | 'DEPLOYMENT_STATE_STOPPING';
 
   /**
+   * Deployment status broken down by each supported dimension.
+   */
+  details?: DeploymentStatus.Details;
+
+  /**
    * Total replicas actively serving traffic across all clusters.
    */
   readyReplicas?: number;
@@ -499,6 +504,41 @@ export interface DeploymentStatus {
    * Replicas the scheduler has placed on clusters.
    */
   scheduledReplicas?: number;
+}
+
+export namespace DeploymentStatus {
+  /**
+   * Deployment status broken down by each supported dimension.
+   */
+  export interface Details {
+    /**
+     * Regions where the deployment is actually scheduled or serving replicas, sorted
+     * by region.
+     */
+    region: Array<Details.Region>;
+  }
+
+  export namespace Details {
+    /**
+     * Realized scheduled and ready replica counts for one deployment region.
+     */
+    export interface Region {
+      /**
+       * Replicas serving traffic in this region.
+       */
+      readyReplicas: number;
+
+      /**
+       * Region name using the same vocabulary accepted by inline placement regions.
+       */
+      region: string;
+
+      /**
+       * Replicas the scheduler has placed in this region.
+       */
+      scheduledReplicas: number;
+    }
+  }
 }
 
 /**
