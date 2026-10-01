@@ -67,11 +67,17 @@ import {
   ContainerDeploymentStatus,
   Deployment,
   DeploymentLogs,
+  DeploymentRevision,
+  DeploymentRevisionEvent,
+  DeploymentRevisionEventList,
   Jig,
   JigDeployParams,
   JigDestroyResponse,
   JigListResponse,
+  JigListRevisionsParams,
   JigRetrieveLogsParams,
+  JigRetrieveRevisionParams,
+  JigRollbackParams,
   JigUpdateParams,
 } from './jig/jig';
 import * as ModelsAPI from './models/models';
@@ -199,11 +205,17 @@ export declare namespace Beta {
     type ContainerDeploymentStatus as ContainerDeploymentStatus,
     type Deployment as Deployment,
     type DeploymentLogs as DeploymentLogs,
+    type DeploymentRevision as DeploymentRevision,
+    type DeploymentRevisionEvent as DeploymentRevisionEvent,
+    type DeploymentRevisionEventList as DeploymentRevisionEventList,
     type JigListResponse as JigListResponse,
     type JigDestroyResponse as JigDestroyResponse,
     type JigUpdateParams as JigUpdateParams,
     type JigDeployParams as JigDeployParams,
+    type JigListRevisionsParams as JigListRevisionsParams,
     type JigRetrieveLogsParams as JigRetrieveLogsParams,
+    type JigRetrieveRevisionParams as JigRetrieveRevisionParams,
+    type JigRollbackParams as JigRollbackParams,
   };
 
   export {

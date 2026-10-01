@@ -111,6 +111,25 @@ export class Jig extends APIResource {
   }
 
   /**
+   * Returns the revision history of the deployment, in descending order. Defaults to
+   * the most recent events. Only the 200 most recent events are retained per
+   * deployment; paginating past that returns an empty list.
+   *
+   * @example
+   * ```ts
+   * const deploymentRevisionEventList =
+   *   await client.beta.jig.listRevisions('id');
+   * ```
+   */
+  listRevisions(
+    id: string,
+    query: JigListRevisionsParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<DeploymentRevisionEventList> {
+    return this._client.get(path`/deployments/${id}/revisions`, { query, ...options });
+  }
+
+  /**
    * Retrieve logs from a deployment, optionally filtered by replica ID.
    *
    * @example
@@ -126,6 +145,47 @@ export class Jig extends APIResource {
     options?: RequestOptions,
   ): APIPromise<DeploymentLogs> {
     return this._client.get(path`/deployments/${id}/logs`, { query, ...options });
+  }
+
+  /**
+   * Returns the deployment configuration defined by the specified revision. Only the
+   * 50 most recent revisions per deployment retain their configuration; older
+   * revisions return 404 even while they still appear in the revision history. The
+   * deployment's currently active revision is always available, regardless of age.
+   *
+   * @example
+   * ```ts
+   * const deploymentRevision =
+   *   await client.beta.jig.retrieveRevision(
+   *     'revisionIdentifier',
+   *     { id: 'id' },
+   *   );
+   * ```
+   */
+  retrieveRevision(
+    revisionIdentifier: string,
+    params: JigRetrieveRevisionParams,
+    options?: RequestOptions,
+  ): APIPromise<DeploymentRevision> {
+    const { id } = params;
+    return this._client.get(path`/deployments/${id}/revisions/${revisionIdentifier}`, options);
+  }
+
+  /**
+   * Re-applies the spec of a previous revision. Pods running the target revision
+   * will be retained. Other pods will be drained and restarted with the target
+   * revision. Only the 50 most recent revisions per deployment can be rolled back
+   * to; older targets return 404.
+   *
+   * @example
+   * ```ts
+   * const deployment = await client.beta.jig.rollback('id', {
+   *   revision_identifier: 'revision_identifier',
+   * });
+   * ```
+   */
+  rollback(id: string, body: JigRollbackParams, options?: RequestOptions): APIPromise<Deployment> {
+    return this._client.post(path`/deployments/${id}/rollback`, { body, ...options });
   }
 }
 
@@ -462,6 +522,279 @@ export namespace Deployment {
 
 export interface DeploymentLogs {
   lines?: Array<string>;
+}
+
+/**
+ * Deployment configuration captured for one retained revision.
+ */
+export interface DeploymentRevision {
+  /**
+   * Arguments passed to the container command.
+   */
+  args: Array<string>;
+
+  /**
+   * Capacity behavior for replicas above reserved capacity.
+   */
+  capacity_type: 'stable' | 'preemptible';
+
+  /**
+   * Entrypoint command run by the container.
+   */
+  command: Array<string>;
+
+  /**
+   * CPU cores allocated to each replica.
+   */
+  cpu: number;
+
+  /**
+   * Time when this revision was created.
+   */
+  created_at: string;
+
+  /**
+   * Environment variables configured on this revision.
+   */
+  environment_variables: Array<DeploymentRevision.EnvironmentVariable>;
+
+  /**
+   * Number of GPUs allocated to each replica.
+   */
+  gpu_count: number;
+
+  /**
+   * GPU hardware type configured for this revision.
+   */
+  gpu_type: string;
+
+  /**
+   * HTTP path used for health checks.
+   */
+  health_check_path: string;
+
+  /**
+   * Container image used by this revision.
+   */
+  image: string;
+
+  /**
+   * Maximum number of replicas configured for this revision.
+   */
+  max_replicas: number;
+
+  /**
+   * Memory allocated to each replica in GiB.
+   */
+  memory: number;
+
+  /**
+   * Minimum number of replicas configured for this revision.
+   */
+  min_replicas: number;
+
+  /**
+   * The object type, which is always `revision`.
+   */
+  object: 'revision';
+
+  /**
+   * Container port exposed by this revision.
+   */
+  port: number;
+
+  /**
+   * Network protocol served by the deployment revision.
+   */
+  protocol: string;
+
+  /**
+   * Unique revision identifier.
+   */
+  revision_id: string;
+
+  /**
+   * Ephemeral storage allocated to each replica.
+   */
+  storage: number;
+
+  /**
+   * Volume mounts attached to this revision.
+   */
+  volumes: Array<DeploymentRevision.Volume>;
+
+  /**
+   * Autoscaling configuration captured for this revision.
+   */
+  autoscaling?:
+    | DeploymentRevision.HTTPAutoscalingConfig
+    | DeploymentRevision.QueueAutoscalingConfig
+    | DeploymentRevision.CustomMetricAutoscalingConfig;
+
+  /**
+   * Seconds to wait for graceful shutdown before forcefully terminating a replica.
+   */
+  termination_grace_period_seconds?: number;
+}
+
+export namespace DeploymentRevision {
+  export interface EnvironmentVariable {
+    /**
+     * Name is the environment variable name (e.g., "DATABASE_URL"). Must start with a
+     * letter or underscore, followed by letters, numbers, or underscores
+     */
+    name: string;
+
+    /**
+     * Value is the plain text value for the environment variable. Use this for
+     * non-sensitive values. Either Value or ValueFromSecret must be set, but not both
+     */
+    value?: string;
+
+    /**
+     * ValueFromSecret references a secret by name or ID to use as the value. Use this
+     * for sensitive values like API keys or passwords. Either Value or ValueFromSecret
+     * must be set, but not both
+     */
+    value_from_secret?: string;
+  }
+
+  export interface Volume {
+    /**
+     * MountPath is the path in the container where the volume mounts (e.g., "/data").
+     */
+    mount_path: string;
+
+    /**
+     * Name is the name of the volume to mount. Must reference an existing volume by
+     * name or ID
+     */
+    name: string;
+
+    /**
+     * Version is the volume version to mount. On create, defaults to the latest
+     * version. On update, defaults to the currently mounted version.
+     */
+    version?: number;
+  }
+
+  /**
+   * Autoscaling config for HTTPTotalRequests and HTTPAvgRequestDuration metrics
+   */
+  export interface HTTPAutoscalingConfig {
+    /**
+     * Metric must be HTTPTotalRequests or HTTPAvgRequestDuration
+     */
+    metric?: 'HTTPTotalRequests' | 'HTTPAvgRequestDuration';
+
+    /**
+     * Target is the threshold value. Default: 100 for HTTPTotalRequests, 500 (ms) for
+     * HTTPAvgRequestDuration
+     */
+    target?: number;
+
+    /**
+     * TimeIntervalMinutes is the rate window in minutes. Default: 10
+     */
+    time_interval_minutes?: number;
+  }
+
+  /**
+   * Autoscaling config for QueueBacklogPerWorker metric
+   */
+  export interface QueueAutoscalingConfig {
+    /**
+     * Metric must be QueueBacklogPerWorker
+     */
+    metric?: 'QueueBacklogPerWorker';
+
+    /**
+     * Model overrides the model name for queue status lookup. Defaults to the
+     * deployment app name
+     */
+    model?: string;
+
+    /**
+     * Target is the threshold value. Default: 1.01
+     */
+    target?: number;
+  }
+
+  /**
+   * Autoscaling config for CustomMetric metric
+   */
+  export interface CustomMetricAutoscalingConfig {
+    /**
+     * CustomMetricName is the Prometheus metric name. Must match
+     * [a-zA-Z\_:][a-zA-Z0-9_:]\*
+     */
+    custom_metric_name?: string;
+
+    /**
+     * Metric must be CustomMetric
+     */
+    metric?: 'CustomMetric';
+
+    /**
+     * Target is the threshold value. Default: 500
+     */
+    target?: number;
+  }
+}
+
+/**
+ * One entry in a deployment's revision history.
+ */
+export interface DeploymentRevisionEvent {
+  /**
+   * How this revision became active.
+   */
+  action: 'create' | 'update' | 'system' | 'rollback';
+
+  /**
+   * Time when this revision became active.
+   */
+  activated_at: string;
+
+  /**
+   * Monotonic event number in the deployment's revision history.
+   */
+  event_number: number;
+
+  /**
+   * Container image of the revision activated by this event.
+   */
+  image: string;
+
+  /**
+   * The object type, which is always `revision_event`.
+   */
+  object: 'revision_event';
+
+  /**
+   * Revision ID activated by this event.
+   */
+  revision_id: string;
+
+  /**
+   * Human-readable per-deployment revision counter.
+   */
+  revision_number: number;
+}
+
+/**
+ * Revision history events for a deployment, newest first.
+ */
+export interface DeploymentRevisionEventList {
+  /**
+   * Revision events, newest first.
+   */
+  data: Array<DeploymentRevisionEvent>;
+
+  /**
+   * The object type, which is always `list`.
+   */
+  object: 'list';
 }
 
 export interface JigListResponse {
@@ -968,6 +1301,19 @@ export namespace JigDeployParams {
   }
 }
 
+export interface JigListRevisionsParams {
+  /**
+   * Return only events with event_number strictly less than this value for
+   * pagination.
+   */
+  before?: number;
+
+  /**
+   * Maximum number of events to return (default 10, max 100).
+   */
+  limit?: number;
+}
+
 export interface JigRetrieveLogsParams {
   /**
    * Replica ID to filter logs
@@ -986,6 +1332,20 @@ export interface JigRetrieveLogsParams {
   version?: string;
 }
 
+export interface JigRetrieveRevisionParams {
+  /**
+   * Deployment ID or name.
+   */
+  id: string;
+}
+
+export interface JigRollbackParams {
+  /**
+   * Revision number or revision ID to roll back to.
+   */
+  revision_identifier: string;
+}
+
 Jig.Queue = Queue;
 Jig.Volumes = Volumes;
 Jig.Secrets = Secrets;
@@ -995,11 +1355,17 @@ export declare namespace Jig {
     type ContainerDeploymentStatus as ContainerDeploymentStatus,
     type Deployment as Deployment,
     type DeploymentLogs as DeploymentLogs,
+    type DeploymentRevision as DeploymentRevision,
+    type DeploymentRevisionEvent as DeploymentRevisionEvent,
+    type DeploymentRevisionEventList as DeploymentRevisionEventList,
     type JigListResponse as JigListResponse,
     type JigDestroyResponse as JigDestroyResponse,
     type JigUpdateParams as JigUpdateParams,
     type JigDeployParams as JigDeployParams,
+    type JigListRevisionsParams as JigListRevisionsParams,
     type JigRetrieveLogsParams as JigRetrieveLogsParams,
+    type JigRetrieveRevisionParams as JigRetrieveRevisionParams,
+    type JigRollbackParams as JigRollbackParams,
   };
 
   export {

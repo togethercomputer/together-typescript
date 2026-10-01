@@ -114,6 +114,24 @@ describe('resource jig', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
+  test('listRevisions', async () => {
+    const responsePromise = client.beta.jig.listRevisions('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listRevisions: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.beta.jig.listRevisions('id', { before: 0, limit: 0 }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Together.NotFoundError);
+  });
+
   test('retrieveLogs', async () => {
     const responsePromise = client.beta.jig.retrieveLogs('id');
     const rawResponse = await responsePromise.asResponse();
@@ -138,5 +156,35 @@ describe('resource jig', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Together.NotFoundError);
+  });
+
+  test('retrieveRevision: only required params', async () => {
+    const responsePromise = client.beta.jig.retrieveRevision('revisionIdentifier', { id: 'id' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieveRevision: required and optional params', async () => {
+    const response = await client.beta.jig.retrieveRevision('revisionIdentifier', { id: 'id' });
+  });
+
+  test('rollback: only required params', async () => {
+    const responsePromise = client.beta.jig.rollback('id', { revision_identifier: 'revision_identifier' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('rollback: required and optional params', async () => {
+    const response = await client.beta.jig.rollback('id', { revision_identifier: 'revision_identifier' });
   });
 });

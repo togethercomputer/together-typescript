@@ -4,6 +4,39 @@
   "clientClass": "Together",
   "methods": [
     {
+      "base": "beta.jig",
+      "name": "retrieveRevision",
+      "params": [
+        {
+          "type": "param",
+          "key": "revisionIdentifier",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "revisionIdentifier",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
       "base": "beta.clusters.remediations",
       "name": "create",
       "params": [

@@ -270,6 +270,9 @@ Types:
 - <code><a href="./src/resources/beta/jig/jig.ts">ContainerDeploymentStatus</a></code>
 - <code><a href="./src/resources/beta/jig/jig.ts">Deployment</a></code>
 - <code><a href="./src/resources/beta/jig/jig.ts">DeploymentLogs</a></code>
+- <code><a href="./src/resources/beta/jig/jig.ts">DeploymentRevision</a></code>
+- <code><a href="./src/resources/beta/jig/jig.ts">DeploymentRevisionEvent</a></code>
+- <code><a href="./src/resources/beta/jig/jig.ts">DeploymentRevisionEventList</a></code>
 - <code><a href="./src/resources/beta/jig/jig.ts">JigListResponse</a></code>
 - <code><a href="./src/resources/beta/jig/jig.ts">JigDestroyResponse</a></code>
 
@@ -280,7 +283,10 @@ Methods:
 - <code title="get /deployments">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">list</a>() -> JigListResponse</code>
 - <code title="post /deployments">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">deploy</a>({ ...params }) -> Deployment</code>
 - <code title="delete /deployments/{id}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">destroy</a>(id) -> unknown</code>
+- <code title="get /deployments/{id}/revisions">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">listRevisions</a>(id, { ...params }) -> DeploymentRevisionEventList</code>
 - <code title="get /deployments/{id}/logs">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">retrieveLogs</a>(id, { ...params }) -> DeploymentLogs</code>
+- <code title="get /deployments/{id}/revisions/{revisionIdentifier}">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">retrieveRevision</a>(revisionIdentifier, { ...params }) -> DeploymentRevision</code>
+- <code title="post /deployments/{id}/rollback">client.beta.jig.<a href="./src/resources/beta/jig/jig.ts">rollback</a>(id, { ...params }) -> Deployment</code>
 
 ### Queue
 
