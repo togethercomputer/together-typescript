@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.57.0](https://github.com/togethercomputer/together-typescript/compare/v0.56.0...v0.57.0) (2026-10-01)
+
+
+### Features
+
+* **containers:** expose deployment model mounts field ([357599e](https://github.com/togethercomputer/together-typescript/commit/357599e52ec09716b9c55cc3b9f9eb80bf78781b))
+* **endpoints:** expose deployment concurrency limit response ([4ccae5a](https://github.com/togethercomputer/together-typescript/commit/4ccae5a43158f8d5a76fbeca5f72ba0cfea56b94))
+* **jig:** add deployment revision and rollback APIs ([15b1845](https://github.com/togethercomputer/together-typescript/commit/15b18456ce98c7a47a90e87406f6b8725918a312))
+* **jig:** add S3 volume origins ([46f4617](https://github.com/togethercomputer/together-typescript/commit/46f4617939102f3759b5cec6781b231a1efb273f))
+
 ## [0.56.0](https://github.com/togethercomputer/together-typescript/compare/v0.55.0...v0.56.0) (2026-09-25)
 
 
