@@ -1,16 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
-import * as ClustersAPI from './clusters/clusters';
-import {
-  ClusterCreateParams,
-  ClusterDeleteResponse,
-  ClusterListParams,
-  ClusterListRegionsResponse,
-  ClusterListResponse,
-  ClusterUpdateParams,
-  Clusters,
-} from './clusters/clusters';
 import * as EndpointsAPI from './endpoints/endpoints';
 import {
   AbMember,
@@ -112,14 +102,12 @@ export class Beta extends APIResource {
   endpoints: EndpointsAPI.Endpoints = new EndpointsAPI.Endpoints(this._client);
   models: ModelsAPI.Models = new ModelsAPI.Models(this._client);
   jig: JigAPI.Jig = new JigAPI.Jig(this._client);
-  clusters: ClustersAPI.Clusters = new ClustersAPI.Clusters(this._client);
 }
 
 Beta.Organization = Organization;
 Beta.Endpoints = Endpoints;
 Beta.Models = Models;
 Beta.Jig = Jig;
-Beta.Clusters = Clusters;
 
 export declare namespace Beta {
   export { Organization as Organization };
@@ -215,15 +203,5 @@ export declare namespace Beta {
     type JigRetrieveLogsParams as JigRetrieveLogsParams,
     type JigRetrieveRevisionParams as JigRetrieveRevisionParams,
     type JigRollbackParams as JigRollbackParams,
-  };
-
-  export {
-    Clusters as Clusters,
-    type ClusterListResponse as ClusterListResponse,
-    type ClusterDeleteResponse as ClusterDeleteResponse,
-    type ClusterListRegionsResponse as ClusterListRegionsResponse,
-    type ClusterCreateParams as ClusterCreateParams,
-    type ClusterUpdateParams as ClusterUpdateParams,
-    type ClusterListParams as ClusterListParams,
   };
 }

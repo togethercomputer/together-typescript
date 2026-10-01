@@ -2,15 +2,6 @@
 
 export { Beta } from './beta';
 export {
-  Clusters,
-  type ClusterListResponse,
-  type ClusterDeleteResponse,
-  type ClusterListRegionsResponse,
-  type ClusterCreateParams,
-  type ClusterUpdateParams,
-  type ClusterListParams,
-} from './clusters/index';
-export {
   Endpoints,
   type AbMember,
   type DeploymentAutoscaling,
