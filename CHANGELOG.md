@@ -9,13 +9,6 @@
 * **endpoints:** expose deployment concurrency limit response ([4ccae5a](https://github.com/togethercomputer/together-typescript/commit/4ccae5a43158f8d5a76fbeca5f72ba0cfea56b94))
 * **jig:** add deployment revision and rollback APIs ([15b1845](https://github.com/togethercomputer/together-typescript/commit/15b18456ce98c7a47a90e87406f6b8725918a312))
 * **jig:** add S3 volume origins ([46f4617](https://github.com/togethercomputer/together-typescript/commit/46f4617939102f3759b5cec6781b231a1efb273f))
-* **rl:** add base_weights_ref to model resources (MOSH-5159) ([8233e06](https://github.com/togethercomputer/together-typescript/commit/8233e065dfc5bd853183f29df9d5274d17dab62c))
-* **rl:** Add SDK methods for the new Reinforcement Learning product ([038f159](https://github.com/togethercomputer/together-typescript/commit/038f15904dbccc5b9fb2d531d476e6b7c19bcf7f))
-
-
-### Documentation
-
-* clarify deployment desired replicas ownership ([4afa70a](https://github.com/togethercomputer/together-typescript/commit/4afa70a85fd17e6ff44d0779e8598c1b5e9e9cfb))
 
 ## [0.56.0](https://github.com/togethercomputer/together-typescript/compare/v0.55.0...v0.56.0) (2026-09-25)
 
