@@ -82,6 +82,16 @@ import { Audio, AudioFile, AudioSpeechStreamChunk } from './resources/audio/audi
 import { Beta } from './resources/beta/beta';
 import { Chat } from './resources/chat/chat';
 import {
+  Cluster,
+  ClusterCreateParams,
+  ClusterDeleteResponse,
+  ClusterListParams,
+  ClusterListRegionsResponse,
+  ClusterListResponse,
+  ClusterUpdateParams,
+  Clusters,
+} from './resources/clusters/clusters';
+import {
   CodeInterpreter,
   CodeInterpreterExecuteParams,
   ExecuteResponse,
@@ -872,6 +882,7 @@ export class Together {
   static toFile = Uploads.toFile;
 
   beta: API.Beta = new API.Beta(this);
+  clusters: API.Clusters = new API.Clusters(this);
   chat: API.Chat = new API.Chat(this);
   completions: API.Completions = new API.Completions(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
@@ -889,6 +900,7 @@ export class Together {
 }
 
 Together.Beta = Beta;
+Together.Clusters = Clusters;
 Together.Chat = Chat;
 Together.Completions = Completions;
 Together.Embeddings = Embeddings;
@@ -916,6 +928,17 @@ export declare namespace Together {
   export { type WhoamiResponse as WhoamiResponse };
 
   export { Beta as Beta };
+
+  export {
+    Clusters as Clusters,
+    type Cluster as Cluster,
+    type ClusterListResponse as ClusterListResponse,
+    type ClusterDeleteResponse as ClusterDeleteResponse,
+    type ClusterListRegionsResponse as ClusterListRegionsResponse,
+    type ClusterCreateParams as ClusterCreateParams,
+    type ClusterUpdateParams as ClusterUpdateParams,
+    type ClusterListParams as ClusterListParams,
+  };
 
   export { Chat as Chat };
 

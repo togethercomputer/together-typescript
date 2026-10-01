@@ -112,6 +112,12 @@ client.parents.children.retrieve('c_456', { parent_id: 'p_123' });
 - `client.beta.clusters.remediations.approve()`
 - `client.beta.clusters.remediations.cancel()`
 - `client.beta.clusters.remediations.reject()`
+- `client.clusters.remediations.create()`
+- `client.clusters.remediations.retrieve()`
+- `client.clusters.remediations.list()`
+- `client.clusters.remediations.approve()`
+- `client.clusters.remediations.cancel()`
+- `client.clusters.remediations.reject()`
 
 </details>
 
@@ -177,6 +183,8 @@ client.example.list(undefined, { headers: { ... } });
 - `client.beta.jig.volumes.retrieve()`
 - `client.beta.clusters.list()`
 - `client.beta.clusters.storage.list()`
+- `client.clusters.list()`
+- `client.clusters.storage.list()`
 - `client.fineTuning.delete()`
 - `client.fineTuning.listMetrics()`
 - `client.models.list()`

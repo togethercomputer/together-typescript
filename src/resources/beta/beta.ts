@@ -3,7 +3,6 @@
 import { APIResource } from '../../core/resource';
 import * as ClustersAPI from './clusters/clusters';
 import {
-  Cluster,
   ClusterCreateParams,
   ClusterDeleteResponse,
   ClusterListParams,
@@ -220,7 +219,6 @@ export declare namespace Beta {
 
   export {
     Clusters as Clusters,
-    type Cluster as Cluster,
     type ClusterListResponse as ClusterListResponse,
     type ClusterDeleteResponse as ClusterDeleteResponse,
     type ClusterListRegionsResponse as ClusterListRegionsResponse,

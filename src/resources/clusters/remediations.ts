@@ -1,10 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../core/resource';
-import * as RemediationsAPI from '../../clusters/remediations';
-import { APIPromise } from '../../../core/api-promise';
-import { RequestOptions } from '../../../internal/request-options';
-import { path } from '../../../internal/utils/path';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Remediations extends APIResource {
   /**
@@ -16,24 +15,12 @@ export class Remediations extends APIResource {
    * remediations are created with PENDING_APPROVAL state. The user must call
    * /approve to start the actual remediation process. These operations can also be
    * rejected by calling /reject.
-   *
-   * @example
-   * ```ts
-   * const remediation =
-   *   await client.beta.clusters.remediations.create(
-   *     'instance_id',
-   *     {
-   *       cluster_id: 'cluster_id',
-   *       mode: 'REMEDIATION_MODE_VM_ONLY',
-   *     },
-   *   );
-   * ```
    */
   create(
     instanceID: string,
     params: RemediationCreateParams,
     options?: RequestOptions,
-  ): APIPromise<RemediationsAPI.Remediation> {
+  ): APIPromise<Remediation> {
     const { cluster_id, remediation_id, ...body } = params;
     return this._client.post(path`/compute/clusters/${cluster_id}/instances/${instanceID}/remediations`, {
       query: { remediation_id },
@@ -45,24 +32,12 @@ export class Remediations extends APIResource {
   /**
    * Retrieve the status of a specific remdiation on a specific instance in a
    * specific cluster.
-   *
-   * @example
-   * ```ts
-   * const remediation =
-   *   await client.beta.clusters.remediations.retrieve(
-   *     'remediation_id',
-   *     {
-   *       cluster_id: 'cluster_id',
-   *       instance_id: 'instance_id',
-   *     },
-   *   );
-   * ```
    */
   retrieve(
     remediationID: string,
     params: RemediationRetrieveParams,
     options?: RequestOptions,
-  ): APIPromise<RemediationsAPI.Remediation> {
+  ): APIPromise<Remediation> {
     const { cluster_id, instance_id } = params;
     return this._client.get(
       path`/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}`,
@@ -72,15 +47,6 @@ export class Remediations extends APIResource {
 
   /**
    * Lists remediations for an instance or cluster.
-   *
-   * @example
-   * ```ts
-   * const remediations =
-   *   await client.beta.clusters.remediations.list(
-   *     'instance_id',
-   *     { cluster_id: 'cluster_id' },
-   *   );
-   * ```
    */
   list(
     instanceID: string,
@@ -102,24 +68,12 @@ export class Remediations extends APIResource {
    * On APPROVE: state changes to PENDING and the remediation process begins. The
    * reviewed_by, review_time, and review_comment fields are populated on the
    * remediation after approval.
-   *
-   * @example
-   * ```ts
-   * const remediation =
-   *   await client.beta.clusters.remediations.approve(
-   *     'remediation_id',
-   *     {
-   *       cluster_id: 'cluster_id',
-   *       instance_id: 'instance_id',
-   *     },
-   *   );
-   * ```
    */
   approve(
     remediationID: string,
     params: RemediationApproveParams,
     options?: RequestOptions,
-  ): APIPromise<RemediationsAPI.Remediation> {
+  ): APIPromise<Remediation> {
     const { cluster_id, instance_id, ...body } = params;
     return this._client.post(
       path`/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}/approve`,
@@ -131,24 +85,12 @@ export class Remediations extends APIResource {
    * Cancels a pending remediation.
    *
    * Only remediations in PENDING_APPROVAL or PENDING state can be cancelled.
-   *
-   * @example
-   * ```ts
-   * const remediation =
-   *   await client.beta.clusters.remediations.cancel(
-   *     'remediation_id',
-   *     {
-   *       cluster_id: 'cluster_id',
-   *       instance_id: 'instance_id',
-   *     },
-   *   );
-   * ```
    */
   cancel(
     remediationID: string,
     params: RemediationCancelParams,
     options?: RequestOptions,
-  ): APIPromise<RemediationsAPI.Remediation> {
+  ): APIPromise<Remediation> {
     const { cluster_id, instance_id } = params;
     return this._client.post(
       path`/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}/cancel`,
@@ -163,29 +105,294 @@ export class Remediations extends APIResource {
    *
    * On REJECT: state changes to CANCELLED. The reviewed_by, review_time, and
    * review_comment fields are populated on the remediation after rejection.
-   *
-   * @example
-   * ```ts
-   * const remediation =
-   *   await client.beta.clusters.remediations.reject(
-   *     'remediation_id',
-   *     {
-   *       cluster_id: 'cluster_id',
-   *       instance_id: 'instance_id',
-   *     },
-   *   );
-   * ```
    */
   reject(
     remediationID: string,
     params: RemediationRejectParams,
     options?: RequestOptions,
-  ): APIPromise<RemediationsAPI.Remediation> {
+  ): APIPromise<Remediation> {
     const { cluster_id, instance_id, ...body } = params;
     return this._client.post(
       path`/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}/reject`,
       { body, ...options },
     );
+  }
+}
+
+/**
+ * Remediation represents a node remediation request for an instance. An instance
+ * can have multiple remediations over time (e.g., failed attempts followed by
+ * retries).
+ */
+export interface Remediation {
+  id: string;
+
+  cluster_id: string;
+
+  instance_id: string;
+
+  /**
+   * Remediation mode specifies how the remediation should be performed.
+   *
+   * - `REMEDIATION_MODE_VM_ONLY`: Deletes the VM and provisions a new one on any
+   *   available host.
+   * - `REMEDIATION_MODE_HOST_AWARE`: Cordons the host, deletes the VM, and
+   *   provisions a new one on a different host.
+   * - `REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT`: Evicts the VM without
+   *   provisioning a replacement.
+   * - `REMEDIATION_MODE_REBOOT_VM`: Reboots the VM in place.
+   * - `REMEDIATION_MODE_HOST_POWER_CYCLE`: Cordons and power-cycles the bare-metal
+   *   host while preserving host and node identity.
+   */
+  mode:
+    | 'REMEDIATION_MODE_VM_ONLY'
+    | 'REMEDIATION_MODE_HOST_AWARE'
+    | 'REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT'
+    | 'REMEDIATION_MODE_REBOOT_VM'
+    | 'REMEDIATION_MODE_HOST_POWER_CYCLE';
+
+  /**
+   * RemediationState represents the lifecycle state of a remediation.
+   *
+   * - `PENDING_APPROVAL`: Awaiting approval before processing can begin.
+   * - `PENDING`: Approved and queued for processing.
+   * - `RUNNING`: Actively being processed.
+   * - `SUCCEEDED`: Successfully completed.
+   * - `FAILED`: Failed with an error.
+   * - `CANCELLED`: Cancelled by user or system.
+   * - `AUTO_RESOLVED`: The underlying issue was automatically resolved before
+   *   processing.
+   * - `QUARANTINING`: Cordoning or preparing the host before remediation.
+   * - `QUARANTINED`: Host has been cordoned or isolated for remediation.
+   */
+  state:
+    | 'PENDING_APPROVAL'
+    | 'PENDING'
+    | 'RUNNING'
+    | 'SUCCEEDED'
+    | 'FAILED'
+    | 'CANCELLED'
+    | 'AUTO_RESOLVED'
+    | 'QUARANTINING'
+    | 'QUARANTINED';
+
+  /**
+   * RemediationTrigger specifies how the remediation was triggered.
+   *
+   * - `REMEDIATION_TRIGGER_MANUAL`: A user-initiated remediation (either via web UI
+   *   or API call).
+   * - `REMEDIATION_TRIGGER_AUTOMATED`: A system-initiated remediation that requires
+   *   approval.
+   */
+  trigger: 'REMEDIATION_TRIGGER_MANUAL' | 'REMEDIATION_TRIGGER_AUTOMATED';
+
+  /**
+   * Active health check run ID (UUID) that triggered this remediation.
+   */
+  active_health_check_run_id?: string;
+
+  /**
+   * When the remediation was created.
+   */
+  create_time?: string;
+
+  /**
+   * When the remediation completed.
+   */
+  end_time?: string;
+
+  /**
+   * Error message if the remediation failed.
+   */
+  error_message?: string;
+
+  /**
+   * Display name of the targeted instance.
+   */
+  instance_name?: string;
+
+  /**
+   * Passive health check alerts linked to this remediation, including resolved
+   * alerts.
+   */
+  linked_alerts?: Array<Remediation.LinkedAlert>;
+
+  /**
+   * Passive health check event ID that triggered this remediation.
+   */
+  passive_health_check_event_id?: string;
+
+  /**
+   * User-provided reason for the remediation.
+   */
+  reason?: string;
+
+  /**
+   * Who requested the remediation.
+   */
+  requested_by?: string;
+
+  /**
+   * Review comment.
+   */
+  review_comment?: string;
+
+  /**
+   * When the remediation was reviewed.
+   */
+  review_time?: string;
+
+  /**
+   * Who reviewed the remediation.
+   */
+  reviewed_by?: string;
+
+  /**
+   * When processing started.
+   */
+  start_time?: string;
+
+  /**
+   * When the remediation was last updated.
+   */
+  update_time?: string;
+}
+
+export namespace Remediation {
+  /**
+   * Passive health check alert returned by the health check API.
+   */
+  export interface LinkedAlert {
+    /**
+     * Alertmanager alert name.
+     */
+    alert_name: string;
+
+    /**
+     * Typed content parsed from passive health check alert annotations.
+     */
+    annotation: LinkedAlert.Annotation;
+
+    /**
+     * Legacy Alertmanager annotations as key-value strings.
+     */
+    annotations: { [key: string]: string };
+
+    /**
+     * Cluster UUID the alert was raised against.
+     */
+    cluster_id: string;
+
+    /**
+     * Primary key UUID for the passive health check alert.
+     */
+    passive_health_check_alert_id: string;
+
+    /**
+     * Canonical severity tier for the alert.
+     */
+    severity: 'PHC_SEVERITY_INFO' | 'PHC_SEVERITY_WARNING' | 'PHC_SEVERITY_CRITICAL';
+
+    /**
+     * Time when the underlying alert first fired.
+     */
+    started_at: string;
+
+    /**
+     * VM name extracted from the Alertmanager labels.
+     */
+    target_vm: string;
+
+    /**
+     * Resolved instance UUID. Empty until the alert is joined to an instance.
+     */
+    instance_id?: string;
+
+    /**
+     * Remediation intent UUID attached to this alert, if any.
+     */
+    node_remediation_intent_id?: string;
+
+    /**
+     * Time when the underlying alert resolved. Empty while the alert is firing.
+     */
+    resolved_at?: string;
+  }
+
+  export namespace LinkedAlert {
+    /**
+     * Typed content parsed from passive health check alert annotations.
+     */
+    export interface Annotation {
+      /**
+       * Static explanation for the alert.
+       */
+      description: string;
+
+      /**
+       * Per-firing summary line parsed from the evidence annotation.
+       */
+      summary_line: string;
+
+      /**
+       * Alert title from the Alertmanager summary annotation.
+       */
+      title: string;
+
+      /**
+       * Details for a Slurm node unavailable passive health check alert.
+       */
+      slurm_node_unavailable?: Annotation.SlurmNodeUnavailable;
+
+      /**
+       * Details for a DmesgXidError passive health check alert.
+       */
+      xid?: Annotation.Xid;
+    }
+
+    export namespace Annotation {
+      /**
+       * Details for a Slurm node unavailable passive health check alert.
+       */
+      export interface SlurmNodeUnavailable {
+        /**
+         * Drain reason reported for the unavailable Slurm node.
+         */
+        reason: string;
+      }
+
+      /**
+       * Details for a DmesgXidError passive health check alert.
+       */
+      export interface Xid {
+        /**
+         * Xid events observed during the alert window.
+         */
+        events: Array<Xid.Event>;
+      }
+
+      export namespace Xid {
+        /**
+         * One NVIDIA Xid code observed during the alert window.
+         */
+        export interface Event {
+          /**
+           * Number of times this Xid code appeared in the alert window.
+           */
+          count: number;
+
+          /**
+           * Driver mnemonic for the Xid code when metadata is available.
+           */
+          mnemonic: string;
+
+          /**
+           * NVIDIA Xid code, such as `79`.
+           */
+          xid_code: string;
+        }
+      }
+    }
   }
 }
 
@@ -206,7 +413,7 @@ export interface RemediationListResponse {
   /**
    * The list of remediations.
    */
-  remediations: Array<RemediationsAPI.Remediation>;
+  remediations: Array<Remediation>;
 }
 
 export interface RemediationCreateParams {
@@ -389,6 +596,7 @@ export interface RemediationRejectParams {
 
 export declare namespace Remediations {
   export {
+    type Remediation as Remediation,
     type RemediationListResponse as RemediationListResponse,
     type RemediationCreateParams as RemediationCreateParams,
     type RemediationRetrieveParams as RemediationRetrieveParams,

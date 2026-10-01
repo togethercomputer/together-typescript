@@ -11,6 +11,16 @@ export {
 export { Beta } from './beta/beta';
 export { Chat } from './chat/chat';
 export {
+  Clusters,
+  type Cluster,
+  type ClusterListResponse,
+  type ClusterDeleteResponse,
+  type ClusterListRegionsResponse,
+  type ClusterCreateParams,
+  type ClusterUpdateParams,
+  type ClusterListParams,
+} from './clusters/clusters';
+export {
   CodeInterpreter,
   type ExecuteResponse,
   type CodeInterpreterExecuteParams,
