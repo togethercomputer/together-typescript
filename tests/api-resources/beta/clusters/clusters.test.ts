@@ -14,6 +14,7 @@ describe('resource clusters', () => {
       cluster_name: 'cluster_name',
       gpu_type: 'H100_SXM',
       num_gpus: 0,
+      nvidia_version_id: 'nvidia_version_id',
       region: 'region',
       nvidia_version_id: 'nvidia_version_id',
     });
@@ -32,6 +33,7 @@ describe('resource clusters', () => {
       cluster_name: 'cluster_name',
       gpu_type: 'H100_SXM',
       num_gpus: 0,
+      nvidia_version_id: 'nvidia_version_id',
       region: 'region',
       acceptance_tests_params: {
         dcgm_diag_level: 'DCGM_DIAG_LEVEL_SHORT',
@@ -87,7 +89,6 @@ describe('resource clusters', () => {
       num_preemptible_gpus: 0,
       num_reserved_gpus: 0,
       nvidia_driver_version: 'nvidia_driver_version',
-      nvidia_version_id: 'nvidia_version_id',
       oidc_config: {
         client_id: 'client_id',
         group_claim: 'group_claim',

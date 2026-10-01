@@ -914,6 +914,12 @@ export interface ClusterCreateParams {
   num_gpus: number;
 
   /**
+   * Canonical region-specific NVIDIA version ID. If cuda_version and
+   * nvidia_driver_version are also set, they must resolve to the same catalog entry.
+   */
+  nvidia_version_id: string;
+
+  /**
    * Region to create the GPU cluster in. Usable regions can be found from
    * `client.clusters.list_regions()`
    */
@@ -1006,12 +1012,6 @@ export interface ClusterCreateParams {
    * with cuda_version. Prefer nvidia_version_id for new integrations.
    */
   nvidia_driver_version?: string;
-
-  /**
-   * Canonical region-specific NVIDIA version ID. If cuda_version and
-   * nvidia_driver_version are also set, they must resolve to the same catalog entry.
-   */
-  nvidia_version_id?: string;
 
   oidc_config?: ClusterCreateParams.OidcConfig;
 
