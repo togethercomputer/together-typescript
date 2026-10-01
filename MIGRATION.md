@@ -106,6 +106,12 @@ client.parents.children.retrieve('c_456', { parent_id: 'p_123' });
 - `client.beta.models.remoteUploads.events()`
 - `client.beta.models.configs.retrieve()`
 - `client.beta.jig.retrieveRevision()`
+- `client.beta.clusters.remediations.create()`
+- `client.beta.clusters.remediations.retrieve()`
+- `client.beta.clusters.remediations.list()`
+- `client.beta.clusters.remediations.approve()`
+- `client.beta.clusters.remediations.cancel()`
+- `client.beta.clusters.remediations.reject()`
 - `client.clusters.remediations.create()`
 - `client.clusters.remediations.retrieve()`
 - `client.clusters.remediations.list()`
@@ -175,6 +181,8 @@ client.example.list(undefined, { headers: { ... } });
 - `client.beta.jig.listRevisions()`
 - `client.beta.jig.retrieveLogs()`
 - `client.beta.jig.volumes.retrieve()`
+- `client.beta.clusters.list()`
+- `client.beta.clusters.storage.list()`
 - `client.clusters.list()`
 - `client.clusters.storage.list()`
 - `client.fineTuning.delete()`
