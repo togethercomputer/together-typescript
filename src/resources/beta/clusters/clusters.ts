@@ -187,472 +187,961 @@ export namespace ClusterListRegionsResponse {
   }
 }
 
-export interface ClusterCreateParams {
-  /**
-   * RESERVED billing types allow you to specify the duration of the cluster
-   * reservation via the duration_days field. ON_DEMAND billing types will give you
-   * ownership of the cluster until you delete it. SCHEDULED_CAPACITY billing types
-   * allow you to reserve capacity for a scheduled time window. You must specify the
-   * reservation_start_time and reservation_end_time with this request.
-   */
-  billing_type: 'RESERVED' | 'ON_DEMAND' | 'SCHEDULED_CAPACITY';
+export type ClusterCreateParams =
+  | ClusterCreateParams.GPUClusterCreateRequestNvidiaVersion
+  | ClusterCreateParams.GPUClusterCreateRequestLegacyNvidia;
 
-  /**
-   * Name of the GPU cluster.
-   */
-  cluster_name: string;
-
-  /**
-   * Type of GPU to use in the cluster
-   */
-  gpu_type: 'H100_SXM' | 'H200_SXM' | 'RTX_6000_PCI' | 'L40_PCIE' | 'B200_SXM' | 'H100_SXM_INF' | 'B300_SXM';
-
-  /**
-   * Number of GPUs to allocate in the cluster. This must be multiple of 8. For
-   * example, 8, 16 or 24
-   */
-  num_gpus: number;
-
-  /**
-   * Canonical region-specific NVIDIA version ID. If cuda_version and
-   * nvidia_driver_version are also set, they must resolve to the same catalog entry.
-   */
-  nvidia_version_id: string;
-
-  /**
-   * Region to create the GPU cluster in. Usable regions can be found from
-   * `client.clusters.list_regions()`
-   */
-  region: string;
-
-  /**
-   * AcceptanceTestsParams groups all GPU acceptance test options when enabled is
-   * true.
-   */
-  acceptance_tests_params?: ClusterCreateParams.AcceptanceTestsParams;
-
-  /**
-   * Add-ons to enable on the cluster at creation time.
-   */
-  add_ons?: Array<ClusterCreateParams.AddOn>;
-
-  /**
-   * Whether to enable auto-scaling for the cluster. If true, the cluster will
-   * automatically scale the number of GPU worker nodes between num_gpus and
-   * auto_scale_max_gpus based on the workload.
-   */
-  auto_scale?: boolean;
-
-  /**
-   * Maximum number of GPUs to which the cluster can be auto-scaled up. This field is
-   * required if auto_scaled is true.
-   */
-  auto_scale_max_gpus?: number;
-
-  /**
-   * @deprecated Whether GPU cluster should be auto-scaled based on the workload. By
-   * default, it is not auto-scaled.
-   */
-  auto_scaled?: boolean;
-
-  /**
-   * ID of the capacity pool to use for the cluster. This field is optional and only
-   * applicable if the cluster is created from a capacity pool.
-   */
-  capacity_pool_id?: string;
-
-  cluster_config?: ClusterCreateParams.ClusterConfig;
-
-  /**
-   * Type of cluster to create.
-   */
-  cluster_type?: 'KUBERNETES' | 'SLURM';
-
-  /**
-   * Legacy CUDA selector for this cluster. Bare semantic values such as 12.5 select
-   * ubuntu-22.04; existing OS-suffixed values remain accepted for compatibility.
-   * Must be paired with nvidia_driver_version. Prefer nvidia_version_id for new
-   * integrations.
-   */
-  cuda_version?: string;
-
-  /**
-   * Duration in days to keep the cluster running.
-   */
-  duration_days?: number;
-
-  /**
-   * Whether to install Traefik ingress controller in the cluster. This field is only
-   * applicable for Kubernetes clusters and is false by default.
-   */
-  install_traefik?: boolean;
-
-  /**
-   * Number of GPUs to allocate from the capacity pool. Must be a multiple of 8 and
-   * not exceed num_gpus.
-   */
-  num_capacity_pool_gpus?: number;
-
-  /**
-   * Number of preemptible GPUs to request alongside on-demand capacity. Must be a
-   * multiple of 8. Preemptible nodes are cheaper but may be reclaimed when on-demand
-   * capacity is needed elsewhere; the system fulfills this asynchronously and
-   * surfaces the actual count in allocated_preemptible_gpus.
-   */
-  num_preemptible_gpus?: number;
-
-  /**
-   * Number of prepaid (PLG) reserved GPUs for this cluster. When omitted for
-   * RESERVED billing on create, the server defaults this to num_gpus.
-   */
-  num_reserved_gpus?: number;
-
-  /**
-   * Legacy NVIDIA driver selector for this cluster. For example, 550. Must be paired
-   * with cuda_version. Prefer nvidia_version_id for new integrations.
-   */
-  nvidia_driver_version?: string;
-
-  oidc_config?: ClusterCreateParams.OidcConfig;
-
-  /**
-   * Project ID for the cluster. If not set, the project from the request context is
-   * used.
-   */
-  project_id?: string;
-
-  /**
-   * Reservation end time of the cluster. This field is required for SCHEDULED
-   * billing to specify the reservation end time for the cluster.
-   */
-  reservation_end_time?: string;
-
-  /**
-   * Reservation start time of the cluster. This field is required for SCHEDULED
-   * billing to specify the reservation start time for the cluster. If not provided,
-   * the cluster provisions immediately.
-   */
-  reservation_start_time?: string;
-
-  /**
-   * Inline configuration to create a shared volume with the cluster creation.
-   */
-  shared_volume?: ClusterCreateParams.SharedVolume;
-
-  /**
-   * Custom Slurm image for Slurm clusters.
-   */
-  slurm_image?: string;
-
-  /**
-   * Shared memory size in GiB for Slurm cluster. This field is required if
-   * cluster_type is SLURM.
-   */
-  slurm_shm_size_gib?: number;
-
-  /**
-   * ID of an existing volume to use with the cluster creation.
-   */
-  volume_id?: string;
-}
-
-export namespace ClusterCreateParams {
-  /**
-   * AcceptanceTestsParams groups all GPU acceptance test options when enabled is
-   * true.
-   */
-  export interface AcceptanceTestsParams {
+export declare namespace ClusterCreateParams {
+  export interface GPUClusterCreateRequestNvidiaVersion {
     /**
-     * DCGM diagnostic depth. SHORT = readiness; MEDIUM = default; LONG = system
-     * validation; EXTENDED = memtest. An omitted value selects MEDIUM when enabled.
+     * RESERVED billing types allow you to specify the duration of the cluster
+     * reservation via the duration_days field. ON_DEMAND billing types will give you
+     * ownership of the cluster until you delete it. SCHEDULED_CAPACITY billing types
+     * allow you to reserve capacity for a scheduled time window. You must specify the
+     * reservation_start_time and reservation_end_time with this request.
      */
-    dcgm_diag_level?:
-      | 'DCGM_DIAG_LEVEL_SHORT'
-      | 'DCGM_DIAG_LEVEL_MEDIUM'
-      | 'DCGM_DIAG_LEVEL_LONG'
-      | 'DCGM_DIAG_LEVEL_EXTENDED';
+    billing_type: 'RESERVED' | 'ON_DEMAND' | 'SCHEDULED_CAPACITY';
 
     /**
-     * Skip DCGM diagnostics acceptance test.
+     * Name of the GPU cluster.
      */
-    dcgm_diag_skipped?: boolean;
+    cluster_name: string;
 
     /**
-     * Whether to run GPU acceptance tests during cluster bring-up.
+     * Type of GPU to use in the cluster
      */
-    enabled?: boolean;
+    gpu_type:
+      | 'H100_SXM'
+      | 'H200_SXM'
+      | 'RTX_6000_PCI'
+      | 'L40_PCIE'
+      | 'B200_SXM'
+      | 'H100_SXM_INF'
+      | 'B300_SXM';
 
     /**
-     * GPU burn duration in seconds; 0 means use the default when enabled.
+     * Number of GPUs to allocate in the cluster. This must be multiple of 8. For
+     * example, 8, 16 or 24
      */
-    gpu_burn_duration?: number;
+    num_gpus: number;
 
     /**
-     * Skip GPU burn acceptance test.
+     * Canonical region-specific NVIDIA version ID. If cuda_version and
+     * nvidia_driver_version are also set, they must resolve to the same catalog entry.
      */
-    gpu_burn_skipped?: boolean;
+    nvidia_version_id: string;
 
     /**
-     * Skip NCCL multi-node acceptance test.
-     */
-    nccl_multi_node_skipped?: boolean;
-
-    /**
-     * Skip NCCL single-node acceptance test.
-     */
-    nccl_single_node_skipped?: boolean;
-
-    /**
-     * Skip storage-performance acceptance test.
-     */
-    storage_skipped?: boolean;
-  }
-
-  export interface AddOn {
-    /**
-     * Type of add-on. Valid values: 'dashboard', 'ingress', 'torchpass'.
-     */
-    add_on_type: string;
-
-    /**
-     * Human-readable name for this add-on instance.
-     */
-    name: string;
-
-    /**
-     * Configuration for a cluster add-on.
-     */
-    config?: AddOn.Config;
-  }
-
-  export namespace AddOn {
-    /**
-     * Configuration for a cluster add-on.
-     */
-    export interface Config {
-      dashboard?: Config.Dashboard;
-
-      /**
-       * Configuration for the Headlamp Kubernetes dashboard add-on.
-       */
-      headlamp?: Config.Headlamp;
-
-      ingress?: Config.Ingress;
-
-      /**
-       * Configuration for the Slurm Web add-on.
-       */
-      slurm_web?: Config.SlurmWeb;
-
-      /**
-       * Configuration for the Model Aware TorchPass add-on.
-       */
-      torchpass?: Config.Torchpass;
-    }
-
-    export namespace Config {
-      export interface Dashboard {
-        enabled?: boolean;
-      }
-
-      /**
-       * Configuration for the Headlamp Kubernetes dashboard add-on.
-       */
-      export interface Headlamp {
-        /**
-         * Whether to enable the Headlamp Kubernetes dashboard add-on.
-         */
-        enabled?: boolean;
-      }
-
-      export interface Ingress {
-        enabled?: boolean;
-      }
-
-      /**
-       * Configuration for the Slurm Web add-on.
-       */
-      export interface SlurmWeb {
-        /**
-         * Whether to enable the Slurm Web add-on.
-         */
-        enabled?: boolean;
-      }
-
-      /**
-       * Configuration for the Model Aware TorchPass add-on.
-       */
-      export interface Torchpass {
-        /**
-         * Whether to enable the Model Aware TorchPass add-on.
-         */
-        enabled?: boolean;
-      }
-    }
-  }
-
-  export interface ClusterConfig {
-    load_balancer: 'NONE' | 'TRAEFIK' | 'NGINX' | 'ISTIO';
-
-    /**
-     * NVIDIA GPU Operator chart/version for the tenant cluster (e.g. v24.6.2). When
-     * omitted, a service default is applied.
-     */
-    gpu_operator_version?: string;
-
-    ingress?: ClusterConfig.Ingress;
-
-    jumphost_enabled?: boolean;
-
-    kubernetes_dashboard_enabled?: boolean;
-
-    /**
-     * NVIDIA Network Operator chart/version for the tenant cluster (e.g. v24.7.0).
-     * When omitted, a service default is applied.
-     */
-    network_operator_version?: string;
-
-    observability?: ClusterConfig.Observability;
-
-    /**
-     * SlurmStartupScripts carries optional Slurm lifecycle scripts (prolog/epilog,
-     * init, extra conf).
-     */
-    slurm_startup_scripts?: ClusterConfig.SlurmStartupScripts;
-
-    /**
-     * Whether this cluster uses a per-cluster SSH certificate authority for
-     * OIDC-signed SSH access.
-     */
-    ssh_ca_enabled?: boolean;
-  }
-
-  export namespace ClusterConfig {
-    export interface Ingress {
-      enabled?: boolean;
-    }
-
-    export interface Observability {
-      enabled?: boolean;
-    }
-
-    /**
-     * SlurmStartupScripts carries optional Slurm lifecycle scripts (prolog/epilog,
-     * init, extra conf).
-     */
-    export interface SlurmStartupScripts {
-      /**
-       * Slurm controller epilog script.
-       */
-      controller_epilog?: string;
-
-      /**
-       * Slurm controller prolog script.
-       */
-      controller_prolog?: string;
-
-      /**
-       * Additional slurm.conf fragments.
-       */
-      extra_slurm_conf?: string;
-
-      /**
-       * Script run on Slurm login node init.
-       */
-      login_init_script?: string;
-
-      /**
-       * Script run on Slurm nodeset init.
-       */
-      nodeset_init_script?: string;
-
-      /**
-       * Slurm worker node epilog script.
-       */
-      worker_epilog?: string;
-
-      /**
-       * Slurm worker node prolog script.
-       */
-      worker_prolog?: string;
-    }
-  }
-
-  export interface OidcConfig {
-    /**
-     * OIDC client ID for authentication.
-     */
-    client_id: string;
-
-    /**
-     * JWT claim to use for user groups. For example, 'groups'
-     */
-    group_claim: string;
-
-    /**
-     * Prefix to add to the group claim to form the final group name. For example,
-     * 'oidc:'
-     */
-    group_prefix: string;
-
-    /**
-     * OIDC issuer URL for authentication. For example, https://accounts.google.com
-     */
-    issuer_url: string;
-
-    /**
-     * JWT claim to use as the username. For example, 'sub' or 'email'
-     */
-    username_claim: string;
-
-    /**
-     * Prefix to add to the username claim to form the final username. For example,
-     * 'oidc:'
-     */
-    username_prefix: string;
-
-    /**
-     * CA certificate in PEM format to validate the OIDC issuer's TLS certificate. This
-     * field is optional but recommended if the issuer uses a private CA or self-signed
-     * certificate.
-     */
-    ca_cert?: string;
-  }
-
-  /**
-   * Inline configuration to create a shared volume with the cluster creation.
-   */
-  export interface SharedVolume {
-    /**
-     * Region name. Usable regions can be found from `clusters.list_regions()`
+     * Region to create the GPU cluster in. Usable regions can be found from
+     * `client.clusters.list_regions()`
      */
     region: string;
 
     /**
-     * Volume size in whole tebibytes (TiB).
+     * AcceptanceTestsParams groups all GPU acceptance test options when enabled is
+     * true.
      */
-    size_tib: number;
+    acceptance_tests_params?: GPUClusterCreateRequestNvidiaVersion.AcceptanceTestsParams;
 
     /**
-     * User provided name of the volume.
+     * Add-ons to enable on the cluster at creation time.
      */
-    volume_name: string;
+    add_ons?: Array<GPUClusterCreateRequestNvidiaVersion.AddOn>;
 
     /**
-     * Cluster ID to pin the volume to the same substrate as that GPU cluster.
+     * Whether to enable auto-scaling for the cluster. If true, the cluster will
+     * automatically scale the number of GPU worker nodes between num_gpus and
+     * auto_scale_max_gpus based on the workload.
      */
-    instance_cluster_id?: string;
+    auto_scale?: boolean;
 
     /**
-     * When true, the shared volume is not deleted when the cluster is decommissioned.
+     * Maximum number of GPUs to which the cluster can be auto-scaled up. This field is
+     * required if auto_scaled is true.
      */
-    is_lifecycle_independent?: boolean;
+    auto_scale_max_gpus?: number;
 
     /**
-     * Project ID that will own the volume. When omitted, the caller's default project
-     * is used.
+     * @deprecated Whether GPU cluster should be auto-scaled based on the workload. By
+     * default, it is not auto-scaled.
+     */
+    auto_scaled?: boolean;
+
+    /**
+     * ID of the capacity pool to use for the cluster. This field is optional and only
+     * applicable if the cluster is created from a capacity pool.
+     */
+    capacity_pool_id?: string;
+
+    cluster_config?: GPUClusterCreateRequestNvidiaVersion.ClusterConfig;
+
+    /**
+     * Type of cluster to create.
+     */
+    cluster_type?: 'KUBERNETES' | 'SLURM';
+
+    /**
+     * Legacy CUDA selector for this cluster. Bare semantic values such as 12.5 select
+     * ubuntu-22.04; existing OS-suffixed values remain accepted for compatibility.
+     * Must be paired with nvidia_driver_version. Prefer nvidia_version_id for new
+     * integrations.
+     */
+    cuda_version?: string;
+
+    /**
+     * Duration in days to keep the cluster running.
+     */
+    duration_days?: number;
+
+    /**
+     * Whether to install Traefik ingress controller in the cluster. This field is only
+     * applicable for Kubernetes clusters and is false by default.
+     */
+    install_traefik?: boolean;
+
+    /**
+     * Number of GPUs to allocate from the capacity pool. Must be a multiple of 8 and
+     * not exceed num_gpus.
+     */
+    num_capacity_pool_gpus?: number;
+
+    /**
+     * Number of preemptible GPUs to request alongside on-demand capacity. Must be a
+     * multiple of 8. Preemptible nodes are cheaper but may be reclaimed when on-demand
+     * capacity is needed elsewhere; the system fulfills this asynchronously and
+     * surfaces the actual count in allocated_preemptible_gpus.
+     */
+    num_preemptible_gpus?: number;
+
+    /**
+     * Number of prepaid (PLG) reserved GPUs for this cluster. When omitted for
+     * RESERVED billing on create, the server defaults this to num_gpus.
+     */
+    num_reserved_gpus?: number;
+
+    /**
+     * Legacy NVIDIA driver selector for this cluster. For example, 550. Must be paired
+     * with cuda_version. Prefer nvidia_version_id for new integrations.
+     */
+    nvidia_driver_version?: string;
+
+    oidc_config?: GPUClusterCreateRequestNvidiaVersion.OidcConfig;
+
+    /**
+     * Project ID for the cluster. If not set, the project from the request context is
+     * used.
      */
     project_id?: string;
+
+    /**
+     * Reservation end time of the cluster. This field is required for SCHEDULED
+     * billing to specify the reservation end time for the cluster.
+     */
+    reservation_end_time?: string;
+
+    /**
+     * Reservation start time of the cluster. This field is required for SCHEDULED
+     * billing to specify the reservation start time for the cluster. If not provided,
+     * the cluster provisions immediately.
+     */
+    reservation_start_time?: string;
+
+    /**
+     * Inline configuration to create a shared volume with the cluster creation.
+     */
+    shared_volume?: GPUClusterCreateRequestNvidiaVersion.SharedVolume;
+
+    /**
+     * Custom Slurm image for Slurm clusters.
+     */
+    slurm_image?: string;
+
+    /**
+     * Shared memory size in GiB for Slurm cluster. This field is required if
+     * cluster_type is SLURM.
+     */
+    slurm_shm_size_gib?: number;
+
+    /**
+     * ID of an existing volume to use with the cluster creation.
+     */
+    volume_id?: string;
+  }
+
+  export namespace GPUClusterCreateRequestNvidiaVersion {
+    /**
+     * AcceptanceTestsParams groups all GPU acceptance test options when enabled is
+     * true.
+     */
+    export interface AcceptanceTestsParams {
+      /**
+       * DCGM diagnostic depth. SHORT = readiness; MEDIUM = default; LONG = system
+       * validation; EXTENDED = memtest. An omitted value selects MEDIUM when enabled.
+       */
+      dcgm_diag_level?:
+        | 'DCGM_DIAG_LEVEL_SHORT'
+        | 'DCGM_DIAG_LEVEL_MEDIUM'
+        | 'DCGM_DIAG_LEVEL_LONG'
+        | 'DCGM_DIAG_LEVEL_EXTENDED';
+
+      /**
+       * Skip DCGM diagnostics acceptance test.
+       */
+      dcgm_diag_skipped?: boolean;
+
+      /**
+       * Whether to run GPU acceptance tests during cluster bring-up.
+       */
+      enabled?: boolean;
+
+      /**
+       * GPU burn duration in seconds; 0 means use the default when enabled.
+       */
+      gpu_burn_duration?: number;
+
+      /**
+       * Skip GPU burn acceptance test.
+       */
+      gpu_burn_skipped?: boolean;
+
+      /**
+       * Skip NCCL multi-node acceptance test.
+       */
+      nccl_multi_node_skipped?: boolean;
+
+      /**
+       * Skip NCCL single-node acceptance test.
+       */
+      nccl_single_node_skipped?: boolean;
+
+      /**
+       * Skip storage-performance acceptance test.
+       */
+      storage_skipped?: boolean;
+    }
+
+    export interface AddOn {
+      /**
+       * Type of add-on. Valid values: 'dashboard', 'ingress', 'torchpass'.
+       */
+      add_on_type: string;
+
+      /**
+       * Human-readable name for this add-on instance.
+       */
+      name: string;
+
+      /**
+       * Configuration for a cluster add-on.
+       */
+      config?: AddOn.Config;
+    }
+
+    export namespace AddOn {
+      /**
+       * Configuration for a cluster add-on.
+       */
+      export interface Config {
+        dashboard?: Config.Dashboard;
+
+        /**
+         * Configuration for the Headlamp Kubernetes dashboard add-on.
+         */
+        headlamp?: Config.Headlamp;
+
+        ingress?: Config.Ingress;
+
+        /**
+         * Configuration for the Slurm Web add-on.
+         */
+        slurm_web?: Config.SlurmWeb;
+
+        /**
+         * Configuration for the Model Aware TorchPass add-on.
+         */
+        torchpass?: Config.Torchpass;
+      }
+
+      export namespace Config {
+        export interface Dashboard {
+          enabled?: boolean;
+        }
+
+        /**
+         * Configuration for the Headlamp Kubernetes dashboard add-on.
+         */
+        export interface Headlamp {
+          /**
+           * Whether to enable the Headlamp Kubernetes dashboard add-on.
+           */
+          enabled?: boolean;
+        }
+
+        export interface Ingress {
+          enabled?: boolean;
+        }
+
+        /**
+         * Configuration for the Slurm Web add-on.
+         */
+        export interface SlurmWeb {
+          /**
+           * Whether to enable the Slurm Web add-on.
+           */
+          enabled?: boolean;
+        }
+
+        /**
+         * Configuration for the Model Aware TorchPass add-on.
+         */
+        export interface Torchpass {
+          /**
+           * Whether to enable the Model Aware TorchPass add-on.
+           */
+          enabled?: boolean;
+        }
+      }
+    }
+
+    export interface ClusterConfig {
+      load_balancer: 'NONE' | 'TRAEFIK' | 'NGINX' | 'ISTIO';
+
+      /**
+       * NVIDIA GPU Operator chart/version for the tenant cluster (e.g. v24.6.2). When
+       * omitted, a service default is applied.
+       */
+      gpu_operator_version?: string;
+
+      ingress?: ClusterConfig.Ingress;
+
+      jumphost_enabled?: boolean;
+
+      kubernetes_dashboard_enabled?: boolean;
+
+      /**
+       * NVIDIA Network Operator chart/version for the tenant cluster (e.g. v24.7.0).
+       * When omitted, a service default is applied.
+       */
+      network_operator_version?: string;
+
+      observability?: ClusterConfig.Observability;
+
+      /**
+       * SlurmStartupScripts carries optional Slurm lifecycle scripts (prolog/epilog,
+       * init, extra conf).
+       */
+      slurm_startup_scripts?: ClusterConfig.SlurmStartupScripts;
+
+      /**
+       * Whether this cluster uses a per-cluster SSH certificate authority for
+       * OIDC-signed SSH access.
+       */
+      ssh_ca_enabled?: boolean;
+    }
+
+    export namespace ClusterConfig {
+      export interface Ingress {
+        enabled?: boolean;
+      }
+
+      export interface Observability {
+        enabled?: boolean;
+      }
+
+      /**
+       * SlurmStartupScripts carries optional Slurm lifecycle scripts (prolog/epilog,
+       * init, extra conf).
+       */
+      export interface SlurmStartupScripts {
+        /**
+         * Slurm controller epilog script.
+         */
+        controller_epilog?: string;
+
+        /**
+         * Slurm controller prolog script.
+         */
+        controller_prolog?: string;
+
+        /**
+         * Additional slurm.conf fragments.
+         */
+        extra_slurm_conf?: string;
+
+        /**
+         * Script run on Slurm login node init.
+         */
+        login_init_script?: string;
+
+        /**
+         * Script run on Slurm nodeset init.
+         */
+        nodeset_init_script?: string;
+
+        /**
+         * Slurm worker node epilog script.
+         */
+        worker_epilog?: string;
+
+        /**
+         * Slurm worker node prolog script.
+         */
+        worker_prolog?: string;
+      }
+    }
+
+    export interface OidcConfig {
+      /**
+       * OIDC client ID for authentication.
+       */
+      client_id: string;
+
+      /**
+       * JWT claim to use for user groups. For example, 'groups'
+       */
+      group_claim: string;
+
+      /**
+       * Prefix to add to the group claim to form the final group name. For example,
+       * 'oidc:'
+       */
+      group_prefix: string;
+
+      /**
+       * OIDC issuer URL for authentication. For example, https://accounts.google.com
+       */
+      issuer_url: string;
+
+      /**
+       * JWT claim to use as the username. For example, 'sub' or 'email'
+       */
+      username_claim: string;
+
+      /**
+       * Prefix to add to the username claim to form the final username. For example,
+       * 'oidc:'
+       */
+      username_prefix: string;
+
+      /**
+       * CA certificate in PEM format to validate the OIDC issuer's TLS certificate. This
+       * field is optional but recommended if the issuer uses a private CA or self-signed
+       * certificate.
+       */
+      ca_cert?: string;
+    }
+
+    /**
+     * Inline configuration to create a shared volume with the cluster creation.
+     */
+    export interface SharedVolume {
+      /**
+       * Region name. Usable regions can be found from `clusters.list_regions()`
+       */
+      region: string;
+
+      /**
+       * Volume size in whole tebibytes (TiB).
+       */
+      size_tib: number;
+
+      /**
+       * User provided name of the volume.
+       */
+      volume_name: string;
+
+      /**
+       * Cluster ID to pin the volume to the same substrate as that GPU cluster.
+       */
+      instance_cluster_id?: string;
+
+      /**
+       * When true, the shared volume is not deleted when the cluster is decommissioned.
+       */
+      is_lifecycle_independent?: boolean;
+
+      /**
+       * Project ID that will own the volume. When omitted, the caller's default project
+       * is used.
+       */
+      project_id?: string;
+    }
+  }
+
+  export interface GPUClusterCreateRequestLegacyNvidia {
+    /**
+     * RESERVED billing types allow you to specify the duration of the cluster
+     * reservation via the duration_days field. ON_DEMAND billing types will give you
+     * ownership of the cluster until you delete it. SCHEDULED_CAPACITY billing types
+     * allow you to reserve capacity for a scheduled time window. You must specify the
+     * reservation_start_time and reservation_end_time with this request.
+     */
+    billing_type: 'RESERVED' | 'ON_DEMAND' | 'SCHEDULED_CAPACITY';
+
+    /**
+     * Name of the GPU cluster.
+     */
+    cluster_name: string;
+
+    /**
+     * Legacy CUDA selector for this cluster. Bare semantic values such as 12.5 select
+     * ubuntu-22.04; existing OS-suffixed values remain accepted for compatibility.
+     * Must be paired with nvidia_driver_version. Prefer nvidia_version_id for new
+     * integrations.
+     */
+    cuda_version: string;
+
+    /**
+     * Type of GPU to use in the cluster
+     */
+    gpu_type:
+      | 'H100_SXM'
+      | 'H200_SXM'
+      | 'RTX_6000_PCI'
+      | 'L40_PCIE'
+      | 'B200_SXM'
+      | 'H100_SXM_INF'
+      | 'B300_SXM';
+
+    /**
+     * Number of GPUs to allocate in the cluster. This must be multiple of 8. For
+     * example, 8, 16 or 24
+     */
+    num_gpus: number;
+
+    /**
+     * Legacy NVIDIA driver selector for this cluster. For example, 550. Must be paired
+     * with cuda_version. Prefer nvidia_version_id for new integrations.
+     */
+    nvidia_driver_version: string;
+
+    /**
+     * Region to create the GPU cluster in. Usable regions can be found from
+     * `client.clusters.list_regions()`
+     */
+    region: string;
+
+    /**
+     * AcceptanceTestsParams groups all GPU acceptance test options when enabled is
+     * true.
+     */
+    acceptance_tests_params?: GPUClusterCreateRequestLegacyNvidia.AcceptanceTestsParams;
+
+    /**
+     * Add-ons to enable on the cluster at creation time.
+     */
+    add_ons?: Array<GPUClusterCreateRequestLegacyNvidia.AddOn>;
+
+    /**
+     * Whether to enable auto-scaling for the cluster. If true, the cluster will
+     * automatically scale the number of GPU worker nodes between num_gpus and
+     * auto_scale_max_gpus based on the workload.
+     */
+    auto_scale?: boolean;
+
+    /**
+     * Maximum number of GPUs to which the cluster can be auto-scaled up. This field is
+     * required if auto_scaled is true.
+     */
+    auto_scale_max_gpus?: number;
+
+    /**
+     * @deprecated Whether GPU cluster should be auto-scaled based on the workload. By
+     * default, it is not auto-scaled.
+     */
+    auto_scaled?: boolean;
+
+    /**
+     * ID of the capacity pool to use for the cluster. This field is optional and only
+     * applicable if the cluster is created from a capacity pool.
+     */
+    capacity_pool_id?: string;
+
+    cluster_config?: GPUClusterCreateRequestLegacyNvidia.ClusterConfig;
+
+    /**
+     * Type of cluster to create.
+     */
+    cluster_type?: 'KUBERNETES' | 'SLURM';
+
+    /**
+     * Duration in days to keep the cluster running.
+     */
+    duration_days?: number;
+
+    /**
+     * Whether to install Traefik ingress controller in the cluster. This field is only
+     * applicable for Kubernetes clusters and is false by default.
+     */
+    install_traefik?: boolean;
+
+    /**
+     * Number of GPUs to allocate from the capacity pool. Must be a multiple of 8 and
+     * not exceed num_gpus.
+     */
+    num_capacity_pool_gpus?: number;
+
+    /**
+     * Number of preemptible GPUs to request alongside on-demand capacity. Must be a
+     * multiple of 8. Preemptible nodes are cheaper but may be reclaimed when on-demand
+     * capacity is needed elsewhere; the system fulfills this asynchronously and
+     * surfaces the actual count in allocated_preemptible_gpus.
+     */
+    num_preemptible_gpus?: number;
+
+    /**
+     * Number of prepaid (PLG) reserved GPUs for this cluster. When omitted for
+     * RESERVED billing on create, the server defaults this to num_gpus.
+     */
+    num_reserved_gpus?: number;
+
+    /**
+     * Canonical region-specific NVIDIA version ID. If cuda_version and
+     * nvidia_driver_version are also set, they must resolve to the same catalog entry.
+     */
+    nvidia_version_id?: string;
+
+    oidc_config?: GPUClusterCreateRequestLegacyNvidia.OidcConfig;
+
+    /**
+     * Project ID for the cluster. If not set, the project from the request context is
+     * used.
+     */
+    project_id?: string;
+
+    /**
+     * Reservation end time of the cluster. This field is required for SCHEDULED
+     * billing to specify the reservation end time for the cluster.
+     */
+    reservation_end_time?: string;
+
+    /**
+     * Reservation start time of the cluster. This field is required for SCHEDULED
+     * billing to specify the reservation start time for the cluster. If not provided,
+     * the cluster provisions immediately.
+     */
+    reservation_start_time?: string;
+
+    /**
+     * Inline configuration to create a shared volume with the cluster creation.
+     */
+    shared_volume?: GPUClusterCreateRequestLegacyNvidia.SharedVolume;
+
+    /**
+     * Custom Slurm image for Slurm clusters.
+     */
+    slurm_image?: string;
+
+    /**
+     * Shared memory size in GiB for Slurm cluster. This field is required if
+     * cluster_type is SLURM.
+     */
+    slurm_shm_size_gib?: number;
+
+    /**
+     * ID of an existing volume to use with the cluster creation.
+     */
+    volume_id?: string;
+  }
+
+  export namespace GPUClusterCreateRequestLegacyNvidia {
+    /**
+     * AcceptanceTestsParams groups all GPU acceptance test options when enabled is
+     * true.
+     */
+    export interface AcceptanceTestsParams {
+      /**
+       * DCGM diagnostic depth. SHORT = readiness; MEDIUM = default; LONG = system
+       * validation; EXTENDED = memtest. An omitted value selects MEDIUM when enabled.
+       */
+      dcgm_diag_level?:
+        | 'DCGM_DIAG_LEVEL_SHORT'
+        | 'DCGM_DIAG_LEVEL_MEDIUM'
+        | 'DCGM_DIAG_LEVEL_LONG'
+        | 'DCGM_DIAG_LEVEL_EXTENDED';
+
+      /**
+       * Skip DCGM diagnostics acceptance test.
+       */
+      dcgm_diag_skipped?: boolean;
+
+      /**
+       * Whether to run GPU acceptance tests during cluster bring-up.
+       */
+      enabled?: boolean;
+
+      /**
+       * GPU burn duration in seconds; 0 means use the default when enabled.
+       */
+      gpu_burn_duration?: number;
+
+      /**
+       * Skip GPU burn acceptance test.
+       */
+      gpu_burn_skipped?: boolean;
+
+      /**
+       * Skip NCCL multi-node acceptance test.
+       */
+      nccl_multi_node_skipped?: boolean;
+
+      /**
+       * Skip NCCL single-node acceptance test.
+       */
+      nccl_single_node_skipped?: boolean;
+
+      /**
+       * Skip storage-performance acceptance test.
+       */
+      storage_skipped?: boolean;
+    }
+
+    export interface AddOn {
+      /**
+       * Type of add-on. Valid values: 'dashboard', 'ingress', 'torchpass'.
+       */
+      add_on_type: string;
+
+      /**
+       * Human-readable name for this add-on instance.
+       */
+      name: string;
+
+      /**
+       * Configuration for a cluster add-on.
+       */
+      config?: AddOn.Config;
+    }
+
+    export namespace AddOn {
+      /**
+       * Configuration for a cluster add-on.
+       */
+      export interface Config {
+        dashboard?: Config.Dashboard;
+
+        /**
+         * Configuration for the Headlamp Kubernetes dashboard add-on.
+         */
+        headlamp?: Config.Headlamp;
+
+        ingress?: Config.Ingress;
+
+        /**
+         * Configuration for the Slurm Web add-on.
+         */
+        slurm_web?: Config.SlurmWeb;
+
+        /**
+         * Configuration for the Model Aware TorchPass add-on.
+         */
+        torchpass?: Config.Torchpass;
+      }
+
+      export namespace Config {
+        export interface Dashboard {
+          enabled?: boolean;
+        }
+
+        /**
+         * Configuration for the Headlamp Kubernetes dashboard add-on.
+         */
+        export interface Headlamp {
+          /**
+           * Whether to enable the Headlamp Kubernetes dashboard add-on.
+           */
+          enabled?: boolean;
+        }
+
+        export interface Ingress {
+          enabled?: boolean;
+        }
+
+        /**
+         * Configuration for the Slurm Web add-on.
+         */
+        export interface SlurmWeb {
+          /**
+           * Whether to enable the Slurm Web add-on.
+           */
+          enabled?: boolean;
+        }
+
+        /**
+         * Configuration for the Model Aware TorchPass add-on.
+         */
+        export interface Torchpass {
+          /**
+           * Whether to enable the Model Aware TorchPass add-on.
+           */
+          enabled?: boolean;
+        }
+      }
+    }
+
+    export interface ClusterConfig {
+      load_balancer: 'NONE' | 'TRAEFIK' | 'NGINX' | 'ISTIO';
+
+      /**
+       * NVIDIA GPU Operator chart/version for the tenant cluster (e.g. v24.6.2). When
+       * omitted, a service default is applied.
+       */
+      gpu_operator_version?: string;
+
+      ingress?: ClusterConfig.Ingress;
+
+      jumphost_enabled?: boolean;
+
+      kubernetes_dashboard_enabled?: boolean;
+
+      /**
+       * NVIDIA Network Operator chart/version for the tenant cluster (e.g. v24.7.0).
+       * When omitted, a service default is applied.
+       */
+      network_operator_version?: string;
+
+      observability?: ClusterConfig.Observability;
+
+      /**
+       * SlurmStartupScripts carries optional Slurm lifecycle scripts (prolog/epilog,
+       * init, extra conf).
+       */
+      slurm_startup_scripts?: ClusterConfig.SlurmStartupScripts;
+
+      /**
+       * Whether this cluster uses a per-cluster SSH certificate authority for
+       * OIDC-signed SSH access.
+       */
+      ssh_ca_enabled?: boolean;
+    }
+
+    export namespace ClusterConfig {
+      export interface Ingress {
+        enabled?: boolean;
+      }
+
+      export interface Observability {
+        enabled?: boolean;
+      }
+
+      /**
+       * SlurmStartupScripts carries optional Slurm lifecycle scripts (prolog/epilog,
+       * init, extra conf).
+       */
+      export interface SlurmStartupScripts {
+        /**
+         * Slurm controller epilog script.
+         */
+        controller_epilog?: string;
+
+        /**
+         * Slurm controller prolog script.
+         */
+        controller_prolog?: string;
+
+        /**
+         * Additional slurm.conf fragments.
+         */
+        extra_slurm_conf?: string;
+
+        /**
+         * Script run on Slurm login node init.
+         */
+        login_init_script?: string;
+
+        /**
+         * Script run on Slurm nodeset init.
+         */
+        nodeset_init_script?: string;
+
+        /**
+         * Slurm worker node epilog script.
+         */
+        worker_epilog?: string;
+
+        /**
+         * Slurm worker node prolog script.
+         */
+        worker_prolog?: string;
+      }
+    }
+
+    export interface OidcConfig {
+      /**
+       * OIDC client ID for authentication.
+       */
+      client_id: string;
+
+      /**
+       * JWT claim to use for user groups. For example, 'groups'
+       */
+      group_claim: string;
+
+      /**
+       * Prefix to add to the group claim to form the final group name. For example,
+       * 'oidc:'
+       */
+      group_prefix: string;
+
+      /**
+       * OIDC issuer URL for authentication. For example, https://accounts.google.com
+       */
+      issuer_url: string;
+
+      /**
+       * JWT claim to use as the username. For example, 'sub' or 'email'
+       */
+      username_claim: string;
+
+      /**
+       * Prefix to add to the username claim to form the final username. For example,
+       * 'oidc:'
+       */
+      username_prefix: string;
+
+      /**
+       * CA certificate in PEM format to validate the OIDC issuer's TLS certificate. This
+       * field is optional but recommended if the issuer uses a private CA or self-signed
+       * certificate.
+       */
+      ca_cert?: string;
+    }
+
+    /**
+     * Inline configuration to create a shared volume with the cluster creation.
+     */
+    export interface SharedVolume {
+      /**
+       * Region name. Usable regions can be found from `clusters.list_regions()`
+       */
+      region: string;
+
+      /**
+       * Volume size in whole tebibytes (TiB).
+       */
+      size_tib: number;
+
+      /**
+       * User provided name of the volume.
+       */
+      volume_name: string;
+
+      /**
+       * Cluster ID to pin the volume to the same substrate as that GPU cluster.
+       */
+      instance_cluster_id?: string;
+
+      /**
+       * When true, the shared volume is not deleted when the cluster is decommissioned.
+       */
+      is_lifecycle_independent?: boolean;
+
+      /**
+       * Project ID that will own the volume. When omitted, the caller's default project
+       * is used.
+       */
+      project_id?: string;
+    }
   }
 }
 
