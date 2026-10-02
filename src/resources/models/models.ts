@@ -51,7 +51,17 @@ export interface ModelObject {
    */
   object: 'model';
 
-  type: 'chat' | 'language' | 'code' | 'image' | 'embedding' | 'moderation' | 'rerank';
+  type:
+    | 'chat'
+    | 'language'
+    | 'code'
+    | 'image'
+    | 'embedding'
+    | 'moderation'
+    | 'rerank'
+    | 'audio'
+    | 'transcribe'
+    | 'video';
 
   context_length?: number;
 
