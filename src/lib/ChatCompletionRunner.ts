@@ -59,9 +59,9 @@ export class ChatCompletionRunner extends AbstractChatCompletionRunner<ChatCompl
     return runner;
   }
 
-  override _addMessage(message: ChatCompletionMessageParam) {
-    super._addMessage(message);
-    if (isAssistantMessage(message) && message.content) {
+  override _addMessage(message: ChatCompletionMessageParam, emit = true) {
+    super._addMessage(message, emit);
+    if (emit && isAssistantMessage(message) && message.content) {
       this._emit('content', message.content as string);
     }
   }

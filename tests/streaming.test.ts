@@ -1,6 +1,7 @@
 import assert from 'assert';
 import { _iterSSEMessages } from 'together-ai/core/streaming';
 import { ReadableStreamFrom } from 'together-ai/internal/shims';
+import { ChatCompletionStream } from 'together-ai/lib/ChatCompletionStream';
 
 describe('streaming decoding', () => {
   test('basic', async () => {
@@ -215,5 +216,67 @@ describe('streaming decoding', () => {
 
     event = await stream.next();
     expect(event.done).toBeTruthy();
+  });
+});
+
+describe('ChatCompletionStream', () => {
+  // `Stream.fromReadableStream` consumes newline delimited JSON, one chunk per line.
+  async function* chunkBody(chunks: object[]): AsyncGenerator<Buffer> {
+    for (const chunk of chunks) {
+      yield Buffer.from(`${JSON.stringify(chunk)}\n`);
+    }
+  }
+
+  const chunk = (overrides: object) => ({
+    id: 'completion-1',
+    object: 'chat.completion.chunk',
+    created: 0,
+    model: 'test-model',
+    ...overrides,
+  });
+
+  test('does not fabricate logprobs when none were requested', async () => {
+    const stream = ChatCompletionStream.fromReadableStream(
+      ReadableStreamFrom(
+        chunkBody([
+          chunk({
+            choices: [{ index: 0, delta: { role: 'assistant', content: 'hi' }, finish_reason: null }],
+          }),
+          chunk({ choices: [{ index: 0, delta: { content: '!' }, finish_reason: 'stop' }] }),
+        ]),
+      ),
+    );
+
+    const completion = await stream.finalChatCompletion();
+
+    // Must match the non-streaming response, which reports `null`.
+    expect(completion.choices[0]?.logprobs ?? null).toBeNull();
+  });
+
+  test('aggregates per-token logprobs when they are requested', async () => {
+    const stream = ChatCompletionStream.fromReadableStream(
+      ReadableStreamFrom(
+        chunkBody([
+          chunk({
+            choices: [
+              { index: 0, delta: { role: 'assistant', content: 'hi', token_id: 11 }, logprobs: -0.5 },
+            ],
+          }),
+          chunk({
+            choices: [
+              { index: 0, delta: { content: '!', token_id: 12 }, logprobs: -0.25, finish_reason: 'stop' },
+            ],
+          }),
+        ]),
+      ),
+    );
+
+    const completion = await stream.finalChatCompletion();
+
+    expect(completion.choices[0]?.logprobs).toMatchObject({
+      token_ids: [11, 12],
+      token_logprobs: [-0.5, -0.25],
+      tokens: ['hi', '!'],
+    });
   });
 });
