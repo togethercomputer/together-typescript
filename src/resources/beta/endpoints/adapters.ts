@@ -193,6 +193,17 @@ export interface DeploymentAdapterStatus {
   adapterModel?: string;
 
   /**
+   * Optional inference-probe verdict for this adapter on this cluster; absent until
+   * validation concludes.
+   */
+  adapterValid?: boolean;
+
+  /**
+   * Human-readable probe rejection detail when adapterValid is false.
+   */
+  adapterValidReason?: string;
+
+  /**
    * Time when the adapter first reached READY in this cluster.
    */
   loadedAt?: string;
