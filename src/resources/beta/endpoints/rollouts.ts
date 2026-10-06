@@ -467,8 +467,8 @@ export interface RegressionCheck {
 }
 
 /**
- * Rolling strategy configuration for capacity-preserving batches that ramp target
- * replicas up while draining source replicas.
+ * Rolling strategy configuration for small batches that ramp target replicas up
+ * while shrinking source replicas to what their remaining traffic share needs.
  */
 export interface RollingConfig {}
 
@@ -745,8 +745,8 @@ export namespace RolloutDefaultsPreview {
     metrics?: Array<RolloutsAPI.MetricRule>;
 
     /**
-     * Rolling strategy configuration for capacity-preserving batches that ramp target
-     * replicas up while draining source replicas.
+     * Rolling strategy configuration for small batches that ramp target replicas up
+     * while shrinking source replicas to what their remaining traffic share needs.
      */
     rolling?: RolloutsAPI.RollingConfig;
   }
@@ -962,8 +962,9 @@ export interface RolloutCreateParams {
   metrics?: Array<MetricRule>;
 
   /**
-   * Body param: Rolling strategy configuration for capacity-preserving batches that
-   * ramp target replicas up while draining source replicas.
+   * Body param: Rolling strategy configuration for small batches that ramp target
+   * replicas up while shrinking source replicas to what their remaining traffic
+   * share needs.
    */
   rolling?: RollingConfig;
 }
@@ -1123,8 +1124,9 @@ export interface RolloutPreviewDefaultsParams {
   metrics?: Array<MetricRule>;
 
   /**
-   * Body param: Rolling strategy configuration for capacity-preserving batches that
-   * ramp target replicas up while draining source replicas.
+   * Body param: Rolling strategy configuration for small batches that ramp target
+   * replicas up while shrinking source replicas to what their remaining traffic
+   * share needs.
    */
   rolling?: RollingConfig;
 }
