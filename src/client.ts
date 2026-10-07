@@ -76,6 +76,7 @@ import {
   FinetuneResponse,
 } from './resources/fine-tuning';
 import { ImageDataB64, ImageDataURL, ImageFile, ImageGenerateParams, Images } from './resources/images';
+import { Project, ProjectListParams, Projects, ProjectsCursorPagination } from './resources/projects';
 import { Rerank, RerankCreateParams, RerankCreateResponse } from './resources/rerank';
 import { VideoCreateParams, VideoJob, Videos } from './resources/videos';
 import { Audio, AudioFile, AudioSpeechStreamChunk } from './resources/audio/audio';
@@ -894,6 +895,7 @@ export class Together {
   audio: API.Audio = new API.Audio(this);
   models: API.Models = new API.Models(this);
   endpoints: API.Endpoints = new API.Endpoints(this);
+  projects: API.Projects = new API.Projects(this);
   rerank: API.Rerank = new API.Rerank(this);
   batches: API.Batches = new API.Batches(this);
   evals: API.Evals = new API.Evals(this);
@@ -912,6 +914,7 @@ Together.Videos = Videos;
 Together.Audio = Audio;
 Together.Models = Models;
 Together.Endpoints = Endpoints;
+Together.Projects = Projects;
 Together.Rerank = Rerank;
 Together.Batches = Batches;
 Together.Evals = Evals;
@@ -1037,6 +1040,13 @@ export declare namespace Together {
     type EndpointUpdateParams as EndpointUpdateParams,
     type EndpointListParams as EndpointListParams,
     type EndpointListHardwareParams as EndpointListHardwareParams,
+  };
+
+  export {
+    Projects as Projects,
+    type Project as Project,
+    type ProjectsCursorPagination as ProjectsCursorPagination,
+    type ProjectListParams as ProjectListParams,
   };
 
   export {

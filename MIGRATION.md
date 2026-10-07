@@ -182,6 +182,7 @@ client.example.list(undefined, { headers: { ... } });
 - `client.models.list()`
 - `client.endpoints.list()`
 - `client.endpoints.listHardware()`
+- `client.projects.list()`
 - `client.evals.list()`
 
 </details>

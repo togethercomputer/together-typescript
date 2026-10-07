@@ -106,6 +106,7 @@ export {
   type ModelListParams,
   type ModelUploadParams,
 } from './models/models';
+export { Projects, type Project, type ProjectListParams, type ProjectsCursorPagination } from './projects';
 export { Rerank, type RerankCreateResponse, type RerankCreateParams } from './rerank';
 export { Videos, type VideoJob, type VideoCreateParams } from './videos';
 export { type WhoamiResponse } from './top-level';

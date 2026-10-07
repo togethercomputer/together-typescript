@@ -638,6 +638,16 @@ Methods:
 - <code title="post /endpoints/{endpointId}/adapters">client.endpoints.adapters.<a href="./src/resources/endpoints/adapters.ts">add</a>(endpointID, { ...params }) -> AdapterAddResponse</code>
 - <code title="delete /endpoints/{endpointId}/adapters">client.endpoints.adapters.<a href="./src/resources/endpoints/adapters.ts">remove</a>(endpointID, { ...params }) -> AdapterRemoveResponse</code>
 
+# Projects
+
+Types:
+
+- <code><a href="./src/resources/projects.ts">Project</a></code>
+
+Methods:
+
+- <code title="get /projects">client.projects.<a href="./src/resources/projects.ts">list</a>({ ...params }) -> ProjectsCursorPagination</code>
+
 # Rerank
 
 Types:
