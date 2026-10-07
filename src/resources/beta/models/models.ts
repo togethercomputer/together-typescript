@@ -623,6 +623,12 @@ export interface SupportedModelDeploymentProfile {
   quantization: string;
 
   /**
+   * Adapter serving mode for deployments created from this profile; omitted when no
+   * certified config is pinned.
+   */
+  adapterMode?: 'ADAPTER_MODE_FIXED' | 'ADAPTER_MODE_DYNAMIC' | 'ADAPTER_MODE_DISABLED';
+
+  /**
    * @deprecated Deprecated. Use `parallelism`. Legacy tensor-parallel shard count
    * for the profile.
    */
@@ -899,6 +905,12 @@ export interface ModelListRevisionsParams {
 }
 
 export interface ModelListSupportedParams extends CursorPaginationParams {
+  /**
+   * Filter models to those with a deployment profile in the selected adapter serving
+   * mode.
+   */
+  adapterMode?: 'ADAPTER_MODE_FIXED' | 'ADAPTER_MODE_DYNAMIC' | 'ADAPTER_MODE_DISABLED';
+
   /**
    * Filter models by input modality.
    */

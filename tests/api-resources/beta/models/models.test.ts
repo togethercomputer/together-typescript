@@ -177,6 +177,7 @@ describe('resource models', () => {
     await expect(
       client.beta.models.listSupported(
         {
+          adapterMode: 'ADAPTER_MODE_FIXED',
           after: 'after',
           limit: 0,
           modality: 'MODALITY_TEXT',
