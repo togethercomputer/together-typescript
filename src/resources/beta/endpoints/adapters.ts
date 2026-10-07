@@ -245,6 +245,12 @@ export interface DeploymentAdapterStatus {
  */
 export interface AdapterCreateResponse {
   /**
+   * Row identifier for this adapter attachment; changes if the adapter is removed
+   * and re-added.
+   */
+  id: string;
+
+  /**
    * Adapter model identifier attached to the deployment.
    */
   adapterModelId: string;
@@ -281,6 +287,12 @@ export interface AdapterCreateResponse {
  * Adapter attached to a deployment with desired revision and observed load state.
  */
 export interface AdapterRetrieveResponse {
+  /**
+   * Row identifier for this adapter attachment; changes if the adapter is removed
+   * and re-added.
+   */
+  id: string;
+
   /**
    * Adapter model identifier attached to the deployment.
    */
@@ -319,6 +331,12 @@ export interface AdapterRetrieveResponse {
  */
 export interface AdapterUpdateResponse {
   /**
+   * Row identifier for this adapter attachment; changes if the adapter is removed
+   * and re-added.
+   */
+  id: string;
+
+  /**
    * Adapter model identifier attached to the deployment.
    */
   adapterModelId: string;
@@ -355,6 +373,12 @@ export interface AdapterUpdateResponse {
  * Adapter attached to a deployment with desired revision and observed load state.
  */
 export interface AdapterListResponse {
+  /**
+   * Row identifier for this adapter attachment; changes if the adapter is removed
+   * and re-added.
+   */
+  id: string;
+
   /**
    * Adapter model identifier attached to the deployment.
    */
