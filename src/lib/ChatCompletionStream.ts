@@ -160,12 +160,15 @@ export class ChatCompletionStream
           finish_reason,
           index,
           message: {},
-          logprobs: { token_ids: [], token_logprobs: [], tokens: [] },
+          // Only surface logprobs when the server actually sent them, otherwise
+          // this would fabricate an empty object for every completion and
+          // disagree with the non-streaming response.
+          logprobs: logprobs != null ? { token_ids: [], token_logprobs: [], tokens: [] } : null,
           ...other,
         };
       }
 
-      if (logprobs) {
+      if (logprobs != null) {
         if (!choice.logprobs) {
           choice.logprobs = { token_ids: [], token_logprobs: [], tokens: [] };
         }
