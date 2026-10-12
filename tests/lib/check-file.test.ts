@@ -194,6 +194,17 @@ describe('checkFile', () => {
         expect(report.message).toContain('File is not UTF-8 encoded');
       });
 
+      it('should fail when a truncated multi-byte sequence ends the file', async () => {
+        const file = path.join(tmpDir, 'truncated_utf8.jsonl');
+        // A leading `{` so the content is not empty, then a dangling 3-byte prefix.
+        fs.writeFileSync(file, Buffer.concat([Buffer.from('{'), Buffer.from([0xe2, 0x82])]));
+
+        const report = await checkFile(file);
+
+        expect(report.is_check_passed).toBe(false);
+        expect(report.utf8).toBe(false);
+      });
+
       it('should fail for invalid JSON', async () => {
         const file = path.join(tmpDir, 'invalid_json.jsonl');
         const content = [JSON.stringify({ text: 'Hello, world!' }), 'Invalid JSON Line'];
@@ -370,6 +381,37 @@ describe('checkFile', () => {
         expect(report.message).toContain('Weight must be either 0 or 1');
       });
     });
+
+    describe('UTF-8 validation', () => {
+      // `createReadStream` uses a 64 KiB high water mark; the decoder must carry
+      // partial multi-byte sequences across that boundary.
+      const CHUNK_SIZE = 64 * 1024;
+
+      it('should accept a multi-byte character split across a chunk boundary', async () => {
+        const file = path.join(tmpDir, 'split_utf8.jsonl');
+        // Place the 4 byte emoji exactly on the 64 KiB boundary: the first chunk
+        // contains only its leading byte, the second chunk the remaining three.
+        const beforeEmoji = Buffer.alloc(CHUNK_SIZE - 1, 0x61);
+        const emoji = Buffer.from('\u{1F600}');
+        expect(emoji.length).toBe(4);
+        fs.writeFileSync(file, Buffer.concat([beforeEmoji, emoji, Buffer.from('\n')]));
+
+        const report = await checkFile(file);
+
+        expect(report.utf8).toBe(true);
+      });
+
+      it('should reject an invalid byte hidden after a chunk boundary', async () => {
+        const file = path.join(tmpDir, 'invalid_after_boundary.jsonl');
+        const prefix = Buffer.alloc(CHUNK_SIZE + 10, 0x61);
+        fs.writeFileSync(file, Buffer.concat([Buffer.from('{'), prefix, Buffer.from([0xff])]));
+
+        const report = await checkFile(file);
+
+        expect(report.utf8).toBe(false);
+        expect(report.is_check_passed).toBe(false);
+      });
+    });
   });
 
   describe('CSV files', () => {
@@ -417,6 +459,62 @@ describe('checkFile', () => {
       const report = await checkFile(file);
 
       expect(report.is_check_passed).toBe(false);
+    });
+  });
+
+  describe('purposes', () => {
+    it('should still reject malformed fine-tuning files', async () => {
+      const file = path.join(tmpDir, 'bad_finetune.jsonl');
+      fs.writeFileSync(file, JSON.stringify({ custom_id: '1', method: 'POST' }));
+
+      const report = await checkFile(file, 'fine-tune');
+
+      expect(report.is_check_passed).toBe(false);
+      expect(report.format).toBe(false);
+    });
+
+    it('should not validate eval files as fine-tuning datasets', async () => {
+      const file = path.join(tmpDir, 'eval.jsonl');
+      const content = [{ custom_id: '1' }, { custom_id: '2' }];
+      fs.writeFileSync(file, content.map((item) => JSON.stringify(item)).join('\n'));
+
+      const report = await checkFile(file, 'eval');
+
+      expect(report.is_check_passed).toBe(true);
+      expect(report.num_samples).toBe(2);
+    });
+  });
+
+  describe('Parquet files', () => {
+    it('should report a meaningful message when the file cannot be read', async () => {
+      const file = path.join(tmpDir, 'corrupt.parquet');
+      fs.writeFileSync(file, 'this is not a parquet file');
+
+      const report = await checkFile(file, 'fine-tune');
+
+      expect(report.is_check_passed).toBe(false);
+      expect(report.message).not.toBe('Checks passed');
+      expect(report.message).toContain('parquet');
+    });
+
+    it('should report num_samples as a plain number', async () => {
+      const parquet = await import('parquetjs');
+      const file = path.join(tmpDir, 'rows.parquet');
+      const schema = new parquet.ParquetSchema({
+        input_ids: { type: 'UTF8' },
+        attention_mask: { type: 'UTF8' },
+        labels: { type: 'UTF8' },
+      });
+      const writer = await parquet.ParquetWriter.openFile(schema, file);
+      await writer.appendRow({ input_ids: 'a', attention_mask: 'b', labels: 'c' });
+      await writer.appendRow({ input_ids: 'a', attention_mask: 'b', labels: 'c' });
+      await writer.close();
+
+      const report = await checkFile(file, 'fine-tune');
+
+      expect(report.is_check_passed).toBe(true);
+      expect(report.num_samples).toBe(2);
+      expect(typeof report.num_samples).toBe('number');
     });
   });
 });

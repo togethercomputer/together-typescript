@@ -1,5 +1,5 @@
 import { FilePurpose } from '../resources';
-import { createReadStream, readline, isUtf8, resolve, stat, extname, readFile } from './node-unsafe-imports';
+import { createReadStream, readline, resolve, stat, extname } from './node-unsafe-imports';
 
 // Constants
 const MIN_SAMPLES = 1;
@@ -121,11 +121,21 @@ export async function checkFile(
       report_dict.filetype = 'csv';
       data_report_dict = await _check_csv(filePath, purpose);
     } else {
-      report_dict.filetype = `Unknown extension of file ${filePath}. Only files with extensions .jsonl and .parquet are supported.`;
+      report_dict.filetype = `Unknown extension of file ${filePath}. Only files with extensions .jsonl, .parquet, and .csv are supported.`;
       report_dict.is_check_passed = false;
     }
   } catch (e) {
-    Object.assign(report_dict, e);
+    if (e instanceof Error) {
+      // `_check_parquet` throws a plain `Error` when it cannot proceed (for
+      // example when the optional `parquetjs` dependency is not installed).
+      // `Error#message` is not enumerable, so it must be copied explicitly or
+      // the failure would be silently reported as a passing check.
+      report_dict.is_check_passed = false;
+      report_dict.message = e.message;
+    } else {
+      // `_check_utf8` throws a partial report to short-circuit the other checks.
+      Object.assign(report_dict, e);
+    }
   }
 
   Object.assign(report_dict, data_report_dict);
@@ -374,14 +384,31 @@ export function validate_preference_openai(example: Record<string, any>, idx: nu
 
 async function _check_utf8(file: string): Promise<Partial<CheckFileReport>> {
   const report_dict: Partial<CheckFileReport> = {};
-  const content = await readFile(file);
-  report_dict.utf8 = isUtf8(content);
 
-  if (!report_dict.utf8) {
+  // Decode the file incrementally instead of reading it into memory in one go.
+  // Datasets may be several gigabytes, and `TextDecoder` with `fatal: true`
+  // accepts/rejects exactly the same byte sequences as `Buffer.isUtf8`, while
+  // keeping the memory footprint constant. `stream: true` carries over partial
+  // multi-byte sequences that are split across chunk boundaries.
+  const decoder = new TextDecoder('utf-8', { fatal: true });
+  const fileStream = createReadStream(file);
+
+  try {
+    for await (const chunk of fileStream) {
+      decoder.decode(chunk as Uint8Array, { stream: true });
+    }
+    // Flush the decoder: throws if the file ends with a truncated sequence.
+    decoder.decode();
+    report_dict.utf8 = true;
+  } catch {
+    report_dict.utf8 = false;
     report_dict.message = `File is not UTF-8 encoded.`;
     report_dict.is_check_passed = false;
     throw report_dict;
+  } finally {
+    fileStream.destroy();
   }
+
   return report_dict;
 }
 
@@ -668,6 +695,7 @@ async function _check_parquet(
 
     if (!column_names.includes('input_ids')) {
       report_dict.load_parquet = `Parquet file ${file} does not contain the \`input_ids\` column.`;
+      report_dict.message = report_dict.load_parquet;
       report_dict.is_check_passed = false;
       await reader.close();
       return report_dict;
@@ -678,13 +706,16 @@ async function _check_parquet(
         report_dict.load_parquet = `Parquet file ${file} contains an unexpected column ${column_name}. Only columns ${PARQUET_EXPECTED_COLUMNS.join(
           ', ',
         )} are supported.`;
+        report_dict.message = report_dict.load_parquet;
         report_dict.is_check_passed = false;
         await reader.close();
         return report_dict;
       }
     }
 
-    const num_samples = reader.getRowCount() as number;
+    // parquetjs returns a node-int64 `Int64` object rather than a number, which
+    // would leak into the report as `{ buffer, offset }`.
+    const num_samples = Number(reader.getRowCount());
 
     if (num_samples < MIN_SAMPLES) {
       report_dict.has_min_samples = false;
@@ -702,6 +733,7 @@ async function _check_parquet(
     const errorMessage = e instanceof Error ? e.message : String(e);
     const stack = e instanceof Error ? e.stack : '';
     report_dict.load_parquet = `An exception has occurred when loading the Parquet file ${file}. Please check the file for corruption. Exception trace:\n${errorMessage}\n${stack}`;
+    report_dict.message = `An exception has occurred when loading the Parquet file ${file}. Please check the file for corruption.`;
     report_dict.is_check_passed = false;
   }
 
