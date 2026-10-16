@@ -55,6 +55,7 @@ describe('resource adapters', () => {
       projectId: 'projectId',
       endpointId: 'endpointId',
       deploymentId: 'deploymentId',
+      adapterModelId: 'adapterModelId',
     });
   });
 
@@ -82,6 +83,7 @@ describe('resource adapters', () => {
       deploymentId: 'deploymentId',
       adapterRevisionId: 'adapterRevisionId',
       etag: 'etag',
+      adapterModelId: 'adapterModelId',
     });
   });
 
@@ -128,6 +130,7 @@ describe('resource adapters', () => {
       endpointId: 'endpointId',
       deploymentId: 'deploymentId',
       etag: 'etag',
+      adapterModelId: 'adapterModelId',
     });
   });
 });

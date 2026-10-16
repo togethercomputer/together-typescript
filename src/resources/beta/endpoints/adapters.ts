@@ -32,7 +32,8 @@ export class Adapters extends APIResource {
   }
 
   /**
-   * Gets an attached adapter and its per-cluster load state.
+   * Gets an adapter attachment by its `dad_` id and returns its per-cluster load
+   * state.
    *
    * @example
    * ```ts
@@ -49,16 +50,16 @@ export class Adapters extends APIResource {
     params: AdapterRetrieveParams,
     options?: RequestOptions,
   ): APIPromise<AdapterRetrieveResponse> {
-    const { projectId = this._client.projectID, endpointId, deploymentId } = params;
+    const { projectId = this._client.projectID, endpointId, deploymentId, ...query } = params;
     return this._client.get(
       path`/projects/${projectId}/endpoints/${endpointId}/deployments/${deploymentId}/adapters/${id}`,
-      { defaultBaseURL: 'https://api.together.ai/v2', ...options },
+      { query, defaultBaseURL: 'https://api.together.ai/v2', ...options },
     );
   }
 
   /**
-   * Updates the pinned revision of an attached adapter using its row-level etag for
-   * optimistic concurrency.
+   * Updates the pinned revision of an adapter attachment by its `dad_` id using its
+   * row-level etag for optimistic concurrency.
    *
    * @example
    * ```ts
@@ -116,8 +117,8 @@ export class Adapters extends APIResource {
   }
 
   /**
-   * Detaches an adapter from a deployment using its row-level etag for optimistic
-   * concurrency.
+   * Detaches an adapter attachment by its `dad_` id using its row-level etag for
+   * optimistic concurrency.
    *
    * @example
    * ```ts
@@ -137,10 +138,10 @@ export class Adapters extends APIResource {
     params: AdapterDeleteParams,
     options?: RequestOptions,
   ): APIPromise<AdapterDeleteResponse> {
-    const { projectId = this._client.projectID, endpointId, deploymentId, etag } = params;
+    const { projectId = this._client.projectID, endpointId, deploymentId, etag, adapterModelId } = params;
     return this._client.delete(
       path`/projects/${projectId}/endpoints/${endpointId}/deployments/${deploymentId}/adapters/${id}`,
-      { query: { etag }, defaultBaseURL: 'https://api.together.ai/v2', ...options },
+      { query: { etag, adapterModelId }, defaultBaseURL: 'https://api.together.ai/v2', ...options },
     );
   }
 }
@@ -245,8 +246,8 @@ export interface DeploymentAdapterStatus {
  */
 export interface AdapterCreateResponse {
   /**
-   * Row identifier for this adapter attachment; changes if the adapter is removed
-   * and re-added.
+   * Adapter attachment `dad_` id used by get, update, and remove; stale ids never
+   * address a replacement after remove and re-add.
    */
   id: string;
 
@@ -288,8 +289,8 @@ export interface AdapterCreateResponse {
  */
 export interface AdapterRetrieveResponse {
   /**
-   * Row identifier for this adapter attachment; changes if the adapter is removed
-   * and re-added.
+   * Adapter attachment `dad_` id used by get, update, and remove; stale ids never
+   * address a replacement after remove and re-add.
    */
   id: string;
 
@@ -331,8 +332,8 @@ export interface AdapterRetrieveResponse {
  */
 export interface AdapterUpdateResponse {
   /**
-   * Row identifier for this adapter attachment; changes if the adapter is removed
-   * and re-added.
+   * Adapter attachment `dad_` id used by get, update, and remove; stale ids never
+   * address a replacement after remove and re-add.
    */
   id: string;
 
@@ -374,8 +375,8 @@ export interface AdapterUpdateResponse {
  */
 export interface AdapterListResponse {
   /**
-   * Row identifier for this adapter attachment; changes if the adapter is removed
-   * and re-added.
+   * Adapter attachment `dad_` id used by get, update, and remove; stale ids never
+   * address a replacement after remove and re-add.
    */
   id: string;
 
@@ -453,19 +454,26 @@ export interface AdapterCreateParams {
 
 export interface AdapterRetrieveParams {
   /**
-   * Project identifier.
+   * Path param: Project identifier.
    */
   projectId?: string;
 
   /**
-   * Endpoint identifier.
+   * Path param: Endpoint identifier.
    */
   endpointId: string;
 
   /**
-   * Deployment identifier.
+   * Path param: Deployment identifier.
    */
   deploymentId: string;
+
+  /**
+   * Query param: Deprecated optional cross-check. When set, this must equal the
+   * `ml_` id of the adapter model pinned by the live attachment; model names are not
+   * accepted.
+   */
+  adapterModelId?: string;
 }
 
 export interface AdapterUpdateParams {
@@ -494,6 +502,13 @@ export interface AdapterUpdateParams {
    * or ListAdapters response.
    */
   etag: string;
+
+  /**
+   * @deprecated Body param: Deprecated optional cross-check. When set, this must
+   * equal the `ml_` id of the adapter model pinned by the live attachment; model
+   * names are not accepted.
+   */
+  adapterModelId?: string;
 }
 
 export interface AdapterListParams extends CursorPaginationParams {
@@ -524,6 +539,13 @@ export interface AdapterDeleteParams {
    * The removal is rejected if the adapter changed after that response.
    */
   etag: string;
+
+  /**
+   * Query param: Deprecated optional cross-check. When set, this must equal the
+   * `ml_` id of the adapter model pinned by the live attachment; model names are not
+   * accepted.
+   */
+  adapterModelId?: string;
 }
 
 export declare namespace Adapters {

@@ -105,7 +105,7 @@ export interface StorageCreateParams {
   volume_name: string;
 
   /**
-   * Cluster ID to pin the volume to the same substrate as that GPU cluster.
+   * Cluster ID to place the volume on the same infrastructure as that GPU cluster.
    */
   instance_cluster_id?: string;
 

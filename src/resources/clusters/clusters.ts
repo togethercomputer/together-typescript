@@ -200,7 +200,7 @@ export interface Cluster {
   install_traefik?: boolean;
 
   /**
-   * Whether the cluster is managed inside a substrate environment.
+   * Whether the cluster runs on the Together-managed GPU cluster platform.
    */
   is_in_substrate?: boolean;
 
@@ -1351,7 +1351,7 @@ export declare namespace ClusterCreateParams {
       volume_name: string;
 
       /**
-       * Cluster ID to pin the volume to the same substrate as that GPU cluster.
+       * Cluster ID to place the volume on the same infrastructure as that GPU cluster.
        */
       instance_cluster_id?: string;
 
@@ -1827,7 +1827,7 @@ export declare namespace ClusterCreateParams {
       volume_name: string;
 
       /**
-       * Cluster ID to pin the volume to the same substrate as that GPU cluster.
+       * Cluster ID to place the volume on the same infrastructure as that GPU cluster.
        */
       instance_cluster_id?: string;
 

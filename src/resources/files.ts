@@ -79,7 +79,7 @@ export interface FileList {
 /**
  * The purpose of the file
  */
-export type FilePurpose = 'fine-tune' | 'eval' | 'batch-api';
+export type FilePurpose = 'fine-tune' | 'calibration' | 'eval' | 'batch-api';
 
 /**
  * Structured information describing a file uploaded to Together.
@@ -126,15 +126,14 @@ export interface FileResponse {
   purpose: FilePurpose;
 
   /**
-   * Lifecycle state of the file validation pipeline. Files for non-`fine-tune`
-   * purposes skip validation.
+   * Lifecycle state of the file validation pipeline. Files for purposes that do not
+   * require validation skip validation.
    */
   processing_status?: 'PENDING' | 'QUEUED' | 'RUNNING' | 'COMPLETED' | 'FAILED' | 'INVALID_FORMAT';
 
   /**
    * Report produced by the file validation pipeline. Present once validation has
-   * run; absent on files that bypassed validation (non-`fine-tune` purposes) or have
-   * not yet been validated.
+   * run; absent on files that bypassed validation or have not yet been validated.
    */
   validation_report?: FileResponse.ValidationReport;
 }
@@ -142,8 +141,7 @@ export interface FileResponse {
 export namespace FileResponse {
   /**
    * Report produced by the file validation pipeline. Present once validation has
-   * run; absent on files that bypassed validation (non-`fine-tune` purposes) or have
-   * not yet been validated.
+   * run; absent on files that bypassed validation or have not yet been validated.
    */
   export interface ValidationReport {
     /**
