@@ -1,13 +1,22 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseCompletions } from 'together-ai/resources/completions';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource completions', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseCompletions],
+});
+
+const runTests = (client: PartialTogether<{ completions: BaseCompletions }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.completions.create({
       model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
@@ -44,4 +53,6 @@ describe('resource completions', () => {
       top_p: 0,
     });
   });
-});
+};
+describe('resource completions', () => runTests(client));
+describe('resource completions (tree shakable, base)', () => runTests(partialClient));

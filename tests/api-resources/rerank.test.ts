@@ -1,13 +1,22 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseRerank } from 'together-ai/resources/rerank';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource rerank', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseRerank],
+});
+
+const runTests = (client: PartialTogether<{ rerank: BaseRerank }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.rerank.create({
       documents: [
@@ -43,4 +52,6 @@ describe('resource rerank', () => {
       top_n: 2,
     });
   });
-});
+};
+describe('resource rerank', () => runTests(client));
+describe('resource rerank (tree shakable, base)', () => runTests(partialClient));

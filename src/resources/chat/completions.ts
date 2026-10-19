@@ -8,7 +8,12 @@ import { Stream } from '../../core/streaming';
 import { ChatCompletionStream, ChatCompletionStreamParams } from '../../lib/ChatCompletionStream';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Completions extends APIResource {
+export class BaseCompletions extends APIResource {
+  static override readonly _key: readonly ['chat', 'completions'] = Object.freeze([
+    'chat',
+    'completions',
+  ] as const);
+
   /**
    * Generate a model response for a given chat conversation. Supports single queries
    * and multi-turn conversations with system, user, and assistant messages.
@@ -36,14 +41,20 @@ export class Completions extends APIResource {
     body: CompletionCreateParams,
     options?: RequestOptions,
   ): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletionChunk>> {
-    return this._client.post('/chat/completions', { body, ...options, stream: body.stream ?? false }) as
-      | APIPromise<ChatCompletion>
-      | APIPromise<Stream<ChatCompletionChunk>>;
+    return this._client.post('/v1/chat/completions', {
+      body,
+      defaultBaseURL: 'https://api-inference.together.ai',
+      ...options,
+      stream: body.stream ?? false,
+    }) as APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletionChunk>>;
   }
   stream(body: ChatCompletionStreamParams, options?: RequestOptions): ChatCompletionStream {
-    return ChatCompletionStream.createChatCompletion(this._client.chat.completions, body, options);
+    const client = new BaseCompletions(this._client);
+    return ChatCompletionStream.createChatCompletion(client, body, options);
   }
 }
+
+export class Completions extends BaseCompletions {}
 
 export interface ChatCompletion {
   id: string;
@@ -102,27 +113,12 @@ export interface ChatCompletionAssistantMessageParam {
   content?: string | null;
 
   reasoning?: string | null;
-  /**
-   * @deprecated
-   */
-  function_call?: ChatCompletionAssistantMessageParam.FunctionCall;
 
   reasoning_content?: string | null;
 
   name?: string;
 
   tool_calls?: Array<CompletionsAPI.ToolChoice>;
-}
-
-export namespace ChatCompletionAssistantMessageParam {
-  /**
-   * @deprecated
-   */
-  export interface FunctionCall {
-    arguments: string;
-
-    name: string;
-  }
 }
 
 export interface ChatCompletionChunk {
@@ -170,11 +166,6 @@ export namespace ChatCompletionChunk {
 
       content?: string | null;
 
-      /**
-       * @deprecated
-       */
-      function_call?: Delta.FunctionCall | null;
-
       reasoning?: string | null;
 
       reasoning_content?: string | null;
@@ -183,29 +174,7 @@ export namespace ChatCompletionChunk {
 
       tool_calls?: Array<CompletionsAPI.ToolChoice>;
     }
-
-    export namespace Delta {
-      /**
-       * @deprecated
-       */
-      export interface FunctionCall {
-        arguments: string;
-
-        name: string;
-      }
-    }
   }
-}
-
-/**
- * @deprecated
- */
-export interface ChatCompletionFunctionMessageParam {
-  content: string;
-
-  name: string;
-
-  role: 'function';
 }
 
 export interface ChatCompletionMessage {
@@ -213,33 +182,16 @@ export interface ChatCompletionMessage {
 
   role: 'assistant';
 
-  /**
-   * @deprecated
-   */
-  function_call?: ChatCompletionMessage.FunctionCall;
-
   reasoning?: string | null;
 
   tool_calls?: Array<CompletionsAPI.ToolChoice>;
-}
-
-export namespace ChatCompletionMessage {
-  /**
-   * @deprecated
-   */
-  export interface FunctionCall {
-    arguments: string;
-
-    name: string;
-  }
 }
 
 export type ChatCompletionMessageParam =
   | ChatCompletionSystemMessageParam
   | ChatCompletionMessageParam.ChatCompletionUserMessageParam
   | ChatCompletionMessageParam.ChatCompletionAssistantMessageParam
-  | ChatCompletionToolMessageParam
-  | ChatCompletionFunctionMessageParam;
+  | ChatCompletionToolMessageParam;
 
 export namespace ChatCompletionMessageParam {
   export interface ChatCompletionUserMessageParam {
@@ -304,25 +256,9 @@ export namespace ChatCompletionMessageParam {
 
     content?: string | null;
 
-    /**
-     * @deprecated
-     */
-    function_call?: ChatCompletionAssistantMessageParam.FunctionCall;
-
     name?: string;
 
     tool_calls?: Array<CompletionsAPI.ToolChoice>;
-  }
-
-  export namespace ChatCompletionAssistantMessageParam {
-    /**
-     * @deprecated
-     */
-    export interface FunctionCall {
-      arguments: string;
-
-      name: string;
-    }
   }
 }
 
@@ -715,7 +651,6 @@ export declare namespace Completions {
     type ChatCompletion as ChatCompletion,
     type ChatCompletionAssistantMessageParam as ChatCompletionAssistantMessageParam,
     type ChatCompletionChunk as ChatCompletionChunk,
-    type ChatCompletionFunctionMessageParam as ChatCompletionFunctionMessageParam,
     type ChatCompletionMessage as ChatCompletionMessage,
     type ChatCompletionMessageParam as ChatCompletionMessageParam,
     type ChatCompletionPrompt as ChatCompletionPrompt,

@@ -162,22 +162,22 @@ List methods in the Together API are paginated.
 You can use the `for await … of` syntax to iterate through items across all pages:
 
 ```ts
-async function fetchAllEndpoints(params) {
-  const allEndpoints = [];
+async function fetchAllBillingUsageWindows(params) {
+  const allBillingUsageWindows = [];
   // Automatically fetches more pages as needed.
-  for await (const endpoint of client.beta.endpoints.list({ projectId: 'projectId' })) {
-    allEndpoints.push(endpoint);
+  for await (const billingUsageWindow of client.organization.usage.costs.list()) {
+    allBillingUsageWindows.push(billingUsageWindow);
   }
-  return allEndpoints;
+  return allBillingUsageWindows;
 }
 ```
 
 Alternatively, you can request a single page at a time:
 
 ```ts
-let page = await client.beta.endpoints.list({ projectId: 'projectId' });
-for (const endpoint of page.data) {
-  console.log(endpoint);
+let page = await client.organization.usage.costs.list();
+for (const billingUsageWindow of page.data) {
+  console.log(billingUsageWindow);
 }
 
 // Convenience methods are provided for manually paginating:
@@ -188,6 +188,64 @@ while (page.hasNextPage()) {
 ```
 
 ## Advanced Usage
+
+### Tree shaking
+
+This library supports tree shaking to reduce bundle size. Instead of importing the full client, you can create a client only including the API resources you need:
+
+```ts
+import { createClient } from 'together-ai/tree-shakable';
+import { Completions } from 'together-ai/resources/chat/completions';
+import { BaseCosts } from 'together-ai/resources/organization/usage/costs';
+
+const client = createClient({
+  // Specify the resources you'd like to use ...
+  resources: [Completions, BaseCosts],
+});
+
+// ... then make API calls as usual.
+const chatCompletion = await client.chat.completions.create({
+  messages: [{ content: 'content', role: 'system' }],
+  model: 'model',
+});
+const page = await client.organization.usage.costs.list();
+const billingUsageWindow = page.data[0];
+```
+
+Each API resource has two versions, the full resource (e.g., `Completions`) which includes all subresources, and the base resource (e.g., `BaseCompletions`) which does not.
+
+The tree-shaken client is fully typed, so TypeScript will provide accurate autocomplete and prevent access to resources not included in your configuration.
+The `createClient` function automatically infers the correct type, but you can also use the `PartialTogether` type explicitly:
+
+```ts
+import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
+import { BaseCompletions } from 'together-ai/resources/chat/completions';
+
+// Explicit variable type
+const client: PartialTogether<{ chat: { completions: BaseCompletions } }> = createClient({
+  resources: [BaseCompletions],
+  /* ... */
+});
+
+// Function parameter type
+async function main(client: PartialTogether<{ chat: { completions: BaseCompletions } }>) {
+  const chatCompletion = await client.chat.completions.create({
+    messages: [{ content: 'content', role: 'system' }],
+    model: 'model',
+  });
+}
+
+// Works with any client that has the completions resource
+const treeShakableClient = createClient({
+  resources: [BaseCompletions],
+  /* ... */
+});
+const fullClient = new Together(/* ... */);
+
+main(treeShakableClient); // Works
+main(fullClient); // Also works
+```
 
 ### Accessing raw Response data (e.g., headers)
 

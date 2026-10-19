@@ -8,8 +8,8 @@ const together = new Together();
 
 async function main() {
   //Request the list of all models and print them
-  const models = await together.models.list();
-  for (const model of models) {
+  const models = together.models.list();
+  for await (const model of models) {
     console.log(model);
   }
 }

@@ -1,13 +1,22 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseClusters } from 'together-ai/resources/clusters/clusters';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource clusters', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseClusters],
+});
+
+const runTests = (client: PartialTogether<{ clusters: BaseClusters }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.clusters.create({
       billing_type: 'RESERVED',
@@ -59,7 +68,6 @@ describe('resource clusters', () => {
       ],
       auto_scale: true,
       auto_scale_max_gpus: 0,
-      auto_scaled: true,
       capacity_pool_id: 'capacity_pool_id',
       cluster_config: {
         load_balancer: 'NONE',
@@ -175,4 +183,6 @@ describe('resource clusters', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource clusters', () => runTests(client));
+describe('resource clusters (tree shakable, base)', () => runTests(partialClient));

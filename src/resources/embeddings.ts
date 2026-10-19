@@ -4,7 +4,9 @@ import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 
-export class Embeddings extends APIResource {
+export class BaseEmbeddings extends APIResource {
+  static override readonly _key: readonly ['embeddings'] = Object.freeze(['embeddings'] as const);
+
   /**
    * Generate vector embeddings for one or more text inputs. Returns numerical arrays
    * representing semantic meaning, useful for search, classification, and retrieval.
@@ -19,9 +21,10 @@ export class Embeddings extends APIResource {
    * ```
    */
   create(body: EmbeddingCreateParams, options?: RequestOptions): APIPromise<Embedding> {
-    return this._client.post('/embeddings', { body, ...options });
+    return this._client.post('/v1/embeddings', { body, ...options });
   }
 }
+export class Embeddings extends BaseEmbeddings {}
 
 export interface Embedding {
   data: Array<Embedding.Data>;

@@ -5,36 +5,24 @@ import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
-export class Videos extends APIResource {
+export class BaseVideos extends APIResource {
+  static override readonly _key: readonly ['videos'] = Object.freeze(['videos'] as const);
+
   /**
    * Create a video
-   *
-   * @example
-   * ```ts
-   * const videoJob = await client.videos.create({
-   *   model: 'model',
-   * });
-   * ```
    */
   create(body: VideoCreateParams, options?: RequestOptions): APIPromise<VideoJob> {
-    return this._client.post('/videos', { body, defaultBaseURL: 'https://api.together.ai/v2', ...options });
+    return this._client.post('/v2/videos', { body, ...options });
   }
 
   /**
    * Fetch video metadata
-   *
-   * @example
-   * ```ts
-   * const videoJob = await client.videos.retrieve('id');
-   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<VideoJob> {
-    return this._client.get(path`/videos/${id}`, {
-      defaultBaseURL: 'https://api.together.ai/v2',
-      ...options,
-    });
+    return this._client.get(path`/v2/videos/${id}`, options);
   }
 }
+export class Videos extends BaseVideos {}
 
 /**
  * Structured information describing a generated video job.
@@ -131,12 +119,6 @@ export interface VideoCreateParams {
   fps?: number;
 
   /**
-   * @deprecated Deprecated: use media.frame_images instead. Array of images to guide
-   * video generation, similar to keyframes.
-   */
-  frame_images?: Array<VideoCreateParams.FrameImage>;
-
-  /**
    * Whether to generate audio for the video.
    */
   generate_audio?: boolean;
@@ -184,13 +166,6 @@ export interface VideoCreateParams {
   ratio?: string;
 
   /**
-   * @deprecated Deprecated: use media.reference_images instead. Unlike frame_images
-   * which constrain specific timeline positions, reference images guide the general
-   * appearance that should appear consistently across the video.
-   */
-  reference_images?: Array<string>;
-
-  /**
    * Video resolution.
    */
   resolution?: string;
@@ -218,23 +193,6 @@ export interface VideoCreateParams {
 }
 
 export namespace VideoCreateParams {
-  export interface FrameImage {
-    /**
-     * URL path to hosted image that is used for a frame
-     */
-    input_image: string;
-
-    /**
-     * Optional param to specify where to insert the frame. If this is omitted, the
-     * following heuristics are applied:
-     *
-     * - frame_images size is one, frame is first.
-     * - If size is two, frames are first and last.
-     * - If size is larger, frames are first, last and evenly spaced between.
-     */
-    frame?: number | 'first' | 'last';
-  }
-
   /**
    * Media inputs for video generation. The accepted fields depend on the model type
    * (e.g. i2v, r2v, t2v, videoedit).

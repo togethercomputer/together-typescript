@@ -7,7 +7,9 @@ import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
-export class FineTuning extends APIResource {
+export class BaseFineTuning extends APIResource {
+  static override readonly _key: readonly ['fineTuning'] = Object.freeze(['fineTuning'] as const);
+
   /**
    * Create a fine-tuning job with the provided model and training data.
    *
@@ -20,7 +22,7 @@ export class FineTuning extends APIResource {
    * ```
    */
   create(body: FineTuningCreateParams, options?: RequestOptions): APIPromise<FineTuningCreateResponse> {
-    return this._client.post('/fine-tunes', { body, ...options });
+    return this._client.post('/v1/fine-tunes', { body, ...options });
   }
 
   /**
@@ -34,7 +36,7 @@ export class FineTuning extends APIResource {
    * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<FinetuneResponse> {
-    return this._client.get(path`/fine-tunes/${id}`, options);
+    return this._client.get(path`/v1/fine-tunes/${id}`, options);
   }
 
   /**
@@ -47,7 +49,7 @@ export class FineTuning extends APIResource {
    * ```
    */
   list(options?: RequestOptions): APIPromise<FineTuningListResponse> {
-    return this._client.get('/fine-tunes', options);
+    return this._client.get('/v1/fine-tunes', options);
   }
 
   /**
@@ -58,13 +60,8 @@ export class FineTuning extends APIResource {
    * const fineTuning = await client.fineTuning.delete('id');
    * ```
    */
-  delete(
-    id: string,
-    params: FineTuningDeleteParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<FineTuningDeleteResponse> {
-    const { force } = params ?? {};
-    return this._client.delete(path`/fine-tunes/${id}`, { query: { force }, ...options });
+  delete(id: string, options?: RequestOptions): APIPromise<FineTuningDeleteResponse> {
+    return this._client.delete(path`/v1/fine-tunes/${id}`, options);
   }
 
   /**
@@ -77,7 +74,7 @@ export class FineTuning extends APIResource {
    * ```
    */
   cancel(id: string, options?: RequestOptions): APIPromise<FineTuningCancelResponse> {
-    return this._client.post(path`/fine-tunes/${id}/cancel`, options);
+    return this._client.post(path`/v1/fine-tunes/${id}/cancel`, options);
   }
 
   /**
@@ -94,7 +91,7 @@ export class FineTuning extends APIResource {
    * ```
    */
   content(query: FineTuningContentParams, options?: RequestOptions): APIPromise<Response> {
-    return this._client.get('/finetune/download', {
+    return this._client.get('/v1/finetune/download', {
       query,
       ...options,
       headers: buildHeaders([{ Accept: 'application/octet-stream' }, options?.headers]),
@@ -116,7 +113,7 @@ export class FineTuning extends APIResource {
     body: FineTuningEstimatePriceParams,
     options?: RequestOptions,
   ): APIPromise<FineTuningEstimatePriceResponse> {
-    return this._client.post('/fine-tunes/estimate-price', { body, ...options });
+    return this._client.post('/v1/fine-tunes/estimate-price', { body, ...options });
   }
 
   /**
@@ -130,7 +127,7 @@ export class FineTuning extends APIResource {
    * ```
    */
   listCheckpoints(id: string, options?: RequestOptions): APIPromise<FineTuningListCheckpointsResponse> {
-    return this._client.get(path`/fine-tunes/${id}/checkpoints`, options);
+    return this._client.get(path`/v1/fine-tunes/${id}/checkpoints`, options);
   }
 
   /**
@@ -142,7 +139,7 @@ export class FineTuning extends APIResource {
    * ```
    */
   listEvents(id: string, options?: RequestOptions): APIPromise<FineTuningListEventsResponse> {
-    return this._client.get(path`/fine-tunes/${id}/events`, options);
+    return this._client.get(path`/v1/fine-tunes/${id}/events`, options);
   }
 
   /**
@@ -159,7 +156,7 @@ export class FineTuning extends APIResource {
     query: FineTuningListMetricsParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<FineTuningListMetricsResponse> {
-    return this._client.get(path`/fine-tunes/${id}/metrics`, { query, ...options });
+    return this._client.get(path`/v1/fine-tunes/${id}/metrics`, { query, ...options });
   }
 
   /**
@@ -174,7 +171,7 @@ export class FineTuning extends APIResource {
    * ```
    */
   modelLimits(query: FineTuningModelLimitsParams, options?: RequestOptions): APIPromise<FinetuneModelLimits> {
-    return this._client.get('/fine-tunes/models/limits', { query, ...options });
+    return this._client.get('/v1/fine-tunes/models/limits', { query, ...options });
   }
 
   /**
@@ -191,7 +188,7 @@ export class FineTuning extends APIResource {
    * ```
    */
   preview(body: FineTuningPreviewParams, options?: RequestOptions): APIPromise<FineTunePreviewResponse> {
-    return this._client.post('/fine-tunes/preview', { body, ...options });
+    return this._client.post('/v1/fine-tunes/preview', { body, ...options });
   }
 
   /**
@@ -208,9 +205,10 @@ export class FineTuning extends APIResource {
     id: string,
     options?: RequestOptions,
   ): APIPromise<FineTuneTokenizedDatasetRetrieveResponse> {
-    return this._client.get(path`/fine-tunes/${id}/download-tokenized-dataset`, options);
+    return this._client.get(path`/v1/fine-tunes/${id}/download-tokenized-dataset`, options);
   }
 }
+export class FineTuning extends BaseFineTuning {}
 
 /**
  * Tokenized preview for sampled rows from a fine-tuning training file.
@@ -2027,12 +2025,6 @@ export interface FineTuningCreateParams {
   suffix?: string;
 
   /**
-   * @deprecated Whether to mask user messages in conversational data or prompts in
-   * instruction data.
-   */
-  train_on_inputs?: boolean | 'auto';
-
-  /**
    * The training method to use. 'sft' for Supervised Fine-Tuning or 'dpo' for Direct
    * Preference Optimization.
    */
@@ -2187,13 +2179,6 @@ export namespace FineTuningCreateParams {
      */
     lora_trainable_modules?: string;
   }
-}
-
-export interface FineTuningDeleteParams {
-  /**
-   * Deprecated and unused parameter.
-   */
-  force?: boolean;
 }
 
 export interface FineTuningContentParams {
@@ -2413,7 +2398,6 @@ export declare namespace FineTuning {
     type FineTuningListEventsResponse as FineTuningListEventsResponse,
     type FineTuningListMetricsResponse as FineTuningListMetricsResponse,
     type FineTuningCreateParams as FineTuningCreateParams,
-    type FineTuningDeleteParams as FineTuningDeleteParams,
     type FineTuningContentParams as FineTuningContentParams,
     type FineTuningEstimatePriceParams as FineTuningEstimatePriceParams,
     type FineTuningListMetricsParams as FineTuningListMetricsParams,

@@ -1,13 +1,29 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Chat } from 'together-ai/resources/chat/chat';
+import { BaseCompletions } from 'together-ai/resources/chat/completions';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource completions', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseCompletions],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [Chat],
+});
+
+const runTests = (client: PartialTogether<{ chat: { completions: BaseCompletions } }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.chat.completions.create({
       messages: [{ content: 'content', role: 'system' }],
@@ -68,4 +84,7 @@ describe('resource completions', () => {
       top_p: 0,
     });
   });
-});
+};
+describe('resource completions', () => runTests(client));
+describe('resource completions (tree shakable, base)', () => runTests(partialClient));
+describe('resource completions (tree shakable, subresource)', () => runTests(parentPartialClient));

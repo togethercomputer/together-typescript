@@ -5,7 +5,13 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Secrets extends APIResource {
+export class BaseSecrets extends APIResource {
+  static override readonly _key: readonly ['beta', 'jig', 'secrets'] = Object.freeze([
+    'beta',
+    'jig',
+    'secrets',
+  ] as const);
+
   /**
    * Create a new secret to store sensitive configuration values
    *
@@ -18,7 +24,7 @@ export class Secrets extends APIResource {
    * ```
    */
   create(body: SecretCreateParams, options?: RequestOptions): APIPromise<Secret> {
-    return this._client.post('/deployments/secrets', { body, ...options });
+    return this._client.post('/v1/deployments/secrets', { body, ...options });
   }
 
   /**
@@ -30,7 +36,7 @@ export class Secrets extends APIResource {
    * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<Secret> {
-    return this._client.get(path`/deployments/secrets/${id}`, options);
+    return this._client.get(path`/v1/deployments/secrets/${id}`, options);
   }
 
   /**
@@ -42,7 +48,7 @@ export class Secrets extends APIResource {
    * ```
    */
   update(id: string, body: SecretUpdateParams, options?: RequestOptions): APIPromise<Secret> {
-    return this._client.patch(path`/deployments/secrets/${id}`, { body, ...options });
+    return this._client.patch(path`/v1/deployments/secrets/${id}`, { body, ...options });
   }
 
   /**
@@ -54,7 +60,7 @@ export class Secrets extends APIResource {
    * ```
    */
   list(options?: RequestOptions): APIPromise<SecretListResponse> {
-    return this._client.get('/deployments/secrets', options);
+    return this._client.get('/v1/deployments/secrets', options);
   }
 
   /**
@@ -66,9 +72,10 @@ export class Secrets extends APIResource {
    * ```
    */
   delete(id: string, options?: RequestOptions): APIPromise<unknown> {
-    return this._client.delete(path`/deployments/secrets/${id}`, options);
+    return this._client.delete(path`/v1/deployments/secrets/${id}`, options);
   }
 }
+export class Secrets extends BaseSecrets {}
 
 export interface Secret {
   /**

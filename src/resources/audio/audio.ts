@@ -4,19 +4,33 @@ import { APIResource } from '../../core/resource';
 import * as AudioAPI from './audio';
 import * as SpeechAPI from './speech';
 import {
+  BaseSpeech,
   Speech,
   SpeechCreateParams,
   SpeechCreateParamsNonStreaming,
   SpeechCreateParamsStreaming,
 } from './speech';
 import * as TranscriptionsAPI from './transcriptions';
-import { TranscriptionCreateParams, TranscriptionCreateResponse, Transcriptions } from './transcriptions';
+import {
+  BaseTranscriptions,
+  TranscriptionCreateParams,
+  TranscriptionCreateResponse,
+  Transcriptions,
+} from './transcriptions';
 import * as TranslationsAPI from './translations';
-import { TranslationCreateParams, TranslationCreateResponse, Translations } from './translations';
+import {
+  BaseTranslations,
+  TranslationCreateParams,
+  TranslationCreateResponse,
+  Translations,
+} from './translations';
 import * as VoicesAPI from './voices';
-import { VoiceListResponse, Voices } from './voices';
+import { BaseVoices, VoiceListResponse, Voices } from './voices';
 
-export class Audio extends APIResource {
+export class BaseAudio extends APIResource {
+  static override readonly _key: readonly ['audio'] = Object.freeze(['audio'] as const);
+}
+export class Audio extends BaseAudio {
   speech: SpeechAPI.Speech = new SpeechAPI.Speech(this._client);
   voices: VoicesAPI.Voices = new VoicesAPI.Voices(this._client);
   transcriptions: TranscriptionsAPI.Transcriptions = new TranscriptionsAPI.Transcriptions(this._client);
@@ -50,30 +64,37 @@ export interface AudioSpeechStreamChunk {
 }
 
 Audio.Speech = Speech;
+Audio.BaseSpeech = BaseSpeech;
 Audio.Voices = Voices;
+Audio.BaseVoices = BaseVoices;
 Audio.Transcriptions = Transcriptions;
+Audio.BaseTranscriptions = BaseTranscriptions;
 Audio.Translations = Translations;
+Audio.BaseTranslations = BaseTranslations;
 
 export declare namespace Audio {
   export { type AudioFile as AudioFile, type AudioSpeechStreamChunk as AudioSpeechStreamChunk };
 
   export {
     Speech as Speech,
+    BaseSpeech as BaseSpeech,
     type SpeechCreateParams as SpeechCreateParams,
     type SpeechCreateParamsNonStreaming as SpeechCreateParamsNonStreaming,
     type SpeechCreateParamsStreaming as SpeechCreateParamsStreaming,
   };
 
-  export { Voices as Voices, type VoiceListResponse as VoiceListResponse };
+  export { Voices as Voices, BaseVoices as BaseVoices, type VoiceListResponse as VoiceListResponse };
 
   export {
     Transcriptions as Transcriptions,
+    BaseTranscriptions as BaseTranscriptions,
     type TranscriptionCreateResponse as TranscriptionCreateResponse,
     type TranscriptionCreateParams as TranscriptionCreateParams,
   };
 
   export {
     Translations as Translations,
+    BaseTranslations as BaseTranslations,
     type TranslationCreateResponse as TranslationCreateResponse,
     type TranslationCreateParams as TranslationCreateParams,
   };

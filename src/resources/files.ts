@@ -7,7 +7,9 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 import { upload } from '../lib/upload';
 
-export class Files extends APIResource {
+export class BaseFiles extends APIResource {
+  static override readonly _key: readonly ['files'] = Object.freeze(['files'] as const);
+
   /**
    * Retrieve the metadata for a single uploaded data file.
    *
@@ -17,7 +19,7 @@ export class Files extends APIResource {
    * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<FileResponse> {
-    return this._client.get(path`/files/${id}`, options);
+    return this._client.get(path`/v1/files/${id}`, options);
   }
 
   /**
@@ -29,7 +31,7 @@ export class Files extends APIResource {
    * ```
    */
   list(options?: RequestOptions): APIPromise<FileList> {
-    return this._client.get('/files', options);
+    return this._client.get('/v1/files', options);
   }
 
   /**
@@ -41,7 +43,7 @@ export class Files extends APIResource {
    * ```
    */
   delete(id: string, options?: RequestOptions): APIPromise<FileDeleteResponse> {
-    return this._client.delete(path`/files/${id}`, options);
+    return this._client.delete(path`/v1/files/${id}`, options);
   }
 
   /**
@@ -56,7 +58,7 @@ export class Files extends APIResource {
    * ```
    */
   content(id: string, options?: RequestOptions): APIPromise<Response> {
-    return this._client.get(path`/files/${id}/content`, {
+    return this._client.get(path`/v1/files/${id}/content`, {
       ...options,
       headers: buildHeaders([{ Accept: 'application/binary' }, options?.headers]),
       __binaryResponse: true,
@@ -67,10 +69,11 @@ export class Files extends APIResource {
    * Upload a file.
    * CUSTOM CODE. DO NOT LET STAINLESS REMOVE.
    */
-  upload(file: string, purpose: FilePurpose, check: boolean = true): APIPromise<FileResponse> {
-    return upload(this._client, file, purpose, check);
+  upload(file: string, purpose: FilePurpose): APIPromise<FileResponse> {
+    return upload(this._client, file, purpose);
   }
 }
+export class Files extends BaseFiles {}
 
 export interface FileList {
   data: Array<FileResponse>;
@@ -114,11 +117,6 @@ export interface FileResponse {
    * The object type, which is always `file`.
    */
   object: 'file';
-
-  /**
-   * @deprecated Deprecated. Whether file has been fully uploaded.
-   */
-  Processed: boolean;
 
   /**
    * The purpose of the file as it was uploaded.

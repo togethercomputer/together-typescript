@@ -6,7 +6,7 @@ import { ReadableStreamToAsyncIterable } from '../internal/shims';
 import { isAbortError } from '../internal/errors';
 import { encodeUTF8 } from '../internal/utils/bytes';
 import { loggerFor } from '../internal/utils/log';
-import type { Together } from '../client';
+import type { BaseTogether } from '../client';
 
 import { APIError } from './error';
 
@@ -20,12 +20,12 @@ export type ServerSentEvent = {
 
 export class Stream<Item> implements AsyncIterable<Item> {
   controller: AbortController;
-  #client: Together | undefined;
+  #client: BaseTogether | undefined;
 
   constructor(
     private iterator: () => AsyncIterator<Item>,
     controller: AbortController,
-    client?: Together,
+    client?: BaseTogether,
   ) {
     this.controller = controller;
     this.#client = client;
@@ -34,7 +34,7 @@ export class Stream<Item> implements AsyncIterable<Item> {
   static fromSSEResponse<Item>(
     response: Response,
     controller: AbortController,
-    client?: Together,
+    client?: BaseTogether,
   ): Stream<Item> {
     let consumed = false;
     const logger = client ? loggerFor(client) : console;
@@ -93,7 +93,7 @@ export class Stream<Item> implements AsyncIterable<Item> {
   static fromReadableStream<Item>(
     readableStream: ReadableStream,
     controller: AbortController,
-    client?: Together,
+    client?: BaseTogether,
   ): Stream<Item> {
     let consumed = false;
 

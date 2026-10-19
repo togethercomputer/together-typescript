@@ -4,7 +4,9 @@ import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 
-export class Images extends APIResource {
+export class BaseImages extends APIResource {
+  static override readonly _key: readonly ['images'] = Object.freeze(['images'] as const);
+
   /**
    * Use an image model to generate an image for a given prompt.
    *
@@ -24,9 +26,10 @@ export class Images extends APIResource {
       data: Body['response_format'] extends 'base64' ? ImageDataB64[] : ImageDataURL[];
     }
   > {
-    return this._client.post('/images/generations', { body, ...options });
+    return this._client.post('/v1/images/generations', { body, ...options });
   }
 }
+export class Images extends BaseImages {}
 
 export interface ImageDataB64 {
   b64_json: string;

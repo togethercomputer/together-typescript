@@ -1,13 +1,29 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Beta } from 'together-ai/resources/beta/beta';
+import { BaseJig } from 'together-ai/resources/beta/jig/jig';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource jig', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseJig],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [Beta],
+});
+
+const runTests = (client: PartialTogether<{ beta: { jig: BaseJig } }>) => {
   test('retrieve', async () => {
     const responsePromise = client.beta.jig.retrieve('id');
     const rawResponse = await responsePromise.asResponse();
@@ -187,4 +203,7 @@ describe('resource jig', () => {
   test('rollback: required and optional params', async () => {
     const response = await client.beta.jig.rollback('id', { revision_identifier: 'revision_identifier' });
   });
-});
+};
+describe('resource jig', () => runTests(client));
+describe('resource jig (tree shakable, base)', () => runTests(partialClient));
+describe('resource jig (tree shakable, subresource)', () => runTests(parentPartialClient));

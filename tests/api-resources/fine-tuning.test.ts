@@ -1,13 +1,22 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseFineTuning } from 'together-ai/resources/fine-tuning';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource fineTuning', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseFineTuning],
+});
+
+const runTests = (client: PartialTogether<{ fineTuning: BaseFineTuning }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.fineTuning.create({ model: 'model', training_file: 'training_file' });
     const rawResponse = await responsePromise.asResponse();
@@ -48,7 +57,6 @@ describe('resource fineTuning', () => {
       packing: true,
       random_seed: 0,
       suffix: 'suffix',
-      // train_on_inputs: 'auto',
       training_method: { method: 'sft', train_on_inputs: 'auto' },
       training_type: { type: 'Full' },
       validation_file: 'validation_file',
@@ -93,13 +101,6 @@ describe('resource fineTuning', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('delete: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.fineTuning.delete('id', { force: true }, { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Together.NotFoundError);
   });
 
   test('cancel', async () => {
@@ -241,4 +242,6 @@ describe('resource fineTuning', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource fineTuning', () => runTests(client));
+describe('resource fineTuning (tree shakable, base)', () => runTests(partialClient));

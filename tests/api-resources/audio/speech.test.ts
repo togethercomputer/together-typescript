@@ -1,13 +1,29 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Audio } from 'together-ai/resources/audio/audio';
+import { BaseSpeech } from 'together-ai/resources/audio/speech';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource speech', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseSpeech],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [Audio],
+});
+
+const runTests = (client: PartialTogether<{ audio: { speech: BaseSpeech } }>) => {
   test('create: required and optional params', async () => {
     const response = await client.audio.speech.create({
       input: 'input',
@@ -22,4 +38,7 @@ describe('resource speech', () => {
       stream: false,
     });
   });
-});
+};
+describe('resource speech', () => runTests(client));
+describe('resource speech (tree shakable, base)', () => runTests(partialClient));
+describe('resource speech (tree shakable, subresource)', () => runTests(parentPartialClient));

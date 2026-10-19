@@ -2,6 +2,7 @@
 
 export {
   Jig,
+  BaseJig,
   type ContainerDeploymentStatus,
   type Deployment,
   type DeploymentLogs,
@@ -19,6 +20,7 @@ export {
 } from './jig';
 export {
   Queue,
+  BaseQueue,
   type QueueRetrieveResponse,
   type QueueCancelResponse,
   type QueueClearResponse,
@@ -32,6 +34,7 @@ export {
 } from './queue';
 export {
   Secrets,
+  BaseSecrets,
   type Secret,
   type SecretListResponse,
   type SecretDeleteResponse,
@@ -40,6 +43,7 @@ export {
 } from './secrets';
 export {
   Volumes,
+  BaseVolumes,
   type S3Origin,
   type Volume,
   type VolumeOrigin,

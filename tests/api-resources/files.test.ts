@@ -1,13 +1,22 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseFiles } from 'together-ai/resources/files';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource files', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseFiles],
+});
+
+const runTests = (client: PartialTogether<{ files: BaseFiles }>) => {
   test('retrieve', async () => {
     const responsePromise = client.files.retrieve('id');
     const rawResponse = await responsePromise.asResponse();
@@ -40,4 +49,6 @@ describe('resource files', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource files', () => runTests(client));
+describe('resource files (tree shakable, base)', () => runTests(partialClient));

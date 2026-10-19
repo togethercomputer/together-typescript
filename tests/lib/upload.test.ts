@@ -46,7 +46,7 @@ describe('Files', () => {
       }),
     );
 
-    const responsePromise = client.files.upload(file, 'fine-tune', false);
+    const responsePromise = client.files.upload(file, 'fine-tune');
 
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);

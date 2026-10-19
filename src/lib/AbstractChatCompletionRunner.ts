@@ -18,7 +18,7 @@ import {
   ChatCompletionStreamingFunctionRunnerParams,
   ChatCompletionStreamingToolRunnerParams,
 } from './ChatCompletionStreamingRunner';
-import { isAssistantMessage, isFunctionMessage, isToolMessage } from './chatCompletionUtils';
+import { isAssistantMessage, isToolMessage } from './chatCompletionUtils';
 import { ChatCompletionUsage } from '../resources/chat/completions';
 
 const DEFAULT_MAX_CHAT_COMPLETIONS = 10;
@@ -95,18 +95,6 @@ export abstract class AbstractChatCompletionRunner<
 
     if (emit) {
       this._emit('message', message);
-      if ((isFunctionMessage(message) || isToolMessage(message)) && message.content) {
-        // Note, this assumes that {role: 'tool', content: …} is always the result of a call of tool of type=function.
-        this._emit('functionCallResult', message.content as string);
-      } else if (isAssistantMessage(message) && message.function_call) {
-        this._emit('functionCall', message.function_call);
-      } else if (isAssistantMessage(message) && message.tool_calls) {
-        for (const tool_call of message.tool_calls) {
-          if (tool_call.type === 'function') {
-            this._emit('functionCall', tool_call.function);
-          }
-        }
-      }
     }
   }
 
@@ -247,35 +235,9 @@ export abstract class AbstractChatCompletionRunner<
     return this.#getFinalMessage();
   }
 
-  #getFinalFunctionCall(): ChatCompletionMessage.FunctionCall | undefined {
-    for (let i = this.messages.length - 1; i >= 0; i--) {
-      const message = this.messages[i];
-      if (isAssistantMessage(message) && message?.function_call) {
-        return message.function_call;
-      }
-      if (isAssistantMessage(message) && message?.tool_calls?.length) {
-        return message.tool_calls.at(-1)?.function;
-      }
-    }
-
-    return;
-  }
-
-  /**
-   * @returns a promise that resolves with the content of the final FunctionCall, or rejects
-   * if an error occurred or the stream ended prematurely without producing a ChatCompletionMessage.
-   */
-  async finalFunctionCall(): Promise<ChatCompletionMessage.FunctionCall | undefined> {
-    await this.done();
-    return this.#getFinalFunctionCall();
-  }
-
   #getFinalFunctionCallResult(): string | undefined {
     for (let i = this.messages.length - 1; i >= 0; i--) {
       const message = this.messages[i];
-      if (isFunctionMessage(message) && message.content != null) {
-        return message.content;
-      }
       if (
         isToolMessage(message) &&
         message.content != null &&
@@ -399,12 +361,6 @@ export abstract class AbstractChatCompletionRunner<
     const finalContent = this.#getFinalContent();
     if (finalContent) this._emit('finalContent', finalContent);
 
-    const finalFunctionCall = this.#getFinalFunctionCall();
-    if (finalFunctionCall) this._emit('finalFunctionCall', finalFunctionCall);
-
-    const finalFunctionCallResult = this.#getFinalFunctionCallResult();
-    if (finalFunctionCallResult != null) this._emit('finalFunctionCallResult', finalFunctionCallResult);
-
     if (this._chatCompletions.some((c) => c.usage)) {
       this._emit('totalUsage', this.#calculateTotalUsage());
     }
@@ -505,44 +461,6 @@ export abstract class AbstractChatCompletionRunner<
       if (!message) {
         throw new TogetherError(`missing message in ChatCompletion response`);
       }
-      if (!message.function_call) return;
-      const { name, arguments: args } = message.function_call;
-      const fn = functionsByName[name];
-      if (!fn) {
-        const content = `Invalid function_call: ${JSON.stringify(name)}. Available options are: ${functions
-          .map((f) => JSON.stringify(f.name))
-          .join(', ')}. Please try again`;
-
-        this._addMessage({ role, name, content });
-        continue;
-      } else if (singleFunctionToCall && singleFunctionToCall !== name) {
-        const content = `Invalid function_call: ${JSON.stringify(name)}. ${JSON.stringify(
-          singleFunctionToCall,
-        )} requested. Please try again`;
-
-        this._addMessage({ role, name, content });
-        continue;
-      }
-
-      let parsed;
-      try {
-        parsed = isRunnableFunctionWithParse(fn) ? await fn.parse(args) : args;
-      } catch (error) {
-        this._addMessage({
-          role,
-          name,
-          content: error instanceof Error ? error.message : String(error),
-        });
-        continue;
-      }
-
-      // @ts-expect-error it can't rule out `never` type.
-      const rawContent = await fn.function(parsed, this);
-      const content = this.#stringifyFunctionCallResult(rawContent);
-
-      this._addMessage({ role, name, content });
-
-      if (singleFunctionToCall) return;
     }
   }
 
@@ -684,15 +602,11 @@ type EventParameters<Events extends CustomEvents<any>, Event extends keyof Event
 
 export interface AbstractChatCompletionRunnerEvents {
   connect: () => void;
-  functionCall: (functionCall: ChatCompletionMessage.FunctionCall) => void;
   message: (message: ChatCompletionMessageParam) => void;
   chatCompletion: (completion: ChatCompletion) => void;
   finalContent: (contentSnapshot: string) => void;
   finalMessage: (message: ChatCompletionMessageParam) => void;
   finalChatCompletion: (completion: ChatCompletion) => void;
-  finalFunctionCall: (functionCall: ChatCompletionMessage.FunctionCall) => void;
-  functionCallResult: (content: string) => void;
-  finalFunctionCallResult: (content: string) => void;
   error: (error: TogetherError) => void;
   abort: (error: APIUserAbortError) => void;
   end: () => void;

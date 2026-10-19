@@ -1,14 +1,23 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseEvals } from 'together-ai/resources/evals';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource evals', () => {
-  test.skip('create: only required params', async () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseEvals],
+});
+
+const runTests = (client: PartialTogether<{ evals: BaseEvals }>) => {
+  test('create: only required params', async () => {
     const responsePromise = client.evals.create({
       parameters: {
         input_data_file_path: 'file-1234-aefd',
@@ -31,7 +40,7 @@ describe('resource evals', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test.skip('create: required and optional params', async () => {
+  test('create: required and optional params', async () => {
     const response = await client.evals.create({
       parameters: {
         input_data_file_path: 'file-1234-aefd',
@@ -92,4 +101,6 @@ describe('resource evals', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource evals', () => runTests(client));
+describe('resource evals (tree shakable, base)', () => runTests(partialClient));

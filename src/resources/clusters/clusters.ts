@@ -3,6 +3,7 @@
 import { APIResource } from '../../core/resource';
 import * as RemediationsAPI from './remediations';
 import {
+  BaseRemediations,
   Remediation,
   RemediationApproveParams,
   RemediationCancelParams,
@@ -15,6 +16,7 @@ import {
 } from './remediations';
 import * as StorageAPI from './storage';
 import {
+  BaseStorage,
   ClusterStorage,
   Storage,
   StorageCreateParams,
@@ -27,9 +29,8 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Clusters extends APIResource {
-  remediations: RemediationsAPI.Remediations = new RemediationsAPI.Remediations(this._client);
-  storage: StorageAPI.Storage = new StorageAPI.Storage(this._client);
+export class BaseClusters extends APIResource {
+  static override readonly _key: readonly ['clusters'] = Object.freeze(['clusters'] as const);
 
   /**
    * Create an Instant Cluster on Together's high-performance GPU clusters. With
@@ -39,21 +40,21 @@ export class Clusters extends APIResource {
    * management.
    */
   create(body: ClusterCreateParams, options?: RequestOptions): APIPromise<Cluster> {
-    return this._client.post('/compute/clusters', { body, ...options });
+    return this._client.post('/v1/compute/clusters', { body, ...options });
   }
 
   /**
    * Retrieve information about a specific GPU cluster.
    */
   retrieve(clusterID: string, options?: RequestOptions): APIPromise<Cluster> {
-    return this._client.get(path`/compute/clusters/${clusterID}`, options);
+    return this._client.get(path`/v1/compute/clusters/${clusterID}`, options);
   }
 
   /**
    * Update the configuration of an existing GPU cluster.
    */
   update(clusterID: string, body: ClusterUpdateParams, options?: RequestOptions): APIPromise<Cluster> {
-    return this._client.put(path`/compute/clusters/${clusterID}`, { body, ...options });
+    return this._client.put(path`/v1/compute/clusters/${clusterID}`, { body, ...options });
   }
 
   /**
@@ -63,22 +64,26 @@ export class Clusters extends APIResource {
     query: ClusterListParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<ClusterListResponse> {
-    return this._client.get('/compute/clusters', { query, ...options });
+    return this._client.get('/v1/compute/clusters', { query, ...options });
   }
 
   /**
    * Delete a GPU cluster by cluster ID.
    */
   delete(clusterID: string, options?: RequestOptions): APIPromise<ClusterDeleteResponse> {
-    return this._client.delete(path`/compute/clusters/${clusterID}`, options);
+    return this._client.delete(path`/v1/compute/clusters/${clusterID}`, options);
   }
 
   /**
    * List regions and corresponding supported driver versions
    */
   listRegions(options?: RequestOptions): APIPromise<ClusterListRegionsResponse> {
-    return this._client.get('/compute/regions', options);
+    return this._client.get('/v1/compute/regions', options);
   }
+}
+export class Clusters extends BaseClusters {
+  remediations: RemediationsAPI.Remediations = new RemediationsAPI.Remediations(this._client);
+  storage: StorageAPI.Storage = new StorageAPI.Storage(this._client);
 }
 
 export interface Cluster {
@@ -956,16 +961,9 @@ export declare namespace ClusterCreateParams {
     auto_scale?: boolean;
 
     /**
-     * Maximum number of GPUs to which the cluster can be auto-scaled up. This field is
-     * required if auto_scaled is true.
+     * Maximum number of GPUs to which the cluster can be auto-scaled up.
      */
     auto_scale_max_gpus?: number;
-
-    /**
-     * @deprecated Whether GPU cluster should be auto-scaled based on the workload. By
-     * default, it is not auto-scaled.
-     */
-    auto_scaled?: boolean;
 
     /**
      * ID of the capacity pool to use for the cluster. This field is optional and only
@@ -1440,16 +1438,9 @@ export declare namespace ClusterCreateParams {
     auto_scale?: boolean;
 
     /**
-     * Maximum number of GPUs to which the cluster can be auto-scaled up. This field is
-     * required if auto_scaled is true.
+     * Maximum number of GPUs to which the cluster can be auto-scaled up.
      */
     auto_scale_max_gpus?: number;
-
-    /**
-     * @deprecated Whether GPU cluster should be auto-scaled based on the workload. By
-     * default, it is not auto-scaled.
-     */
-    auto_scaled?: boolean;
 
     /**
      * ID of the capacity pool to use for the cluster. This field is optional and only
@@ -2069,7 +2060,9 @@ export interface ClusterListParams {
 }
 
 Clusters.Remediations = Remediations;
+Clusters.BaseRemediations = BaseRemediations;
 Clusters.Storage = Storage;
+Clusters.BaseStorage = BaseStorage;
 
 export declare namespace Clusters {
   export {
@@ -2084,6 +2077,7 @@ export declare namespace Clusters {
 
   export {
     Remediations as Remediations,
+    BaseRemediations as BaseRemediations,
     type Remediation as Remediation,
     type RemediationListResponse as RemediationListResponse,
     type RemediationCreateParams as RemediationCreateParams,
@@ -2096,6 +2090,7 @@ export declare namespace Clusters {
 
   export {
     Storage as Storage,
+    BaseStorage as BaseStorage,
     type ClusterStorage as ClusterStorage,
     type StorageListResponse as StorageListResponse,
     type StorageDeleteResponse as StorageDeleteResponse,

@@ -19,7 +19,18 @@ import { AbstractPage, type CursorPaginationParams, CursorPaginationResponse } f
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import * as TopLevelAPI from './resources/top-level';
-import { WhoamiResponse } from './resources/top-level';
+import {
+  WhoamiAPIKey,
+  WhoamiOrgAPIKey,
+  WhoamiOrganization,
+  WhoamiProject,
+  WhoamiProjectAPIKey,
+  WhoamiResponse,
+  WhoamiUser,
+  WhoamiUserJwt,
+  WhoamiUserOrgJwt,
+  WhoamiUserOrgProjectJwt,
+} from './resources/top-level';
 import { APIPromise } from './core/api-promise';
 import {
   BatchCreateParams,
@@ -59,7 +70,6 @@ import {
   FineTuningContentParams,
   FineTuningCreateParams,
   FineTuningCreateResponse,
-  FineTuningDeleteParams,
   FineTuningDeleteResponse,
   FineTuningEstimatePriceParams,
   FineTuningEstimatePriceResponse,
@@ -93,30 +103,79 @@ import {
   Clusters,
 } from './resources/clusters/clusters';
 import {
-  CodeInterpreter,
-  CodeInterpreterExecuteParams,
-  ExecuteResponse,
-} from './resources/code-interpreter/code-interpreter';
-import {
-  Autoscaling,
-  DedicatedEndpoint,
+  AbMember,
+  DeploymentAutoscaling,
+  DeploymentMetrics,
+  DeploymentPlacementConfig,
+  DeploymentStatus,
+  Endpoint,
+  EndpointAnalyticsParams,
+  EndpointAnalyticsResponse,
   EndpointCreateParams,
-  EndpointListAvzonesResponse,
-  EndpointListHardwareParams,
-  EndpointListHardwareResponse,
+  EndpointDeleteParams,
+  EndpointDeleteResponse,
+  EndpointDeployment,
+  EndpointDeploymentSummary,
+  EndpointListEventsParams,
+  EndpointListEventsResponse,
+  EndpointListEventsResponsesCursorPagination,
+  EndpointListOrgScopedParams,
   EndpointListParams,
-  EndpointListResponse,
+  EndpointRetrieveParams,
+  EndpointTrafficSplitEntry,
   EndpointUpdateParams,
   Endpoints,
+  EndpointsCursorPagination,
+  ErrorMetrics,
+  LatencyMetrics,
+  MetricsTimeRange,
+  RequestMetrics,
+  ResourceUtilization,
+  RuntimeInfo,
+  ScalingMetric,
+  ScalingPolicy,
+  ScalingRules,
+  ShadowAdaptiveKeyBasedSampling,
+  ShadowAdaptiveKeyBasedSamplingResponse,
+  ShadowAdaptiveUniformSampling,
+  ShadowAdaptiveUniformSamplingResponse,
+  ShadowEndpointSource,
+  ShadowEndpointSourceResponse,
+  ShadowKeyBasedSampling,
+  ShadowKeyBasedSamplingResponse,
+  ShadowSource,
+  ShadowSourceResponse,
+  ShadowUniformSampling,
+  ShadowUniformSamplingResponse,
+  ThroughputMetrics,
+  TimeSeriesDataPoint,
+  TokenMetrics,
 } from './resources/endpoints/endpoints';
 import {
+  Model,
+  ModelCreateParams,
+  ModelDeleteParams,
+  ModelDeleteResponse,
+  ModelDtypeCount,
+  ModelListFilesParams,
+  ModelListFilesResponse,
+  ModelListOrgScopedParams,
   ModelListParams,
-  ModelListResponse,
-  ModelObject,
-  ModelUploadParams,
-  ModelUploadResponse,
+  ModelListRevisionsParams,
+  ModelListRevisionsResponse,
+  ModelListSupportedParams,
+  ModelParameters,
+  ModelRetrieveParams,
+  ModelUpdateParams,
+  ModelWeights,
   Models,
+  ModelsCursorPagination,
+  SupportedModel,
+  SupportedModelDeploymentProfile,
+  SupportedModelPerformanceBenchmarks,
+  SupportedModelsCursorPagination,
 } from './resources/models/models';
+import { Organization } from './resources/organization/organization';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -211,9 +270,9 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Together API.
+ * Base class for Together API clients.
  */
-export class Together {
+export class BaseTogether {
   projectID: string | null;
   apiKey: string;
 
@@ -234,7 +293,7 @@ export class Together {
    *
    * @param {string | null | undefined} [opts.projectID=process.env['TOGETHER_PROJECT_ID'] ?? null]
    * @param {string | undefined} [opts.apiKey=process.env['TOGETHER_API_KEY'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['TOGETHER_BASE_URL'] ?? https://api.together.ai/v1] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['TOGETHER_BASE_URL'] ?? https://api.together.ai] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -258,11 +317,11 @@ export class Together {
       projectID,
       apiKey,
       ...opts,
-      baseURL: baseURL || `https://api.together.ai/v1`,
+      baseURL: baseURL || `https://api.together.ai`,
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? Together.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? BaseTogether.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
@@ -318,19 +377,18 @@ export class Together {
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== 'https://api.together.ai/v1';
+    return this.baseURL !== 'https://api.together.ai';
   }
 
   /**
-   * Returns identity information about the authenticated API key. Useful for
-   * confirming which project and organization a key is scoped to, and for obtaining
-   * the project slug used to compose the `model` value
-   * (`<project_slug>/<endpoint_slug>`) in dedicated endpoint inference calls.
-   * Requires a Bearer API key in the `Authorization` header. Cookie, session, and
-   * SLS JWT credentials are not accepted.
+   * Returns identity information for the authenticated caller. Accepts project API
+   * keys and user session JWTs. The response `type` indicates which fields are
+   * present. For project-scoped credentials, `project.slug` can be used with an
+   * endpoint slug as `<project_slug>/<endpoint_slug>` to form the `model` value in
+   * dedicated endpoint inference calls.
    */
   whoami(options?: RequestOptions): APIPromise<TopLevelAPI.WhoamiResponse> {
-    return this.get('/whoami', options);
+    return this.get('/v3/whoami', options);
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -810,19 +868,11 @@ export class Together {
     return () => controller.abort();
   }
 
-  private buildBody({ options }: { options: FinalRequestOptions }): {
+  private buildBody({ options: { body, headers: rawHeaders } }: { options: FinalRequestOptions }): {
     bodyHeaders: HeadersLike;
     body: BodyInit | undefined;
   } {
-    const { body, headers: rawHeaders } = options;
     if (!body) {
-      // A resource method always passes a `body` key when its operation defines a
-      // request body, even if the caller omitted an optional body param. Keep the
-      // content-type for those, and only elide it for operations with no body at
-      // all (e.g. GET/DELETE).
-      if (body == null && 'body' in options) {
-        return this.#encoder({ body, headers: buildHeaders([rawHeaders]) });
-      }
       return { bodyHeaders: undefined, body: undefined };
     }
     const headers = buildHeaders([rawHeaders]);
@@ -863,8 +913,14 @@ export class Together {
     }
   }
 
-  static Together = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
+}
+
+/**
+ * API Client for interfacing with the Together API.
+ */
+export class Together extends BaseTogether {
+  static Together = this;
 
   static TogetherError = Errors.TogetherError;
   static APIError = Errors.APIError;
@@ -883,13 +939,13 @@ export class Together {
   static toFile = Uploads.toFile;
 
   beta: API.Beta = new API.Beta(this);
+  organization: API.Organization = new API.Organization(this);
   clusters: API.Clusters = new API.Clusters(this);
   chat: API.Chat = new API.Chat(this);
   completions: API.Completions = new API.Completions(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
   files: API.Files = new API.Files(this);
   fineTuning: API.FineTuning = new API.FineTuning(this);
-  codeInterpreter: API.CodeInterpreter = new API.CodeInterpreter(this);
   images: API.Images = new API.Images(this);
   videos: API.Videos = new API.Videos(this);
   audio: API.Audio = new API.Audio(this);
@@ -902,13 +958,13 @@ export class Together {
 }
 
 Together.Beta = Beta;
+Together.Organization = Organization;
 Together.Clusters = Clusters;
 Together.Chat = Chat;
 Together.Completions = Completions;
 Together.Embeddings = Embeddings;
 Together.Files = Files;
 Together.FineTuning = FineTuning;
-Together.CodeInterpreter = CodeInterpreter;
 Together.Images = Images;
 Together.Videos = Videos;
 Together.Audio = Audio;
@@ -928,9 +984,22 @@ export declare namespace Together {
     type CursorPaginationResponse as CursorPaginationResponse,
   };
 
-  export { type WhoamiResponse as WhoamiResponse };
+  export {
+    type WhoamiAPIKey as WhoamiAPIKey,
+    type WhoamiOrgAPIKey as WhoamiOrgAPIKey,
+    type WhoamiOrganization as WhoamiOrganization,
+    type WhoamiProject as WhoamiProject,
+    type WhoamiProjectAPIKey as WhoamiProjectAPIKey,
+    type WhoamiResponse as WhoamiResponse,
+    type WhoamiUser as WhoamiUser,
+    type WhoamiUserJwt as WhoamiUserJwt,
+    type WhoamiUserOrgJwt as WhoamiUserOrgJwt,
+    type WhoamiUserOrgProjectJwt as WhoamiUserOrgProjectJwt,
+  };
 
   export { Beta as Beta };
+
+  export { Organization as Organization };
 
   export {
     Clusters as Clusters,
@@ -990,18 +1059,11 @@ export declare namespace Together {
     type FineTuningListEventsResponse as FineTuningListEventsResponse,
     type FineTuningListMetricsResponse as FineTuningListMetricsResponse,
     type FineTuningCreateParams as FineTuningCreateParams,
-    type FineTuningDeleteParams as FineTuningDeleteParams,
     type FineTuningContentParams as FineTuningContentParams,
     type FineTuningEstimatePriceParams as FineTuningEstimatePriceParams,
     type FineTuningListMetricsParams as FineTuningListMetricsParams,
     type FineTuningModelLimitsParams as FineTuningModelLimitsParams,
     type FineTuningPreviewParams as FineTuningPreviewParams,
-  };
-
-  export {
-    CodeInterpreter as CodeInterpreter,
-    type ExecuteResponse as ExecuteResponse,
-    type CodeInterpreterExecuteParams as CodeInterpreterExecuteParams,
   };
 
   export {
@@ -1022,24 +1084,77 @@ export declare namespace Together {
 
   export {
     Models as Models,
-    type ModelObject as ModelObject,
-    type ModelListResponse as ModelListResponse,
-    type ModelUploadResponse as ModelUploadResponse,
+    type Model as Model,
+    type ModelDtypeCount as ModelDtypeCount,
+    type ModelParameters as ModelParameters,
+    type ModelWeights as ModelWeights,
+    type SupportedModel as SupportedModel,
+    type SupportedModelDeploymentProfile as SupportedModelDeploymentProfile,
+    type SupportedModelPerformanceBenchmarks as SupportedModelPerformanceBenchmarks,
+    type ModelDeleteResponse as ModelDeleteResponse,
+    type ModelListFilesResponse as ModelListFilesResponse,
+    type ModelListRevisionsResponse as ModelListRevisionsResponse,
+    type ModelsCursorPagination as ModelsCursorPagination,
+    type SupportedModelsCursorPagination as SupportedModelsCursorPagination,
+    type ModelCreateParams as ModelCreateParams,
+    type ModelRetrieveParams as ModelRetrieveParams,
+    type ModelUpdateParams as ModelUpdateParams,
     type ModelListParams as ModelListParams,
-    type ModelUploadParams as ModelUploadParams,
+    type ModelDeleteParams as ModelDeleteParams,
+    type ModelListFilesParams as ModelListFilesParams,
+    type ModelListOrgScopedParams as ModelListOrgScopedParams,
+    type ModelListRevisionsParams as ModelListRevisionsParams,
+    type ModelListSupportedParams as ModelListSupportedParams,
   };
 
   export {
     Endpoints as Endpoints,
-    type Autoscaling as Autoscaling,
-    type DedicatedEndpoint as DedicatedEndpoint,
-    type EndpointListResponse as EndpointListResponse,
-    type EndpointListAvzonesResponse as EndpointListAvzonesResponse,
-    type EndpointListHardwareResponse as EndpointListHardwareResponse,
+    type AbMember as AbMember,
+    type DeploymentAutoscaling as DeploymentAutoscaling,
+    type DeploymentMetrics as DeploymentMetrics,
+    type DeploymentPlacementConfig as DeploymentPlacementConfig,
+    type DeploymentStatus as DeploymentStatus,
+    type Endpoint as Endpoint,
+    type EndpointDeployment as EndpointDeployment,
+    type EndpointDeploymentSummary as EndpointDeploymentSummary,
+    type EndpointTrafficSplitEntry as EndpointTrafficSplitEntry,
+    type ErrorMetrics as ErrorMetrics,
+    type LatencyMetrics as LatencyMetrics,
+    type MetricsTimeRange as MetricsTimeRange,
+    type RequestMetrics as RequestMetrics,
+    type ResourceUtilization as ResourceUtilization,
+    type RuntimeInfo as RuntimeInfo,
+    type ScalingMetric as ScalingMetric,
+    type ScalingPolicy as ScalingPolicy,
+    type ScalingRules as ScalingRules,
+    type ShadowAdaptiveKeyBasedSampling as ShadowAdaptiveKeyBasedSampling,
+    type ShadowAdaptiveKeyBasedSamplingResponse as ShadowAdaptiveKeyBasedSamplingResponse,
+    type ShadowAdaptiveUniformSampling as ShadowAdaptiveUniformSampling,
+    type ShadowAdaptiveUniformSamplingResponse as ShadowAdaptiveUniformSamplingResponse,
+    type ShadowEndpointSource as ShadowEndpointSource,
+    type ShadowEndpointSourceResponse as ShadowEndpointSourceResponse,
+    type ShadowKeyBasedSampling as ShadowKeyBasedSampling,
+    type ShadowKeyBasedSamplingResponse as ShadowKeyBasedSamplingResponse,
+    type ShadowSource as ShadowSource,
+    type ShadowSourceResponse as ShadowSourceResponse,
+    type ShadowUniformSampling as ShadowUniformSampling,
+    type ShadowUniformSamplingResponse as ShadowUniformSamplingResponse,
+    type ThroughputMetrics as ThroughputMetrics,
+    type TimeSeriesDataPoint as TimeSeriesDataPoint,
+    type TokenMetrics as TokenMetrics,
+    type EndpointDeleteResponse as EndpointDeleteResponse,
+    type EndpointAnalyticsResponse as EndpointAnalyticsResponse,
+    type EndpointListEventsResponse as EndpointListEventsResponse,
+    type EndpointsCursorPagination as EndpointsCursorPagination,
+    type EndpointListEventsResponsesCursorPagination as EndpointListEventsResponsesCursorPagination,
     type EndpointCreateParams as EndpointCreateParams,
+    type EndpointRetrieveParams as EndpointRetrieveParams,
     type EndpointUpdateParams as EndpointUpdateParams,
     type EndpointListParams as EndpointListParams,
-    type EndpointListHardwareParams as EndpointListHardwareParams,
+    type EndpointDeleteParams as EndpointDeleteParams,
+    type EndpointAnalyticsParams as EndpointAnalyticsParams,
+    type EndpointListEventsParams as EndpointListEventsParams,
+    type EndpointListOrgScopedParams as EndpointListOrgScopedParams,
   };
 
   export {

@@ -8,7 +8,9 @@ import { Stream } from '../../core/streaming';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Speech extends APIResource {
+export class BaseSpeech extends APIResource {
+  static override readonly _key: readonly ['audio', 'speech'] = Object.freeze(['audio', 'speech'] as const);
+
   /**
    * Generate audio from input text
    *
@@ -37,7 +39,7 @@ export class Speech extends APIResource {
     body: SpeechCreateParams,
     options?: RequestOptions,
   ): APIPromise<Response> | APIPromise<Stream<AudioAPI.AudioSpeechStreamChunk>> {
-    return this._client.post('/audio/speech', {
+    return this._client.post('/v1/audio/speech', {
       body,
       ...options,
       headers: buildHeaders([{ Accept: 'application/octet-stream' }, options?.headers]),
@@ -46,6 +48,7 @@ export class Speech extends APIResource {
     }) as APIPromise<Response> | APIPromise<Stream<AudioAPI.AudioSpeechStreamChunk>>;
   }
 }
+export class Speech extends BaseSpeech {}
 
 export type SpeechCreateParams = SpeechCreateParamsNonStreaming | SpeechCreateParamsStreaming;
 

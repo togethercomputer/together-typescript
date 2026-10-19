@@ -1,44 +1,128 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export interface WhoamiResponse {
+export interface WhoamiAPIKey {
   /**
-   * The ID of the API key that authenticated the request.
+   * The authenticated API key identifier.
    */
-  api_key_id: string;
+  id: string;
+}
+
+export interface WhoamiOrgAPIKey {
+  api_key: WhoamiAPIKey;
+
+  organization: WhoamiOrganization;
 
   /**
-   * The ID of the organization that owns the project.
+   * Always `org_api_key`.
    */
-  organization_id: string;
+  type: 'org_api_key';
+}
+
+export interface WhoamiOrganization {
+  /**
+   * Organization identifier.
+   */
+  id: string;
 
   /**
-   * Human-readable name of the organization.
+   * Organization display name.
    */
-  organization_name: string;
+  name: string;
+}
+
+export interface WhoamiProject {
+  /**
+   * Project identifier.
+   */
+  id: string;
 
   /**
-   * The ID of the project the API key is scoped to.
+   * Project display name.
    */
-  project_id: string;
-
-  /**
-   * Human-readable name of the project.
-   */
-  project_name: string;
+  name: string;
 
   /**
    * DNS-friendly project identifier. Used with an endpoint slug as
    * `<project_slug>/<endpoint_slug>` to form the `model` value in dedicated endpoint
    * inference calls.
    */
-  project_slug: string;
+  slug: string;
+}
+
+export interface WhoamiProjectAPIKey {
+  api_key: WhoamiAPIKey;
+
+  organization: WhoamiOrganization;
+
+  project: WhoamiProject;
 
   /**
-   * The ID of the authenticated user, if available.
+   * Always `project_api_key`.
    */
-  user_id?: string;
+  type: 'project_api_key';
+}
+
+/**
+ * The caller. `type` names the variant and which fields are present.
+ */
+export type WhoamiResponse =
+  | WhoamiProjectAPIKey
+  | WhoamiOrgAPIKey
+  | WhoamiUserJwt
+  | WhoamiUserOrgJwt
+  | WhoamiUserOrgProjectJwt;
+
+export interface WhoamiUser {
+  /**
+   * Authenticated user identifier.
+   */
+  id: string;
+}
+
+export interface WhoamiUserJwt {
+  /**
+   * Always `user_jwt`.
+   */
+  type: 'user_jwt';
+
+  user: WhoamiUser;
+}
+
+export interface WhoamiUserOrgJwt {
+  organization: WhoamiOrganization;
+
+  /**
+   * Always `user_org_jwt`.
+   */
+  type: 'user_org_jwt';
+
+  user: WhoamiUser;
+}
+
+export interface WhoamiUserOrgProjectJwt {
+  organization: WhoamiOrganization;
+
+  project: WhoamiProject;
+
+  /**
+   * Always `user_org_project_jwt`.
+   */
+  type: 'user_org_project_jwt';
+
+  user: WhoamiUser;
 }
 
 export declare namespace TopLevel {
-  export { type WhoamiResponse as WhoamiResponse };
+  export {
+    type WhoamiAPIKey as WhoamiAPIKey,
+    type WhoamiOrgAPIKey as WhoamiOrgAPIKey,
+    type WhoamiOrganization as WhoamiOrganization,
+    type WhoamiProject as WhoamiProject,
+    type WhoamiProjectAPIKey as WhoamiProjectAPIKey,
+    type WhoamiResponse as WhoamiResponse,
+    type WhoamiUser as WhoamiUser,
+    type WhoamiUserJwt as WhoamiUserJwt,
+    type WhoamiUserOrgJwt as WhoamiUserOrgJwt,
+    type WhoamiUserOrgProjectJwt as WhoamiUserOrgProjectJwt,
+  };
 }

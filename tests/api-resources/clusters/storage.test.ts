@@ -1,13 +1,29 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Clusters } from 'together-ai/resources/clusters/clusters';
+import { BaseStorage } from 'together-ai/resources/clusters/storage';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource storage', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseStorage],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [Clusters],
+});
+
+const runTests = (client: PartialTogether<{ clusters: { storage: BaseStorage } }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.clusters.storage.create({
       region: 'region',
@@ -88,4 +104,7 @@ describe('resource storage', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource storage', () => runTests(client));
+describe('resource storage (tree shakable, base)', () => runTests(partialClient));
+describe('resource storage (tree shakable, subresource)', () => runTests(parentPartialClient));

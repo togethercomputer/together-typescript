@@ -1,13 +1,29 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Clusters } from 'together-ai/resources/clusters/clusters';
+import { BaseRemediations } from 'together-ai/resources/clusters/remediations';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource remediations', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseRemediations],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [Clusters],
+});
+
+const runTests = (client: PartialTogether<{ clusters: { remediations: BaseRemediations } }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.clusters.remediations.create('instance_id', {
       cluster_id: 'cluster_id',
@@ -140,4 +156,7 @@ describe('resource remediations', () => {
       comment: 'comment',
     });
   });
-});
+};
+describe('resource remediations', () => runTests(client));
+describe('resource remediations (tree shakable, base)', () => runTests(partialClient));
+describe('resource remediations (tree shakable, subresource)', () => runTests(parentPartialClient));

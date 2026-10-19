@@ -1,17 +1,19 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Audio, type AudioFile, type AudioSpeechStreamChunk } from './audio/audio';
+export { Audio, BaseAudio, type AudioFile, type AudioSpeechStreamChunk } from './audio/audio';
 export {
   Batches,
+  BaseBatches,
   type BatchJob,
   type BatchCreateResponse,
   type BatchListResponse,
   type BatchCreateParams,
 } from './batches';
-export { Beta } from './beta/beta';
-export { Chat } from './chat/chat';
+export { Beta, BaseBeta } from './beta/beta';
+export { Chat, BaseChat } from './chat/chat';
 export {
   Clusters,
+  BaseClusters,
   type Cluster,
   type ClusterListResponse,
   type ClusterDeleteResponse,
@@ -21,12 +23,8 @@ export {
   type ClusterListParams,
 } from './clusters/clusters';
 export {
-  CodeInterpreter,
-  type ExecuteResponse,
-  type CodeInterpreterExecuteParams,
-} from './code-interpreter/code-interpreter';
-export {
   Completions,
+  BaseCompletions,
   type Completion,
   type CompletionChunk,
   type LogProbs,
@@ -36,21 +34,61 @@ export {
   type CompletionCreateParamsNonStreaming,
   type CompletionCreateParamsStreaming,
 } from './completions';
-export { Embeddings, type Embedding, type EmbeddingCreateParams } from './embeddings';
+export { Embeddings, BaseEmbeddings, type Embedding, type EmbeddingCreateParams } from './embeddings';
 export {
   Endpoints,
-  type Autoscaling,
-  type DedicatedEndpoint,
-  type EndpointListResponse,
-  type EndpointListAvzonesResponse,
-  type EndpointListHardwareResponse,
+  BaseEndpoints,
+  type AbMember,
+  type DeploymentAutoscaling,
+  type DeploymentMetrics,
+  type DeploymentPlacementConfig,
+  type DeploymentStatus,
+  type Endpoint,
+  type EndpointDeployment,
+  type EndpointDeploymentSummary,
+  type EndpointTrafficSplitEntry,
+  type ErrorMetrics,
+  type LatencyMetrics,
+  type MetricsTimeRange,
+  type RequestMetrics,
+  type ResourceUtilization,
+  type RuntimeInfo,
+  type ScalingMetric,
+  type ScalingPolicy,
+  type ScalingRules,
+  type ShadowAdaptiveKeyBasedSampling,
+  type ShadowAdaptiveKeyBasedSamplingResponse,
+  type ShadowAdaptiveUniformSampling,
+  type ShadowAdaptiveUniformSamplingResponse,
+  type ShadowEndpointSource,
+  type ShadowEndpointSourceResponse,
+  type ShadowKeyBasedSampling,
+  type ShadowKeyBasedSamplingResponse,
+  type ShadowSource,
+  type ShadowSourceResponse,
+  type ShadowUniformSampling,
+  type ShadowUniformSamplingResponse,
+  type ThroughputMetrics,
+  type TimeSeriesDataPoint,
+  type TokenMetrics,
+  type EndpointDeleteResponse,
+  type EndpointAnalyticsResponse,
+  type EndpointListEventsResponse,
   type EndpointCreateParams,
+  type EndpointRetrieveParams,
   type EndpointUpdateParams,
   type EndpointListParams,
-  type EndpointListHardwareParams,
+  type EndpointDeleteParams,
+  type EndpointAnalyticsParams,
+  type EndpointListEventsParams,
+  type EndpointListOrgScopedParams,
+  type EndpointDeploymentsCursorPagination,
+  type EndpointsCursorPagination,
+  type EndpointListEventsResponsesCursorPagination,
 } from './endpoints/endpoints';
 export {
   Evals,
+  BaseEvals,
   type EvaluationJob,
   type EvalCreateResponse,
   type EvalListResponse,
@@ -60,6 +98,7 @@ export {
 } from './evals';
 export {
   Files,
+  BaseFiles,
   type FileList,
   type FilePurpose,
   type FileResponse,
@@ -68,6 +107,7 @@ export {
 } from './files';
 export {
   FineTuning,
+  BaseFineTuning,
   type FineTunePreviewResponse,
   type FineTunePreviewRow,
   type FineTuneTokenizedDatasetRetrieveResponse,
@@ -84,7 +124,6 @@ export {
   type FineTuningListEventsResponse,
   type FineTuningListMetricsResponse,
   type FineTuningCreateParams,
-  type FineTuningDeleteParams,
   type FineTuningContentParams,
   type FineTuningEstimatePriceParams,
   type FineTuningListMetricsParams,
@@ -93,6 +132,7 @@ export {
 } from './fine-tuning';
 export {
   Images,
+  BaseImages,
   type ImageDataB64,
   type ImageDataURL,
   type ImageFile,
@@ -100,13 +140,48 @@ export {
 } from './images';
 export {
   Models,
-  type ModelObject,
-  type ModelListResponse,
-  type ModelUploadResponse,
+  BaseModels,
+  type Model,
+  type ModelDtypeCount,
+  type ModelParameters,
+  type ModelWeights,
+  type SupportedModel,
+  type SupportedModelDeploymentProfile,
+  type SupportedModelPerformanceBenchmarks,
+  type ModelDeleteResponse,
+  type ModelListFilesResponse,
+  type ModelListRevisionsResponse,
+  type ModelCreateParams,
+  type ModelRetrieveParams,
+  type ModelUpdateParams,
   type ModelListParams,
-  type ModelUploadParams,
+  type ModelDeleteParams,
+  type ModelListFilesParams,
+  type ModelListOrgScopedParams,
+  type ModelListRevisionsParams,
+  type ModelListSupportedParams,
+  type ModelsCursorPagination,
+  type SupportedModelsCursorPagination,
 } from './models/models';
-export { Projects, type Project, type ProjectListParams, type ProjectsCursorPagination } from './projects';
-export { Rerank, type RerankCreateResponse, type RerankCreateParams } from './rerank';
-export { Videos, type VideoJob, type VideoCreateParams } from './videos';
-export { type WhoamiResponse } from './top-level';
+export { Organization, BaseOrganization } from './organization/organization';
+export {
+  Projects,
+  BaseProjects,
+  type Project,
+  type ProjectListParams,
+  type ProjectsCursorPagination,
+} from './projects';
+export { Rerank, BaseRerank, type RerankCreateResponse, type RerankCreateParams } from './rerank';
+export { Videos, BaseVideos, type VideoJob, type VideoCreateParams } from './videos';
+export {
+  type WhoamiAPIKey,
+  type WhoamiOrgAPIKey,
+  type WhoamiOrganization,
+  type WhoamiProject,
+  type WhoamiProjectAPIKey,
+  type WhoamiResponse,
+  type WhoamiUser,
+  type WhoamiUserJwt,
+  type WhoamiUserOrgJwt,
+  type WhoamiUserOrgProjectJwt,
+} from './top-level';

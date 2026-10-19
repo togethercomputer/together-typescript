@@ -4,7 +4,13 @@ import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
-export class Queue extends APIResource {
+export class BaseQueue extends APIResource {
+  static override readonly _key: readonly ['beta', 'jig', 'queue'] = Object.freeze([
+    'beta',
+    'jig',
+    'queue',
+  ] as const);
+
   /**
    * Poll the current status of a previously submitted job. Provide the request_id
    * and model as query parameters.
@@ -18,7 +24,7 @@ export class Queue extends APIResource {
    * ```
    */
   retrieve(query: QueueRetrieveParams, options?: RequestOptions): APIPromise<QueueRetrieveResponse> {
-    return this._client.get('/queue/status', { query, ...options });
+    return this._client.get('/v1/queue/status', { query, ...options });
   }
 
   /**
@@ -35,7 +41,7 @@ export class Queue extends APIResource {
    * ```
    */
   cancel(body: QueueCancelParams, options?: RequestOptions): APIPromise<QueueCancelResponse> {
-    return this._client.post('/queue/cancel', { body, ...options });
+    return this._client.post('/v1/queue/cancel', { body, ...options });
   }
 
   /**
@@ -50,7 +56,7 @@ export class Queue extends APIResource {
    * ```
    */
   clear(body: QueueClearParams, options?: RequestOptions): APIPromise<QueueClearResponse> {
-    return this._client.post('/queue/clear', { body, ...options });
+    return this._client.post('/v1/queue/clear', { body, ...options });
   }
 
   /**
@@ -65,7 +71,7 @@ export class Queue extends APIResource {
    * ```
    */
   metrics(query: QueueMetricsParams, options?: RequestOptions): APIPromise<QueueMetricsResponse> {
-    return this._client.get('/queue/metrics', { query, ...options });
+    return this._client.get('/v1/queue/metrics', { query, ...options });
   }
 
   /**
@@ -82,9 +88,10 @@ export class Queue extends APIResource {
    * ```
    */
   submit(body: QueueSubmitParams, options?: RequestOptions): APIPromise<QueueSubmitResponse> {
-    return this._client.post('/queue/submit', { body, ...options });
+    return this._client.post('/v1/queue/submit', { body, ...options });
   }
 }
+export class Queue extends BaseQueue {}
 
 /**
  * Current status and metadata for a queued job.

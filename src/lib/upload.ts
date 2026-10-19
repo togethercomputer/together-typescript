@@ -1,10 +1,8 @@
 // Upload file to server using /files API
 
-import { readEnv } from '../internal/utils/env';
 import { FilePurpose, FileResponse } from '../resources';
-import { checkFile } from './check-file';
 import { createReadStream, stat, extname } from './node-unsafe-imports';
-import { Together } from '../client';
+import { BaseTogether } from '../client';
 import { APIPromise } from '../core/api-promise';
 
 export interface ErrorResponse {
@@ -15,13 +13,10 @@ const failedUploadMessage = {
   message: 'failed to upload file',
 };
 
-const baseURL = readEnv('TOGETHER_API_BASE_URL') || 'https://api.together.xyz/v1';
-
 export function upload(
-  client: Together,
+  client: BaseTogether,
   fileName: string,
   purpose: FilePurpose,
-  check: boolean = true,
 ): APIPromise<FileResponse> {
   return new APIPromise<FileResponse>(
     client,
@@ -42,20 +37,13 @@ export function upload(
         };
       }
 
-      if (check) {
-        const checkResponse = await checkFile(fileName, purpose);
-        if (!checkResponse.is_check_passed) {
-          reject(checkResponse.message || `verification of ${fileName} failed with some unknown reason`);
-        }
-      }
-
       try {
         const params = new URLSearchParams({
           file_name: fileName,
           file_type: fileType,
           purpose: purpose,
         });
-        const fullUrl = `${baseURL}/files?${params}`;
+        const fullUrl = `${client.baseURL}/v1/files?${params}`;
         const r = await fetch(fullUrl, {
           method: 'POST',
           headers: {
@@ -97,7 +85,7 @@ export function upload(
           });
         }
 
-        const data = await client.files.retrieve(fileId).asResponse();
+        const data = await client.get(`/v1/files/${fileId}`).asResponse();
 
         // Forcing the shape into the APIResponse interface
         resolve({
@@ -107,7 +95,7 @@ export function upload(
           startTime: Date.now(),
           options: {
             method: 'post',
-            path: '/files',
+            path: '/v1/files',
           },
           response: data,
         });

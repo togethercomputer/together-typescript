@@ -6,6 +6,7 @@ import {
   type ChatCompletionChunk,
   type CompletionCreateParams,
   type CompletionCreateParamsBase,
+  type BaseCompletions,
 } from '../resources/chat/completions';
 import {
   AbstractChatCompletionRunner,
@@ -47,7 +48,7 @@ export class ChatCompletionStream
   }
 
   static createChatCompletion(
-    completions: Completions,
+    completions: BaseCompletions,
     params: ChatCompletionStreamParams,
     options?: RequestOptions,
   ): ChatCompletionStream {
@@ -181,22 +182,11 @@ export class ChatCompletionStream
       Object.assign(choice, other);
 
       if (!delta) continue; // Shouldn't happen; just in case.
-      const { content, function_call, role, tool_calls, ...rest } = delta;
+      const { content, role, tool_calls, ...rest } = delta;
       Object.assign(choice.message, rest);
 
       if (content) choice.message.content = (choice.message.content || '') + content;
       if (role) choice.message.role = role;
-      if (function_call) {
-        if (!choice.message.function_call) {
-          choice.message.function_call = function_call;
-        } else {
-          if (function_call.name) choice.message.function_call.name = function_call.name;
-          if (function_call.arguments) {
-            choice.message.function_call.arguments ??= '';
-            choice.message.function_call.arguments += function_call.arguments;
-          }
-        }
-      }
       if (tool_calls) {
         if (!choice.message.tool_calls) choice.message.tool_calls = [];
         for (const { index, id, type, function: fn, ...rest } of tool_calls) {
@@ -298,7 +288,7 @@ function finalizeChatCompletion(snapshot: ChatCompletionSnapshot): ChatCompletio
           if (!name) throw new TogetherError(`missing function_call.name for choice ${index}`);
           return {
             ...choiceRest,
-            message: { content, function_call: { arguments: args, name }, role },
+            message: { content, role },
             finish_reason,
             index,
             logprobs,

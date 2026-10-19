@@ -1,13 +1,22 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseProjects } from 'together-ai/resources/projects';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource projects', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseProjects],
+});
+
+const runTests = (client: PartialTogether<{ projects: BaseProjects }>) => {
   test('list', async () => {
     const responsePromise = client.projects.list();
     const rawResponse = await responsePromise.asResponse();
@@ -25,4 +34,6 @@ describe('resource projects', () => {
       client.projects.list({ after: 'after', limit: 0 }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Together.NotFoundError);
   });
-});
+};
+describe('resource projects', () => runTests(client));
+describe('resource projects (tree shakable, base)', () => runTests(partialClient));

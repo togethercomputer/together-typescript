@@ -4,7 +4,9 @@ import { APIResource } from '../core/resource';
 import { CursorPagination, type CursorPaginationParams, PagePromise } from '../core/pagination';
 import { RequestOptions } from '../internal/request-options';
 
-export class Projects extends APIResource {
+export class BaseProjects extends APIResource {
+  static override readonly _key: readonly ['projects'] = Object.freeze(['projects'] as const);
+
   /**
    * Retrieve a list of accessible projects.
    */
@@ -12,9 +14,10 @@ export class Projects extends APIResource {
     query: ProjectListParams | null | undefined = {},
     options?: RequestOptions,
   ): PagePromise<ProjectsCursorPagination, Project> {
-    return this._client.getAPIList('/projects', CursorPagination<Project>, { query, ...options });
+    return this._client.getAPIList('/v1/projects', CursorPagination<Project>, { query, ...options });
   }
 }
+export class Projects extends BaseProjects {}
 
 export type ProjectsCursorPagination = CursorPagination<Project>;
 

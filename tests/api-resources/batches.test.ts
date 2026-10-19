@@ -1,13 +1,22 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseBatches } from 'together-ai/resources/batches';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource batches', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseBatches],
+});
+
+const runTests = (client: PartialTogether<{ batches: BaseBatches }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.batches.create({
       endpoint: '/v1/chat/completions',
@@ -64,4 +73,6 @@ describe('resource batches', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource batches', () => runTests(client));
+describe('resource batches (tree shakable, base)', () => runTests(partialClient));

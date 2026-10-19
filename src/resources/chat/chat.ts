@@ -3,11 +3,11 @@
 import { APIResource } from '../../core/resource';
 import * as CompletionsAPI from './completions';
 import {
+  BaseCompletions,
   ChatCompletion,
   ChatCompletionAssistantMessageParam,
   ChatCompletionChunk,
   ChatCompletionPrompt,
-  ChatCompletionFunctionMessageParam,
   ChatCompletionMessage,
   ChatCompletionMessageParam,
   ChatCompletionStructuredMessageImageURL,
@@ -24,15 +24,20 @@ import {
   Completions,
 } from './completions';
 
-export class Chat extends APIResource {
+export class BaseChat extends APIResource {
+  static override readonly _key: readonly ['chat'] = Object.freeze(['chat'] as const);
+}
+export class Chat extends BaseChat {
   completions: CompletionsAPI.Completions = new CompletionsAPI.Completions(this._client);
 }
 
 Chat.Completions = Completions;
+Chat.BaseCompletions = BaseCompletions;
 
 export declare namespace Chat {
   export {
     Completions as Completions,
+    BaseCompletions as BaseCompletions,
     type ChatCompletion as ChatCompletion,
     type ChatCompletionAssistantMessageParam as ChatCompletionAssistantMessageParam,
     type ChatCompletionChunk as ChatCompletionChunk,
@@ -42,7 +47,6 @@ export declare namespace Chat {
     type ChatCompletionStructuredMessageVideoURL as ChatCompletionStructuredMessageVideoURL,
     type ChatCompletionUsage as ChatCompletionUsage,
     type ChatCompletionWarning as ChatCompletionWarning,
-    type ChatCompletionFunctionMessageParam as ChatCompletionFunctionMessageParam,
     type ChatCompletionMessage as ChatCompletionMessage,
     type ChatCompletionMessageParam as ChatCompletionMessageParam,
     type ChatCompletionSystemMessageParam as ChatCompletionSystemMessageParam,

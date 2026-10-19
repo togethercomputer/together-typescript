@@ -5,7 +5,9 @@ import * as CompletionsAPI from './chat/completions';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 
-export class Rerank extends APIResource {
+export class BaseRerank extends APIResource {
+  static override readonly _key: readonly ['rerank'] = Object.freeze(['rerank'] as const);
+
   /**
    * Rerank a list of documents by relevance to a query. Returns a relevance score
    * and ordering index for each document.
@@ -25,9 +27,10 @@ export class Rerank extends APIResource {
    * ```
    */
   create(body: RerankCreateParams, options?: RequestOptions): APIPromise<RerankCreateResponse> {
-    return this._client.post('/rerank', { body, ...options });
+    return this._client.post('/v1/rerank', { body, ...options });
   }
 }
+export class Rerank extends BaseRerank {}
 
 export interface RerankCreateResponse {
   /**

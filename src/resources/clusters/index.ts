@@ -2,6 +2,7 @@
 
 export {
   Clusters,
+  BaseClusters,
   type Cluster,
   type ClusterListResponse,
   type ClusterDeleteResponse,
@@ -12,6 +13,7 @@ export {
 } from './clusters';
 export {
   Remediations,
+  BaseRemediations,
   type Remediation,
   type RemediationListResponse,
   type RemediationCreateParams,
@@ -23,6 +25,7 @@ export {
 } from './remediations';
 export {
   Storage,
+  BaseStorage,
   type ClusterStorage,
   type StorageListResponse,
   type StorageDeleteResponse,

@@ -5,7 +5,9 @@ import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
-export class Evals extends APIResource {
+export class BaseEvals extends APIResource {
+  static override readonly _key: readonly ['evals'] = Object.freeze(['evals'] as const);
+
   /**
    * Create an evaluation job
    *
@@ -28,7 +30,7 @@ export class Evals extends APIResource {
    * ```
    */
   create(body: EvalCreateParams, options?: RequestOptions): APIPromise<EvalCreateResponse> {
-    return this._client.post('/evaluation', { body, ...options });
+    return this._client.post('/v1/evaluation', { body, ...options });
   }
 
   /**
@@ -40,7 +42,7 @@ export class Evals extends APIResource {
    * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<EvaluationJob> {
-    return this._client.get(path`/evaluation/${id}`, options);
+    return this._client.get(path`/v1/evaluation/${id}`, options);
   }
 
   /**
@@ -55,7 +57,7 @@ export class Evals extends APIResource {
     query: EvalListParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<EvalListResponse> {
-    return this._client.get('/evaluation', { query, ...options });
+    return this._client.get('/v1/evaluation', { query, ...options });
   }
 
   /**
@@ -67,9 +69,10 @@ export class Evals extends APIResource {
    * ```
    */
   status(id: string, options?: RequestOptions): APIPromise<EvalStatusResponse> {
-    return this._client.get(path`/evaluation/${id}/status`, options);
+    return this._client.get(path`/v1/evaluation/${id}/status`, options);
   }
 }
+export class Evals extends BaseEvals {}
 
 export interface EvaluationJob {
   /**

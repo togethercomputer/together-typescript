@@ -1,19 +1,24 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseEndpoints } from 'together-ai/resources/endpoints/endpoints';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource endpoints', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseEndpoints],
+});
+
+const runTests = (client: PartialTogether<{ endpoints: BaseEndpoints }>) => {
   test('create: only required params', async () => {
-    const responsePromise = client.endpoints.create({
-      autoscaling: { max_replicas: 5, min_replicas: 2 },
-      hardware: '1x_nvidia_a100_80gb_sxm',
-      model: 'deepseek-ai/DeepSeek-R1',
-    });
+    const responsePromise = client.endpoints.create({ projectId: 'projectId', name: 'name' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -25,20 +30,14 @@ describe('resource endpoints', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.endpoints.create({
-      autoscaling: { max_replicas: 5, min_replicas: 2 },
-      hardware: '1x_nvidia_a100_80gb_sxm',
-      model: 'deepseek-ai/DeepSeek-R1',
-      availability_zone: 'availability_zone',
-      disable_prompt_cache: true,
-      disable_speculative_decoding: true,
-      display_name: 'My Llama3 70b endpoint',
-      inactive_timeout: 60,
-      state: 'STARTED',
+      projectId: 'projectId',
+      name: 'name',
+      visibility: 'VISIBILITY_PRIVATE',
     });
   });
 
-  test('retrieve', async () => {
-    const responsePromise = client.endpoints.retrieve('endpoint-d23901de-ef8f-44bf-b3e7-de9c1ca8f2d7');
+  test('retrieve: only required params', async () => {
+    const responsePromise = client.endpoints.retrieve('id', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -48,8 +47,12 @@ describe('resource endpoints', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('update', async () => {
-    const responsePromise = client.endpoints.update('endpoint-d23901de-ef8f-44bf-b3e7-de9c1ca8f2d7', {});
+  test('retrieve: required and optional params', async () => {
+    const response = await client.endpoints.retrieve('id', { projectId: 'projectId' });
+  });
+
+  test('update: only required params', async () => {
+    const responsePromise = client.endpoints.update('id', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -59,8 +62,19 @@ describe('resource endpoints', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list', async () => {
-    const responsePromise = client.endpoints.list();
+  test('update: required and optional params', async () => {
+    const response = await client.endpoints.update('id', {
+      projectId: 'projectId',
+      updateMask: 'updateMask',
+      etag: 'etag',
+      name: 'name',
+      trafficSplit: [{ deploymentId: 'deploymentId', weight: 0 }],
+      visibility: 'VISIBILITY_PRIVATE',
+    });
+  });
+
+  test('list: only required params', async () => {
+    const responsePromise = client.endpoints.list({ projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -70,60 +84,105 @@ describe('resource endpoints', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list: request options and params are passed correctly', async () => {
+  test('list: required and optional params', async () => {
+    const response = await client.endpoints.list({
+      projectId: 'projectId',
+      after: 'after',
+      filter: 'filter',
+      limit: 0,
+      orderBy: 'orderBy',
+    });
+  });
+
+  test('delete: only required params', async () => {
+    const responsePromise = client.endpoints.delete('id', { projectId: 'projectId' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('delete: required and optional params', async () => {
+    const response = await client.endpoints.delete('id', { projectId: 'projectId', etag: 'etag' });
+  });
+
+  test('analytics: only required params', async () => {
+    const responsePromise = client.endpoints.analytics('id', { projectId: 'projectId' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('analytics: required and optional params', async () => {
+    const response = await client.endpoints.analytics('id', {
+      projectId: 'projectId',
+      deploymentId: 'deploymentId',
+      endTime: '2019-12-27T18:11:19.117Z',
+      granularity: 'granularity',
+      includeTimeSeries: true,
+      startTime: '2019-12-27T18:11:19.117Z',
+    });
+  });
+
+  test('listEvents: only required params', async () => {
+    const responsePromise = client.endpoints.listEvents('id', { projectId: 'projectId' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listEvents: required and optional params', async () => {
+    const response = await client.endpoints.listEvents('id', {
+      projectId: 'projectId',
+      after: 'after',
+      deploymentIds: ['string'],
+      limit: 0,
+      minLevel: 'LEVEL_DEBUG',
+      since: '2019-12-27T18:11:19.117Z',
+      sourceKinds: ['SOURCE_KIND_ENDPOINT'],
+      subjectId: 'subjectId',
+      types: ['string'],
+      until: '2019-12-27T18:11:19.117Z',
+    });
+  });
+
+  test('listOrgScoped', async () => {
+    const responsePromise = client.endpoints.listOrgScoped('organizationId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listOrgScoped: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.endpoints.list(
+      client.endpoints.listOrgScoped(
+        'organizationId',
         {
-          mine: true,
-          type: 'dedicated',
-          usage_type: 'on-demand',
+          after: 'after',
+          filter: 'filter',
+          limit: 0,
+          orderBy: 'orderBy',
         },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Together.NotFoundError);
   });
-
-  test('delete', async () => {
-    const responsePromise = client.endpoints.delete('endpoint-d23901de-ef8f-44bf-b3e7-de9c1ca8f2d7');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('listAvzones', async () => {
-    const responsePromise = client.endpoints.listAvzones();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('listHardware', async () => {
-    const responsePromise = client.endpoints.listHardware();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('listHardware: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.endpoints.listHardware(
-        { model: 'deepseek-ai/DeepSeek-R1' },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Together.NotFoundError);
-  });
-});
+};
+describe('resource endpoints', () => runTests(client));
+describe('resource endpoints (tree shakable, base)', () => runTests(partialClient));

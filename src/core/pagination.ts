@@ -3,7 +3,7 @@
 import { TogetherError } from './error';
 import { FinalRequestOptions } from '../internal/request-options';
 import { defaultParseResponse } from '../internal/parse';
-import { type Together } from '../client';
+import { type BaseTogether } from '../client';
 import { APIPromise } from './api-promise';
 import { type APIResponseProps } from '../internal/parse';
 import { maybeObj } from '../internal/utils/values';
@@ -11,13 +11,13 @@ import { maybeObj } from '../internal/utils/values';
 export type PageRequestOptions = Pick<FinalRequestOptions, 'query' | 'headers' | 'body' | 'path' | 'method'>;
 
 export abstract class AbstractPage<Item> implements AsyncIterable<Item> {
-  #client: Together;
+  #client: BaseTogether;
   protected options: FinalRequestOptions;
 
   protected response: Response;
   protected body: unknown;
 
-  constructor(client: Together, response: Response, body: unknown, options: FinalRequestOptions) {
+  constructor(client: BaseTogether, response: Response, body: unknown, options: FinalRequestOptions) {
     this.#client = client;
     this.options = options;
     this.response = response;
@@ -80,7 +80,7 @@ export class PagePromise<
   implements AsyncIterable<Item>
 {
   constructor(
-    client: Together,
+    client: BaseTogether,
     request: Promise<APIResponseProps>,
     Page: new (...args: ConstructorParameters<typeof AbstractPage>) => PageClass,
   ) {
@@ -125,7 +125,7 @@ export class CursorPagination<Item> extends AbstractPage<Item> implements Cursor
   next_cursor: string;
 
   constructor(
-    client: Together,
+    client: BaseTogether,
     response: Response,
     body: CursorPaginationResponse<Item>,
     options: FinalRequestOptions,

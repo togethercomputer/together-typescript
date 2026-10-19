@@ -3,6 +3,7 @@
 import { APIResource } from '../../../core/resource';
 import * as QueueAPI from './queue';
 import {
+  BaseQueue,
   Queue,
   QueueCancelParams,
   QueueCancelResponse,
@@ -17,6 +18,7 @@ import {
 } from './queue';
 import * as SecretsAPI from './secrets';
 import {
+  BaseSecrets,
   Secret,
   SecretCreateParams,
   SecretDeleteResponse,
@@ -26,6 +28,7 @@ import {
 } from './secrets';
 import * as VolumesAPI from './volumes';
 import {
+  BaseVolumes,
   S3Origin,
   Volume as VolumesAPIVolume,
   VolumeCreateParams,
@@ -41,10 +44,8 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Jig extends APIResource {
-  queue: QueueAPI.Queue = new QueueAPI.Queue(this._client);
-  volumes: VolumesAPI.Volumes = new VolumesAPI.Volumes(this._client);
-  secrets: SecretsAPI.Secrets = new SecretsAPI.Secrets(this._client);
+export class BaseJig extends APIResource {
+  static override readonly _key: readonly ['beta', 'jig'] = Object.freeze(['beta', 'jig'] as const);
 
   /**
    * Retrieve details of a specific deployment by its ID or name
@@ -55,7 +56,7 @@ export class Jig extends APIResource {
    * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<Deployment> {
-    return this._client.get(path`/deployments/${id}`, options);
+    return this._client.get(path`/v1/deployments/${id}`, options);
   }
 
   /**
@@ -67,7 +68,7 @@ export class Jig extends APIResource {
    * ```
    */
   update(id: string, body: JigUpdateParams, options?: RequestOptions): APIPromise<Deployment> {
-    return this._client.patch(path`/deployments/${id}`, { body, ...options });
+    return this._client.patch(path`/v1/deployments/${id}`, { body, ...options });
   }
 
   /**
@@ -79,7 +80,7 @@ export class Jig extends APIResource {
    * ```
    */
   list(options?: RequestOptions): APIPromise<JigListResponse> {
-    return this._client.get('/deployments', options);
+    return this._client.get('/v1/deployments', options);
   }
 
   /**
@@ -95,7 +96,7 @@ export class Jig extends APIResource {
    * ```
    */
   deploy(body: JigDeployParams, options?: RequestOptions): APIPromise<Deployment> {
-    return this._client.post('/deployments', { body, ...options });
+    return this._client.post('/v1/deployments', { body, ...options });
   }
 
   /**
@@ -107,7 +108,7 @@ export class Jig extends APIResource {
    * ```
    */
   destroy(id: string, options?: RequestOptions): APIPromise<unknown> {
-    return this._client.delete(path`/deployments/${id}`, options);
+    return this._client.delete(path`/v1/deployments/${id}`, options);
   }
 
   /**
@@ -126,7 +127,7 @@ export class Jig extends APIResource {
     query: JigListRevisionsParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<DeploymentRevisionEventList> {
-    return this._client.get(path`/deployments/${id}/revisions`, { query, ...options });
+    return this._client.get(path`/v1/deployments/${id}/revisions`, { query, ...options });
   }
 
   /**
@@ -144,7 +145,7 @@ export class Jig extends APIResource {
     query: JigRetrieveLogsParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<DeploymentLogs> {
-    return this._client.get(path`/deployments/${id}/logs`, { query, ...options });
+    return this._client.get(path`/v1/deployments/${id}/logs`, { query, ...options });
   }
 
   /**
@@ -168,7 +169,7 @@ export class Jig extends APIResource {
     options?: RequestOptions,
   ): APIPromise<DeploymentRevision> {
     const { id } = params;
-    return this._client.get(path`/deployments/${id}/revisions/${revisionIdentifier}`, options);
+    return this._client.get(path`/v1/deployments/${id}/revisions/${revisionIdentifier}`, options);
   }
 
   /**
@@ -185,8 +186,13 @@ export class Jig extends APIResource {
    * ```
    */
   rollback(id: string, body: JigRollbackParams, options?: RequestOptions): APIPromise<Deployment> {
-    return this._client.post(path`/deployments/${id}/rollback`, { body, ...options });
+    return this._client.post(path`/v1/deployments/${id}/rollback`, { body, ...options });
   }
+}
+export class Jig extends BaseJig {
+  queue: QueueAPI.Queue = new QueueAPI.Queue(this._client);
+  volumes: VolumesAPI.Volumes = new VolumesAPI.Volumes(this._client);
+  secrets: SecretsAPI.Secrets = new SecretsAPI.Secrets(this._client);
 }
 
 export type ContainerDeploymentStatus = 'Updating' | 'Scaling' | 'Ready' | 'Failed' | 'ScaledToZero';
@@ -1347,8 +1353,11 @@ export interface JigRollbackParams {
 }
 
 Jig.Queue = Queue;
+Jig.BaseQueue = BaseQueue;
 Jig.Volumes = Volumes;
+Jig.BaseVolumes = BaseVolumes;
 Jig.Secrets = Secrets;
+Jig.BaseSecrets = BaseSecrets;
 
 export declare namespace Jig {
   export {
@@ -1370,6 +1379,7 @@ export declare namespace Jig {
 
   export {
     Queue as Queue,
+    BaseQueue as BaseQueue,
     type QueueRetrieveResponse as QueueRetrieveResponse,
     type QueueCancelResponse as QueueCancelResponse,
     type QueueClearResponse as QueueClearResponse,
@@ -1384,6 +1394,7 @@ export declare namespace Jig {
 
   export {
     Volumes as Volumes,
+    BaseVolumes as BaseVolumes,
     type S3Origin as S3Origin,
     type VolumesAPIVolume as Volume,
     type VolumeOrigin as VolumeOrigin,
@@ -1397,6 +1408,7 @@ export declare namespace Jig {
 
   export {
     Secrets as Secrets,
+    BaseSecrets as BaseSecrets,
     type Secret as Secret,
     type SecretListResponse as SecretListResponse,
     type SecretDeleteResponse as SecretDeleteResponse,

@@ -4,7 +4,9 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Voices extends APIResource {
+export class BaseVoices extends APIResource {
+  static override readonly _key: readonly ['audio', 'voices'] = Object.freeze(['audio', 'voices'] as const);
+
   /**
    * Fetch available voices for each model
    *
@@ -14,9 +16,10 @@ export class Voices extends APIResource {
    * ```
    */
   list(options?: RequestOptions): APIPromise<VoiceListResponse> {
-    return this._client.get('/voices', options);
+    return this._client.get('/v1/voices', options);
   }
 }
+export class Voices extends BaseVoices {}
 
 /**
  * Response containing a list of models and their available voices.

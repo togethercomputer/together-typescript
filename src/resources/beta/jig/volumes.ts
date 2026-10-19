@@ -6,7 +6,13 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Volumes extends APIResource {
+export class BaseVolumes extends APIResource {
+  static override readonly _key: readonly ['beta', 'jig', 'volumes'] = Object.freeze([
+    'beta',
+    'jig',
+    'volumes',
+  ] as const);
+
   /**
    * Create a new volume to preload files in deployments
    *
@@ -20,7 +26,7 @@ export class Volumes extends APIResource {
    * ```
    */
   create(body: VolumeCreateParams, options?: RequestOptions): APIPromise<Volume> {
-    return this._client.post('/deployments/storage/volumes', { body, ...options });
+    return this._client.post('/v1/deployments/storage/volumes', { body, ...options });
   }
 
   /**
@@ -36,7 +42,7 @@ export class Volumes extends APIResource {
     query: VolumeRetrieveParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<Volume> {
-    return this._client.get(path`/deployments/storage/volumes/${id}`, { query, ...options });
+    return this._client.get(path`/v1/deployments/storage/volumes/${id}`, { query, ...options });
   }
 
   /**
@@ -48,7 +54,7 @@ export class Volumes extends APIResource {
    * ```
    */
   update(id: string, body: VolumeUpdateParams, options?: RequestOptions): APIPromise<Volume> {
-    return this._client.patch(path`/deployments/storage/volumes/${id}`, { body, ...options });
+    return this._client.patch(path`/v1/deployments/storage/volumes/${id}`, { body, ...options });
   }
 
   /**
@@ -60,7 +66,7 @@ export class Volumes extends APIResource {
    * ```
    */
   list(options?: RequestOptions): APIPromise<VolumeListResponse> {
-    return this._client.get('/deployments/storage/volumes', options);
+    return this._client.get('/v1/deployments/storage/volumes', options);
   }
 
   /**
@@ -72,9 +78,10 @@ export class Volumes extends APIResource {
    * ```
    */
   delete(id: string, options?: RequestOptions): APIPromise<unknown> {
-    return this._client.delete(path`/deployments/storage/volumes/${id}`, options);
+    return this._client.delete(path`/v1/deployments/storage/volumes/${id}`, options);
   }
 }
+export class Volumes extends BaseVolumes {}
 
 /**
  * S3 source configuration for volume sync.

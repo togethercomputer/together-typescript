@@ -1,13 +1,22 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseVideos } from 'together-ai/resources/videos';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource videos', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseVideos],
+});
+
+const runTests = (client: PartialTogether<{ videos: BaseVideos }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.videos.create({ model: 'model' });
     const rawResponse = await responsePromise.asResponse();
@@ -23,7 +32,6 @@ describe('resource videos', () => {
     const response = await client.videos.create({
       model: 'model',
       fps: 0,
-      frame_images: [{ input_image: 'input_image', frame: 'first' }],
       generate_audio: true,
       guidance_scale: 0,
       height: 0,
@@ -40,7 +48,6 @@ describe('resource videos', () => {
       output_quality: 0,
       prompt: 'x',
       ratio: 'ratio',
-      reference_images: ['string'],
       resolution: 'resolution',
       seconds: 'seconds',
       seed: 0,
@@ -59,4 +66,6 @@ describe('resource videos', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource videos', () => runTests(client));
+describe('resource videos (tree shakable, base)', () => runTests(partialClient));

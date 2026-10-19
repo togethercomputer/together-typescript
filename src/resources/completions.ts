@@ -7,7 +7,9 @@ import { APIPromise } from '../core/api-promise';
 import { Stream } from '../core/streaming';
 import { RequestOptions } from '../internal/request-options';
 
-export class Completions extends APIResource {
+export class BaseCompletions extends APIResource {
+  static override readonly _key: readonly ['completions'] = Object.freeze(['completions'] as const);
+
   /**
    * Generate text completions for a given prompt using a language, code, or image
    * model.
@@ -34,11 +36,12 @@ export class Completions extends APIResource {
     body: CompletionCreateParams,
     options?: RequestOptions,
   ): APIPromise<Completion> | APIPromise<Stream<CompletionChunk>> {
-    return this._client.post('/completions', { body, ...options, stream: body.stream ?? false }) as
+    return this._client.post('/v1/completions', { body, ...options, stream: body.stream ?? false }) as
       | APIPromise<Completion>
       | APIPromise<Stream<CompletionChunk>>;
   }
 }
+export class Completions extends BaseCompletions {}
 
 export interface Completion {
   id: string;
@@ -122,11 +125,6 @@ export namespace CompletionChunk {
 
       content?: string | null;
 
-      /**
-       * @deprecated
-       */
-      function_call?: Delta.FunctionCall | null;
-
       reasoning?: string | null;
 
       reasoning_content?: string | null;
@@ -134,17 +132,6 @@ export namespace CompletionChunk {
       token_id?: number;
 
       tool_calls?: Array<CompletionsAPI.ToolChoice>;
-    }
-
-    export namespace Delta {
-      /**
-       * @deprecated
-       */
-      export interface FunctionCall {
-        arguments: string;
-
-        name: string;
-      }
     }
   }
 }

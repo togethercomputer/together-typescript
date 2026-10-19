@@ -1,13 +1,22 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseImages } from 'together-ai/resources/images';
+
 import Together from 'together-ai';
+import { createClient, type PartialTogether } from 'together-ai/tree-shakable';
 
 const client = new Together({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource images', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+  resources: [BaseImages],
+});
+
+const runTests = (client: PartialTogether<{ images: BaseImages }>) => {
   test('generate: only required params', async () => {
     const responsePromise = client.images.generate({
       model: 'black-forest-labs/FLUX.1-schnell',
@@ -41,4 +50,6 @@ describe('resource images', () => {
       width: 0,
     });
   });
-});
+};
+describe('resource images', () => runTests(client));
+describe('resource images (tree shakable, base)', () => runTests(partialClient));

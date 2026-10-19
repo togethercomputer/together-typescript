@@ -6,7 +6,12 @@ import { type Uploadable } from '../../core/uploads';
 import { RequestOptions } from '../../internal/request-options';
 import { multipartFormRequestOptions } from '../../internal/uploads';
 
-export class Transcriptions extends APIResource {
+export class BaseTranscriptions extends APIResource {
+  static override readonly _key: readonly ['audio', 'transcriptions'] = Object.freeze([
+    'audio',
+    'transcriptions',
+  ] as const);
+
   /**
    * Transcribes audio into text
    *
@@ -20,11 +25,12 @@ export class Transcriptions extends APIResource {
    */
   create(body: TranscriptionCreateParams, options?: RequestOptions): APIPromise<TranscriptionCreateResponse> {
     return this._client.post(
-      '/audio/transcriptions',
+      '/v1/audio/transcriptions',
       multipartFormRequestOptions({ body, ...options }, this._client),
     );
   }
 }
+export class Transcriptions extends BaseTranscriptions {}
 
 export type TranscriptionCreateResponse =
   | TranscriptionCreateResponse.AudioTranscriptionJsonResponse

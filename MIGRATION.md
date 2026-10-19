@@ -56,55 +56,6 @@ client.parents.children.retrieve('c_456', { parent_id: 'p_123' });
 
 <summary>This affects the following methods</summary>
 
-- `client.beta.endpoints.retrieve()`
-- `client.beta.endpoints.update()`
-- `client.beta.endpoints.delete()`
-- `client.beta.endpoints.analytics()`
-- `client.beta.endpoints.listEvents()`
-- `client.beta.endpoints.placementProfiles.retrieve()`
-- `client.beta.endpoints.abExperiments.create()`
-- `client.beta.endpoints.abExperiments.retrieve()`
-- `client.beta.endpoints.abExperiments.update()`
-- `client.beta.endpoints.abExperiments.list()`
-- `client.beta.endpoints.abExperiments.delete()`
-- `client.beta.endpoints.shadowExperiments.create()`
-- `client.beta.endpoints.shadowExperiments.retrieve()`
-- `client.beta.endpoints.shadowExperiments.update()`
-- `client.beta.endpoints.shadowExperiments.list()`
-- `client.beta.endpoints.shadowExperiments.delete()`
-- `client.beta.endpoints.shadowExperiments.targets.create()`
-- `client.beta.endpoints.shadowExperiments.targets.retrieve()`
-- `client.beta.endpoints.shadowExperiments.targets.update()`
-- `client.beta.endpoints.shadowExperiments.targets.list()`
-- `client.beta.endpoints.shadowExperiments.targets.delete()`
-- `client.beta.endpoints.rollouts.create()`
-- `client.beta.endpoints.rollouts.retrieve()`
-- `client.beta.endpoints.rollouts.list()`
-- `client.beta.endpoints.rollouts.delete()`
-- `client.beta.endpoints.rollouts.cancel()`
-- `client.beta.endpoints.rollouts.pause()`
-- `client.beta.endpoints.rollouts.previewDefaults()`
-- `client.beta.endpoints.rollouts.promote()`
-- `client.beta.endpoints.rollouts.resume()`
-- `client.beta.endpoints.rollouts.start()`
-- `client.beta.endpoints.adapters.create()`
-- `client.beta.endpoints.adapters.retrieve()`
-- `client.beta.endpoints.adapters.update()`
-- `client.beta.endpoints.adapters.list()`
-- `client.beta.endpoints.adapters.delete()`
-- `client.beta.endpoints.deployments.create()`
-- `client.beta.endpoints.deployments.retrieve()`
-- `client.beta.endpoints.deployments.update()`
-- `client.beta.endpoints.deployments.list()`
-- `client.beta.endpoints.deployments.delete()`
-- `client.beta.models.retrieve()`
-- `client.beta.models.update()`
-- `client.beta.models.delete()`
-- `client.beta.models.listFiles()`
-- `client.beta.models.listRevisions()`
-- `client.beta.models.remoteUploads.retrieve()`
-- `client.beta.models.remoteUploads.events()`
-- `client.beta.models.configs.retrieve()`
 - `client.beta.jig.retrieveRevision()`
 - `client.clusters.remediations.create()`
 - `client.clusters.remediations.retrieve()`
@@ -112,6 +63,55 @@ client.parents.children.retrieve('c_456', { parent_id: 'p_123' });
 - `client.clusters.remediations.approve()`
 - `client.clusters.remediations.cancel()`
 - `client.clusters.remediations.reject()`
+- `client.models.retrieve()`
+- `client.models.update()`
+- `client.models.delete()`
+- `client.models.listFiles()`
+- `client.models.listRevisions()`
+- `client.models.remoteUploads.retrieve()`
+- `client.models.remoteUploads.events()`
+- `client.models.configs.retrieve()`
+- `client.endpoints.retrieve()`
+- `client.endpoints.update()`
+- `client.endpoints.delete()`
+- `client.endpoints.analytics()`
+- `client.endpoints.listEvents()`
+- `client.endpoints.placementProfiles.retrieve()`
+- `client.endpoints.abExperiments.create()`
+- `client.endpoints.abExperiments.retrieve()`
+- `client.endpoints.abExperiments.update()`
+- `client.endpoints.abExperiments.list()`
+- `client.endpoints.abExperiments.delete()`
+- `client.endpoints.shadowExperiments.create()`
+- `client.endpoints.shadowExperiments.retrieve()`
+- `client.endpoints.shadowExperiments.update()`
+- `client.endpoints.shadowExperiments.list()`
+- `client.endpoints.shadowExperiments.delete()`
+- `client.endpoints.shadowExperiments.targets.create()`
+- `client.endpoints.shadowExperiments.targets.retrieve()`
+- `client.endpoints.shadowExperiments.targets.update()`
+- `client.endpoints.shadowExperiments.targets.list()`
+- `client.endpoints.shadowExperiments.targets.delete()`
+- `client.endpoints.rollouts.create()`
+- `client.endpoints.rollouts.retrieve()`
+- `client.endpoints.rollouts.list()`
+- `client.endpoints.rollouts.delete()`
+- `client.endpoints.rollouts.cancel()`
+- `client.endpoints.rollouts.pause()`
+- `client.endpoints.rollouts.previewDefaults()`
+- `client.endpoints.rollouts.promote()`
+- `client.endpoints.rollouts.resume()`
+- `client.endpoints.rollouts.start()`
+- `client.endpoints.adapters.create()`
+- `client.endpoints.adapters.retrieve()`
+- `client.endpoints.adapters.update()`
+- `client.endpoints.adapters.list()`
+- `client.endpoints.adapters.delete()`
+- `client.endpoints.deployments.create()`
+- `client.endpoints.deployments.retrieve()`
+- `client.endpoints.deployments.update()`
+- `client.endpoints.deployments.list()`
+- `client.endpoints.deployments.delete()`
 
 </details>
 
@@ -146,42 +146,39 @@ client.example.list(undefined, { headers: { ... } });
 
 <summary>This affects the following methods</summary>
 
-- `client.beta.endpoints.retrieve()`
-- `client.beta.endpoints.list()`
-- `client.beta.endpoints.delete()`
-- `client.beta.endpoints.analytics()`
-- `client.beta.endpoints.listEvents()`
-- `client.beta.endpoints.listOrgScoped()`
-- `client.beta.endpoints.placementProfiles.retrieve()`
-- `client.beta.endpoints.placementProfiles.list()`
-- `client.beta.endpoints.abExperiments.list()`
-- `client.beta.endpoints.shadowExperiments.list()`
-- `client.beta.endpoints.shadowExperiments.targets.list()`
-- `client.beta.endpoints.rollouts.list()`
-- `client.beta.endpoints.adapters.list()`
-- `client.beta.endpoints.deployments.list()`
-- `client.beta.models.retrieve()`
-- `client.beta.models.list()`
-- `client.beta.models.delete()`
-- `client.beta.models.listFiles()`
-- `client.beta.models.listOrgScoped()`
-- `client.beta.models.listRevisions()`
-- `client.beta.models.listSupported()`
-- `client.beta.models.remoteUploads.retrieve()`
-- `client.beta.models.remoteUploads.list()`
-- `client.beta.models.remoteUploads.events()`
-- `client.beta.models.configs.retrieve()`
-- `client.beta.models.configs.list()`
 - `client.beta.jig.listRevisions()`
 - `client.beta.jig.retrieveLogs()`
 - `client.beta.jig.volumes.retrieve()`
+- `client.organization.usage.costs.list()`
 - `client.clusters.list()`
 - `client.clusters.storage.list()`
-- `client.fineTuning.delete()`
 - `client.fineTuning.listMetrics()`
+- `client.models.retrieve()`
 - `client.models.list()`
+- `client.models.delete()`
+- `client.models.listFiles()`
+- `client.models.listOrgScoped()`
+- `client.models.listRevisions()`
+- `client.models.listSupported()`
+- `client.models.remoteUploads.retrieve()`
+- `client.models.remoteUploads.list()`
+- `client.models.remoteUploads.events()`
+- `client.models.configs.retrieve()`
+- `client.models.configs.list()`
+- `client.endpoints.retrieve()`
 - `client.endpoints.list()`
-- `client.endpoints.listHardware()`
+- `client.endpoints.delete()`
+- `client.endpoints.analytics()`
+- `client.endpoints.listEvents()`
+- `client.endpoints.listOrgScoped()`
+- `client.endpoints.placementProfiles.retrieve()`
+- `client.endpoints.placementProfiles.list()`
+- `client.endpoints.abExperiments.list()`
+- `client.endpoints.shadowExperiments.list()`
+- `client.endpoints.shadowExperiments.targets.list()`
+- `client.endpoints.rollouts.list()`
+- `client.endpoints.adapters.list()`
+- `client.endpoints.deployments.list()`
 - `client.projects.list()`
 - `client.evals.list()`
 
@@ -288,14 +285,14 @@ import { type Uploadable, toFile } from 'together-ai/core/uploads';
 
 #### `APIClient`
 
-The `APIClient` base client class has been removed as it is no longer needed. If you were importing this class then you must now import the main client class:
+The `APIClient` base client class has been replaced with a new `BaseTogether` class:
 
 ```typescript
 // Before
 import { APIClient } from 'together-ai/core';
 
 // After
-import { Together } from 'together-ai';
+import { BaseTogether } from 'together-ai/client';
 ```
 
 ### File handling
@@ -331,8 +328,8 @@ The `for await` syntax **is not affected**. This still works as-is:
 
 ```ts
 // Automatically fetches more pages as needed.
-for await (const endpoint of client.beta.endpoints.list({ projectId: 'projectId' })) {
-  console.log(endpoint);
+for await (const billingUsageWindow of client.organization.usage.costs.list()) {
+  console.log(billingUsageWindow);
 }
 ```
 
@@ -354,10 +351,10 @@ Page classes for individual methods are now type aliases:
 
 ```ts
 // Before
-export class EndpointsCursorPagination extends CursorPagination<Endpoint> {}
+export class BillingUsageWindowsCursorPagination extends CursorPagination<BillingUsageWindow> {}
 
 // After
-export type EndpointsCursorPagination = CursorPagination<Endpoint>;
+export type BillingUsageWindowsCursorPagination = CursorPagination<BillingUsageWindow>;
 ```
 
 If you were importing these classes at runtime, you'll need to switch to importing the base class or only import them at the type-level.

@@ -1,9 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Chat } from './chat';
+export { Chat, BaseChat } from './chat';
 export {
   ChatCompletionAssistantMessageParam,
-  ChatCompletionFunctionMessageParam,
   ChatCompletionMessage,
   ChatCompletionMessageParam,
   ChatCompletionSystemMessageParam,
@@ -11,6 +10,7 @@ export {
   ChatCompletionToolMessageParam,
   ChatCompletionUserMessageParam,
   Completions,
+  BaseCompletions,
   type ChatCompletion,
   type ChatCompletionChunk,
   type ChatCompletionPrompt,

@@ -6,7 +6,12 @@ import { type Uploadable } from '../../core/uploads';
 import { RequestOptions } from '../../internal/request-options';
 import { multipartFormRequestOptions } from '../../internal/uploads';
 
-export class Translations extends APIResource {
+export class BaseTranslations extends APIResource {
+  static override readonly _key: readonly ['audio', 'translations'] = Object.freeze([
+    'audio',
+    'translations',
+  ] as const);
+
   /**
    * Translates audio into English
    *
@@ -19,11 +24,12 @@ export class Translations extends APIResource {
    */
   create(body: TranslationCreateParams, options?: RequestOptions): APIPromise<TranslationCreateResponse> {
     return this._client.post(
-      '/audio/translations',
+      '/v1/audio/translations',
       multipartFormRequestOptions({ body, ...options }, this._client),
     );
   }
 }
+export class Translations extends BaseTranslations {}
 
 export type TranslationCreateResponse =
   | TranslationCreateResponse.AudioTranslationJsonResponse

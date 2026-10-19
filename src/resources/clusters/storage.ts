@@ -5,7 +5,12 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Storage extends APIResource {
+export class BaseStorage extends APIResource {
+  static override readonly _key: readonly ['clusters', 'storage'] = Object.freeze([
+    'clusters',
+    'storage',
+  ] as const);
+
   /**
    * Instant Clusters supports long-lived, resizable in-DC shared storage with user
    * data persistence. You can dynamically create and attach volumes to your cluster
@@ -14,21 +19,21 @@ export class Storage extends APIResource {
    * performance for shared storage.
    */
   create(body: StorageCreateParams, options?: RequestOptions): APIPromise<ClusterStorage> {
-    return this._client.post('/compute/clusters/storage/volumes', { body, ...options });
+    return this._client.post('/v1/compute/clusters/storage/volumes', { body, ...options });
   }
 
   /**
    * Retrieve information about a specific shared volume.
    */
   retrieve(volumeID: string, options?: RequestOptions): APIPromise<ClusterStorage> {
-    return this._client.get(path`/compute/clusters/storage/volumes/${volumeID}`, options);
+    return this._client.get(path`/v1/compute/clusters/storage/volumes/${volumeID}`, options);
   }
 
   /**
    * Update the configuration of an existing shared volume.
    */
   update(body: StorageUpdateParams, options?: RequestOptions): APIPromise<ClusterStorage> {
-    return this._client.put('/compute/clusters/storage/volumes', { body, ...options });
+    return this._client.put('/v1/compute/clusters/storage/volumes', { body, ...options });
   }
 
   /**
@@ -38,7 +43,7 @@ export class Storage extends APIResource {
     query: StorageListParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<StorageListResponse> {
-    return this._client.get('/compute/clusters/storage/volumes', { query, ...options });
+    return this._client.get('/v1/compute/clusters/storage/volumes', { query, ...options });
   }
 
   /**
@@ -46,9 +51,10 @@ export class Storage extends APIResource {
    * deleting will fail.
    */
   delete(volumeID: string, options?: RequestOptions): APIPromise<StorageDeleteResponse> {
-    return this._client.delete(path`/compute/clusters/storage/volumes/${volumeID}`, options);
+    return this._client.delete(path`/v1/compute/clusters/storage/volumes/${volumeID}`, options);
   }
 }
+export class Storage extends BaseStorage {}
 
 export interface ClusterStorage {
   /**

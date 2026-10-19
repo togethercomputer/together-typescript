@@ -5,7 +5,9 @@ import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
-export class Batches extends APIResource {
+export class BaseBatches extends APIResource {
+  static override readonly _key: readonly ['batches'] = Object.freeze(['batches'] as const);
+
   /**
    * Create a new batch job with the given input file and endpoint
    *
@@ -18,7 +20,7 @@ export class Batches extends APIResource {
    * ```
    */
   create(body: BatchCreateParams, options?: RequestOptions): APIPromise<BatchCreateResponse> {
-    return this._client.post('/batches', { body, ...options });
+    return this._client.post('/v1/batches', { body, ...options });
   }
 
   /**
@@ -32,7 +34,7 @@ export class Batches extends APIResource {
    * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<BatchJob> {
-    return this._client.get(path`/batches/${id}`, options);
+    return this._client.get(path`/v1/batches/${id}`, options);
   }
 
   /**
@@ -44,7 +46,7 @@ export class Batches extends APIResource {
    * ```
    */
   list(options?: RequestOptions): APIPromise<BatchListResponse> {
-    return this._client.get('/batches', options);
+    return this._client.get('/v1/batches', options);
   }
 
   /**
@@ -58,9 +60,10 @@ export class Batches extends APIResource {
    * ```
    */
   cancel(id: string, options?: RequestOptions): APIPromise<BatchJob> {
-    return this._client.post(path`/batches/${id}/cancel`, options);
+    return this._client.post(path`/v1/batches/${id}/cancel`, options);
   }
 }
+export class Batches extends BaseBatches {}
 
 export interface BatchJob {
   id?: string;

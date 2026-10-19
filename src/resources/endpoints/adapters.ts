@@ -2,116 +2,550 @@
 
 import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
+import { CursorPagination, type CursorPaginationParams, PagePromise } from '../../core/pagination';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Adapters extends APIResource {
+export class BaseAdapters extends APIResource {
+  static override readonly _key: readonly ['endpoints', 'adapters'] = Object.freeze([
+    'endpoints',
+    'adapters',
+  ] as const);
+
   /**
-   * Returns all LoRA adapters bound to the specified dedicated endpoint.
+   * Attaches a LoRA adapter to a deployment. If the deployment is at adapter
+   * capacity, force can evict the oldest adapter.
    *
    * @example
    * ```ts
-   * const adapters = await client.endpoints.adapters.list(
-   *   'endpointId',
-   * );
+   * const adapter = await client.endpoints.adapters.create({
+   *   projectId: 'projectId',
+   *   endpointId: 'endpointId',
+   *   deploymentId: 'deploymentId',
+   *   adapterModelId: 'adapterModelId',
+   * });
    * ```
    */
-  list(endpointID: string, options?: RequestOptions): APIPromise<AdapterListResponse> {
-    return this._client.get(path`/endpoints/${endpointID}/adapters`, options);
+  create(params: AdapterCreateParams, options?: RequestOptions): APIPromise<AdapterCreateResponse> {
+    const { projectId = this._client.projectID, endpointId, deploymentId, ...body } = params;
+    return this._client.post(
+      path`/v2/projects/${projectId}/endpoints/${endpointId}/deployments/${deploymentId}/adapters`,
+      { body, ...options },
+    );
   }
 
   /**
-   * Adds a LoRA adapter model to a dedicated endpoint. After this call, inference
-   * requests to the adapter model name will be routed to the specified endpoint. The
-   * endpoint must have LoRA enabled, and the adapter's base model must be compatible
-   * with the endpoint's model. The endpoint name prefix in model_id must match the
-   * resolved endpoint.
+   * Gets an adapter attachment by its `dad_` id and returns its per-cluster load
+   * state.
    *
    * @example
    * ```ts
-   * const response = await client.endpoints.adapters.add(
-   *   'endpointId',
+   * const adapter = await client.endpoints.adapters.retrieve(
+   *   'id',
    *   {
-   *     model_id:
-   *       'username/Meta-Llama-3.1-8B-Instruct-def456:username/my-adapter-abc123',
+   *     projectId: 'projectId',
+   *     endpointId: 'endpointId',
+   *     deploymentId: 'deploymentId',
    *   },
    * );
    * ```
    */
-  add(endpointID: string, body: AdapterAddParams, options?: RequestOptions): APIPromise<AdapterAddResponse> {
-    return this._client.post(path`/endpoints/${endpointID}/adapters`, { body, ...options });
+  retrieve(
+    id: string,
+    params: AdapterRetrieveParams,
+    options?: RequestOptions,
+  ): APIPromise<AdapterRetrieveResponse> {
+    const { projectId = this._client.projectID, endpointId, deploymentId } = params;
+    return this._client.get(
+      path`/v2/projects/${projectId}/endpoints/${endpointId}/deployments/${deploymentId}/adapters/${id}`,
+      options,
+    );
   }
 
   /**
-   * Removes the routing rule that binds an adapter to an endpoint. The adapter must
-   * be currently bound to this specific endpoint.
+   * Updates the pinned revision of an adapter attachment by its `dad_` id using its
+   * row-level etag for optimistic concurrency.
    *
    * @example
    * ```ts
-   * const adapter = await client.endpoints.adapters.remove(
-   *   'endpointId',
-   *   { model_id: 'model_id' },
+   * const adapter = await client.endpoints.adapters.update(
+   *   'id',
+   *   {
+   *     projectId: 'projectId',
+   *     endpointId: 'endpointId',
+   *     deploymentId: 'deploymentId',
+   *     adapterRevisionId: 'adapterRevisionId',
+   *     etag: 'etag',
+   *   },
    * );
    * ```
    */
-  remove(
-    endpointID: string,
-    body: AdapterRemoveParams,
+  update(
+    id: string,
+    params: AdapterUpdateParams,
     options?: RequestOptions,
-  ): APIPromise<AdapterRemoveResponse> {
-    return this._client.delete(path`/endpoints/${endpointID}/adapters`, { body, ...options });
+  ): APIPromise<AdapterUpdateResponse> {
+    const { projectId = this._client.projectID, endpointId, deploymentId, ...body } = params;
+    return this._client.patch(
+      path`/v2/projects/${projectId}/endpoints/${endpointId}/deployments/${deploymentId}/adapters/${id}`,
+      { body, ...options },
+    );
+  }
+
+  /**
+   * Lists LoRA adapters attached to a deployment with per-cluster load state.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const adapterListResponse of client.endpoints.adapters.list(
+   *   'endpointId',
+   *   'deploymentId',
+   *   { projectId: 'projectId' },
+   * )) {
+   *   // ...
+   * }
+   * ```
+   */
+  list(
+    endpointID: string,
+    deploymentID: string,
+    params: AdapterListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<AdapterListResponsesCursorPagination, AdapterListResponse> {
+    const { projectId = this._client.projectID, ...query } = params ?? {};
+    return this._client.getAPIList(
+      path`/v2/projects/${projectId}/endpoints/${endpointID}/deployments/${deploymentID}/adapters`,
+      CursorPagination<AdapterListResponse>,
+      { query, ...options },
+    );
+  }
+
+  /**
+   * Detaches an adapter attachment by its `dad_` id using its row-level etag for
+   * optimistic concurrency.
+   *
+   * @example
+   * ```ts
+   * const adapter = await client.endpoints.adapters.delete(
+   *   'id',
+   *   {
+   *     projectId: 'projectId',
+   *     endpointId: 'endpointId',
+   *     deploymentId: 'deploymentId',
+   *     etag: 'etag',
+   *   },
+   * );
+   * ```
+   */
+  delete(
+    id: string,
+    params: AdapterDeleteParams,
+    options?: RequestOptions,
+  ): APIPromise<AdapterDeleteResponse> {
+    const { projectId = this._client.projectID, endpointId, deploymentId, etag } = params;
+    return this._client.delete(
+      path`/v2/projects/${projectId}/endpoints/${endpointId}/deployments/${deploymentId}/adapters/${id}`,
+      { query: { etag }, ...options },
+    );
   }
 }
+export class Adapters extends BaseAdapters {}
 
+export type AdapterListResponsesCursorPagination = CursorPagination<AdapterListResponse>;
+
+/**
+ * Controller-reported load state for an adapter on one deployment cluster.
+ */
+export interface DeploymentAdapterStatus {
+  /**
+   * Adapter model identifier for this status row.
+   */
+  adapterModelId: string;
+
+  /**
+   * Cluster reporting this adapter status.
+   */
+  clusterId: string;
+
+  /**
+   * Number of pods that failed to load the adapter.
+   */
+  failedPodCount: number;
+
+  /**
+   * Number of pods with the adapter ready to serve.
+   */
+  readyPodCount: number;
+
+  /**
+   * Current adapter load state in this cluster.
+   */
+  state:
+    | 'ADAPTER_LOAD_STATE_PENDING'
+    | 'ADAPTER_LOAD_STATE_LOADING'
+    | 'ADAPTER_LOAD_STATE_READY'
+    | 'ADAPTER_LOAD_STATE_REMOVING'
+    | 'ADAPTER_LOAD_STATE_FAILED';
+
+  /**
+   * Total pods expected to report adapter load state.
+   */
+  totalPodCount: number;
+
+  /**
+   * Resource name of the adapter model, using
+   * projects/{projectId}/models/{adapterModelId}.
+   */
+  adapterModel?: string;
+
+  /**
+   * Optional inference-probe verdict for this adapter on this cluster; absent until
+   * validation concludes.
+   */
+  adapterValid?: boolean;
+
+  /**
+   * Human-readable probe rejection detail when adapterValid is false.
+   */
+  adapterValidReason?: string;
+
+  /**
+   * Time when the adapter first reached READY in this cluster.
+   */
+  loadedAt?: string;
+
+  /**
+   * Human-readable details about the current adapter state.
+   */
+  message?: string;
+
+  /**
+   * Adapter row etag observed by the controller when it wrote this status.
+   */
+  realizedEtag?: string;
+
+  /**
+   * Resource name of the adapter model revision currently loaded in this cluster,
+   * using projects/{projectId}/models/{adapterModelId}/revisions/{revisionId}.
+   */
+  realizedRevision?: string;
+
+  /**
+   * Adapter revision currently loaded on pods in this cluster.
+   */
+  realizedRevisionId?: string;
+
+  /**
+   * Stable reason code for the current adapter state.
+   */
+  reason?: string;
+
+  /**
+   * Time when this adapter status was last updated.
+   */
+  updatedAt?: string;
+}
+
+/**
+ * Adapter attached to a deployment with desired revision and observed load state.
+ */
+export interface AdapterCreateResponse {
+  /**
+   * Adapter attachment `dad_` id used by get, update, and remove; stale ids never
+   * address a replacement after remove and re-add.
+   */
+  id: string;
+
+  /**
+   * Adapter model identifier attached to the deployment.
+   */
+  adapterModelId: string;
+
+  /**
+   * Adapter revision pinned on the deployment.
+   */
+  desiredRevisionId: string;
+
+  /**
+   * Row-level etag required for UpdateAdapter and RemoveAdapter.
+   */
+  etag: string;
+
+  /**
+   * Per-cluster adapter load state reported by the controller.
+   */
+  perCluster: Array<DeploymentAdapterStatus>;
+
+  /**
+   * Resource name of the adapter model, using
+   * projects/{projectId}/models/{adapterModelId}.
+   */
+  adapterModel?: string;
+
+  /**
+   * Resource name of the adapter model revision pinned on the deployment, using
+   * projects/{projectId}/models/{adapterModelId}/revisions/{revisionId}.
+   */
+  desiredRevision?: string;
+}
+
+/**
+ * Adapter attached to a deployment with desired revision and observed load state.
+ */
+export interface AdapterRetrieveResponse {
+  /**
+   * Adapter attachment `dad_` id used by get, update, and remove; stale ids never
+   * address a replacement after remove and re-add.
+   */
+  id: string;
+
+  /**
+   * Adapter model identifier attached to the deployment.
+   */
+  adapterModelId: string;
+
+  /**
+   * Adapter revision pinned on the deployment.
+   */
+  desiredRevisionId: string;
+
+  /**
+   * Row-level etag required for UpdateAdapter and RemoveAdapter.
+   */
+  etag: string;
+
+  /**
+   * Per-cluster adapter load state reported by the controller.
+   */
+  perCluster: Array<DeploymentAdapterStatus>;
+
+  /**
+   * Resource name of the adapter model, using
+   * projects/{projectId}/models/{adapterModelId}.
+   */
+  adapterModel?: string;
+
+  /**
+   * Resource name of the adapter model revision pinned on the deployment, using
+   * projects/{projectId}/models/{adapterModelId}/revisions/{revisionId}.
+   */
+  desiredRevision?: string;
+}
+
+/**
+ * Adapter attached to a deployment with desired revision and observed load state.
+ */
+export interface AdapterUpdateResponse {
+  /**
+   * Adapter attachment `dad_` id used by get, update, and remove; stale ids never
+   * address a replacement after remove and re-add.
+   */
+  id: string;
+
+  /**
+   * Adapter model identifier attached to the deployment.
+   */
+  adapterModelId: string;
+
+  /**
+   * Adapter revision pinned on the deployment.
+   */
+  desiredRevisionId: string;
+
+  /**
+   * Row-level etag required for UpdateAdapter and RemoveAdapter.
+   */
+  etag: string;
+
+  /**
+   * Per-cluster adapter load state reported by the controller.
+   */
+  perCluster: Array<DeploymentAdapterStatus>;
+
+  /**
+   * Resource name of the adapter model, using
+   * projects/{projectId}/models/{adapterModelId}.
+   */
+  adapterModel?: string;
+
+  /**
+   * Resource name of the adapter model revision pinned on the deployment, using
+   * projects/{projectId}/models/{adapterModelId}/revisions/{revisionId}.
+   */
+  desiredRevision?: string;
+}
+
+/**
+ * Adapter attached to a deployment with desired revision and observed load state.
+ */
 export interface AdapterListResponse {
-  data?: Array<AdapterListResponse.Data>;
-
-  object?: string;
-}
-
-export namespace AdapterListResponse {
-  export interface Data {
-    adapter_name?: string;
-
-    endpoint_name?: string;
-
-    /**
-     * Combined endpoint:adapter identifier
-     */
-    model_id?: string;
-  }
-}
-
-export interface AdapterAddResponse {
-  model_id?: string;
-}
-
-export interface AdapterRemoveResponse {
-  deleted?: boolean;
-
-  model_id?: string;
-}
-
-export interface AdapterAddParams {
   /**
-   * Combined identifier in format "endpoint_name:adapter_model_name".
+   * Adapter attachment `dad_` id used by get, update, and remove; stale ids never
+   * address a replacement after remove and re-add.
    */
-  model_id: string;
+  id: string;
+
+  /**
+   * Adapter model identifier attached to the deployment.
+   */
+  adapterModelId: string;
+
+  /**
+   * Adapter revision pinned on the deployment.
+   */
+  desiredRevisionId: string;
+
+  /**
+   * Row-level etag required for UpdateAdapter and RemoveAdapter.
+   */
+  etag: string;
+
+  /**
+   * Per-cluster adapter load state reported by the controller.
+   */
+  perCluster: Array<DeploymentAdapterStatus>;
+
+  /**
+   * Resource name of the adapter model, using
+   * projects/{projectId}/models/{adapterModelId}.
+   */
+  adapterModel?: string;
+
+  /**
+   * Resource name of the adapter model revision pinned on the deployment, using
+   * projects/{projectId}/models/{adapterModelId}/revisions/{revisionId}.
+   */
+  desiredRevision?: string;
 }
 
-export interface AdapterRemoveParams {
+/**
+ * Empty response returned after a successful delete operation.
+ */
+export interface AdapterDeleteResponse {}
+
+export interface AdapterCreateParams {
   /**
-   * Combined identifier in format "endpoint_name:adapter_model_name".
+   * Path param: Project identifier.
    */
-  model_id: string;
+  projectId?: string;
+
+  /**
+   * Path param: Endpoint identifier.
+   */
+  endpointId: string;
+
+  /**
+   * Path param: Deployment identifier.
+   */
+  deploymentId: string;
+
+  /**
+   * Body param: Adapter model identifier to attach.
+   */
+  adapterModelId: string;
+
+  /**
+   * Body param: Optional adapter revision to pin. If omitted, the latest revision is
+   * resolved at request time.
+   */
+  adapterRevisionId?: string;
+
+  /**
+   * Body param: Whether to evict the oldest adapter if the deployment is at adapter
+   * capacity.
+   */
+  force?: boolean;
+}
+
+export interface AdapterRetrieveParams {
+  /**
+   * Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Endpoint identifier.
+   */
+  endpointId: string;
+
+  /**
+   * Deployment identifier.
+   */
+  deploymentId: string;
+}
+
+export interface AdapterUpdateParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Path param: Endpoint identifier.
+   */
+  endpointId: string;
+
+  /**
+   * Path param: Deployment identifier.
+   */
+  deploymentId: string;
+
+  /**
+   * Body param: New adapter revision to pin.
+   */
+  adapterRevisionId: string;
+
+  /**
+   * Body param: Row-level etag from a prior AddAdapter, UpdateAdapter, GetAdapter,
+   * or ListAdapters response.
+   */
+  etag: string;
+}
+
+export interface AdapterListParams extends CursorPaginationParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+}
+
+export interface AdapterDeleteParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Path param: Endpoint identifier.
+   */
+  endpointId: string;
+
+  /**
+   * Path param: Deployment identifier.
+   */
+  deploymentId: string;
+
+  /**
+   * Query param: Adapter etag from a previous add, update, get, or list response.
+   * The removal is rejected if the adapter changed after that response.
+   */
+  etag: string;
 }
 
 export declare namespace Adapters {
   export {
+    type DeploymentAdapterStatus as DeploymentAdapterStatus,
+    type AdapterCreateResponse as AdapterCreateResponse,
+    type AdapterRetrieveResponse as AdapterRetrieveResponse,
+    type AdapterUpdateResponse as AdapterUpdateResponse,
     type AdapterListResponse as AdapterListResponse,
-    type AdapterAddResponse as AdapterAddResponse,
-    type AdapterRemoveResponse as AdapterRemoveResponse,
-    type AdapterAddParams as AdapterAddParams,
-    type AdapterRemoveParams as AdapterRemoveParams,
+    type AdapterDeleteResponse as AdapterDeleteResponse,
+    type AdapterListResponsesCursorPagination as AdapterListResponsesCursorPagination,
+    type AdapterCreateParams as AdapterCreateParams,
+    type AdapterRetrieveParams as AdapterRetrieveParams,
+    type AdapterUpdateParams as AdapterUpdateParams,
+    type AdapterListParams as AdapterListParams,
+    type AdapterDeleteParams as AdapterDeleteParams,
   };
 }

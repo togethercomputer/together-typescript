@@ -1,0 +1,1203 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import { APIResource } from '../../core/resource';
+import * as RolloutsAPI from './rollouts';
+import { APIPromise } from '../../core/api-promise';
+import { CursorPagination, type CursorPaginationParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
+
+export class BaseRollouts extends APIResource {
+  static override readonly _key: readonly ['endpoints', 'rollouts'] = Object.freeze([
+    'endpoints',
+    'rollouts',
+  ] as const);
+
+  /**
+   * Creates a rollout in the pending state without shifting traffic. Start the
+   * rollout in a separate request after reviewing its strategy and metric gates.
+   *
+   * @example
+   * ```ts
+   * const rollout = await client.endpoints.rollouts.create(
+   *   'endpointId',
+   *   {
+   *     projectId: 'projectId',
+   *     sourceDeploymentId: 'dep_source123',
+   *     targetDeploymentId: 'dep_target456',
+   *     canary: {
+   *       steps: [
+   *         { traffic: 25 },
+   *         { traffic: 50 },
+   *         { traffic: 100 },
+   *       ],
+   *       stepInterval: '300s',
+   *     },
+   *     metrics: [
+   *       {
+   *         name: 'router_latency',
+   *         stat: 'METRIC_STAT_TYPE_PERCENTILE',
+   *         percentile: 95,
+   *         thresholdCheck: {
+   *           value: 30000,
+   *           operator: 'THRESHOLD_OPERATOR_LT',
+   *         },
+   *         window: '300s',
+   *       },
+   *     ],
+   *   },
+   * );
+   * ```
+   */
+  create(endpointID: string, params: RolloutCreateParams, options?: RequestOptions): APIPromise<Rollout> {
+    const { projectId = this._client.projectID, ...body } = params;
+    return this._client.post(path`/v2/projects/${projectId}/endpoints/${endpointID}/rollouts`, {
+      body,
+      ...options,
+    });
+  }
+
+  /**
+   * Retrieves a rollout's strategy, lifecycle state, current traffic percentage,
+   * step history, and metric-gate results.
+   *
+   * @example
+   * ```ts
+   * const rollout = await client.endpoints.rollouts.retrieve(
+   *   'id',
+   *   { projectId: 'projectId', endpointId: 'endpointId' },
+   * );
+   * ```
+   */
+  retrieve(id: string, params: RolloutRetrieveParams, options?: RequestOptions): APIPromise<Rollout> {
+    const { projectId = this._client.projectID, endpointId } = params;
+    return this._client.get(path`/v2/projects/${projectId}/endpoints/${endpointId}/rollouts/${id}`, options);
+  }
+
+  /**
+   * Lists rollout histories for an endpoint. Use `filter=ROLLOUT_FILTER_ACTIVE` to
+   * return only the active rollout, if one exists.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const rollout of client.endpoints.rollouts.list(
+   *   'endpointId',
+   *   { projectId: 'projectId' },
+   * )) {
+   *   // ...
+   * }
+   * ```
+   */
+  list(
+    endpointID: string,
+    params: RolloutListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<RolloutsCursorPagination, Rollout> {
+    const { projectId = this._client.projectID, ...query } = params ?? {};
+    return this._client.getAPIList(
+      path`/v2/projects/${projectId}/endpoints/${endpointID}/rollouts`,
+      CursorPagination<Rollout>,
+      { query, ...options },
+    );
+  }
+
+  /**
+   * Deletes a rollout record. An active rollout must be aborted or completed before
+   * it can be deleted.
+   *
+   * @example
+   * ```ts
+   * const rollout = await client.endpoints.rollouts.delete(
+   *   'id',
+   *   { projectId: 'projectId', endpointId: 'endpointId' },
+   * );
+   * ```
+   */
+  delete(
+    id: string,
+    params: RolloutDeleteParams,
+    options?: RequestOptions,
+  ): APIPromise<RolloutDeleteResponse> {
+    const { projectId = this._client.projectID, endpointId, etag } = params;
+    return this._client.delete(path`/v2/projects/${projectId}/endpoints/${endpointId}/rollouts/${id}`, {
+      query: { etag },
+      ...options,
+    });
+  }
+
+  /**
+   * Cancels a running, pausing, paused, system-paused, or stabilizing rollout by
+   * freezing the current traffic split into standing weights. Revert is removed and
+   * rejected; after canceling, start another canary rollout in either direction or
+   * rebalance the traffic split. The response is the accepted rollout snapshot; poll
+   * GetRollout until it reaches CANCELED.
+   *
+   * @example
+   * ```ts
+   * const rollout = await client.endpoints.rollouts.cancel(
+   *   'id',
+   *   {
+   *     projectId: 'projectId',
+   *     endpointId: 'endpointId',
+   *     reason: 'reason',
+   *   },
+   * );
+   * ```
+   */
+  cancel(id: string, params: RolloutCancelParams, options?: RequestOptions): APIPromise<Rollout> {
+    const { projectId = this._client.projectID, endpointId, ...body } = params;
+    return this._client.post(path`/v2/projects/${projectId}/endpoints/${endpointId}/rollouts/${id}/cancel`, {
+      body,
+      ...options,
+    });
+  }
+
+  /**
+   * Requests a running or stabilizing rollout to pause and records an optional
+   * reason. The response returns the PAUSING snapshot; poll GetRollout until state
+   * is PAUSED to confirm the executor has parked.
+   *
+   * @example
+   * ```ts
+   * const rollout = await client.endpoints.rollouts.pause(
+   *   'id',
+   *   { projectId: 'projectId', endpointId: 'endpointId' },
+   * );
+   * ```
+   */
+  pause(id: string, params: RolloutPauseParams, options?: RequestOptions): APIPromise<Rollout> {
+    const { projectId = this._client.projectID, endpointId, ...body } = params;
+    return this._client.post(path`/v2/projects/${projectId}/endpoints/${endpointId}/rollouts/${id}/pause`, {
+      body,
+      ...options,
+    });
+  }
+
+  /**
+   * Returns the values a create request would pick for any field left unset, plus
+   * the capacity context needed to display them, without creating a rollout.
+   * Responses are display state only and re-validated authoritatively at create and
+   * start; do not copy response values back into a create request.
+   *
+   * @example
+   * ```ts
+   * const rolloutDefaultsPreview =
+   *   await client.endpoints.rollouts.previewDefaults(
+   *     'endpointId',
+   *     {
+   *       projectId: 'projectId',
+   *       sourceDeploymentId: 'dep_source123',
+   *       targetDeploymentId: 'dep_target456',
+   *       canary: {
+   *         steps: [
+   *           { traffic: 25 },
+   *           { traffic: 50 },
+   *           { traffic: 100 },
+   *         ],
+   *         stepInterval: '300s',
+   *       },
+   *       metrics: [
+   *         {
+   *           name: 'router_latency',
+   *           stat: 'METRIC_STAT_TYPE_PERCENTILE',
+   *           percentile: 95,
+   *           thresholdCheck: {
+   *             value: 30000,
+   *             operator: 'THRESHOLD_OPERATOR_LT',
+   *           },
+   *           window: '300s',
+   *         },
+   *       ],
+   *     },
+   *   );
+   * ```
+   */
+  previewDefaults(
+    endpointID: string,
+    params: RolloutPreviewDefaultsParams,
+    options?: RequestOptions,
+  ): APIPromise<RolloutDefaultsPreview> {
+    const { projectId = this._client.projectID, ...body } = params;
+    return this._client.post(
+      path`/v2/projects/${projectId}/endpoints/${endpointID}/rollouts/preview-defaults`,
+      { body, ...options },
+    );
+  }
+
+  /**
+   * Completes a running or paused rollout immediately by sending all live traffic to
+   * the target deployment.
+   *
+   * @example
+   * ```ts
+   * const rollout = await client.endpoints.rollouts.promote(
+   *   'id',
+   *   { projectId: 'projectId', endpointId: 'endpointId' },
+   * );
+   * ```
+   */
+  promote(id: string, params: RolloutPromoteParams, options?: RequestOptions): APIPromise<Rollout> {
+    const { projectId = this._client.projectID, endpointId, ...body } = params;
+    return this._client.post(path`/v2/projects/${projectId}/endpoints/${endpointId}/rollouts/${id}/promote`, {
+      body,
+      ...options,
+    });
+  }
+
+  /**
+   * Resumes a pausing, paused, or system-paused rollout from its current step and
+   * traffic split.
+   *
+   * @example
+   * ```ts
+   * const rollout = await client.endpoints.rollouts.resume(
+   *   'id',
+   *   { projectId: 'projectId', endpointId: 'endpointId' },
+   * );
+   * ```
+   */
+  resume(id: string, params: RolloutResumeParams, options?: RequestOptions): APIPromise<Rollout> {
+    const { projectId = this._client.projectID, endpointId, ...body } = params;
+    return this._client.post(path`/v2/projects/${projectId}/endpoints/${endpointId}/rollouts/${id}/resume`, {
+      body,
+      ...options,
+    });
+  }
+
+  /**
+   * Starts a pending rollout and begins its configured traffic-shifting workflow.
+   *
+   * @example
+   * ```ts
+   * const rollout = await client.endpoints.rollouts.start(
+   *   'id',
+   *   { projectId: 'projectId', endpointId: 'endpointId' },
+   * );
+   * ```
+   */
+  start(id: string, params: RolloutStartParams, options?: RequestOptions): APIPromise<Rollout> {
+    const { projectId = this._client.projectID, endpointId } = params;
+    return this._client.post(
+      path`/v2/projects/${projectId}/endpoints/${endpointId}/rollouts/${id}/start`,
+      options,
+    );
+  }
+}
+export class Rollouts extends BaseRollouts {}
+
+export type RolloutsCursorPagination = CursorPagination<Rollout>;
+
+/**
+ * Blue-green strategy configuration for a single cutover to the target deployment.
+ */
+export interface BlueGreenConfig {}
+
+/**
+ * Canary strategy configuration for gradual traffic progression. An empty config
+ * uses the default 5, 25, 50, 100 percent ladder; over a frozen traffic-split pair
+ * left by cancel, the default ladder is derived at start from the pair's current
+ * served share so it begins above it.
+ */
+export interface CanaryConfig {
+  /**
+   * Optional positive soak between steps. Defaults to 3m if omitted, and grows to
+   * cover metric rule windows plus ingestion lag.
+   */
+  stepInterval?: string;
+
+  /**
+   * Optional progression steps. Defaults to 5, 25, 50, 100 percent when empty;
+   * explicit steps must increase and end at 100 percent.
+   */
+  steps?: Array<RolloutStep>;
+}
+
+/**
+ * Observed metric result enriched with rollout rule criteria and the rule's
+ * recorded verdict. Unmeasured rules are synthesized with verdict
+ * METRIC_VERDICT_UNAVAILABLE and no source or target value.
+ */
+export interface MetricResult {
+  /**
+   * Evaluation form used by the metric rule.
+   */
+  check?: 'METRIC_CHECK_TYPE_THRESHOLD' | 'METRIC_CHECK_TYPE_REGRESSION';
+
+  /**
+   * Direction that indicates whether higher or lower values are worse.
+   */
+  direction?: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
+
+  /**
+   * Rule-specific failure text. Set only when verdict is METRIC_VERDICT_BREACHED and
+   * the gate recorded one.
+   */
+  failureReason?: string;
+
+  /**
+   * Regression percentage limit used when check is METRIC_CHECK_TYPE_REGRESSION.
+   */
+  maxRegressionPercent?: number;
+
+  /**
+   * Metric name as exported to the observability backend.
+   */
+  name?: string;
+
+  /**
+   * Threshold comparison operator.
+   */
+  operator?:
+    | 'THRESHOLD_OPERATOR_GT'
+    | 'THRESHOLD_OPERATOR_GTE'
+    | 'THRESHOLD_OPERATOR_LT'
+    | 'THRESHOLD_OPERATOR_LTE';
+
+  /**
+   * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
+   */
+  percentile?: number;
+
+  /**
+   * Observed source baseline. Set only for regression checks with a recorded
+   * observation; a 0 reading serializes explicitly.
+   */
+  sourceValue?: number;
+
+  /**
+   * Aggregation used for the metric.
+   */
+  stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
+
+  /**
+   * Observed target value. Set when the gate recorded an observation; absent on
+   * synthesized unavailable results. A 0 reading serializes explicitly.
+   */
+  targetValue?: number;
+
+  /**
+   * Threshold criteria used when check is METRIC_CHECK_TYPE_THRESHOLD.
+   */
+  threshold?: number;
+
+  /**
+   * Rule decision recorded by the metric gate. Absent when no decision was recorded.
+   */
+  verdict?: 'METRIC_VERDICT_PASS' | 'METRIC_VERDICT_BREACHED' | 'METRIC_VERDICT_UNAVAILABLE';
+}
+
+/**
+ * Metric gate evaluated during a rollout.
+ */
+export interface MetricRule {
+  /**
+   * Required catalogue key for the metric to gate on. `serving_latency` is retired.
+   */
+  name: 'inflight_requests' | 'router_error_rate' | 'router_latency';
+
+  /**
+   * Percentile value, such as 99. Set only when stat is METRIC_STAT_TYPE_PERCENTILE.
+   */
+  percentile?: number;
+
+  /**
+   * Regression criteria that fail when the target regresses against the source
+   * beyond a limit.
+   */
+  regressionCheck?: RegressionCheck;
+
+  /**
+   * Aggregation used for the metric. Optional for router_error_rate and
+   * inflight_requests; omitted values default to METRIC_STAT_TYPE_AVG. Required for
+   * router_latency, where AVG or PERCENTILE may be used.
+   */
+  stat?: 'METRIC_STAT_TYPE_AVG' | 'METRIC_STAT_TYPE_PERCENTILE';
+
+  /**
+   * Threshold criteria that fail when the target metric violates the configured
+   * bound.
+   */
+  thresholdCheck?: ThresholdCheck;
+
+  /**
+   * Optional query window for the metric. Defaults to the step soak duration.
+   */
+  window?: string;
+}
+
+/**
+ * Pause metadata returned while a rollout is paused.
+ */
+export interface PauseInfo {
+  /**
+   * Timestamp when the rollout was paused.
+   */
+  pausedAt: string;
+
+  /**
+   * Human-readable reason recorded when the rollout was paused.
+   */
+  reason?: string;
+}
+
+/**
+ * Regression criteria that fail when the target regresses against the source
+ * beyond a limit.
+ */
+export interface RegressionCheck {
+  /**
+   * Required direction that indicates whether higher or lower metric values are
+   * worse.
+   */
+  direction: 'REGRESSION_DIRECTION_HIGHER_IS_WORSE' | 'REGRESSION_DIRECTION_LOWER_IS_WORSE';
+
+  /**
+   * Finite maximum allowed regression percentage, greater than or equal to 0.
+   * Omitting this value is read as 0. A value of 0 is the strictest budget; any
+   * regression fails, and exactly-at-budget passes.
+   */
+  maxRegressionPercent?: number;
+}
+
+/**
+ * Rolling strategy configuration for small batches that ramp target replicas up
+ * while shrinking source replicas to what their remaining traffic share needs.
+ */
+export interface RollingConfig {}
+
+/**
+ * Public view of a rollout resource, including runtime progress and any pause or
+ * abort reason.
+ */
+export interface Rollout {
+  /**
+   * Output only. Unique rollout identifier.
+   */
+  id: string;
+
+  /**
+   * Output only. Timestamp when the rollout was created.
+   */
+  createdAt: string;
+
+  /**
+   * Output only. Endpoint this rollout belongs to.
+   */
+  endpointId: string;
+
+  /**
+   * Output only. Deployment that traffic is shifting away from.
+   */
+  sourceDeploymentId: string;
+
+  /**
+   * Output only. High-level rollout lifecycle state.
+   */
+  state:
+    | 'ROLLOUT_STATE_RUNNING'
+    | 'ROLLOUT_STATE_PAUSED'
+    | 'ROLLOUT_STATE_STABILIZING'
+    | 'ROLLOUT_STATE_COMPLETED'
+    | 'ROLLOUT_STATE_PENDING'
+    | 'ROLLOUT_STATE_SYSTEM_PAUSED'
+    | 'ROLLOUT_STATE_CANCELLING'
+    | 'ROLLOUT_STATE_CANCELED'
+    | 'ROLLOUT_STATE_PAUSING';
+
+  /**
+   * Derived runtime progress for a rollout.
+   */
+  status: RolloutStatus;
+
+  /**
+   * Output only. Rollout strategy selected at creation.
+   */
+  strategy:
+    | 'ROLLOUT_STRATEGY_TYPE_ROLLING'
+    | 'ROLLOUT_STRATEGY_TYPE_CANARY'
+    | 'ROLLOUT_STRATEGY_TYPE_BLUE_GREEN';
+
+  /**
+   * Output only. Deployment that traffic is shifting toward.
+   */
+  targetDeploymentId: string;
+
+  /**
+   * Output only. Timestamp when the rollout reached a terminal state.
+   */
+  completedAt?: string;
+
+  /**
+   * Output only. Zero-based index of the current step. Unset while PENDING; step 0
+   * is reported explicitly after start.
+   */
+  currentStep?: number;
+
+  /**
+   * Output only. Applied percentage of traffic on the target deployment.
+   */
+  currentTrafficPercent?: number;
+
+  /**
+   * Output only. Opaque version tag for optimistic concurrency control.
+   */
+  etag?: string;
+
+  /**
+   * Pause metadata returned while a rollout is paused.
+   */
+  pauseInfo?: PauseInfo;
+
+  /**
+   * Output only. Timestamp when the rollout started running.
+   */
+  startedAt?: string;
+}
+
+/**
+ * Structured reason a rollout stopped progressing.
+ */
+export interface RolloutCondition {
+  /**
+   * Step index where the condition arose. Step 0 serializes explicitly.
+   */
+  atStep?: number;
+
+  /**
+   * Category that classifies why the rollout stopped.
+   */
+  category?:
+    | 'ROLLOUT_FAILURE_CATEGORY_METRIC_REGRESSION'
+    | 'ROLLOUT_FAILURE_CATEGORY_METRICS_UNAVAILABLE'
+    | 'ROLLOUT_FAILURE_CATEGORY_TARGET_NOT_READY'
+    | 'ROLLOUT_FAILURE_CATEGORY_SOURCE_NOT_DRAINED'
+    | 'ROLLOUT_FAILURE_CATEGORY_HEALTH_REGRESSION'
+    | 'ROLLOUT_FAILURE_CATEGORY_CAPACITY_EXHAUSTED'
+    | 'ROLLOUT_FAILURE_CATEGORY_ROUTING_ERROR'
+    | 'ROLLOUT_FAILURE_CATEGORY_DEPENDENCY_OUTAGE'
+    | 'ROLLOUT_FAILURE_CATEGORY_ABORTED_BY_OPERATOR'
+    | 'ROLLOUT_FAILURE_CATEGORY_INTERNAL'
+    | 'ROLLOUT_FAILURE_CATEGORY_POLICY_INFEASIBLE'
+    | 'ROLLOUT_FAILURE_CATEGORY_UNDER_SERVED'
+    | 'ROLLOUT_FAILURE_CATEGORY_ENTITLEMENT_LAPSED';
+
+  /**
+   * Human-readable explanation for the condition.
+   */
+  message?: string;
+
+  /**
+   * Metrics observed at the failing gate, enriched with their criteria. Unmeasured
+   * rules appear as synthesized rows with verdict METRIC_VERDICT_UNAVAILABLE and no
+   * measured values.
+   */
+  metrics?: Array<MetricResult>;
+
+  /**
+   * Timestamp when the condition was observed.
+   */
+  observedAt?: string;
+
+  /**
+   * Informational condition type. `CapacityLimited` means the current step advanced
+   * partially because full capacity was not placeable.
+   */
+  type?: 'CapacityLimited';
+}
+
+/**
+ * Completed create-form state — the caller's spec with defaulted values filled in,
+ * the steps the rollout is expected to walk, and the capacity context the defaults
+ * were computed from. Display only.
+ */
+export interface RolloutDefaultsPreview {
+  /**
+   * Source deployment replica count the defaults were computed from. Zero is a real
+   * value.
+   */
+  sourceReplicas: number;
+
+  /**
+   * Strategy, metric gates, timing, and cleanup policy for shifting traffic between
+   * two deployments under one endpoint.
+   */
+  spec: RolloutDefaultsPreview.Spec;
+
+  /**
+   * Target deployment autoscaling maximum replica count. Zero is a real value.
+   */
+  targetMaxReplicas: number;
+
+  /**
+   * Target deployment autoscaling minimum replica count. Zero is a real value.
+   */
+  targetMinReplicas: number;
+
+  /**
+   * Target deployment replica count the defaults were computed from. Zero is a real
+   * value.
+   */
+  targetReplicas: number;
+
+  /**
+   * Findings to surface next to the form when a later gate will refuse the spec or a
+   * standing guarantee is lost. An empty list means the shown values are safe to
+   * submit as-is; render message for unrecognized codes.
+   */
+  warnings: Array<RolloutDefaultsPreview.Warning>;
+
+  /**
+   * Steps the rollout is expected to walk when the caller leaves steps unset.
+   * Display only. Empty when the caller supplied steps or no ladder applies.
+   */
+  estimatedEffectiveSteps?: Array<RolloutStep>;
+
+  /**
+   * Percentage of the pair's traffic currently reaching the target, the floor the
+   * suggested steps start above. Unset when not a frozen pair or unknown; 0 is a
+   * real measurement.
+   */
+  estimatedSeedPercent?: number;
+
+  /**
+   * True when both deployments stand in the endpoint traffic split, so the rollout
+   * resumes from the current split rather than from zero. See warnings for standing
+   * split shapes that StartRollout will still reject.
+   */
+  frozenPair?: boolean;
+
+  /**
+   * Expected autoscaling maximum replicas for the completed target; unset while the
+   * final target replicas cannot be resolved.
+   */
+  landingMaxReplicas?: number;
+
+  /**
+   * Expected autoscaling minimum replicas for the completed target; unset while the
+   * final target replicas cannot be resolved.
+   */
+  landingMinReplicas?: number;
+}
+
+export namespace RolloutDefaultsPreview {
+  /**
+   * Strategy, metric gates, timing, and cleanup policy for shifting traffic between
+   * two deployments under one endpoint.
+   */
+  export interface Spec {
+    /**
+     * Deployment that traffic shifts away from.
+     */
+    sourceDeploymentId: string;
+
+    /**
+     * Deployment that traffic shifts toward.
+     */
+    targetDeploymentId: string;
+
+    /**
+     * Blue-green strategy configuration for a single cutover to the target deployment.
+     */
+    blueGreen?: RolloutsAPI.BlueGreenConfig;
+
+    /**
+     * Canary strategy configuration for gradual traffic progression. An empty config
+     * uses the default 5, 25, 50, 100 percent ladder; over a frozen traffic-split pair
+     * left by cancel, the default ladder is derived at start from the pair's current
+     * served share so it begins above it.
+     */
+    canary?: RolloutsAPI.CanaryConfig;
+
+    /**
+     * Optional final replica count for the source deployment. Defaults to 0, which
+     * drains and stops the source.
+     */
+    finalSourceReplicas?: number;
+
+    /**
+     * Optional target replica floor at completion. Must be at least 1 when set;
+     * defaults to the source deployment's replica count at create time, or to the
+     * source and target deployments' combined replica count when both already stand in
+     * the endpoint traffic split after a cancel. The completed target's autoscaling
+     * max lands at the landing ceiling, max(this value, the source max, the target's
+     * own max); the rollout may lift the target max at first wake, at the first step
+     * that needs it, or at completion unless an operator changes max mid-run. The
+     * lifted ceiling remains after completion, and PreviewRolloutDefaults reports a
+     * coming lift as ROLLOUT_WILL_RAISE_TARGET_MAX. A pre-existing target whose own
+     * autoscaling min is higher keeps that floor, reported as
+     * FINAL_BELOW_INHERITED_MIN. A target that starts stopped lands exactly at this
+     * value; if the source min was higher, PreviewRolloutDefaults reports
+     * FINAL_BELOW_SOURCE_MIN.
+     */
+    finalTargetReplicas?: number;
+
+    /**
+     * Optional metric gates evaluated after each step's soak. Canary only; rejected on
+     * rolling and blue-green rollouts.
+     */
+    metrics?: Array<RolloutsAPI.MetricRule>;
+
+    /**
+     * Rolling strategy configuration for small batches that ramp target replicas up
+     * while shrinking source replicas to what their remaining traffic share needs.
+     */
+    rolling?: RolloutsAPI.RollingConfig;
+  }
+
+  /**
+   * A non-blocking finding attached to a rollout defaults preview; expected
+   * end-state facts are structured fields on RolloutDefaultsPreview.
+   */
+  export interface Warning {
+    /**
+     * Machine-readable warning code. Current vocabulary is START_WILL_REJECT,
+     * FINAL_BELOW_SOURCE_MIN, and FIRST_STEP_AT_SEED; render message for unrecognized
+     * codes.
+     */
+    code: string;
+
+    /**
+     * Plain-language description of the finding, safe to show users as-is.
+     */
+    message: string;
+  }
+}
+
+/**
+ * Derived runtime progress for a rollout.
+ */
+export interface RolloutStatus {
+  /**
+   * Per-step rollout execution summaries.
+   */
+  steps: Array<RolloutStepStatus>;
+
+  /**
+   * Total number of steps in the rollout progression. Always serializes when status
+   * is present.
+   */
+  totalSteps: number;
+
+  /**
+   * Structured reason a rollout stopped progressing.
+   */
+  condition?: RolloutCondition;
+
+  /**
+   * Informational conditions that describe the rollout's current state. Omitted when
+   * empty; clients should treat an absent key as an empty list.
+   */
+  conditions?: Array<RolloutCondition>;
+
+  /**
+   * Timestamp of the most recent progress update.
+   */
+  updatedAt?: string;
+}
+
+/**
+ * One stage of a canary rollout progression.
+ */
+export interface RolloutStep {
+  /**
+   * Required percentage of traffic on the target deployment for this step.
+   */
+  traffic: number;
+
+  /**
+   * Optional explicit target replica count for this step.
+   */
+  replicas?: number;
+}
+
+/**
+ * Collapsed execution state for one rollout step.
+ */
+export interface RolloutStepStatus {
+  /**
+   * Timestamp when this step finished, was skipped over, or the rollout ended on it.
+   * Unset while in progress.
+   */
+  completedAt?: string;
+
+  /**
+   * Failure reason set only when this step failed.
+   */
+  failureReason?: string;
+
+  /**
+   * Metric gate results for this step, enriched with criteria and verdict.
+   * Unmeasured rules appear as synthesized rows with verdict
+   * METRIC_VERDICT_UNAVAILABLE and no measured values.
+   */
+  metrics?: Array<MetricResult>;
+
+  /**
+   * Timestamp when this step's first sub-step ran. Unset for steps no sub-step
+   * reached.
+   */
+  startedAt?: string;
+
+  /**
+   * Outcome of this step. Finished steps are PASSED, the live step mirrors the
+   * rollout state, skipped-over steps are SKIPPED, and unreached steps are PENDING.
+   */
+  state?:
+    | 'ROLLOUT_STEP_STATE_PENDING'
+    | 'ROLLOUT_STEP_STATE_RUNNING'
+    | 'ROLLOUT_STEP_STATE_PASSED'
+    | 'ROLLOUT_STEP_STATE_FAILED'
+    | 'ROLLOUT_STEP_STATE_PAUSED'
+    | 'ROLLOUT_STEP_STATE_CANCELED'
+    | 'ROLLOUT_STEP_STATE_SKIPPED';
+
+  /**
+   * Index of this step in the rollout progression. Step 0 serializes explicitly.
+   */
+  stepIndex?: number;
+
+  /**
+   * Target traffic percentage configured for this step. Always serializes for
+   * recorded steps.
+   */
+  targetTrafficPercent?: number;
+}
+
+/**
+ * Threshold criteria that fail when the target metric violates the configured
+ * bound.
+ */
+export interface ThresholdCheck {
+  /**
+   * Required comparison operator applied to the target metric value.
+   */
+  operator:
+    | 'THRESHOLD_OPERATOR_GT'
+    | 'THRESHOLD_OPERATOR_GTE'
+    | 'THRESHOLD_OPERATOR_LT'
+    | 'THRESHOLD_OPERATOR_LTE';
+
+  /**
+   * Finite threshold value. Interpreted in the metric's unit: router_error_rate is a
+   * ratio in [0, 1], router_latency is milliseconds, and inflight_requests is
+   * in-flight requests per ready replica averaged over the rule window. Thresholds
+   * that no achievable value could pass, or that every achievable value passes, are
+   * rejected at create.
+   *
+   * Omitting this value is read as 0. Set 0 explicitly for the strictest threshold:
+   * nothing at all is tolerated.
+   */
+  value?: number;
+}
+
+/**
+ * Empty response returned after a successful delete operation.
+ */
+export interface RolloutDeleteResponse {}
+
+export interface RolloutCreateParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Body param: Deployment that traffic shifts away from.
+   */
+  sourceDeploymentId: string;
+
+  /**
+   * Body param: Deployment that traffic shifts toward.
+   */
+  targetDeploymentId: string;
+
+  /**
+   * Body param: Blue-green strategy configuration for a single cutover to the target
+   * deployment.
+   */
+  blueGreen?: BlueGreenConfig;
+
+  /**
+   * Body param: Canary strategy configuration for gradual traffic progression. An
+   * empty config uses the default 5, 25, 50, 100 percent ladder; over a frozen
+   * traffic-split pair left by cancel, the default ladder is derived at start from
+   * the pair's current served share so it begins above it.
+   */
+  canary?: CanaryConfig;
+
+  /**
+   * Body param: Optional final replica count for the source deployment. Defaults to
+   * 0, which drains and stops the source.
+   */
+  finalSourceReplicas?: number;
+
+  /**
+   * Body param: Optional target replica floor at completion. Must be at least 1 when
+   * set; defaults to the source deployment's replica count at create time, or to the
+   * source and target deployments' combined replica count when both already stand in
+   * the endpoint traffic split after a cancel. The completed target's autoscaling
+   * max lands at the landing ceiling, max(this value, the source max, the target's
+   * own max); the rollout may lift the target max at first wake, at the first step
+   * that needs it, or at completion unless an operator changes max mid-run. The
+   * lifted ceiling remains after completion, and PreviewRolloutDefaults reports a
+   * coming lift as ROLLOUT_WILL_RAISE_TARGET_MAX. A pre-existing target whose own
+   * autoscaling min is higher keeps that floor, reported as
+   * FINAL_BELOW_INHERITED_MIN. A target that starts stopped lands exactly at this
+   * value; if the source min was higher, PreviewRolloutDefaults reports
+   * FINAL_BELOW_SOURCE_MIN.
+   */
+  finalTargetReplicas?: number;
+
+  /**
+   * Body param: Optional metric gates evaluated after each step's soak. Canary only;
+   * rejected on rolling and blue-green rollouts.
+   */
+  metrics?: Array<MetricRule>;
+
+  /**
+   * Body param: Rolling strategy configuration for small batches that ramp target
+   * replicas up while shrinking source replicas to what their remaining traffic
+   * share needs.
+   */
+  rolling?: RollingConfig;
+}
+
+export interface RolloutRetrieveParams {
+  /**
+   * Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Endpoint identifier.
+   */
+  endpointId: string;
+}
+
+export interface RolloutListParams extends CursorPaginationParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Query param: Narrow results to active or terminal rollouts. Omit to list all
+   * rollouts.
+   */
+  filter?: 'ROLLOUT_FILTER_ACTIVE' | 'ROLLOUT_FILTER_TERMINAL';
+}
+
+export interface RolloutDeleteParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Path param: Endpoint identifier.
+   */
+  endpointId: string;
+
+  /**
+   * Query param: Etag for optimistic concurrency.
+   */
+  etag?: string;
+}
+
+export interface RolloutCancelParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Path param: Endpoint identifier.
+   */
+  endpointId: string;
+
+  /**
+   * Body param: Required human-readable reason recorded in the rollout audit trail.
+   */
+  reason: string;
+
+  /**
+   * Body param: Optional cancel behavior. Absent defaults to freeze, which preserves
+   * the current traffic split. Revert is removed and rejected with
+   * FAILED_PRECONDITION; cancel with freeze, then run a reverse rollout back to the
+   * source.
+   */
+  disposition?: 'CANCEL_DISPOSITION_FREEZE' | 'CANCEL_DISPOSITION_REVERT';
+
+  /**
+   * Body param: Optional etag for optimistic concurrency.
+   */
+  etag?: string;
+}
+
+export interface RolloutPauseParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Path param: Endpoint identifier.
+   */
+  endpointId: string;
+
+  /**
+   * Body param: Optional etag for optimistic concurrency.
+   */
+  etag?: string;
+
+  /**
+   * Body param: Optional human-readable reason recorded on the rollout pause
+   * metadata.
+   */
+  reason?: string;
+}
+
+export interface RolloutPreviewDefaultsParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Body param: Deployment that traffic shifts away from.
+   */
+  sourceDeploymentId: string;
+
+  /**
+   * Body param: Deployment that traffic shifts toward.
+   */
+  targetDeploymentId: string;
+
+  /**
+   * Body param: Blue-green strategy configuration for a single cutover to the target
+   * deployment.
+   */
+  blueGreen?: BlueGreenConfig;
+
+  /**
+   * Body param: Canary strategy configuration for gradual traffic progression. An
+   * empty config uses the default 5, 25, 50, 100 percent ladder; over a frozen
+   * traffic-split pair left by cancel, the default ladder is derived at start from
+   * the pair's current served share so it begins above it.
+   */
+  canary?: CanaryConfig;
+
+  /**
+   * Body param: Optional final replica count for the source deployment. Defaults to
+   * 0, which drains and stops the source.
+   */
+  finalSourceReplicas?: number;
+
+  /**
+   * Body param: Optional target replica floor at completion. Must be at least 1 when
+   * set; defaults to the source deployment's replica count at create time, or to the
+   * source and target deployments' combined replica count when both already stand in
+   * the endpoint traffic split after a cancel. The completed target's autoscaling
+   * max lands at the landing ceiling, max(this value, the source max, the target's
+   * own max); the rollout may lift the target max at first wake, at the first step
+   * that needs it, or at completion unless an operator changes max mid-run. The
+   * lifted ceiling remains after completion, and PreviewRolloutDefaults reports a
+   * coming lift as ROLLOUT_WILL_RAISE_TARGET_MAX. A pre-existing target whose own
+   * autoscaling min is higher keeps that floor, reported as
+   * FINAL_BELOW_INHERITED_MIN. A target that starts stopped lands exactly at this
+   * value; if the source min was higher, PreviewRolloutDefaults reports
+   * FINAL_BELOW_SOURCE_MIN.
+   */
+  finalTargetReplicas?: number;
+
+  /**
+   * Body param: Optional metric gates evaluated after each step's soak. Canary only;
+   * rejected on rolling and blue-green rollouts.
+   */
+  metrics?: Array<MetricRule>;
+
+  /**
+   * Body param: Rolling strategy configuration for small batches that ramp target
+   * replicas up while shrinking source replicas to what their remaining traffic
+   * share needs.
+   */
+  rolling?: RollingConfig;
+}
+
+export interface RolloutPromoteParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Path param: Endpoint identifier.
+   */
+  endpointId: string;
+
+  /**
+   * Body param: Optional etag for optimistic concurrency.
+   */
+  etag?: string;
+}
+
+export interface RolloutResumeParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Path param: Endpoint identifier.
+   */
+  endpointId: string;
+
+  /**
+   * Body param: Optional etag for optimistic concurrency.
+   */
+  etag?: string;
+}
+
+export interface RolloutStartParams {
+  /**
+   * Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Endpoint identifier.
+   */
+  endpointId: string;
+}
+
+export declare namespace Rollouts {
+  export {
+    type BlueGreenConfig as BlueGreenConfig,
+    type CanaryConfig as CanaryConfig,
+    type MetricResult as MetricResult,
+    type MetricRule as MetricRule,
+    type PauseInfo as PauseInfo,
+    type RegressionCheck as RegressionCheck,
+    type RollingConfig as RollingConfig,
+    type Rollout as Rollout,
+    type RolloutCondition as RolloutCondition,
+    type RolloutDefaultsPreview as RolloutDefaultsPreview,
+    type RolloutStatus as RolloutStatus,
+    type RolloutStep as RolloutStep,
+    type RolloutStepStatus as RolloutStepStatus,
+    type ThresholdCheck as ThresholdCheck,
+    type RolloutDeleteResponse as RolloutDeleteResponse,
+    type RolloutsCursorPagination as RolloutsCursorPagination,
+    type RolloutCreateParams as RolloutCreateParams,
+    type RolloutRetrieveParams as RolloutRetrieveParams,
+    type RolloutListParams as RolloutListParams,
+    type RolloutDeleteParams as RolloutDeleteParams,
+    type RolloutCancelParams as RolloutCancelParams,
+    type RolloutPauseParams as RolloutPauseParams,
+    type RolloutPreviewDefaultsParams as RolloutPreviewDefaultsParams,
+    type RolloutPromoteParams as RolloutPromoteParams,
+    type RolloutResumeParams as RolloutResumeParams,
+    type RolloutStartParams as RolloutStartParams,
+  };
+}

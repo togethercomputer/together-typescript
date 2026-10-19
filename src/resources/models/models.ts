@@ -1,173 +1,880 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
-import * as UploadsAPI from './uploads';
-import { UploadStatusResponse, Uploads } from './uploads';
+import * as ConfigsAPI from './configs';
+import {
+  BaseConfigs,
+  Certification,
+  Config,
+  ConfigListParams,
+  ConfigRetrieveParams,
+  Configs,
+  ConfigsCursorPagination,
+  Selector,
+} from './configs';
+import * as RemoteUploadsAPI from './remote-uploads';
+import {
+  BaseRemoteUploads,
+  RemoteUploadCreateParams,
+  RemoteUploadCreateResponse,
+  RemoteUploadEventsParams,
+  RemoteUploadEventsResponse,
+  RemoteUploadListParams,
+  RemoteUploadListResponse,
+  RemoteUploadListResponsesCursorPagination,
+  RemoteUploadRetrieveParams,
+  RemoteUploadRetrieveResponse,
+  RemoteUploads,
+} from './remote-uploads';
 import { APIPromise } from '../../core/api-promise';
+import { CursorPagination, type CursorPaginationParams, PagePromise } from '../../core/pagination';
 import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
-export class Models extends APIResource {
-  uploads: UploadsAPI.Uploads = new UploadsAPI.Uploads(this._client);
+export class BaseModels extends APIResource {
+  static override readonly _key: readonly ['models'] = Object.freeze(['models'] as const);
 
   /**
-   * Lists all of Together's open-source models and metadata including pricing, chat
-   * template, and context.
-   *
-   * @example
-   * ```ts
-   * const modelObjects = await client.models.list();
-   * ```
+   * Registers a custom model resource in the project. Registration creates the
+   * model's metadata; upload or import model files separately before deploying it.
+   */
+  create(params: ModelCreateParams, options?: RequestOptions): APIPromise<Model> {
+    const { projectId = this._client.projectID, ...body } = params;
+    return this._client.post(path`/v2/projects/${projectId}/models`, { body, ...options });
+  }
+
+  /**
+   * Retrieves a custom model's metadata, visibility, weight information, and
+   * base-model relationship.
+   */
+  retrieve(
+    id: string,
+    params: ModelRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Model> {
+    const { projectId = this._client.projectID } = params ?? {};
+    return this._client.get(path`/v2/projects/${projectId}/models/${id}`, options);
+  }
+
+  /**
+   * Updates mutable model metadata such as its inference name, description, base
+   * model, or visibility.
+   */
+  update(id: string, params: ModelUpdateParams, options?: RequestOptions): APIPromise<Model> {
+    const { projectId = this._client.projectID, updateMask, ...body } = params;
+    return this._client.patch(path`/v2/projects/${projectId}/models/${id}`, {
+      query: { updateMask },
+      body,
+      ...options,
+    });
+  }
+
+  /**
+   * Lists custom model resources owned by the specified project. Use the
+   * organization endpoint to list models shared across projects or the
+   * supported-model catalog to discover Together-hosted base models.
    */
   list(
-    query: ModelListParams | null | undefined = {},
+    params: ModelListParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<ModelListResponse> {
-    return this._client.get('/models', { query, ...options });
+  ): PagePromise<ModelsCursorPagination, Model> {
+    const { projectId = this._client.projectID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/v2/projects/${projectId}/models`, CursorPagination<Model>, {
+      query,
+      ...options,
+    });
   }
 
   /**
-   * Upload a custom model or adapter from Hugging Face or S3
-   *
-   * @example
-   * ```ts
-   * const response = await client.models.upload({
-   *   model_name: 'Qwen2.5-72B-Instruct',
-   *   model_source: 'unsloth/Qwen2.5-72B-Instruct',
-   * });
-   * ```
+   * Permanently deletes a custom model resource. The model must not be in use by an
+   * active deployment.
    */
-  upload(body: ModelUploadParams, options?: RequestOptions): APIPromise<ModelUploadResponse> {
-    return this._client.post('/models', { body, ...options });
+  delete(
+    id: string,
+    params: ModelDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ModelDeleteResponse> {
+    const { projectId = this._client.projectID } = params ?? {};
+    return this._client.delete(path`/v2/projects/${projectId}/models/${id}`, options);
+  }
+
+  /**
+   * Lists files in the latest or specified revision of a model, including paths,
+   * sizes, and content hashes.
+   */
+  listFiles(
+    id: string,
+    params: ModelListFilesParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ModelListFilesResponse> {
+    const { projectId = this._client.projectID, ...query } = params ?? {};
+    return this._client.get(path`/v2/projects/${projectId}/models/${id}/files`, { query, ...options });
+  }
+
+  /**
+   * Lists custom models shared with every project in the specified organization.
+   * Project-private and public models are not included.
+   */
+  listOrgScoped(
+    organizationID: string,
+    query: ModelListOrgScopedParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<ModelsCursorPagination, Model> {
+    return this._client.getAPIList(
+      path`/v2/organizations/${organizationID}/models`,
+      CursorPagination<Model>,
+      { query, ...options },
+    );
+  }
+
+  /**
+   * Lists the immutable file revisions available for a custom model, newest first.
+   */
+  listRevisions(
+    id: string,
+    params: ModelListRevisionsParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ModelListRevisionsResponse> {
+    const { projectId = this._client.projectID } = params ?? {};
+    return this._client.get(path`/v2/projects/${projectId}/models/${id}/revisions`, options);
+  }
+
+  /**
+   * Lists Together-hosted base models that can be deployed for dedicated inference,
+   * together with their capabilities and certified deployment profiles.
+   */
+  listSupported(
+    query: ModelListSupportedParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<SupportedModelsCursorPagination, SupportedModel> {
+    return this._client.getAPIList('/v2/supported-models', CursorPagination<SupportedModel>, {
+      query,
+      ...options,
+    });
+  }
+
+  /**
+   * Retrieves a Together-hosted base model and the certified model, configuration,
+   * hardware, and performance profiles available for deployment.
+   */
+  retrieveSupported(id: string, options?: RequestOptions): APIPromise<SupportedModel> {
+    return this._client.get(path`/v2/supported-models/${id}`, options);
   }
 }
+export class Models extends BaseModels {
+  remoteUploads: RemoteUploadsAPI.RemoteUploads = new RemoteUploadsAPI.RemoteUploads(this._client);
+  configs: ConfigsAPI.Configs = new ConfigsAPI.Configs(this._client);
+}
 
-export interface ModelObject {
+export type ModelsCursorPagination = CursorPagination<Model>;
+
+export type SupportedModelsCursorPagination = CursorPagination<SupportedModel>;
+
+/**
+ * Custom or derived model registered in a project and backed by versioned weight
+ * files.
+ */
+export interface Model {
+  /**
+   * Unique model identifier.
+   */
   id: string;
 
-  created: number;
+  /**
+   * Project-qualified model name in the form `<project_slug>/<model_name>`. Create
+   * and update requests may use the bare or qualified form.
+   */
+  name: string;
 
   /**
-   * The object type, which is always `model`.
+   * ID of the organization that owns the model's project.
    */
-  object: 'model';
+  organizationId: string;
 
-  type:
-    | 'chat'
-    | 'language'
-    | 'code'
-    | 'image'
-    | 'embedding'
-    | 'moderation'
-    | 'rerank'
-    | 'audio'
-    | 'transcribe'
-    | 'video';
+  /**
+   * ID of the project that owns the model.
+   */
+  projectId: string;
 
-  context_length?: number;
+  /**
+   * Who can discover the model. `VISIBILITY_PRIVATE` restricts it to the project;
+   * `VISIBILITY_INTERNAL` shares it with the organization.
+   */
+  visibility: 'VISIBILITY_PRIVATE' | 'VISIBILITY_INTERNAL';
 
-  display_name?: string;
+  /**
+   * Architecture, size, precision, and speculative-decoding metadata derived from
+   * the model files.
+   */
+  weights: ModelWeights;
 
-  license?: string;
+  /**
+   * Resource name of the base model, using
+   * `projects/{baseProject}/models/{baseModelId}`; empty when the model has no base.
+   */
+  baseModel?: string;
 
-  link?: string;
+  /**
+   * ID of the supported or custom base model from which this model was derived.
+   */
+  baseModelId?: string;
 
-  organization?: string;
-
-  pricing?: ModelObject.Pricing;
+  /**
+   * Human-readable description of the model and its intended use.
+   */
+  description?: string;
 }
 
-export namespace ModelObject {
-  export interface Pricing {
-    base: number;
+/**
+ * Number of model parameters stored in one numerical data type.
+ */
+export interface ModelDtypeCount {
+  /**
+   * Number of model parameters stored with this data type.
+   */
+  count: string;
 
-    finetune: number;
-
-    hourly: number;
-
-    input: number;
-
-    output: number;
-
-    cached_input?: number;
-  }
+  /**
+   * Numerical data type, such as `float16`, `bfloat16`, or `int8`.
+   */
+  dtype: string;
 }
 
-export type ModelListResponse = Array<ModelObject>;
+/**
+ * Model parameter count and precision breakdown.
+ */
+export interface ModelParameters {
+  /**
+   * Parameter counts grouped by numerical data type.
+   */
+  byDtype: Array<ModelDtypeCount>;
 
-export interface ModelUploadResponse {
-  data: ModelUploadResponse.Data;
-
-  message: string;
+  /**
+   * Total number of parameters in the model weights.
+   */
+  total: string;
 }
 
-export namespace ModelUploadResponse {
-  export interface Data {
-    job_id: string;
+/**
+ * Architecture, size, precision, and speculative-decoding metadata for model
+ * weights.
+ */
+export interface ModelWeights {
+  /**
+   * Model architecture detected from the weight metadata.
+   */
+  architecture?: string;
 
-    model_id: string;
+  /**
+   * Maximum context length reported by the model metadata.
+   */
+  contextLength?: string;
 
-    model_name: string;
+  /**
+   * Draft-model speculator family for draft speculative decoding.
+   */
+  draftSpeculatorType?: 'DRAFT_SPECULATOR_TYPE_EAGLE' | 'DRAFT_SPECULATOR_TYPE_PHOENIX';
 
-    model_source: string;
-  }
+  /**
+   * Total parameter count and breakdown by numerical data type.
+   */
+  parameters?: ModelParameters;
+
+  /**
+   * Speculative decoding mechanism for speculator weights.
+   */
+  speculatorMechanism?:
+    | 'SPECULATOR_MECHANISM_DRAFT'
+    | 'SPECULATOR_MECHANISM_LOOKAHEAD'
+    | 'SPECULATOR_MECHANISM_MTP';
+
+  /**
+   * Role of the weights: full model, speculative draft model, or LoRA adapter.
+   */
+  type?: 'WEIGHTS_TYPE_DEFAULT' | 'WEIGHTS_TYPE_SPECULATOR' | 'WEIGHTS_TYPE_ADAPTER';
 }
 
-export interface ModelListParams {
+/**
+ * Curated catalog entry for a platform-supported model.
+ */
+export interface SupportedModel {
   /**
-   * Filter models to only return dedicated models
+   * Unique ID of the deployable Together-hosted base model.
    */
-  dedicated?: boolean;
-}
-
-export interface ModelUploadParams {
-  /**
-   * The name to give to your uploaded model
-   */
-  model_name: string;
+  id: string;
 
   /**
-   * The source location of the model (Hugging Face repo or S3 path)
+   * Resource name for the base model as `projects/{projectId}/models/{modelId}`;
+   * empty when unresolved.
    */
-  model_source: string;
+  baseModel: string;
 
   /**
-   * The base model to use for an adapter if setting it to run against a serverless
-   * pool. Only used for model_type `adapter`.
+   * Bare model ID for the architecture's base model; empty when no base model is
+   * linked.
    */
-  base_model?: string;
+  baseModelId: string;
 
   /**
-   * A description of your model
+   * High-level tasks the model supports.
+   */
+  capabilities: Array<
+    | 'CAPABILITY_CHAT'
+    | 'CAPABILITY_EMBEDDING'
+    | 'CAPABILITY_RERANKING'
+    | 'CAPABILITY_IMAGE_GENERATION'
+    | 'CAPABILITY_VIDEO_GENERATION'
+  >;
+
+  /**
+   * Timestamp when the catalog entry was created.
+   */
+  createdAt: string;
+
+  /**
+   * Certified deployment profiles available for the model.
+   */
+  deploymentProfiles: Array<SupportedModelDeploymentProfile>;
+
+  /**
+   * Catalog-controlled human-readable model name.
+   */
+  displayName: string;
+
+  /**
+   * UI-facing model type badge, such as chat, language, code, image, embedding,
+   * rerank, moderation, audio, video, or transcribe.
+   */
+  displayType: string;
+
+  /**
+   * Input modalities supported by the model.
+   */
+  inputModalities: Array<'MODALITY_TEXT' | 'MODALITY_IMAGE' | 'MODALITY_AUDIO' | 'MODALITY_VIDEO'>;
+
+  /**
+   * Catalog-controlled HF model ID used for inference.
+   */
+  name: string;
+
+  /**
+   * Output modalities produced by the model.
+   */
+  outputModalities: Array<'MODALITY_TEXT' | 'MODALITY_IMAGE' | 'MODALITY_AUDIO' | 'MODALITY_VIDEO'>;
+
+  /**
+   * Product surfaces where the model is offered.
+   */
+  products: Array<'PRODUCT_SERVERLESS' | 'PRODUCT_DEDICATED' | 'PRODUCT_FINE_TUNING' | 'PRODUCT_RESERVED'>;
+
+  /**
+   * Organization or publisher associated with the model.
+   */
+  publisher: string;
+
+  /**
+   * Catalog recommendation status for the model.
+   */
+  status:
+    | 'SUPPORTED_MODEL_STATUS_RECOMMENDED'
+    | 'SUPPORTED_MODEL_STATUS_SUPPORTED'
+    | 'SUPPORTED_MODEL_STATUS_DEPRECATED'
+    | 'SUPPORTED_MODEL_STATUS_HIDDEN';
+
+  /**
+   * Timestamp when the catalog entry was last updated.
+   */
+  updatedAt: string;
+
+  /**
+   * Model architecture from the underlying weights metadata.
+   */
+  architecture?: string;
+
+  /**
+   * Maximum context length from the underlying weights metadata.
+   */
+  contextLength?: string;
+
+  /**
+   * Human-readable model description.
    */
   description?: string;
 
   /**
-   * Hugging Face token (if uploading from Hugging Face)
+   * Model family identifier for related catalog entries.
    */
-  hf_token?: string;
+  familyId?: string;
 
   /**
-   * The lora pool to use for an adapter if setting it to run against, say, a
-   * dedicated pool. Only used for model_type `adapter`.
+   * Advanced features exposed by the model.
    */
-  lora_model?: string;
+  features?: Array<'FEATURE_TOOL_CALLING' | 'FEATURE_STRUCTURED_OUTPUT' | 'FEATURE_REASONING'>;
 
   /**
-   * Whether the model is a full model or an adapter
+   * Preferred input format for the model.
    */
-  model_type?: 'model' | 'adapter';
+  inputFormat?: string;
+
+  /**
+   * Preferred output format for the model.
+   */
+  outputFormat?: string;
+
+  /**
+   * Serverless pricing in USD per one million tokens, if available.
+   */
+  pricing?: SupportedModel.Pricing;
+
+  /**
+   * Serverless endpoint name for inference, if available.
+   */
+  serverlessEndpoint?: string;
+
+  /**
+   * Searchable catalog tags for the model.
+   */
+  tags?: Array<string>;
 }
 
-Models.Uploads = Uploads;
+export namespace SupportedModel {
+  /**
+   * Serverless pricing in USD per one million tokens, if available.
+   */
+  export interface Pricing {
+    /**
+     * Price in USD per one million cached input tokens.
+     */
+    cachedInput?: number;
+
+    /**
+     * Price in USD per one million input tokens.
+     */
+    input?: number;
+
+    /**
+     * Price in USD per one million output tokens.
+     */
+    output?: number;
+  }
+}
+
+/**
+ * Certified deployment profile for a supported model.
+ */
+export interface SupportedModelDeploymentProfile {
+  /**
+   * Certified configuration revision identifier.
+   */
+  certifiedConfigRevisionId: string;
+
+  /**
+   * Certified model weight revision identifier, if available.
+   */
+  certifiedModelRevisionId: string;
+
+  /**
+   * Certified config revision in the form
+   * `projects/{projectId}/configs/{configRevisionId}`. Omitted when the profile does
+   * not pin a config.
+   */
+  config: string;
+
+  /**
+   * Number of GPUs required by the profile.
+   */
+  gpuCount: number;
+
+  /**
+   * GPU instance type for the profile.
+   */
+  gpuType: string;
+
+  /**
+   * Deployable model resource in the form
+   * `projects/{projectId}/models/{modelId}[/revisions/{revisionId}]`. Omitted when
+   * the profile does not pin model weights.
+   */
+  model: string;
+
+  /**
+   * Fully-qualified deploy model name in the form `{projectSlug}/{modelName}`, such
+   * as `Qwen/Qwen3.5-9B-FP8`; empty when no public model is linked.
+   */
+  modelName: string;
+
+  /**
+   * Free-form parallelism spec for the profile, such as TP8, TP4, EP, or PD;
+   * supersedes tensor_parallel_size.
+   */
+  parallelism: string;
+
+  /**
+   * Performance benchmarks for the profile, if available.
+   */
+  performanceBenchmarks: SupportedModelPerformanceBenchmarks;
+
+  /**
+   * Stable profile identifier, usually the certified config id.
+   */
+  profileId: string;
+
+  /**
+   * Quantization method for the profile, if available.
+   */
+  quantization: string;
+
+  /**
+   * Adapter serving mode for deployments created from this profile; omitted when no
+   * certified config is pinned.
+   */
+  adapterMode?: 'ADAPTER_MODE_FIXED' | 'ADAPTER_MODE_DYNAMIC' | 'ADAPTER_MODE_DISABLED';
+}
+
+/**
+ * Performance benchmark metrics for a supported model profile.
+ */
+export interface SupportedModelPerformanceBenchmarks {
+  /**
+   * Decoding throughput in tokens per second.
+   */
+  decodingSpeedTps?: number;
+
+  /**
+   * Maximum context length supported by the profile.
+   */
+  maxContextLength?: string;
+
+  /**
+   * Time to first token in milliseconds.
+   */
+  timeToFirstTokenMs?: number;
+}
+
+/**
+ * Empty response returned after a successful delete operation.
+ */
+export interface ModelDeleteResponse {}
+
+/**
+ * Files and aggregate size information for one model revision.
+ */
+export interface ModelListFilesResponse {
+  /**
+   * Files in the selected model revision.
+   */
+  data: Array<ModelListFilesResponse.Data>;
+
+  object: 'list';
+
+  /**
+   * Cursor for the next page. Null if there are no more results.
+   */
+  next_cursor?: string;
+
+  /**
+   * Time when the listed model revision was created.
+   */
+  revisionCreatedAt?: string;
+
+  /**
+   * ID of the model revision whose files are listed.
+   */
+  revisionId?: string;
+
+  /**
+   * Total size of all files in the revision, in bytes.
+   */
+  totalSizeBytes?: string;
+}
+
+export namespace ModelListFilesResponse {
+  /**
+   * Metadata for one file in a model revision.
+   */
+  export interface Data {
+    /**
+     * Content hash for integrity verification and upload deduplication.
+     */
+    hash?: string;
+
+    /**
+     * File path within the model revision.
+     */
+    path?: string;
+
+    /**
+     * File size in bytes.
+     */
+    sizeBytes?: string;
+  }
+}
+
+/**
+ * Immutable model revisions and pagination metadata.
+ */
+export interface ModelListRevisionsResponse {
+  /**
+   * Immutable revisions available for the model.
+   */
+  data?: Array<ModelListRevisionsResponse.Data>;
+
+  /**
+   * Cursor for the next page. Null if there are no more results.
+   */
+  next_cursor?: string;
+
+  /**
+   * Object type. Always `list`.
+   */
+  object?: 'list';
+}
+
+export namespace ModelListRevisionsResponse {
+  /**
+   * Revision metadata for a volume object.
+   */
+  export interface Data {
+    /**
+     * Timestamp when the revision was created.
+     */
+    createdAt: string;
+
+    /**
+     * Revision identifier.
+     */
+    revisionId: string;
+
+    /**
+     * Timestamp when validation most recently ran for the revision.
+     */
+    lastValidatedAt?: string;
+
+    /**
+     * Validation errors reported for the revision.
+     */
+    validationErrors?: Array<Data.ValidationError>;
+
+    /**
+     * Current validation status for the revision.
+     */
+    validationStatus?:
+      | 'REVISION_VALIDATION_STATUS_PENDING'
+      | 'REVISION_VALIDATION_STATUS_SUCCESS'
+      | 'REVISION_VALIDATION_STATUS_FAILED'
+      | 'REVISION_VALIDATION_STATUS_ERROR';
+  }
+
+  export namespace Data {
+    /**
+     * One validation error reported for a model revision.
+     */
+    export interface ValidationError {
+      /**
+       * Human-readable validation error message.
+       */
+      message?: string;
+
+      /**
+       * Validation rule that produced the error.
+       */
+      rule?: string;
+
+      /**
+       * Severity level reported by the validation rule.
+       */
+      severity?: string;
+    }
+  }
+}
+
+export interface ModelCreateParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Body param: ID of the supported base model from which this model was derived.
+   */
+  baseModelId: string;
+
+  /**
+   * Body param: Name for the custom model. May be bare or qualified as
+   * `<project_slug>/<model_name>`; a supplied project slug must match the project in
+   * the request path.
+   */
+  name: string;
+
+  /**
+   * Body param: Volume type to create. Use `model` or `adapter`; plural `models` and
+   * `adapters` are also accepted.
+   */
+  type: string;
+
+  /**
+   * Body param: Human-readable description of the model and its intended use.
+   */
+  description?: string;
+}
+
+export interface ModelRetrieveParams {
+  /**
+   * Project identifier.
+   */
+  projectId?: string;
+}
+
+export interface ModelUpdateParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Query param: Fields to update. If omitted, all mutable fields are overwritten.
+   */
+  updateMask?: string;
+
+  /**
+   * Body param: Updated user-facing model description.
+   */
+  description?: string;
+
+  /**
+   * Body param: Updated inference-addressable model name.
+   */
+  name?: string;
+
+  /**
+   * Body param: Who can discover the model. `VISIBILITY_PRIVATE` restricts it to the
+   * project; `VISIBILITY_INTERNAL` shares it with the organization.
+   */
+  visibility?: 'VISIBILITY_PRIVATE' | 'VISIBILITY_INTERNAL';
+}
+
+export interface ModelListParams extends CursorPaginationParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Query param: Organization whose shared models should be included. Defaults to
+   * the authenticated project's organization.
+   */
+  organizationId?: string;
+
+  /**
+   * Query param: Model visibility. Private means it is scoped to the project.
+   * Internal means it is scoped to the organization.
+   */
+  visibility?: 'VISIBILITY_PRIVATE' | 'VISIBILITY_INTERNAL';
+}
+
+export interface ModelDeleteParams {
+  /**
+   * ID of the project that owns the model.
+   */
+  projectId?: string;
+}
+
+export interface ModelListFilesParams {
+  /**
+   * Path param: Project identifier.
+   */
+  projectId?: string;
+
+  /**
+   * Query param: Revision identifier to read from.
+   */
+  revisionId?: string;
+}
+
+export interface ModelListOrgScopedParams extends CursorPaginationParams {}
+
+export interface ModelListRevisionsParams {
+  /**
+   * Project identifier.
+   */
+  projectId?: string;
+}
+
+export interface ModelListSupportedParams extends CursorPaginationParams {
+  /**
+   * Filter models to those with a deployment profile in the selected adapter serving
+   * mode.
+   */
+  adapterMode?: 'ADAPTER_MODE_FIXED' | 'ADAPTER_MODE_DYNAMIC' | 'ADAPTER_MODE_DISABLED';
+
+  /**
+   * Filter models by input modality.
+   */
+  modality?: 'MODALITY_TEXT' | 'MODALITY_IMAGE' | 'MODALITY_AUDIO' | 'MODALITY_VIDEO';
+
+  /**
+   * Filter models by product surface.
+   */
+  product?: 'PRODUCT_SERVERLESS' | 'PRODUCT_DEDICATED' | 'PRODUCT_FINE_TUNING';
+
+  /**
+   * Case-insensitive search across model IDs, names, and descriptions.
+   */
+  search?: string;
+}
+
+Models.RemoteUploads = RemoteUploads;
+Models.BaseRemoteUploads = BaseRemoteUploads;
+Models.Configs = Configs;
+Models.BaseConfigs = BaseConfigs;
 
 export declare namespace Models {
   export {
-    type ModelObject as ModelObject,
-    type ModelListResponse as ModelListResponse,
-    type ModelUploadResponse as ModelUploadResponse,
+    type Model as Model,
+    type ModelDtypeCount as ModelDtypeCount,
+    type ModelParameters as ModelParameters,
+    type ModelWeights as ModelWeights,
+    type SupportedModel as SupportedModel,
+    type SupportedModelDeploymentProfile as SupportedModelDeploymentProfile,
+    type SupportedModelPerformanceBenchmarks as SupportedModelPerformanceBenchmarks,
+    type ModelDeleteResponse as ModelDeleteResponse,
+    type ModelListFilesResponse as ModelListFilesResponse,
+    type ModelListRevisionsResponse as ModelListRevisionsResponse,
+    type ModelsCursorPagination as ModelsCursorPagination,
+    type SupportedModelsCursorPagination as SupportedModelsCursorPagination,
+    type ModelCreateParams as ModelCreateParams,
+    type ModelRetrieveParams as ModelRetrieveParams,
+    type ModelUpdateParams as ModelUpdateParams,
     type ModelListParams as ModelListParams,
-    type ModelUploadParams as ModelUploadParams,
+    type ModelDeleteParams as ModelDeleteParams,
+    type ModelListFilesParams as ModelListFilesParams,
+    type ModelListOrgScopedParams as ModelListOrgScopedParams,
+    type ModelListRevisionsParams as ModelListRevisionsParams,
+    type ModelListSupportedParams as ModelListSupportedParams,
   };
 
-  export { Uploads as Uploads, type UploadStatusResponse as UploadStatusResponse };
+  export {
+    RemoteUploads as RemoteUploads,
+    BaseRemoteUploads as BaseRemoteUploads,
+    type RemoteUploadCreateResponse as RemoteUploadCreateResponse,
+    type RemoteUploadRetrieveResponse as RemoteUploadRetrieveResponse,
+    type RemoteUploadListResponse as RemoteUploadListResponse,
+    type RemoteUploadEventsResponse as RemoteUploadEventsResponse,
+    type RemoteUploadListResponsesCursorPagination as RemoteUploadListResponsesCursorPagination,
+    type RemoteUploadCreateParams as RemoteUploadCreateParams,
+    type RemoteUploadRetrieveParams as RemoteUploadRetrieveParams,
+    type RemoteUploadListParams as RemoteUploadListParams,
+    type RemoteUploadEventsParams as RemoteUploadEventsParams,
+  };
+
+  export {
+    Configs as Configs,
+    BaseConfigs as BaseConfigs,
+    type Certification as Certification,
+    type Config as Config,
+    type Selector as Selector,
+    type ConfigsCursorPagination as ConfigsCursorPagination,
+    type ConfigRetrieveParams as ConfigRetrieveParams,
+    type ConfigListParams as ConfigListParams,
+  };
 }

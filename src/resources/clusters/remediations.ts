@@ -5,7 +5,12 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Remediations extends APIResource {
+export class BaseRemediations extends APIResource {
+  static override readonly _key: readonly ['clusters', 'remediations'] = Object.freeze([
+    'clusters',
+    'remediations',
+  ] as const);
+
   /**
    * Creates a new remediation for an instance.
    *
@@ -22,7 +27,7 @@ export class Remediations extends APIResource {
     options?: RequestOptions,
   ): APIPromise<Remediation> {
     const { cluster_id, remediation_id, ...body } = params;
-    return this._client.post(path`/compute/clusters/${cluster_id}/instances/${instanceID}/remediations`, {
+    return this._client.post(path`/v1/compute/clusters/${cluster_id}/instances/${instanceID}/remediations`, {
       query: { remediation_id },
       body,
       ...options,
@@ -40,7 +45,7 @@ export class Remediations extends APIResource {
   ): APIPromise<Remediation> {
     const { cluster_id, instance_id } = params;
     return this._client.get(
-      path`/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}`,
+      path`/v1/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}`,
       options,
     );
   }
@@ -54,7 +59,7 @@ export class Remediations extends APIResource {
     options?: RequestOptions,
   ): APIPromise<RemediationListResponse> {
     const { cluster_id, ...query } = params;
-    return this._client.get(path`/compute/clusters/${cluster_id}/instances/${instanceID}/remediations`, {
+    return this._client.get(path`/v1/compute/clusters/${cluster_id}/instances/${instanceID}/remediations`, {
       query,
       ...options,
     });
@@ -76,7 +81,7 @@ export class Remediations extends APIResource {
   ): APIPromise<Remediation> {
     const { cluster_id, instance_id, ...body } = params;
     return this._client.post(
-      path`/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}/approve`,
+      path`/v1/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}/approve`,
       { body, ...options },
     );
   }
@@ -93,7 +98,7 @@ export class Remediations extends APIResource {
   ): APIPromise<Remediation> {
     const { cluster_id, instance_id } = params;
     return this._client.post(
-      path`/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}/cancel`,
+      path`/v1/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}/cancel`,
       options,
     );
   }
@@ -113,11 +118,12 @@ export class Remediations extends APIResource {
   ): APIPromise<Remediation> {
     const { cluster_id, instance_id, ...body } = params;
     return this._client.post(
-      path`/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}/reject`,
+      path`/v1/compute/clusters/${cluster_id}/instances/${instance_id}/remediations/${remediationID}/reject`,
       { body, ...options },
     );
   }
 }
+export class Remediations extends BaseRemediations {}
 
 /**
  * Remediation represents a node remediation request for an instance. An instance
