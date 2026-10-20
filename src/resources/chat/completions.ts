@@ -89,7 +89,7 @@ export namespace ChatCompletion {
 
     logprobs?: CompletionsAPI.LogProbs | null;
 
-    message?: Choice.Message;
+    message?: ChatCompletionsAPI.ChatCompletionMessage;
 
     seed?: number;
 
@@ -100,20 +100,20 @@ export namespace ChatCompletion {
      */
     top_logprobs?: { [key: string]: number };
   }
+}
 
-  export namespace Choice {
-    export interface Message {
-      content: string | null;
+export interface ChatCompletionAssistantMessageParam {
+  role: 'assistant';
 
-      role: 'assistant';
+  content?: string | null;
 
-      reasoning?: string | null;
+  name?: string;
 
-      reasoning_content?: string | null;
+  reasoning?: string | null;
 
-      tool_calls?: Array<CompletionsAPI.ToolChoice>;
-    }
-  }
+  reasoning_content?: string | null;
+
+  tool_calls?: Array<CompletionsAPI.ToolChoice>;
 }
 
 export interface ChatCompletionChunk {
@@ -172,6 +172,24 @@ export namespace ChatCompletionChunk {
   }
 }
 
+export interface ChatCompletionMessage {
+  content: string | null;
+
+  role: 'assistant';
+
+  reasoning?: string | null;
+
+  reasoning_content?: string | null;
+
+  tool_calls?: Array<CompletionsAPI.ToolChoice>;
+}
+
+export type ChatCompletionMessageParam =
+  | ChatCompletionSystemMessageParam
+  | ChatCompletionUserMessageParam
+  | ChatCompletionAssistantMessageParam
+  | ChatCompletionToolMessageParam;
+
 export type ChatCompletionPrompt = Array<ChatCompletionPrompt.ChatCompletionPromptItem>;
 
 export namespace ChatCompletionPrompt {
@@ -218,12 +236,103 @@ export namespace ChatCompletionStructuredMessageVideoURL {
   }
 }
 
+export interface ChatCompletionSystemMessageParam {
+  content: string;
+
+  role: 'system';
+
+  name?: string;
+}
+
+export interface ChatCompletionTool {
+  function: ChatCompletionTool.Function;
+
+  type: 'function';
+}
+
+export namespace ChatCompletionTool {
+  export interface Function {
+    name: string;
+
+    description?: string;
+
+    parameters?: { [key: string]: unknown };
+  }
+}
+
+export interface ChatCompletionToolMessageParam {
+  content: string;
+
+  role: 'tool';
+
+  tool_call_id: string;
+
+  name?: string;
+}
+
 export interface ChatCompletionUsage {
   completion_tokens: number;
 
   prompt_tokens: number;
 
   total_tokens: number;
+}
+
+export interface ChatCompletionUserMessageParam {
+  /**
+   * The content of the message, which can either be a simple string or a structured
+   * format.
+   */
+  content:
+    | string
+    | Array<
+        | ChatCompletionStructuredMessageText
+        | ChatCompletionStructuredMessageImageURL
+        | ChatCompletionStructuredMessageVideoURL
+        | ChatCompletionUserMessageParam.Audio
+        | ChatCompletionUserMessageParam.InputAudio
+      >;
+
+  role: 'user';
+
+  name?: string;
+}
+
+export namespace ChatCompletionUserMessageParam {
+  export interface Audio {
+    audio_url: Audio.AudioURL;
+
+    type: 'audio_url';
+  }
+
+  export namespace Audio {
+    export interface AudioURL {
+      /**
+       * The URL of the audio
+       */
+      url: string;
+    }
+  }
+
+  export interface InputAudio {
+    input_audio: InputAudio.InputAudio;
+
+    type: 'input_audio';
+  }
+
+  export namespace InputAudio {
+    export interface InputAudio {
+      /**
+       * The base64 encoded audio data
+       */
+      data: string;
+
+      /**
+       * The format of the audio data
+       */
+      format: 'wav';
+    }
+  }
 }
 
 export interface ChatCompletionWarning {
@@ -236,12 +345,7 @@ export interface CompletionCreateParamsBase {
   /**
    * A list of messages comprising the conversation so far.
    */
-  messages: Array<
-    | CompletionCreateParams.ChatCompletionSystemMessageParam
-    | CompletionCreateParams.ChatCompletionUserMessageParam
-    | CompletionCreateParams.ChatCompletionAssistantMessageParam
-    | CompletionCreateParams.ChatCompletionToolMessageParam
-  >;
+  messages: Array<ChatCompletionMessageParam>;
 
   /**
    * The name of the model to query.
@@ -413,95 +517,6 @@ export interface CompletionCreateParamsBase {
 }
 
 export namespace CompletionCreateParams {
-  export interface ChatCompletionSystemMessageParam {
-    content: string;
-
-    role: 'system';
-
-    name?: string;
-  }
-
-  export interface ChatCompletionUserMessageParam {
-    /**
-     * The content of the message, which can either be a simple string or a structured
-     * format.
-     */
-    content:
-      | string
-      | Array<
-          | ChatCompletionsAPI.ChatCompletionStructuredMessageText
-          | ChatCompletionsAPI.ChatCompletionStructuredMessageImageURL
-          | ChatCompletionsAPI.ChatCompletionStructuredMessageVideoURL
-          | ChatCompletionUserMessageParam.Audio
-          | ChatCompletionUserMessageParam.InputAudio
-        >;
-
-    role: 'user';
-
-    name?: string;
-  }
-
-  export namespace ChatCompletionUserMessageParam {
-    export interface Audio {
-      audio_url: Audio.AudioURL;
-
-      type: 'audio_url';
-    }
-
-    export namespace Audio {
-      export interface AudioURL {
-        /**
-         * The URL of the audio
-         */
-        url: string;
-      }
-    }
-
-    export interface InputAudio {
-      input_audio: InputAudio.InputAudio;
-
-      type: 'input_audio';
-    }
-
-    export namespace InputAudio {
-      export interface InputAudio {
-        /**
-         * The base64 encoded audio data
-         */
-        data: string;
-
-        /**
-         * The format of the audio data
-         */
-        format: 'wav';
-      }
-    }
-  }
-
-  export interface ChatCompletionAssistantMessageParam {
-    role: 'assistant';
-
-    content?: string | null;
-
-    name?: string;
-
-    reasoning?: string | null;
-
-    reasoning_content?: string | null;
-
-    tool_calls?: Array<CompletionsAPI.ToolChoice>;
-  }
-
-  export interface ChatCompletionToolMessageParam {
-    content: string;
-
-    role: 'tool';
-
-    tool_call_id: string;
-
-    name?: string;
-  }
-
   export interface Name {
     name: string;
   }
@@ -611,12 +626,19 @@ export interface CompletionCreateParamsStreaming extends CompletionCreateParamsB
 export declare namespace Completions {
   export {
     type ChatCompletion as ChatCompletion,
+    type ChatCompletionAssistantMessageParam as ChatCompletionAssistantMessageParam,
     type ChatCompletionChunk as ChatCompletionChunk,
+    type ChatCompletionMessage as ChatCompletionMessage,
+    type ChatCompletionMessageParam as ChatCompletionMessageParam,
     type ChatCompletionPrompt as ChatCompletionPrompt,
     type ChatCompletionStructuredMessageImageURL as ChatCompletionStructuredMessageImageURL,
     type ChatCompletionStructuredMessageText as ChatCompletionStructuredMessageText,
     type ChatCompletionStructuredMessageVideoURL as ChatCompletionStructuredMessageVideoURL,
+    type ChatCompletionSystemMessageParam as ChatCompletionSystemMessageParam,
+    type ChatCompletionTool as ChatCompletionTool,
+    type ChatCompletionToolMessageParam as ChatCompletionToolMessageParam,
     type ChatCompletionUsage as ChatCompletionUsage,
+    type ChatCompletionUserMessageParam as ChatCompletionUserMessageParam,
     type ChatCompletionWarning as ChatCompletionWarning,
     type CompletionCreateParams as CompletionCreateParams,
     type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
