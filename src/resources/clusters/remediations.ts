@@ -26,9 +26,8 @@ export class BaseRemediations extends APIResource {
     params: RemediationCreateParams,
     options?: RequestOptions,
   ): APIPromise<Remediation> {
-    const { cluster_id, remediation_id, ...body } = params;
+    const { cluster_id, ...body } = params;
     return this._client.post(path`/v1/compute/clusters/${cluster_id}/instances/${instanceID}/remediations`, {
-      query: { remediation_id },
       body,
       ...options,
     });
@@ -447,11 +446,6 @@ export interface RemediationCreateParams {
     | 'REMEDIATION_MODE_EVICT_WITHOUT_REPLACEMENT'
     | 'REMEDIATION_MODE_REBOOT_VM'
     | 'REMEDIATION_MODE_HOST_POWER_CYCLE';
-
-  /**
-   * Query param: Client-specified ID for idempotency.
-   */
-  remediation_id?: string;
 
   /**
    * Body param: User-provided reason for the remediation.

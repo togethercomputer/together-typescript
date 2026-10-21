@@ -42,7 +42,6 @@ const runTests = (client: PartialTogether<{ clusters: { remediations: BaseRemedi
     const response = await client.clusters.remediations.create('instance_id', {
       cluster_id: 'cluster_id',
       mode: 'REMEDIATION_MODE_VM_ONLY',
-      remediation_id: 'remediation_id',
       reason: 'reason',
     });
   });
