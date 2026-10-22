@@ -49,6 +49,20 @@ export interface BillingUsageLineItem {
    * Per-unit price in USD as a decimal string.
    */
   unit_price: string;
+
+  /**
+   * Credit covering this usage. Omitted for uncovered usage.
+   */
+  applied_credit?: BillingUsageLineItem.AppliedCredit;
+}
+
+export namespace BillingUsageLineItem {
+  /**
+   * Credit covering this usage. Omitted for uncovered usage.
+   */
+  export interface AppliedCredit {
+    type: 'PREPAID' | 'POSTPAID' | 'CREDIT';
+  }
 }
 
 export interface BillingUsageReport {
