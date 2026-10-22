@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/togethercomputer/together-typescript/compare/v1.0.0...v1.1.0) (2026-10-22)
+
+
+### Features
+
+* **openapi:** add applied_credit to billing usage line items ([0d8e88b](https://github.com/togethercomputer/together-typescript/commit/0d8e88bc0fb8a772143156d78222e279331011c0))
+
 ## [1.0.0](https://github.com/togethercomputer/together-typescript/compare/v0.58.0...v1.0.0) (2026-10-22)
 
 
