@@ -41,6 +41,7 @@ const runTests = (client: PartialTogether<{ beta: { jig: { secrets: BaseSecrets 
       value: 'x',
       description: 'description',
       project_id: 'project_id',
+      ttl_seconds: 86400,
     });
   });
 

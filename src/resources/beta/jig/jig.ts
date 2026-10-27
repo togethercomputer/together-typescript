@@ -434,6 +434,12 @@ export namespace Deployment {
      * must be set, but not both
      */
     value_from_secret?: string;
+
+    /**
+     * ValueFromSecretExpiresAt is the ISO8601 timestamp when the referenced secret
+     * expires and is deleted. Read-only, ignored in requests
+     */
+    value_from_secret_expires_at?: string;
   }
 
   export interface ModelMount {
@@ -663,6 +669,12 @@ export namespace DeploymentRevision {
      * must be set, but not both
      */
     value_from_secret?: string;
+
+    /**
+     * ValueFromSecretExpiresAt is the ISO8601 timestamp when the referenced secret
+     * expires and is deleted. Read-only, ignored in requests
+     */
+    value_from_secret_expires_at?: string;
   }
 
   export interface Volume {

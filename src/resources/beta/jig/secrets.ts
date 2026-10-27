@@ -99,6 +99,12 @@ export interface Secret {
   description?: string;
 
   /**
+   * ExpiresAt is the ISO8601 timestamp when this secret expires and is deleted.
+   * Changing the value extends it. Omitted for secrets that never expire
+   */
+  expires_at?: string;
+
+  /**
    * LastUpdatedBy is the identifier of who last updated this secret.
    */
   last_updated_by?: string;
@@ -112,6 +118,11 @@ export interface Secret {
    * The object type, which is always `secret`.
    */
   object?: 'secret';
+
+  /**
+   * TTLSeconds is the secret's lifetime in seconds. Omitted when no TTL is set
+   */
+  ttl_seconds?: number;
 
   /**
    * UpdatedAt is the ISO8601 timestamp when this secret was last updated
@@ -158,6 +169,12 @@ export interface SecretCreateParams {
    * authentication
    */
   project_id?: string;
+
+  /**
+   * TTLSeconds is how long the secret lives before it is deleted, between 86400 (1
+   * day) and 1209600 (14 days)
+   */
+  ttl_seconds?: number;
 }
 
 export interface SecretUpdateParams {
@@ -179,6 +196,12 @@ export interface SecretUpdateParams {
    * authentication
    */
   project_id?: string;
+
+  /**
+   * TTLSeconds sets a new lifetime and restarts the expiry from now, between 86400
+   * (1 day) and 1209600 (14 days)
+   */
+  ttl_seconds?: number;
 
   /**
    * Value is the new sensitive data to store securely. Updating this replaces the
