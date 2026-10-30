@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.0](https://github.com/togethercomputer/together-typescript/compare/v1.0.0...v1.1.0) (2026-10-30)
+
+
+### Features
+
+* **clusters:** add GB200 GPU cluster type ([3df31b6](https://github.com/togethercomputer/together-typescript/commit/3df31b680a3cd083c34ddd69903de3284ce5fe49))
+* **openapi:** add applied_credit to billing usage line items ([0d8e88b](https://github.com/togethercomputer/together-typescript/commit/0d8e88bc0fb8a772143156d78222e279331011c0))
+* **rl:** add methods to extend and manage model resources expiry ([a7356fe](https://github.com/togethercomputer/together-typescript/commit/a7356fe172cc60c0ec518b4acb8f48f7bfc7ffab))
+* **rl:** inactive_timeout and extend-expiry in seconds ([9635d70](https://github.com/togethercomputer/together-typescript/commit/9635d70c41359bf33c589a29ad20545ebc617bd4))
+* **secrets:** Add parameters for secret expiry ttl ([63be18a](https://github.com/togethercomputer/together-typescript/commit/63be18a8aaa246248b1e0b9b9711e1650dd53da5))
+
+
+### Bug Fixes
+
+* **clusters:** Update add-on specs ([4b03e75](https://github.com/togethercomputer/together-typescript/commit/4b03e754dce146a267556cdc61d83d5c8a3b7898))
+
 ## [1.0.0](https://github.com/togethercomputer/together-typescript/compare/v0.58.0...v1.0.0) (2026-10-22)
 
 
