@@ -62,7 +62,6 @@ const runTests = (client: PartialTogether<{ clusters: BaseClusters }>) => {
             headlamp: { enabled: true },
             ingress: { enabled: true },
             slurm_web: { enabled: true },
-            torchpass: { enabled: true },
           },
         },
       ],

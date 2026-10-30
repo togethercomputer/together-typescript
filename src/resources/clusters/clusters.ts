@@ -298,11 +298,6 @@ export namespace Cluster {
        * Configuration for the Slurm Web add-on.
        */
       slurm_web?: Config.SlurmWeb;
-
-      /**
-       * Configuration for the Model Aware TorchPass add-on.
-       */
-      torchpass?: Config.Torchpass;
     }
 
     export namespace Config {
@@ -333,16 +328,6 @@ export namespace Cluster {
          */
         enabled?: boolean;
       }
-
-      /**
-       * Configuration for the Model Aware TorchPass add-on.
-       */
-      export interface Torchpass {
-        /**
-         * Whether to enable the Model Aware TorchPass add-on.
-         */
-        enabled?: boolean;
-      }
     }
 
     /**
@@ -362,11 +347,6 @@ export namespace Cluster {
        * State for the Slurm Web add-on.
        */
       slurm_web?: State.SlurmWeb;
-
-      /**
-       * State for the Model Aware TorchPass add-on.
-       */
-      torchpass?: State.Torchpass;
     }
 
     export namespace State {
@@ -383,11 +363,6 @@ export namespace Cluster {
        * State for the Slurm Web add-on.
        */
       export interface SlurmWeb {}
-
-      /**
-       * State for the Model Aware TorchPass add-on.
-       */
-      export interface Torchpass {}
     }
   }
 
@@ -1132,7 +1107,7 @@ export declare namespace ClusterCreateParams {
 
     export interface AddOn {
       /**
-       * Type of add-on. Valid values: 'dashboard', 'ingress', 'torchpass'.
+       * Type of add-on. Valid values: 'dashboard', 'ingress'
        */
       add_on_type: string;
 
@@ -1165,11 +1140,6 @@ export declare namespace ClusterCreateParams {
          * Configuration for the Slurm Web add-on.
          */
         slurm_web?: Config.SlurmWeb;
-
-        /**
-         * Configuration for the Model Aware TorchPass add-on.
-         */
-        torchpass?: Config.Torchpass;
       }
 
       export namespace Config {
@@ -1197,16 +1167,6 @@ export declare namespace ClusterCreateParams {
         export interface SlurmWeb {
           /**
            * Whether to enable the Slurm Web add-on.
-           */
-          enabled?: boolean;
-        }
-
-        /**
-         * Configuration for the Model Aware TorchPass add-on.
-         */
-        export interface Torchpass {
-          /**
-           * Whether to enable the Model Aware TorchPass add-on.
            */
           enabled?: boolean;
         }
@@ -1602,7 +1562,7 @@ export declare namespace ClusterCreateParams {
 
     export interface AddOn {
       /**
-       * Type of add-on. Valid values: 'dashboard', 'ingress', 'torchpass'.
+       * Type of add-on. Valid values: 'dashboard', 'ingress'
        */
       add_on_type: string;
 
@@ -1635,11 +1595,6 @@ export declare namespace ClusterCreateParams {
          * Configuration for the Slurm Web add-on.
          */
         slurm_web?: Config.SlurmWeb;
-
-        /**
-         * Configuration for the Model Aware TorchPass add-on.
-         */
-        torchpass?: Config.Torchpass;
       }
 
       export namespace Config {
@@ -1667,16 +1622,6 @@ export declare namespace ClusterCreateParams {
         export interface SlurmWeb {
           /**
            * Whether to enable the Slurm Web add-on.
-           */
-          enabled?: boolean;
-        }
-
-        /**
-         * Configuration for the Model Aware TorchPass add-on.
-         */
-        export interface Torchpass {
-          /**
-           * Whether to enable the Model Aware TorchPass add-on.
            */
           enabled?: boolean;
         }
@@ -1927,11 +1872,6 @@ export namespace ClusterUpdateParams {
        * Configuration for the Slurm Web add-on.
        */
       slurm_web?: Config.SlurmWeb;
-
-      /**
-       * Configuration for the Model Aware TorchPass add-on.
-       */
-      torchpass?: Config.Torchpass;
     }
 
     export namespace Config {
@@ -1959,16 +1899,6 @@ export namespace ClusterUpdateParams {
       export interface SlurmWeb {
         /**
          * Whether to enable the Slurm Web add-on.
-         */
-        enabled?: boolean;
-      }
-
-      /**
-       * Configuration for the Model Aware TorchPass add-on.
-       */
-      export interface Torchpass {
-        /**
-         * Whether to enable the Model Aware TorchPass add-on.
          */
         enabled?: boolean;
       }
