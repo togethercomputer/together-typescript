@@ -229,9 +229,19 @@ export interface Model {
   baseModelId?: string;
 
   /**
+   * Output only. Timestamp when the model was created.
+   */
+  createdAt?: string;
+
+  /**
    * Human-readable description of the model and its intended use.
    */
   description?: string;
+
+  /**
+   * Output only. Timestamp when the model was last updated.
+   */
+  updatedAt?: string;
 }
 
 /**
@@ -769,6 +779,12 @@ export interface ModelListParams extends CursorPaginationParams {
   projectId?: string;
 
   /**
+   * Query param: Sort field for the results. Supports `created_at`, optionally
+   * followed by `asc` or `desc`. Defaults to ascending.
+   */
+  orderBy?: string;
+
+  /**
    * Query param: Organization whose shared models should be included. Defaults to
    * the authenticated project's organization.
    */
@@ -800,7 +816,13 @@ export interface ModelListFilesParams {
   revisionId?: string;
 }
 
-export interface ModelListOrgScopedParams extends CursorPaginationParams {}
+export interface ModelListOrgScopedParams extends CursorPaginationParams {
+  /**
+   * Sort field for the results. Supports `created_at`, optionally followed by `asc`
+   * or `desc`. Defaults to ascending.
+   */
+  orderBy?: string;
+}
 
 export interface ModelListRevisionsParams {
   /**

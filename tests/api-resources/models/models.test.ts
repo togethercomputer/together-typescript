@@ -95,6 +95,7 @@ const runTests = (client: PartialTogether<{ models: BaseModels }>) => {
       projectId: 'projectId',
       after: 'after',
       limit: 0,
+      orderBy: 'orderBy',
       organizationId: 'organizationId',
       visibility: 'VISIBILITY_PRIVATE',
     });
@@ -149,7 +150,11 @@ const runTests = (client: PartialTogether<{ models: BaseModels }>) => {
     await expect(
       client.models.listOrgScoped(
         'organizationId',
-        { after: 'after', limit: 0 },
+        {
+          after: 'after',
+          limit: 0,
+          orderBy: 'orderBy',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Together.NotFoundError);
