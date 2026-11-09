@@ -154,6 +154,15 @@ export class BaseModels extends APIResource {
   }
 
   /**
+   * Retrieves a custom model shared with every project in the specified
+   * organization, regardless of which project owns it. Returns not found if the
+   * model belongs to another organization or is not organization-scoped.
+   */
+  retrieveOrgModel(organizationID: string, modelID: string, options?: RequestOptions): APIPromise<Model> {
+    return this._client.get(path`/v2/organizations/${organizationID}/models/${modelID}`, options);
+  }
+
+  /**
    * Retrieves a Together-hosted base model and the certified model, configuration,
    * hardware, and performance profiles available for deployment.
    */

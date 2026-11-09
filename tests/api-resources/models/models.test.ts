@@ -198,6 +198,17 @@ const runTests = (client: PartialTogether<{ models: BaseModels }>) => {
     ).rejects.toThrow(Together.NotFoundError);
   });
 
+  test('retrieveOrgModel', async () => {
+    const responsePromise = client.models.retrieveOrgModel('organizationId', 'modelId');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
   test('retrieveSupported', async () => {
     const responsePromise = client.models.retrieveSupported('id');
     const rawResponse = await responsePromise.asResponse();

@@ -358,6 +358,7 @@ Methods:
 - <code title="get /v2/organizations/{organizationId}/models">client.models.<a href="./src/resources/models/models.ts">listOrgScoped</a>(organizationID, { ...params }) -> ModelsCursorPagination</code>
 - <code title="get /v2/projects/{projectId}/models/{id}/revisions">client.models.<a href="./src/resources/models/models.ts">listRevisions</a>(id, { ...params }) -> ModelListRevisionsResponse</code>
 - <code title="get /v2/supported-models">client.models.<a href="./src/resources/models/models.ts">listSupported</a>({ ...params }) -> SupportedModelsCursorPagination</code>
+- <code title="get /v2/organizations/{organizationId}/models/{modelId}">client.models.<a href="./src/resources/models/models.ts">retrieveOrgModel</a>(organizationID, modelID) -> Model</code>
 - <code title="get /v2/supported-models/{id}">client.models.<a href="./src/resources/models/models.ts">retrieveSupported</a>(id) -> SupportedModel</code>
 
 ## RemoteUploads

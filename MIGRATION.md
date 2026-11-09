@@ -68,6 +68,7 @@ client.parents.children.retrieve('c_456', { parent_id: 'p_123' });
 - `client.models.delete()`
 - `client.models.listFiles()`
 - `client.models.listRevisions()`
+- `client.models.retrieveOrgModel()`
 - `client.models.remoteUploads.retrieve()`
 - `client.models.remoteUploads.events()`
 - `client.models.configs.retrieve()`
