@@ -551,6 +551,11 @@ export interface Rollout {
   maxSurge?: number;
 
   /**
+   * The maxUnavailable the rollout was created with. Absent when it was not set.
+   */
+  maxUnavailable?: number;
+
+  /**
    * Pause metadata returned while a rollout is paused.
    */
   pauseInfo?: PauseInfo;
@@ -750,6 +755,24 @@ export namespace RolloutDefaultsPreview {
      * rolling or blue-green rollout that sets it is rejected at create and preview.
      */
     maxSurge?: number;
+
+    /**
+     * Count of source replicas that may be missing or retired ahead of their
+     * replacements at any one time. Defaults to 0, so the rollout waits for capacity
+     * and refuses a degraded source. Spent three ways. A source already degraded at
+     * create (ready below desired by at most this many) is admitted. The engine
+     * retires source replicas ahead of a target raise to stay under maxSurge. When the
+     * target cannot be placed, it retires source replicas to make room, and only when
+     * both legs use the same GPU type; a target that cannot be placed on the source's
+     * cluster gains nothing from the retire, and the rollout then pauses naming it. It
+     * is a concurrent bound measured against the source's routed-share need, which
+     * drops after every traffic shift, so a full cluster is walked rung by rung. The
+     * last source replica is never retired before traffic moves, except at the final
+     * 100% rung, where the allowance may stop the source before the target's last
+     * replicas are ready. A 1-replica source with maxUnavailable 1 on a full cluster
+     * serves nothing while the replacement starts.
+     */
+    maxUnavailable?: number;
 
     /**
      * Optional metric gates evaluated after each step's soak. Canary only; rejected on
@@ -983,6 +1006,24 @@ export interface RolloutCreateParams {
   maxSurge?: number;
 
   /**
+   * Body param: Count of source replicas that may be missing or retired ahead of
+   * their replacements at any one time. Defaults to 0, so the rollout waits for
+   * capacity and refuses a degraded source. Spent three ways. A source already
+   * degraded at create (ready below desired by at most this many) is admitted. The
+   * engine retires source replicas ahead of a target raise to stay under maxSurge.
+   * When the target cannot be placed, it retires source replicas to make room, and
+   * only when both legs use the same GPU type; a target that cannot be placed on the
+   * source's cluster gains nothing from the retire, and the rollout then pauses
+   * naming it. It is a concurrent bound measured against the source's routed-share
+   * need, which drops after every traffic shift, so a full cluster is walked rung by
+   * rung. The last source replica is never retired before traffic moves, except at
+   * the final 100% rung, where the allowance may stop the source before the target's
+   * last replicas are ready. A 1-replica source with maxUnavailable 1 on a full
+   * cluster serves nothing while the replacement starts.
+   */
+  maxUnavailable?: number;
+
+  /**
    * Body param: Optional metric gates evaluated after each step's soak. Canary only;
    * rejected on rolling and blue-green rollouts.
    */
@@ -1156,6 +1197,24 @@ export interface RolloutPreviewDefaultsParams {
    * and preview.
    */
   maxSurge?: number;
+
+  /**
+   * Body param: Count of source replicas that may be missing or retired ahead of
+   * their replacements at any one time. Defaults to 0, so the rollout waits for
+   * capacity and refuses a degraded source. Spent three ways. A source already
+   * degraded at create (ready below desired by at most this many) is admitted. The
+   * engine retires source replicas ahead of a target raise to stay under maxSurge.
+   * When the target cannot be placed, it retires source replicas to make room, and
+   * only when both legs use the same GPU type; a target that cannot be placed on the
+   * source's cluster gains nothing from the retire, and the rollout then pauses
+   * naming it. It is a concurrent bound measured against the source's routed-share
+   * need, which drops after every traffic shift, so a full cluster is walked rung by
+   * rung. The last source replica is never retired before traffic moves, except at
+   * the final 100% rung, where the allowance may stop the source before the target's
+   * last replicas are ready. A 1-replica source with maxUnavailable 1 on a full
+   * cluster serves nothing while the replacement starts.
+   */
+  maxUnavailable?: number;
 
   /**
    * Body param: Optional metric gates evaluated after each step's soak. Canary only;
