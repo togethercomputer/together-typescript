@@ -135,7 +135,7 @@ export interface Cluster {
     | 'B200_SXM'
     | 'H100_SXM_INF'
     | 'B300_SXM'
-    | 'GB200_SXM';
+    | 'GB200_NVL';
 
   gpu_worker_nodes: Array<Cluster.GPUWorkerNode>;
 
@@ -909,7 +909,7 @@ export declare namespace ClusterCreateParams {
       | 'B200_SXM'
       | 'H100_SXM_INF'
       | 'B300_SXM'
-      | 'GB200_SXM';
+      | 'GB200_NVL';
 
     /**
      * Number of GPUs to allocate in the cluster. This must be multiple of 8. For
@@ -1372,7 +1372,7 @@ export declare namespace ClusterCreateParams {
       | 'B200_SXM'
       | 'H100_SXM_INF'
       | 'B300_SXM'
-      | 'GB200_SXM';
+      | 'GB200_NVL';
 
     /**
      * Number of GPUs to allocate in the cluster. This must be multiple of 8. For
