@@ -55,6 +55,7 @@ const runTests = (client: PartialTogether<{ endpoints: { rollouts: BaseRollouts 
       },
       finalSourceReplicas: 0,
       finalTargetReplicas: 0,
+      maxSurge: 1,
       metrics: [
         {
           name: 'router_latency',
@@ -211,6 +212,7 @@ const runTests = (client: PartialTogether<{ endpoints: { rollouts: BaseRollouts 
       },
       finalSourceReplicas: 0,
       finalTargetReplicas: 0,
+      maxSurge: 1,
       metrics: [
         {
           name: 'router_latency',
