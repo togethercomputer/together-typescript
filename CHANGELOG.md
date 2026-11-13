@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.2.0](https://github.com/togethercomputer/together-typescript/compare/v1.1.0...v1.2.0) (2026-11-13)
+
+
+### Features
+
+* **models:** add created_at sort and model timestamps ([3ff2a6a](https://github.com/togethercomputer/together-typescript/commit/3ff2a6a42a12cac4dd16a73b55bbcaaf1ab3bfeb))
+* **rl:** add num_trainer_replicas for generator-only model resources ([4cab5e0](https://github.com/togethercomputer/together-typescript/commit/4cab5e044efd2518fc7049c5715e74774f6f4c8f))
+* **rl:** add rollout time and price estimate ([caa6243](https://github.com/togethercomputer/together-typescript/commit/caa624327b939e8db544e849fa98007d87418c1c))
+* **rollout:** bound a step's target raise with maxSurge ([32b9999](https://github.com/togethercomputer/together-typescript/commit/32b99998e3b7cfe70f344066b7e94bb5ca9d740e))
+* **rollout:** document maxUnavailable serving allowance ([43ce226](https://github.com/togethercomputer/together-typescript/commit/43ce2262e266444c6ddb8ea6ff4b5e4731801016))
+
+
+### Bug Fixes
+
+* **clusters:** rename GB200_SXM GPU type to GB200_NVL ([8fedb8e](https://github.com/togethercomputer/together-typescript/commit/8fedb8e78d6f35646a0d7085c3bff20a65ca3ae2))
+
 ## [1.1.0](https://github.com/togethercomputer/together-typescript/compare/v1.0.0...v1.1.0) (2026-11-09)
 
 
