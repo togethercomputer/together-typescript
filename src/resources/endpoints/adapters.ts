@@ -273,9 +273,23 @@ export interface AdapterCreateResponse {
   etag: string;
 
   /**
-   * Per-cluster adapter load state reported by the controller.
+   * Per-cluster adapter load state reported by the controller for the clusters the
+   * deployment is placed on. Empty while the deployment is stopped or being torn
+   * down, and briefly after AddAdapter.
    */
   perCluster: Array<DeploymentAdapterStatus>;
+
+  /**
+   * Whether the adapter can serve requests right now. INACTIVE means the deployment
+   * is stopped, scaled to zero, or being torn down; LOADING means a placed cluster
+   * has not finished loading it; READY means every placed cluster serves it; FAILED
+   * means a placed cluster failed to load it.
+   */
+  servingState:
+    | 'ADAPTER_SERVING_STATE_INACTIVE'
+    | 'ADAPTER_SERVING_STATE_LOADING'
+    | 'ADAPTER_SERVING_STATE_READY'
+    | 'ADAPTER_SERVING_STATE_FAILED';
 
   /**
    * Resource name of the adapter model, using
@@ -316,9 +330,23 @@ export interface AdapterRetrieveResponse {
   etag: string;
 
   /**
-   * Per-cluster adapter load state reported by the controller.
+   * Per-cluster adapter load state reported by the controller for the clusters the
+   * deployment is placed on. Empty while the deployment is stopped or being torn
+   * down, and briefly after AddAdapter.
    */
   perCluster: Array<DeploymentAdapterStatus>;
+
+  /**
+   * Whether the adapter can serve requests right now. INACTIVE means the deployment
+   * is stopped, scaled to zero, or being torn down; LOADING means a placed cluster
+   * has not finished loading it; READY means every placed cluster serves it; FAILED
+   * means a placed cluster failed to load it.
+   */
+  servingState:
+    | 'ADAPTER_SERVING_STATE_INACTIVE'
+    | 'ADAPTER_SERVING_STATE_LOADING'
+    | 'ADAPTER_SERVING_STATE_READY'
+    | 'ADAPTER_SERVING_STATE_FAILED';
 
   /**
    * Resource name of the adapter model, using
@@ -359,9 +387,23 @@ export interface AdapterUpdateResponse {
   etag: string;
 
   /**
-   * Per-cluster adapter load state reported by the controller.
+   * Per-cluster adapter load state reported by the controller for the clusters the
+   * deployment is placed on. Empty while the deployment is stopped or being torn
+   * down, and briefly after AddAdapter.
    */
   perCluster: Array<DeploymentAdapterStatus>;
+
+  /**
+   * Whether the adapter can serve requests right now. INACTIVE means the deployment
+   * is stopped, scaled to zero, or being torn down; LOADING means a placed cluster
+   * has not finished loading it; READY means every placed cluster serves it; FAILED
+   * means a placed cluster failed to load it.
+   */
+  servingState:
+    | 'ADAPTER_SERVING_STATE_INACTIVE'
+    | 'ADAPTER_SERVING_STATE_LOADING'
+    | 'ADAPTER_SERVING_STATE_READY'
+    | 'ADAPTER_SERVING_STATE_FAILED';
 
   /**
    * Resource name of the adapter model, using
@@ -402,9 +444,23 @@ export interface AdapterListResponse {
   etag: string;
 
   /**
-   * Per-cluster adapter load state reported by the controller.
+   * Per-cluster adapter load state reported by the controller for the clusters the
+   * deployment is placed on. Empty while the deployment is stopped or being torn
+   * down, and briefly after AddAdapter.
    */
   perCluster: Array<DeploymentAdapterStatus>;
+
+  /**
+   * Whether the adapter can serve requests right now. INACTIVE means the deployment
+   * is stopped, scaled to zero, or being torn down; LOADING means a placed cluster
+   * has not finished loading it; READY means every placed cluster serves it; FAILED
+   * means a placed cluster failed to load it.
+   */
+  servingState:
+    | 'ADAPTER_SERVING_STATE_INACTIVE'
+    | 'ADAPTER_SERVING_STATE_LOADING'
+    | 'ADAPTER_SERVING_STATE_READY'
+    | 'ADAPTER_SERVING_STATE_FAILED';
 
   /**
    * Resource name of the adapter model, using
