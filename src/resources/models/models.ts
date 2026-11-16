@@ -454,6 +454,14 @@ export interface SupportedModel {
    * Searchable catalog tags for the model.
    */
   tags?: Array<string>;
+
+  /**
+   * Serverless prices for usage not measured in tokens, such as minutes of
+   * transcribed audio or characters of synthesized speech, ordered by unit then
+   * tier. Empty when none are curated; a model priced the same on every tier lists
+   * only `PRICING_TIER_STANDARD`.
+   */
+  unitPrices?: Array<SupportedModel.UnitPrice>;
 }
 
 export namespace SupportedModel {
@@ -475,6 +483,28 @@ export namespace SupportedModel {
      * Price in USD per one million output tokens.
      */
     output?: number;
+  }
+
+  /**
+   * Serverless display price in USD per one non-token unit on one request tier.
+   */
+  export interface UnitPrice {
+    /**
+     * Price in USD per one unit.
+     */
+    priceUsd: number;
+
+    /**
+     * Request tier the price applies to, such as synchronous HTTP, batch, or streaming
+     * realtime sessions.
+     */
+    tier: 'PRICING_TIER_STANDARD' | 'PRICING_TIER_BATCH' | 'PRICING_TIER_REALTIME';
+
+    /**
+     * Billing unit, either one minute of input audio (speech-to-text) or one million
+     * input characters (text-to-speech).
+     */
+    unit: 'PRICING_UNIT_AUDIO_MINUTE' | 'PRICING_UNIT_MILLION_CHARACTERS';
   }
 }
 
