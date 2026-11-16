@@ -20,14 +20,14 @@ const runTests = (client: PartialTogether<{ evals: BaseEvals }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.evals.create({
       parameters: {
-        input_data_file_path: 'file-1234-aefd',
+        input_data_file_path: 'input_data_file_path',
         judge: {
-          model: 'Qwen/Qwen3.5-9B',
+          model: 'model',
           model_source: 'serverless',
-          system_template: 'Imagine you are a helpful assistant',
+          system_template: 'system_template',
         },
-        labels: ['yes', 'no'],
-        pass_labels: ['yes'],
+        labels: ['string', 'string'],
+        pass_labels: ['string'],
       },
       type: 'classify',
     });
@@ -43,19 +43,19 @@ const runTests = (client: PartialTogether<{ evals: BaseEvals }>) => {
   test('create: required and optional params', async () => {
     const response = await client.evals.create({
       parameters: {
-        input_data_file_path: 'file-1234-aefd',
+        input_data_file_path: 'input_data_file_path',
         judge: {
-          model: 'Qwen/Qwen3.5-9B',
+          model: 'model',
           model_source: 'serverless',
-          system_template: 'Imagine you are a helpful assistant',
+          system_template: 'system_template',
           external_api_token: 'external_api_token',
           external_base_url: 'external_base_url',
-          max_tokens: 8192,
-          num_workers: 5,
+          max_tokens: 1,
+          num_workers: 1,
           temperature: 0,
         },
-        labels: ['yes', 'no'],
-        pass_labels: ['yes'],
+        labels: ['string', 'string'],
+        pass_labels: ['string'],
         model_to_evaluate: 'string',
       },
       type: 'classify',
