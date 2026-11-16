@@ -308,6 +308,12 @@ export interface Deployment {
   object?: 'deployment';
 
   /**
+   * PlacementGroup co-locates deployments that share this value onto one cluster.
+   * Empty when the deployment is not in a group
+   */
+  placement_group?: string;
+
+  /**
    * Port is the container port that the deployment exposes
    */
   port?: number;
@@ -316,6 +322,12 @@ export interface Deployment {
    * ReadyReplicas is the current number of replicas that are in the Ready state
    */
   ready_replicas?: number;
+
+  /**
+   * Regions confines the deployment to clusters in these regions (exact region or a
+   * prefix family like "us-east"). Empty means any region
+   */
+  regions?: Array<string>;
 
   /**
    * ReplicaEvents is a mapping of replica names or IDs to their status events
@@ -644,6 +656,18 @@ export interface DeploymentRevision {
     | DeploymentRevision.CustomMetricAutoscalingConfig;
 
   /**
+   * Placement group this revision co-locates into. Empty when the revision is not in
+   * a group.
+   */
+  placement_group?: string;
+
+  /**
+   * Regions this revision is confined to (exact region or a prefix family like
+   * "us-east"). Empty means any region.
+   */
+  regions?: Array<string>;
+
+  /**
    * Seconds to wait for graceful shutdown before forcefully terminating a replica.
    */
   termination_grace_period_seconds?: number;
@@ -924,10 +948,24 @@ export interface JigUpdateParams {
   name?: string;
 
   /**
+   * PlacementGroup co-locates deployments that share this value onto one cluster. A
+   * member that cannot co-locate stays pending. Send an empty string to clear the
+   * group; omit to leave it unchanged
+   */
+  placement_group?: string;
+
+  /**
    * Port is the container port your application listens on (e.g., 8080 for web
    * servers)
    */
   port?: number;
+
+  /**
+   * Regions confines the deployment to clusters in these regions (exact region or a
+   * prefix family like "us-east"). Send an empty array to clear the region pin; omit
+   * to leave it unchanged
+   */
+  regions?: Array<string>;
 
   /**
    * Storage is the amount of ephemeral disk storage to allocate per container
@@ -1172,10 +1210,25 @@ export interface JigDeployParams {
   model_mounts?: Array<JigDeployParams.ModelMount>;
 
   /**
+   * PlacementGroup co-locates deployments that share this value onto one cluster, so
+   * in-cluster traffic between them stays local. A member that cannot co-locate
+   * stays pending. Leave empty for no group
+   */
+  placement_group?: string;
+
+  /**
    * Port is the container port your application listens on (e.g., 8080 for web
    * servers). Required if your application serves traffic
    */
   port?: number;
+
+  /**
+   * Regions confines the deployment to clusters in these regions. Each entry is an
+   * exact region or a prefix family like "us-east" that matches every "us-east-\*".
+   * A deployment that cannot place in any of them stays pending. Empty means any
+   * region
+   */
+  regions?: Array<string>;
 
   /**
    * Storage is the amount of ephemeral disk storage to allocate per container
