@@ -298,6 +298,12 @@ export interface Deployment {
   model_mounts?: Array<Deployment.ModelMount>;
 
   /**
+   * ModelName is the model the deployment handles traffic for. Equals name unless
+   * set
+   */
+  model_name?: string;
+
+  /**
    * Name is the name of the deployment
    */
   name?: string;
@@ -948,8 +954,14 @@ export interface JigUpdateParams {
   model_mounts?: Array<JigUpdateParams.ModelMount>;
 
   /**
-   * Name is the new unique identifier for your deployment. Must contain only
-   * alphanumeric characters, underscores, or hyphens (1-100 characters)
+   * ModelName changes the model this deployment handles traffic for. Can be omitted.
+   * Send the deployment name to reset it
+   */
+  model_name?: string;
+
+  /**
+   * Name is the deployment's current name. Deployment names cannot be changed after
+   * creation
    */
   name?: string;
 
@@ -1220,6 +1232,14 @@ export interface JigDeployParams {
    * most one mount is supported, and it cannot be used with volumes.
    */
   model_mounts?: Array<JigDeployParams.ModelMount>;
+
+  /**
+   * ModelName is the model this deployment handles traffic for. Defaults to name of
+   * the deployment. A value used by one project as a deployment or model name is
+   * unavailable to other projects; within a project, any number of deployments may
+   * share a model name
+   */
+  model_name?: string;
 
   /**
    * PlacementGroup co-locates deployments that share this value onto one cluster, so
