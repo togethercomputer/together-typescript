@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.3.0](https://github.com/togethercomputer/together-typescript/compare/v1.2.0...v1.3.0) (2026-11-20)
+
+
+### Features
+
+* **deployments:** add model_name to deployment create, update, and response ([6a05467](https://github.com/togethercomputer/together-typescript/commit/6a05467610ec1db6fc29b5d8eadee992a6d66127))
+* **deployments:** add traffic_weight to deployments ([0ac3ece](https://github.com/togethercomputer/together-typescript/commit/0ac3eceb321127213dd6e744ddf876cfd01cc91a))
+
+
+### Chores
+
+* **evals:** mark evaluation endpoints deprecated with 410 Gone ([f6afe87](https://github.com/togethercomputer/together-typescript/commit/f6afe87499a6183e74c571d1c958889515313996))
+
+
+### Documentation
+
+* **whoami:** add a response example for each caller type ([a35e1d3](https://github.com/togethercomputer/together-typescript/commit/a35e1d3430dfd575f92607234bad49b08ce5b4df))
+
 ## [1.2.0](https://github.com/togethercomputer/together-typescript/compare/v1.1.0...v1.2.0) (2026-11-16)
 
 
