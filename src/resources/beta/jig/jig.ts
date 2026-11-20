@@ -353,6 +353,12 @@ export interface Deployment {
   termination_grace_period_seconds?: number;
 
   /**
+   * TrafficWeight is the deployment's share of its model's traffic, relative to the
+   * other deployments of that model
+   */
+  traffic_weight?: number;
+
+  /**
    * UpdatedAt is the ISO8601 timestamp when this deployment was last updated
    */
   updated_at?: string;
@@ -980,6 +986,12 @@ export interface JigUpdateParams {
   termination_grace_period_seconds?: number;
 
   /**
+   * TrafficWeight is the deployment's share of its model's traffic, relative to the
+   * other deployments of that model.
+   */
+  traffic_weight?: number;
+
+  /**
    * Volumes is a list of volume mounts to attach to the container. Replaces all
    * existing volumes.
    */
@@ -1241,6 +1253,12 @@ export interface JigDeployParams {
    * shutdown before forcefully terminating the replica
    */
   termination_grace_period_seconds?: number;
+
+  /**
+   * TrafficWeight is the deployment's share of its model's traffic, relative to the
+   * other deployments of that model.
+   */
+  traffic_weight?: number;
 
   /**
    * Volumes is a list of volume mounts to attach to the container. Each mount must

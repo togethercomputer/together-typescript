@@ -111,6 +111,7 @@ const runTests = (client: PartialTogether<{ beta: { jig: BaseJig } }>) => {
       regions: ['string'],
       storage: 400,
       termination_grace_period_seconds: 0,
+      traffic_weight: 0,
       volumes: [
         {
           mount_path: 'mount_path',
