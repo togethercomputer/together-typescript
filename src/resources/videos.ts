@@ -69,6 +69,13 @@ export interface VideoJob {
   error?: VideoJob.Error;
 
   /**
+   * Estimated Unix timestamp (seconds) for when the job is expected to finish. This
+   * is an estimate, not a guarantee. It is only returned when creating a video and
+   * an estimate is available.
+   */
+  estimated_done_at?: number;
+
+  /**
    * The object type, which is always video.
    */
   object?: 'video';
